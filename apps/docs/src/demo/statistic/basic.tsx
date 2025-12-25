@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Statistic, MountProps } from '@cmfx/components';
+import { MountProps, Statistic } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconEye from '~icons/material-symbols/eyeglasses';
 
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
+    const [Palette, palette] = paletteSelector('primary');
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <div class="flex gap-2">

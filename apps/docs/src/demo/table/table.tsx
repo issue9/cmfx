@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Table, fieldAccessor, MountProps, TableProps, Number } from '@cmfx/components';
-import { Portal } from 'solid-js/web';
+import { fieldAccessor, MountProps, Number, Table, TableProps } from '@cmfx/components';
 import { For } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../base';
 
@@ -24,16 +24,16 @@ function buildItems(start: number, size: number): Array<Item> {
 }
 
 export default function (props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
-    const [hoverableS, hoverable] = boolSelector('hoverable', false);
     const striped = fieldAccessor<TableProps['striped']>('striped', 0);
+    const [Palette, palette] = paletteSelector();
+    const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
+    const [Hoverable, hoverable] = boolSelector('hoverable', false);
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {fixedLayoutS}
-            {hoverableS}
+            <Palette />
+            <FixedLayout />
+            <Hoverable />
             <Number class="w-20" accessor={striped} min={0} max={10} />
         </Portal>
 

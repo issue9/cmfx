@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale, MenuItem, MenuItemGroup } from '@cmfx/components';
-import { ArrayElement } from '@cmfx/core';
+import { MenuItem, MenuItemGroup } from '@cmfx/components';
+import { Locale, ArrayElement } from '@cmfx/core';
 import { RouteDefinition } from '@solidjs/router';
 import { lazy } from 'solid-js';
 import IconRadio from '~icons/akar-icons/radio-fill';
@@ -136,11 +136,11 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.backtop', icon: <IconBacktop /> },
     },
     {
-        kind: 'navigation', path: '/dropdown', component: lazy(() => import('./dropdown')),
+        kind: 'navigation', path: '/dropdown', component: lazy(() => import('./menu/dropdown')),
         info: { title: '_d.demo.dropdown', icon: <IconDropdown /> },
     },
     {
-        kind: 'navigation', path: '/menu', component: lazy(() => import('./menu')),
+        kind: 'navigation', path: '/menu', component: lazy(() => import('./menu/menu')),
         info: { title: '_d.demo.menu', icon: <IconMenu /> },
     },
     {

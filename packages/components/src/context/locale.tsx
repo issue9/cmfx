@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Dict, DictKeys, DisplayStyle, I18n, Locale, TranslateArgs } from '@cmfx/core';
-import { createContext, createEffect, createSignal, JSX, ParentProps, useContext } from 'solid-js';
+import { Accessor, createContext, createEffect, createSignal, JSX, ParentProps, useContext } from 'solid-js';
 
 import { ContextNotFoundError } from './errors';
 
@@ -32,33 +32,7 @@ export type Props = ParentProps<{
     timezone?: string;
 }>;
 
-const localeContext = createContext<Locale>();
-
-function buildLocale(props: Props) {
-    const [get, set] = createSignal<Locale>(new I18n(props.id, props.displayStyle, props.timezone));
-
-    return {
-        change(id: string, style: DisplayStyle, tz?: string) { set(new I18n(id, style, tz)); },
-
-        get locale(): Intl.Locale { return get().locale; },
-        get displayStyle(): DisplayStyle { return get().displayStyle; },
-        get timezone(): string { return get().timezone; },
-        datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat { return get().datetimeFormat(o); },
-        dateFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat { return get().dateFormat(o); },
-        timeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat { return get().timeFormat(o); },
-        numberFormat(o?: Intl.NumberFormatOptions): Intl.NumberFormat { return get().numberFormat(o); },
-        durationFormat(o?: Intl.DurationFormatOptions): Intl.DurationFormat { return get().durationFormat(o); },
-        relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat {
-            return get().relativeTimeFormat(o);
-        },
-        match(locales: Array<string>): string { return get().match(locales); },
-        get locales(): [id: string, displayName: string][] { return get().locales; },
-        t<D extends Dict>(key: string | DictKeys<D>, args?: TranslateArgs): string { return get().t(key, args); },
-        tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
-            return get().tt(locale, key, args);
-        },
-    };
-}
+const localeContext = createContext<Accessor<Locale>>();
 
 /**
  * 返回用于本地化的对象
@@ -66,16 +40,33 @@ function buildLocale(props: Props) {
 export function useLocale(): Locale {
     const ctx = useContext(localeContext);
     if (!ctx) { throw new ContextNotFoundError('localeContext'); }
-    return ctx;
+
+    return {
+        get locale(): Intl.Locale { return ctx().locale; },
+        get displayStyle(): DisplayStyle { return ctx().displayStyle; },
+        get timezone(): string { return ctx().timezone; },
+        datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat { return ctx().datetimeFormat(o); },
+        dateFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat { return ctx().dateFormat(o); },
+        timeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat { return ctx().timeFormat(o); },
+        numberFormat(o?: Intl.NumberFormatOptions): Intl.NumberFormat { return ctx().numberFormat(o); },
+        durationFormat(o?: Intl.DurationFormatOptions): Intl.DurationFormat { return ctx().durationFormat(o); },
+        relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat {
+            return ctx().relativeTimeFormat(o);
+        },
+        match(locales: Array<string>): string { return ctx().match(locales); },
+        get locales(): [id: string, displayName: string][] { return ctx().locales; },
+        t<D extends Dict>(key: string | DictKeys<D>, args?: TranslateArgs): string { return ctx().t(key, args); },
+        tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
+            return ctx().tt(locale, key, args);
+        },
+    };
 }
 
 /**
  * 指定新的本地化对象，其子类将采用此本地化对象。
  */
 export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
-    const l = buildLocale(props);
-    createEffect(() => {
-        l.change(props.id, props.displayStyle, props.timezone);
-    });
-    return <localeContext.Provider value={l}>{props.children}</localeContext.Provider>;
+    const [g, s] = createSignal<Locale>(new I18n(props.id, props.displayStyle, props.timezone));
+    createEffect(() => { s(new I18n(props.id, props.displayStyle, props.timezone)); });
+    return <localeContext.Provider value={g}>{props.children}</localeContext.Provider>;
 }

@@ -9,7 +9,7 @@ import { Portal } from 'solid-js/web';
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps): JSX.Element {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
 
     const len: Array<number> = [];
     for (var i = 0; i<100; i++) {
@@ -18,7 +18,7 @@ export default function(props: MountProps): JSX.Element {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <div class="overflow-y-scroll w-1/3 h-[200px] border border-palette-fg mt-10">

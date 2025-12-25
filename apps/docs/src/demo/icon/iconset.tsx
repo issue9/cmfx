@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-    IconSet, IconSetRef, IconSetRotation, Button, iconSetRotations, MountProps
-} from '@cmfx/components';
+import { Button, IconSet, IconSetRef, IconSetRotation, iconSetRotations, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
@@ -14,13 +12,13 @@ import { arraySelector, paletteSelector } from '../base';
 
 export default function(props: MountProps) {
     let aref: IconSetRef;
-    const [rotationS, rotation] = arraySelector<IconSetRotation>('rotation', iconSetRotations, 'none');
-    const [paletteS, palette] = paletteSelector();
+    const [Rotation, rotation] = arraySelector<IconSetRotation>('rotation', iconSetRotations, 'none');
+    const [Palette, palette] = paletteSelector();
 
     return <div class="gap-2 flex flex-col">
         <Portal mount={props.mount}>
-            {rotationS}
-            {paletteS}
+            <Rotation />
+            <Palette />
         </Portal>
 
         <Button palette={palette()}>

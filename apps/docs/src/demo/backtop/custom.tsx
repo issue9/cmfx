@@ -4,13 +4,13 @@
 
 import { BackTop, MountProps } from '@cmfx/components';
 import { For, JSX } from 'solid-js';
-import IconNav from '~icons/material-symbols/navigation';
 import { Portal } from 'solid-js/web';
+import IconNav from '~icons/material-symbols/navigation';
 
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps): JSX.Element {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
 
     const len: Array<number> = [];
     for (var i = 0; i<100; i++) {
@@ -19,7 +19,7 @@ export default function(props: MountProps): JSX.Element {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <div class="overflow-y-scroll w-10 h-25 border border-palette-fg mt-10">

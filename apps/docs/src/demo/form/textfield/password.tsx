@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, Password, MountProps, Button } from '@cmfx/components';
+import { Button, fieldAccessor, MountProps, Password } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
@@ -11,19 +11,19 @@ import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 export default function(props: MountProps) {
     const pwd = fieldAccessor('name', 'pwd');
 
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {readonlyS}
-            {roundedS}
-            {disabledS}
-            {layoutS}
+            <Palette />
+            <Readonly />
+            <Rounded />
+            <Disabled />
+            <Layout />
             <Button palette="primary" onclick={() => {
                 pwd.setError(pwd.getError() ? undefined : 'error');
             }}>toggle error</Button>

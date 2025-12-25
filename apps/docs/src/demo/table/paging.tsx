@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Column, LoaderTable, TextField, MountProps } from '@cmfx/components';
+import { Button, Column, LoaderTable, MountProps, TextField } from '@cmfx/components';
 import { Page, Query, sleep } from '@cmfx/core';
 import { Portal } from 'solid-js/web';
 
@@ -50,9 +50,9 @@ const pagingLoader = async (oa: Q): Promise<Page<Item>> => {
 };
 
 export default function (props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
-    const [systemToolbarS, systemToolbar] = boolSelector('systemToolbar', true);
+    const [Palette, palette] = paletteSelector();
+    const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
+    const [SystemToolbar, systemToolbar] = boolSelector('systemToolbar', true);
 
     const columns: Array<Column<Item>> = [
         { id: 'id' },
@@ -63,9 +63,9 @@ export default function (props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {fixedLayoutS}
-            {systemToolbarS}
+            <Palette />
+            <FixedLayout />
+            <SystemToolbar />
         </Portal>
 
         <LoaderTable accentPalette='primary' paging systemToolbar={systemToolbar()}

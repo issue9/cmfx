@@ -8,11 +8,11 @@ import { Portal } from 'solid-js/web';
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <Empty palette={palette()} />

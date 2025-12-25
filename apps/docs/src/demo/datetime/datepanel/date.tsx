@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePanel, datetimePluginLunar, Week, MountProps } from '@cmfx/components';
+import { Button, DatePanel, datetimePluginLunar, MountProps, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -13,14 +13,14 @@ export default function(props: MountProps) {
     const min = new Date(now.getFullYear(), now.getMonth()-2, now.getDate());
     const max = new Date(now.getFullYear(), now.getMonth()+2, now.getDate());;
 
-    const [paletteS, palette] = paletteSelector('primary');
     const [week, setWeek] = createSignal<Week>(0);
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [weekendS, weekend] = boolSelector('weekend');
-    const [weeksS, weeks] = boolSelector('weeks');
-    const [minmaxS, minmax] = boolSelector('minmax');
-    const [timeS, time] = boolSelector('time');
+    const [Palette, palette] = paletteSelector('primary');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Weekend, weekend] = boolSelector('weekend');
+    const [Minmax, minmax] = boolSelector('minmax');
+    const [Weeks, weeks] = boolSelector('weeks');
+    const [Time, time] = boolSelector('time');
 
     const [val, setValue] = createSignal<Date | undefined>(undefined);
     const [valWithTime, setValWithTime] = createSignal<Date | undefined>(undefined);
@@ -29,13 +29,13 @@ export default function(props: MountProps) {
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {disabledS}
-            {readonlyS}
-            {weekendS}
-            {minmaxS}
-            {timeS}
-            {weeksS}
+            <Palette />
+            <Disabled />
+            <Readonly />
+            <Weekend />
+            <Minmax />
+            <Time />
+            <Weeks />
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
             <Button onclick={() => {
                 setValue();

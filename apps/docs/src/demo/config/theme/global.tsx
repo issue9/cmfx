@@ -9,7 +9,7 @@ export default function() {
     const t = useTheme();
 
     return <div>
-        <Button>这是继承全局的主题: {t.mode}, {t.scheme?.light?.['primary-bg'] }</Button>
+        <Button>这是继承全局的主题: {t.mode}, {t.scheme?.primary }</Button>
 
         <ThemeProvider mode='light' scheme={opt.schemes?.get('green')}>
             <Button>这是当前固定的主题-green</Button>

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, MountProps } from '@cmfx/components';
-import { Portal } from 'solid-js/web';
+import { MountProps, Nav } from '@cmfx/components';
 import { For, JSX } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
@@ -17,12 +17,12 @@ function lines(num: number, text: string): JSX.Element {
 }
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
+    const [Palette, palette] = paletteSelector('primary');
     let ref: HTMLElement;
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <div class="flex justify-between h-30 overflow-y-scroll">

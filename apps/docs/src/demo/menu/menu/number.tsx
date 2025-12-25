@@ -7,7 +7,7 @@ import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { arraySelector, paletteSelector } from '../base';
+import { arraySelector, paletteSelector } from '../../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
@@ -15,9 +15,9 @@ function selectedClassSelector(preset?: string) {
 }
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
-    const [selectedClsS, selectedCls] = selectedClassSelector(undefined);
-    const [layoutS, layout] = arraySelector('layout', ['horizontal', 'vertical', 'inline'], 'inline');
+    const [Palette, palette] = paletteSelector('primary');
+    const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
+    const [Layout, layout] = arraySelector('layout', ['horizontal', 'vertical', 'inline'], 'inline');
 
     const items: Array<MenuItem<number>> = [
         { type: 'item', value: 1, label: 'v1', prefix: <IconFace />, disabled: true },
@@ -63,9 +63,9 @@ export default function(props: MountProps) {
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {layoutS}
-            {selectedClsS}
+            <Palette />
+            <SelectedCls />
+            <Layout />
         </Portal>
 
         <Menu layout={layout()} selectedClass={selectedCls()} palette={palette()} items={items}

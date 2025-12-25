@@ -6,18 +6,18 @@ import { JSX } from 'solid-js';
 
 import { Stages } from '../../../stages';
 
-import { default as C1 } from './date';
-import { default as s1 } from './date.tsx?raw';
+import { default as Date } from './date';
+import { default as date } from './date.tsx?raw';
 
-import { default as C2 } from './range';
-import { default as s2 } from './range.tsx?raw';
+import { default as Range } from './range';
+import { default as range } from './range.tsx?raw';
 
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/datetime/datepanel' api={api} stages={[
-        { component: C1, source: s1, title: 'date' },
-        { component: C2, source: s2, title: 'range' },
+        { component: Date, source: date, title: 'date' },
+        { component: Range, source: range, title: 'range' },
     ]}>
     </Stages>;
 }

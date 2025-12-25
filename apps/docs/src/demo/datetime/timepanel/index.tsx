@@ -6,14 +6,14 @@ import { JSX } from 'solid-js';
 
 import { Stages } from '../../../stages';
 
-import { default as C1 } from './timepanel';
-import { default as s1 } from './timepanel.tsx?raw';
+import { default as Timepanel } from './timepanel';
+import { default as timepanel } from './timepanel.tsx?raw';
 
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/datetime/timepanel' api={api} stages={[
-        { component: C1, source: s1, title: 'timepanel' },
+        { component: Timepanel, source: timepanel, title: 'timepanel' },
     ]}>
     </Stages>;
 }

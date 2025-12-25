@@ -8,13 +8,13 @@ import { Portal } from 'solid-js/web';
 import { boolSelector, paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [editableS, editable] = boolSelector('可编辑');
+    const [Palette, palette] = paletteSelector();
+    const [Editable, editable] = boolSelector('_d.demo.editable');
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {editableS}
+            <Palette />
+            <Editable />
         </Portal>
 
         <Code lang="tsx" palette={palette()} ln={11} editable={editable()} oninput={v => console.log(v)}>

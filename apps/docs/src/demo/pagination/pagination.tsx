@@ -2,20 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Pagination, Number, fieldAccessor, MountProps } from '@cmfx/components';
+import { fieldAccessor, MountProps, Number, Pagination } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
     const [page, setPage] = createSignal('');
     const span = fieldAccessor('spans', 3);
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
             <Number class="w-20" accessor={span} />
         </Portal>
 

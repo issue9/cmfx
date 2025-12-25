@@ -6,16 +6,16 @@ import { Badge, badgeCorners, Button, MountProps } from '@cmfx/components';
 import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { paletteSelector, boolSelector } from '../base';
+import { boolSelector, paletteSelector } from '../base';
 
 export default function (props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [roundedS, rounded] = boolSelector('rounded', false);
+    const [Palette, palette] = paletteSelector();
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded', true);
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {roundedS}
+            <Palette />
+            <Rounded />
         </Portal>
 
         <div class="flex flex-wrap gap-3 justify-start">

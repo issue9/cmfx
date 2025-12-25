@@ -69,9 +69,7 @@ export function OptionsProvider(props: ParentProps<Required<Options>>): JSX.Elem
             <Match when={!messageResource.loading}>
                 <ThemeProvider mode={obj[0].mode} styleElement={document.documentElement}
                     scheme={
-                        typeof obj[0].scheme === 'string'
-                            ? obj[0].schemes?.get(obj[0].scheme as string)
-                            : obj[0].scheme as Scheme
+                        typeof obj[0].scheme === 'string' ? obj[0].schemes?.get(obj[0].scheme) : obj[0].scheme
                     }
                 >
                     <LocaleProvider id={obj[0].locale} displayStyle={obj[0].displayStyle} timezone={obj[0].timezone}>

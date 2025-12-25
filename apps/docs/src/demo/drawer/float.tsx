@@ -9,9 +9,9 @@ import { Portal } from 'solid-js/web';
 import { arraySelector } from '../base';
 
 export default function (props: MountProps) {
-    const [breakpointS, breakpoint]
+    const [Breakpoint, breakpoint]
         = arraySelector('breakpoint', ['lg', '2xl', '4xl', '6xl', '8xl', 'true', 'false'], 'lg');
-    const [posS, pos] = arraySelector('pos', ['start', 'end'], 'start');
+    const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
 
     const bp = createMemo(() => {
         const v = breakpoint();
@@ -29,8 +29,8 @@ export default function (props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {breakpointS}
-            {posS}
+            <Breakpoint />
+            <Pos />
         </Portal>
 
 

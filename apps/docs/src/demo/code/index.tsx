@@ -6,22 +6,22 @@ import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
 
-import { default as C1 } from './basic';
-import { default as s1 } from './basic.tsx?raw';
+import { default as Basic } from './basic';
+import { default as basic } from './basic.tsx?raw';
 
-import { default as C2 } from './scrollable';
-import { default as s2 } from './scrollable.tsx?raw';
+import { default as Scrollable } from './scrollable';
+import { default as scrollable } from './scrollable.tsx?raw';
 
-import { default as C3 } from './multiple';
-import { default as s3 } from './multiple.tsx?raw';
+import { default as Multiple } from './multiple';
+import { default as multiple } from './multiple.tsx?raw';
 
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/code' api={api} stages={[
-        { component: C1, source: s1, title: '基本功能' },
-        { component: C2, source: s2, title: '可滚动' },
-        { component: C3, source: s3, title: '多行不可滚动' },
+        { component: Basic, source: basic, title: '基本功能' },
+        { component: Scrollable, source: scrollable, title: '可滚动' },
+        { component: Multiple, source: multiple, title: '多行不可滚动' },
     ]}>
         提供了代码高亮功能，但是未引入 `shiki` 包，如果需要使用代码高亮功能，需要引入 `shiki` 包。
     </Stages>;

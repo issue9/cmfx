@@ -9,11 +9,11 @@ import IconEye from '~icons/material-symbols/eyeglasses';
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <Card palette={palette()} header={<Label icon={<IconEye />}>title</Label>}>

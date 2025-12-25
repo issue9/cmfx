@@ -2,22 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Divider, DividerProps, MountProps } from '@cmfx/components';
+import { Divider, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
 import { arraySelector, layoutSelector, paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [layoutS, layout] = layoutSelector('布局', 'vertical');
-    const [posS, pos] = arraySelector<DividerProps['pos']>('pos', ['start', 'center', 'end'], 'start');
+    const [Palette, palette] = paletteSelector();
+    const [Layout, layout] = layoutSelector('布局', 'vertical');
+    const [Pos, pos] = arraySelector('pos', ['start', 'center', 'end'], 'start');
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {layoutS}
-            {posS}
+            <Palette />
+            <Layout />
+            <Pos />
         </Portal>
 
         <div class="w-56 h-56">

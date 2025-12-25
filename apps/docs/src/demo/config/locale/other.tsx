@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LocaleProvider, useOptions, useLocale } from '@cmfx/components';
+import { Button, LocaleProvider, useLocale, useOptions } from '@cmfx/components';
 import { DisplayStyle } from '@cmfx/core';
 import { createSignal } from 'solid-js';
 

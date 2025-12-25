@@ -1,12 +1,13 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dropdown, DropdownRef, MenuItem, MountProps } from '@cmfx/components';
+import { Menu, MenuItem, MountProps } from '@cmfx/components';
+import { Hotkey } from '@cmfx/core';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { arraySelector, paletteSelector } from '../base';
+import { arraySelector, paletteSelector } from '../../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
@@ -14,8 +15,9 @@ function selectedClassSelector(preset?: string) {
 }
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
-    const [selectedClsS, selectedCls] = selectedClassSelector(undefined);
+    const [Palette, palette] = paletteSelector('primary');
+    const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
+    const [Layout, layout] = arraySelector('layout', ['horizontal', 'vertical', 'inline'], 'inline');
 
     const items: Array<MenuItem<string>> = [
         { type: 'item', value: 'v1', label: 'v1', prefix: <IconFace />, disabled: true },
@@ -40,7 +42,7 @@ export default function(props: MountProps) {
                 },
             ]
         },
-        { type: 'item', value: 'v3', label: 'v3' },
+        { type: 'item', value: 'v3', label: 'v3(control+r)', hotkey: new Hotkey('r', 'control') },
         {
             type: 'item', value: 'v4', label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 'v41', label: 'v41' },
@@ -57,20 +59,13 @@ export default function(props: MountProps) {
         },
     ];
 
-    let ref: DropdownRef;
-
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {selectedClsS}
+            <Palette />
+            <SelectedCls />
+            <Layout />
         </Portal>
 
-        <Button onclick={() => ref.show()}>show</Button>
-        <Button onclick={() => ref.hide()}>hide</Button>
-        <br />
-        <Dropdown selectedClass={selectedCls()} palette={palette()} ref={el => ref = el}
-            items={items} trigger='custom' onPopover={e => { console.log('visible:', e); return false; }}>
-            <div class="bg-primary-bg text-primary-fg w-full h-full">custom</div>
-        </Dropdown>
+        <Menu layout={layout()} selectedClass={selectedCls()} palette={palette()} multiple items={items} />
     </div>;
 }

@@ -19,7 +19,7 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/chart' api={api} stages={[
-        { component: Chart, source: chart, title: 'svg 图片' },
+        { component: Chart, source: chart, title: 'chart' },
         { component: Pie, source: pie, title: 'pie' },
         { component: Axis, source: axis, title: 'axis' },
     ]}>

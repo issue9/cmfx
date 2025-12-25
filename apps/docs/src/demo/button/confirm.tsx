@@ -3,21 +3,21 @@
 // SPDX-License-Identifier: MIT
 
 import { ConfirmButton, MountProps } from '@cmfx/components';
-import IconTask from '~icons/material-symbols/task-alt';
 import { Portal } from 'solid-js/web';
+import IconTask from '~icons/material-symbols/task-alt';
 
-import { boolSelector,buttonKindSelector } from '../base';
+import { boolSelector, buttonKindSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [kindS, kind] = buttonKindSelector();
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [roundedS, rounded] = boolSelector('rounded');
+    const [Kind, kind] = buttonKindSelector();
+    const [Disabled, disabled] = boolSelector('disabled');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     return <div>
         <Portal mount={props.mount}>
-            {kindS}
-            {disabledS}
-            {roundedS}
+            <Kind />
+            <Disabled />
+            <Rounded />
         </Portal>
 
         <div class="flex flex-wrap items-center gap-2">

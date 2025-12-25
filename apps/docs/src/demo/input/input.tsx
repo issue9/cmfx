@@ -3,16 +3,16 @@
 // SPDX-License-Identifier: MIT
 
 import { Input, MountProps } from '@cmfx/components';
+import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../base';
-import { createSignal } from 'solid-js';
 
 export default function(props: MountProps) {
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [paletteS, palette] = paletteSelector();
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+    const [Palette, palette] = paletteSelector();
 
     const prefix = <div class="bg-red-500 flex items-center">prefix</div>;
     const suffix = <div class="bg-red-500 flex items-center">suffix</div>;
@@ -21,19 +21,19 @@ export default function(props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {readonlyS}
-            {roundedS}
-            {disabledS}
+            <Palette />
+            <Readonly />
+            <Rounded />
+            <Disabled />
         </Portal>
 
         <div class="flex flex-col gap-2 w-80">
-            <Input placeholder='placeholder' palette={palette()} value={val()} onChange={v=>setVal(v)}
+            <Input placeholder='placeholder' palette={palette()} value={val()} onChange={v=>setVal(v as string)}
                 disabled={disabled()} rounded={rounded()} readonly={readonly()} />
 
             <Input placeholder='placeholder' palette={palette()} prefix={prefix} suffix={suffix}
                 disabled={disabled()} rounded={rounded()} readonly={readonly()} value={val()} onChange={v=>{
-                    setVal(v);
+                    setVal(v as string);
                 }} />
 
             <p>{ val() }</p>

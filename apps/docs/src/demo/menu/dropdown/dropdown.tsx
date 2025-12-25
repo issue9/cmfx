@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { Dropdown, MenuItem, MountProps } from '@cmfx/components';
-import { Portal } from 'solid-js/web';
 import { Hotkey } from '@cmfx/core';
+import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { arraySelector, paletteSelector } from '../base';
+import { arraySelector, paletteSelector } from '../../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
@@ -15,8 +15,8 @@ function selectedClassSelector(preset?: string) {
 }
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
-    const [selectedClsS, selectedCls] = selectedClassSelector(undefined);
+    const [Palette, palette] = paletteSelector('primary');
+    const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
 
     const items: Array<MenuItem<string>> = [
         { type: 'item', value: 'v1', label: 'v1', prefix: <IconFace />, disabled: true },
@@ -41,7 +41,7 @@ export default function(props: MountProps) {
                 },
             ]
         },
-        { type: 'item', value: 'v3', label: 'v3(control+w)', hotkey: new Hotkey('w', 'control') },
+        { type: 'item', value: 'v3', label: 'v3(control+q)', hotkey: new Hotkey('q', 'control') },
         {
             type: 'item', value: 'v4', label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 'v41', label: 'v41' },
@@ -58,14 +58,15 @@ export default function(props: MountProps) {
         },
     ];
 
-    return <>
+    return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {selectedClsS}
+            <Palette />
+            <SelectedCls />
         </Portal>
 
-        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>
-            <div class="bg-primary-bg text-primary-fg w-full h-full">click</div>
+        <Dropdown selectedClass={selectedCls()} palette={palette()}
+            items={items} trigger='hover' onPopover={e => { console.log('visible:', e); return false; }}>
+            <div class="bg-primary-bg text-primary-fg w-full h-full">hover</div>
         </Dropdown>
-    </>;
+    </div>;
 }

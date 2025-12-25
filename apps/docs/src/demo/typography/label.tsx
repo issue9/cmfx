@@ -9,11 +9,11 @@ import IconEye from '~icons/material-symbols/table-eye';
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <Label palette={palette()} icon={<IconEye />} tag='div'>Label</Label>

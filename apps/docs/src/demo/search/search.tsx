@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Search, MountProps } from '@cmfx/components';
+import { MountProps, Search } from '@cmfx/components';
+import { Hotkey } from '@cmfx/core';
 import { Portal } from 'solid-js/web';
 
-import { paletteSelector, boolSelector } from '../base';
-import { Hotkey } from '@cmfx/core';
+import { boolSelector, paletteSelector } from '../base';
 
 export default function (props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
-    const [iconS, icon] = boolSelector('icon');
-    const [clearS, clear] = boolSelector('clear');
+    const [Palette, palette] = paletteSelector('primary');
+    const [Icon, icon] = boolSelector('icon');
+    const [Clear, clear] = boolSelector('clear');
 
     const items = [
         'abcdef@example.com',
@@ -23,9 +23,9 @@ export default function (props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {iconS}
-            {clearS}
+            <Palette />
+            <Icon />
+            <Clear />
         </Portal>
 
         <Search icon={icon()} clear={clear()} palette={palette()} hotkey={new Hotkey('a', 'alt', 'control')} onSearch={async (v) => {

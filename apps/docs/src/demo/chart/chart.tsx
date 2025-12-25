@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Chart, ChartRef, ChartOption, MountProps } from '@cmfx/components';
+import { Chart, ChartOption, ChartRef, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
 
     const x = [1, 2, 3, 4, 5, 6, 7];
     const s1 = [15, 23, 22, 21, 13, 14, 26];
@@ -56,7 +56,7 @@ export default function(props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <Chart palette={palette()} initValue={initData} ref={el=>ref=el} />

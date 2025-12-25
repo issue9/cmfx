@@ -9,10 +9,10 @@ import { Portal } from 'solid-js/web';
 import { boolSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [minmaxS, minmax] = boolSelector('minmax');
+    const [Palette, palette] = paletteSelector('primary');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Minmax, minmax] = boolSelector('minmax');
 
     const [month, setMonthValue] = createSignal<Date | undefined>(new Date());
     const [monthShow, setMonthShow] = createSignal<string>('');
@@ -20,10 +20,10 @@ export default function(props: MountProps) {
     const now = new Date();
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {disabledS}
-            {readonlyS}
-            {minmaxS}
+            <Palette />
+            <Disabled />
+            <Readonly />
+            <Minmax />
             <Button onclick={() => setMonthValue()}>set undefined</Button>
             <Button onclick={() => setMonthValue(new Date())}>current</Button>
         </Portal>

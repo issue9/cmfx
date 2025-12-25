@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 
-import { fieldAccessor, FieldOptions, Palette, RadioGroup, MountProps, Button } from '@cmfx/components';
+import { Button, fieldAccessor, FieldOptions, MountProps, Palette, RadioGroup } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -13,12 +13,12 @@ export default function(props: MountProps) {
     const [change, setChange] = createSignal<string>('');
     const f = fieldAccessor<Palette>('name', 'secondary');
     f.onChange((v, o) => setChange(`new: ${v}, old: ${o}`));
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
-    const [itemLayoutS, itemLayout] = layoutSelector('子项布局', 'horizontal');
-    const [blockS, block] = boolSelector('block');
-    const [roundedS, rounded] = boolSelector('rounded');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [ItemLayout, itemLayout] = layoutSelector('子项布局', 'horizontal');
+    const [Block, block] = boolSelector('block');
 
     const options: FieldOptions<Palette | 'undefined'> = [
         {value: 'error', label: 'error'},
@@ -29,12 +29,12 @@ export default function(props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {readonlyS}
-            {disabledS}
-            {layoutS}
-            {itemLayoutS}
-            {blockS}
-            {roundedS}
+            <Readonly />
+            <Disabled />
+            <Layout />
+            <ItemLayout />
+            <Block />
+            <Rounded />
             <Button palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</Button>
         </Portal>
 

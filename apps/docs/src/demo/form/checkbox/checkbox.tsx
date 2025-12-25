@@ -9,20 +9,20 @@ import { Portal } from 'solid-js/web';
 import { boolSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [blockS, block] = boolSelector('block');
-    const [roundedS, rounded] = boolSelector('rounded');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Block, block] = boolSelector('block');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     const [chk, setChk] = createSignal<boolean>();
     const onchange = (v?: boolean): void => { setChk(v); };
 
     return <div>
         <Portal mount={props.mount}>
-            {readonlyS}
-            {disabledS}
-            {blockS}
-            {roundedS}
+            <Readonly />
+            <Disabled />
+            <Block />
+            <Rounded />
         </Portal>
 
         <div class="flex flex-col justify-start">

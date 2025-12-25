@@ -14,10 +14,10 @@ interface Item {
 }
 
 export default function (props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [loadingS, loading] = boolSelector('loading', false);
-    const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
-    const [nodataS, nodata] = boolSelector('nodata', false);
+    const [Palette, palette] = paletteSelector();
+    const [Loading, loading] = boolSelector('loading', false);
+    const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
+    const [Nodata, nodata] = boolSelector('nodata', false);
 
     const items: Array<Item> = [
         { id: 1, name: 'name1', address: 'address1' },
@@ -37,10 +37,10 @@ export default function (props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {loadingS}
-            {nodataS}
-            {fixedLayoutS}
+            <Palette />
+            <Loading />
+            <Nodata />
+            <FixedLayout />
         </Portal>
 
         <BasicTable loading={loading()} fixedLayout={fixedLayout()} palette={palette()}

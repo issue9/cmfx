@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    QRCode, QRCodeCornerDotType, Button, QRCodeCornerSquareType, QRCodeDotType, QRCodeRef, MountProps
+    Button, MountProps, QRCode, QRCodeCornerDotType, QRCodeCornerSquareType, QRCodeDotType, QRCodeRef
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
@@ -18,27 +18,31 @@ export function typeSelector(preset: QRCodeDotType = 'square') {
 }
 
 export function cornerTypeSelector(preset: QRCodeCornerDotType = 'square') {
-    return arraySelector<QRCodeCornerDotType|undefined>('corner type', [...cornerDotTypes, undefined], preset);
+    const corners = new Map<QRCodeCornerDotType, string>(cornerDotTypes.map(v => [v, v]));
+    corners.set('' as any, 'undefined');
+    return arraySelector('corner type', corners, preset);
 }
 
 export function cornerSquareTypeSelector(preset: QRCodeCornerSquareType = 'square') {
-    return arraySelector<QRCodeCornerSquareType|undefined>('corner square type', [...cornerSquareTypes, undefined], preset);
+    const corners = new Map<QRCodeCornerSquareType, string>(cornerSquareTypes.map(v => [v, v]));
+    corners.set('' as any, 'undefined');
+    return arraySelector('corner square type', corners, preset);
 }
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [typeS, t] = typeSelector();
-    const [ctypeS, ctype] = cornerTypeSelector();
-    const [cstypeS, cstype] = cornerSquareTypeSelector();
+    const [Palette, palette] = paletteSelector();
+    const [Type, t] = typeSelector();
+    const [Ctype, ctype] = cornerTypeSelector();
+    const [Cstype, cstype] = cornerSquareTypeSelector();
 
     let ref: QRCodeRef;
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {typeS}
-            {ctypeS}
-            {cstypeS}
+            <Palette />
+            <Type />
+            <Ctype />
+            <Cstype />
         </Portal>
 
         <QRCode ref={el => ref = el} padding={10} type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />

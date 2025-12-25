@@ -57,6 +57,13 @@ const messages: typeof m = {
             overview: '组件总览',
             palette: '调色板',
             buttonKind: '按钮风格',
+            labelAlign: '标签对齐',
+            tooltipPos: '位置',
+            editable: '可编辑',
+            wrap: '自动换行',
+            rounded: '圆角',
+            disabled: '禁用',
+            readonly: '只读',
 
             // 分类名称
 

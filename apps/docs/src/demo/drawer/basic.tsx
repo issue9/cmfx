@@ -8,14 +8,14 @@ import { Portal } from 'solid-js/web';
 import { arraySelector, paletteSelector } from '../base';
 
 export default function (props: MountProps) {
-    const [paletteS, palette] = paletteSelector('secondary');
-    const [posS, pos] = arraySelector('pos', ['start', 'end'], 'start');
+    const [Palette, palette] = paletteSelector('secondary');
+    const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
     let ref: DrawerRef;
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {posS}
+            <Palette />
+            <Pos />
         </Portal>
 
         <Drawer ref={el => ref = el} pos={pos()} palette={palette()} visible={true} floating main={

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Calendar, Number, notify, Week, MountProps, fieldAccessor } from '@cmfx/components';
+import { Calendar, MountProps, Number, Week, fieldAccessor, notify } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../../base';
@@ -12,16 +12,16 @@ export default function (props: MountProps) {
     const min = new Date(now.getFullYear(), now.getMonth()-2, now.getDate());
     const max = new Date(now.getFullYear(), now.getMonth()+2, now.getDate());;
 
-    const [paletteS, palette] = paletteSelector();
-    const [weekendS, weekend] = boolSelector('weekend');
-    const [minmaxS, minmax] = boolSelector('minmax');
+    const [Palette, palette] = paletteSelector();
+    const [Weekend, weekend] = boolSelector('weekend');
+    const [Minmax, minmax] = boolSelector('minmax');
     const week = fieldAccessor<Week>('weekbase', 0);
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {weekendS}
-            {minmaxS}
+            <Palette />
+            <Weekend />
+            <Minmax />
             <Number min={0} max={6} class="w-20" placeholder='每周起始于' accessor={week} />
         </Portal>
 

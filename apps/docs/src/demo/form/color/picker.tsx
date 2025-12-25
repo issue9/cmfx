@@ -3,28 +3,29 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    fieldAccessor, ColorPicker, MountProps, ColorPickerPanelTailwind, ColorPickerPanelOKLCH, ColorPickerPanelHSL, ColorPickerPanelRGB
+    ColorPicker, ColorPickerPanelHSL, ColorPickerPanelOKLCH,
+    ColorPickerPanelRGB, ColorPickerPanelTailwind, fieldAccessor, MountProps
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [paletteS, palette] = paletteSelector();
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [disabledS, disabled] = boolSelector('disabled');
+    const [Palette, palette] = paletteSelector();
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     const color = fieldAccessor('color', 'oklch(1% 0.3 100)');
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {layoutS}
-            {roundedS}
-            {readonlyS}
-            {disabledS}
+            <Palette />
+            <Disabled />
+            <Readonly />
+            <Rounded />
+            <Layout />
         </Portal>
 
         <ColorPicker readonly={readonly()} disabled={disabled()} wcag='oklch(1 0 0)' palette={palette()} layout={layout()}

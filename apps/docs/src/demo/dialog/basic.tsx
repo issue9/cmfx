@@ -8,12 +8,12 @@ import { Portal } from 'solid-js/web';
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
+    const [Palette, palette] = paletteSelector();
     let dlg: DialogRef;
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <div>

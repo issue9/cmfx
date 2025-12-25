@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, MountProps, createForm, useOptions } from '@cmfx/components';
+import { Button, Dialog, DialogRef, MountProps, createForm, notify } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [act] = useOptions();
-    const [paletteS, palette] = paletteSelector('primary');
+    const [Palette, palette] = paletteSelector('primary');
 
     let dlg2: DialogRef;
     let dlg3: DialogRef;
@@ -17,12 +16,12 @@ export default function(props: MountProps) {
     const [, Form] = createForm({
         initValue: {},
         submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
-        onProblem: async p => act.handleProblem(p)
+        onProblem: async p => await notify(p.title)
     });
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <Button onclick={() => dlg2.element().showModal()} palette={palette()}>showModal</Button>

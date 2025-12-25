@@ -2,19 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Timezone, MountProps } from '@cmfx/components';
+import { MountProps, Timezone } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../../base';
 
 export default function (props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
+    const [Palette, palette] = paletteSelector('primary');
     const [timezone, setTimezone] = createSignal<string>('Asia/Shanghai');
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <Timezone value={timezone()} palette={palette()} onChange={d => setTimezone(d)} />

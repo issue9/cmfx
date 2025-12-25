@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, Range, MountProps, Button } from '@cmfx/components';
+import { Button, fieldAccessor, MountProps, Range } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -15,21 +15,21 @@ function formatValue(value: number): JSX.Element {
 export default function (props: MountProps) {
     const f = fieldAccessor('name', 5);
 
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
-    const [fitHeightS, fitHeight] = boolSelector('fitHeight', false);
-    const [valueS, value] = boolSelector('value', false);
-    const [roundedS, rounded] = boolSelector('rounded', false);
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [FitHeight, fitHeight] = boolSelector('fitHeight', false);
+    const [Value, value] = boolSelector('value', false);
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 
     return <>
         <Portal mount={props.mount}>
-            {readonlyS}
-            {disabledS}
-            {layoutS}
-            {fitHeightS}
-            {valueS}
-            {roundedS}
+            <Readonly />
+            <Disabled />
+            <Layout />
+            <FitHeight />
+            <Value />
+            <Rounded />
             <Button palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</Button>
         </Portal>
 

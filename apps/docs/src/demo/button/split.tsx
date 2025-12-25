@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { SplitButton, SplitButtonItem, MountProps } from '@cmfx/components';
+import { MountProps, SplitButton, SplitButtonItem } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { Portal } from 'solid-js/web';
 
-import { buttonKindSelector, boolSelector, paletteSelector } from '../base';
+import { boolSelector, buttonKindSelector, paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [kindS, kind] = buttonKindSelector();
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
+    const [Kind, kind] = buttonKindSelector();
+    const [Disabled, disabled] = boolSelector('disabled');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     const menus: Array<SplitButtonItem> = [
         { type: 'button', label: 'button1', onclick: () => console.log('btn1') },
@@ -24,10 +24,10 @@ export default function(props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {kindS}
-            {disabledS}
-            {roundedS}
+            <Palette />
+            <Kind />
+            <Disabled />
+            <Rounded />
         </Portal>
 
         <div class="flex flex-wrap items-center gap-2">

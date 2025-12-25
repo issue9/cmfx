@@ -8,15 +8,15 @@ import { Portal } from 'solid-js/web';
 import { boolSelector, paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [editableS, editable] = boolSelector('可编辑');
-    const [wrapS, wrap] = boolSelector('自动换行');
+    const [Palette, palette] = paletteSelector();
+    const [Editable, editable] = boolSelector('_d.demo.editable');
+    const [Wrap, wrap] = boolSelector('_d.demo.wrap');
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {editableS}
-            {wrapS}
+            <Palette />
+            <Editable />
+            <Wrap />
         </Portal>
         <Code editable={editable()} ln={0} wrap={wrap()} palette={palette()} class="h-50" lang="css">
             {`/*

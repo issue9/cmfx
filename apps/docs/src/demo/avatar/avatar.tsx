@@ -5,16 +5,16 @@
 import { Avatar, MountProps, notify } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
-import { paletteSelector, boolSelector } from '../base';
+import { boolSelector, paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
-    const [roundedS, rounded] = boolSelector('rounded', true);
+    const [Palette, palette] = paletteSelector('primary');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded', true);
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {roundedS}
+            <Palette />
+            <Rounded />
         </Portal>
         <Avatar value="./brand-static.svg" palette={palette()} rounded={rounded()} class="h-16"
             onclick={() => notify('click')}

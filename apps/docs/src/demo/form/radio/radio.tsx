@@ -3,23 +3,23 @@
 // SPDX-License-Identifier: MIT
 
 
-import { Radio, MountProps } from '@cmfx/components';
+import { MountProps, Radio } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [blockS, block] = boolSelector('block');
-    const [roundedS, rounded] = boolSelector('rounded');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Block, block] = boolSelector('block');
 
     return <>
         <Portal mount={props.mount}>
-            {readonlyS}
-            {disabledS}
-            {blockS}
-            {roundedS}
+            <Readonly />
+            <Disabled />
+            <Rounded />
+            <Block />
         </Portal>
 
         <div>

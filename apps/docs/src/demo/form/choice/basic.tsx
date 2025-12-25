@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceOption, fieldAccessor, TextField, MountProps, Button } from '@cmfx/components';
+import { Button, Choice, ChoiceOption, fieldAccessor, MountProps, TextField } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
@@ -17,21 +17,21 @@ export default function(props: MountProps) {
 
     const tf = fieldAccessor('textfield', '');
 
-    const [paletteS, palette] = paletteSelector();
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [closableS, closable] = boolSelector('closable');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
+    const [Palette, palette] = paletteSelector();
+    const [Closable, closable] = boolSelector('closable');
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {disabledS}
-            {readonlyS}
-            {closableS}
-            {roundedS}
-            {layoutS}
+            <Palette />
+            <Disabled />
+            <Readonly />
+            <Closable />
+            <Rounded />
+            <Layout />
 
             <Button palette="primary" onclick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');

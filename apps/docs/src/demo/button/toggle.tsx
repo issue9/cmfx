@@ -2,29 +2,28 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ToggleButton, ToggleFullScreenButton, ToggleFitScreenButton, MountProps } from '@cmfx/components';
+import { MountProps, ToggleButton, ToggleFitScreenButton, ToggleFullScreenButton } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
 
-import { buttonKindSelector, boolSelector } from '../base';
+import { boolSelector, buttonKindSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [kindS, kind] = buttonKindSelector();
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [roundedS, rounded] = boolSelector('rounded');
+    const [Kind, kind] = buttonKindSelector();
+    const [Disabled, disabled] = boolSelector('disabled');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     let screenElement: HTMLDivElement;
 
-    let toggleFlag1 = false;
     let toggleFlag2 = false;
 
     return <div>
         <Portal mount={props.mount}>
-            {kindS}
-            {disabledS}
-            {roundedS}
+            <Kind />
+            <Disabled />
+            <Rounded />
         </Portal>
 
         <div class="flex flex-wrap items-center gap-2">

@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
-import IconExpandAll from '~icons/material-symbols/expand-all';
 import IconClose from '~icons/material-symbols/close';
+import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { AvailableEnumType, cloneElement, joinClass } from '@/base';
 import {

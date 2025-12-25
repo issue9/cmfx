@@ -8,13 +8,13 @@ import { Portal } from 'solid-js/web';
 import { boolSelector, labelAlignSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('secondary');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [helpS, help] = boolSelector('help');
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [layoutS, layout] = layoutSelector('layout');
-    const [labelAlignS, labelAlign] = labelAlignSelector('start');
+    const [Palette, palette] = paletteSelector('secondary');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+    const [Help, help] = boolSelector('help');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Layout, layout] = layoutSelector('layout');
+    const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
     const [api, Form] = createForm({
         initValue: {
@@ -28,13 +28,13 @@ export default function(props: MountProps) {
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {roundedS}
-            {helpS}
-            {layoutS}
-            {disabledS}
-            {readonlyS}
-            {labelAlignS}
+            <Palette />
+            <Rounded />
+            <Help />
+            <Layout />
+            <Disabled />
+            <Readonly />
+            <LabelAlign />
         </Portal>
 
         <Form palette={palette()} rounded={rounded()} layout={layout()} hasHelp={help()}

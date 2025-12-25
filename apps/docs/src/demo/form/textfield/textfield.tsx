@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { cloneElement, fieldAccessor, TextField, MountProps, Button } from '@cmfx/components';
+import { Button, cloneElement, fieldAccessor, MountProps, TextField } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
@@ -11,22 +11,22 @@ import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 export default function(props: MountProps) {
     const txt = fieldAccessor('name', 'text');
 
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 
     const prefix = <div class="bg-red-500 flex items-center">prefix</div>;
     const suffix = <div class="bg-red-500 flex items-center">suffix</div>;
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {readonlyS}
-            {roundedS}
-            {disabledS}
-            {layoutS}
+            <Palette />
+            <Readonly />
+            <Rounded />
+            <Disabled />
+            <Layout />
             <Button palette="primary" onclick={() => {
                 txt.setError(txt.getError() ? undefined : 'error');
             }}>toggle error</Button>

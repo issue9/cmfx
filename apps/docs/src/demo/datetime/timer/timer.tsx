@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Timer, timerFields, TimerRef, MountProps } from '@cmfx/components';
+import { Button, MountProps, Timer, timerFields, TimerRef } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -10,16 +10,16 @@ import IconFace from '~icons/material-symbols/face';
 import { arraySelector, boolSelector } from '../../base';
 
 export default function (props: MountProps) {
-    const [unitS, unit] = boolSelector('unit');
-    const [fieldS, field] = arraySelector('field', timerFields, 'minutes');
+    const [Unit, unit] = boolSelector('unit');
+    const [Field, field] = arraySelector('field', timerFields, 'minutes');
     const [msg, setMsg] = createSignal('');
 
     let ref: TimerRef;
 
     return <div>
         <Portal mount={props.mount}>
-            {unitS}
-            {fieldS}
+            <Unit />
+            <Field />
         </Portal>
 
         <div class="flex flex-col gap-4">

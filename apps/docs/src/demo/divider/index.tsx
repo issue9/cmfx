@@ -6,14 +6,14 @@ import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
 
-import { default as C1 } from './divider';
-import { default as s1 } from './divider.tsx?raw';
+import { default as Divider } from './divider';
+import { default as divider } from './divider.tsx?raw';
 
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/divider' api={api} stages={[
-        { component: C1, source: s1, title: 'basic' },
+        { component: Divider, source: divider, title: 'basic' },
     ]}>
     </Stages>;
 }

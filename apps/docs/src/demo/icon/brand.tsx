@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { IconCmfxBrandStatic, IconCmfxBrandAnimate, MountProps, joinClass } from '@cmfx/components';
-import { paletteSelector } from '../base';
+import { IconCmfxBrandAnimate, IconCmfxBrandStatic, MountProps, joinClass } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
+import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <p>

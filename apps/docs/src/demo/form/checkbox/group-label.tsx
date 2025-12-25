@@ -2,19 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { CheckboxGroup, fieldAccessor, FieldOptions, MountProps, Button } from '@cmfx/components';
+import { Button, CheckboxGroup, fieldAccessor, FieldOptions, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, labelAlignSelector } from '../../base';
+import { boolSelector, labelAlignSelector, layoutSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [layoutS, layout] = layoutSelector('布局');
-    const [itemLayoutS, itemLayout] = layoutSelector('子项布局');
-    const [blockS, block] = boolSelector('block');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [labelAlignS, labelAlign] = labelAlignSelector('start');
+    const [Layout, layout] = layoutSelector('布局');
+    const [ItemLayout, itemLayout] = layoutSelector('子项布局');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Block, block] = boolSelector('block');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+    const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
     const groupFA = fieldAccessor('checkbox', ['1']);
     const groupOptions: FieldOptions<string> = [
@@ -25,13 +25,13 @@ export default function(props: MountProps) {
 
     return <div>
         <Portal mount={props.mount}>
-            {readonlyS}
-            {disabledS}
-            {layoutS}
-            {itemLayoutS}
-            {blockS}
-            {roundedS}
-            {labelAlignS}
+            <Readonly />
+            <Disabled />
+            <Block />
+            <Rounded />
+            <Layout />
+            <ItemLayout />
+            <LabelAlign />
 
             <Button palette="primary" onclick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</Button>
         </Portal>

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Stepper, StepperRef, MountProps } from '@cmfx/components';
+import { Button, MountProps, Stepper, StepperRef } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconChat from '~icons/material-symbols/chat';
@@ -16,13 +16,13 @@ export default function(props: MountProps): JSX.Element {
     let ref2: StepperRef;
     let ref3: StepperRef;
 
-    const [paletteS, palette] = paletteSelector('surface');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
+    const [Palette, palette] = paletteSelector('surface');
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {layoutS}
+            <Palette />
+            <Layout />
         </Portal>
 
         <div class='w-full'>

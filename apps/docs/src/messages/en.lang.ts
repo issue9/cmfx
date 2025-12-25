@@ -56,6 +56,13 @@ const messages = {
             overview: 'Overview',
             palette: 'Palette',
             buttonKind: 'Button Kind',
+            labelAlign: 'Label Align',
+            tooltipPos: 'Tooltip pos',
+            editable: 'Editable',
+            wrap: 'Wrap',
+            rounded: 'Rounded',
+            disabled: 'Disabled',
+            readonly: 'Readonly',
 
             // 分类名称
 

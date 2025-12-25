@@ -18,7 +18,7 @@ const items: Array<Item> = [
 ] as const;
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
 
     let axisRef: ChartAxisRef<Item>;
 
@@ -35,7 +35,7 @@ export default function(props: MountProps) {
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <div>

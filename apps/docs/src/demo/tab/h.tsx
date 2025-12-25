@@ -15,11 +15,11 @@ export default function(props: MountProps) {
         { id: 'k4', label: 'K4' },
     ];
 
-    const [paletteS, palette] = paletteSelector();
+    const [Palette, palette] = paletteSelector();
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <Tab class="w-fit!" palette={palette()} items={structuredClone(items)} />

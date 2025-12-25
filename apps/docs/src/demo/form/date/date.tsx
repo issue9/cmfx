@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker, fieldAccessor, Week, MountProps, weeks } from '@cmfx/components';
+import { DatePicker, fieldAccessor, MountProps, Week, weeks } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '../../base';
@@ -13,27 +13,27 @@ export default function(props: MountProps) {
 
     const min = new Date('2023-12-02T15:34');
     const max = new Date('2025-12-02T15:34');
-    const [paletteS, palette] = paletteSelector('primary');
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [weekendS, weekend] = boolSelector('weekend');
-    const [timeS, time] = boolSelector('time');
-    const [minmaxS, minmax] = boolSelector('minmax');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
-    const [weekS, week] = arraySelector<Week>('weekBase', weeks);
+    const [Palette, palette] = paletteSelector('primary');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+    const [Weekend, weekend] = boolSelector('weekend');
+    const [Time, time] = boolSelector('time');
+    const [Minmax, minmax] = boolSelector('minmax');
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Week, week] = arraySelector<Week>('weekBase', weeks);
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
-            {timeS}
-            {disabledS}
-            {readonlyS}
-            {weekendS}
-            {roundedS}
-            {minmaxS}
-            {layoutS}
-            {weekS}
+            <Palette />
+            <Time />
+            <Disabled />
+            <Readonly />
+            <Weekend />
+            <Rounded />
+            <Minmax />
+            <Layout />
+            <Week />
         </Portal>
 
         <DatePicker class="w-[400px]" placeholder='placeholder' layout={layout()}

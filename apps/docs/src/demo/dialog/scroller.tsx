@@ -8,13 +8,13 @@ import { Portal } from 'solid-js/web';
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector('primary');
+    const [Palette, palette] = paletteSelector('primary');
 
     let dlg: DialogRef;
 
     return <div>
         <Portal mount={props.mount}>
-            {paletteS}
+            <Palette />
         </Portal>
 
         <Button onclick={() => dlg.element().showModal()} palette={palette()}>scrollable</Button>

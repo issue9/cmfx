@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, Week, WeekPicker, WeekValueType, MountProps } from '@cmfx/components';
+import { fieldAccessor, MountProps, Week, WeekPicker, WeekValueType } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -13,24 +13,25 @@ export default function(props: MountProps) {
 
     const min = new Date('2023-12-02T15:34');
     const max = new Date('2025-12-02T15:34');
-    const [paletteS, palette] = paletteSelector('primary');
     const [week, setWeek] = createSignal<Week>(0);
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [readonlyS, readonly] = boolSelector('readonly');
-    const [roundedS, rounded] = boolSelector('rounded');
-    const [weekendS, weekend] = boolSelector('weekend');
-    const [minmaxS, minmax] = boolSelector('minmax');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
+
+    const [Palette, palette] = paletteSelector('primary');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+    const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+    const [Weekend, weekend] = boolSelector('weekend');
+    const [Minmax, minmax] = boolSelector('minmax');
+    const [Layout, layout] = layoutSelector('布局', 'horizontal');
 
     return <>
         <Portal mount={props.mount}>
-            {paletteS}
-            {disabledS}
-            {readonlyS}
-            {weekendS}
-            {roundedS}
-            {minmaxS}
-            {layoutS}
+            <Palette />
+            <Disabled />
+            <Readonly />
+            <Weekend />
+            <Rounded />
+            <Minmax />
+            <Layout />
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于'
                 value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
         </Portal>
