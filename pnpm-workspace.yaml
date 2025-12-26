@@ -6,8 +6,8 @@ packages:
   - apps/admin
 
 catalog:
-  '@formatjs/intl-durationformat': ^0.8.4
-  '@iconify/json': ^2.2.420
+  '@formatjs/intl-durationformat': ^0.9.0
+  '@iconify/json': ^2.2.421
   '@solidjs/router': ^0.15.4
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.1.18
@@ -17,9 +17,9 @@ catalog:
   '@vitest/coverage-v8': ^4.0.16
   autoprefixer: ^10.4.23
   bowser: ^2.13.1
-  colorjs.io: ^0.5.2
+  colorjs.io: ^0.6.0
   echarts: ^6.0.0
-  intl-messageformat: ^11.0.4
+  intl-messageformat: ^11.0.7
   jsdom: ^27.3.0
   shiki: ^3.20.0
   solid-js: ^1.9.10
