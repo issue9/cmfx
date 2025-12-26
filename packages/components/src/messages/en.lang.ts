@@ -81,7 +81,11 @@ const messages = {
             staysDesc: 'Set the stays duration of the notify',
             long: 'long',
             short: 'short',
-            narrow: 'narrow'
+            narrow: 'narrow',
+            systemNotify: 'System notify',
+            systemNotifyDesc: 'Send the notification to the operating system\'s notification center. If this is unavailable, click `{request}` button to manually refresh permissions.',
+            enabled: 'Enabled',
+            requestNotifyPermission: 'Request notify permission',
         },
         table: {
             nodata: 'No data',

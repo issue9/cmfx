@@ -23,7 +23,15 @@
         }
 
         .stays {
-            @apply w-fit;
+            @apply w-40;
+        }
+
+        .checkbox {
+            @apply justify-start;
+        }
+
+        .notify {
+            @apply flex gap-5 justify-start;
         }
     }
 }

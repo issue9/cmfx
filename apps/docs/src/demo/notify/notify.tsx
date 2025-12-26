@@ -3,11 +3,18 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, Number, Choice, fieldAccessor, notify, NotifyType, notifyTypes, useLocale, TextField, TextArea
+    Button, Choice, fieldAccessor, MountProps, notify, NotifyType, notifyTypes,
+    Number, TextArea, TextField, useLocale, useOptions
 } from '@cmfx/components';
+import { createEffect } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
-export default function() {
+import { boolSelector } from '../base';
+
+export default function(props: MountProps) {
     const l = useLocale();
+    const [System, system] = boolSelector('system');
+    const [set] = useOptions();
 
     const typ = fieldAccessor<NotifyType>('type', 'success');
     const timeout = fieldAccessor<number>('timeout', 5000);
@@ -18,7 +25,15 @@ export default function() {
         await notify(title.getValue(), body.getValue(), typ.getValue(), l.locale.toString(), timeout.getValue());
     };
 
+    createEffect(() => {
+        set.setSystemNotify(system());
+    });
+
     return <div class="flex flex-col gap-2 w-40">
+        <Portal mount={props.mount}>
+            <System />
+        </Portal>
+
         <Choice label='type' accessor={typ}
             options={notifyTypes.map(v => { return { type: 'item', value: v, label: v }; })} />
         <Number step={500} label='timeout' accessor={timeout} />

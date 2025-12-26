@@ -20,6 +20,7 @@ const schemeKey = 'scheme';
 const modeKey = 'mode';
 const tzKey = 'timezone';
 const staysKey = 'stays';
+const systemNotifyKey = 'system-notify';
 
 /**
  * 提供了对全局配置的更改
@@ -106,6 +107,7 @@ export function buildSetter(ctx: OptionsGetSetContext) {
             displayStyle: o.config.get(displayStyleKey) ?? o.displayStyle,
             timezone: o.config.get(tzKey) ?? o.timezone,
             stays: o.config.get(staysKey) ?? o.stays,
+            systemNotify: o.config.get(systemNotifyKey) ?? o.systemNotify,
         });
     };
 
@@ -186,6 +188,14 @@ export function buildSetter(ctx: OptionsGetSetContext) {
         setStays(stay: number) {
             set({ stays: stay });
             o.config.set(staysKey, stay);
+        },
+
+        /**
+         * 是否启用系统通知
+         */
+        setSystemNotify(v: boolean) {
+            set({ systemNotify: v });
+            o.config.set(systemNotifyKey, v);
         },
 
         /**

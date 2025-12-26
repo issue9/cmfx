@@ -9,12 +9,12 @@
 @layer components {
     input[type="checkbox"] {
         @apply appearance-none relative inline-block p-0 w-4 h-4 cursor-pointer outline-none;
-        @apply border-2 border-palette-border rounded-xs!;
-        @apply active:border-palette-border-actived;
-        @apply hover:border-palette-border-focused;
-        @apply focus:border-palette-border-focused;
-        @apply active:border-palette-border-actived;
-        @apply disabled:cursor-not-allowed disabled:border-palette-border-disabled;
+        @apply border-2 border-palette-fg rounded-xs!;
+        @apply active:border-palette-fg-actived;
+        @apply hover:border-palette-fg-focused;
+        @apply focus:border-palette-fg-focused;
+        @apply active:border-palette-fg-actived;
+        @apply disabled:cursor-not-allowed disabled:border-palette-fg-disabled;
         @apply transition;
     }
 
@@ -23,13 +23,13 @@
     }
 
     input[type="checkbox"]:disabled {
-        @apply cursor-not-allowed border-palette-border-disabled;
+        @apply cursor-not-allowed border-palette-fg-disabled;
     }
 
     input[type="checkbox"]:not(:indeterminate):after {
         @apply block absolute opacity-0 w-1/3 h-2/3 left-1/3 top-1/10;
-        @apply border-r-2 border-r-palette-border;
-        @apply border-b-2 border-b-palette-border;
+        @apply border-r-2 border-r-palette-fg;
+        @apply border-b-2 border-b-palette-fg;
         @apply transition;
         content: '';
         transform: rotate(45deg);
@@ -45,7 +45,7 @@
     }
 
     input[type="checkbox"]:disabled:after {
-        @apply cursor-not-allowed border-palette-border-disabled;
+        @apply cursor-not-allowed border-palette-fg-disabled;
     }
 
     input[type="checkbox"]:checked:after {

@@ -21,14 +21,14 @@ export interface Options {
     logo: string;
 
     /**
-     * 是否采用系统对话框
+     * 是否替换系统对话框
      *
      * @defaultValue false
      */
     systemDialog?: boolean;
 
     /**
-     * 是否采用系统通知
+     * 是否使用系统通知
      *
      * @defaultValue false
      */
