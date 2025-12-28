@@ -12,17 +12,17 @@ export default function(): JSX.Element {
     return <div class="p-2">
         <ThemeProvider >
             其中 mode 和 scheme 继承自上一层
-            <p>{`mode: ${useTheme().mode}, scheme.primary: ${useTheme().scheme?.primary}，scheme.secondary: ${useTheme().scheme?.secondary}`}</p>
+            <pre>{`${JSON.stringify(useTheme(), null, 4)}`}</pre>
             <ThemeProvider mode='light' scheme={s()}>
                 <div class="p-2 bg-palette-2-bg text-palette-2-fg">
                     <Button onclick={() => setS(s() == s1 ? s2 : s1)}>change scheme</Button>
                     mode 设置为 light, scheme 为自定义
-                    <p>{`mode: ${useTheme().mode}, scheme.primary: ${useTheme().scheme?.primary}，scheme.secondary: ${useTheme().scheme?.secondary}`}</p>
+                    <pre>{`${JSON.stringify(useTheme(), null, 4)}`}</pre>
 
                     <div class="p-2 bg-palette-3-bg text-palette-3-fg">
                         <ThemeProvider>
                             其中 mode 和 scheme 继承自上一层
-                            <p>{`mode: ${useTheme().mode}, scheme.primary: ${useTheme().scheme?.primary}，scheme.secondary: ${useTheme().scheme?.secondary}`}</p>
+                            <pre>{`${JSON.stringify(useTheme(), null, 4)}`}</pre>
                         </ThemeProvider>
                     </div>
                 </div>

@@ -135,7 +135,9 @@ function createTheme(props: Props): Theme {
         const os = typeof o.scheme === 'string' ? o.schemes.get(o.scheme) :  o.scheme;
         const radius = Object.assign({}, os?.radius, p?.scheme?.radius, props.scheme?.radius);
         const scheme = Object.assign({ radius }, os, p?.scheme, props.scheme);
-        return Object.assign({}, os, { mode: p?.mode, scheme }, props);
+        const oo = Object.assign({}, { scheme: os }, { mode: p?.mode, scheme }, props);
+        delete oo.p;
+        return oo;
     });
     return obj();
 }
