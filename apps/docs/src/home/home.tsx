@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useOptions, useLocale, Button, SplitButton } from '@cmfx/components';
+import { Button, SplitButton, useLocale, useOptions } from '@cmfx/components';
 import { createEffect } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
-import IconAI from '~icons/mingcute/ai-fill';
 import IconStart from '~icons/mdi/read-more';
+import IconAI from '~icons/mingcute/ai-fill';
+import IconGitee from '~icons/simple-icons/gitee';
 
 import pkg from '../../package.json';
 import styles from './style.module.css';
@@ -31,9 +32,15 @@ export default function Home() {
                 {l.t('_d.home.start')}
             </Button>
 
-            <Button type='a' class={styles.btn} kind='fill' href={pkg.homepage}>
+            <SplitButton type='a' class={styles.btn} kind='fill' href={pkg.repository.url} menus={[
+                {
+                    type: 'a',
+                    label: <><IconGitee class="me-1" />Gitee</>,
+                    href: 'https://gitee.com/issue9/cmfx',
+                }
+            ]}>
                 <IconGithub class="me-1" />Github
-            </Button>
+            </SplitButton>
 
             <SplitButton type='a' class={styles.btn} kind='fill' href="https://deepwiki.com/issue9/cmfx" menus={[
                 {

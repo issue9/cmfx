@@ -167,7 +167,7 @@ export class I18n implements Locale {
      * 构造函数
      * @param locale - 本地化字符串；
      * @param style - 显示风格；
-     * @param tz - 时区；
+     * @param tz - 时区，如果为空则采用 `Intl.DateTimeFormat().resolvedOptions().timeZone`；
      */
     constructor(locale: string, style: DisplayStyle, tz?: string) {
         locale = I18n.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项

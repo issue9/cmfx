@@ -24,7 +24,8 @@ export function Alert(props: Props): JSX.Element {
 
     const del = async () => {
         ref.style.height = '0';
-        sleep(transitionDuration(ref)).then(() => ref.remove());
+        await sleep(transitionDuration(ref)); // 待动画结束
+        ref.remove();
     };
 
     onMount(() => {

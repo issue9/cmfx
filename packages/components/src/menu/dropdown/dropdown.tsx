@@ -80,7 +80,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         if (isOpen) { return; }
 
         menuRef.element().showPopover();
-        adjustPopoverPosition(menuRef.element(), triggerRef()!.getBoundingClientRect(), 1, 'bottom', 'end');
+        adjustPopoverPosition(menuRef.element(), triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
     };
 
     // 右键菜单需要对弹出和隐藏进行额外控制

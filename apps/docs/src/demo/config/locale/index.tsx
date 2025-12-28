@@ -15,6 +15,9 @@ import { default as global } from './global.tsx?raw';
 import { default as Other } from './other';
 import { default as other } from './other.tsx?raw';
 
+import { default as Nested } from './nested';
+import { default as nested } from './nested.tsx?raw';
+
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
@@ -22,6 +25,7 @@ export default function(): JSX.Element {
         { component: Locale, source: locale, title: 'LocaleProvider', desc: '可通过 `LocaleProvider` 的属性修改所包含内容的语言。' },
         { component: Global, source: global, title: 'setLocale', desc: '可通过 `setLocale` 修改全局的本地化内容。' },
         { component: Other, source: other, title: '其它属性' },
+        { component: Nested, source: nested, title: '嵌套使用' },
     ]}>
     </Stages>;
 }

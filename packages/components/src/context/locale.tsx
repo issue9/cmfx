@@ -5,6 +5,7 @@
 import { Dict, DictKeys, DisplayStyle, I18n, Locale, TranslateArgs } from '@cmfx/core';
 import { Accessor, createContext, createEffect, createSignal, JSX, ParentProps, useContext } from 'solid-js';
 
+import { useOptions } from './context';
 import { ContextNotFoundError } from './errors';
 
 export type Props = ParentProps<{
@@ -20,11 +21,12 @@ export type Props = ParentProps<{
      *
      * @reactive
      */
-    displayStyle: DisplayStyle;
+    displayStyle?: DisplayStyle;
 
     /**
      * 时区信息
      *
+     * @remarks
      * 该值必须是当前浏览器的 `Intl.supportedValuesOf('timeZone')` 的返回值之一。
      *
      * @reactive
@@ -63,10 +65,30 @@ export function useLocale(): Locale {
 }
 
 /**
- * 指定新的本地化对象，其子类将采用此本地化对象。
+ * 指定本地化对象
+ *
+ * @remarks
+ * 除去 children 之外的可选属性，如果未指定，会尝试向上一层的 `<LocaleProvider>` 组件查找对应的值。
  */
 export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
-    const [g, s] = createSignal<Locale>(new I18n(props.id, props.displayStyle, props.timezone));
-    createEffect(() => { s(new I18n(props.id, props.displayStyle, props.timezone)); });
-    return <localeContext.Provider value={g}>{props.children}</localeContext.Provider>;
+    const pl = useContext(localeContext);
+    const [, opt] = useOptions();
+
+    const [get, set] = createSignal<Locale>(
+        new I18n(
+            props.id,
+            props.displayStyle ?? (pl ? pl().displayStyle : opt.displayStyle),
+            props.timezone ?? (pl ? pl().timezone : opt.timezone)
+        )
+    );
+
+    createEffect(() => {
+        set(new I18n(
+            props.id,
+            props.displayStyle ?? (pl ? pl().displayStyle : opt.displayStyle),
+            props.timezone ?? (pl ? pl().timezone : opt.timezone))
+        );
+    });
+
+    return <localeContext.Provider value={get}>{props.children}</localeContext.Provider>;
 }

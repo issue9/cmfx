@@ -56,7 +56,7 @@ export interface TypeItem<T extends AvailableEnumType> {
     label: JSX.Element;
 
     /**
-     * 菜单项前置的内容，一般为图标
+     * 菜单项前置的内容
      */
     prefix?: JSX.Element;
 

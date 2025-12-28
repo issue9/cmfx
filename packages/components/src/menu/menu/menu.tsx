@@ -49,9 +49,10 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
     layout?: Layout | 'inline';
 
     /**
-     * 多选模式，在该模式下，点击并不会主动关闭弹出的菜单。
+     * 多选模式
      *
-     * 不能与  {@link Props#anchor} 同时使用。
+     * @remarks
+     * 在该模式下，点击并不会主动关闭弹出的菜单。如果子项的 type 为 a，那么多选对该项无效。
      */
     multiple?: M;
 
@@ -76,6 +77,8 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 
     /**
      * 根元素的标签类型
+     *
+     * @defaultValue 'nav'
      */
     tag?: 'nav' | 'menu';
 
@@ -248,7 +251,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                                     }
                                 }
                             }
-                        } else if (props.layout === 'inline') { // 点击带有子菜单的项
+                        } else if (props.layout === 'inline') { // 点击带有子菜单且为 inline
                             setExpanded(!expanded());
                             iconRef.to(expanded() ? 'up' : 'down');
 
@@ -272,7 +275,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                                 const h = ul.scrollHeight;
                                 ul.style.height = h + 'px'; // 触发动画到内容高度
 
-                                while(true) { // 为外层元素增加当前元素的高度
+                                while (true) { // 为外层元素增加当前元素的高度
                                     ul = ul.parentElement!.parentElement! as HTMLUListElement;
                                     if (!ul) { break; }
 
@@ -291,10 +294,12 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                             }}
                         >
                             <Show when={i().prefix}>
-                                {icon => <div class={styles.icon}>{icon()}</div> }
+                                {prefix => <div class={styles.icon}>{prefix()}</div>}
                             </Show>
                             {i().label}
-                            <Show when={i().suffix}><span class={styles.suffix}>{i().suffix}</span></Show>
+                            <Show when={i().suffix}>
+                                {suffix => <span class={styles.suffix}>{suffix()}</span>}
+                            </Show>
                             <Show when={hasItems}>
                                 <Switch fallback={<IconArrowRight class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])} />}>
                                     <Match when={props.layout === 'horizontal'}>

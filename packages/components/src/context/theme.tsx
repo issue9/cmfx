@@ -2,12 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { children, createContext, createEffect, For, JSX, ParentProps, splitProps, useContext } from 'solid-js';
+import {
+    children, createContext, createEffect, createMemo, For, JSX, ParentProps, splitProps, useContext
+} from 'solid-js';
 
 import { changeMode, changeScheme, Mode, Scheme } from '@/base';
+import { useOptions } from './context';
 import { ContextNotFoundError } from './errors';
 
-const themeContext = createContext<Theme>();
+const themeContext = createContext<Omit<Props, 'children'>>();
 
 /**
  * 返回主题设置的参数
@@ -15,7 +18,7 @@ const themeContext = createContext<Theme>();
 export function useTheme(): Theme {
     const ctx = useContext(themeContext);
     if (!ctx) { throw new ContextNotFoundError('themeContext'); }
-    return ctx;
+    return createTheme(ctx);
 }
 
 export type Props = ParentProps<{
@@ -45,18 +48,25 @@ export type Props = ParentProps<{
      * 某些情况下可能存在一个无任何展示内容的父元素，此时可以指定其作为保存主题样式的元素。
      */
     styleElement?: HTMLElement;
+
+    /**
+     * 上一层 ThemeProvider 的属性值
+     */
+    p?: Props;
 }>;
 
 /**
  * 指定一个新的主题对象
  *
  * @remarks
- * 未指定的参数从父类继承。
+ * 除去 children 之外的可选属性，如果未指定，会尝试向上一层的 `<ThemeProvider>` 组件查找对应的值。
+ *
  * 如果 {@link Props.children} 不是 HTMLElement 类型，将不启作用。
- * 只对被包含的元素起作用，像 notify 等方法触发的通知框，其所在的位置如果不在当前范围之内，主题对其不起作用。
+ * 只对被包含的元素起作用，如果是通过 Protal 将元素放到外层的，不会启作用，比如 notify 的通知框。
  */
-export function ThemeProvider(props: Props): JSX.Element {
-    const [, theme] = splitProps(props, ['children']);
+export function ThemeProvider(props: Omit<Props, 'p'>): JSX.Element {
+    let [, theme] = splitProps(props, ['children']);
+    (theme as Props).p = useContext(themeContext);
 
     if (props.styleElement) {
         createEffect(() => {
@@ -116,4 +126,16 @@ export interface Theme {
      * 主题的模式
      */
     mode?: Mode;
+}
+
+function createTheme(props: Props): Theme {
+    const [, o] = useOptions();
+    const obj = createMemo(() => {
+        const p = props.p;
+        const os = typeof o.scheme === 'string' ? o.schemes.get(o.scheme) :  o.scheme;
+        const radius = Object.assign({}, os?.radius, p?.scheme?.radius, props.scheme?.radius);
+        const scheme = Object.assign({ radius }, os, p?.scheme, props.scheme);
+        return Object.assign({}, os, { mode: p?.mode, scheme }, props);
+    });
+    return obj();
 }

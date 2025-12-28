@@ -7,46 +7,14 @@ import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } f
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
 import { handleEvent, joinClass } from '@/base';
-import { AProps, Props as BaseProps, presetProps as basePrsetProps, BProps, Button, Ref } from './button';
+import { AProps, presetProps as basePrsetProps, BProps, Button, Ref } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
 import styles from './style.module.css';
 
-export type Item = { type: 'divider' } | {
-    /**
-     * 按钮类型
-     */
-    type: BaseProps['type'];
-
-    /**
-     * 按钮上的内容
-     */
-    label: JSX.Element;
-
-    /**
-     * 点击事件
-     */
-    onclick?: NonNullable<BaseProps['onclick']>;
-
-    /**
-     * 如果 type=='a'，则为跳转的链接
-     */
-    href?: string;
-
-    /**
-     * 禁用状态
-     */
-    disabled?: boolean;
-
-    /**
-     * 快捷键
-     */
-    hotkey?: Hotkey;
-
-    /**
-     * 是否选中
-     */
-    checked?: boolean;
-};
+type OmitFields = 'children' | 'rounded' | 'kind' | 'palette' | 'style' | 'class';
+export type Item = { type: 'divider' }
+    | Omit<AProps, OmitFields> & { label: JSX.Element }
+    | Omit<BProps, OmitFields> & { label: JSX.Element };
 
 interface Base {
     menus: Array<Item>;

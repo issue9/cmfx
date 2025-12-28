@@ -72,6 +72,8 @@ export interface BProps extends Base, RefProps<Ref<false>> {
 export interface AProps extends Base, RefProps<Ref<true>> {
     type: 'a';
 
+    target?: JSX.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
+
     /**
      * 指向的链接
      */

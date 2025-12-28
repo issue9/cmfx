@@ -20,7 +20,7 @@ catalog:
   colorjs.io: ^0.6.0
   echarts: ^6.0.0
   intl-messageformat: ^11.0.7
-  jsdom: ^27.3.0
+  jsdom: ^27.4.0
   shiki: ^3.20.0
   solid-js: ^1.9.10
   tailwindcss: ^4.1.18

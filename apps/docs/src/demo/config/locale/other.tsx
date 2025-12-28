@@ -4,9 +4,9 @@
 
 import { Button, LocaleProvider, useLocale, useOptions } from '@cmfx/components';
 import { DisplayStyle } from '@cmfx/core';
-import { createSignal } from 'solid-js';
+import { createSignal, JSX } from 'solid-js';
 
-export default function() {
+export default function(): JSX.Element {
     const [, opt] = useOptions();
     const l = useLocale();
     const now = new Date();

@@ -9,16 +9,14 @@ export const transitionDurationName = '--default-transition-duration';
  * 定义主题相关的各类变量
  */
 export type Scheme = {
-    // 对主题的修改，大部分是对 tailwind 主题的修改，其字段来源于：
-    // https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/theme.css
+    // NOTE: 主题颜色值是必须要全部定义，不能从父元素继承。
+    // 否则可能出现当前的 primary 与父类的 secondary 相同的情况。
 
     primary: string;
     secondary: string;
     tertiary: string;
     error: string;
     surface: string;
-
-    // NOTE: 主题颜色值是必须要定义的，不能从父元素继承。
 
     /**
      * 全局字体的大小
