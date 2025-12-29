@@ -118,7 +118,7 @@ export class Webauthn implements PassportComponents {
 
         return <>
             <Button square rounded title={l.t('_p.current.bindWebauthn')} onclick={async () => {
-                dialogRef.element().showModal();
+                dialogRef.root().showModal();
             }}><IconCredit /></Button>
 
             <Dialog class="w-[80%]" ref={(el) => dialogRef = el} header={

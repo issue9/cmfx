@@ -9,7 +9,7 @@ import { hoursOptions, minutesOptions } from '@/datetime/utils';
 import styles from './style.module.css';
 
 export interface Ref {
-    element(): HTMLFieldSetElement;
+    root(): HTMLFieldSetElement;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
@@ -71,7 +71,7 @@ export default function TimePanel(props: Props): JSX.Element {
         class={joinClass(props.palette, styles.time, props.class)} style={props.style}
         ref={ el => {
             ref = el;
-            if (props.ref) { props.ref({ element() { return el; }}); }
+            if (props.ref) { props.ref({ root() { return el; }}); }
         }}>
         <ul class={styles.item}>
             <For each={hoursOptions}>

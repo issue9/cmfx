@@ -18,6 +18,6 @@ describe('Timer', async () => {
 
     test('ref', () => {
         expect(ref).toBeDefined();
-        expect(ref.element()).toBeInstanceOf(HTMLDivElement);
+        expect(ref.root()).toBeInstanceOf(HTMLDivElement);
     });
 });

@@ -13,7 +13,7 @@ import styles from './style.module.css';
 import { default as YearPanel, Ref as YearPanelRef } from './yearpanel';
 
 export interface Ref {
-    element(): HTMLFieldSetElement;
+    root(): HTMLFieldSetElement;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
@@ -70,13 +70,13 @@ export default function MonthPanel(props: Props): JSX.Element {
 
     let yearRef: YearPanelRef | undefined;
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({element: () => el}); } }}
+    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({root: () => el}); } }}
         disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)} style={props.style}
     >
         <header class={styles.month}>
             <span class={styles.title} onClick={e => {
-                yearRef!.element().togglePopover();
-                adjustPopoverPosition(yearRef!.element(), e.currentTarget.getBoundingClientRect());
+                yearRef!.root().togglePopover();
+                adjustPopoverPosition(yearRef!.root(), e.currentTarget.getBoundingClientRect());
             }}>{year()}</span>
 
             <YearPanel popover='auto' ref={el => yearRef = el} palette={props.palette} value={value()?.getFullYear()}
@@ -86,7 +86,7 @@ export default function MonthPanel(props: Props): JSX.Element {
                     if (!v) { return; }
 
                     setYear(v);
-                    yearRef!.element().hidePopover();
+                    yearRef!.root().hidePopover();
                 }} />
         </header>
 

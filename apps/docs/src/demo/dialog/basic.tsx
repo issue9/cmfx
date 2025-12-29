@@ -21,12 +21,12 @@ export default function(props: MountProps) {
                 <>
                     <button value='submit' type="submit" class="me-8">submit</button>
                     <button value='reset' type="reset" class="me-8">reset</button>
-                    <button value='button' type="button" onClick={() => dlg.element().close('close')}>close</button>
+                    <button value='button' type="button" onClick={() => dlg.root().close('close')}>close</button>
                 </>
             }>
                 content
             </Dialog>
-            <Button onclick={() => dlg.element().show()} palette={palette()}>show</Button>
+            <Button onclick={() => dlg.root().show()} palette={palette()}>show</Button>
         </div>
     </div>;
 }

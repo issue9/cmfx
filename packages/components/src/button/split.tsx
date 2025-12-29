@@ -47,7 +47,7 @@ export function SplitButton(props: Props) {
     let downRef: Ref;
 
     onMount(() => {
-        if (props.hotkey) { Hotkey.bind(props.hotkey, downRef.element().click); }
+        if (props.hotkey) { Hotkey.bind(props.hotkey, downRef.root().click); }
     });
     onCleanup(() => {
         if (props.hotkey) { Hotkey.unbind(props.hotkey); }
@@ -62,13 +62,13 @@ export function SplitButton(props: Props) {
         <Button class={styles.split} ref={el => downRef = el} square onclick={() => {
             popRef.togglePopover();
 
-            const anchor = groupRef.element().getBoundingClientRect();
+            const anchor = groupRef.root().getBoundingClientRect();
             if (props.direction === 'left') {
                 anchor.x = anchor.right - popRef.getBoundingClientRect().width;
             }
 
             adjustPopoverPosition(popRef, anchor, 0, 'bottom');
-            popRef.style.minWidth = `${groupRef.element().offsetWidth}px`;
+            popRef.style.minWidth = `${groupRef.root().offsetWidth}px`;
         }}><IconArrowDown /></Button>
     </ButtonGroup>;
 

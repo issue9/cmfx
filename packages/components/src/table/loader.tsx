@@ -180,7 +180,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
         props.ref({
             items: () => { return items(); },
             refresh: async () => { await refetch(); },
-            element: () => ref!.element(),
+            root: () => ref!.root(),
             table: () => ref!.table(),
         });
     }
@@ -325,13 +325,13 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                         <Button square rounded kind='fill' palette='tertiary' onclick={async () => await refetch()}
                             aria-label={l.t('_c.refresh')}
                             title={l.t('_c.refresh')}><IconRefresh /></Button>
-                        <ToggleFitScreenButton square rounded kind='fill' palette='tertiary' container={ref!.element().element()}
+                        <ToggleFitScreenButton square rounded kind='fill' palette='tertiary' container={ref!.root().root()}
                             aria-title={l.t('_c.table.fitScreen')}
                             title={l.t('_c.table.fitScreen')} />
                         <Button rounded square kind='fill' palette='tertiary'
                             aria-label={l.t('_c.print')} title={l.t('_c.print')} onclick={() => {
                                 const css = 'table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left}';
-                                printElement(ref.element().element().querySelector('table')!, css);
+                                printElement(ref.root().root().querySelector('table')!, css);
                             }}
                         ><IconPrint /></Button>
                     </div>

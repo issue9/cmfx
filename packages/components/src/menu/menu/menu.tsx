@@ -24,7 +24,7 @@ export interface Ref {
     /**
      * 返回组件的根元素
      */
-    element(): HTMLMenuElement | HTMLElement;
+    root(): HTMLMenuElement | HTMLElement;
 
     /**
      * 将选中项滚动到可见范围
@@ -340,7 +340,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         ref = el;
         if (props.ref) {
             props.ref({
-                element: () => el,
+                root: () => el,
                 scrollSelectedIntoView: () => {
                     sleep(t.scheme.transitionDuration).then(() => {
                         const els = selectedElements(el, true);

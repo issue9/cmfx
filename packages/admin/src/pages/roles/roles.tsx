@@ -71,7 +71,7 @@ export function Roles(props: Props): JSX.Element {
             current.accessor('parent').setValue('');
         }
 
-        dialogRef.element().showModal();
+        dialogRef.root().showModal();
     };
 
     return <Page title="_p.roles.rolesManager" class={styles.roles}>

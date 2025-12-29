@@ -26,7 +26,7 @@ export interface Ref {
     /**
      * 返回组件的根元素
      */
-    element(): HTMLDialogElement;
+    root(): HTMLDialogElement;
 
     /**
      * 移动对话框的位置
@@ -102,7 +102,7 @@ export interface Props extends BaseProps {
 
 function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
     return {
-        element(): HTMLDialogElement {
+        root(): HTMLDialogElement {
             return ref;
         },
 

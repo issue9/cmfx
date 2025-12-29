@@ -98,8 +98,8 @@ export default function Timezone(props: Props): JSX.Element {
         requestAnimationFrame(() => {
             if (!buttonRef) { return; }
 
-            const p = buttonRef.element().parentElement!;
-            const top = buttonRef.element().getBoundingClientRect().top - p.getBoundingClientRect().top;
+            const p = buttonRef.root().parentElement!;
+            const top = buttonRef.root().getBoundingClientRect().top - p.getBoundingClientRect().top;
             p.scrollBy({ top: top, behavior: 'smooth' });
         });
     });

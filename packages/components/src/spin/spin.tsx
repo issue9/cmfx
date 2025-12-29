@@ -15,7 +15,7 @@ export interface Ref {
      * @remarks
      * 返回的具体类型，根据 {@link Props#tag} 的不同，而有所不同，但都是派生自 HTMLElement。
      */
-    element(): HTMLElement;
+    root(): HTMLElement;
 }
 
 export interface Props extends ParentProps, BaseProps, RefProps<Ref> {
@@ -65,7 +65,7 @@ export function Spin(props: Props) {
     return <Dynamic id={props.id} component={tag} class={joinClass(props.palette, styles.spin, props.class)}
         style={props.style} ref={(el: HTMLElement) => {
             if (!props.ref) { return; }
-            props.ref({ element() { return el; } });
+            props.ref({ root() { return el; } });
         }}
     >
         {props.children}

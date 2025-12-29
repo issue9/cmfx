@@ -11,7 +11,7 @@ import { Button, ButtonRef } from '@/button';
 import styles from './style.module.css';
 
 export interface Ref {
-    element(): ButtonRef;
+    root(): ButtonRef;
 
     /**
      * 返回页面顶部
@@ -50,7 +50,7 @@ export function BackTop(props: Props): JSX.Element {
     let scroller: HTMLElement | undefined;
 
     const calcVisible = () => { // 计算按钮的可见性
-        ref.element().style.visibility = scroller!.scrollTop > props.distance! ? 'visible' : 'hidden';
+        ref.root().style.visibility = scroller!.scrollTop > props.distance! ? 'visible' : 'hidden';
     };
 
     const backtop = () => {
@@ -58,7 +58,7 @@ export function BackTop(props: Props): JSX.Element {
     };
 
     onMount(() => {
-        scroller = getScrollableParent('y', ref.element());
+        scroller = getScrollableParent('y', ref.root());
         if (!scroller) { return; }
 
         calcVisible(); // 初始化状态
@@ -74,7 +74,7 @@ export function BackTop(props: Props): JSX.Element {
 
         if (props.ref) {
             props.ref({
-                element() { return ref; },
+                root() { return ref; },
                 backtop() { backtop(); }
             });
         }

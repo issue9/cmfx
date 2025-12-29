@@ -42,7 +42,7 @@ export function ConfirmButton(props: Props) {
     const [_, btnProps] = splitProps(props, ['children', 'onclick', 'prompt', 'palette', 'ok', 'cancel', 'ref']);
 
     onMount(() => {
-        if (props.hotkey) { Hotkey.bind(props.hotkey, () => { ref!.element().click(); }); }
+        if (props.hotkey) { Hotkey.bind(props.hotkey, () => { ref!.root().click(); }); }
     });
     onCleanup(() => {
         if (props.hotkey) { Hotkey.unbind(props.hotkey); }
@@ -61,7 +61,7 @@ export function ConfirmButton(props: Props) {
         <Button ref={el => ref = el} {...btnProps as any} palette={props.palette} onclick={e => {
             e.preventDefault(); // 取消默认动作，比如 type='a' 时的跳转
             popElem.togglePopover();
-            adjustPopoverPosition(popElem, ref.element().getBoundingClientRect());
+            adjustPopoverPosition(popElem, ref.root().getBoundingClientRect());
         }}>
             {props.children}
         </Button>
@@ -73,7 +73,7 @@ export function ConfirmButton(props: Props) {
                     {props.cancel ?? l.t('_c.cancel')}
                 </Button>
 
-                <Button palette='primary' ref={el => el.element().autofocus = true} onclick={confirm}>
+                <Button palette='primary' ref={el => el.root().autofocus = true} onclick={confirm}>
                     {props.ok ?? l.t('_c.ok')}
                 </Button>
             </div>

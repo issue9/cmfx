@@ -12,7 +12,7 @@ describe('BackTop', async () => {
     const ct = await ComponentTester.build('BackTop', props => <BackTop {...props} ref={el => ref = el}>abc</BackTop>);
 
     test('ref', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
     });
 
     test('props', async () => {

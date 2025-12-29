@@ -23,7 +23,7 @@ describe('Nav', async () => {
     );
 
     test('ref', () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
     });
 
     // 组件包含在一个 Div 中

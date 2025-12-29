@@ -19,7 +19,7 @@ export interface Ref {
     /**
      * 获取组件的根元素
      */
-    element(): HTMLSpanElement;
+    root(): HTMLSpanElement;
 
     /**
      * 提供了 qr-code-styling 的实例
@@ -149,7 +149,7 @@ export function QRCode(props: Props): JSX.Element {
         if (props.ref) {
             props.ref({
                 async download(name, ext): Promise<void> { return await download(name, ext); },
-                element() { return el; },
+                root() { return el; },
                 qrCodeStyling() { return qr; }
             });
         }

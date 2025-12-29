@@ -147,7 +147,7 @@ export function CommonPanel(props: Props): JSX.Element {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         resizeObserver = new ResizeObserver(entries => {
             const ref = timeRef();
-            if (ref) { ref.element().style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px'; }
+            if (ref) { ref.root().style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px'; }
         });
 
         if (timeRef()) { resizeObserver.observe(dateRef!.firstChild as HTMLElement); }

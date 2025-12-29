@@ -15,7 +15,7 @@ describe('Drawer', async () => {
     );
 
     test('ref', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.aside()).not.toBeUndefined();
         expect(ref!.main()).not.toBeUndefined();
     });

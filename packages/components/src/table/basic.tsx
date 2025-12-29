@@ -16,7 +16,7 @@ export interface Ref {
     /**
      * 组件根元素
      */
-    element(): SpinRef;
+    root(): SpinRef;
 
     /**
      * 组件中的表格元素
@@ -87,7 +87,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
         class={joinClass(undefined, styles.table, props.class)} ref={(el: SpinRef) => {
             if (props.ref) {
                 props.ref({
-                    element: () => el,
+                    root: () => el,
                     table: () => tableRef,
                 });
             }

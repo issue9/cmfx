@@ -8,7 +8,7 @@ import { BaseProps, classList, RefProps } from '@/base';
 import styles from './style.module.css';
 
 export interface Ref {
-    element(): HTMLTableElement;
+    root(): HTMLTableElement;
 }
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
@@ -42,7 +42,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * 所有的依赖和限制与内置的 table 元素相同
  */
 export function Table(props: Props) {
-    return <table ref={el => { if (props.ref) { props.ref({ element: () => el }); } }}
+    return <table ref={el => { if (props.ref) { props.ref({ root: () => el }); } }}
         class={classList(props.palette, {
             [styles['fixed-layout']]: props.fixedLayout,
             [styles.hoverable]: props.hoverable,

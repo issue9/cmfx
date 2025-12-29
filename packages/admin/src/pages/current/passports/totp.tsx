@@ -104,7 +104,7 @@ export class TOTP implements PassportComponents {
                     const s = r.body! as Secret;
                     s.secret = base32nopad.encode(new TextEncoder().encode(s.secret));
                     setQR(`otpauth://totp/${opt.title}:${s.username}?secret=${s.secret}&issuer=${opt.title}`);
-                    dialogRef.element().showModal();
+                    dialogRef.root().showModal();
                 }}><IconAddLink /></Button>
 
                 <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.bindTOTP')}

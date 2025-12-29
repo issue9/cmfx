@@ -10,8 +10,8 @@ import { BaseProps, RefProps, style2String } from '@/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
+import { AutoComplete, Input, InputMode, InputRef, InputValue } from '@/input';
 import { Dropdown, DropdownRef, MenuItemItem } from '@/menu';
-import { InputValue, InputRef, InputMode, AutoComplete, Input } from '@/input';
 
 export type Ref = InputRef;
 
@@ -89,7 +89,7 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
 
     const Trigger = (p: { style?: BaseProps['style'] }) => {
         let inputRef: InputRef;
-        createEffect(() => { inputRef.element().style = style2String(p.style); });
+        createEffect(() => { inputRef.root().style = style2String(p.style); });
 
         return <Input id={id} prefix={props.prefix} suffix={props.suffix} rounded={props.rounded}
             inputMode={props.inputMode} autocomplete={props.autocomplete}
@@ -107,7 +107,7 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
                 inputRef = el;
                 if (props.ref) {
                     props.ref({
-                        element: () => rootRef,
+                        root: () => rootRef,
                         input: () => el.input(),
                     });
                 }
@@ -131,13 +131,13 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
                 <div style={fieldArea2Style(areas().inputArea)} class="w-full">
                     <Dropdown trigger='custom' items={candidate()} ref={el => {
                         dropdownRef = el;
-                        const style = dropdownRef.menu().element().style;
+                        const style = dropdownRef.menu().root().style;
                         style.height = '240px';
                         style.overflowY = 'auto';
                     }} onPopover={visible => {
                         if (visible) {
-                            dropdownRef.menu().element().style.width
-                                = dropdownRef.element().getBoundingClientRect().width + 'px';
+                            dropdownRef.menu().root().style.width
+                                = dropdownRef.root().getBoundingClientRect().width + 'px';
                         }
                         return false;
                     }} onChange={e => { props.accessor.setValue(e); }}>

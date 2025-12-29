@@ -17,7 +17,7 @@ describe('TextField', async () => {
     );
 
     test('ref', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.input()).not.toBeUndefined();
     });
 

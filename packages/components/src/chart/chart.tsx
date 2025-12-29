@@ -20,7 +20,7 @@ export interface Ref {
     /**
      * 组件根元素
      */
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 
     /**
      * 更新图表数据
@@ -122,7 +122,7 @@ export function Chart(props: Props): JSX.Element {
         ref = el;
         if (props.ref) {
             props.ref({
-                element() { return el; },
+                root() { return el; },
                 echarts() { return inst; },
                 update(o: ChartOption) { inst.setOption(o); }
             });

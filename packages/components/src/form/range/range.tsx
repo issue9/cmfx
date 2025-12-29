@@ -15,7 +15,7 @@ export interface Ref {
     /**
      * 组件的根元素
      */
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 
     /**
      * 组件中实际用于输入的 input 元素
@@ -145,7 +145,7 @@ export default function Range(props: Props): JSX.Element {
                     inputRef = el;
                     if (props.ref) {
                         props.ref({
-                            element() { return wrapRef; },
+                            root() { return wrapRef; },
                             input() { return el; }
                         });
                     }

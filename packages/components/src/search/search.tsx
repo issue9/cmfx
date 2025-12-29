@@ -87,12 +87,12 @@ export default function Search(props: Props): JSX.Element {
         style={props.style}
         trigger='custom' items={candidate()} ref={el => {
             dropdownRef = el;
-            dropdownRef.menu().element().style.height = '240px';
-            dropdownRef.menu().element().style.overflowY = 'auto';
+            dropdownRef.menu().root().style.height = '240px';
+            dropdownRef.menu().root().style.overflowY = 'auto';
         }} onPopover={visible => {
             if (visible) {
-                dropdownRef.menu().element().style.width
-                    = dropdownRef.element().getBoundingClientRect().width + 'px';
+                dropdownRef.menu().root().style.width
+                    = dropdownRef.root().getBoundingClientRect().width + 'px';
             }
             return false;
         }} onChange={(val, old) => {

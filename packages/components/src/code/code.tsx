@@ -10,7 +10,7 @@ import { BaseProps, joinClass, RefProps } from '@/base';
 import { highlight } from './shiki';
 
 export interface Ref {
-    element(): HTMLElement;
+    root(): HTMLElement;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
@@ -73,7 +73,7 @@ export default function Code(props: Props): JSX.Element {
         setHTML(template(pre)() as HTMLElement);
 
         if (props.ref) {
-            props.ref({ element: () => html()! });
+            props.ref({ root() { return html()!; } });
         }
     });
 

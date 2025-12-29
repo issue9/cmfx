@@ -10,7 +10,7 @@ import { useTheme } from '@/context';
 import styles from './style.module.css';
 
 export interface Ref {
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 
     play(): void;
 }
@@ -89,7 +89,7 @@ export default function Counter(props: Props): JSX.Element {
     return <div class={joinClass(props.palette, styles.counter, props.class)} style={props.style} ref={el => {
         if (props.ref) {
             props.ref({
-                element() { return el; },
+                root() { return el; },
                 play() { play(); },
             });
         }

@@ -9,8 +9,8 @@ import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 import { PropsError } from '@/base';
 import { Button } from '@/button';
 import { useForm } from '@/form/field';
-import { Ref, TextField, Props as TextFieldProps } from './textfield';
 import styles from './style.module.css';
+import { Ref, TextField, Props as TextFieldProps } from './textfield';
 
 type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete' | 'inputMode';
 export interface Props extends Omit<TextFieldProps<number>, omitFields> {
@@ -75,11 +75,11 @@ export function Number(props: Props): JSX.Element {
     return <TextField ref={el => ref = el} {...fieldProps} type="number" suffix={
         <>
             <Button kind='flat' class={styles['number-spin']} disabled={props.disabled || props.readonly}
-                onclick={() => step(props.step!)} ref={el => el.element().tabIndex = -1}>
+                onclick={() => step(props.step!)} ref={el => el.root().tabIndex = -1}>
                 <IconArrowUp />
             </Button>
             <Button kind='flat' class={styles['number-spin']} disabled={props.disabled || props.readonly}
-                onclick={() => step(-props.step!)} ref={el => el.element().tabIndex = -1}>
+                onclick={() => step(-props.step!)} ref={el => el.root().tabIndex = -1}>
                 <IconArrowDown />
             </Button>
         </>

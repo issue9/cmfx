@@ -87,7 +87,7 @@ export interface Ref {
      */
     pause(): void;
 
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 }
 
 const minutesInDay = 24 * 60;
@@ -137,7 +137,7 @@ export default function Timer(props: Props): JSX.Element {
                 toggle() { timer().toggle(); },
                 start() { timer().start(); },
                 pause() { timer().pause(); },
-                element() { return el; }
+                root() { return el; }
             });
         }
     }}>

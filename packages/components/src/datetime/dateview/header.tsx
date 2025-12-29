@@ -27,8 +27,8 @@ export function buildHeader(l: Locale, value: Accessor<Date>, ref: Ref, props: P
     return <header>
         <p>
             <span tabIndex={0} onClick={e => {
-                monthVisible = month.element().togglePopover();
-                adjustPopoverPosition(month.element(), e.currentTarget.getBoundingClientRect());
+                monthVisible = month.root().togglePopover();
+                adjustPopoverPosition(month.root(), e.currentTarget.getBoundingClientRect());
             }}>{monthFormatter().format(value())}</span>
         </p>
 
@@ -38,7 +38,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, ref: Ref, props: P
                 if (!m) { return; }
                 ref.jump(m);
                 if (monthVisible) {
-                    month.element().hidePopover();
+                    month.root().hidePopover();
                     monthVisible = false;
                 }
             }}

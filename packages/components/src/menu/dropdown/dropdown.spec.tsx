@@ -5,8 +5,8 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@/context/context.spec';
-import { Ref, default as Dropdown } from './dropdown';
 import { MenuItem } from '../menu/item';
+import { default as Dropdown, Ref } from './dropdown';
 
 const items: Array<MenuItem<string>> = [
     { type: 'item', value: 'v1', label: 'v1-label' },
@@ -40,7 +40,7 @@ describe('Dropdown', async () => {
     );
 
     test('ref', () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.menu()).not.toBeUndefined();
     });
 

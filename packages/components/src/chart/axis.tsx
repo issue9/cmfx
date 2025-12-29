@@ -11,7 +11,7 @@ export interface Ref<T extends object> {
     /**
      * 组件根元素
      */
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 
     /**
      * 追加数据
@@ -206,7 +206,7 @@ export function ChartAxis<T extends object>(props: Props<T>): JSX.Element {
 
                 clear() { setData([]); },
 
-                element() { return el.element(); }
+                root() { return el.root(); }
             });
         }
     }} />;

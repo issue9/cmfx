@@ -17,7 +17,7 @@ describe('BsicTable', async () => {
         props => <BasicTable {...props} columns={[]} ref={el => ref = el} />
     );
     test('props', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.table()).not.toBeUndefined();
         ct.testProps();
     });
@@ -30,7 +30,7 @@ describe('LoaderTable', async () => {
         props => <LoaderTable<object, Query> {...props} load={async (_: Query): Promise<object[]> => { return []; }} columns={[]} queries={{}} ref={el => ref = el} />
     );
     test('props', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.table()).not.toBeUndefined();
         ct.testProps();
     });
@@ -50,7 +50,7 @@ describe('RemoteTable', async () => {
     );
 
     test('props', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.table()).not.toBeUndefined();
         ct.testProps();
     });

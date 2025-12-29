@@ -24,23 +24,23 @@ export default function(props: MountProps) {
             <Palette />
         </Portal>
 
-        <Button onclick={() => dlg2.element().showModal()} palette={palette()}>showModal</Button>
+        <Button onclick={() => dlg2.root().showModal()} palette={palette()}>showModal</Button>
         <Dialog movable palette={palette()} ref={el => dlg2 = el} header="header">
             <div>
                 <Form inDialog>
                     <div class="flex flex-col">
                         <div class="py-3">form</div>
                         <div class="flex">
-                            <Button onclick={() => dlg3.element().showModal()}>show modal</Button>
-                            <Button ref={el => el.element().value = 'submit'} type="submit" class="me-8">submit</Button>
-                            <Button ref={el => el.element().value = 'reset'} type="reset" class="me-8">reset</Button>
-                            <Button ref={el => el.element().value = 'button'} type="button" onclick={() => {
+                            <Button onclick={() => dlg3.root().showModal()}>show modal</Button>
+                            <Button ref={el => el.root().value = 'submit'} type="submit" class="me-8">submit</Button>
+                            <Button ref={el => el.root().value = 'reset'} type="reset" class="me-8">reset</Button>
+                            <Button ref={el => el.root().value = 'button'} type="button" onclick={() => {
                                 dlg2.move({ x: 8, y: 8 });
                             }}>move(8,8)</Button>
-                            <Button ref={el => el.element().value = 'button'} type="button" onclick={() => {
+                            <Button ref={el => el.root().value = 'button'} type="button" onclick={() => {
                                 dlg2.move();
                             }}>move to center</Button>
-                            <Button ref={el => el.element().value = 'button'} type="button">button</Button>
+                            <Button ref={el => el.root().value = 'button'} type="button">button</Button>
                         </div>
                     </div>
                 </Form>

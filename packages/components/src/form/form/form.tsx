@@ -100,7 +100,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
         >
             <Spin id={id} tag="form" spinning={api.spinning()} palette={props.palette}
                 class={joinClass(undefined, props.class)} style={props.style} ref={el => {
-                    const f = el.element() as HTMLFormElement;
+                    const f = el.root() as HTMLFormElement;
                     if (props.inDialog) { f.method = 'dialog'; }
 
                     f.addEventListener('reset', e => {

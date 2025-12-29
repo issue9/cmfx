@@ -6,14 +6,14 @@ import { createEffect, JSX, Match, onMount, ParentProps, Switch } from 'solid-js
 
 import { BackTop, BackTopProps, BackTopRef } from '@/backtop';
 import { BaseProps, joinClass, RefProps } from '@/base';
-import { useOptions, useLocale } from '@/context';
+import { useLocale, useOptions } from '@/context';
 import styles from './style.module.css';
 
 export interface Ref {
     /**
      * 返回组件的根元素
      */
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 
     /**
      * 返回顶部按钮的接口
@@ -57,7 +57,7 @@ export function Page (props: Props): JSX.Element {
     onMount(() => {
         if (props.ref) {
             props.ref({
-                element: () => ref,
+                root: () => ref,
                 backtop: () => backtopRef,
             });
         }

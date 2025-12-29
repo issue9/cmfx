@@ -9,7 +9,7 @@ import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
 import styles from './style.module.css';
 
 export interface Ref extends WizardRef {
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 }
 
 export interface Step extends WizardStep {
@@ -61,7 +61,7 @@ export default function Stepper(props: Props): JSX.Element {
                         }
                         setIndex(i);
                     },
-                    element: () => el
+                    root: () => el
                 });
             }
         }}

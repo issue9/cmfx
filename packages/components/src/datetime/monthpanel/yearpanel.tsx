@@ -12,7 +12,7 @@ import { Button, ButtonGroup } from '@/button';
 import styles from './style.module.css';
 
 export interface Ref {
-    element(): HTMLFieldSetElement;
+    root(): HTMLFieldSetElement;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
@@ -50,7 +50,7 @@ export default function YearPanel(props: Props): JSX.Element {
     });
     const years = createMemo(() => { return genYears(panelValue()); });
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({ element() { return el; }}); }}}
+    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({ root() { return el; }}); }}}
         disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)} style={props.style}
     >
         <header class={styles.year}>

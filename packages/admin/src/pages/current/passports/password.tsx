@@ -112,7 +112,7 @@ export class Pwd implements PassportComponents {
 
         return <>
             <Button square rounded title={l.t('_p.current.changePassword')} onclick={() => {
-                dialogRef.element().showModal();
+                dialogRef.root().showModal();
             }}><IconPasskey /></Button>
 
             <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}>

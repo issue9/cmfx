@@ -15,7 +15,7 @@ describe('Button', async () => {
     );
 
     test('props', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         ct.testProps();
     });
 });

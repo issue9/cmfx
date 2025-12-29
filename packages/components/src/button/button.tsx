@@ -14,7 +14,7 @@ export interface Ref<A extends boolean = false, E = A extends false ? HTMLButton
     /**
      * 返回组件的根元素
      */
-    element(): E;
+    root(): E;
 }
 
 interface Base extends BaseProps, ParentProps {
@@ -115,7 +115,7 @@ export function Button(props: Props) {
         } ref={el => {
             ref = el;
             if (!props.ref) { return; }
-            props.ref({ element() { return el; } } as any);
+            props.ref({ root() { return el; } } as any);
         }} class={classList(props.palette, {
             [styles.square]: props.square,
             [styles.rounded]: props.rounded,
@@ -138,7 +138,7 @@ export function Button(props: Props) {
         if (props.checked) { el.ariaChecked = 'true'; }
 
         if (!props.ref) { return; }
-        props.ref({ element: () => el });
+        props.ref({ root: () => el });
     }}
     >
         {props.children}

@@ -17,7 +17,7 @@ describe('Page backtop=undefined', async () => {
     test('props', () => ct.testProps());
 
     test('backtop=undefined', () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.backtop()).not.toBeUndefined();
     });
 });
@@ -30,7 +30,7 @@ describe('Page', async () => {
     );
 
     test('backtop=false', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.backtop()).toBeUndefined();
     });
 });

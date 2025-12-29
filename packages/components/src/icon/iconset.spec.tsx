@@ -21,6 +21,6 @@ describe('IconSet', async () => {
 
     test('ref', () => {
         expect(ref).toBeDefined();
-        expect(ref!.element()).toBeDefined();
+        expect(ref!.root()).toBeDefined();
     });
 });

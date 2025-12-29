@@ -35,7 +35,7 @@ export interface Ref {
      */
     upload(): Promise<Array<string>|undefined>;
 
-    element(): HTMLInputElement;
+    root(): HTMLInputElement;
 }
 
 export interface Props extends Omit<FieldBaseProps, 'rounded'> {
@@ -142,7 +142,7 @@ export function Upload(props: Props): JSX.Element {
                 return undefined;
             },
 
-            element(): HTMLInputElement { return el; },
+            root(): HTMLInputElement { return el; },
         });
     }} onchange={e => {
         const target = e.target as HTMLInputElement;

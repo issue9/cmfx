@@ -93,7 +93,7 @@ export function RemoteTable<T extends Row, Q extends Query>(props: Props<T,Q>) {
 
                 table() { return ref.table(); },
 
-                element() { return ref.element(); }
+                root() { return ref.root(); }
             });
         }
     });

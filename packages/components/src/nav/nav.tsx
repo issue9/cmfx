@@ -11,7 +11,7 @@ export interface Ref {
     /**
      * 组件的根元素
      */
-    element(): HTMLElement;
+    root(): HTMLElement;
 
     /**
      * 重新计算导航内容
@@ -62,7 +62,7 @@ export default function Nav(props: Props): JSX.Element {
     return <nav class={joinClass(props.palette, styles.nav, props.class)} style={props.style} ref={el => {
         if (!props.ref) { return; }
         props.ref({
-            element() { return el; },
+            root() { return el; },
             refresh() { refresh(); }
         });
     }}>

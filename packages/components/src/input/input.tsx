@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, JSX, Show, untrack } from 'solid-js';
 
-import { BaseProps, RefProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import styles from './style.module.css';
 
 export type Value = string | number;
@@ -34,7 +34,7 @@ export interface Ref {
     /**
      * 组件的根元素
      */
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 
     /**
      * 组件中实际用于输入的 input 元素
@@ -143,7 +143,7 @@ export function Input<T extends Value = string>(props: Props<T>):JSX.Element {
             readOnly={props.readonly} placeholder={props.placeholder} ref={el => {
                 if (props.ref) {
                     props.ref({
-                        element: () => rootRef,
+                        root: () => rootRef,
                         input: () => el,
                     });
                 }

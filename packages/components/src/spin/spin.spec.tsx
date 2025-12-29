@@ -34,6 +34,6 @@ describe('Spin', async () => {
     });
 
     test('ref', async () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
     });
 });

@@ -60,7 +60,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
                 <Button square onclick={async () => act.setScheme((await s.object())!)} title={l.t('_d.theme.apply')}>
                     <IconApply />
                 </Button>
-                <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}>
+                <Button square onclick={() => dlg.root().showModal()} title={l.t('_d.theme.export')}>
                     <IconExport />
                 </Button>
             </ButtonGroup>

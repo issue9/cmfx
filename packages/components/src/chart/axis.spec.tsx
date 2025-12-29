@@ -31,6 +31,6 @@ describe('ChartAxis', async () => {
 
     test('ref', async () => {
         expect(ref).toBeDefined();
-        expect(ref.element()).toBeInstanceOf(HTMLDivElement);
+        expect(ref.root()).toBeInstanceOf(HTMLDivElement);
     });
 });

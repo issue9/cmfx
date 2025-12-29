@@ -18,7 +18,7 @@ export interface Ref {
     /**
      * 组件根元素
      */
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 
     /**
      * 向外暴露的 quill 对象
@@ -109,7 +109,7 @@ export function Editor(props: Props): JSX.Element {
 
             if (!props.ref) { return; }
             props.ref({
-                element() { return el; },
+                root() { return el; },
                 quill() { return editor; }
             });
         }}

@@ -17,7 +17,7 @@ export default function(props: MountProps) {
             <Palette />
         </Portal>
 
-        <Button onclick={() => dlg.element().showModal()} palette={palette()}>scrollable</Button>
+        <Button onclick={() => dlg.root().showModal()} palette={palette()}>scrollable</Button>
         <Dialog palette={palette()} movable scrollable ref={(el) => dlg = el} header="header" actions="footer" class="h-80 w-80">
             <div>
                 长内容<br />

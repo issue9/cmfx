@@ -9,7 +9,7 @@ import styles from './style.module.css';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 export interface Ref {
-    element(): HTMLFieldSetElement;
+    root(): HTMLFieldSetElement;
 }
 
 export interface Props extends Omit<BaseProps, 'hotkey'>, ParentProps, RefProps<Ref> {
@@ -33,7 +33,7 @@ export function ButtonGroup(props: Props) {
             [styles.vertical]: props.layout === 'vertical',
         }, styles.group, styles[props.kind!], props.class)}
         style={props.style} ref={el => {
-            if (props.ref) { props.ref({ element() { return el; } }); }
+            if (props.ref) { props.ref({ root() { return el; } }); }
         }}
     >
         {props.children}

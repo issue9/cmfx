@@ -5,9 +5,9 @@
 import { createMemo, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { classList } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
 import { ColorPanel, ColorPanelProps } from '@/color';
 import { Dialog, DialogRef } from '@/dialog';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends Omit<ColorPanelProps, 'value' | 'onChange'>, FieldBaseProps {
@@ -39,9 +39,9 @@ export default function ColorPicker(props: Props): JSX.Element {
                 [styles.readonly]: props.readonly,
                 [styles.disabled]: props.disabled,
             })} onClick={() => {
-                if (props.disabled || props.disabled) { return; }
+                if (props.disabled) { return; }
 
-                dlgRef.element().showModal();
+                dlgRef.root().showModal();
             }} style={{
                 'background': props.accessor.getValue(),
                 'color': props.wcag,

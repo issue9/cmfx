@@ -22,7 +22,7 @@ export interface Ref {
      */
     hide(): void;
 
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 }
 
 /**
@@ -59,7 +59,7 @@ export default function Tooltip(props: Props): JSX.Element {
 
                 hide() { el.hidePopover(); },
 
-                element() { return el; }
+                root() { return el; }
             });
         }}
     >{props.children}</div>;

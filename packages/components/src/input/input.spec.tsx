@@ -15,7 +15,7 @@ describe('Input', async () => {
     );
 
     test('ref', () => {
-        expect(ref!.element()).not.toBeUndefined();
+        expect(ref!.root()).not.toBeUndefined();
         expect(ref!.input()).not.toBeUndefined();
     });
 

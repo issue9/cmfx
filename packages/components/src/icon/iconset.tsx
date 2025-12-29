@@ -35,7 +35,7 @@ export interface Ref {
     /**
      * 组件的根元素
      */
-    element(): SVGSVGElement;
+    root(): SVGSVGElement;
 }
 
 export const iconSetRotations = rotations;
@@ -136,7 +136,7 @@ export function IconSet(props: Props): JSX.Element {
                     morpheus.to(keys[index], { duration: getDuration() });
                 },
 
-                element: () => icons,
+                root: () => icons,
             });
         });
 

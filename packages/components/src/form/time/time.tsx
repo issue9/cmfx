@@ -64,7 +64,7 @@ export default function Time(props: Props) {
 
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
             onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-            onClick={() => togglePop(anchorRef, panelRef.element())}
+            onClick={() => togglePop(anchorRef, panelRef.root())}
             class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}
         >
             <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled}

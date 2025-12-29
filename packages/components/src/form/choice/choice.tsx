@@ -115,7 +115,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
 
         <div style={fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}>
             <Dropdown value={value()} items={props.options} multiple={props.multiple} ref={el => {
-                const s = el.menu().element().style;
+                const s = el.menu().root().style;
                 s.maxHeight = '240px';
                 s.overflowY = 'auto';
 

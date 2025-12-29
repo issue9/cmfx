@@ -12,7 +12,7 @@ export interface Ref {
     /**
      * 组件的根元素
      */
-    element(): HTMLLabelElement;
+    root(): HTMLLabelElement;
 
     /**
      * 组件的 input 元素
@@ -81,7 +81,7 @@ export function Checkbox(props: Props): JSX.Element {
                 inputRef = el;
                 if (props.ref) {
                     props.ref({
-                        element() { return rootRef; },
+                        root() { return rootRef; },
                         input() { return el; },
                     });
                 }

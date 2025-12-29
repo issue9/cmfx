@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, createEffect, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
@@ -15,7 +15,7 @@ export interface Ref {
     /**
      * 返回组件的根元素
      */
-    element(): HTMLDivElement;
+    root(): HTMLDivElement;
 
     /**
      * 返回侧边栏的元素
@@ -134,8 +134,9 @@ export function Drawer(props: Props) {
         onCleanup(() => ob.disconnect());
     });
     createEffect(() => {
-        props.floating &&
-        setHidden(getComputedStyle(asideRef).getPropertyValue('position') !== 'absolute');
+        if (props.floating) {
+            setHidden(getComputedStyle(asideRef).getPropertyValue('position') !== 'absolute');
+        }
     });
 
     return <div class={joinClass(props.palette, props.pos === 'end' ? styles.end : '', styles.drawer, props.class)}
@@ -160,7 +161,7 @@ export function Drawer(props: Props) {
         <main class={joinClass(props.mainPalette)} ref={el => {
             if (props.ref) {
                 props.ref({
-                    element() { return rootRef; },
+                    root() { return rootRef; },
                     main() { return el; },
                     aside() { return asideRef; },
                     show() { setVisible(true); },
