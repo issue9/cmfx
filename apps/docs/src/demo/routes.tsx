@@ -3,15 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { MenuItem, MenuItemGroup } from '@cmfx/components';
-import { Locale, ArrayElement } from '@cmfx/core';
+import { ArrayElement, Locale } from '@cmfx/core';
 import { RouteDefinition } from '@solidjs/router';
 import { lazy } from 'solid-js';
 import IconRadio from '~icons/akar-icons/radio-fill';
-import IconAvatar from '~icons/material-symbols/person';
 import IconMenu from '~icons/bi/menu-down';
 import IconTextarea from '~icons/bi/textarea-resize';
 import IconTime from '~icons/bxs/time';
 import IconTour from '~icons/entypo/popup';
+import IconMisc from '~icons/eos-icons/miscellaneous';
 import IconOptionsConfig from '~icons/eva/options-2-fill';
 import IconBadge from '~icons/f7/app-badge-fill';
 import IconWeekPanel from '~icons/fa7-solid/calendar-week';
@@ -23,13 +23,19 @@ import IconPage from '~icons/icon-park-outline/page';
 import IconPresetComponent from '~icons/iconamoon/component-fill'; // 组件的默认图标
 import IconCounter from '~icons/ix/counter';
 import IconDate from '~icons/lets-icons/date-range-light';
-import IconNav from '~icons/material-symbols/list-alt-rounded';
 import IconTable from '~icons/lets-icons/table';
-import IconStyle from '~icons/material-symbols/style-outline';
-import IconMisc from '~icons/eos-icons/miscellaneous';
 import IconDialog from '~icons/material-symbols/dialogs-outline-rounded';
-import IconTab from '~icons/material-symbols/tab-outline';
 import IconDropdown from '~icons/material-symbols/dropdown-outline';
+import IconColorPanel from '~icons/material-symbols/format-color-fill-rounded';
+import IconSplitMenu from '~icons/material-symbols/horizontal-split-rounded';
+import IconInput from '~icons/material-symbols/input-rounded';
+import IconNav from '~icons/material-symbols/list-alt-rounded';
+import IconTransition from '~icons/material-symbols/masked-transitions';
+import IconAvatar from '~icons/material-symbols/person';
+import IconSearch from '~icons/material-symbols/search-rounded';
+import IconSettings from '~icons/material-symbols/settings';
+import IconStyle from '~icons/material-symbols/style-outline';
+import IconTab from '~icons/material-symbols/tab-outline';
 import IconAppbar from '~icons/material-symbols/toolbar';
 import IconEditor from '~icons/material-symbols/wysiwyg';
 import IconNotify from '~icons/mdi/bell-notification-outline';
@@ -52,10 +58,8 @@ import IconDatePanel from '~icons/solar/calendar-date-bold';
 import IconPagination from '~icons/stash/pagination-duotone';
 import IconResult from '~icons/stash/search-results';
 import IconStepper from '~icons/streamline-flex/steps-2-remix';
-import IconSearch from '~icons/material-symbols/search-rounded';
 import IconTextfield from '~icons/streamline-plump/input-box-solid';
 import IconColor from '~icons/streamline/color-picker-remix';
-import IconColorPanel from '~icons/material-symbols/format-color-fill-rounded';
 import IconMonthPanel from '~icons/tabler/calendar-month';
 import IconBacktop from '~icons/tabler/transition-top-filled';
 import IconButton from '~icons/tdesign/button-filled';
@@ -63,10 +67,7 @@ import IconChart from '~icons/tdesign/chart-pie-filled';
 import IconChoice from '~icons/tdesign/component-dropdown-filled';
 import IconIcon from '~icons/tdesign/icon-filled';
 import IconIllustration from '~icons/uil/illustration';
-import IconInput from '~icons/material-symbols/input-rounded';
 import IconRange from '~icons/uil/slider-h-range';
-import IconSettings from '~icons/material-symbols/settings';
-import IconTransition from '~icons/material-symbols/masked-transitions';
 
 // 组件的分类
 type Kind = 'general' | 'layout' | 'navigation' | 'data-input' | 'data-display' | 'feedback' | 'config' | 'function';
@@ -146,6 +147,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'navigation', path: '/nav', component: lazy(() => import('./nav')),
         info: { title: '_d.demo.nav', icon: <IconNav /> },
+    },
+    {
+        kind: 'navigation', path: '/split-menu', component: lazy(() => import('./menu/split')),
+        info: { title: '_d.demo.splitMenu', icon: <IconSplitMenu /> },
     },
     {
         kind: 'navigation', path: '/tab', component: lazy(() => import('./tab')),
