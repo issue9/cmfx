@@ -5,7 +5,8 @@
 import { sleep } from '@cmfx/core';
 import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps, transitionDuration } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
+import { useTheme } from '@/context';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -59,7 +60,8 @@ const presetProps: Readonly<Partial<Props>> = {
  */
 export default function Counter(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    let dur = transitionDuration(); // 先获取一个全局的作为默认值
+    const t = useTheme();
+    let dur = t.scheme.transitionDuration;
 
     const [value, setValue] = createSignal<string>(props.formatter!(props.value));
 
@@ -78,15 +80,13 @@ export default function Counter(props: Props): JSX.Element {
     onMount(() => play());
 
     createEffect(() => {
-        props.frequency;
-        props.value;
-        props.start;
+        void props.frequency;
+        void props.value;
+        void props.start;
         play();
     });
 
     return <div class={joinClass(props.palette, styles.counter, props.class)} style={props.style} ref={el => {
-        dur = transitionDuration(el); // 当前对象的主题可能与全局的不一样。
-
         if (props.ref) {
             props.ref({
                 element() { return el; },

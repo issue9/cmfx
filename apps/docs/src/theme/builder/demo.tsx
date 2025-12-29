@@ -3,18 +3,18 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    fieldAccessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, joinClass, createForm,
+    Appbar, BasicTable, Button, ButtonGroup, Card, Column, createForm, DatePanel, fieldAccessor, joinClass,
     Menu, Mode, ObjectAccessor, Palette, palettes, Password, Scheme, TextField, ThemeProvider, useLocale, wcag,
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
-import { createSignal, createEffect, For, JSX, Match, Switch } from 'solid-js';
-import IconLess from '~icons/zondicons/minus-outline';
-import IconMore from '~icons/zondicons/add-outline';
+import { createEffect, createSignal, For, JSX, Match, Switch } from 'solid-js';
 import IconNone from '~icons/ic/round-contrast';
-import IconComponents from '~icons/material-symbols/widget-medium-rounded';
-import IconPalettes from '~icons/material-symbols/palette';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLight from '~icons/material-symbols/light-mode';
+import IconPalettes from '~icons/material-symbols/palette';
+import IconComponents from '~icons/material-symbols/widget-medium-rounded';
+import IconMore from '~icons/zondicons/add-outline';
+import IconLess from '~icons/zondicons/minus-outline';
 
 import styles from './style.module.css';
 
@@ -119,7 +119,8 @@ function PaletteBlocks(props: { p: Palette, s: ObjectAccessor<ExpandType<Scheme>
     const [selectedWCAG, setSelectedWCAG] = createSignal('');
 
     createEffect(()=>{
-        raw[props.p] && props.c;
+        void raw[props.p];
+        void props.c;
 
         const baseS = window.getComputedStyle(baseRef);
         setBaseWCAG(wcag(baseS.getPropertyValue('background-color'), baseS.getPropertyValue('color')));

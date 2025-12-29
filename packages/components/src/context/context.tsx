@@ -10,9 +10,9 @@ import { Mode, Scheme } from '@/base';
 import { IconCmfxBrandAnimate } from '@/icon';
 import { ContextNotFoundError } from './errors';
 import { LocaleProvider } from './locale';
-import { Options } from './options';
+import { ReqOptions } from './options';
 import styles from './style.module.css';
-import { applyTheme, ThemeProvider } from './theme';
+import { ThemeProvider } from './theme';
 
 const localeKey = 'locale';
 const displayStyleKey = 'display-style';
@@ -27,7 +27,7 @@ const systemNotifyKey = 'system-notify';
  */
 export type OptionsSetter = ReturnType<typeof buildSetter>;
 
-type OptionsGetSetter = Required<Options> & {
+type OptionsGetSetter = ReqOptions & {
     setter?: OptionsSetter;
 };
 
@@ -41,7 +41,7 @@ const optionsGetSetContext = createContext<OptionsGetSetContext>();
  * @remarks
  * 这是用于初始化项目的最外层组件，不保证任何属性是否有响应状态。
  */
-export function OptionsProvider(props: ParentProps<Required<Options>>): JSX.Element {
+export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
     Hotkey.init(); // 初始化快捷键
 
     I18n.init(props.locale);
@@ -56,23 +56,12 @@ export function OptionsProvider(props: ParentProps<Required<Options>>): JSX.Elem
     const obj = createStore<OptionsGetSetter>(opt);
     obj[1]({ setter: buildSetter(obj) });
 
-    if (opt.schemes && opt.scheme) { // 如果没有这两个值，说明不需要主题。
-        applyTheme(document.documentElement, {
-            scheme: (typeof opt.scheme === 'string') ? opt.schemes.get(opt.scheme) : opt.scheme,
-            mode: opt.mode,
-        });
-    }
-
     // NOTE: 需要通过 messageResource.loading 等待 createResource 完成，才能真正加载组件。
 
     return <optionsGetSetContext.Provider value={obj}>
         <Switch fallback={<div class={styles.loading}><IconCmfxBrandAnimate /></div>}>
             <Match when={!messageResource.loading}>
-                <ThemeProvider mode={obj[0].mode} styleElement={document.documentElement}
-                    scheme={
-                        typeof obj[0].scheme === 'string' ? obj[0].schemes?.get(obj[0].scheme) : obj[0].scheme
-                    }
-                >
+                <ThemeProvider mode={obj[0].mode} styleElement={document.documentElement} scheme={obj[0].scheme}>
                     <LocaleProvider id={obj[0].locale} displayStyle={obj[0].displayStyle} timezone={obj[0].timezone}>
                         {props.children}
                     </LocaleProvider>
@@ -89,7 +78,7 @@ export function OptionsProvider(props: ParentProps<Required<Options>>): JSX.Elem
  * - 0: 组件库提供的其它方法；
  * - 1: 组件库初始化时的选项；
  */
-export function useOptions(): [setter: OptionsSetter, options: Required<Options>] {
+export function useOptions(): [setter: OptionsSetter, options: ReqOptions] {
     const ctx = useContext(optionsGetSetContext);
     if (!ctx) { throw new ContextNotFoundError('optionsGetSetContext'); }
     return [ctx[0].setter!, ctx[0]];

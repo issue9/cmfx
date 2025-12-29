@@ -4,7 +4,7 @@
 
 import { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 
-import { Mode, Scheme } from '@/base';
+import { Mode, readScheme, Scheme } from '@/base';
 
 /**
 * 组件库的全局配置项
@@ -40,7 +40,7 @@ export interface Options {
      * @remarks
      * 如果是字符串，会尝试从 {@link schemes} 中获取对应的 {@link Scheme} 对象。
      *
-     * @defaultValue ''
+     * @defaultValue schemes 的第一个元素或是从 html 读取对应的变量作为默认值
      */
     scheme?: string | Scheme;
 
@@ -149,12 +149,29 @@ const presetOptions: PickOptional<Options> = {
     pageSize: 20,
 } as const;
 
+export type ReqOptions = Required<Omit<Options, 'scheme'> & { scheme: Scheme }>;
+
 /**
  * 将 opt 转换为 Required<Options> 类型
  *
  * @remarks
  * 如果 opt 中存在某个属性，则使用 opt 中的值，否则使用 presetOptions 中的默认值。
  */
-export function requiredOptions(opt: Options): Required<Options> {
-    return Object.assign(presetOptions, opt) as Required<Options>;
+export function requiredOptions(opt: Options): ReqOptions {
+    const o = Object.assign(presetOptions, opt) as Required<Options>;
+
+    let scheme: Scheme | undefined;
+    if (!o.scheme) { // 未指定主题，则尝试从 CSS 读取或是从主题列表中拿第一个。
+        scheme = o.schemes.size <= 0 ? readScheme() : o.schemes.values().next().value;
+    } else {
+        scheme = typeof o.scheme === 'string' ? o.schemes.get(o.scheme) : o.scheme;
+    }
+
+    if (!scheme) {
+        throw new Error('无法正确初始化主题的相关内容，请确保 scheme 和 schemes 是否正确');
+    }
+
+    o.scheme = scheme; // 此处保证 o.scheme 只能为 Scheme 类型
+
+    return o as ReqOptions;
 }

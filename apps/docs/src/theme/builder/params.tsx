@@ -188,7 +188,7 @@ function PalettePicker(props: { palette: Palette, schemes: ObjectAccessor<Expand
     const schemesFA = props.schemes.accessor<string>(props.palette);
 
     const c = new Color(props.schemes.getValue()[props.palette]);
-    const hueFA = fieldAccessor<number>('hue', c.h);
+    const hueFA = fieldAccessor<number>('hue', c.h!);
     hueFA.onChange(v => {
         const c = new Color(schemesFA.getValue());
         schemesFA.setValue(fmtColor(c.l, c.c, v));
@@ -205,7 +205,7 @@ function PalettePicker(props: { palette: Palette, schemes: ObjectAccessor<Expand
             ${fmtColor(c.l, c.c, 260)}, ${fmtColor(c.l, c.c, 280)}, ${fmtColor(c.l, c.c, 300)},
             ${fmtColor(c.l, c.c, 320)}, ${fmtColor(c.l, c.c, 340)}, ${fmtColor(c.l, c.c, 360)})`;
 
-        hueFA.setValue(c.h);
+        hueFA.setValue(c.h!);
     });
 
     return <Range min={0} max={360} step={0.01} fitHeight ref={el => rangeRef = el} layout='vertical' label={props.palette}
@@ -224,6 +224,6 @@ function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Elem
 // transition 可用的参数
 const transitionValues = { min: 100, max: 1000, step: 50 } as const;
 
-function fmtColor(l: number, c: number, h: number): string {
+function fmtColor(l: Color['l'], c: Color['l'], h: Color['l']): string {
     return `oklch(${l} ${c} ${h})`;
 }

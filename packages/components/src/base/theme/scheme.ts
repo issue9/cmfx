@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-
-export const transitionDurationName = '--default-transition-duration';
+const transitionDurationName = '--default-transition-duration';
 
 /**
  * 定义主题相关的各类变量
@@ -23,12 +22,12 @@ export type Scheme = {
      *
      * @remarks
      * 该值将会修改 html 下的 font-size 属性。默认值为 16px。
-     * 当多个主题嵌套设置时，最后调用 changeScheme 的 font-size 会应用到全局。
+     * 当多个主题嵌套设置时，最后调用 writeScheme 的 font-size 会应用到全局。
      */
     fontSize?: string;
 
     /**
-     * 表示 tailwind 中 --radius-* 的数值
+     * 各种不同大小的组件的圆角设置
      */
     radius?: Radius;
 
@@ -42,7 +41,7 @@ export type Scheme = {
  * 圆角参数的设置
  *
  * @remarks
- * 单位为 rem。属性名表示的是组件的大小。
+ * 属性名表示的是组件的大小。单位为 rem。
  */
 export type Radius = {
     xs: number;
@@ -63,9 +62,42 @@ export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error', 'surfac
 export type Palette = typeof palettes[number];
 
 /**
- * 改变主题色
+ * 从 elem 上读取当前的主题配置
  */
-export function changeScheme(elem: HTMLElement, s?: Scheme) {
+export function readScheme(elem?: HTMLElement): Scheme {
+    if (!elem) { elem = document.documentElement; }
+
+    const xs = elem.style.getPropertyValue('--radius-xs');
+    const sm = elem.style.getPropertyValue('--radius-sm');
+    const md = elem.style.getPropertyValue('--radius-md');
+    const lg = elem.style.getPropertyValue('--radius-lg');
+    const xl = elem.style.getPropertyValue('--radius-xl');
+    const radius: Radius = {
+        xs: xs ? parseFloat(xs.slice(0, -3)) : 0,
+        sm: sm ? parseFloat(sm.slice(0, -3)) : 0,
+        md: md ? parseFloat(md.slice(0, -3)) : 0,
+        lg: lg ? parseFloat(lg.slice(0, -3)) : 0,
+        xl: xl ? parseFloat(xl.slice(0, -3)) : 0,
+    };
+
+    const td = elem.style.getPropertyValue(transitionDurationName);
+
+    return {
+        primary: elem.style.getPropertyValue('--primary'),
+        secondary: elem.style.getPropertyValue('--secondary'),
+        tertiary: elem.style.getPropertyValue('--tertiary'),
+        error: elem.style.getPropertyValue('--error'),
+        surface: elem.style.getPropertyValue('--surface'),
+        fontSize: document.documentElement.style.fontSize,
+        radius,
+        transitionDuration: td ? parseInt(td.slice(0, -2), 10) : undefined,
+    };
+}
+
+/**
+ * 将主题 s 写入 elem
+ */
+export function writeScheme(elem: HTMLElement, s?: Scheme) {
     if (!s) { return; }
 
     if (s.fontSize) { document.documentElement.style.fontSize = s.fontSize; }
@@ -80,11 +112,11 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
         elem.style.setProperty(transitionDurationName, `${s.transitionDuration}ms`);
     }
 
-    if (s.primary) { elem.style.setProperty('--primary', s.primary); }
-    if (s.secondary) { elem.style.setProperty('--secondary', s.secondary); }
-    if (s.tertiary) { elem.style.setProperty('--tertiary', s.tertiary); }
-    if (s.error) { elem.style.setProperty('--error', s.error); }
-    if (s.surface) { elem.style.setProperty('--surface', s.surface); }
+    elem.style.setProperty('--primary', s.primary);
+    elem.style.setProperty('--secondary', s.secondary);
+    elem.style.setProperty('--tertiary', s.tertiary);
+    elem.style.setProperty('--error', s.error);
+    elem.style.setProperty('--surface', s.surface);
 
     // --palette-bg 等变量引用的值 --primary 已经改变。
     // 需要复制这些变量到当前元素，让元素重新计算 --palette-bg 等变量的值。

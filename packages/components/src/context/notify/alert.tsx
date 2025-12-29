@@ -6,7 +6,8 @@ import { createTimer, sleep } from '@cmfx/core';
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
-import { BaseProps, joinClass, transitionDuration } from '@/base';
+import { BaseProps, joinClass } from '@/base';
+import { useTheme } from '@/context';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -21,10 +22,11 @@ export interface Props extends BaseProps {
 export function Alert(props: Props): JSX.Element {
     let ref: HTMLDivElement;
     let wrapRef: HTMLDivElement;
+    const t = useTheme();
 
     const del = async () => {
         ref.style.height = '0';
-        await sleep(transitionDuration(ref)); // 待动画结束
+        await sleep(t.scheme.transitionDuration); // 待动画结束
         ref.remove();
     };
 

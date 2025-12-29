@@ -6,11 +6,26 @@ import {
     children, createContext, createEffect, createMemo, For, JSX, ParentProps, splitProps, useContext
 } from 'solid-js';
 
-import { changeMode, changeScheme, Mode, Scheme } from '@/base';
+import { changeMode, Mode, Scheme, writeScheme } from '@/base';
 import { useOptions } from './context';
 import { ContextNotFoundError } from './errors';
 
 const themeContext = createContext<Omit<Props, 'children'>>();
+
+/**
+ * 提供与主题相关的接口
+ */
+export interface Theme {
+    /**
+     * 当前主题的样式
+     */
+    scheme: Required<Scheme>;
+
+    /**
+     * 主题的模式
+     */
+    mode: Mode;
+}
 
 /**
  * 返回主题设置的参数
@@ -21,25 +36,9 @@ export function useTheme(): Theme {
     return createTheme(ctx);
 }
 
-export type Props = ParentProps<{
-    /**
-     * 主题配置
-     *
-     * @remarks
-     * 如果是 string 类型，则从 {@link Options.schemes} 查找同名的，
-     * 如果是 {@link Scheme} 类型则表示直接应用该主题。
-     *
-     * @reactive
-     */
-    scheme?: Scheme;
+type OptionalTheme = Partial<Theme>;
 
-    /**
-     * 主题的模式
-     *
-     * @reactive
-     */
-    mode?: Mode;
-
+export type Props = ParentProps<OptionalTheme & {
     /**
      * 指定用于保存当前主题样式的元素 ID
      *
@@ -76,7 +75,7 @@ export function ThemeProvider(props: Omit<Props, 'p'>): JSX.Element {
     }
 
     // 保存着用于改变主题的函数列表，当 theme 发生变化时，会自动调用这些函数。
-    let list: Array<{ (t: Theme): void; }> = [];
+    let list: Array<{ (t: OptionalTheme): void; }> = [];
     createEffect(() => {
         list.forEach(fn => fn(theme));
     });
@@ -100,9 +99,9 @@ export function ThemeProvider(props: Omit<Props, 'p'>): JSX.Element {
 /**
  * 将主题 t 应用到元素 elem
  */
-export function applyTheme(elem: HTMLElement, t: Theme) {
+export function applyTheme(elem: HTMLElement, t: OptionalTheme) {
     elem.setAttribute('data-theme', '1');
-    changeScheme(elem, t.scheme);
+    writeScheme(elem, t.scheme);
     changeMode(elem, t.mode);
 }
 
@@ -113,31 +112,17 @@ export function hasTheme(elem: HTMLElement): boolean {
     return elem.hasAttribute('data-theme');
 }
 
-/**
- * 提供与主题相关的接口
- */
-export interface Theme {
-    /**
-     * 当前主题的样式
-     */
-    scheme?: Scheme;
-
-    /**
-     * 主题的模式
-     */
-    mode?: Mode;
-}
-
 function createTheme(props: Props): Theme {
     const [, o] = useOptions();
     const obj = createMemo(() => {
         const p = props.p;
-        const os = typeof o.scheme === 'string' ? o.schemes.get(o.scheme) :  o.scheme;
-        const radius = Object.assign({}, os?.radius, p?.scheme?.radius, props.scheme?.radius);
+        const os = o.scheme;
+
+        const radius = Object.assign({}, os.radius, p?.scheme?.radius, props.scheme?.radius);
         const scheme = Object.assign({ radius }, os, p?.scheme, props.scheme);
-        const oo = Object.assign({}, { scheme: os }, { mode: p?.mode, scheme }, props);
-        delete oo.p;
-        return oo;
+        const ret = Object.assign({}, { mode: o.mode }, { scheme: os }, { mode: p?.mode, scheme }, props);
+        delete ret.p;
+        return ret;
     });
     return obj();
 }

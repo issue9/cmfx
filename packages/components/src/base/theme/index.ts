@@ -5,8 +5,9 @@
 export { changeMode, modes } from './mode';
 export type { Mode } from './mode';
 
-export { changeScheme, palettes } from './scheme';
+export { palettes, readScheme, writeScheme } from './scheme';
 export type { Palette, Scheme } from './scheme';
 
-export { breakpoints, transitionDuration, isReducedMotion, wcag } from './theme';
+export { breakpoints, isReducedMotion, wcag } from './theme';
 export type { Breakpoint } from './theme';
+
