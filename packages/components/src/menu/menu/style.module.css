@@ -95,13 +95,9 @@
         }
 
         li>ul {
-            @apply min-w-max z-popover fixed rounded-md shadow-md pop;
+            @apply min-w-max z-popover fixed rounded-md shadow-md pop flex-col;
             @apply bg-palette-bg text-palette-fg;
             @apply border border-palette-border;
-        }
-
-        li:not(.hide)>ul {
-            @apply flex-col;
         }
     }
 
@@ -116,13 +112,9 @@
         }
 
         li>ul {
-            @apply min-w-max z-popover fixed rounded-md shadow-md pop;
+            @apply min-w-max z-popover fixed rounded-md shadow-md pop flex-col;
             @apply bg-palette-bg text-palette-fg;
             @apply border border-palette-border;
-        }
-
-        li:not(.hide)>ul {
-            @apply flex-col;
         }
     }
 

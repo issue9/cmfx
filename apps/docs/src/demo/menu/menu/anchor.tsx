@@ -16,7 +16,6 @@ function selectedClassSelector(preset?: string) {
 export default function(props: MountProps) {
     const [Palette, palette] = paletteSelector('primary');
     const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
-    const [Layout, layout] = arraySelector('layout', ['horizontal', 'vertical', 'inline'], 'inline');
 
     const items: Array<MenuItem<string>> = [
         { type: 'a', value: 'v1', label: 'v1', prefix: <IconFace />, disabled: true },
@@ -62,9 +61,8 @@ export default function(props: MountProps) {
         <Portal mount={props.mount}>
             <Palette />
             <SelectedCls />
-            <Layout />
         </Portal>
 
-        <Menu layout={layout()} selectedClass={selectedCls()} palette={palette()} items={items} />
+        <Menu selectedClass={selectedCls()} palette={palette()} items={items} />
     </div>;
 }

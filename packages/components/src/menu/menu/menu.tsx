@@ -44,8 +44,6 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      *  - horizontal 横向菜单，子菜单以弹出形式展示；
      *  - vertical 纵向菜单，子菜单以弹出形式展示；
      *  - inline 内联菜单，纵向菜单的变体，子菜单内嵌在组件之内；
-     *
-     * @reactive
      */
     layout?: Layout | 'inline';
 
@@ -110,6 +108,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         layout: 'inline' as Layout,
     }, props);
 
+    const layout = props.layout;
     const isMultiple = props.multiple ?? false;;
     const [selected, setSelected] = createSignal<Array<T>>(props.value ?? []);
     createEffect(() => { setSelected(props.value ?? []); }); // 监视外部变化
@@ -121,7 +120,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         if (!ref || !active || !ref.contains(active)) { return; }
 
         if (event.key === 'Enter') { // 处理回车
-            if (props.layout === 'inline') {
+            if (layout === 'inline') {
                 active.click();
             } else {
                 // 模拟 hover 操作
@@ -191,7 +190,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                     ));
 
                     return <li ref={el => liRef = el} aria-selected={isSelected()} class={cls()} onMouseEnter={e => {
-                        if (props.layout === 'inline') { return; }
+                        if (layout === 'inline') { return; }
 
                         const curr = e.currentTarget as HTMLLIElement;
                         const ul = curr.querySelector(':scope>ul') as HTMLUListElement;
@@ -202,7 +201,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         const rtl = window.getComputedStyle(ul).direction === 'rtl';
                         const p = i().level === 0
                             ? calcPopoverPosition(ul, curr.getBoundingClientRect(),
-                                props.layout === 'vertical' ? 'right' : 'bottom', 'start', 0, rtl)
+                                layout === 'vertical' ? 'right' : 'bottom', 'start', 0, rtl)
                             : calcPopoverPosition(ul, curr.getBoundingClientRect(), 'right', 'start', 0, rtl);
 
                         ul.style.top = p.y + 'px';
@@ -211,7 +210,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         ul.style.right = 'unset';
                         e.preventDefault();
                     }} onMouseLeave={e => {
-                        if (props.layout === 'inline') { return; }
+                        if (layout === 'inline') { return; }
 
                         const curr = e.currentTarget as HTMLLIElement;
                         const ul = curr.querySelector(':scope>ul') as HTMLUListElement;
@@ -244,16 +243,18 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                                     (props.onChange as CF<false, T>)(val!, old[0]);
                                 }
 
-                                if (props.layout !== 'inline') { // 单选，还得处理弹出内容关闭的问题
+                                if (layout !== 'inline') { // 单选，还得处理弹出内容关闭的问题
                                     if (i().level > 0) {
-                                        const parent = e.currentTarget.parentElement!;
-                                        parent.classList.add(styles.hide);
-                                        await sleep(3000);
-                                        parent.classList.remove(styles.hide);
+                                        let ul = e.currentTarget.parentElement!;
+                                        for (let lv = 1; lv < i().level;lv++) {
+                                            ul = ul.parentElement!.parentElement!;
+                                        }
+                                        ul.classList.remove('popopen');
+                                        ul.classList.add('pop');
                                     }
                                 }
                             }
-                        } else if (props.layout === 'inline') { // 点击带有子菜单且为 inline
+                        } else if (layout === 'inline') { // 点击带有子菜单且为 inline
                             setExpanded(!expanded());
                             iconRef.to(expanded() ? 'up' : 'down');
 
@@ -291,7 +292,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         <Dynamic class={styles.title} tabindex={0} component={(isAnchor && !hasItems) ? A : 'p'}
                             href={(isAnchor && !i().disabled) ? (val?.toString() ?? '') : ''}
                             style={{
-                                'padding-inline-start': props.layout === 'inline'
+                                'padding-inline-start': layout === 'inline'
                                     ? `calc(var(--spacing) * (${i().level} * 4 + 3))` : undefined,
                             }}
                         >
@@ -304,7 +305,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                             </Show>
                             <Show when={hasItems}>
                                 <Switch fallback={<IconArrowRight class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])} />}>
-                                    <Match when={props.layout === 'horizontal'}>
+                                    <Match when={layout === 'horizontal'}>
                                         <Switch>
                                             <Match when={i().level === 0}>
                                                 {<IconArrowDown class={joinClass(undefined, styles.icon, styles.suffix)} />}
@@ -314,7 +315,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                                             </Match>
                                         </Switch>
                                     </Match>
-                                    <Match when={props.layout === 'inline'}>
+                                    <Match when={layout === 'inline'}>
                                         <IconSet ref={el => iconRef = el} rotation='none'
                                             class={joinClass(undefined, styles.icon, styles.suffix)} palette={props.palette}
                                             icons={{ up: <IconArrowUp />, down: <IconArrowDown /> }}
@@ -352,14 +353,14 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
             }); }
     }}
     class={classList(props.palette, {
-        [styles.horizontal]: props.layout === 'horizontal',
-        [styles.vertical]: props.layout === 'vertical',
-        [styles.inline]: props.layout === 'inline',
+        [styles.horizontal]: layout === 'horizontal',
+        [styles.vertical]: layout === 'vertical',
+        [styles.inline]: layout === 'inline',
     }, styles.menu, props.class)}
     style={props.style}
     >
         <For each={buildRenderItemType(props.items, 0)}>
-            {item => buildMenuItem(item, props.layout === 'horizontal' ? 'vertical' : 'horizontal')}
+            {item => buildMenuItem(item, layout === 'horizontal' ? 'vertical' : 'horizontal')}
         </For>
     </Dynamic>;
 }
