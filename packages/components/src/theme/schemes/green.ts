@@ -7,7 +7,6 @@
 import { Scheme } from '@/base';
 
 export default {
-    fontSize: '16px',
     primary: 'var(--color-blue-900)',
     secondary: 'var(--color-green-900)',
     tertiary: 'var(--color-indigo-900)',

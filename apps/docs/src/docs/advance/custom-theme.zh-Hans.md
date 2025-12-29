@@ -18,15 +18,6 @@ export type Scheme = {
     // NOTE: 主题颜色值是必须要定义的，不能从父元素继承。
 
     /**
-     * 全局字体的大小
-     *
-     * @remarks
-     * 该值将会修改 html 下的 font-size 属性。默认值为 16px。
-     * 当多个主题嵌套设置时，最后调用 writeScheme 的 font-size 会应用到全局。
-     */
-    fontSize?: string;
-
-    /**
      * 表示 tailwind 中 --radius-* 的数值
      */
     radius?: Radius;

@@ -152,7 +152,6 @@ const messages: typeof m = {
             apply: '应用主题',
             components: '组件展示',
             palettes: '色盘',
-            fontSize: '字体大小',
             colors: '颜色',
             radius: '圆角',
             transitionDuration: '动画时长',

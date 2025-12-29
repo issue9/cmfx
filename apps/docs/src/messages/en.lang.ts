@@ -151,7 +151,6 @@ const messages = {
             apply: 'Apply',
             components: 'Components',
             palettes: 'Palettes',
-            fontSize: 'Font size',
             colors: 'Colors',
             radius: 'Radius',
             transitionDuration: 'transition duration',

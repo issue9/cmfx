@@ -4,19 +4,17 @@
 
 import { expect, test } from 'vitest';
 
-import { Scheme } from '@/base';
+import { schemes } from '@/theme';
 import { Theme, applyTheme, hasTheme } from './theme';
 
 test('theme', () => {
-    let t: Theme = { scheme: {} as Scheme };
-
-    expect(t.mode).toBeUndefined();
+    let t: Theme = { scheme: schemes.green, mode: 'light' };
 
     let div = document.createElement('div');
     applyTheme(div, t);
     expect(hasTheme(div)).toBeTruthy();
 
-    t = { scheme: {} as Scheme, mode: 'dark' };
+    t = { scheme: schemes.green, mode: 'dark' };
     expect(t.mode).toEqual('dark');
 
     div = document.createElement('div');

@@ -33,5 +33,9 @@
         .notify {
             @apply flex gap-5 justify-start;
         }
+
+        .range {
+            @apply w-100;
+        }
     }
 }

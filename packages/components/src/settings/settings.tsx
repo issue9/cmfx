@@ -8,16 +8,17 @@ import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconSystemNotify from '~icons/material-symbols/notification-settings';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
 import IconPalette from '~icons/material-symbols/palette';
-import IconSettings from '~icons/material-symbols/settings-night-sight';
+import IconMode from '~icons/material-symbols/settings-night-sight';
 import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
+import IconFontSize from '~icons/mingcute/font-size-fill';
 
 import { BaseProps, joinClass, Mode } from '@/base';
 import { Button } from '@/button';
 import { useLocale, useOptions } from '@/context';
 import { Timezone } from '@/datetime';
 import { Divider } from '@/divider';
-import { Checkbox, Choice, fieldAccessor, Number, RadioGroup } from '@/form';
+import { Checkbox, Choice, fieldAccessor, Number, RadioGroup, Range } from '@/form';
 import { createBytesFormatter } from '@/kit';
 import { SchemeSelector } from '@/theme';
 import { Description } from '@/typography';
@@ -32,20 +33,23 @@ export interface Props extends BaseProps {}
  * 这是对 {@link useOptions} 中部分选项的设置。
  */
 export function Settings(props: Props) {
-    const [act, opt] = useOptions();
+    const [set, opt] = useOptions();
     const l = useLocale();
 
+    const fontSizeFA = fieldAccessor<number>('fontSize', parseInt(opt.fontSize.slice(0, -2)));
+    fontSizeFA.onChange(v => set.setFontSize(v + 'px'));
+
     const modeFA = fieldAccessor<Mode>('mode', opt.mode);
-    modeFA.onChange(m => { act.setMode(m); });
+    modeFA.onChange(m => set.setMode(m));
 
     const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(opt.locale));
-    localeFA.onChange(v => { act.setLocale(v); });
+    localeFA.onChange(v => set.setLocale(v));
 
     const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);
-    unitFA.onChange(v => { act.setDisplayStyle(v); });
+    unitFA.onChange(v => set.setDisplayStyle(v));
 
     const staysFA = fieldAccessor<number>('stays', opt.stays);
-    staysFA.onChange(v => { act.setStays(v); });
+    staysFA.onChange(v => set.setStays(v));
 
     const [sysNotifyDisabled, setSysNotifyDisabled] = createSignal(false);
     const requestSysNotify = async () => {
@@ -69,7 +73,21 @@ export function Settings(props: Props) {
     };
 
     return <div class={joinClass(props.palette, styles.settings, props.class)} style={props.style}>
-        <Description icon={/*@once*/<IconSettings />} title={l.t('_c.settings.mode')!}>
+        {/***************************** font *******************************/}
+
+        <Description icon={/*@once*/<IconFontSize />} title={l.t('_c.settings.fontSize')!}>
+            {l.t('_c.settings.fontSizeDesc')!}
+        </Description>
+
+        <Range class={joinClass(undefined, styles.item, styles.range)} value={v=>v+'px'}
+            min={12} max={32} step={1} accessor={fontSizeFA}
+        />
+
+        {/***************************** mode *******************************/}
+
+        <Divider padding='16px 8px' />
+
+        <Description icon={/*@once*/<IconMode />} title={l.t('_c.settings.mode')!}>
             {l.t('_c.settings.modeDesc')!}
         </Description>
 
@@ -92,7 +110,7 @@ export function Settings(props: Props) {
             </Description>
 
             <SchemeSelector class={styles.item} schemes={opt.schemes}
-                value={opt.scheme} onChange={val => act.setScheme(val)} />
+                value={opt.scheme} onChange={val => set.setScheme(val)} />
         </Show>
 
         {/***************************** stays *******************************/}
@@ -117,7 +135,7 @@ export function Settings(props: Props) {
             <div class={joinClass(undefined, styles.item, styles.notify)}>
                 <Checkbox label={l.t('_c.settings.enabled')} class={styles.checkbox} disabled={sysNotifyDisabled()}
                     checked={opt.systemNotify} onChange={async v => {
-                        act.setSystemNotify(!!v);
+                        set.setSystemNotify(!!v);
                     }}
                 />
                 <Button kind='flat' onclick={requestSysNotify}>{ l.t('_c.settings.requestNotifyPermission') }</Button>
@@ -163,7 +181,7 @@ export function Settings(props: Props) {
             {l.t('_c.settings.timezoneDesc')}
         </Description>
         <div class={styles.item}>
-            <Timezone value={opt.timezone} onChange={v => { act.setTimezone(v); }} />
+            <Timezone value={opt.timezone} onChange={v => { set.setTimezone(v); }} />
         </div>
 
     </div>;

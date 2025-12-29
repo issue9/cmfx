@@ -19,7 +19,7 @@ export interface Theme {
     /**
      * 当前主题的样式
      */
-    scheme: Required<Scheme>;
+    scheme: Scheme;
 
     /**
      * 主题的模式

@@ -66,6 +66,8 @@ const messages: Messages = {
             items: '{ start }-{ end } / { count }'
         },
         settings: {
+            fontSize: '字体大小',
+            fontSizeDesc: '调整页面的字体大小',
             mode: '主题模式',
             modeDesc: '自定义页面的主题模式',
             dark: '深色主题',

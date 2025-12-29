@@ -10,6 +10,7 @@ import { createStore } from 'solid-js/store';
 import { afterAll, expect, test } from 'vitest';
 
 import { BaseProps } from '@/base';
+import { schemes } from '@/theme';
 import { buildSetter, OptionsProvider } from './context';
 import { Options, requiredOptions } from './options';
 
@@ -19,7 +20,8 @@ const options: Options = {
     logo: '../../../../apps/admin/public/brand-static.svg',
     systemDialog: false,
     systemNotify: false,
-    scheme: 'def',
+    scheme: 'green',
+    schemes: new Map([['green', schemes.green], ['purple', schemes.purple]]),
     mode: 'dark',
     locale: 'zh-Hans',
     displayStyle: 'full',

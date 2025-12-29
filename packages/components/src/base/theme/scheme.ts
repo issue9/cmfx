@@ -18,23 +18,14 @@ export type Scheme = {
     surface: string;
 
     /**
-     * 全局字体的大小
-     *
-     * @remarks
-     * 该值将会修改 html 下的 font-size 属性。默认值为 16px。
-     * 当多个主题嵌套设置时，最后调用 writeScheme 的 font-size 会应用到全局。
-     */
-    fontSize?: string;
-
-    /**
      * 各种不同大小的组件的圆角设置
      */
-    radius?: Radius;
+    radius: Radius;
 
     /**
      * 动画的时长，默认为 300，单位为 ms。
      */
-    transitionDuration?: number;
+    transitionDuration: number;
 };
 
 /**
@@ -88,9 +79,8 @@ export function readScheme(elem?: HTMLElement): Scheme {
         tertiary: elem.style.getPropertyValue('--tertiary'),
         error: elem.style.getPropertyValue('--error'),
         surface: elem.style.getPropertyValue('--surface'),
-        fontSize: document.documentElement.style.fontSize,
         radius,
-        transitionDuration: td ? parseInt(td.slice(0, -2), 10) : undefined,
+        transitionDuration: td ? parseInt(td.slice(0, -2), 10) : 0,
     };
 }
 
@@ -99,8 +89,6 @@ export function readScheme(elem?: HTMLElement): Scheme {
  */
 export function writeScheme(elem: HTMLElement, s?: Scheme) {
     if (!s) { return; }
-
-    if (s.fontSize) { document.documentElement.style.fontSize = s.fontSize; }
 
     if (s.radius) {
         Object.entries(s.radius).forEach(([k2, v2]) => {

@@ -28,11 +28,16 @@ export interface Options {
     systemDialog?: boolean;
 
     /**
-     * 是否使用系统通知
+     * 是否使用系统通知，当在 {@link config} 中存在时，当前值将被忽略。
      *
      * @defaultValue false
      */
     systemNotify?: boolean;
+
+    /**
+     * 字体大小，当在 {@link config} 中存在时，当前值将被忽略。
+     */
+    fontSize?: string;
 
     /**
      * 默认的主题样式，当在 {@link config} 中存在时，当前值将被忽略。
@@ -133,6 +138,7 @@ export interface Options {
 }
 
 const presetOptions: PickOptional<Options> = {
+    fontSize: '14px',
     systemDialog: false,
     systemNotify: false,
     locale: document.documentElement.lang
@@ -149,10 +155,13 @@ const presetOptions: PickOptional<Options> = {
     pageSize: 20,
 } as const;
 
+/**
+ * 由 {@link requiredOptions} 返回的对象，所有字段都是必填的。同时也是 useOptions 的返回类型。
+ */
 export type ReqOptions = Required<Omit<Options, 'scheme'> & { scheme: Scheme }>;
 
 /**
- * 将 opt 转换为 Required<Options> 类型
+ * 将 opt 转换为 ReqOptions 类型
  *
  * @remarks
  * 如果 opt 中存在某个属性，则使用 opt 中的值，否则使用 presetOptions 中的默认值。

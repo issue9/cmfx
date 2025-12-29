@@ -4,8 +4,8 @@
 
 import {
     Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, fieldAccessor,
-    FieldOption, joinClass, Label, MenuItemItem, notify, ObjectAccessor, Palette, RadioGroup, Range,
-    RangeRef, Scheme, useLocale, useOptions,
+    joinClass, Label, MenuItemItem, notify, ObjectAccessor, Palette, RadioGroup, Range,
+    RangeRef, Scheme, useLocale, useOptions
 } from '@cmfx/components';
 import { ExpandType, Locale, rand } from '@cmfx/core';
 import Color from 'colorjs.io';
@@ -17,7 +17,6 @@ import IconLoad from '~icons/material-symbols/arrow-upload-progress';
 import IconColors from '~icons/material-symbols/colors';
 import IconExport from '~icons/material-symbols/export-notes';
 import IconRadius from '~icons/mingcute/border-radius-fill';
-import IconFontSize from '~icons/mingcute/font-size-fill';
 import IconRand from '~icons/mingcute/random-fill';
 
 import styles from './style.module.css';
@@ -68,7 +67,6 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
         </div>
 
         <div class={styles.ps}>
-            {fontSizeParams(l, s)}
             {colorsParams(l, s)}
             {radiusParams(l, s)}
             {otherParams(l, s)}
@@ -87,9 +85,6 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
  */
 export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
     batch(() => {
-        // 改字体会直接作用在整个页面上。所以随机功能不修改字体大小。
-        // s.accessor<string>('fontSize').setValue('16px');
-
         let h = rand(0, 360, 2);
         s.accessor<string>('error').setValue(fmtColor(1, .4, h));
 
@@ -140,35 +135,6 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
             label={<span class={styles.title}>{title}</span>}
             options={radiusValues.map((v) => ({ value: v, label: radiusLabel(v) }))} />
     </div>;
-}
-
-// 设置字体大小参数面板
-function fontSizeParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
-    return <div class={styles.param}>
-        <Divider><IconFontSize class="me-1" />{l.t('_d.theme.fontSize')}</Divider>
-        {fontSize(s.accessor('fontSize'))}
-    </div>;
-}
-
-// 可用的字体大小
-const fontSizeValues = [14, 16, 18, 20, 24, 28] as const;
-
-function fontSize(a: Accessor<string>): JSX.Element {
-    const max = fontSizeValues[fontSizeValues.length - 1];
-
-    const option = (size: number): FieldOption<string> => {
-        return {
-            value: `${size}px`,
-            label: <span class={styles['font-number']} style={{
-                'font-size': `${size}px`,
-                'width': `${max + 8}px`,
-                'height': `${max + 8}px`,
-                'line-height': `${max + 8}px`,
-            }}>{size}</span>
-        };
-    };
-
-    return <RadioGroup accessor={a} block layout='vertical' options={fontSizeValues.map(v => option(v))} />;
 }
 
 // 颜色选择参数面板

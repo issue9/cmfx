@@ -64,6 +64,8 @@ const messages = {
             items: '{ start }-{ end } of { count }'
         },
         settings: {
+            fontSize: 'Font size',
+            fontSizeDesc: 'Customize the font size of the page',
             mode: 'Theme mode',
             modeDesc: 'Customize the theme mode of the page',
             dark: 'Dark',

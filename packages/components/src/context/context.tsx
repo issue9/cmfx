@@ -21,6 +21,7 @@ const modeKey = 'mode';
 const tzKey = 'timezone';
 const staysKey = 'stays';
 const systemNotifyKey = 'system-notify';
+const fontSizeKey = 'font-size';
 
 /**
  * 提供了对全局配置的更改
@@ -97,7 +98,12 @@ export function buildSetter(ctx: OptionsGetSetContext) {
             timezone: o.config.get(tzKey) ?? o.timezone,
             stays: o.config.get(staysKey) ?? o.stays,
             systemNotify: o.config.get(systemNotifyKey) ?? o.systemNotify,
+            fontSize: o.config.get(fontSizeKey) ?? o.fontSize,
         });
+
+        if (o.fontSize !== document.documentElement.style.fontSize) {
+            document.documentElement.style.fontSize = o.fontSize;
+        }
     };
 
     read();
@@ -122,6 +128,17 @@ export function buildSetter(ctx: OptionsGetSetContext) {
         setTitle(v: string) {
             if (o.title) { v = v + o.titleSeparator + o.title; }
             document.title = v;
+        },
+
+        /**
+         * 设置字体大小
+         *
+         * @param size - 字段大小的有效值，比如 '16px' 或是 'clamp(min, preferred, max)' 等；
+         */
+        setFontSize(size: string) {
+            set({ fontSize: size });
+            o.config.set(fontSizeKey, size);
+            document.documentElement.style.fontSize = size;
         },
 
         /**
@@ -159,6 +176,8 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          */
         setScheme(scheme: string | Scheme) {
             const s = structuredClone((typeof scheme === 'string') ? o.schemes.get(scheme) : scheme);
+            if (!s) { throw new Error(`无效的主题: ${scheme}`); }
+
             set({ scheme: s });
             o.config.set(schemeKey, s);
         },
