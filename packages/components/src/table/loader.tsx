@@ -225,30 +225,40 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
             <form class={styles.search}>
                 {props.queryForm!(queries)}
                 <div class={styles.actions}>
-                    <SplitButton direction='left' palette='primary' type='submit' onclick={async () => await refetch()} menus={[
+                    <SplitButton align='end' onChange={async v=>{
+                        switch (v) {
+                        case 'reset':
+                            queries.reset();
+                            break;
+                        default:
+                            await exports(v);
+                        }
+                    }} items={[
                         {
-                            type: 'button', onclick: async () => { await exports('.csv'); }, label: <Label icon={<IconCSV />}>
+                            type: 'item', value: '.csv', label: <Label icon={<IconCSV />}>
                                 {l.t('_c.table.exportTo', { type: 'CSV' })}
                             </Label>
                         },
                         {
-                            type: 'button', onclick: async () => { await exports('.xlsx'); }, label: <Label icon={<IconExcel />}>
+                            type: 'item', value: '.xlsx', label: <Label icon={<IconExcel />}>
                                 {l.t('_c.table.exportTo', { type: 'Excel' })}
                             </Label>
                         },
                         {
-                            type: 'button', onclick: async () => { await exports('.ods'); }, label: <Label icon={<IconODS />}>
+                            type: 'item', value: '.ods', label: <Label icon={<IconODS />}>
                                 {l.t('_c.table.exportTo', { type: 'ODS' })}
                             </Label>
                         },
                         { type: 'divider' },
                         {
-                            type: 'button', onclick: () => { queries.reset(); }, disabled: queries.isPreset(), label: <Label icon={<IconReset />}>
+                            type: 'item', value: 'reset', disabled: queries.isPreset(), label: <Label icon={<IconReset />}>
                                 {l.t('_c.reset')}
                             </Label>
                         },
                     ]}>
-                        {l.t('_c.search')}
+                        <Button type='submit' palette='primary' onclick={async () => await refetch()}>
+                            {l.t('_c.search')}
+                        </Button>
                     </SplitButton>
                 </div>
             </form>

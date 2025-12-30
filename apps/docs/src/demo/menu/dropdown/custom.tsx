@@ -67,6 +67,7 @@ export default function(props: MountProps) {
 
         <Button onclick={() => ref.show()}>show</Button>
         <Button onclick={() => ref.hide()}>hide</Button>
+        <Button onclick={() => ref.toggle()}>toggle</Button>
         <br />
         <Dropdown selectedClass={selectedCls()} palette={palette()} ref={el => ref = el}
             items={items} trigger='custom' onPopover={e => { console.log('visible:', e); return false; }}>

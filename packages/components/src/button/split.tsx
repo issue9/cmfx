@@ -1,100 +1,81 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
-import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
+import { mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
-import { handleEvent, joinClass } from '@/base';
-import { AProps, presetProps as basePrsetProps, BProps, Button, Ref } from './button';
-import { ButtonGroup, Ref as GroupRef } from './group';
+import { AvailableEnumType, Layout, RefProps } from '@/base';
+import { Dropdown, DropdownProps, DropdownRef } from '@/menu/dropdown';
+import { Button, Ref as ButtonRef } from './button';
+import { ButtonGroup, Ref as ButtonGroupRef } from './group';
 import styles from './style.module.css';
+import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
-type OmitFields = 'children' | 'rounded' | 'kind' | 'palette' | 'style' | 'class';
-export type Item = { type: 'divider' }
-    | Omit<AProps, OmitFields> & { label: JSX.Element }
-    | Omit<BProps, OmitFields> & { label: JSX.Element };
-
-interface Base {
-    menus: Array<Item>;
-
+export interface Ref extends DropdownRef {
     /**
-     * 菜单展开的方向
-     *
-     *
+     * 返回按按钮组的组件实例
      */
-    direction?: 'left' | 'right';
+    group(): ButtonGroupRef;
 }
 
-export type Props = Base & AProps | Base & BProps;
+export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
+    extends Omit<DropdownProps<M, T>, 'trigger' | 'ref'>, RefProps<Ref>, ParentProps, Omit<BaseProps, 'hotkey'> {
+    /**
+     * 按钮的布局
+     */
+    layout?: Layout;
+}
 
-const presetProps: Readonly<Partial<Props>> = {
-    ...basePrsetProps,
-    direction: 'right'
+export const presetProps: Readonly<Partial<Props>> = {
+    ...presetBaseProps,
+    layout: 'horizontal'
 } as const;
 
-/**
- * 带有一个默认操作的一组按钮
- *
- * @remarks
- * 属性中，除了 menus 和 palette 用于表示所有的子命令外，其它属性都是用于描述默认按钮的属性的。
-*/
-export function SplitButton(props: Props) {
-    props = mergeProps(presetProps, props) as Props;
-    let popRef: HTMLDivElement;
-    let groupRef: GroupRef;
-    let downRef: Ref;
+export default function Split<M extends boolean = false, T extends AvailableEnumType = string>(
+    props: Props<M, T>
+) {
+    props = mergeProps(presetProps, props) as Props<M, T>;
 
+    let dropdownRef: DropdownRef;
+    let arrowRef: ButtonRef;
+    let groupRef: ButtonGroupRef;
+
+    // 保证弹出菜单的宽度不小于 ButtonGroup
     onMount(() => {
-        if (props.hotkey) { Hotkey.bind(props.hotkey, downRef.root().click); }
-    });
-    onCleanup(() => {
-        if (props.hotkey) { Hotkey.unbind(props.hotkey); }
+        dropdownRef.menu().root().style.minWidth = groupRef.root().getBoundingClientRect().width + 'px';
     });
 
-    const [_, btnProps] = splitProps(props, ['rounded', 'disabled', 'menus']);
+    const click = (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        if (!dropdownRef.menu().root().contains(target) && !arrowRef.root().contains(target)) {
+            dropdownRef.hide();
+        }
+    };
+    onMount(() => { document.addEventListener('click', click); });
+    onCleanup(() => { document.removeEventListener('click', click); });
 
-    const activator = <ButtonGroup palette={props.palette} ref={el => groupRef = el}
-        kind={props.kind} rounded={props.rounded} disabled={props.disabled}
-    >
-        <Button {...btnProps}>{props.children}</Button>
-        <Button class={styles.split} ref={el => downRef = el} square onclick={() => {
-            popRef.togglePopover();
-
-            const anchor = groupRef.root().getBoundingClientRect();
-            if (props.direction === 'left') {
-                anchor.x = anchor.right - popRef.getBoundingClientRect().width;
-            }
-
-            adjustPopoverPosition(popRef, anchor, 0, 'bottom');
-            popRef.style.minWidth = `${groupRef.root().offsetWidth}px`;
-        }}><IconArrowDown /></Button>
-    </ButtonGroup>;
-
-    return <>
-        {activator}
-        <div ref={el => popRef = el} popover="auto" class={joinClass(props.palette, styles['split-pop'])}>
-            <For each={props.menus}>
-                {item =>
-                    <Switch>
-                        <Match when={item.type === 'divider'}>
-                            <hr class="border-palette-border" />
-                        </Match>
-                        <Match when={item.type !== 'divider' ? item : undefined}>
-                            {it => {
-                                const click = it().onclick;
-                                delete it().onclick;
-                                return <Button kind='flat' {...it()}
-                                    class={styles['split-item']} onclick={e => {
-                                        if (click) { handleEvent(click, e); }
-                                        popRef.hidePopover();
-                                    }}>{it().label}</Button>;
-                            }}
-                        </Match>
-                    </Switch>
+    const [, dropProps] = splitProps(props, ['children', 'ref', 'kind', 'rounded', 'disabled', 'layout']);
+    return <Dropdown ref={el => dropdownRef = el} {...dropProps} trigger='custom'>
+        <ButtonGroup kind={props.kind} rounded={props.rounded} layout={props.layout}
+            disabled={props.disabled} ref={el => {
+                groupRef = el;
+                if (props.ref) {
+                    props.ref({
+                        show: () => dropdownRef.show(),
+                        hide: () => dropdownRef.hide(),
+                        toggle: () => dropdownRef.toggle(),
+                        root: () => dropdownRef.root(),
+                        menu: () => dropdownRef.menu(),
+                        group: () => el
+                    });
                 }
-            </For>
-        </div>
-    </>;
+            }}
+        >
+            {props.children}
+            <Button class={styles.split} square ref={el => arrowRef = el} onclick={() => {
+                dropdownRef.toggle();
+            }}><IconArrowDown /></Button>
+        </ButtonGroup>
+    </Dropdown>;
 }

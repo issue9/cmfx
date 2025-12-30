@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ParentProps, mergeProps } from 'solid-js';
+import { mergeProps, ParentProps } from 'solid-js';
 
 import { classList, Layout, RefProps } from '@/base';
 import styles from './style.module.css';
@@ -23,6 +23,9 @@ const presetProps: Readonly<Partial<Props>> = {
 
 /**
  * 按钮分组
+ *
+ * @remarks
+ * 该组件用于将多个按钮组合在一起，形成一个按钮组。子组件必须是 Button 组件。
  */
 export function ButtonGroup(props: Props) {
     props = mergeProps(presetProps, props);

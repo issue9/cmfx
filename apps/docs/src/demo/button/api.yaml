@@ -8,11 +8,11 @@
 
 - ConfirmButtonProps
 
+- SplitButtonProps
+- SplitButtonRef
+
 - ButtonGroupProps
 - ButtonGroupRef
-
-- SplitButtonProps
-- SplitButtonItem
 
 - ToggleButtonProps
 - ToggleFitScreenButtonProps

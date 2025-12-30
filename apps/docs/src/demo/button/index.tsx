@@ -35,9 +35,9 @@ export default function(): JSX.Element {
         { component: Confirm, source: confirm, title: 'confirm' },
         { component: Anchor, source: anchor, title: 'anchor button' },
         { component: Toggle, source: toggle, title: 'toggle button' },
-        { component: Split, source: split, title: 'split button' },
         { component: Block, source: block, title: 'block' },
         { component: Group, source: group, title: 'group' },
+        { component: Split, source: split, title: 'SplitMenu' },
     ]}>
     </Stages>;
 }
