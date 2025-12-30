@@ -6,15 +6,10 @@ import { ParentProps, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
 import { AvailableEnumType, RefProps } from '@/base';
-import { Button, ButtonGroup, ButtonRef } from '@/button';
+import { Button, ButtonGroup } from '@/button';
 import { Dropdown, DropdownProps, DropdownRef } from '@/menu/dropdown';
 
-export interface Ref extends DropdownRef {
-    /**
-     * 默认操作的元素
-     */
-    preset(): ButtonRef;
-}
+export type Ref = DropdownRef;
 
 export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
     extends Omit<DropdownProps<M, T>, 'trigger' | 'ref'>, RefProps<Ref>, ParentProps {

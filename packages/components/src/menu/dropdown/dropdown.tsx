@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition, Hotkey, pointInElement } from '@cmfx/core';
+import { adjustPopoverPosition, Hotkey, pointInElement, PopoverAlign } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass, RefProps } from '@/base';
@@ -62,7 +62,20 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      * 快捷键
      */
     hotkey?: Hotkey;
+
+    /**
+     * 菜单展开的对齐方式
+     *
+     * @defaultValue 'end'
+     * @reactive
+     */
+    align?: PopoverAlign;
 }
+
+const presetProps = {
+    align: 'end',
+    trigger: 'click',
+} as const;
 
 /**
  * 下拉菜单
@@ -73,9 +86,9 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 export default function Dropdown<M extends boolean = false, T extends AvailableEnumType = string>(
     props: Props<M, T>
 ): JSX.Element {
-    props = mergeProps({ trigger: 'click' as Props['trigger'] }, props);
+    props = mergeProps(presetProps, props);
 
-    const [_, menuProps] = splitProps(props, ['trigger', 'children', 'items', 'ref', 'onChange', 'class', 'style']);
+    const [_, menuProps] = splitProps(props, ['trigger', 'children', 'items', 'ref', 'onChange', 'class', 'style', 'align']);
     const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
     let menuRef: MenuRef;
     let rootRef: HTMLDivElement;
@@ -85,7 +98,8 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         if (isOpen) { return; }
 
         menuRef.root().showPopover();
-        adjustPopoverPosition(menuRef.root(), triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
+        const anchor = triggerRef()!.getBoundingClientRect();
+        adjustPopoverPosition(menuRef.root(), anchor, 0, 'bottom', props.align);
     };
 
     const hide = () => {

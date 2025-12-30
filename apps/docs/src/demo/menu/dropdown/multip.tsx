@@ -64,7 +64,7 @@ export default function(props: MountProps) {
             <SelectedCls />
         </Portal>
 
-        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>
+        <Dropdown align='start' selectedClass={selectedCls()} palette={palette()} items={items} multiple>
             <div class="bg-primary-bg text-primary-fg w-full h-full">click</div>
         </Dropdown>
     </>;
