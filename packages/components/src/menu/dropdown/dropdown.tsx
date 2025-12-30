@@ -93,8 +93,9 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
     let menuRef: MenuRef;
     let rootRef: HTMLDivElement;
     let isOpen = false;
+    const isManual = (props.trigger === 'contextmenu') || (props.trigger === 'custom');
 
-    const show = () => {
+    const show = (): void => {
         if (isOpen) { return; }
 
         menuRef.root().showPopover();
@@ -102,33 +103,35 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         adjustPopoverPosition(menuRef.root(), anchor, 0, 'bottom', props.align);
     };
 
-    const hide = () => {
+    const hide = (): void => {
         if (!isOpen) { return; }
         menuRef.root().hidePopover();
     };
 
-    const toggle = () => { return isOpen ? hide() : show(); };
+    const toggle = (): void => { return isOpen ? hide() : show(); };
 
-    // 右键菜单需要对弹出和隐藏进行额外控制
-    if (props.trigger === 'contextmenu') {
+    // popover === manual 模式下，需要手动处理按钮
+    if (isManual) {
         const handleEsc = (e: KeyboardEvent) => {
             if (e.key === 'Escape') { hide(); }
         };
 
+        onMount(() => { document.addEventListener('keydown', handleEsc); });
+        onCleanup(() => { document.removeEventListener('keydown', handleEsc); });
+    }
+
+    // 右键菜单为手动模式，需要处理鼠标点击在菜单之外的情况。
+    // 但是 custom 模式下，不需要处理鼠标点击在菜单之外的情况，
+    // 否则将 show 绑定在菜单之外的按钮，会导致菜单始终无法打开。
+    if (props.trigger === 'contextmenu') {
         const click = (e: MouseEvent) => {
             if (!menuRef.root().contains(e.target as HTMLElement)) {
                 hide();
             }
         };
 
-        onMount(() => {
-            document.addEventListener('keydown', handleEsc);
-            document.addEventListener('click', click);
-        });
-        onCleanup(() => {
-            document.removeEventListener('keydown', handleEsc);
-            document.removeEventListener('click', click);
-        });
+        onMount(() => { document.addEventListener('click', click); });
+        onCleanup(() => { document.removeEventListener('click', click); });
     }
 
     if (props.hotkey) {
@@ -163,7 +166,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
             class={joinClass(undefined, styles.dropdown)} ref={el => {
                 el.root().tabIndex = -1;
-                el.root().popover = props.trigger === 'contextmenu' ? 'manual' : 'auto';
+                el.root().popover = isManual ? 'manual' : 'auto';
                 menuRef = el;
 
                 el.root().onmouseleave = e => {
@@ -176,6 +179,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
                 el.root().onbeforetoggle = (e: ToggleEvent) => {
                     isOpen = e.newState === 'open';
                     if (props.onPopover && props.onPopover(isOpen)) {
+                        isOpen = false;
                         e.preventDefault();
                     }
                 };
