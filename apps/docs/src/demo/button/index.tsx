@@ -12,9 +12,6 @@ import { default as anchor } from './anchor.tsx?raw';
 import { default as Toggle } from './toggle';
 import { default as toggle } from './toggle.tsx?raw';
 
-import { default as Split } from './split';
-import { default as split } from './split.tsx?raw';
-
 import { default as Block } from './block';
 import { default as block } from './block.tsx?raw';
 
@@ -35,7 +32,6 @@ export default function(): JSX.Element {
         { component: Confirm, source: confirm, title: 'confirm' },
         { component: Anchor, source: anchor, title: 'anchor button' },
         { component: Toggle, source: toggle, title: 'toggle button' },
-        { component: Split, source: split, title: 'split button' },
         { component: Block, source: block, title: 'block' },
         { component: Group, source: group, title: 'group' },
     ]}>

@@ -11,9 +11,6 @@
 - ButtonGroupProps
 - ButtonGroupRef
 
-- SplitButtonProps
-- SplitButtonItem
-
 - ToggleButtonProps
 - ToggleFitScreenButtonProps
 - ToggleFullScreenButtonProps
