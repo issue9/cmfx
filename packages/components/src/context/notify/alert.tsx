@@ -7,13 +7,13 @@ import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
 import { BaseProps, joinClass } from '@/base';
-import { useTheme } from '@/context';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     title: string;
     body?: string;
     timeout?: number; // 单位为毫秒
+    transitionDuration: number; // 单位为毫秒
 }
 
 /**
@@ -22,11 +22,10 @@ export interface Props extends BaseProps {
 export function Alert(props: Props): JSX.Element {
     let ref: HTMLDivElement;
     let wrapRef: HTMLDivElement;
-    const t = useTheme();
 
     const del = async () => {
         ref.style.height = '0';
-        await sleep(t.scheme.transitionDuration); // 待动画结束
+        await sleep(props.transitionDuration); // 待动画结束
         ref.remove();
     };
 
@@ -54,8 +53,7 @@ export function Alert(props: Props): JSX.Element {
         }
     });
 
-    return <div ref={el => ref = el} role="alert"
-        class={joinClass(props.palette, styles.message, props.class)}>
+    return <div ref={el => ref = el} role="alert" class={joinClass(props.palette, styles.message, props.class)}>
         <div class={styles.title}>
             <p>{props.title}</p>
             <div class={styles['close-wrap']} ref={el => wrapRef = el}>

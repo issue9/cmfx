@@ -65,8 +65,17 @@ function initNotify(p: Props): JSX.Element {
 
         if (opt.systemNotify && await systemNotify(title, body, opt.logo, lang ?? opt.locale, timeout)) { return; }
 
-        const palette = type ? type2Palette.get(type) : undefined;
-        render(() => <Alert {...{ title, body, type, timeout, palette }} />, ref);
+        const props = {
+            title,
+            body,
+            type,
+            timeout,
+            palette: type ? type2Palette.get(type) : undefined,
+
+            // NOTE: render 为导致其内部的组件 useOptions 不可用，所以直接在属性中会话。
+            transitionDuration: opt.scheme.transitionDuration,
+        };
+        render(() => <Alert {...props} />, ref);
     };
 
     return <div ref={el => ref = el} class={joinClass(p.palette, styles.notify, p.class)} />;
