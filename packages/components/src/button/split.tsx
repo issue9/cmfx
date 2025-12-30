@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { mergeProps, ParentProps, splitProps } from 'solid-js';
+import { mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
 import { AvailableEnumType, Layout, RefProps } from '@/base';
 import { Dropdown, DropdownProps, DropdownRef } from '@/menu/dropdown';
-import { Button } from './button';
+import { Button, Ref as ButtonRef } from './button';
 import { ButtonGroup, Ref as ButtonGroupRef } from './group';
 import styles from './style.module.css';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
@@ -38,6 +38,16 @@ export default function Split<M extends boolean = false, T extends AvailableEnum
     props = mergeProps(presetProps, props) as Props<M, T>;
 
     let dropdownRef: DropdownRef;
+    let arrowRef: ButtonRef;
+
+    const click = (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        if (!dropdownRef.menu().root().contains(target) && !arrowRef.root().contains(target)) {
+            dropdownRef.hide();
+        }
+    };
+    onMount(() => { document.addEventListener('click', click); });
+    onCleanup(() => { document.removeEventListener('click', click); });
 
     const [, dropProps] = splitProps(props, ['children', 'ref', 'kind', 'rounded', 'disabled', 'layout']);
     return <Dropdown ref={el => dropdownRef = el} {...dropProps} trigger='custom'>
@@ -56,7 +66,7 @@ export default function Split<M extends boolean = false, T extends AvailableEnum
             }}
         >
             {props.children}
-            <Button class={styles.split} square onclick={() => {
+            <Button class={styles.split} square ref={el => arrowRef = el} onclick={() => {
                 dropdownRef.toggle();
             }}><IconArrowDown /></Button>
         </ButtonGroup>
