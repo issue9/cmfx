@@ -11,7 +11,15 @@ interface Point {
 
 export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right';
 
-export type PopoverAlign = 'start' | 'center' | 'end';
+/**
+ * 弹出框与锚点对象的对齐方式
+ *
+ * @remarks
+ * - `start`：弹出框的起始位置对齐锚点的起始位置；
+ * - `center`：弹出框的中心位置对齐锚点的中心位置；
+ * - `end`：弹出框的结束位置对齐锚点的结束位置；
+ */
+export type PopoverAlign = 'start' | 'center' | 'end' | 'stretch';
 
 /**
  * 调整弹出元素 popRef 的位置
@@ -69,7 +77,8 @@ export function adjustPopoverPosition(
  * @param padding - popRef 与 anchor 两者之间的间隙；
  * @param rtl - 是否是右到左的布局；
  *
- * @remarks 不考虑越界问题，只考虑位置和对齐方式。
+ * @remarks
+ * 不考虑越界问题，只考虑位置和对齐方式。
  */
 export function calcPopoverPosition(
     popRef: HTMLElement, anchor: DOMRect, pos: PopoverPosition, align: PopoverAlign, padding?: number, rtl = false

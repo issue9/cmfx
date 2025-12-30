@@ -39,6 +39,12 @@ export default function Split<M extends boolean = false, T extends AvailableEnum
 
     let dropdownRef: DropdownRef;
     let arrowRef: ButtonRef;
+    let groupRef: ButtonGroupRef;
+
+    // 保证弹出菜单的宽度不小于 ButtonGroup
+    onMount(() => {
+        dropdownRef.menu().root().style.minWidth = groupRef.root().getBoundingClientRect().width + 'px';
+    });
 
     const click = (e: MouseEvent) => {
         const target = e.target as HTMLElement;
@@ -53,6 +59,7 @@ export default function Split<M extends boolean = false, T extends AvailableEnum
     return <Dropdown ref={el => dropdownRef = el} {...dropProps} trigger='custom'>
         <ButtonGroup kind={props.kind} rounded={props.rounded} layout={props.layout}
             disabled={props.disabled} ref={el => {
+                groupRef = el;
                 if (props.ref) {
                     props.ref({
                         show: () => dropdownRef.show(),
