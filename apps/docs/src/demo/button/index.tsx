@@ -12,6 +12,9 @@ import { default as anchor } from './anchor.tsx?raw';
 import { default as Toggle } from './toggle';
 import { default as toggle } from './toggle.tsx?raw';
 
+import { default as Split } from './split';
+import { default as split } from './split.tsx?raw';
+
 import { default as Block } from './block';
 import { default as block } from './block.tsx?raw';
 
@@ -34,6 +37,7 @@ export default function(): JSX.Element {
         { component: Toggle, source: toggle, title: 'toggle button' },
         { component: Block, source: block, title: 'block' },
         { component: Group, source: group, title: 'group' },
+        { component: Split, source: split, title: 'SplitMenu' },
     ]}>
     </Stages>;
 }

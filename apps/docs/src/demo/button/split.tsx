@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MenuItem, MountProps, SplitMenu } from '@cmfx/components';
+import { Button, MenuItem, MountProps, SplitButton } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { arraySelector, paletteSelector } from '../../base';
+import { arraySelector, paletteSelector } from '../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
@@ -64,8 +64,8 @@ export default function (props: MountProps) {
             <SelectedCls />
         </Portal>
 
-        <SplitMenu selectedClass={selectedCls()} palette={palette()} multiple items={items}>
+        <SplitButton selectedClass={selectedCls()} palette={palette()} items={items}>
             <Button>split button</Button>
-        </SplitMenu>
+        </SplitButton>
     </div>;
 }

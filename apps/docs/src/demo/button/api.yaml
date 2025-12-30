@@ -8,6 +8,9 @@
 
 - ConfirmButtonProps
 
+- SplitButtonProps
+- SplitButtonRef
+
 - ButtonGroupProps
 - ButtonGroupRef
 

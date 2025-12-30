@@ -27,7 +27,6 @@ import IconTable from '~icons/lets-icons/table';
 import IconDialog from '~icons/material-symbols/dialogs-outline-rounded';
 import IconDropdown from '~icons/material-symbols/dropdown-outline';
 import IconColorPanel from '~icons/material-symbols/format-color-fill-rounded';
-import IconSplitMenu from '~icons/material-symbols/horizontal-split-rounded';
 import IconInput from '~icons/material-symbols/input-rounded';
 import IconNav from '~icons/material-symbols/list-alt-rounded';
 import IconTransition from '~icons/material-symbols/masked-transitions';
@@ -147,10 +146,6 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'navigation', path: '/nav', component: lazy(() => import('./nav')),
         info: { title: '_d.demo.nav', icon: <IconNav /> },
-    },
-    {
-        kind: 'navigation', path: '/split-menu', component: lazy(() => import('./menu/split')),
-        info: { title: '_d.demo.splitMenu', icon: <IconSplitMenu /> },
     },
     {
         kind: 'navigation', path: '/tab', component: lazy(() => import('./tab')),

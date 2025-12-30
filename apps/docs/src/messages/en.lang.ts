@@ -120,7 +120,6 @@ const messages = {
             range: 'Range',
             result: 'Result',
             spin: 'Spin',
-            splitMenu: 'Split Menu',
             search: 'Search',
             settings: 'Settings',
             statistic: 'Statistic',

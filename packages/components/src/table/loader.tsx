@@ -14,12 +14,12 @@ import IconReset from '~icons/material-symbols/restart-alt';
 import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Palette, RefProps } from '@/base';
-import { Button, ToggleFitScreenButton } from '@/button';
+import { Button, SplitButton, ToggleFitScreenButton } from '@/button';
 import { useLocale, useOptions } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
 import { Checkbox, ObjectAccessor, Radio } from '@/form';
-import { Dropdown, SplitMenu } from '@/menu';
+import { Dropdown } from '@/menu';
 import { PaginationBar } from '@/pagination';
 import { Label } from '@/typography';
 import type { Props as BaseProps, Ref as BasicTableRef } from './basic';
@@ -225,7 +225,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
             <form class={styles.search}>
                 {props.queryForm!(queries)}
                 <div class={styles.actions}>
-                    <SplitMenu align='end' onChange={async v=>{
+                    <SplitButton align='end' onChange={async v=>{
                         switch (v) {
                         case 'reset':
                             queries.reset();
@@ -259,7 +259,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                         <Button type='submit' palette='primary' onclick={async () => await refetch()}>
                             {l.t('_c.search')}
                         </Button>
-                    </SplitMenu>
+                    </SplitButton>
                 </div>
             </form>
         </Show>

@@ -121,7 +121,6 @@ const messages: typeof m = {
             range: 'Range 范围选择器',
             result: 'Result 结果页',
             spin: 'Spin 加载',
-            splitMenu: 'Split Menu 分割菜单',
             search: 'Search 搜索框',
             settings: 'Settings 设置',
             statistic: 'Statistic 统计',
