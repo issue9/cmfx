@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -65,6 +65,8 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 
     const api = await API.build(opt.id+'-token', opt.tokenStorage, opt.api.base,
         opt.api.token, opt.api.contentType, opt.api.acceptType, opt.locale);
+
+    await api.clearCache(); // 缓存不应该长期保存，防止上次退出时没有清除缓存。
 
     const root = (p: RouteSectionProps) => {
         return <OptionsProvider {...opt}>
