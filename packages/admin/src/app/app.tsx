@@ -7,7 +7,7 @@ import { API, Config } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
 
-import { OptionsProvider, useAdmin, useOptions, useREST } from './context';
+import { AdminProvider, APIProvider, OptionsProvider, useAdmin, useAPI, useOptions } from './context';
 import * as errors from './errors';
 import { build as buildOptions, Options } from './options';
 import styles from './style.module.css';
@@ -67,13 +67,17 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
         opt.api.token, opt.api.contentType, opt.api.acceptType, opt.locale);
 
     const root = (p: RouteSectionProps) => {
-        return <OptionsProvider coreAPI={api} {...opt}>
-            <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>
-                <div class={joinClass('surface', styles.app)}>
-                    <Toolbar drawer={drawerRef} />
-                    <main class={styles.main}>{p.children}</main>
-                </div>
-            </ErrorBoundary>
+        return <OptionsProvider {...opt}>
+            <APIProvider api={api}>
+                <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>
+                    <AdminProvider>
+                        <div class={joinClass('surface', styles.app)}>
+                            <Toolbar drawer={drawerRef} />
+                            <main class={styles.main}>{p.children}</main>
+                        </div>
+                    </AdminProvider>
+                </ErrorBoundary>
+            </APIProvider>
         </OptionsProvider>;
     };
 
@@ -89,8 +93,8 @@ function Public(props: ParentProps): JSX.Element {
 function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>): JSX.Element {
     const l = useLocale();
     let menuRef: MenuRef;
-    const act = useAdmin();
-    const api = useREST();
+    const usr = useAdmin();
+    const api = useAPI();
     const opt = useOptions();
 
     onMount(() => {
@@ -98,10 +102,10 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
     });
 
     return <Switch>
-        <Match when={!api.api().isLogin()}>
+        <Match when={!api.isLogin()}>
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
-        <Match when={act.isLogin()}>
+        <Match when={usr.isLogin()}>
             <Drawer floating={opt.floatingMinWidth} palette='tertiary' ref={props.setDrawer} mainPalette='surface'
                 main={
                     <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>{props.children}</ErrorBoundary>

@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { adminSchema, passportSchema, useAdmin } from './admin';
+export { AdminProvider, adminSchema, passportSchema, useAdmin } from './admin';
 export type { Admin } from './admin';
 
 export { OptionsProvider, useOptions } from './options';
 
-export { useAPI, useREST } from './rest';
+export { APIProvider, useAPI, useREST } from './rest';
+

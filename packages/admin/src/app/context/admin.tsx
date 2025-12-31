@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { notify, useLocale, useOptions } from '@cmfx/components';
+import { ContextNotFoundError, notify, useLocale, useOptions } from '@cmfx/components';
 import { Return, Token } from '@cmfx/core';
-import { createResource } from 'solid-js';
+import { createContext, createResource, ParentProps, ResourceReturn, useContext } from 'solid-js';
 import { z } from 'zod';
 
 import { sexSchema, stateSchema } from '@/schemas';
 import { useOptions as useAdminOptions } from './options';
-import { useREST } from './rest';
+import { useAPI, useREST } from './rest';
 
 export const passportSchema = z.object({
     id: z.string(),
@@ -32,22 +32,25 @@ export const adminSchema = z.object({
  */
 export type Admin = z.infer<typeof adminSchema>;
 
-/**
- * 返回用于操作当前登录用户的操作接口
- */
-export function useAdmin() {
-    const opt = useAdminOptions();
-    const l = useLocale();
-    const rest = useREST();
-    const [set] = useOptions();
+const adminContext = createContext<ResourceReturn<Admin | undefined>>();
 
-    const [info, data] = createResource(async (): Promise<Admin | undefined> => {
-        // 虽然返回的值没有用，但不能是 undefined，否则会出错。
-        if (!rest.api().isLogin()) { return; }
+/**
+ * 提供获取管理员信息的环境
+ *
+ * @remarks
+ * 依赖 {@link APIProvider} 和 {@link OptionsProvider} 组件，必须在其之内使用。
+ */
+export function AdminProvider(props: ParentProps) {
+    const l = useLocale();
+    const opt = useAdminOptions();
+    const api = useAPI();
+
+    const res = createResource(async (): Promise<Admin | undefined> => {
+        if (!api.isLogin()) { return; }
 
         // 依然可能 401，比如由服务器导致的用户退出，api.isLogin 是检测不出来的。
 
-        const r = await rest.api().get<Admin>(opt.api.info);
+        const r = await api.get<Admin>(opt.api.info);
         if (r.ok) {
             const u = r.body;
             if (u && !u.avatar) { u.avatar = opt.logo; }
@@ -58,14 +61,28 @@ export function useAdmin() {
         notify(title, undefined, 'error', l.locale.toString());
     });
 
+    return <adminContext.Provider value={res}>
+        {props.children}
+    </adminContext.Provider>;
+}
+
+/**
+ * 返回用于操作当前登录用户的操作接口
+ */
+export function useAdmin() {
+    const admin = useContext(adminContext);
+    if (!admin) { throw new ContextNotFoundError('adminContext'); }
+    const [info, actions] = admin;
+
+    const opt = useAdminOptions();
+    const rest = useREST();
+    const [set] = useOptions();
+
     return {
         /**
          * 是否已经登录
          */
-        isLogin(): boolean {
-            // NOTE: API.isLogin 不是响应式的，所以改为 user。
-            return !info.loading && !!info();
-        },
+        isLogin() { return !info.loading && info(); },
 
         /**
          * 设置登录状态并刷新 user
@@ -78,7 +95,7 @@ export function useAdmin() {
         async login(r: Return<Token, never>) {
             const ret = await rest.api().login(r);
             if (ret === true) {
-                await data.refetch();
+                await actions.refetch();
                 const uid = this.info()!.id!.toString();
                 set.switchConfig(uid);
             }
@@ -93,8 +110,9 @@ export function useAdmin() {
          */
         async logout() {
             await rest.api().logout();
-            data.mutate();
-            set.switchConfig(opt.configName!);
+            actions.mutate(); // 此操作不会调用从服务器更新数据
+            //setLoginState(false);
+            set.switchConfig(opt.configName);
         },
 
         /**
@@ -105,6 +123,6 @@ export function useAdmin() {
         /**
          * 从服务器更新数据
          */
-        async refetch() { await data.refetch(); },
+        async refetch() { await actions.refetch(); },
     };
 }

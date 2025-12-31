@@ -66,7 +66,8 @@ export interface Props<T extends InputValue = string> extends FieldBaseProps, Re
     /**
      * 提供候选词列表
      *
-     * @remarks 当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。
+     * @remarks
+     * 当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。
      */
     onSearch?: { (text?: T): Array<Exclude<T, undefined>>; };
 }

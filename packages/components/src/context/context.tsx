@@ -110,7 +110,7 @@ export function buildSetter(ctx: OptionsGetSetContext) {
 
     return {
         /**
-         * 切换配置
+         * 切换用户
          *
          * @remarks
          * 多用户环境，可以根据不同的用户 ID 切换不同的配置。

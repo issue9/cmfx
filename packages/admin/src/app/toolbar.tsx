@@ -11,8 +11,8 @@ import { useNavigate } from '@solidjs/router';
 import { Accessor, JSX, Show } from 'solid-js';
 import IconClear from '~icons/material-symbols/delete-rounded';
 
-import { MenuItem } from './options';
 import { useAPI, useAdmin, useOptions as useAdminOptions } from './context';
+import { MenuItem } from './options';
 import styles from './style.module.css';
 
 /**
