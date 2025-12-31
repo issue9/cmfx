@@ -22,8 +22,7 @@ export interface REST {
      *
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容，区分大小写。
-     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @param headers - 自定义请求头内容，区分大小写；
      */
     delete<R = never, PE = never>(path: string, withToken?: boolean, headers?: Headers): Promise<Return<R, PE>>;
 
@@ -33,8 +32,7 @@ export interface REST {
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容，区分大小写。
-     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @param headers - 自定义请求头内容，区分大小写；
      */
     post<R = never, PE = never>(
         path: string, body?: unknown, withToken?: boolean, headers?: Headers
@@ -46,8 +44,7 @@ export interface REST {
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容，区分大小写。
-     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @param headers - 自定义请求头内容，区分大小写；
      */
     put<R = never, PE = never>(
         path: string, body?: unknown, withToken?: boolean, headers?: Headers
@@ -59,8 +56,7 @@ export interface REST {
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容，区分大小写。
-     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @param headers - 自定义请求头内容，区分大小写；
      */
     patch<R = never, PE = never>(
         path: string, body?: unknown, withToken?: boolean, headers?: Headers
@@ -71,8 +67,7 @@ export interface REST {
      *
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容，区分大小写。
-     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @param headers - 自定义请求头内容，区分大小写；
      */
     get<R = never, PE = never>(path: string, withToken?: boolean, headers?: Headers): Promise<Return<R, PE>>;
 
@@ -83,8 +78,7 @@ export interface REST {
      * @param method - 请求方法；
      * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容，区分大小写。
-     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @param headers - 自定义请求头内容，区分大小写；
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
      */
@@ -99,8 +93,7 @@ export interface REST {
      * @param obj - 上传的对象；
      * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
      * @param method - 请求方法，默认为 POST；
-     * @param headers - 自定义请求头内容，区分大小写。
-     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @param headers - 自定义请求头内容，区分大小写；
      */
     upload<R = never, PE = never>(
         path: string, obj: FormData, method?: 'POST' | 'PATCH' | 'PUT', withToken?: boolean, headers?: Headers
@@ -184,8 +177,7 @@ export class API implements REST {
     /**
      * 声明一个包含指定报头的 {@link REST} 实例
      *
-     * @param headers - 自定义请求头内容，区分大小写。
-     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @param headers - 自定义请求头内容，区分大小写；
      */
     rest(headers?: Headers): REST {
         const self = this;
@@ -254,21 +246,15 @@ export class API implements REST {
     get baseURL(): string { return this.#baseURL; }
 
     /**
-     * 切换语言并清空缓存
+     * 切换语言
      */
-    setLocale(v: string): void {
-        if (this.#locale === v) { return; }
-
-        this.#locale = v;
-        this.clearCache().then(() => { });
-    }
+    setLocale(v: string): void { this.#locale = v; }
 
     /**
      * 缓存 path 指向的 GET 接口数据
      *
      * @remarks
      * 以下操作会删除缓存内容：
-     *  - 切换语言；
      *  - 访问了该接口的非 GET 请求；
      *  - 调用 {@link uncache} 方法；
      *  - 调用 {@link clearCache} 方法；
@@ -283,6 +269,7 @@ export class API implements REST {
      * NOTE: 相同的 path 多次调用，后续的调用将被忽略。
      */
     cache(path: string, ...deps: Array<string>) {
+        path = this.buildURL(path);
         if (!this.#cachePaths.has(path)) {
             deps.push(path);
             this.#cachePaths.set(path, deps);
@@ -295,6 +282,7 @@ export class API implements REST {
      * @param path - 相对于 {@link baseURL} 的接口地址；
      */
     async uncache(path: string): Promise<void> {
+        path = this.buildURL(path);
         this.#cachePaths.delete(path);
         await this.#cache.delete(this.buildURL(path));
     }
@@ -478,52 +466,48 @@ export class API implements REST {
         }
         if (!headers.has('Accept-Language')) {
             headers.set('Accept-Language', this.#locale);
-        } else if (headers.get('Accept-Language') !== this.#locale) {
-            this.clearCache().then(() => { });
         }
 
-        return await this.#fetch(path, {
+        const r = new Request(this.buildURL(path), {
             method: method,
             body: body,
             mode: 'cors',
             headers: headers,
         });
+
+        return await this.#fetch(r);
     }
 
     /**
      * 相当于标准库的 {@link fetch} 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
      *
-     * @param path - 地址，相对于 {@link baseURL}；
      * @param req - 相关的参数；
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
      */
-    async #fetch<R = never, PE = never>(path: string, req?: RequestInit): Promise<Return<R, PE>> {
-        // NOTE: req 的不同，可能需要返回不同的结果，对于缓存的接口，
-        // 没办法根据 req 的不同而选择缓存不同的数据。干脆直接不让此方法公开。
-
-        const isGET = req && req.method === 'GET';
-        const fullPath = this.buildURL(path);
+    async #fetch<R = never, PE = never>(req: Request): Promise<Return<R, PE>> {
+        const isGET = req.method === 'GET';
+        const fullPath = req.url;
 
         try {
             let resp: Response | undefined;
-            if (isGET && this.#cachePaths.has(path)) {
-                resp = await this.#cache.match(fullPath);
+            if (isGET && this.#cachePaths.has(fullPath)) {
+                resp = await this.#cache.match(req);
             }
             const isMatched = !!resp; // 是否是从缓存中匹配到的数据
             if (!resp) {
-                resp = await fetch(fullPath, req);
+                resp = await fetch(req);
             }
 
             // 200-299
 
             if (resp.ok) {
                 if (isGET) {
-                    if (!isMatched && this.#cachePaths.has(path)) {
-                        await this.#cache.put(fullPath, resp.clone());
+                    if (!isMatched && this.#cachePaths.has(fullPath)) {
+                        await this.#cache.put(req, resp.clone());
                     }
-                } else if (!req || (req.method !== 'OPTIONS' && req.method !== 'HEAD')) { // 非 GET 请求，则清除缓存。
-                    const key = this.#needUncache(path);
+                } else if (req.method !== 'OPTIONS' && req.method !== 'HEAD') { // 非 GET 请求，则清除缓存。
+                    const key = this.#needUncache(fullPath);
                     if (key) {
                         await this.#cache.delete(this.buildURL(key));
                     }
