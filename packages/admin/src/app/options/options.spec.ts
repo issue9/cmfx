@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -50,7 +50,6 @@ export const options = build({
     routes,
     api: api,
     menus: [],
-    userMenus: [],
     title: 't1',
     logo: 'l1'
 });
@@ -61,7 +60,6 @@ test('build', async () => {
         ...locales,
         routes,
         api: api,
-        userMenus: [],
         title: 't1',
         logo: 'l1',
         menus: [],

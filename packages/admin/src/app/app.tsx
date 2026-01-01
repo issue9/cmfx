@@ -9,9 +9,9 @@ import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, 
 
 import { AdminProvider, APIProvider, OptionsProvider, useAdmin, useAPI, useOptions } from './context';
 import * as errors from './errors';
-import { build as buildOptions, Options } from './options';
+import { buildItems, build as buildOptions, Options } from './options';
 import styles from './style.module.css';
-import { buildItems, default as Toolbar } from './toolbar';
+import { default as Toolbar } from './toolbar';
 
 /**
  * 初始化整个项目

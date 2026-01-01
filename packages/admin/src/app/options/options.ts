@@ -1,12 +1,21 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { DrawerProps, Mode, Scheme } from '@cmfx/components';
-import { DictLoader, DisplayStyle, Hotkey, PickOptional } from '@cmfx/core';
+import { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
+import { Component } from 'solid-js';
 
 import { API, sanitizeAPI } from './api';
 import type { MenuItem, Routes } from './route';
+
+/**
+ * 用于描述工具栏的组件信息
+ *
+ *  - pub 这个组件在未登录页面是否可以使用；
+ *  - component 组件本身；
+ */
+export type ToolbarItem = [pub: boolean, component: Component];
 
 /**
  * 项目的基本配置
@@ -117,23 +126,19 @@ export interface Options {
     /**
      * 定义了工具栏上的按钮
      *
-     * @remarks 键名定义了需要在工具栏上出现的按钮；键值则定义了该工具栏对应的快捷键；
+     * @remarks
+     * 会按顺序显示大工具栏上
      *
-     * 目前的按钮可以是以下值：
-     *  - search 搜索，登录之后有效；
-     *  - clear 清除缓存的菜单；
-     *  - fullscreen 全屏；
-     *
-     * NOTE: 默认为显示全部的按钮，如果不想显示任何按钮，应该赋值一个长度为零的空对象。
-     *
-     * @defaultValue 所有项
+     * @defaultValue []
      */
-    toolbar?: Map<'fullscreen' | 'search' | 'clear', Hotkey | undefined>;
+    toolbar?: Array<ToolbarItem>;
 
     /**
      * 用户菜单
+     *
+     * @defaultValue []
      */
-    userMenus: Array<MenuItem>;
+    userMenus?: Array<MenuItem>;
 
     /**
      * 指定本地化文本的加载方式
@@ -182,11 +187,8 @@ const presetOptions: Readonly<PickOptional<Options>> = {
     mode: 'system',
     scheme: '',
     schemes: new Map(),
-    toolbar: new Map([
-        ['fullscreen', new Hotkey('f', 'control')],
-        ['search', new Hotkey('k', 'control')],
-        ['clear', undefined],
-    ]),
+    toolbar: [],
+    userMenus: [],
     locale: document.documentElement.lang
         || navigator.language
         || (navigator.languages.length > 0 ? navigator.languages[0] : 'en'),

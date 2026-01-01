@@ -1,12 +1,14 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import './style.css';
 
-import { admins, createApp, current, members, Options, roles, system } from '@cmfx/admin';
+import {
+    admins, createApp, createClear, createFullscreen, createSearch, current, members, Options, roles, system,
+} from '@cmfx/admin';
 import { Card, createChartLocaleLoader, Label, Scheme, schemes, useLocale } from '@cmfx/components';
-import { createZodLocaleLoader } from '@cmfx/core';
+import { createZodLocaleLoader, Hotkey } from '@cmfx/core';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';
 import IconDashboard from '~icons/material-symbols/dashboard';
 import IconHost from '~icons/material-symbols/host';
@@ -92,7 +94,6 @@ const menus: Options['menus'] = [
 
 const o: Options = {
     id: 'admin-demo',
-    storage: window.localStorage,
 
     routes,
 
@@ -136,7 +137,11 @@ const o: Options = {
     logo: '/brand-static.svg',
     menus: menus,
     floatingMinWidth: 'xs',
-    userMenus: currentPage.menus()
+    userMenus: currentPage.menus(),
+    toolbar: [
+        createSearch(new Hotkey('k', 'control')),
+        createClear(), createFullscreen(),
+    ]
 };
 
 createApp('app', o);

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -18,5 +18,5 @@ export interface Pages {
     /**
      * 该页面集合中需要出现在左侧菜单栏中的菜单列表
      */
-    menus(): Array<Options['userMenus'][number]>;
+    menus(): Array<Options['menus'][number]>;
 }

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,3 +12,5 @@ export { adminSchema, useAdmin, useAPI, useOptions, useREST } from './context';
 export type { Admin } from './context';
 
 export type { Options } from './options';
+
+export { createClear, createFullscreen, createSearch } from './toolbar';

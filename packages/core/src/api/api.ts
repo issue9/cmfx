@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -272,7 +272,7 @@ export class API implements REST {
         path = this.buildURL(path);
         if (!this.#cachePaths.has(path)) {
             deps.push(path);
-            this.#cachePaths.set(path, deps);
+            this.#cachePaths.set(path, deps.map(v => this.buildURL(v)));
         }
     }
 

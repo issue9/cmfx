@@ -7,7 +7,7 @@ packages:
 
 catalog:
   '@formatjs/intl-durationformat': ^0.9.0
-  '@iconify/json': ^2.2.422
+  '@iconify/json': ^2.2.423
   '@solidjs/router': ^0.15.4
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.1.18
@@ -33,7 +33,7 @@ catalog:
   vitest: ^4.0.16
   vitest-fetch-mock: ^0.4.5
   yaml: ^2.8.2
-  zod: ^4.2.1
+  zod: ^4.3.4
 
 ignoredBuiltDependencies:
   - '@tailwindcss/oxide'

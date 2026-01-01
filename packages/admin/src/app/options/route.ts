@@ -1,8 +1,9 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Hotkey } from '@cmfx/core';
+import { MenuItem as XMenuItem } from '@cmfx/components';
+import { Hotkey, Locale } from '@cmfx/core';
 import { RouteDefinition } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
@@ -79,3 +80,34 @@ export type MenuItem = {
 
     suffix?: JSX.Element;
 };
+
+export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem<string>> {
+    const items: Array<XMenuItem<string>> = [];
+    menus.forEach((mi) => {
+        switch (mi.type) {
+        case 'divider':
+            items.push({ type: 'divider' });
+            break;
+        case 'group':
+            items.push({
+                type: 'group',
+                label: l.t(mi.label),
+                items: buildItems(l, mi.items),
+            });
+            break;
+        case 'item':
+            items.push({
+                type: 'a',
+                prefix: mi.icon,
+                label: l.t(mi.label),
+                value: mi.path,
+                hotkey: mi.hotkey,
+                items: mi.items ? buildItems(l, mi.items) : undefined,
+                suffix: mi.suffix,
+            });
+            break;
+        }
+    });
+
+    return items;
+}
