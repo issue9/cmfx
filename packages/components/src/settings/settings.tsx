@@ -1,9 +1,9 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { DisplayStyle, formatDuration, I18n } from '@cmfx/core';
-import { createSignal, Show } from 'solid-js';
+import { createSignal, Show, JSX, ParentProps } from 'solid-js';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconSystemNotify from '~icons/material-symbols/notification-settings';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
@@ -13,7 +13,7 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { BaseProps, joinClass, Mode } from '@/base';
+import { BaseProps, joinClass, Mode, RefProps } from '@/base';
 import { Button } from '@/button';
 import { useLocale, useOptions } from '@/context';
 import { Timezone } from '@/datetime';
@@ -24,7 +24,45 @@ import { SchemeSelector } from '@/theme';
 import { Description } from '@/typography';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {}
+/**
+ * 设置项的属性
+ */
+export interface ItemProps extends ParentProps {
+    /**
+     * 图标
+     *
+     * @reactive
+     */
+    icon: JSX.Element;
+
+    /**
+     * 标题
+     *
+     * @reactive
+     */
+    title: string;
+
+    /**
+     * 设置内容的详细描述
+     *
+     * @reactive
+     */
+    desc: string;
+}
+
+export interface Ref {
+    /**
+     * 组件根元素
+     */
+    root(): HTMLDivElement;
+
+    /**
+     * 声明一个设置项的组件
+     */
+    Item(props: ItemProps): JSX.Element;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {}
 
 /**
  * 提供了整个项目页可设置的选项
@@ -35,6 +73,18 @@ export interface Props extends BaseProps {}
 export function Settings(props: Props) {
     const [set, opt] = useOptions();
     const l = useLocale();
+    let count = 0;
+
+    const Item = (props: ItemProps) => {
+        count++;
+        return <>
+            <Show when={count > 1}>
+                <Divider padding='16px 8px' />
+            </Show>
+            <Description icon={props.icon} title={props.title}>{props.desc}</Description>
+            {props.children}
+        </>;
+    };
 
     const fontSizeFA = fieldAccessor<number>('fontSize', parseInt(opt.fontSize.slice(0, -2)));
     fontSizeFA.onChange(v => set.setFontSize(v + 'px'));
@@ -72,117 +122,106 @@ export function Settings(props: Props) {
         }
     };
 
-    return <div class={joinClass(props.palette, styles.settings, props.class)} style={props.style}>
+    return <div class={joinClass(props.palette, styles.settings, props.class)} style={props.style} ref={el=>{
+        if (props.ref) {
+            props.ref({
+                root: () => el,
+                Item: Item,
+            });
+        }
+    }}>
+        {props.children}
+
         {/***************************** font *******************************/}
 
-        <Description icon={/*@once*/<IconFontSize />} title={l.t('_c.settings.fontSize')!}>
-            {l.t('_c.settings.fontSizeDesc')!}
-        </Description>
-
-        <Range class={joinClass(undefined, styles.item, styles.range)} value={v=>v+'px'}
-            min={12} max={32} step={1} accessor={fontSizeFA}
-        />
+        <Item icon={<IconFontSize />} title={l.t('_c.settings.fontSize')} desc={l.t('_c.settings.fontSizeDesc')}>
+            <Range class={joinClass(undefined, styles.item, styles.range)} value={v=>v+'px'}
+                min={12} max={32} step={1} accessor={fontSizeFA}
+            />
+        </Item>
 
         {/***************************** mode *******************************/}
 
-        <Divider padding='16px 8px' />
-
-        <Description icon={/*@once*/<IconMode />} title={l.t('_c.settings.mode')!}>
-            {l.t('_c.settings.modeDesc')!}
-        </Description>
-
-        <RadioGroup itemLayout='horizontal' accessor={modeFA} block={/*@once*/false}
-            class={joinClass(undefined, styles.item, styles.radios)}
-            options={/*@once*/[
-                { value: 'system', label: l.t('_c.settings.system') },
-                { value: 'dark', label: l.t('_c.settings.dark') },
-                { value: 'light', label: l.t('_c.settings.light') }
-            ]}
-        />
+        <Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
+            <RadioGroup itemLayout='horizontal' accessor={modeFA} block={/*@once*/false}
+                class={joinClass(undefined, styles.item, styles.radios)}
+                options={/*@once*/[
+                    { value: 'system', label: l.t('_c.settings.system') },
+                    { value: 'dark', label: l.t('_c.settings.dark') },
+                    { value: 'light', label: l.t('_c.settings.light') }
+                ]}
+            />
+        </Item>
 
         {/***************************** scheme *******************************/}
 
         <Show when={opt.schemes && opt.scheme}>
-            <Divider padding='16px 8px' />
-
-            <Description icon={/*@once*/<IconPalette />} title={l.t('_c.settings.color')}>
-                {l.t('_c.settings.colorDesc')}
-            </Description>
-
-            <SchemeSelector class={styles.item} schemes={opt.schemes}
-                value={opt.scheme} onChange={val => set.setScheme(val)} />
+            <Item icon={<IconPalette />} title={l.t('_c.settings.color')} desc={l.t('_c.settings.colorDesc')}>
+                <SchemeSelector class={styles.item} schemes={opt.schemes}
+                    value={opt.scheme} onChange={val => set.setScheme(val)} />
+            </Item>
         </Show>
 
         {/***************************** stays *******************************/}
 
-        <Divider padding='16px 8px' />
-
-        <Description icon={/*@once*/<IconNotify />} title={l.t('_c.settings.stays')}>
-            {l.t('_c.settings.staysDesc')}
-        </Description>
-        <Number accessor={staysFA} min={1000} max={10000} step={500}
-            class={joinClass(undefined, styles.item, styles.stays)}
-        />
+        <Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
+            <Number accessor={staysFA} min={1000} max={10000} step={500}
+                class={joinClass(undefined, styles.item, styles.stays)}
+            />
+        </Item>
 
         {/***************************** notify *******************************/}
 
         <Show when={'Notification' in window}>
-            <Divider padding='16px 8px' />
-
-            <Description icon={/*@once*/<IconSystemNotify />} title={l.t('_c.settings.systemNotify')}>
-                {l.t('_c.settings.systemNotifyDesc',{request: l.t('_c.settings.requestNotifyPermission')})}
-            </Description>
-            <div class={joinClass(undefined, styles.item, styles.notify)}>
-                <Checkbox label={l.t('_c.settings.enabled')} class={styles.checkbox} disabled={sysNotifyDisabled()}
-                    checked={opt.systemNotify} onChange={async v => {
-                        set.setSystemNotify(!!v);
-                    }}
-                />
-                <Button kind='flat' onclick={requestSysNotify}>{ l.t('_c.settings.requestNotifyPermission') }</Button>
-            </div>
+            <Item icon={/*@once*/<IconSystemNotify />} title={l.t('_c.settings.systemNotify')}
+                desc={l.t('_c.settings.systemNotifyDesc',{request: l.t('_c.settings.requestNotifyPermission')})}
+            >
+                <div class={joinClass(undefined, styles.item, styles.notify)}>
+                    <Checkbox label={l.t('_c.settings.enabled')} class={styles.checkbox} disabled={sysNotifyDisabled()}
+                        checked={opt.systemNotify} onChange={async v => {
+                            set.setSystemNotify(!!v);
+                        }}
+                    />
+                    <Button kind='flat' onclick={requestSysNotify}>{ l.t('_c.settings.requestNotifyPermission') }</Button>
+                </div>
+            </Item>
         </Show>
 
         {/***************************** locale *******************************/}
 
-        <Divider padding='16px 8px' />
-
-        <Description icon={/*@once*/<IconTranslate />} title={l.t('_c.settings.locale')}>
-            {l.t('_c.settings.localeDesc')}
-        </Description>
-        <Choice class={styles.item}
-            accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
+        <Item icon={/*@once*/<IconTranslate />} title={l.t('_c.settings.locale')} desc={l.t('_c.settings.localeDesc')}>
+            <Choice class={styles.item}
+                accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
+        </Item>
 
         {/***************************** displayStyle *******************************/}
 
-        <Divider padding='16px 8px' />
-
-        <Description icon={/*@once*/<IconFormat />} title={l.t('_c.settings.displayStyle')}>
-            {l.t('_c.settings.displayStyleDesc')}
-        </Description>
-        <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false}
-            class={joinClass(undefined, styles.item, styles.radios)}
-            options={/*@once*/[
-                { value: 'narrow', label: l.t('_c.settings.narrow') },
-                { value: 'short', label: l.t('_c.settings.short') },
-                { value: 'full', label: l.t('_c.settings.long') },
-            ]}
-        />
-        <div class={joinClass(undefined, styles.item, styles['ds-demo'])}>
-            <p>{l.datetimeFormat().format(new Date())}</p>
-            <p>{formatDuration(l.durationFormat(), 1111111223245)}</p>
-            <p>{createBytesFormatter(l)(1111223245)}</p>
-        </div>
+        <Item icon={/*@once*/<IconFormat />}
+            title={l.t('_c.settings.displayStyle')} desc={l.t('_c.settings.displayStyleDesc')}
+        >
+            <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false}
+                class={joinClass(undefined, styles.item, styles.radios)}
+                options={/*@once*/[
+                    { value: 'narrow', label: l.t('_c.settings.narrow') },
+                    { value: 'short', label: l.t('_c.settings.short') },
+                    { value: 'full', label: l.t('_c.settings.long') },
+                ]}
+            />
+            <div class={joinClass(undefined, styles.item, styles['ds-demo'])}>
+                <p>{l.datetimeFormat().format(new Date())}</p>
+                <p>{formatDuration(l.durationFormat(), 1111111223245)}</p>
+                <p>{createBytesFormatter(l)(1111223245)}</p>
+            </div>
+        </Item>
 
         {/***************************** timezone *******************************/}
 
-        <Divider padding='16px 8px' />
-
-        <Description icon={/*@once*/<IconTimezone />} title={l.t('_c.settings.timezone')}>
-            {l.t('_c.settings.timezoneDesc')}
-        </Description>
-        <div class={styles.item}>
-            <Timezone value={opt.timezone} onChange={v => { set.setTimezone(v); }} />
-        </div>
-
+        <Item icon={/*@once*/<IconTimezone />}
+            title={l.t('_c.settings.timezone')} desc={l.t('_c.settings.timezoneDesc')}
+        >
+            <div class={styles.item}>
+                <Timezone value={opt.timezone} onChange={v => { set.setTimezone(v); }} />
+            </div>
+        </Item>
     </div>;
 }

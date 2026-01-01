@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -10,7 +10,7 @@ import { MenuItemItem } from '@/menu';
 
 describe('Search', async () => {
     const search =
-        async (v: string): Promise<Array<MenuItemItem<string>>> => [{ type: 'item', value: 'v', label: 'label' }];
+        async (_: string): Promise<Array<MenuItemItem<string>>> => [{ type: 'item', value: 'v', label: 'label' }];
     const ct = await ComponentTester.build(
         'Search',
         props => <Search onSearch={search} {...props} />
