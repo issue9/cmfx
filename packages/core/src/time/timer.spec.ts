@@ -31,7 +31,7 @@ describe('createTimer', () => {
 
         t.stop();
 
-        expect(() => createTimer(500, 500)).toThrow('timeout 的值最起码是 2*step');
+        expect(() => createTimer(500, 500)).toThrowError('timeout 的值最起码是 2*step');
     });
 
     test('+', async () => {

@@ -18,7 +18,11 @@ describe('API', async () => {
     });
 
     test('build', async () => {
-        expect(api).not.toBeNull();
+        expect(api).toBeDefined();
+
+        await expect(async () => {
+            await API.build(id, s, 'localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
+        }).rejects.toThrowError('参数 baseURL 必须是一个有效果的 URL');
     });
 
     test('buildURL', async () => {

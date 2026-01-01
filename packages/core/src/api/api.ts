@@ -156,6 +156,8 @@ export class API implements REST {
         id: string, s: Storage, baseURL: string, tokenPath: string,
         contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache
     ) {
+        if (!baseURL.includes('://')) { throw new Error('参数 baseURL 必须是一个有效果的 URL'); }
+
         this.#tokenPath = tokenPath;
         this.#id = id;
         this.#storage = s;

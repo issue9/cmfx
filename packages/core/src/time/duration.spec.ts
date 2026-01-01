@@ -27,8 +27,8 @@ test('parseDuration', () => {
     expect(parseDuration('1h2us555')).toEqual(1 * hour + 2 * us + 555);
     expect(parseDuration('5.426ms')).toEqual(5 * ms + 426 * us);
     expect(parseDuration(NaN)).toEqual(0);
-    expect(() => parseDuration('1hour2us555')).toThrow('无法解析的单位名称 hour');
-    expect(() => parseDuration('1h2us555nano')).toThrow('无法解析的单位名称 nano');
+    expect(() => parseDuration('1hour2us555')).toThrowError('无法解析的单位名称 hour');
+    expect(() => parseDuration('1h2us555nano')).toThrowError('无法解析的单位名称 nano');
 });
 
 test('nano2IntlDuration', () => {
@@ -53,6 +53,6 @@ test('nano2IntlDuration', () => {
     expect(nano2IntlDuration(parseDuration('999999999'))).toEqual({ milliseconds: 999, microseconds: 999, nanoseconds: 999 });
     expect(nano2IntlDuration(parseDuration('5.426ms'))).toEqual({ milliseconds: 5, microseconds: 426 });
     expect(nano2IntlDuration(parseDuration(NaN))).toEqual({ nanoseconds: 0 });
-    expect(() => nano2IntlDuration(parseDuration('1hour2us555'))).toThrow('无法解析的单位名称 hour');
-    expect(() => nano2IntlDuration(parseDuration('1h2us555nano'))).toThrow('无法解析的单位名称 nano');
+    expect(() => nano2IntlDuration(parseDuration('1hour2us555'))).toThrowError('无法解析的单位名称 hour');
+    expect(() => nano2IntlDuration(parseDuration('1h2us555nano'))).toThrowError('无法解析的单位名称 nano');
 });
