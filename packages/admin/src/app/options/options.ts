@@ -33,22 +33,6 @@ export interface Options {
      */
     id: string;
 
-
-
-    /**
-     * 配置内容在 storage 中的名称
-     *
-     * @defaultValue '0'
-     */
-    configName?: string;
-
-    /**
-     * 配置内容在 storage 中的名称
-     *
-     * @defaultValue '0'
-     */
-    configName?: string;
-
     /**
      * 网站的标题
      */
