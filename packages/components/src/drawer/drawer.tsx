@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,7 @@ import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, splitP
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import { BaseProps, classList, joinClass, Palette, RefProps } from '@/base';
+import { BaseProps, classList, joinClass, RefProps } from '@/base';
 import { ToggleButton, ToggleButtonProps } from '@/button';
 import { Transition } from '@/transition';
 import styles from './style.module.css';
@@ -93,7 +93,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
      */
     main: JSX.Element;
 
-    mainPalette?: Palette;
+    mainClass?: string;
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -158,7 +158,7 @@ export function Drawer(props: Props) {
             '@8xl/drawer:cmfx-drawer-hidden-aside': props.floating === '8xl' && !visible(),
         }}
         >{props.children}</aside>
-        <main class={joinClass(props.mainPalette)} ref={el => {
+        <main class={props.mainClass} ref={el => {
             if (props.ref) {
                 props.ref({
                     root() { return rootRef; },
