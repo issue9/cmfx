@@ -135,9 +135,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
     }
 
     if (props.hotkey) {
-        onMount(() => {
-            Hotkey.bind(props.hotkey!, toggle);
-        });
+        onMount(() => { Hotkey.bind(props.hotkey!, toggle); });
         onCleanup(() => { Hotkey.unbind(props.hotkey!); });
     }
 

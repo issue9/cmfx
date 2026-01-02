@@ -1,17 +1,17 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
-import { JSX, onMount, createSignal, Match, mergeProps, Switch, onCleanup } from 'solid-js';
-import IconSearch from '~icons/material-symbols/search';
+import { createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import IconClear from '~icons/material-symbols/close';
+import IconSearch from '~icons/material-symbols/search';
 
 import { BaseProps, joinClass } from '@/base';
-import { Input, InputRef, InputMode } from '@/input';
-import { MenuItemItem, DropdownRef, Dropdown, DropdownProps } from '@/menu';
-import styles from './style.module.css';
 import { useLocale } from '@/context';
+import { Input, InputMode, InputRef } from '@/input';
+import { Dropdown, DropdownProps, DropdownRef, MenuItemItem } from '@/menu';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     hotkey?: Hotkey;
@@ -76,16 +76,23 @@ export default function Search(props: Props): JSX.Element {
 
     let inputRef: InputRef;
 
+    const click = (e: MouseEvent) => {
+        if (!dropdownRef.root().contains(e.target as HTMLElement)) {
+            dropdownRef.hide();
+        }
+    };
+
     onMount(() => { // 绑定快捷键
         if (props.hotkey) { Hotkey.bind(props.hotkey, () => inputRef.input().focus()); }
+        document.addEventListener('click', click);
     });
     onCleanup(()=>{
         if (props.hotkey) { Hotkey.unbind(props.hotkey); }
+        document.removeEventListener('click', click);
     });
 
     return <Dropdown palette={props.palette} class={joinClass(undefined, styles.dropdown, props.class)}
-        style={props.style}
-        trigger='custom' items={candidate()} ref={el => {
+        style={props.style} trigger='custom' items={candidate()} ref={el => {
             dropdownRef = el;
             dropdownRef.menu().root().style.height = '240px';
             dropdownRef.menu().root().style.overflowY = 'auto';

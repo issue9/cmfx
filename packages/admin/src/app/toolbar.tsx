@@ -20,7 +20,7 @@ import styles from './style.module.css';
  *
  * @param hk - 快捷键；
  */
-export function createFullscreen(hk: Hotkey): ToolbarItem {
+export function createFullscreen(hk?: Hotkey): ToolbarItem {
     const c = () => {
         const l = useLocale();
         return <ToggleFullScreenButton hotkey={hk} square type='button' kind='flat'
@@ -34,7 +34,7 @@ export function createFullscreen(hk: Hotkey): ToolbarItem {
  *
  * @param hk - 快捷键；
  */
-export function createClear(hk: Hotkey): ToolbarItem {
+export function createClear(hk?: Hotkey): ToolbarItem {
     const c = () => {
         const l = useLocale();
         const api = useAPI();
@@ -78,7 +78,7 @@ export function createClear(hk: Hotkey): ToolbarItem {
  *
  * @param hk - 工具栏；
  */
-export function createSearch(hk: Hotkey): ToolbarItem {
+export function createSearch(hk?: Hotkey): ToolbarItem {
     const search = async (value: string, menus: Array<XMenuItem<string>>): Promise<Array<MenuItemItem<string>>> => {
         const items: Array<MenuItemItem<string>> = [];
 

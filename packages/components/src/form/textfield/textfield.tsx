@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    createEffect, createMemo, createSignal, createUniqueId, JSX, Match, mergeProps, Show, Switch
+    createEffect, createMemo, createSignal, createUniqueId, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch
 } from 'solid-js';
 
 import { BaseProps, RefProps, style2String } from '@/base';
@@ -87,6 +87,19 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
 
     let dropdownRef: DropdownRef;
     let rootRef: HTMLDivElement;
+
+    onMount(() => {
+        if (dropdownRef) {
+            const click = (e: MouseEvent) => {
+                if (!dropdownRef.root().contains(e.target as HTMLElement)) {
+                    dropdownRef.hide();
+                }
+            };
+
+            document.addEventListener('click', click);
+            onCleanup(() => { document.removeEventListener('click', click); });
+        }
+    });
 
     const Trigger = (p: { style?: BaseProps['style'] }) => {
         let inputRef: InputRef;
