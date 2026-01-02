@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,6 +7,7 @@ import { Return, Token } from '@cmfx/core';
 import { createContext, createResource, ParentProps, ResourceReturn, useContext } from 'solid-js';
 import { z } from 'zod';
 
+import { presetConfigName } from '@/app/options';
 import { sexSchema, stateSchema } from '@/schemas';
 import { useOptions as useAdminOptions } from './options';
 import { useAPI, useREST } from './rest';
@@ -74,7 +75,6 @@ export function useAdmin() {
     if (!admin) { throw new ContextNotFoundError('adminContext'); }
     const [info, actions] = admin;
 
-    const opt = useAdminOptions();
     const rest = useREST();
     const [set] = useOptions();
 
@@ -112,7 +112,7 @@ export function useAdmin() {
             await rest.api().logout();
             actions.mutate(); // 此操作不会调用从服务器更新数据
             //setLoginState(false);
-            set.switchConfig(opt.configName);
+            set.switchConfig(presetConfigName);
         },
 
         /**

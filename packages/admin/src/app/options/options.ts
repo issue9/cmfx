@@ -10,6 +10,11 @@ import { API, sanitizeAPI } from './api';
 import type { MenuItem, Routes } from './route';
 
 /**
+ * 未登录状态下配置名称
+ */
+export const presetConfigName = '0';
+
+/**
  * 用于描述工具栏的组件信息
  *
  *  - pub 这个组件在未登录页面是否可以使用；
@@ -27,6 +32,15 @@ export interface Options {
      * @remarks 用于保证同框架的不同应用在浏览器中保存的数据具有唯一性。
      */
     id: string;
+
+
+
+    /**
+     * 配置内容在 storage 中的名称
+     *
+     * @defaultValue '0'
+     */
+    configName?: string;
 
     /**
      * 配置内容在 storage 中的名称
@@ -179,7 +193,6 @@ export interface Options {
 
 const presetOptions: Readonly<PickOptional<Options>> = {
     tokenStorage: sessionStorage,
-    configName: '0',
     systemDialog: false,
     systemNotify: false,
     titleSeparator: ' - ',

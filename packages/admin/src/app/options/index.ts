@@ -4,6 +4,7 @@
 
 export { build } from './options';
 
+export { presetConfigName } from './options';
 export type { Options, ToolbarItem } from './options';
 
 export { buildItems } from './route';

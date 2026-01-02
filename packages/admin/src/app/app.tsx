@@ -9,7 +9,7 @@ import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, 
 
 import { AdminProvider, APIProvider, OptionsProvider, useAdmin, useAPI, useOptions } from './context';
 import * as errors from './errors';
-import { buildItems, build as buildOptions, Options } from './options';
+import { buildItems, build as buildOptions, Options, presetConfigName } from './options';
 import styles from './style.module.css';
 import { default as Toolbar } from './toolbar';
 
@@ -42,7 +42,7 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 
     const xo = {
         // 非机密数据，且有固化要求，使用 localStorage 存储，不考虑其它。
-        config: new Config(opt.id, opt.configName, localStorage),
+        config: new Config(opt.id, presetConfigName, localStorage),
         logo: opt.logo,
         systemNotify: opt.systemNotify,
         systemDialog: opt.systemDialog,
