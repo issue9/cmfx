@@ -1,16 +1,16 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Drawer, DrawerRef, joinClass, ObjectAccessor, Scheme, useLocale, useOptions, useTheme } from '@cmfx/components';
 import { RouteDefinition } from '@solidjs/router';
-import { onMount, onCleanup, Setter, createEffect } from 'solid-js';
+import { createEffect, onCleanup, onMount, Setter } from 'solid-js';
 import { unwrap } from 'solid-js/store';
-import { Drawer, DrawerRef, ObjectAccessor, Scheme, useOptions, useLocale, useTheme } from '@cmfx/components';
 
 import { Demo } from './demo';
 import { params } from './params';
-import { convertSchemeVar2Color } from './utils';
 import styles from './style.module.css';
+import { convertSchemeVar2Color } from './utils';
 
 /**
  * 生成路由项
@@ -34,7 +34,7 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
             return <Drawer class={styles.builder} floating='xs' ref={el => {
                 drawerRef = el;
                 el.main().style.overflow = 'unset';
-            }} palette='secondary' mainPalette='surface' main={<Demo s={schemeFA} />}
+            }} palette='secondary' mainClass={joinClass('surface')} main={<Demo s={schemeFA} />}
             >
                 {params(schemeFA)}
             </Drawer>;

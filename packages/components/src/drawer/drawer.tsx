@@ -134,7 +134,8 @@ export function Drawer(props: Props) {
         onCleanup(() => ob.disconnect());
     });
     createEffect(() => {
-        if (props.floating) {
+        const f = props.floating;
+        if (f) {
             setHidden(getComputedStyle(asideRef).getPropertyValue('position') !== 'absolute');
         }
     });
@@ -144,18 +145,26 @@ export function Drawer(props: Props) {
     >
         <aside ref={el => asideRef = el} classList={{
             'cmfx-drawer-floating-aside': props.floating === true,
-            '@lg/drawer:cmfx-drawer-floating-aside': props.floating === 'lg',
-            '@2xl/drawer:cmfx-drawer-floating-aside': props.floating === '2xl',
-            '@4xl/drawer:cmfx-drawer-floating-aside': props.floating === '4xl',
-            '@6xl/drawer:cmfx-drawer-floating-aside': props.floating === '6xl',
-            '@8xl/drawer:cmfx-drawer-floating-aside': props.floating === '8xl',
+            '@max-3xs/drawer:cmfx-drawer-floating-aside': props.floating === '3xs',
+            '@max-xs/drawer:cmfx-drawer-floating-aside': props.floating === 'xs',
+            '@max-sm/drawer:cmfx-drawer-floating-aside': props.floating === 'sm',
+            '@max-md/drawer:cmfx-drawer-floating-aside': props.floating === 'md',
+            '@max-lg/drawer:cmfx-drawer-floating-aside': props.floating === 'lg',
+            '@max-2xl/drawer:cmfx-drawer-floating-aside': props.floating === '2xl',
+            '@max-4xl/drawer:cmfx-drawer-floating-aside': props.floating === '4xl',
+            '@max-6xl/drawer:cmfx-drawer-floating-aside': props.floating === '6xl',
+            '@max-8xl/drawer:cmfx-drawer-floating-aside': props.floating === '8xl',
 
             'cmfx-drawer-hidden-aside': props.floating === true && !visible(),
-            '@lg/drawer:cmfx-drawer-hidden-aside': props.floating === 'lg' && !visible(),
-            '@2xl/drawer:cmfx-drawer-hidden-aside': props.floating === '2xl' && !visible(),
-            '@4xl/drawer:cmfx-drawer-hidden-aside': props.floating === '4xl' && !visible(),
-            '@6xl/drawer:cmfx-drawer-hidden-aside': props.floating === '6xl' && !visible(),
-            '@8xl/drawer:cmfx-drawer-hidden-aside': props.floating === '8xl' && !visible(),
+            '@max-3xs/drawer:cmfx-drawer-hidden-aside': props.floating === '3xs' && !visible(),
+            '@max-xs/drawer:cmfx-drawer-hidden-aside': props.floating === 'xs' && !visible(),
+            '@max-sm/drawer:cmfx-drawer-hidden-aside': props.floating === 'sm' && !visible(),
+            '@max-md/drawer:cmfx-drawer-hidden-aside': props.floating === 'md' && !visible(),
+            '@max-lg/drawer:cmfx-drawer-hidden-aside': props.floating === 'lg' && !visible(),
+            '@max-2xl/drawer:cmfx-drawer-hidden-aside': props.floating === '2xl' && !visible(),
+            '@max-4xl/drawer:cmfx-drawer-hidden-aside': props.floating === '4xl' && !visible(),
+            '@max-6xl/drawer:cmfx-drawer-hidden-aside': props.floating === '6xl' && !visible(),
+            '@max-8xl/drawer:cmfx-drawer-hidden-aside': props.floating === '8xl' && !visible(),
         }}
         >{props.children}</aside>
         <main class={props.mainClass} ref={el => {

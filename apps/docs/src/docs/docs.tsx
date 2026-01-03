@@ -1,14 +1,14 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import {
-    Drawer, DrawerRef, Nav, Menu, MenuItem, MenuItemGroup, Page, useLocale, NavRef, MenuRef
+    Drawer, DrawerRef, Menu, MenuItem, MenuItemGroup, MenuRef, Nav, NavRef, Page, joinClass, useLocale
 } from '@cmfx/components';
 import { ArrayElement, Locale } from '@cmfx/core';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { Marked } from 'marked';
-import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onMount, onCleanup } from 'solid-js';
+import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
 import introChangeLog from '../../../../CHANGELOG.md?raw';
 import introReadme from '../../../../README.md?raw';
@@ -19,17 +19,17 @@ import usageInstallEN from './usage/install.en.md?raw';
 import usageInstallZHHans from './usage/install.zh-Hans.md?raw';
 import usagePlatformEN from './usage/platform.en.md?raw';
 import usagePlatformZHHans from './usage/platform.zh-Hans.md?raw';
-import usageThemeEN from './usage/theme.en.md?raw';
-import usageThemeZHHans from './usage/theme.zh-Hans.md?raw';
 import usageSvgEN from './usage/svg.en.md?raw';
 import usageSvgZHHans from './usage/svg.zh-Hans.md?raw';
+import usageThemeEN from './usage/theme.en.md?raw';
+import usageThemeZHHans from './usage/theme.zh-Hans.md?raw';
 
+import advanceCustomThemeEN from './advance/custom-theme.en.md?raw';
+import advanceCustomThemeZHHans from './advance/custom-theme.zh-Hans.md?raw';
 import advanceLocaleEN from './advance/locale.en.md?raw';
 import advanceLocaleZHHans from './advance/locale.zh-Hans.md?raw';
 import advancePluginsEN from './advance/plugins.en.md?raw';
 import advancePluginsZHHans from './advance/plugins.zh-Hans.md?raw';
-import advanceCustomThemeEN from './advance/custom-theme.en.md?raw';
-import advanceCustomThemeZHHans from './advance/custom-theme.zh-Hans.md?raw';
 
 import { markedShiki } from './shiki';
 
@@ -230,7 +230,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
             onCleanup(() => setDrawer(undefined));
 
             return <Drawer visible floating='xs' ref={el => ref = el}
-                palette='secondary' mainPalette='surface' main={props.children}
+                palette='secondary' mainClass={joinClass('surface')} main={props.children}
             >
                 <Menu ref={el => menuRef = el} class="min-w-60" layout='inline' items={buildMenus(l, prefix)} />
             </Drawer>;

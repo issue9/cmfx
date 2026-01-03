@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, MenuRef, DrawerRef, Menu, useLocale } from '@cmfx/components';
+import { Drawer, DrawerRef, joinClass, Menu, MenuRef, useLocale } from '@cmfx/components';
 import { RouteDefinition } from '@solidjs/router';
 import { onCleanup, onMount, ParentProps, Setter } from 'solid-js';
 
@@ -28,7 +28,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
             onCleanup(() => setDrawer(undefined));
 
             return <Drawer visible floating='xs' ref={el => ref = el}
-                palette='secondary' mainPalette='surface' main={props.children}
+                palette='secondary' mainClass={joinClass('surface')} main={props.children}
             >
                 <Menu ref={el => menuRef = el} class="min-w-65" layout='inline' items={buildMenus(l, prefix)} />
             </Drawer>;

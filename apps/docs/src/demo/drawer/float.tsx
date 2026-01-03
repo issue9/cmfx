@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -10,7 +10,7 @@ import { arraySelector } from '../base';
 
 export default function (props: MountProps) {
     const [Breakpoint, breakpoint]
-        = arraySelector('breakpoint', ['lg', '2xl', '4xl', '6xl', '8xl', 'true', 'false'], 'lg');
+        = arraySelector('breakpoint', ['3xs','xs', 'sm', 'md', 'lg', '2xl', '4xl', '6xl', '8xl', 'true', 'false'], 'lg');
     const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
 
     const bp = createMemo(() => {
