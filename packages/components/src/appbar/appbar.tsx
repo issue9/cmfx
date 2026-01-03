@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,24 +12,32 @@ import styles from './style.module.css';
 export interface Props extends BaseProps, ParentProps {
     /**
      * 首部的 LOGO 图片
+     *
+     * @reactive
      */
     logo?: string;
 
     /**
      * 首部的标题
+     *
+     * @reactive
      */
-    title: string;
+    title?: string;
 
     /**
      * 首部的链接
      *
      * @remarks
      * 如果提供了 href，则 {@link title} 和 {@link logo} 将被渲染为一个链接内的元素。
+     *
+     * @reactive
      */
     href?: string;
 
     /**
      * 尾部的按钮列表
+     *
+     * @reactive
      */
     actions?: JSX.Element;
 }
@@ -44,12 +52,16 @@ export interface Props extends BaseProps, ParentProps {
  */
 export default function Appbar(props: Props): JSX.Element {
     return <header role="toolbar" class={joinClass(props.palette, styles.appbar, props.class)} style={props.style}>
-        <Dynamic class={styles.title} component={props.href ? A : 'div'} href={props.href}>
-            <Show when={props.logo}>
-                {c => <img alt="LOGO" class={styles.logo} src={c()} />}
-            </Show>
-            <h1 class={styles.name}>{props.title}</h1>
-        </Dynamic>
+        <Show when={props.logo || props.title}>
+            <Dynamic class={styles.title} component={props.href ? A : 'div'} href={props.href}>
+                <Show when={props.logo}>
+                    {c => <img alt="LOGO" class={styles.logo} src={c()} />}
+                </Show>
+                <Show when={props.title}>
+                    {c => <h1 class={styles.name}>{c()}</h1>}
+                </Show>
+            </Dynamic>
+        </Show>
 
         <Show when={props.children}>
             {c => <div class={styles.main}>{c()}</div>}

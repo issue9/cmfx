@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DrawerProps, Mode, Scheme } from '@cmfx/components';
+import { DrawerProps, Layout, Mode, Scheme } from '@cmfx/components';
 import { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import { Component } from 'solid-js';
 
@@ -32,6 +32,13 @@ export interface Options {
      * @remarks 用于保证同框架的不同应用在浏览器中保存的数据具有唯一性。
      */
     id: string;
+
+    /**
+     * 页面布局
+     *
+     * @defaultValue 'vertical'
+     */
+    layout?: Layout;
 
     /**
      * 网站的标题
@@ -177,6 +184,7 @@ export interface Options {
 
 const presetOptions: Readonly<PickOptional<Options>> = {
     tokenStorage: sessionStorage,
+    layout: 'vertical',
     systemDialog: false,
     systemNotify: false,
     titleSeparator: ' - ',

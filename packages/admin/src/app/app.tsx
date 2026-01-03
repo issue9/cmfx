@@ -2,16 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, joinClass, Menu, MenuRef, run, useLocale } from '@cmfx/components';
+import { run } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
-import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
-import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
+import { Navigate, RouteDefinition, Router } from '@solidjs/router';
+import { ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 
 import { AdminProvider, APIProvider, OptionsProvider, useAdmin, useAPI, useOptions } from './context';
-import * as errors from './errors';
-import { buildItems, build as buildOptions, Options, presetConfigName } from './options';
-import styles from './style.module.css';
-import { default as Toolbar } from './toolbar';
+import { ErrorHandler, NotFound } from './errors';
+import { AppLayout } from './layout';
+import { build as buildOptions, Options, presetConfigName } from './options';
 
 /**
  * 初始化整个项目
@@ -22,21 +21,19 @@ import { default as Toolbar } from './toolbar';
  */
 export async function create(elementID: string, o: Options, router?: typeof Router) {
     const opt = buildOptions(o);
-    const [drawerRef, setDrawerRef] = createSignal<DrawerRef>();
 
-    const routes = [
+    const routes: Array<RouteDefinition> = [
         {
             path: '/',
-            component: (props: { children?: JSX.Element }) => <Public>{props.children}</Public>,
-            children: [...opt.routes.public.routes, { path: '*', component: errors.NotFound }]
+            component: props => <>{props.children}</>,
+            children: [...opt.routes.public.routes, { path: '*', component: NotFound }]
         },
         {
             path: '/',
-            component: (props: { children?: JSX.Element }) =>
-                <Private setDrawer={setDrawerRef}>{props.children}</Private>,
+            component: props => <Private>{props.children}</Private>,
 
             // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
-            children: [...opt.routes.private.routes, { path: '*', component: errors.NotFound }]
+            children: [...opt.routes.private.routes, { path: '*', component: NotFound }]
         }
     ];
 
@@ -68,16 +65,11 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 
     await api.clearCache(); // 缓存不应该长期保存，防止上次退出时没有清除缓存。
 
-    const root = (p: RouteSectionProps) => {
+    const root = (p: ParentProps) => {
         return <OptionsProvider {...opt}>
             <APIProvider api={api}>
-                <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>
-                    <AdminProvider>
-                        <div class={joinClass('surface', styles.app)}>
-                            <Toolbar drawer={drawerRef} />
-                            <main class={styles.main}>{p.children}</main>
-                        </div>
-                    </AdminProvider>
+                <ErrorBoundary fallback={ErrorHandler}>
+                    <AdminProvider>{p.children}</AdminProvider>
                 </ErrorBoundary>
             </APIProvider>
         </OptionsProvider>;
@@ -86,35 +78,17 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
     run(root, document.getElementById(elementID)!, xo, routes, router);
 }
 
-function Public(props: ParentProps): JSX.Element {
-    return <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>
-        {props.children}
-    </ErrorBoundary>;
-}
-
-function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>): JSX.Element {
-    const l = useLocale();
-    let menuRef: MenuRef;
+function Private(props: ParentProps): JSX.Element {
     const usr = useAdmin();
     const api = useAPI();
     const opt = useOptions();
 
-    onMount(() => {
-        if (menuRef) { menuRef.scrollSelectedIntoView(); }
-    });
-
     return <Switch>
         <Match when={!api.isLogin()}>
-            <Navigate href={/*@once*/opt.routes.public.home} />
+            <Navigate href={opt.routes.public.home} />
         </Match>
         <Match when={usr.isLogin()}>
-            <Drawer floating={opt.floatingMinWidth} palette='tertiary' ref={props.setDrawer} mainPalette='surface'
-                main={
-                    <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>{props.children}</ErrorBoundary>
-                }>
-                <Menu ref={el => menuRef = el} class={styles.aside} layout='inline'
-                    items={buildItems(l, opt.menus)} />
-            </Drawer>
+            <AppLayout>{props.children}</AppLayout>
         </Match>
     </Switch>;
 }

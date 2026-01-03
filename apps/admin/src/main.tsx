@@ -94,6 +94,7 @@ const menus: Options['menus'] = [
 
 const o: Options = {
     id: 'admin-demo',
+    layout: 'vertical',
 
     routes,
 
@@ -136,7 +137,7 @@ const o: Options = {
     title: 'Title',
     logo: '/brand-static.svg',
     menus: menus,
-    floatingMinWidth: 'xs',
+    floatingMinWidth: '4xl',
     userMenus: currentPage.menus(),
     toolbar: [
         createSearch(new Hotkey('k', 'control')),

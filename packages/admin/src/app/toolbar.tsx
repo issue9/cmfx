@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, MenuItemItem, Search,
+    Appbar, Button, DrawerRef, Dropdown, MenuItemItem, Palette, Search,
     ToggleFullScreenButton, MenuItem as XMenuItem, useLocale, useOptions
 } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
@@ -105,27 +105,34 @@ export function createSearch(hk?: Hotkey): ToolbarItem {
     return [false, c];
 }
 
+interface ToolbarProps {
+    drawer: Accessor<DrawerRef | undefined>;
+    showTitle?: boolean;
+    palette?: Palette;
+}
+
 /**
  * 顶部工具栏
  */
-export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>; }) {
+export default function Toolbar(props: ToolbarProps) {
     const usr = useAdmin();
     const opt = useAdminOptions();
 
-    return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
-        <>
-            <For each={opt.toolbar}>
-                {item => {
-                    const [pub, C] = item;
-                    return <Show when={pub || usr.isLogin()}>
-                        <C />
-                    </Show>;
-                }}
-            </For>
-            <Show when={usr.isLogin()}><UserMenu /></Show>
-        </>
-    }>
-        <Show when={usr.isLogin()}>{props.drawer()?.ToggleButton({ square: true })}</Show>
+    return <Appbar logo={props.showTitle ? opt.logo : undefined} title={props.showTitle ? opt.title : undefined}
+        class='px-4' palette={props.palette} actions={
+            <>
+                <For each={opt.toolbar}>
+                    {item => {
+                        const [pub, C] = item;
+                        return <Show when={pub || usr.isLogin()}>
+                            <C />
+                        </Show>;
+                    }}
+                </For>
+                <Show when={usr.isLogin()}><UserMenu /></Show>
+            </>
+        }>
+        {props.drawer()?.ToggleButton({ square: true })}
     </Appbar>;
 }
 

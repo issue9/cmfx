@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -61,9 +61,13 @@ export function NotFound(): JSX.Element {
 }
 
 /**
- * 错误处理方法，尽可能地抛出 {@link HTTPError} 对象，可以显示更明确的错误页面。
+ * 错误处理方法
+ *
+ * @remarks
+ * 尽可能地抛出 {@link HTTPError} 对象，可以显示更明确的错误页面。
+ * 这是 {@link ErrorBoundary} 的 fallback 类型。
  */
-export function ErrorHandler(props: { err: Error | any }): JSX.Element {
+export function ErrorHandler(props: { err: any, reset: () => void }): JSX.Element {
     const opt = useOptions();
     const nav = useNavigate();
     const l = useLocale();

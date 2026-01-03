@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -8,8 +8,7 @@
 
 @layer components {
     .appbar {
-        @apply bg-palette-bg text-palette-fg;
-        @apply border-b border-b-palette-border px-2;
+        @apply bg-palette-bg text-palette-fg px-2;
         @apply w-full py-4 flex flex-wrap gap-4 justify-between items-center;
 
         .title {

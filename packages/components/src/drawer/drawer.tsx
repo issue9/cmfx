@@ -180,7 +180,7 @@ export function Drawer(props: Props) {
                         p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu />, value: visible() }, p);
                         const [_, btnProps] = splitProps(p, ['class']);
                         return <ToggleButton {...btnProps as ToggleButtonProps} class={classList(p.palette, {
-                            'hidden!': hidden(),
+                            'hidden': hidden(),
                         }, props.class)} toggle={async (): Promise<boolean> => {
                             setVisible(!visible());
                             return !!visible();
