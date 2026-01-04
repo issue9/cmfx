@@ -7,47 +7,7 @@
 @reference '../style.css';
 
 @layer components {
-    .app {
-        .search {
-            @apply w-60 self-center;
-        }
-
-        .aside {
-            @apply min-w-60;
-        }
-    }
-
-    .app.horizontal {
-        .aside {
-            @apply overflow-y-auto h-full overflow-clip flex flex-col;
-
-            .menu {
-                @apply overflow-y-auto;
-            }
-        }
-
-        .main {
-            @apply flex flex-col;
-
-            .content {
-                @apply h-full flex-1 overflow-y-auto;
-            }
-        }
-    }
-
-    .app.vertical {
-        @apply flex flex-col box-border overflow-hidden h-full bg-palette-bg text-palette-fg;
-
-        .main {
-            @apply relative h-full flex-1 overflow-y-hidden;
-        }
-    }
-
-    .avatar {
-        @apply w-6 h-6 me-1;
-    }
-
-    .error-actions {
-        @apply flex flex-col gap-4 max-w-60;
+    .search {
+        @apply w-60 self-center;
     }
 }

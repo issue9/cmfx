@@ -7,9 +7,9 @@ import { API, Config } from '@cmfx/core';
 import { Navigate, RouteDefinition, Router } from '@solidjs/router';
 import { ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 
-import { AdminProvider, APIProvider, OptionsProvider, useAdmin, useAPI, useOptions } from './context';
-import { ErrorHandler, NotFound } from './errors';
-import { AppLayout } from './layout';
+import {
+    AdminProvider, APIProvider, AppLayout, ErrorHandler, NotFound, OptionsProvider, useAdmin, useAPI, useOptions
+} from './context';
 import { build as buildOptions, Options, presetConfigName } from './options';
 
 /**

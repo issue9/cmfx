@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,3 +9,6 @@ export { OptionsProvider, useOptions } from './options';
 
 export { APIProvider, useAPI, useREST } from './rest';
 
+export { ErrorHandler, HTTPError, NotFound } from './errors';
+
+export { AppLayout, useLayout } from './layout';

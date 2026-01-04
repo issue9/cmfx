@@ -15,14 +15,6 @@ import type { MenuItem, Routes } from './route';
 export const presetConfigName = '0';
 
 /**
- * 用于描述工具栏的组件信息
- *
- *  - pub 这个组件在未登录页面是否可以使用；
- *  - component 组件本身；
- */
-export type ToolbarItem = [pub: boolean, component: Component];
-
-/**
  * 项目的基本配置
  */
 export interface Options {
@@ -137,7 +129,7 @@ export interface Options {
      *
      * @defaultValue []
      */
-    toolbar?: Array<ToolbarItem>;
+    toolbar?: Array<Component>;
 
     /**
      * 用户菜单

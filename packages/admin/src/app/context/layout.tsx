@@ -3,32 +3,40 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, ContextNotFoundError, Drawer, DrawerRef, joinClass, Layout, Menu,
-    MenuRef, Palette,
-    useOptions as useComponentOptions,
-    useLocale
+    Appbar, Button, ContextNotFoundError, Drawer, DrawerRef, Dropdown, joinClass, Layout, Menu,
+    MenuRef, Palette, useOptions as useComponentOptions, useLocale
 } from '@cmfx/components';
 import {
-    createContext, createEffect, createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Signal, Switch, useContext
+    createContext, createEffect, createSignal, ErrorBoundary,
+    For, JSX, Match, onMount, ParentProps, Signal, Switch, useContext
 } from 'solid-js';
 
-import { useOptions } from './context';
+import { buildItems } from '@/app/options';
+import { useAdmin } from './admin';
 import { ErrorHandler } from './errors';
-import { buildItems } from './options';
+import { useOptions } from './options';
 import styles from './style.module.css';
-import { default as Toolbar } from './toolbar';
 
 const bgPalette: Palette = 'tertiary';
 
+/**
+ * 在 Storage 中保存的配置项名称
+ */
 const layoutKey = 'layout';
 
 interface LayoutContext {
+    /**
+     * 提供修改布局方向的接口
+     */
     layout(): Signal<Layout>;
 }
 
 const layoutContext = createContext<LayoutContext>();
 
-export function useLayout() {
+/**
+ * 提供修改布局方向的接口
+ */
+export function useLayout(): LayoutContext {
     const l = useContext(layoutContext);
     if (!l) { throw new ContextNotFoundError('layoutContext'); }
 
@@ -75,14 +83,21 @@ function Horizontal(props: ParentProps): JSX.Element {
         mainClass={joinClass('surface', styles.main)} main={
             <ErrorBoundary fallback={ErrorHandler}>
                 <div class='contents'>
-                    <Toolbar palette={bgPalette} drawer={drawerRef} />
+                    <Appbar class='px-4' palette={bgPalette} actions={
+                        <>
+                            <For each={opt.toolbar}>{Item => <Item />}</For>
+                            <UserMenu />
+                        </>
+                    }>
+                        {drawerRef()?.ToggleButton({ square: true })}
+                    </Appbar>
                     <main class={styles.content}>{props.children}</main>
                 </div>
             </ErrorBoundary>
         }
     >
         <div class={styles.aside}>
-            <Appbar logo={opt.logo} title={opt.title} />
+            <Appbar logo={opt.logo} title={opt.title} class="px-4" />
             <Menu class={styles.menu} ref={el => menuRef = el} layout='inline' items={buildItems(l, opt.menus)} />
         </div>
     </Drawer>;
@@ -100,7 +115,16 @@ function Vertical(props: ParentProps): JSX.Element {
     });
 
     return <div class={joinClass('surface', styles.app, styles.vertical)}>
-        <Toolbar drawer={drawerRef} palette={bgPalette} showTitle />
+        <Appbar logo={opt.logo} title={opt.title}
+            class='px-4' palette={bgPalette} actions={
+                <>
+                    <For each={opt.toolbar}>{Item => <Item />}</For>
+                    <UserMenu />
+                </>
+            }>
+            {drawerRef()?.ToggleButton({ square: true })}
+        </Appbar>
+
         <main class={styles.main}>
             <Drawer floating={opt.floatingMinWidth} palette={bgPalette} ref={setDrawerRef}
                 mainClass={joinClass('surface')} main={
@@ -110,4 +134,20 @@ function Vertical(props: ParentProps): JSX.Element {
             </Drawer>
         </main>
     </div>;
+}
+
+/**
+ * 用户名及其下拉菜单
+ */
+function UserMenu(): JSX.Element {
+    const opt = useOptions();
+    const usr = useAdmin();
+    const l = useLocale();
+
+    return <Dropdown trigger='hover' items={buildItems(l, opt.userMenus)}>
+        <Button kind='flat' class="ps-1">
+            <img alt='avatar' class={styles.avatar} src={usr.info()?.avatar} />
+            {usr.info()?.name}
+        </Button>
+    </Dropdown>;
 }

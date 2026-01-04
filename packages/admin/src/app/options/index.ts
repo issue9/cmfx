@@ -5,7 +5,7 @@
 export { build } from './options';
 
 export { presetConfigName } from './options';
-export type { Options, ToolbarItem } from './options';
+export type { Options } from './options';
 
 export { buildItems } from './route';
 export type { MenuItem } from './route';
