@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -83,7 +83,9 @@ export interface ChangeFunc<T> {
  * const date = fieldAccessor<Date|string|undefined, 'date'|'string'>('created_time', undefined, 'string');
  * ```
  */
-export function fieldAccessor<T, K extends string = string>(name: string, v: T | Signal<T>, kind?: K): Accessor<T, K> {
+export function fieldAccessor<T, K extends string = string>(name: string, v: Signal<T>, kind?: K): Accessor<T, K>;
+export function fieldAccessor<T, K extends string = string>(name: string, v: T, kind?: K): Accessor<T, K>;
+export function fieldAccessor<T, K extends string = string>(name: string, v: Signal<T> | T, kind?: K): Accessor<T, K> {
     let preset: T;
 
     let s: Signal<T>;

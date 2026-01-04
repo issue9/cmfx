@@ -29,12 +29,13 @@ export interface Options {
     /**
      * 该 app 的 ID
      *
-     * @remarks 用于保证同框架的不同应用在浏览器中保存的数据具有唯一性。
+     * @remarks
+     * 用于保证同框架的不同应用在浏览器中保存的数据具有唯一性。
      */
     id: string;
 
     /**
-     * 页面布局
+     * 页面布局，当在配置项中存在时，当前值将被忽略。
      *
      * @defaultValue 'vertical'
      */
@@ -53,7 +54,7 @@ export interface Options {
     tokenStorage?: Storage;
 
     /**
-     * 主题模式
+     * 主题模式，当在配置项中存在时，当前值将被忽略。
      *
      * @defaultValue 'system'
      */
@@ -71,7 +72,7 @@ export interface Options {
     // 且在 @cmfx/components 的配置中也是采用 Scheme 对象的值保存的。
 
     /**
-     * 当前使用的主题，必须存在于 schemes 中。
+     * 当前使用的主题，必须存在于 schemes 中。当在配置项中存在时，当前值将被忽略。
      *
      * @defaultValue ''
      */
@@ -86,7 +87,7 @@ export interface Options {
      * 采用系统通知
      *
      * @remarks
-     * 该功能需要在 https 下才有效，否则依然会采用内部的通知界面。
+     * 该功能需要在 https 下才有效，否则依然会采用内部的通知界面。当在配置项中存在时，当前值将被忽略。
      *
      * @defaultValue false
      */
@@ -154,28 +155,28 @@ export interface Options {
     messages: Record<string, Array<DictLoader>>;
 
     /**
-     * 默认的本地化语言
+     * 默认的本地化语言。当在配置项中存在时，当前值将被忽略。
      *
      * @defaultValue `document.documentElement.lang || navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en')`
      */
     locale?: string;
 
     /**
-     * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link DisplayStyle}
+     * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link DisplayStyle}。当在配置项中存在时，当前值将被忽略。
      *
      * @defaultValue 'short'
      */
     displayStyle?: DisplayStyle;
 
     /**
-     * 指定时区
+     * 指定时区。当在配置项中存在时，当前值将被忽略。
      *
      * @defaultValue `Intl.DateTimeFormat().resolvedOptions().timeZone`
      */
     timezone?: string;
 
     /**
-     * 通知等元素的停留时间
+     * 通知等元素的停留时间。当在配置项中存在时，当前值将被忽略。
      *
      * @defaultValue 5000
      */

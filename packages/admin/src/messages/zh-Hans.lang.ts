@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -91,6 +91,9 @@ const messages: typeof m = {
             webauthnCredentials: 'webauthn 证书管理',
             lastUsed: '最后使用时间',
             passwordsMustBeDifferent: '新旧密码不能相同',
+
+            layout: '布局',
+            layoutDesc: '改变项目的布局',
         },
         system: {
             routes: '路由',

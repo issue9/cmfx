@@ -1,11 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import {
-    Avatar, Button, createForm, Divider,
-    fieldAccessor, file2Base64, Page, Table, TextField, Upload, UploadRef,
-    useLocale
+    Avatar, Button, createForm, Divider,fieldAccessor, file2Base64,
+    Page, Table, TextField, Upload, UploadRef,useLocale
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';

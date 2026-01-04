@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -19,7 +19,7 @@
         }
 
         .ds-demo {
-            @apply ms-3 px-2 my-1 border-l-2 border-palette-bg-low text-sm;
+            @apply ms-4 px-2 my-1 border-l-2 border-palette-bg-low text-sm;
         }
 
         .stays {

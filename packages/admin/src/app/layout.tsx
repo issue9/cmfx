@@ -2,8 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Appbar, Drawer, DrawerRef, joinClass, Menu, MenuRef, Palette, useLocale } from '@cmfx/components';
-import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Switch } from 'solid-js';
+import {
+    Appbar, ContextNotFoundError, Drawer, DrawerRef, joinClass, Layout, Menu,
+    MenuRef, Palette,
+    useOptions as useComponentOptions,
+    useLocale
+} from '@cmfx/components';
+import {
+    createContext, createEffect, createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Signal, Switch, useContext
+} from 'solid-js';
 
 import { useOptions } from './context';
 import { ErrorHandler } from './errors';
@@ -13,14 +20,43 @@ import { default as Toolbar } from './toolbar';
 
 const bgPalette: Palette = 'tertiary';
 
-export function AppLayout(props: ParentProps): JSX.Element {
-    const opt = useOptions();
+const layoutKey = 'layout';
 
-    return <Switch fallback={<Horizontal {...props} />}>
-        <Match when={opt.layout === 'vertical'}>
-            <Vertical {...props} />
-        </Match>
-    </Switch>;
+interface LayoutContext {
+    layout(): Signal<Layout>;
+}
+
+const layoutContext = createContext<LayoutContext>();
+
+export function useLayout() {
+    const l = useContext(layoutContext);
+    if (!l) { throw new ContextNotFoundError('layoutContext'); }
+
+    return l;
+}
+
+export function AppLayout(props: ParentProps): JSX.Element {
+    const [,co] = useComponentOptions();
+    const config = co.config;
+
+    const opt = useOptions();
+    const layout = createSignal(config.get<Layout>(layoutKey) ?? opt.layout);
+
+    createEffect(() => { // 监视 layout 变化，并写入配置对象。
+        config.set(layoutKey, layout[0]());
+    });
+
+    const ctx = {
+        layout() { return layout; },
+    };
+
+    return <layoutContext.Provider value={ctx}>
+        <Switch fallback={<Horizontal {...props} />}>
+            <Match when={layout[0]() === 'vertical'}>
+                <Vertical {...props} />
+            </Match>
+        </Switch>
+    </layoutContext.Provider>;
 }
 
 function Horizontal(props: ParentProps): JSX.Element {

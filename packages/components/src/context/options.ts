@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -67,10 +67,7 @@ export interface Options {
     mode?: Mode;
 
     /**
-     * 初始的本地化语言 ID
-     *
-     * @remarks
-     * 当在 {@link config} 中存在时，当前值将被忽略。
+     * 初始的本地化语言 ID，当在 {@link config} 中存在时，当前值将被忽略。
      *
      * @defaultValue `document.documentElement.lang || navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en')`
      */
@@ -84,20 +81,14 @@ export interface Options {
     displayStyle?: DisplayStyle;
 
     /**
-     * 指定时区
-     *
-     * @remarks
-     * 当在 {@link config} 中存在时，当前值将被忽略。
+     * 指定时区，当在 {@link config} 中存在时，当前值将被忽略。
      *
      * @defaultValue `Intl.DateTimeFormat().resolvedOptions().timeZone`
      */
     timezone?: string;
 
     /**
-     * 提示框，通知栏等元素在界面上的默认停留时间
-     *
-     * @remarks
-     * 单位为 ms。当在 {@link config} 中存在时，当前值将被忽略。
+     * 提示框，通知栏等元素在界面上的默认停留时间。单位为 ms。当在 {@link config} 中存在时，当前值将被忽略。
      *
      * @defaultValue 5000
      */

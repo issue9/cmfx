@@ -90,6 +90,10 @@
 
     .settings {
         @apply w-4xl;
+
+        .layout {
+            @apply w-60;
+        }
     }
 
     .memstatistic {

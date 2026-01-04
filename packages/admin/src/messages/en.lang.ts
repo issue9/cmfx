@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -89,6 +89,9 @@ const messages = {
             webauthnCredentials: 'Webauthn credentials',
             lastUsed: 'Last used',
             passwordsMustBeDifferent: 'Passwords must be different',
+
+            layout: 'Layout',
+            layoutDesc: 'The layout of the admin panel',
         },
         system: {
             routes: 'Routes',
