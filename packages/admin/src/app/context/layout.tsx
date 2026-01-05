@@ -7,7 +7,7 @@ import {
     MenuRef, Palette, useOptions as useComponentOptions, useLocale
 } from '@cmfx/components';
 import {
-    createContext, createEffect, createSignal, ErrorBoundary,
+    createContext, createEffect, createMemo, createSignal, ErrorBoundary,
     For, JSX, Match, onCleanup, onMount, ParentProps, Signal, Switch, useContext
 } from 'solid-js';
 
@@ -27,6 +27,7 @@ const bgPalette: Palette = 'tertiary';
  */
 const layoutKey = 'layout';
 const floatKey = 'float';
+const widthKey = 'width';
 
 interface LayoutContext {
     /**
@@ -38,12 +39,17 @@ interface LayoutContext {
      * 提供修改是否为浮动状态的接口
      */
     float(): Signal<boolean>;
+
+    /**
+     * 提供修改页面最大宽度的接口
+     */
+    width(): Signal<number>;
 }
 
 const layoutContext = createContext<LayoutContext>();
 
 /**
- * 提供修改布局方向的接口
+ * 提供修改面板布局的接口
  */
 export function useLayout(): LayoutContext {
     const l = useContext(layoutContext);
@@ -58,15 +64,18 @@ export function AppLayout(props: ParentProps): JSX.Element {
     const opt = useOptions();
     const layout = createSignal(config.get<Layout>(layoutKey) ?? opt.layout);
     const float = createSignal(config.get<boolean>(floatKey) ?? opt.float);
+    const width = createSignal(config.get<number>(widthKey) ?? opt.width);
 
     createEffect(() => { // 监视 layout 变化，并写入配置对象。
         config.set(layoutKey, layout[0]());
         config.set(floatKey, float[0]());
+        config.set(widthKey, width[0]());
     });
 
     const ctx = {
         layout() { return layout; },
-        float() { return float; }
+        float() { return float; },
+        width() { return width; }
     };
 
     return <layoutContext.Provider value={ctx}>
@@ -101,8 +110,17 @@ function Horizontal(props: ParentProps): JSX.Element {
         onCleanup(() => ro.disconnect());
     });
 
+    const style = createMemo(() => {
+        const w = layout.width();
+        if (!w[0]() || w[0]() === window.screen.width) { return; }
+        return {
+            width: w[0]() + 'px',
+            margin: '0 auto',
+        } as JSX.CSSProperties;
+    });
+
     return <Drawer class={joinClass(undefined, styles.app, styles.horizontal, layout.float()[0]() ? styles.float : undefined)}
-        floating={opt.floatingMinWidth} ref={setDrawerRef}
+        floating={opt.floatingMinWidth} ref={setDrawerRef} style={style()}
         asideClass={joinClass(bgPalette, styles.aside)} mainClass={joinClass('surface', styles.main)} main={
             <ErrorBoundary fallback={ErrorHandler}>
                 <div class='contents'>
@@ -136,7 +154,16 @@ function Vertical(props: ParentProps): JSX.Element {
         if (menuRef) { menuRef.scrollSelectedIntoView(); }
     });
 
-    return <div class={joinClass('surface', styles.app, styles.vertical, layout.float()[0]() ? styles.float : undefined)}>
+    const style = createMemo(() => {
+        const w = layout.width();
+        if (!w[0]() || w[0]() === window.screen.width) { return; }
+        return {
+            width: w[0]() + 'px',
+            margin: '0 auto',
+        } as JSX.CSSProperties;
+    });
+
+    return <div class={joinClass('surface', styles.app, styles.vertical, layout.float()[0]() ? styles.float : undefined)} style={style()}>
         <Appbar logo={opt.logo} title={opt.title}
             class={styles.toolbar} palette={bgPalette} actions={
                 <>

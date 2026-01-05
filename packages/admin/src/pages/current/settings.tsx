@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Checkbox, fieldAccessor, joinClass, Page, RadioGroup, SettingsRef, useLocale, Settings as XSettings } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import {
+    Checkbox, Divider, fieldAccessor, joinClass, Page, RadioGroup, Range, SettingsRef, useLocale, Settings as XSettings
+} from '@cmfx/components';
+import { createSignal, JSX } from 'solid-js';
 import IconLayout from '~icons/material-symbols/responsive-layout-rounded';
 import IconHorizontal from '~icons/ph/square-split-horizontal-fill';
 import IconVertical from '~icons/ph/square-split-vertical-fill';
@@ -20,18 +22,40 @@ export function Settings(): JSX.Element {
 
     let ref!: SettingsRef;
     let layout = fieldAccessor('layout', lay.layout());
-    const gap = lay.float();
+    const float = lay.float();
+    const width = fieldAccessor('width', lay.width());
+    const [rangDisabled, setRangeDisabled] = createSignal(false);
+    width.onChange(v => {
+        if (v < 640) {
+            setRangeDisabled(true);
+            width.setValue(0);
+        }
+    });
+
+    const chk = <Checkbox label={l.t('_p.current.setWidth')} checked={!rangDisabled()} onChange={v => {
+        setRangeDisabled(!v);
+        width.setValue(v ? window.screen.width : 0);
+    }}
+    />;
 
     return <Page title='_p.current.settings' class={joinClass(undefined, styles.settings)}>
         <XSettings ref={el => ref = el}>
+            <p>{l.t('_p.current.settingsDesc')}</p>
+
+            <Divider padding='16px 8px' />
+
             <ref.Item icon={<IconLayout />} title={l.t('_p.current.layout')} desc={l.t('_p.current.layoutDesc')}>
                 <div class={styles.content}>
                     <RadioGroup class={styles.layout} block accessor={layout} options={[
-                        {value: 'horizontal', label: <IconHorizontal class="text-8xl" /> },
-                        {value: 'vertical', label: <IconVertical class="text-8xl" /> },
+                        { value: 'horizontal', label: <IconHorizontal class="text-8xl" /> },
+                        { value: 'vertical', label: <IconVertical class="text-8xl" /> },
                     ]} />
 
-                    <Checkbox label={l.t('_p.current.float')} checked={gap[0]()} onChange={v=>gap[1](!!v)} />
+                    <Checkbox label={l.t('_p.current.float')} checked={float[0]()} onChange={v => float[1](!!v)} />
+
+                    <Range label={chk} disabled={rangDisabled()} step={10} max={window.screen.width}
+                        accessor={width} class={styles.range} value={v => `${v}px`}
+                    />
                 </div>
             </ref.Item>
         </XSettings>

@@ -92,9 +92,11 @@ const messages: typeof m = {
             lastUsed: '最后使用时间',
             passwordsMustBeDifferent: '新旧密码不能相同',
 
+            settingsDesc: '当前页面的设置仅对当前账号在当前浏览器上有效，如果切换账号或是同一账号在不同浏览器上登录，这些设置都将无效。',
             layout: '布局',
             layoutDesc: '改变项目的布局',
             float: '独立侧边栏和工具栏并具有浮动效果',
+            setWidth: '设置页面的最大宽度',
         },
         system: {
             routes: '路由',

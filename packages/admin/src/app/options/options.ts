@@ -41,6 +41,13 @@ export interface Options {
     float?: boolean;
 
     /**
+     * 整个页面的最大宽度，如果为零值，表示不设置。当在配置项中存在时，当前值将被忽略。
+     *
+     * @defaultValue 0
+     */
+    width?: number;
+
+    /**
      * 网站的标题
      */
     title: string;
@@ -186,6 +193,7 @@ const presetOptions: Readonly<PickOptional<Options>> = {
     tokenStorage: sessionStorage,
     layout: 'vertical',
     float: false,
+    width: 0,
     systemDialog: false,
     systemNotify: false,
     titleSeparator: ' - ',

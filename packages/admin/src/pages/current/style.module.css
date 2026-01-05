@@ -97,6 +97,10 @@
             .layout {
                 @apply w-60;
             }
+
+            .range {
+                @apply w-100;
+            }
         }
     }
 

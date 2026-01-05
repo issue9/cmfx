@@ -90,9 +90,11 @@ const messages = {
             lastUsed: 'Last used',
             passwordsMustBeDifferent: 'Passwords must be different',
 
+            settingsDesc: 'The settings are only valid for the current account on the current browser. If you switch accounts or log in to the same account on different browsers, these settings will be invalid.',
             layout: 'Layout',
             layoutDesc: 'The layout of the admin panel',
             float: 'Float aside and toolbar with shadow',
+            setWidth: 'Set page max width',
         },
         system: {
             routes: 'Routes',
