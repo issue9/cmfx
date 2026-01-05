@@ -94,6 +94,7 @@ const messages: typeof m = {
 
             layout: '布局',
             layoutDesc: '改变项目的布局',
+            float: '独立侧边栏和工具栏并具有浮动效果',
         },
         system: {
             routes: '路由',

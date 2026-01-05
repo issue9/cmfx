@@ -34,6 +34,13 @@ export interface Options {
     layout?: Layout;
 
     /**
+     * 侧边栏和顶部工具栏是否拥有浮动效果。当在配置项中存在时，当前值将被忽略。
+     *
+     * @defaultValue false
+     */
+    float?: boolean;
+
+    /**
      * 网站的标题
      */
     title: string;
@@ -178,6 +185,7 @@ export interface Options {
 const presetOptions: Readonly<PickOptional<Options>> = {
     tokenStorage: sessionStorage,
     layout: 'vertical',
+    float: false,
     systemDialog: false,
     systemNotify: false,
     titleSeparator: ' - ',

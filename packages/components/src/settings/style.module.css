@@ -14,12 +14,8 @@
             @apply w-fit;
         }
 
-        .item {
-            @apply px-3;
-        }
-
         .ds-demo {
-            @apply ms-4 px-2 my-1 border-l-2 border-palette-bg-low text-sm;
+            @apply px-1 my-1 border-l-2 border-palette-bg-low text-sm;
         }
 
         .stays {

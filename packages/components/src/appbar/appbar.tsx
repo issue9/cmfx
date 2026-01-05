@@ -6,10 +6,17 @@ import { A } from '@solidjs/router';
 import { JSX, ParentProps, Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
+    /**
+     * 组件根元素
+     */
+    root(): HTMLElement;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     /**
      * 首部的 LOGO 图片
      *
@@ -51,7 +58,15 @@ export interface Props extends BaseProps, ParentProps {
  * ```
  */
 export default function Appbar(props: Props): JSX.Element {
-    return <header role="toolbar" class={joinClass(props.palette, styles.appbar, props.class)} style={props.style}>
+    return <header role="toolbar" class={joinClass(props.palette, styles.appbar, props.class)} style={props.style}
+        ref={el=>{
+            if (props.ref) {
+                props.ref({
+                    root() { return el; }
+                });
+            }
+        }}
+    >
         <Show when={props.logo || props.title}>
             <Dynamic class={styles.title} component={props.href ? A : 'div'} href={props.href}>
                 <Show when={props.logo}>

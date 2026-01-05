@@ -11,6 +11,10 @@
         .aside {
             @apply min-w-60;
         }
+
+        .toolbar {
+            @apply px-4;
+        }
     }
 
     .app.horizontal {
@@ -36,6 +40,19 @@
 
         .main {
             @apply relative h-full flex-1 overflow-y-hidden;
+        }
+    }
+
+    .app.horizontal.float,
+    .app.vertical.float {
+        @apply p-2 gap-2;
+
+        .toolbar {
+            @apply rounded-md shadow-md;
+        }
+
+        .aside {
+            @apply rounded-md shadow-md;
         }
     }
 

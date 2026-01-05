@@ -92,6 +92,7 @@ const messages = {
 
             layout: 'Layout',
             layoutDesc: 'The layout of the admin panel',
+            float: 'Float aside and toolbar with shadow',
         },
         system: {
             routes: 'Routes',

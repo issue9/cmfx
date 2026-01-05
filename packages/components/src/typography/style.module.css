@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -8,18 +8,14 @@
 
 @layer components {
     .label {
-        @apply flex items-center text-palette-fg gap-[--spacing(.5)];
+        @apply flex items-center text-palette-fg gap-0.5;
     }
 
     .description {
-        @apply rounded-md flex flex-col text-palette-fg bg-palette-bg;
-
-        .title {
-            @apply px-3 pt-2 pb-0;
-        }
+        @apply rounded-md flex flex-col text-palette-fg bg-palette-bg gap-2;
 
         .desc {
-            @apply px-3 py-2 text-sm;
+            @apply text-sm;
         }
     }
 }

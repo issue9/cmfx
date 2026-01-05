@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -8,7 +8,7 @@
 
 @layer components {
     .selector {
-        @apply flex flex-wrap gap-2 bg-palette-bg text-palette-fg border-palette-border p-2 rounded-md;
+        @apply flex flex-wrap gap-2 bg-palette-bg text-palette-fg border-palette-border rounded-md;
 
         button.option {
             @apply flex justify-start items-center gap-4 p-1 cursor-pointer w-35;

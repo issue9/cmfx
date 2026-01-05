@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { DisplayStyle, formatDuration, I18n } from '@cmfx/core';
-import { createSignal, Show, JSX, ParentProps } from 'solid-js';
+import { createSignal, JSX, ParentProps, Show } from 'solid-js';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconSystemNotify from '~icons/material-symbols/notification-settings';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
@@ -82,6 +82,7 @@ export function Settings(props: Props) {
                 <Divider padding='16px 8px' />
             </Show>
             <Description icon={props.icon} title={props.title}>{props.desc}</Description>
+            <br />
             {props.children}
         </>;
     };
@@ -135,7 +136,7 @@ export function Settings(props: Props) {
         {/***************************** font *******************************/}
 
         <Item icon={<IconFontSize />} title={l.t('_c.settings.fontSize')} desc={l.t('_c.settings.fontSizeDesc')}>
-            <Range class={joinClass(undefined, styles.item, styles.range)} value={v=>v+'px'}
+            <Range class={styles.range} value={v=>v+'px'}
                 min={12} max={32} step={1} accessor={fontSizeFA}
             />
         </Item>
@@ -143,8 +144,7 @@ export function Settings(props: Props) {
         {/***************************** mode *******************************/}
 
         <Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
-            <RadioGroup itemLayout='horizontal' accessor={modeFA} block={/*@once*/false}
-                class={joinClass(undefined, styles.item, styles.radios)}
+            <RadioGroup itemLayout='horizontal' accessor={modeFA} block={/*@once*/false} class={styles.radios}
                 options={/*@once*/[
                     { value: 'system', label: l.t('_c.settings.system') },
                     { value: 'dark', label: l.t('_c.settings.dark') },
@@ -157,7 +157,7 @@ export function Settings(props: Props) {
 
         <Show when={opt.schemes && opt.scheme}>
             <Item icon={<IconPalette />} title={l.t('_c.settings.color')} desc={l.t('_c.settings.colorDesc')}>
-                <SchemeSelector class={styles.item} schemes={opt.schemes}
+                <SchemeSelector schemes={opt.schemes}
                     value={opt.scheme} onChange={val => set.setScheme(val)} />
             </Item>
         </Show>
@@ -165,9 +165,7 @@ export function Settings(props: Props) {
         {/***************************** stays *******************************/}
 
         <Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
-            <Number accessor={staysFA} min={1000} max={10000} step={500}
-                class={joinClass(undefined, styles.item, styles.stays)}
-            />
+            <Number accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
         </Item>
 
         {/***************************** notify *******************************/}
@@ -176,7 +174,7 @@ export function Settings(props: Props) {
             <Item icon={/*@once*/<IconSystemNotify />} title={l.t('_c.settings.systemNotify')}
                 desc={l.t('_c.settings.systemNotifyDesc',{request: l.t('_c.settings.requestNotifyPermission')})}
             >
-                <div class={joinClass(undefined, styles.item, styles.notify)}>
+                <div class={styles.notify}>
                     <Checkbox label={l.t('_c.settings.enabled')} class={styles.checkbox} disabled={sysNotifyDisabled()}
                         checked={opt.systemNotify} onChange={async v => {
                             set.setSystemNotify(!!v);
@@ -190,8 +188,7 @@ export function Settings(props: Props) {
         {/***************************** locale *******************************/}
 
         <Item icon={/*@once*/<IconTranslate />} title={l.t('_c.settings.locale')} desc={l.t('_c.settings.localeDesc')}>
-            <Choice class={styles.item}
-                accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
+            <Choice accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
         </Item>
 
         {/***************************** displayStyle *******************************/}
@@ -199,15 +196,14 @@ export function Settings(props: Props) {
         <Item icon={/*@once*/<IconFormat />}
             title={l.t('_c.settings.displayStyle')} desc={l.t('_c.settings.displayStyleDesc')}
         >
-            <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false}
-                class={joinClass(undefined, styles.item, styles.radios)}
+            <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false} class={styles.radios}
                 options={/*@once*/[
                     { value: 'narrow', label: l.t('_c.settings.narrow') },
                     { value: 'short', label: l.t('_c.settings.short') },
                     { value: 'full', label: l.t('_c.settings.long') },
                 ]}
             />
-            <div class={joinClass(undefined, styles.item, styles['ds-demo'])}>
+            <div class={styles['ds-demo']}>
                 <p>{l.datetimeFormat().format(new Date())}</p>
                 <p>{formatDuration(l.durationFormat(), 1111111223245)}</p>
                 <p>{createBytesFormatter(l)(1111223245)}</p>
@@ -219,9 +215,7 @@ export function Settings(props: Props) {
         <Item icon={/*@once*/<IconTimezone />}
             title={l.t('_c.settings.timezone')} desc={l.t('_c.settings.timezoneDesc')}
         >
-            <div class={styles.item}>
-                <Timezone value={opt.timezone} onChange={v => { set.setTimezone(v); }} />
-            </div>
+            <div><Timezone value={opt.timezone} onChange={v => { set.setTimezone(v); }} /></div>
         </Item>
     </div>;
 }

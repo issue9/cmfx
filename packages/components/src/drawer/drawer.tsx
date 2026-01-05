@@ -93,7 +93,19 @@ export interface Props extends BaseProps, RefProps<Ref> {
      */
     main: JSX.Element;
 
+    /**
+     * 内容区的样式
+     *
+     * @reactive
+     */
     mainClass?: string;
+
+    /**
+     * 侧边栏的样式
+     *
+     * @reactive
+     */
+    asideClass?: string;
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -144,6 +156,7 @@ export function Drawer(props: Props) {
         style={props.style} ref={el => rootRef = el}
     >
         <aside ref={el => asideRef = el} classList={{
+            [props.asideClass ?? '']: !!props.asideClass,
             'cmfx-drawer-floating-aside': props.floating === true,
             '@max-3xs/drawer:cmfx-drawer-floating-aside': props.floating === '3xs',
             '@max-xs/drawer:cmfx-drawer-floating-aside': props.floating === 'xs',

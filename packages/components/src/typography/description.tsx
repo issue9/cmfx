@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -30,10 +30,10 @@ export interface Props extends BaseProps, ParentProps {
 export function Description(props: Props): JSX.Element {
     return <div class={joinClass(props.palette, styles.description, props.class)} style={props.style}>
         <Show when={props.icon || props.title}>
-            <Label class={styles.title} icon={props.icon}>{ props.title }</Label>
+            <Label icon={props.icon}>{props.title}</Label>
         </Show>
         <div class={styles.desc}>
-            { props.children }
+            {props.children}
         </div>
     </div>;
 }

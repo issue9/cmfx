@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, ContextNotFoundError, Drawer, DrawerRef, Dropdown, joinClass, Layout, Menu,
+    Appbar, AppbarRef, Button, ContextNotFoundError, Drawer, DrawerRef, Dropdown, joinClass, Layout, Menu,
     MenuRef, Palette, useOptions as useComponentOptions, useLocale
 } from '@cmfx/components';
 import {
     createContext, createEffect, createSignal, ErrorBoundary,
-    For, JSX, Match, onMount, ParentProps, Signal, Switch, useContext
+    For, JSX, Match, onCleanup, onMount, ParentProps, Signal, Switch, useContext
 } from 'solid-js';
 
 import { buildItems } from '@/app/options';
@@ -17,18 +17,27 @@ import { ErrorHandler } from './errors';
 import { useOptions } from './options';
 import styles from './style.module.css';
 
+/**
+ * 侧边栏和顶部工具栏的背景色
+ */
 const bgPalette: Palette = 'tertiary';
 
 /**
  * 在 Storage 中保存的配置项名称
  */
 const layoutKey = 'layout';
+const floatKey = 'float';
 
 interface LayoutContext {
     /**
      * 提供修改布局方向的接口
      */
     layout(): Signal<Layout>;
+
+    /**
+     * 提供修改是否为浮动状态的接口
+     */
+    float(): Signal<boolean>;
 }
 
 const layoutContext = createContext<LayoutContext>();
@@ -39,7 +48,6 @@ const layoutContext = createContext<LayoutContext>();
 export function useLayout(): LayoutContext {
     const l = useContext(layoutContext);
     if (!l) { throw new ContextNotFoundError('layoutContext'); }
-
     return l;
 }
 
@@ -49,13 +57,16 @@ export function AppLayout(props: ParentProps): JSX.Element {
 
     const opt = useOptions();
     const layout = createSignal(config.get<Layout>(layoutKey) ?? opt.layout);
+    const float = createSignal(config.get<boolean>(floatKey) ?? opt.float);
 
     createEffect(() => { // 监视 layout 变化，并写入配置对象。
         config.set(layoutKey, layout[0]());
+        config.set(floatKey, float[0]());
     });
 
     const ctx = {
         layout() { return layout; },
+        float() { return float; }
     };
 
     return <layoutContext.Provider value={ctx}>
@@ -70,6 +81,7 @@ export function AppLayout(props: ParentProps): JSX.Element {
 function Horizontal(props: ParentProps): JSX.Element {
     const opt = useOptions();
     const l = useLocale();
+    const layout = useLayout();
 
     let menuRef: MenuRef;
     const [drawerRef, setDrawerRef] = createSignal<DrawerRef>();
@@ -78,12 +90,23 @@ function Horizontal(props: ParentProps): JSX.Element {
         if (menuRef) { menuRef.scrollSelectedIntoView(); }
     });
 
-    return <Drawer class={joinClass(undefined, styles.app, styles.horizontal)}
-        floating={opt.floatingMinWidth} palette={bgPalette} ref={setDrawerRef}
-        mainClass={joinClass('surface', styles.main)} main={
+    // 保证两个顶部工具栏高度相同
+    let asideBar: AppbarRef;
+    let toolbar: AppbarRef;
+    onMount(() => {
+        const ro = new ResizeObserver(entries => {
+            asideBar.root().style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
+        });
+        ro.observe(toolbar.root());
+        onCleanup(() => ro.disconnect());
+    });
+
+    return <Drawer class={joinClass(undefined, styles.app, styles.horizontal, layout.float()[0]() ? styles.float : undefined)}
+        floating={opt.floatingMinWidth} ref={setDrawerRef}
+        asideClass={joinClass(bgPalette, styles.aside)} mainClass={joinClass('surface', styles.main)} main={
             <ErrorBoundary fallback={ErrorHandler}>
                 <div class='contents'>
-                    <Appbar class='px-4' palette={bgPalette} actions={
+                    <Appbar ref={el => toolbar = el} class={styles.toolbar} palette={bgPalette} actions={
                         <>
                             <For each={opt.toolbar}>{Item => <Item />}</For>
                             <UserMenu />
@@ -96,16 +119,15 @@ function Horizontal(props: ParentProps): JSX.Element {
             </ErrorBoundary>
         }
     >
-        <div class={styles.aside}>
-            <Appbar logo={opt.logo} title={opt.title} class="px-4" />
-            <Menu class={styles.menu} ref={el => menuRef = el} layout='inline' items={buildItems(l, opt.menus)} />
-        </div>
+        <Appbar ref={el => asideBar = el} logo={opt.logo} title={opt.title} class={styles.toolbar} />
+        <Menu class={styles.menu} ref={el => menuRef = el} layout='inline' items={buildItems(l, opt.menus)} />
     </Drawer>;
 }
 
 function Vertical(props: ParentProps): JSX.Element {
     const opt = useOptions();
     const l = useLocale();
+    const layout = useLayout();
 
     let menuRef: MenuRef;
     const [drawerRef, setDrawerRef] = createSignal<DrawerRef>();
@@ -114,9 +136,9 @@ function Vertical(props: ParentProps): JSX.Element {
         if (menuRef) { menuRef.scrollSelectedIntoView(); }
     });
 
-    return <div class={joinClass('surface', styles.app, styles.vertical)}>
+    return <div class={joinClass('surface', styles.app, styles.vertical, layout.float()[0]() ? styles.float : undefined)}>
         <Appbar logo={opt.logo} title={opt.title}
-            class='px-4' palette={bgPalette} actions={
+            class={styles.toolbar} palette={bgPalette} actions={
                 <>
                     <For each={opt.toolbar}>{Item => <Item />}</For>
                     <UserMenu />
@@ -126,11 +148,12 @@ function Vertical(props: ParentProps): JSX.Element {
         </Appbar>
 
         <main class={styles.main}>
-            <Drawer floating={opt.floatingMinWidth} palette={bgPalette} ref={setDrawerRef}
+            <Drawer floating={opt.floatingMinWidth} ref={setDrawerRef}
+                asideClass={joinClass(bgPalette, styles.aside)}
                 mainClass={joinClass('surface')} main={
                     <ErrorBoundary fallback={ErrorHandler}>{props.children}</ErrorBoundary>
                 }>
-                <Menu ref={el => menuRef = el} class={styles.aside} layout='inline' items={buildItems(l, opt.menus)} />
+                <Menu ref={el => menuRef = el} layout='inline' items={buildItems(l, opt.menus)} />
             </Drawer>
         </main>
     </div>;
