@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
 */
@@ -27,7 +27,7 @@
     }
 
     input[type="checkbox"]:not(:indeterminate):after {
-        @apply block absolute opacity-0 w-1/3 h-2/3 left-1/3 top-1/10;
+        @apply block absolute opacity-0 w-1/3 h-2/3 left-13/40 top-1/12;
         @apply border-r-2 border-r-palette-fg;
         @apply border-b-2 border-b-palette-fg;
         @apply transition;

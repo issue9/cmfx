@@ -24,7 +24,7 @@ export function Settings(): JSX.Element {
     let layout = fieldAccessor('layout', lay.layout());
     const float = lay.float();
     const width = fieldAccessor('width', lay.width());
-    const [rangDisabled, setRangeDisabled] = createSignal(false);
+    const [rangDisabled, setRangeDisabled] = createSignal(lay.width()[0]() < 640);
     width.onChange(v => {
         if (v < 640) {
             setRangeDisabled(true);

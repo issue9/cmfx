@@ -55,7 +55,8 @@ export interface Props extends FieldBaseProps, RefProps<Ref> {
     /**
      * 可以在滑轨上作一些标记
      *
-     * NOTE: 要求这些标记点必须在 {@link Props#min} 和 {@link Props#max} 之间。
+     * @remarks
+     * 要求这些标记点必须在 {@link Props#min} 和 {@link Props#max} 之间。
      * 所以 marks 不为空时，min 和 max 是不能为空的。
      */
     marks?: Array<[number, string]>;

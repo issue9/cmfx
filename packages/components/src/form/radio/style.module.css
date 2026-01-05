@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -8,7 +8,7 @@
 
 @layer components {
     input[type="radio"] {
-        @apply appearance-none relative inline-block w-4 h-4 rounded-xs! cursor-pointer;
+        @apply flex justify-center items-center appearance-none w-4 h-4 rounded-xs! cursor-pointer;
         @apply p-0 border-2 border-palette-fg outline-none;
         @apply hover:border-palette-fg-focused;
         @apply checked:border-palette-fg-selected;
@@ -26,11 +26,15 @@
 
     /* 内部实心圆 */
     input[type="radio"]:after {
-        @apply transition;
-        @apply inline-block absolute start-1/4 top-1/4 bg-palette-fg rounded-xs w-1/2 h-1/2 opacity-0;
+        @apply transition rounded-xs;
+        @apply bg-palette-fg rounded-xs w-1/2 h-1/2 opacity-0;
         content: '';
         transform-origin: center center;
         pointer-events: none;
+    }
+
+    input[type="radio"].rounded:after {
+        @apply rounded-full!;
     }
 
     input[type="radio"]:checked:after {
