@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -184,7 +184,7 @@ export function Dialog(props: Props): JSX.Element {
         }
     });
     onCleanup(() => {
-        cancel && cancel();
+        if (cancel) { cancel(); }
         ref.removeEventListener('toggle', dialogToggle);
     });
 
@@ -195,7 +195,7 @@ export function Dialog(props: Props): JSX.Element {
             {c =>
                 <header ref={el => toolbar = el}>
                     {c()}
-                    <IconClose class={styles.close} onClick={() => ref.close('close')} />
+                    <IconClose class={styles.close} onClick={() => ref.close('close')} aria-label={l.t('_c.close')} />
                 </header>
             }
         </Show>

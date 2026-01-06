@@ -7,7 +7,7 @@ import { JSX, mergeProps, ParentProps } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
 import { BaseProps, joinClass, MountProps, Palette } from '@/base';
-import { useOptions } from '@/context';
+import { useLocale, useOptions } from '@/context';
 import { Message, Props as MessageProps, Type } from './message';
 import styles from './style.module.css';
 
@@ -47,6 +47,7 @@ export function Notify(props: Props): JSX.Element {
 
 function initNotify(p: Props): JSX.Element {
     const [, opt] = useOptions();
+    const l = useLocale();
     let ref: HTMLDivElement;
 
     notifyInst = async (title: string, body?: string, type?: Type, lang?: string, duration?: number) => {
@@ -63,6 +64,7 @@ function initNotify(p: Props): JSX.Element {
 
             // 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
             transitionDuration: opt.scheme.transitionDuration,
+            closeAriaLabel: l.t('_c.close'),
         };
         render(() => <Message {...props} />, ref);
     };

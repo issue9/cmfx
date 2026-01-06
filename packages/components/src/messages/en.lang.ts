@@ -20,6 +20,7 @@ const messages = {
         areYouSure: 'Are you sure?',
         copied: 'Copied',
         copy: 'Copy',
+        close: 'Close',
         date: {
             clear: 'Clear',
             today: 'Today',

@@ -22,6 +22,7 @@ const messages: Messages = {
         areYouSure: '你确定要这么做吗？',
         copied: '已复制',
         copy: '复制',
+        close: '关闭',
         date: {
             clear: '清除',
             today: '今日',

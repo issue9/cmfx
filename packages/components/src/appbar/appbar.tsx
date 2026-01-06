@@ -70,7 +70,7 @@ export default function Appbar(props: Props): JSX.Element {
         <Show when={props.logo || props.title}>
             <Dynamic class={styles.title} component={props.href ? A : 'div'} href={props.href}>
                 <Show when={props.logo}>
-                    {c => <img alt="LOGO" class={styles.logo} src={c()} />}
+                    {c => <img alt="LOGO" aria-hidden={true} class={styles.logo} src={c()} />}
                 </Show>
                 <Show when={props.title}>
                     {c => <h1 class={styles.name}>{c()}</h1>}

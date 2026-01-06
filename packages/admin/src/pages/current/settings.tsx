@@ -3,7 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Checkbox, Divider, fieldAccessor, joinClass, Page, RadioGroup, Range, SettingsRef, useLocale, Settings as XSettings
+    Alert, Checkbox, Divider, fieldAccessor, joinClass, Page,
+    RadioGroup, Range, SettingsRef, useLocale, Settings as XSettings
 } from '@cmfx/components';
 import { createSignal, JSX } from 'solid-js';
 import IconLayout from '~icons/material-symbols/responsive-layout-rounded';
@@ -40,7 +41,7 @@ export function Settings(): JSX.Element {
 
     return <Page title='_p.current.settings' class={joinClass(undefined, styles.settings)}>
         <XSettings ref={el => ref = el}>
-            <p>{l.t('_p.current.settingsDesc')}</p>
+            <Alert type='warning' title={l.t('_p.current.settingsDesc')} />
 
             <Divider padding='16px 8px' />
 

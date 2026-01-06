@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, Show, createSignal, JSX, Match, Switch } from 'solid-js';
+import { createEffect, createSignal, JSX, Match, Show, Switch } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import styles from './style.module.css';
@@ -56,7 +56,7 @@ export default function Avatar(props: Props): JSX.Element {
     const [error, setError] = createSignal(false);
 
     createEffect(() => {
-        props.value && setError(false);
+        if (props.value) { setError(false); }
     });
 
     return <div class={joinClass(props.palette, styles.avatar, props.rounded ? styles.rounded : '', props.class)}

@@ -68,15 +68,20 @@ export interface Props extends BaseProps {
      */
     type?: Type;
 
-    // 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，无法使用 useTheme 获取动画时长。
-    transitionDuration: number;
-
     /**
      * 是否带关闭按钮
      *
      * @reactive
      */
     closable?: boolean;
+
+    // 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，无法使用 useTheme 获取动画时长。
+    transitionDuration: number;
+
+    /**
+     * 关闭按钮的 aria-label，与 transitionDuration 相同的理由，不能放在 Message 组件内部。
+     */
+    closeAriaLabel?: string;
 }
 
 /**
@@ -155,7 +160,7 @@ export function Message(props: Props): JSX.Element {
             <div class={styles.label} ref={el => labelRef = el}>
                 <p id={titleID}>{props.title}</p>
                 <Show when={props.closable}>
-                    <button class={styles['close-wrap']} ref={el => buttonRef = el}>
+                    <button class={styles['close-wrap']} ref={el => buttonRef = el} aria-label={props.closeAriaLabel}>
                         <IconClose onClick={del} class={styles.close} />
                     </button>
                 </Show>
