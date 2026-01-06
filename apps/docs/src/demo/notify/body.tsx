@@ -23,7 +23,12 @@ export default function (props: MountProps) {
             <Closable />
         </Portal>
         <Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" body="Alert Message" />
+
         <Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title"
+            body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \ n 换行"
+        />
+
+        <Alert closable={closable()} palette={palette()} type={typ()} icon={false} title="Alert Title"
             body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \ n 换行"
         />
     </div>;

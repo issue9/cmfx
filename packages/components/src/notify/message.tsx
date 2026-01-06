@@ -144,8 +144,8 @@ export function Message(props: Props): JSX.Element {
     return <div ref={el => rootRef = el} class={cls()} style={props.style}
         role="alert" aria-labelledby={titleID} aria-describedby={props.body ? contentID : undefined}
     >
-        <div class={styles.left} aria-hidden="true" ref={el => leftRef = el}>
-            <Show when={props.icon !== false}>
+        <Show when={props.icon !== false}>
+            <div class={styles.left} aria-hidden="true" ref={el => leftRef = el}>
                 <Switch>
                     <Match when={props.icon}>{c => c()}</Match>
                     <Match when={props.type === 'error'}><IconError /></Match>
@@ -153,8 +153,8 @@ export function Message(props: Props): JSX.Element {
                     <Match when={props.type === 'success'}><IconSuccess /></Match>
                     <Match when={props.type === 'info'}><IconInfo /></Match>
                 </Switch>
-            </Show>
-        </div>
+            </div>
+        </Show>
 
         <div class={styles.right}>
             <div class={styles.label} ref={el => labelRef = el}>

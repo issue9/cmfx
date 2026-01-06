@@ -27,7 +27,7 @@ describe('Dialog', async () => {
         expect(c.style.translate).toEqual('var(--tw-translate-x) var(--tw-translate-y)');
     });
 
-    test('props', async () => ct.testProps());
+    test('props', () => ct.testProps());
 
     test('ref', async () => {
         expect(ref.root()).toBeDefined();

@@ -61,6 +61,7 @@ function initNotify(p: Props): JSX.Element {
             type,
             duration,
             closable: true,
+            icon: false,
 
             // 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
             transitionDuration: opt.scheme.transitionDuration,
