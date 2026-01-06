@@ -136,6 +136,7 @@ export function Message(props: Props): JSX.Element {
     let leftRef: HTMLDivElement;
     let labelRef: HTMLDivElement;
     const ob = new ResizeObserver(entries => {
+        if (!leftRef) { return; } // props.icon === false
         leftRef.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
     });
     onMount(() => { ob.observe(labelRef); });

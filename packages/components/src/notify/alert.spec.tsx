@@ -8,7 +8,8 @@ import { ComponentTester } from '@/context/context.spec';
 import { default as Alert } from './alert';
 
 describe('Alert', async () => {
-    const ct = await ComponentTester.build('Dialog', props => <Alert title='alert' {...props} />);
+    // type 会重定义 palette，success 对应的是 `ComponentTester.testProps` 中的 primary
+    const ct = await ComponentTester.build('Alert', props => <Alert title='alert' {...props} type='success' />);
 
     test('props', () => ct.testProps());
 });
