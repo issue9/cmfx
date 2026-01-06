@@ -17,11 +17,11 @@ import { BaseProps, joinClass, Mode, RefProps } from '@/base';
 import { Button } from '@/button';
 import { useLocale, useOptions } from '@/context';
 import { Timezone } from '@/datetime';
+import { Description } from '@/description';
 import { Divider } from '@/divider';
 import { Checkbox, Choice, fieldAccessor, Number, RadioGroup, Range } from '@/form';
 import { createBytesFormatter } from '@/kit';
 import { SchemeSelector } from '@/theme';
-import { Description } from '@/typography';
 import styles from './style.module.css';
 
 /**

@@ -12,6 +12,13 @@ describe('Dialog', async () => {
     let ref!: Ref;
     const ct = await ComponentTester.build('Dialog', props => <Dialog {...props} ref={el => ref = el}>abc</Dialog>);
 
+    test('props', () => ct.testProps());
+
+    test('ref', async () => {
+        expect(ref).toBeDefined();
+        expect(ref.root()).toBeDefined();
+    });
+
     test('move', async () => {
         const c = ct.result.container.firstElementChild as HTMLElement;
         expect(c).toHaveClass(styles.dialog);
@@ -25,11 +32,5 @@ describe('Dialog', async () => {
         expect(c.style.insetInlineStart).toEqual('50%');
         expect(c.style.insetBlockStart).toEqual('50%');
         expect(c.style.translate).toEqual('var(--tw-translate-x) var(--tw-translate-y)');
-    });
-
-    test('props', () => ct.testProps());
-
-    test('ref', async () => {
-        expect(ref.root()).toBeDefined();
     });
 });

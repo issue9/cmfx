@@ -10,12 +10,4 @@
     .label {
         @apply flex items-center text-palette-fg gap-0.5;
     }
-
-    .description {
-        @apply rounded-md flex flex-col text-palette-fg bg-palette-bg gap-2;
-
-        .desc {
-            @apply text-sm;
-        }
-    }
 }

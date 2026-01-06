@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,7 +9,7 @@ import { BaseProps, joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
-import { Label } from '@/typography';
+import { Label } from '@/label';
 import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
 import styles from './style.module.css';
 

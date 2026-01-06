@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -22,12 +22,11 @@ export interface Props extends BaseProps, ParentProps {
     tag?: ValidComponent;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
-    tag: 'p',
-} as const;
-
+/**
+ * 带图标的标题
+ */
 export function Label(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    props = mergeProps({ tag: 'p' }, props);
 
     return <Dynamic component={props.tag} class={joinClass(props.palette, styles.label, props.class)} style={props.style}>
         <Show when={props.icon}>{c => { return c(); }}</Show>

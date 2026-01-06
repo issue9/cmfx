@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -24,10 +24,12 @@ import IconPresetComponent from '~icons/iconamoon/component-fill'; // 组件的�
 import IconCounter from '~icons/ix/counter';
 import IconDate from '~icons/lets-icons/date-range-light';
 import IconTable from '~icons/lets-icons/table';
+import IconDescription from '~icons/material-symbols/description';
 import IconDialog from '~icons/material-symbols/dialogs-outline-rounded';
 import IconDropdown from '~icons/material-symbols/dropdown-outline';
 import IconColorPanel from '~icons/material-symbols/format-color-fill-rounded';
 import IconInput from '~icons/material-symbols/input-rounded';
+import IconLabel from '~icons/material-symbols/label-rounded';
 import IconNav from '~icons/material-symbols/list-alt-rounded';
 import IconTransition from '~icons/material-symbols/masked-transitions';
 import IconAvatar from '~icons/material-symbols/person';
@@ -50,7 +52,6 @@ import IconQRCode from '~icons/mingcute/qrcode-2-fill';
 import IconStatistic from '~icons/octicon/number-16';
 import IconSpin from '~icons/pepicons-pop/arrow-spin-circle';
 import IconDivider from '~icons/pixel/divider-solid';
-import IconTypography from '~icons/proicons/text-typography';
 import IconDrawer from '~icons/ri/archive-drawer-fill';
 import IconCalendar from '~icons/solar/calendar-bold';
 import IconDatePanel from '~icons/solar/calendar-date-bold';
@@ -90,6 +91,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.card', icon: <IconCard /> },
     },
     {
+        kind: 'general', path: '/description', component: lazy(() => import('./description')),
+        info: { title: '_d.demo.description', icon: <IconDescription /> },
+    },
+    {
         kind: 'general', path: '/icon', component: lazy(() => import('./icon')),
         info: { title: '_d.demo.icon', icon: <IconIcon /> },
     },
@@ -102,16 +107,16 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.input', icon: <IconInput /> },
     },
     {
+        kind: 'general', path: '/label', component: lazy(() => import('./label')),
+        info: { title: '_d.demo.label', icon: <IconLabel /> },
+    },
+    {
         kind: 'general', path: '/theme-selector', component: lazy(() => import('./theme/selector')),
         info: { title: '_d.demo.themeSelector', icon: <IconTheme /> },
     },
     {
         kind: 'general', path: '/transition', component: lazy(() => import('./transition')),
         info: { title: '_d.demo.transition', icon: <IconTransition /> },
-    },
-    {
-        kind: 'general', path: '/typography', component: lazy(() => import('./typography')),
-        info: { title: '_d.demo.typography', icon: <IconTypography /> },
     },
 
     //----------------------- layout

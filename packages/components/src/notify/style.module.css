@@ -9,7 +9,7 @@
 @layer components {
     .notify {
         @apply absolute top-4 end-4 start-4 flex flex-col z-notify gap-2;
-        @apply @2xl/root:min-w-60 @2xl/root:max-w-125 @2xl/root:w-auto @2xl/root:start-auto;
+        @apply @2xl/root:w-80 @2xl/root:start-auto;
     }
 
     .message {

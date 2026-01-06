@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -19,9 +19,9 @@ import { useLocale, useOptions } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
 import { Checkbox, ObjectAccessor, Radio } from '@/form';
+import { Label } from '@/label';
 import { Dropdown } from '@/menu';
 import { PaginationBar } from '@/pagination';
-import { Label } from '@/typography';
 import type { Props as BaseProps, Ref as BasicTableRef } from './basic';
 import { BasicTable } from './basic';
 import { fromSearch, Params, saveSearch } from './search';
