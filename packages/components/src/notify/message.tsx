@@ -44,6 +44,9 @@ export interface Props extends BaseProps {
      * 内容
      *
      * @reactive
+     *
+     * @remarks
+     * 为了与 Notification 组件保持一致，如果需要换行，需要使用 `\n`，不支持 HTML 标签。
      */
     body?: string;
 
@@ -124,32 +127,43 @@ export function Message(props: Props): JSX.Element {
     const titleID = createUniqueId();
     const contentID = createUniqueId();
 
+    /* 保证 left 的图标与标题对齐 */
+    let leftRef: HTMLDivElement;
+    let labelRef: HTMLDivElement;
+    const ob = new ResizeObserver(entries => {
+        leftRef.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
+    });
+    onMount(() => { ob.observe(labelRef); });
+    onCleanup(() => ob.disconnect());
+
     return <div ref={el => rootRef = el} class={cls()} style={props.style}
         role="alert" aria-labelledby={titleID} aria-describedby={props.body ? contentID : undefined}
     >
-        <div class={styles.label}>
-            <span class={styles.title}>
-                <Show when={props.icon !== false}>
-                    <Switch>
-                        <Match when={props.icon}>{c => c()}</Match>
-                        <Match when={props.type === 'error'}><IconError /></Match>
-                        <Match when={props.type === 'warning'}><IconWarning /></Match>
-                        <Match when={props.type === 'success'}><IconSuccess /></Match>
-                        <Match when={props.type === 'info'}><IconInfo /></Match>
-                    </Switch>
-                </Show>
-                <p id={titleID}>{props.title}</p>
-            </span>
-
-            <Show when={props.closable}>
-                <button class={styles['close-wrap']} ref={el => buttonRef = el}>
-                    <IconClose onClick={del} class={styles.close} />
-                </button>
+        <div class={styles.left} aria-hidden="true" ref={el => leftRef = el}>
+            <Show when={props.icon !== false}>
+                <Switch>
+                    <Match when={props.icon}>{c => c()}</Match>
+                    <Match when={props.type === 'error'}><IconError /></Match>
+                    <Match when={props.type === 'warning'}><IconWarning /></Match>
+                    <Match when={props.type === 'success'}><IconSuccess /></Match>
+                    <Match when={props.type === 'info'}><IconInfo /></Match>
+                </Switch>
             </Show>
         </div>
 
-        <Show when={props.body}>
-            {c => <div id={contentID} class={styles.body}>{c()}</div>}
-        </Show>
+        <div class={styles.right}>
+            <div class={styles.label} ref={el => labelRef = el}>
+                <p id={titleID}>{props.title}</p>
+                <Show when={props.closable}>
+                    <button class={styles['close-wrap']} ref={el => buttonRef = el}>
+                        <IconClose onClick={del} class={styles.close} />
+                    </button>
+                </Show>
+            </div>
+
+            <Show when={props.body}>
+                {c => <div id={contentID} class={styles.body} innerHTML={c().replace(/\\n/g, '<br />')} />}
+            </Show>
+        </div>
     </div>;
 }
