@@ -7,9 +7,9 @@ import { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { default as SystemDialog } from '@/dialog/system';
+import { Notify } from '@/notify/notify';
 import { Clipboard } from './clipboard';
 import { OptionsProvider } from './context';
-import { Notify } from './notify';
 import { Options, requiredOptions } from './options';
 import styles from './style.module.css';
 

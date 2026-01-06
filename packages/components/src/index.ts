@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -22,14 +22,12 @@ export * from './appbar';
 export * from './avatar';
 export * from './backtop';
 export * from './badge';
-export * from './color';
-export * from './transition';
-export * from './input';
 export * from './base';
 export * from './button';
 export * from './card';
 export * from './chart';
 export * from './code';
+export * from './color';
 export * from './context';
 export * from './counter';
 export * from './datetime';
@@ -38,21 +36,25 @@ export * from './divider';
 export * from './drawer';
 export * from './form';
 export * from './icon';
+export * from './input';
 export * from './kit';
 export * from './menu';
 export * from './messages';
 export * from './nav';
+export * from './notify';
 export * from './page';
 export * from './pagination';
 export * from './qrcode';
 export * from './result';
 export * from './search';
+export * from './settings';
 export * from './spin';
 export * from './statistic';
-export * from './settings';
 export * from './tab';
 export * from './table';
 export * from './theme';
 export * from './tooltip';
+export * from './transition';
 export * from './typography';
 export * from './wizard';
+

@@ -1,0 +1,44 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .notify {
+        @apply absolute top-4 end-4 start-4 flex flex-col z-notify gap-2;
+        @apply @2xl/root:min-w-60 @2xl/root:max-w-125 @2xl/root:w-auto @2xl/root:start-auto;
+    }
+
+    .message {
+        @apply bg-palette-bg text-palette-fg rounded-md block w-full h-auto overflow-y-hidden;
+        @apply transition-[height];
+
+
+        .label {
+            @apply p-3 flex justify-between items-center;
+
+            .title {
+                @apply flex justify-start items-center text-xl gap-1;
+            }
+
+            /* 比 close 大一圈，用以显示进度 */
+            .close-wrap {
+                @apply flex items-center justify-center p-0.5 rounded-xs bg-palette-bg text-base;
+
+                .close {
+                    @apply bg-palette-bg text-palette-fg p-0.5 rounded-xs;
+                    @apply hover:cursor-pointer hover:text-palette-fg-focused hover:bg-palette-bg-focused;
+                    @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+                    @apply transition;
+                }
+            }
+        }
+
+        .body {
+            @apply ps-9 pe-3 pb-3 -mt-2;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,19 +8,8 @@ import { Portal, render } from 'solid-js/web';
 
 import { BaseProps, joinClass, MountProps, Palette } from '@/base';
 import { useOptions } from '@/context';
-import { Alert } from './alert';
+import { Message, Props as MessageProps, Type } from './message';
 import styles from './style.module.css';
-
-export const types = ['error', 'warning', 'success', 'info'] as const;
-
-export type Type = typeof types[number];
-
-export const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
-    ['error', 'error'],
-    ['warning', 'tertiary'],
-    ['success', 'primary'],
-    ['info', 'secondary'],
-]);
 
 let notifyInst: typeof notify;
 
@@ -31,12 +20,12 @@ let notifyInst: typeof notify;
  * @param body - 具体内容，如果为空则只显示标题；
  * @param type - 类型，仅对非系统通知的情况下有效；
  * @param lang - 语言，仅对系统通知的情况下有效；
- * @param timeout - 如果大于 0，超过此毫秒数时将自动关闭提示框；
+ * @param duration - 如果大于 0，超过此毫秒数时将自动关闭提示框；
  */
 export async function notify(
-    title: string, body?: string, type?: Type, lang?: string, timeout?: number
+    title: string, body?: string, type?: Type, lang?: string, duration?: number
 ): Promise<void> {
-    return await notifyInst(title, body, type, lang, timeout);
+    return await notifyInst(title, body, type, lang, duration);
 }
 
 export type Props = BaseProps & ParentProps & MountProps;
@@ -48,7 +37,7 @@ export type Props = BaseProps & ParentProps & MountProps;
  *
  * NOTE: 不可多次调用，仅用于初始化通知组件。
  */
-export default function Notify(props: Props): JSX.Element {
+export function Notify(props: Props): JSX.Element {
     props = mergeProps({palette: 'error' as Palette}, props);
     return <>
         <Portal mount={props.mount}>{initNotify(props)}</Portal>
@@ -60,22 +49,22 @@ function initNotify(p: Props): JSX.Element {
     const [, opt] = useOptions();
     let ref: HTMLDivElement;
 
-    notifyInst = async (title: string, body?: string, type?: Type, lang?: string, timeout?: number) => {
-        timeout = timeout ?? opt.stays;
+    notifyInst = async (title: string, body?: string, type?: Type, lang?: string, duration?: number) => {
+        duration = duration ?? opt.stays;
 
-        if (opt.systemNotify && await systemNotify(title, body, opt.logo, lang ?? opt.locale, timeout)) { return; }
+        if (opt.systemNotify && await systemNotify(title, body, opt.logo, lang ?? opt.locale, duration)) { return; }
 
-        const props = {
+        const props: MessageProps = {
             title,
             body,
             type,
-            timeout,
-            palette: type ? type2Palette.get(type) : undefined,
+            duration,
+            closable: true,
 
-            // NOTE: render 为导致其内部的组件 useOptions 不可用，所以直接在属性中会话。
+            // 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
             transitionDuration: opt.scheme.transitionDuration,
         };
-        render(() => <Alert {...props} />, ref);
+        render(() => <Message {...props} />, ref);
     };
 
     return <div ref={el => ref = el} class={joinClass(p.palette, styles.notify, p.class)} />;

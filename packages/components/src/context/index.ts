@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -16,8 +16,5 @@ export { ThemeProvider, useTheme } from './theme';
 export type { Theme, Props as ThemeProps } from './theme';
 
 export { copy2Clipboard } from './clipboard';
-
-export { notify, notifyTypes } from './notify';
-export type { NotifyType } from './notify';
 
 export { run } from './run';
