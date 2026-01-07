@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -10,7 +10,7 @@ describe('Parser', {timeout: 20000}, () => {
     const p = new Parser('./packages/components'); // 相对根目录
 
     test('BaseProps', () => {
-        const props = p.prorps(['BaseProps']);
+        const props = p.props(['BaseProps']);
         expect(props).toHaveLength(1);
 
         const pp = props[0];
@@ -38,7 +38,7 @@ describe('Parser', {timeout: 20000}, () => {
 
     // 枚举：type xx = ...
     test('BadgeCorner', () => {
-        const props = p.prorps(['BadgeCorner']);
+        const props = p.props(['BadgeCorner']);
         expect(props).toHaveLength(1);
         const pp = props[0];
         expect(pp.name).toEqual('BadgeCorner');
@@ -50,7 +50,7 @@ describe('Parser', {timeout: 20000}, () => {
 
     // 引用其它包的枚举类型 QRCodeCornerDotType
     test('QRCodeCornerDotType', () => {
-        const props = p.prorps(['QRCodeCornerDotType']);
+        const props = p.props(['QRCodeCornerDotType']);
         expect(props).toHaveLength(1);
         const pp = props[0];
         expect(pp.name).toEqual('QRCodeCornerDotType');
@@ -62,7 +62,7 @@ describe('Parser', {timeout: 20000}, () => {
 
     // 继承：CodeProps extends BaseProps
     test('CodeProps', () => {
-        const props = p.prorps(['CodeProps']);
+        const props = p.props(['CodeProps']);
         expect(props).toHaveLength(1);
 
         const pp = props[0];
@@ -77,7 +77,7 @@ describe('Parser', {timeout: 20000}, () => {
 
     // 泛型：DividerProps extends ParentProps<...>
     test('DividerProps', () => {
-        const props = p.prorps(['DividerProps']);
+        const props = p.props(['DividerProps']);
         expect(props).toHaveLength(1);
 
         const pp = props[0];
@@ -95,7 +95,7 @@ describe('Parser', {timeout: 20000}, () => {
 
     // 默认值 @defaultValue
     test('TooltipProps', () => {
-        const props = p.prorps(['TooltipProps']);
+        const props = p.props(['TooltipProps']);
         expect(props).toHaveLength(1);
 
         const pp = props[0];
@@ -123,7 +123,7 @@ describe('Parser', {timeout: 20000}, () => {
 
     // 函数 joinClass
     test('joinClass', () => {
-        const props = p.prorps(['joinClass']);
+        const props = p.props(['joinClass']);
         expect(props).toHaveLength(1);
 
         const pp = props[0];

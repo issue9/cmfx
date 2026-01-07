@@ -1,15 +1,15 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import {
-    DocCodeSpan, DocLinkTag, DocNode, DocMemberReference, DocPlainText,
+    DocCodeSpan, DocLinkTag, DocMemberReference, DocNode, DocPlainText,
     StandardTags, TSDocConfiguration, TSDocParser, TSDocTagDefinition, TSDocTagSyntaxKind
 } from '@microsoft/tsdoc';
 import path from 'node:path';
 import {
-    CallSignatureDeclaration, ConstructSignatureDeclaration, IndexSignatureDeclaration, ModuledNode, Node,
-    Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags, FunctionDeclaration, FunctionExpression
+    CallSignatureDeclaration, ConstructSignatureDeclaration, FunctionDeclaration, FunctionExpression,
+    IndexSignatureDeclaration, ModuledNode, Node, Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags
 } from 'ts-morph';
 import ts from 'typescript';
 
@@ -135,7 +135,7 @@ export class Parser {
     /**
      * 查找指定类型的文档描述
      */
-    prorps(props: Array<string>): Array<Object> {
+    props(props: Array<string>): Array<Object> {
         const result: Array<Object> = [];
 
         for(const prop of props) {

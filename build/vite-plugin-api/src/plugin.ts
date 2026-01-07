@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -43,7 +43,7 @@ export default function api(o: Options): Plugin {
             const files = findAPIFile(o.root);
             for(const f of files) {
                 const props: Array<string> = YAML.parse(readFileSync(f, { encoding: 'utf-8' }));
-                const objs = parser.prorps(props);
+                const objs = parser.props(props);
 
                 const dir = path.dirname(f);
                 writeFileSync(path.join(dir, `${filename}.json`), JSON.stringify(objs, null, 2));
