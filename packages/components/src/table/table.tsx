@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { ParentProps } from 'solid-js';
+import { JSX, ParentProps } from 'solid-js';
 
 import { BaseProps, classList, RefProps } from '@/base';
 import styles from './style.module.css';
@@ -41,7 +41,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  *
  * 所有的依赖和限制与内置的 table 元素相同
  */
-export function Table(props: Props) {
+export function Table(props: Props): JSX.Element {
     return <table ref={el => { if (props.ref) { props.ref({ root: () => el }); } }}
         class={classList(props.palette, {
             [styles['fixed-layout']]: props.fixedLayout,

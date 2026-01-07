@@ -1,14 +1,14 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, Show, createEffect } from 'solid-js';
 import Color from 'colorjs.io';
+import { createEffect, createSignal, JSX, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 
-import { Button } from '@/button';
 import { BaseProps, joinClass, PropsError, wcag } from '@/base';
-import { useLocale, copy2Clipboard } from '@/context';
+import { Button } from '@/button';
+import { copy2Clipboard, useLocale } from '@/context';
 import { Choice, ChoiceOption, fieldAccessor } from '@/form';
 import { PickerPanel } from './picker';
 import styles from './style.module.css';
@@ -53,7 +53,7 @@ export interface Props extends BaseProps {
 /**
  * 颜色选取面板
  */
-export default function ColorPanel(props: Props) {
+export default function ColorPanel(props: Props): JSX.Element {
     for (let i = 0; i < props.pickers.length;i++ ) {
         for (let j = i+1;j<props.pickers.length;j++) {
             if (props.pickers[i].id === props.pickers[j].id) {

@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { mergeProps, ParentProps } from 'solid-js';
+import { JSX, mergeProps, ParentProps } from 'solid-js';
 
 import { classList, Layout, RefProps } from '@/base';
 import styles from './style.module.css';
@@ -27,7 +27,7 @@ const presetProps: Readonly<Partial<Props>> = {
  * @remarks
  * 该组件用于将多个按钮组合在一起，形成一个按钮组。子组件必须是 Button 组件。
  */
-export function ButtonGroup(props: Props) {
+export function ButtonGroup(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     return <fieldset role="group" disabled={props.disabled} aria-orientation={props.layout}

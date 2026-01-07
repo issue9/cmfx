@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
 import { AvailableEnumType, Layout, RefProps } from '@/base';
@@ -34,7 +34,7 @@ export const presetProps: Readonly<Partial<Props>> = {
 
 export default function Split<M extends boolean = false, T extends AvailableEnumType = string>(
     props: Props<M, T>
-) {
+): JSX.Element {
     props = mergeProps(presetProps, props) as Props<M, T>;
 
     let dropdownRef: DropdownRef;
