@@ -270,7 +270,7 @@ export class API implements REST {
      * NOTE: 查询的数据应该是不带分页的，否则可能会造成数据混乱。
      * NOTE: 相同的 path 多次调用，后续的调用将被忽略。
      */
-    cache(path: string, ...deps: Array<string>) {
+    cache(path: string, ...deps: Array<string>): void {
         path = this.buildURL(path);
         if (!this.#cachePaths.has(path)) {
             deps.push(path);
