@@ -1,8 +1,12 @@
-# SPDX-FileCopyrightText: 2025 caixw
+# SPDX-FileCopyrightText: 2025-2026 caixw
 #
 # SPDX-License-Identifier: MIT
 
-- UploadProps
-- UploadRef
-- AlbumProps
-- file2Base64
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - UploadProps
+            - UploadRef
+            - AlbumProps
+            - file2Base64

@@ -1,17 +1,21 @@
-# SPDX-FileCopyrightText: 2025 caixw
+# SPDX-FileCopyrightText: 2025-2026 caixw
 #
 # SPDX-License-Identifier: MIT
 
-- TableProps
-- TableRef
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - TableProps
+            - TableRef
 
-- BasicTableProps
-- BasicTableRef
+            - BasicTableProps
+            - BasicTableRef
 
-- LoaderTableProps
-- LoaderTableRef
+            - LoaderTableProps
+            - LoaderTableRef
 
-- RemoteTableProps
-- RemoteTableRef
+            - RemoteTableProps
+            - RemoteTableRef
 
-- Column
+            - Column

@@ -21,7 +21,7 @@ export interface Options {
      * 指定需要加载的文件
      *
      * @remarks
-     * 第一个元素指向包的根目录；
+     * 第一个元素指向包的根目录，必须得一个绝对路径；
      * 第二个元素指向包中 lib/ 下的 entrypoint 的文件名称，比如 index.d.ts；
      */
     dts: Array<[pkg: string, entrypoint: string]>;
@@ -58,8 +58,8 @@ export default function api(o: Options): Plugin {
 
         buildStart: () => {
             const files = findAPIFile(o.root);
-            const types: Array<ApiItem> = [];
             for(const f of files) {
+                const types: Array<ApiItem> = [];
                 const pkgs: Array<Package> = YAML.parse(readFileSync(f, { encoding: 'utf-8' }));
                 for (const pkg of pkgs) {
                     for(const entrypoint of pkg.entrypoints) {

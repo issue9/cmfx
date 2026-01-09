@@ -20,7 +20,6 @@ export class Extractor {
      * @param entrypoints - 项目中需要引入的文件名，如果为空，则会采用 ['index.d.ts']；
      */
     load(root: string, ...entrypoints: Array<string>) {
-        root = path.resolve(__dirname, root);
         const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'vite-plugin-api-'));
 
         if (entrypoints.length === 0) {
@@ -39,7 +38,7 @@ export class Extractor {
                         tsconfigFilePath: path.resolve(root, 'tsconfig.json')
                     }
                 },
-                configObjectFullPath: path.resolve(__dirname, './api-extractor.json'),
+                configObjectFullPath: '/api-extractor.json',
                 packageJsonFullPath: path.join(root, 'package.json'),
             });
 
@@ -82,10 +81,11 @@ export class Extractor {
                         return items;
                     }
                 } // end for
+                throw new Error(`未找到 ${p.displayName}/${entrypoint}`);
             }
         } // end for
 
-        return [];
+        throw new Error(`未找到包 ${pkg}`);
     }
 
     /**

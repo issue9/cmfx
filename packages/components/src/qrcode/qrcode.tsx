@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,6 +9,14 @@ import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
 import { BaseProps, joinClass, RefProps } from '@/base';
 import styles from './style.module.css';
+
+// NOTE: 必须要将 CornerDotType 等作类型别名再由 index.ts 导出，否则在 vite-plugin-api 中无法导出
+
+export type QRCodeCornerDotType = CornerDotType;
+
+export type QRCodeCornerSquareType = CornerSquareType;
+
+export type QRCodeDotType = DotType;
 
 export interface Ref {
     /**
@@ -47,17 +55,17 @@ export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 二维码的类型
      */
-    type?: DotType;
+    type?: QRCodeDotType;
 
     /**
      * 定位框外框的类型
      */
-    cornerSquareType?: CornerSquareType;
+    cornerSquareType?: QRCodeCornerSquareType;
 
     /**
      * 定位框内部元素的类型
      */
-    cornerDotType?: CornerDotType;
+    cornerDotType?: QRCodeCornerDotType;
 
     /**
      * 宽度，默认 200。

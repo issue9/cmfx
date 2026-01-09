@@ -10,8 +10,8 @@ import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
-import pkg from './package.json';
 import customIcons from '../../build/unplugin-icons';
+import pkg from './package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -50,7 +50,12 @@ export default defineConfig(({ mode }) => {
 
         plugins: [
             api({
-                components: '../../packages/components',
+                dts: [
+                    [path.resolve(__dirname, '../../packages/core'), 'index.d.ts'],
+                    [path.resolve(__dirname, '../../packages/components'), 'index.d.ts'],
+                    [path.resolve(__dirname, '../../packages/illustrations'), 'index.d.ts'],
+                    [path.resolve(__dirname, '../../packages/admin'), 'index.d.ts'],
+                ],
                 root: './src/demo',
             }),
             Icons({

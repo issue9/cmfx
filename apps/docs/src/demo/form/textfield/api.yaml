@@ -1,8 +1,12 @@
-# SPDX-FileCopyrightText: 2025 caixw
+# SPDX-FileCopyrightText: 2025-2026 caixw
 #
 # SPDX-License-Identifier: MIT
 
-- TextFieldProps
-- TextFieldRef
-- NumberProps
-- PasswordProps
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - TextFieldProps
+            - TextFieldRef
+            - NumberProps
+            - PasswordProps

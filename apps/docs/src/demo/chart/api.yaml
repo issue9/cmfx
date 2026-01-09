@@ -1,11 +1,15 @@
-# SPDX-FileCopyrightText: 2025 caixw
+# SPDX-FileCopyrightText: 2025-2026 caixw
 #
 # SPDX-License-Identifier: MIT
 
-- ChartProps
-- ChartRef
-- ChartAxisProps
-- ChartAxisPropsAxis
-- ChartAxisPropsSeries
-- ChartAxisRef
-- ChartPieProps
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - ChartProps
+            - ChartRef
+            - ChartAxisProps
+            - ChartAxisPropsAxis
+            - ChartAxisPropsSeries
+            - ChartAxisRef
+            - ChartPieProps
