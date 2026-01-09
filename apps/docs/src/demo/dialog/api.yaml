@@ -8,3 +8,6 @@
         types:
             - DialogProps
             - DialogRef
+            - xalert
+            - xconfirm
+            - xprompt

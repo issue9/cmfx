@@ -1,22 +1,22 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { alert, Button, confirm, prompt } from '@cmfx/components';
+import { Button, xalert, xconfirm, xprompt } from '@cmfx/components';
 
 export default function() {
     return <div>
         <Button onclick={async () => {
-            await alert('msg');
+            await xalert('msg');
             console.log('alert');
         }}>alert</Button>
 
         <Button onclick={async () => {
-            console.log('confirm:', await confirm('这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！'));
+            console.log('confirm:', await xconfirm('这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！'));
         }}>confirm</Button>
 
         <Button onclick={async () => {
-            console.log('prompt:', await prompt('msg', 'def'));
+            console.log('prompt:', await xprompt('msg', 'def'));
         }}>prompt</Button>
 
         <Button onclick={() => {

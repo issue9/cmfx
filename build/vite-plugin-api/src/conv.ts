@@ -12,12 +12,12 @@ import { comment2String } from './utils';
 const reactiveTag = '@reactive';
 const defaultTag = '@default';
 
-export interface Doc {
+interface Doc {
     summary?: string;
     remarks?: string;
 }
 
-export interface Named extends Doc {
+interface Named extends Doc {
     name: string;
 }
 
@@ -39,7 +39,8 @@ export interface TypeParameter {
 /**
  * 定义类的结构
  */
-export interface Class extends Named {
+interface Class extends Named {
+    kind: 'class';
     typeParams?: Array<TypeParameter>;
     properties?: Array<Property & { static?: boolean, init?: string }>;
     methods?: Array<Method>;
@@ -48,9 +49,32 @@ export interface Class extends Named {
 /**
  * 定义接口
  */
-export interface Interface extends Named {
+interface Interface extends Named {
+    kind: 'interface';
     typeParams?: Array<TypeParameter>;
     properties?: Array<Property & { reactive?: boolean }>;
+}
+
+/**
+ * 定义函数
+ */
+interface Function extends Named {
+    kind: 'function';
+    typeParams?: Array<TypeParameter>;
+    parameters: Array<Parameter>;
+    return: Parameter;
+}
+
+interface TypeAlias extends Named {
+    kind: 'typeAlias';
+    typeParams?: Array<TypeParameter>;
+    type: string; // 别名的后半部分
+}
+
+interface Variable extends Named {
+    kind: 'variable';
+    type: string;
+    value?: string;
 }
 
 /**
@@ -63,35 +87,21 @@ export interface Property extends Named {
 }
 
 /**
- * 定义函数
+ * 定义类的方法
  */
-export interface Function extends Named {
+interface Method extends Named {
     typeParams?: Array<TypeParameter>;
     parameters: Array<Parameter>;
     return: Parameter;
-}
-
-/**
- * 定义类的方法
- */
-export interface Method extends Function {
     static?: boolean;
 };
 
-export interface TypeAlias extends Named {
-    typeParams?: Array<TypeParameter>;
-    type: string; // 别名的后半部分
-}
-
-export interface Variable extends Named {
-    type: string;
-    value?: string;
-}
+export type Type = TypeAlias | Variable | Class | Interface | Function;
 
 /**
  * 将 ApiItem 转换为可表达为 JSON 的对象
  */
-export function conv(item: ApiItem): unknown {
+export function conv(item: ApiItem): Type {
     switch(item.kind) {
     case ApiItemKind.Class:
         return convClass(item as ApiClass);
@@ -104,12 +114,13 @@ export function conv(item: ApiItem): unknown {
     case ApiItemKind.Variable:
         return convVariable(item as ApiVariable);
     default:
-        throw new Error(`Unsupported kind: ${item.kind}`);
+        throw new Error(`不支持的类型: ${item.kind}`);
     }
 }
 
 function convVariable(item: ApiVariable): Variable {
     return {
+        kind: 'variable',
         name: item.name,
         summary: comment2String(item.tsdocComment?.summarySection),
         remarks: comment2String(item.tsdocComment?.remarksBlock),
@@ -120,6 +131,7 @@ function convVariable(item: ApiVariable): Variable {
 
 function convClass(item: ApiClass): Class {
     return {
+        kind: 'class',
         name: item.name,
         summary: comment2String(item.tsdocComment?.summarySection),
         remarks: comment2String(item.tsdocComment?.remarksBlock),
@@ -159,6 +171,7 @@ function convClass(item: ApiClass): Class {
 
 function convInterface(item: ApiInterface): Interface {
     return {
+        kind: 'interface',
         name: item.name,
         summary: comment2String(item.tsdocComment?.summarySection),
         remarks: comment2String(item.tsdocComment?.remarksBlock),
@@ -207,6 +220,7 @@ function convInterface(item: ApiInterface): Interface {
 
 function convAlias(item: ApiTypeAlias): TypeAlias {
     return {
+        kind: 'typeAlias',
         name: item.name,
         summary: comment2String(item.tsdocComment?.summarySection),
         remarks: comment2String(item.tsdocComment?.remarksBlock),
@@ -221,6 +235,7 @@ function convAlias(item: ApiTypeAlias): TypeAlias {
 
 function convFunction(item: ApiFunction): Function {
     return {
+        kind: 'function',
         name: item.name,
         summary: comment2String(item.tsdocComment?.summarySection),
         remarks: comment2String(item.tsdocComment?.remarksBlock),

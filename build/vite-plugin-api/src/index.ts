@@ -5,5 +5,5 @@
 export { default as api } from './plugin';
 export type { Options } from './plugin';
 
-export type { Class, Function, Interface, Parameter, Property, TypeAlias, TypeParameter, Variable } from './conv';
+export type { Parameter, Property, Type, TypeParameter } from './conv';
 

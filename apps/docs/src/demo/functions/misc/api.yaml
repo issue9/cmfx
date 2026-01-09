@@ -10,7 +10,4 @@
             - createBytesFormatter
             - copy2Clipboard
             - notify
-            - xalert
-            - xconfirm
-            - xprompt
             - file2Base64
