@@ -1,18 +1,17 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Checkbox, Nav, Page, Table, useLocale } from '@cmfx/components';
-import { Object } from '@cmfx/vite-plugin-api';
-import { useCurrentMatches, A } from '@solidjs/router';
+import { Type } from '@cmfx/vite-plugin-api';
+import { A, useCurrentMatches } from '@solidjs/router';
 import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 
-
-import { default as Stage, Props as StageProps } from './stage';
-import { markdown } from './markdown';
-import styles from './style.module.css';
 import pkg from '../../package.json';
+import { markdown } from './markdown';
+import { default as Stage, Props as StageProps } from './stage';
+import styles from './style.module.css';
 
 // 演示文件的基地址
 const baseURL = pkg.repository.url + '/tree/master/' + pkg.repository.directory;
@@ -36,7 +35,7 @@ export interface Props extends ParentProps {
     /**
      * API 内容
      */
-    api?: Array<Object>;
+    api?: Array<Type>;
 }
 
 /**
@@ -100,9 +99,8 @@ function tscode(code?: string): string {
     return code ? markdown('```ts\n' + code.trim() + '\n```') : '';
 }
 
-function buildAPI(api: Object): JSX.Element {
+function buildAPI(api: Type): JSX.Element {
     const l = useLocale();
-    const isFunc = api.fields && api.type;
 
     return <section class={styles.api}>
         <h4>{api.name}</h4>
@@ -112,46 +110,91 @@ function buildAPI(api: Object): JSX.Element {
         <Show when={api.remarks}>{remarks =>
             <p innerHTML={markdown(remarks())} />
         }</Show>
-        <Switch fallback={<p innerHTML={tscode(api.type)} />}>
-            <Match when={api.fields}>
-                <Show when={api.type}>{c => <p innerHTML={ tscode(c())} />}</Show>
-                <Table hoverable>
-                    <thead>
-                        <tr>
-                            <th>{l.t('_d.stages.param')}</th>
-                            <th>{l.t('_d.stages.type')}</th>
-                            <th>{l.t('_d.stages.preset')}</th>
-                            <Show when={!isFunc}><th>{l.t('_d.stages.reactive')}</th></Show>
-                            <th>{l.t('_d.stages.desc')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <For each={api.fields}>
-                            {field => (
-                                <tr>
-                                    <th>{field.name}</th>
-                                    <td innerHTML={tscode(field.type)} />
-                                    <td innerHTML={tscode(field.preset)} />
-                                    <Show when={!isFunc}>
+        <Switch>
+            <Match when={api.kind === 'variable' ? api : undefined}>
+                {v =>
+                    <p>{markdown(`${v().name} = ${v().value}`)}</p>
+                }
+            </Match>
+
+            <Match when={api.kind === 'function' ? api : undefined}>
+                {fn =>
+                    <p>{markdown(`${fn().name}(${fn().parameters.map(p => p.name).join(', ')})`)}</p>
+                }
+            </Match>
+
+            <Match when={api.kind === 'class' ? api : undefined}>
+                {cls =>
+                    <Table hoverable>
+                        <thead>
+                            <tr>
+                                <th>{l.t('_d.stages.param')}</th>
+                                <th>{l.t('_d.stages.type')}</th>
+                                <th>{l.t('_d.stages.init')}</th>
+                                <th>{l.t('_d.stages.desc')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <For each={cls().properties}>
+                                {field => (
+                                    <tr>
+                                        <th>{field.name}</th>
+                                        <td innerHTML={tscode(field.type)} />
+                                        <td innerHTML={tscode(field.def)} />
+                                        <td>
+                                            <Show when={field.summary}>{summary =>
+                                                <p innerHTML={markdown(summary())} />
+                                            }</Show>
+                                            <Show when={field.remarks}>{remarks =>
+                                                <p innerHTML={markdown(remarks())} />
+                                            }</Show>
+                                        </td>
+                                    </tr>
+                                )}
+                            </For>
+                        </tbody>
+                    </Table>
+                }
+            </Match>
+
+            <Match when={api.kind === 'interface' ? api : undefined}>
+                {intf =>
+                    <Table hoverable>
+                        <thead>
+                            <tr>
+                                <th>{l.t('_d.stages.param')}</th>
+                                <th>{l.t('_d.stages.type')}</th>
+                                <th>{l.t('_d.stages.preset')}</th>
+                                <th>{l.t('_d.stages.reactive')}</th>
+                                <th>{l.t('_d.stages.desc')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <For each={intf().properties}>
+                                {field => (
+                                    <tr>
+                                        <th>{field.name}</th>
+                                        <td innerHTML={tscode(field.type)} />
+                                        <td innerHTML={tscode(field.def)} />
                                         <td>
                                             <Show when={field.reactive} fallback={<Checkbox class={styles.chk} readonly />}>
                                                 <Checkbox class={styles.chk} checked readonly />
                                             </Show>
                                         </td>
-                                    </Show>
-                                    <td>
-                                        <Show when={field.summary}>{summary =>
-                                            <p innerHTML={markdown(summary())} />
-                                        }</Show>
-                                        <Show when={field.remarks}>{remarks =>
-                                            <p innerHTML={markdown(remarks())} />
-                                        }</Show>
-                                    </td>
-                                </tr>
-                            )}
-                        </For>
-                    </tbody>
-                </Table>
+                                        <td>
+                                            <Show when={field.summary}>{summary =>
+                                                <p innerHTML={markdown(summary())} />
+                                            }</Show>
+                                            <Show when={field.remarks}>{remarks =>
+                                                <p innerHTML={markdown(remarks())} />
+                                            }</Show>
+                                        </td>
+                                    </tr>
+                                )}
+                            </For>
+                        </tbody>
+                    </Table>
+                }
             </Match>
         </Switch>
     </section>;

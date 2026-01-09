@@ -42,7 +42,7 @@ export interface TypeParameter {
 interface Class extends Named {
     kind: 'class';
     typeParams?: Array<TypeParameter>;
-    properties?: Array<Property & { static?: boolean, init?: string }>;
+    properties?: Array<Property & { static?: boolean }>;
     methods?: Array<Method>;
 }
 
@@ -82,7 +82,7 @@ interface Variable extends Named {
  */
 export interface Property extends Named {
     type: string;
-    def?: string; // 默认值
+    def?: string; // 默认值或是类中的初始值
     optional?: boolean;
 }
 
@@ -159,7 +159,7 @@ function convClass(item: ApiClass): Class {
                     summary: comment2String(p.tsdocComment?.summarySection),
                     remarks: comment2String(p.tsdocComment?.remarksBlock),
                     type: p.propertyTypeExcerpt.text,
-                    def: comment2String(p.tsdocComment?.customBlocks.find(blk => blk.blockTag.tagName === defaultTag)?.content),
+                    def: p.initializerExcerpt?.text,
                     init: p.initializerExcerpt?.text,
                     reactive: p.tsdocComment?.modifierTagSet.hasTagName(reactiveTag),
                     optional: p.isOptional,

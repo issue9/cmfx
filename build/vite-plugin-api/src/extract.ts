@@ -97,6 +97,6 @@ export class Extractor {
             ts.push(conv(item));
         }
 
-        fs.writeFileSync(path, JSON.stringify(ts, null, 2));
+        fs.writeFileSync(path, JSON.stringify(ts, null, '\t'));
     }
 }
