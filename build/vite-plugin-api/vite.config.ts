@@ -58,7 +58,7 @@ export default defineConfig({
                     } else { return ''; }
                 }
             },
-            external: ['vite', 'node:fs', 'node:path', 'node:os', '@microsoft/tsdoc', '@microsoft/api-extractor-model', '@microsoft/api-extractor']
+            external: ['vite', 'node:fs', 'node:path', 'node:os', '@microsoft/tsdoc', 'ts-morph', 'typescript']
         }
     },
 });

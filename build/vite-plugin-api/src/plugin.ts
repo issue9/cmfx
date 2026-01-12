@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ApiItem } from '@microsoft/api-extractor-model';
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { Plugin } from 'vite';
 import YAML from 'yaml';
 
 import { Extractor } from './extract';
+import { Type } from './types';
 
 // 配置文件名
 const filename = 'api';
@@ -59,7 +59,7 @@ export default function api(o: Options): Plugin {
         buildStart: () => {
             const files = findAPIFile(o.root);
             for(const f of files) {
-                const types: Array<ApiItem> = [];
+                const types: Array<Type> = [];
                 const pkgs: Array<Package> = YAML.parse(readFileSync(f, { encoding: 'utf-8' }));
                 for (const pkg of pkgs) {
                     for(const entrypoint of pkg.entrypoints) {
@@ -69,7 +69,7 @@ export default function api(o: Options): Plugin {
                 }
 
                 const dir = path.dirname(f);
-                parser.write(types, path.join(dir, `${filename}.json`));
+                writeFileSync(path.join(dir, `${filename}.json`), JSON.stringify(types, null, '\t'));
             }
         }
     };
