@@ -2,19 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { DocComment, StandardTags } from '@microsoft/tsdoc';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
-    ClassDeclaration, ExportedDeclarations, FunctionDeclaration, InterfaceDeclaration, ModuledNode, Node,
-    ParameterDeclaration, Project, TypeAliasDeclaration, TypeChecker, TypeNode, TypeParameterDeclaration
+    ClassDeclaration, FunctionDeclaration, InterfaceDeclaration, ModuledNode, Node, ParameterDeclaration,
+    Project, TypeAliasDeclaration, TypeChecker, TypeNode, TypeParameterDeclaration, Type as XType
 } from 'ts-morph';
 
-import { DocComment, StandardTags } from '@microsoft/tsdoc';
+import { comment2String, getCustomDoc, getTsdoc, newTSDocParser, reactiveTag } from './tsdoc';
 import {
-    comment2String, getCustomDoc, getTsdoc, newTSDocParser, reactiveTag
-} from './tsdoc';
-import {
-    Alias, ClassMethod, ClassProperty, InterfaceMethod, InterfaceProperty, Parameter, ReturnType as RT, Type, TypeParameter
+    Alias, AliasUnion, ClassMethod, ClassProperty, InterfaceMethod,
+    InterfaceProperty, Parameter, ReturnType as RT, Type, TypeParameter
 } from './types';
 
 interface TSProject {
@@ -95,7 +94,7 @@ export class Extractor {
         return types;
     }
 
-    private conv(decl: ExportedDeclarations, chk: TypeChecker): Type {
+    private conv(decl: Node, chk: TypeChecker): Type {
         if (Node.isInterfaceDeclaration(decl)) {
             return this.convInterface(decl);
         } else if (Node.isClassDeclaration(decl)) {
@@ -106,7 +105,10 @@ export class Extractor {
             return this.convAlias(decl, chk);
         }
 
-        throw new Error(`不支持的类型 ${decl.getKindName()}`);
+        return {
+            kind: 'source',
+            source: decl.getText(),
+        };
     }
 
     private getType(n?: Node): string {
@@ -151,6 +153,18 @@ export class Extractor {
     }
 
     private convAlias(decl: TypeAliasDeclaration, chk: TypeChecker): Type {
+        // 判断 t 是否为标准库的类型
+        const isStd = (t: Node): boolean => {
+            const sourceFile = t.getSourceFile();
+            return sourceFile.getFilePath().includes('typescript/lib/lib.');
+        };
+
+        // 判断 t 是否为第三方包中的类型
+        const isModules = (t: Node): boolean => {
+            const sourceFile = t.getSourceFile();
+            return sourceFile.getFilePath().includes('node_modules/');
+        };
+
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
         const alias: Alias = {
@@ -158,20 +172,139 @@ export class Extractor {
             name: decl.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            type: '', // 占位，后续获取真实的值。
-        };
+        } as Alias;
 
-        const typ = chk.getTypeAtLocation(decl).getApparentType();
-        if (typ.isUnion()) {
-            alias.type = typ.getUnionTypes().map(t => {
-                return t.isLiteral() ? t.getLiteralValue() : t.getText();
-            }).join(' | ');
+        const typ = chk.getTypeAtLocation(decl);
+
+        if (typ.getSymbol()?.getDeclarations().every(v=>isStd(v) || isModules(v))) {
+            alias.type = {
+                kind: 'literal', // 严格来说这不是 literal，但是不展示了，就直接当作 literal 处理。
+                type: typ.getText(),
+            };
+        }else if (typ.isUnion()) {
+            const unionTypes = typ.getUnionTypes();
+
+            const intersectionIsLiteral = (t: XType): boolean => {
+                return t.isLiteral() || t.isUndefined()
+                    || (t.isIntersection() && t.getIntersectionTypes().every(i => i.isLiteral() || i.isUndefined()));
+            };
+
+            const unionIsLiteral = (t: XType): boolean => {
+                return t.isLiteral() || t.isUndefined()
+                    || (t.isUnion() && t.getUnionTypes().every(i => i.isLiteral() || i.isUndefined()));
+            };
+
+            if (unionTypes.every(intersectionIsLiteral)) { // 字符串类型的联合类型
+                alias.type = {
+                    kind: 'literal',
+                    type: unionTypes.map(t => t.getText()).join(' | '),
+                };
+                return alias;
+            }
+
+            const unions: AliasUnion = {
+                kind: 'union',
+                type: [],
+            };
+            for (const ut of unionTypes) {
+                if (ut.isLiteral()) { break; } // 如果联合类型有一个是字面量，类型肯定没有区分联合类型的字段
+
+                // 依次查询每个属性是否为区分联合类型
+                for (const prop of ut.getProperties()) {
+                    const name = prop.getName();
+
+                    // 检测 unionTypes 中每个类型中字段名为 name 的属性值，
+                    // 不存在或是不符合要求，则返回 undefined。
+                    // 之后通过检测 values 是否包含 undefined 来判断该字段是否为区分联合类型。
+                    const values: Array<string|undefined> = [];
+                    for(const t of unionTypes) {
+                        if (t.isLiteral() || t.isBoolean() || t.isNumber() || t.isString()) {
+                            values.push(undefined);
+                            break;
+                        }
+
+                        const p = t.getProperty(name);
+                        if (!p) {
+                            values.push(undefined);
+                            break;
+                        }
+
+                        if (t.isIntersection()) { // 处理嵌套的 intersection 类型
+                            for(const it of t.getIntersectionTypes()) {
+                                const ip = it.getProperty(name);
+                                if (!ip) {
+                                    values.push(undefined);
+                                    break;
+                                }
+
+                                const ret = ip.getTypeAtLocation(ip.getDeclarations()[0]);
+                                if (!ret) {
+                                    values.push(undefined);
+                                    break;
+                                }
+
+                                if (!unionIsLiteral(ret)) {
+                                    values.push(undefined);
+                                    break;
+                                }
+                                values.push(ret.getText());
+                            }
+                        } else {
+                            const ret = p.getTypeAtLocation(p.getValueDeclarationOrThrow());
+                            if (!ret || !unionIsLiteral(ret)) {
+                                values.push(undefined);
+                                break;
+                            }
+                            values.push(ret.getText());
+                        }
+                    };
+
+                    if (values.length>0 && values.every(v => v !== undefined)) {
+                        unions.discriminant = name;
+                        break;
+                    }
+                }
+            }
+
+            for(const t of unionTypes) {
+                if (t.isIntersection()) {
+                    unions.type.push({
+                        kind: 'alias',
+                        name: '',
+                        type: {
+                            kind: 'intersection',
+                            type: t.getIntersectionTypes().map(t => {
+                                return this.conv(t.getSymbol()?.getDeclarations()[0]!, chk);
+                            }),
+                        },
+                    });
+                } else {
+                    unions.type.push(this.conv(t.getSymbol()?.getDeclarations()[0]!, chk));
+                }
+            };
+
+            alias.type = unions;
         } else if (typ.isIntersection()) {
-            alias.type = typ.getIntersectionTypes().map(t => {
-                return t.isLiteral() ? t.getLiteralValue() : t.getText();
-            }).join(' & ');
+            if (typ.getIntersectionTypes().every(t=>t.isLiteral())) { // 字符串类型的交集
+                alias.type = {
+                    kind: 'literal',
+                    type: typ.getIntersectionTypes().map(t => t.getText()).join(' & '),
+                };
+                return alias;
+            }
+
+            alias.type = {
+                kind: 'intersection',
+                type: typ.getIntersectionTypes().map(t => {
+                    return this.conv(t.getSymbol()?.getDeclarations()[0]!, chk);
+                    //return t.isLiteral() ? t.getLiteralValue() : t.getText();
+                }),
+            };
         } else { // 其它情况应该只有一个 declarations
-            alias.type = typ.getText();
+            alias.type = {
+                kind: 'literal',
+                type: typ.getText(),
+            };
         }
 
         return alias;

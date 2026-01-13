@@ -6,6 +6,7 @@ import path from 'node:path';
 import { describe, expect, test } from 'vitest';
 
 import { Extractor } from './extract';
+import { Alias, Interface } from './types';
 
 describe('Extractor', { timeout: 20000 }, () => {
     const extractor = new Extractor();
@@ -165,7 +166,74 @@ describe('Extractor', { timeout: 20000 }, () => {
             expect(alias.name).toEqual('ButtonKind');
             expect(alias.summary?.trim()).toEqual('组件的风格');
             expect(alias.remarks).toBeDefined();
-            expect(alias.type).toEqual('flat | border | fill');
+            expect(alias.type.kind).toEqual('literal');
+            expect(alias.type.type).toEqual('"flat" | "border" | "fill"');
+        }
+    });
+
+    test('alias union interface', () => {
+        const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ButtonProps');
+        expect(items).length(1);
+
+        const props = items![0];
+        expect(props.kind).toEqual('alias');
+        if (props.kind === 'alias') {
+            expect(props.name).toEqual('ButtonProps');
+            expect(props.summary).toBeUndefined();
+            expect(props.remarks).toBeUndefined();
+
+            const t = props.type;
+            expect(t).toBeDefined();
+            expect(t.kind).toEqual('union');
+            if (t.kind === 'union') {
+                expect(t.discriminant).toEqual('type');
+                expect(t.type).length(2);
+
+                const u0 = t.type![0] as Interface;
+                expect(u0.name).toEqual('BProps');
+                expect(u0.kind).toEqual('interface');
+                const u0Type = u0.properties?.find(p => p.name === 'type');
+                expect(u0Type).toBeDefined();
+                expect(u0Type?.type).toEqual('"submit" | "reset" | "button" | "menu" | undefined');
+
+                const u1 = t.type![1] as Interface;
+                expect(u1.name).toEqual('AProps');
+                expect(u1.kind).toEqual('interface');
+                const u1Type = u1.properties?.find(p => p.name === 'type');
+                expect(u1Type).toBeDefined();
+                expect(u1Type?.type).toEqual('"a"');
+            }
+        }
+    });
+
+    test('alias intersection interface', () => {
+        const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ConfirmButtonProps');
+        expect(items).length(1);
+
+        const props = items![0];
+        expect(props.kind).toEqual('alias');
+
+        if (props.kind === 'alias') {
+            expect(props.name).toEqual('ConfirmButtonProps');
+            expect(props.summary).toBeUndefined();
+            expect(props.remarks).toBeUndefined();
+
+            const t = props.type;
+            expect(t.kind).toEqual('union');
+            if (t.kind === 'union') {
+                expect(t.discriminant).toBeUndefined();
+                expect(t.type).length(2);
+
+                const u0 = t.type![0] as Alias;
+                expect(u0.kind).toEqual('alias');
+                expect(u0.type.kind).toEqual('intersection');
+                expect(u0.type.type).length(2);
+
+                const u1 = t.type![1] as Alias;
+                expect(u1.kind).toEqual('alias');
+                expect(u1.type.kind).toEqual('intersection');
+                expect(u1.type.type).length(2);
+            }
         }
     });
 
@@ -174,10 +242,10 @@ describe('Extractor', { timeout: 20000 }, () => {
         expect(items).length(1);
 
         const f = items![0];
-        expect(f.name).toEqual('joinClass');
         expect(f.kind).toEqual('function');
 
         if (f.kind === 'function') {
+            expect(f.name).toEqual('joinClass');
             expect(f.return).toBeDefined();
             expect(f.return.type).toEqual('string | undefined');
             expect(f.return.summary?.trim()).toEqual('由参数组合的 class 属性值；');
