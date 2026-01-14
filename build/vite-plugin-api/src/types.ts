@@ -70,8 +70,9 @@ export interface InterfaceMethod extends Named {
 /**
  * 定义类的结构
  */
-export interface Class extends Named {
+export interface Class extends Doc {
     kind: 'class';
+    name?: string;
     typeParams?: Array<TypeParameter>;
     properties?: Array<ClassProperty>;
     methods?: Array<ClassMethod>;
@@ -80,8 +81,9 @@ export interface Class extends Named {
 /**
  * 定义接口
  */
-export interface Interface extends Named {
+export interface Interface extends Doc {
     kind: 'interface';
+    name?: string; // 作为别名后部分时，该值为空。
     typeParams?: Array<TypeParameter>;
     properties?: Array<InterfaceProperty>;
     methods?: Array<InterfaceMethod>;
@@ -109,27 +111,27 @@ export interface Function extends Named {
     return: ReturnType;
 }
 
-export interface Alias extends Named {
-    kind: 'alias';
-    typeParams?: Array<TypeParameter>;
-
-    type: AliasLiteral | AliasUnion | AliasIntersection; // 别名的后半部分。
-}
-
-export interface AliasLiteral {
+/**
+ * 字面量类型
+ */
+export interface Literal extends Named {
     kind: 'literal';
     type: string;
 }
 
-export interface AliasUnion {
+export interface Union extends Named {
     kind: 'union';
+
+    typeParams?: Array<TypeParameter>;
     discriminant?: string; // 区分联合类型的字段名
-    type: Array<Type>;
+    types: Array<Type>;
 }
 
-export interface AliasIntersection {
+export interface Intersection extends Named {
     kind: 'intersection';
-    type: Array<Type>;
+
+    typeParams?: Array<TypeParameter>;
+    types: Array<Type>;
 }
 
-export type Type =  Class | Interface | Function | Alias | Source;
+export type Type =  Class | Interface | Function | Literal | Union | Intersection | Source;

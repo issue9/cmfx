@@ -6,15 +6,16 @@ import { DocComment, StandardTags } from '@microsoft/tsdoc';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
-    ClassDeclaration, FunctionDeclaration, GetAccessorDeclaration, InterfaceDeclaration, JSDocableNode, MethodDeclaration,
-    MethodSignature, ModuledNode, Node, ParameterDeclaration, Project, PropertyDeclaration, PropertySignature,
-    SetAccessorDeclaration, Symbol, TypeAliasDeclaration, TypeChecker, TypeNode, TypeParameterDeclaration, Type as XType
+    ClassDeclaration, FunctionDeclaration, GetAccessorDeclaration, InterfaceDeclaration, JSDocableNode,
+    MethodDeclaration, MethodSignature, ModuledNode, Node, ParameterDeclaration, Project, PropertyDeclaration,
+    PropertySignature, SetAccessorDeclaration, Symbol, TypeAliasDeclaration, TypeChecker, TypeNode,
+    TypeParameterDeclaration, Type as XType
 } from 'ts-morph';
 
 import { comment2String, getCustomDoc, getTsdoc, newTSDocParser, reactiveTag } from './tsdoc';
 import {
-    Alias, AliasUnion, Class, ClassMethod, ClassProperty, Interface, InterfaceMethod,
-    InterfaceProperty, Parameter, ReturnType as RT, Type, TypeParameter
+    Class, ClassMethod, ClassProperty, Interface, InterfaceMethod, InterfaceProperty,
+    Intersection, Literal, Parameter, ReturnType as RT, Type, TypeParameter, Union
 } from './types';
 
 interface TSProject {
@@ -130,21 +131,19 @@ export class Extractor {
         };
 
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
-
-        const alias: Alias = {
-            kind: 'alias',
-            name: decl.getName() ?? '',
-            summary: comment2String(tsdoc?.summarySection),
-            remarks: comment2String(tsdoc?.remarksBlock?.content),
-        } as Alias;
+        const name = decl.getName() ?? '';
+        const summary = comment2String(tsdoc?.summarySection);
+        const remarks = comment2String(tsdoc?.remarksBlock?.content);
 
         const typ = chk.getTypeAtLocation(decl);
 
         if (typ.getSymbol()?.getDeclarations().every(v=>isStd(v) || isModules(v))) {
-            alias.type = {
-                kind: 'literal', // 严格来说这不是 literal，但是不展示了，就直接当作 literal 处理。
+            const ret: Literal = {
+                name, summary, remarks,
+                kind: 'literal',
                 type: typ.getText(),
             };
+            return ret;
         }else if (typ.isUnion()) {
             const unionTypes = typ.getUnionTypes();
 
@@ -159,16 +158,18 @@ export class Extractor {
             };
 
             if (unionTypes.every(intersectionIsLiteral)) { // 字符串类型的联合类型
-                alias.type = {
+                const ret: Literal = {
+                    name, summary, remarks,
                     kind: 'literal',
-                    type: unionTypes.map(t => t.getText()).join(' | '),
+                    type: typ.getText(),
                 };
-                return alias;
+                return ret;
             }
 
-            const unions: AliasUnion = {
+            const unions: Union = {
+                name, summary, remarks,
                 kind: 'union',
-                type: [],
+                types: [],
             };
             for (const ut of unionTypes) {
                 if (ut.isLiteral()) { break; } // 如果联合类型有一个是字面量，类型肯定没有区分联合类型的字段
@@ -232,45 +233,46 @@ export class Extractor {
 
             for(const t of unionTypes) {
                 if (t.isIntersection()) {
-                    unions.type.push({
-                        kind: 'alias',
+                    const inter: Intersection = {
                         name: '',
-                        type: {
-                            kind: 'intersection',
-                            type: t.getIntersectionTypes().map(t => {
-                                return this.conv(t.getSymbol()?.getDeclarations()[0]!, chk);
-                            }),
-                        },
-                    });
+                        kind: 'intersection',
+                        types: t.getIntersectionTypes().map(t => {
+                            return this.conv(t.getSymbol()?.getDeclarations()[0]!, chk);
+                        }),
+                    };
+                    unions.types.push(inter);
                 } else {
-                    unions.type.push(this.conv(t.getSymbol()?.getDeclarations()[0]!, chk));
+                    unions.types.push(this.conv(t.getSymbol()?.getDeclarations()[0]!, chk));
                 }
             };
 
-            alias.type = unions;
+            return unions;
         } else if (typ.isIntersection()) {
             if (typ.getIntersectionTypes().every(t=>t.isLiteral())) { // 字符串类型的交集
-                alias.type = {
+                const t: Literal = {
+                    name, summary, remarks,
                     kind: 'literal',
                     type: typ.getIntersectionTypes().map(t => t.getText()).join(' & '),
                 };
-                return alias;
+                return t;
             }
 
-            alias.type = {
+            const t: Intersection = {
+                name, summary, remarks,
                 kind: 'intersection',
-                type: typ.getIntersectionTypes().map(t => {
+                types: typ.getIntersectionTypes().map(t => {
                     return this.fromSymbols(t.getProperties(), 'interface');
                 }),
             };
+            return t;
         } else { // 其它情况应该只有一个 declarations
-            alias.type = {
+            const t: Literal = {
+                name, summary, remarks,
                 kind: 'literal',
                 type: typ.getText(),
             };
+            return t;
         }
-
-        return alias;
     }
 
     /**
@@ -279,53 +281,53 @@ export class Extractor {
     private fromSymbols(symbols: Array<Symbol>, kind: 'class' | 'interface'): Type {
         switch (kind) {
         case 'class':
-            const cls: Class = {
-                kind: 'class',
-                name: symbols[0].getName(),
-                properties: [],
-                methods: [],
-            };
+            const cp: Array<ClassProperty> = [];
+            const cm: Array<ClassMethod> = [];
 
             for (const sym of symbols) {
                 const decl = sym.getDeclarations()[0]!;
 
                 if (Node.isPropertyDeclaration(decl)) {
-                    cls.properties!.push(this.buildClassProperty(decl));
+                    cp.push(this.buildClassProperty(decl));
                 } else if (Node.isMethodDeclaration(decl)) {
-                    cls.methods!.push(this.fromMethodDeclaration(decl));
+                    cm.push(this.fromMethodDeclaration(decl));
                 } else if (Node.isGetAccessorDeclaration(decl)) {
-                    this.appendGetAccessor2ClassProperties(cls.properties!, decl);
+                    this.appendGetAccessor2ClassProperties(cp, decl);
                 } else if (Node.isSetAccessorDeclaration(decl)) {
-                    this.appendSetAccessor2ClassProperties(cls.properties!, decl);
+                    this.appendSetAccessor2ClassProperties(cp, decl);
                 }
             }
 
+            const cls: Class = {
+                kind: 'class',
+                properties: cp.length > 0 ? cp : undefined,
+                methods: cm.length > 0 ? cm : undefined,
+            };
             return cls;
         case 'interface':
-            const intf: Interface = {
-                kind: 'interface',
-                name: symbols[0].getName(),
-                properties: [],
-                methods: [],
-            };
+            const ip: Array<InterfaceProperty> = [];
+            const im: Array<InterfaceMethod> = [];
 
             for (const sym of symbols) {
                 const decl = sym.getDeclarations()[0]!;
 
                 if (Node.isPropertySignature(decl)) {
-                    intf.properties!.push(this.buildInterfaceProperty(decl));
+                    ip.push(this.buildInterfaceProperty(decl));
                 } else if (Node.isMethodSignature(decl)) {
-                    intf.methods!.push(this.fromMethodSignature(decl));
+                    im.push(this.fromMethodSignature(decl));
                 } else if (Node.isGetAccessorDeclaration(decl)) {
-                    this.appendGetAccessor2InterfaceProperties(intf.properties!, decl);
+                    this.appendGetAccessor2InterfaceProperties(ip, decl);
                 } else if (Node.isSetAccessorDeclaration(decl)) {
-                    this.appendSetAccessor2InterfaceProperties(intf.properties!, decl);
+                    this.appendSetAccessor2InterfaceProperties(ip, decl);
                 }
             }
 
+            const intf: Interface = {
+                kind: 'interface',
+                properties: ip.length > 0 ? ip : undefined,
+                methods: im.length > 0 ? im : undefined,
+            };
             return intf;
-        default:
-            throw new Error('参数 kind 无效');
         }
     }
 
@@ -338,16 +340,16 @@ export class Extractor {
         decl.getGetAccessors().forEach(accessor => this.appendGetAccessor2InterfaceProperties(props, accessor));
         decl.getSetAccessors().forEach(accessor => this.appendSetAccessor2InterfaceProperties(props, accessor));
 
+        const tps = decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc));
+        const methods = decl.getMethods().map(method => this.fromMethodSignature(method));
         return {
             kind: 'interface',
             name: decl.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            typeParams: decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
-            properties: props,
-            methods: decl.getMethods().map(method => {
-                return this.fromMethodSignature(method);
-            }),
+            typeParams: tps.length > 0 ? tps : undefined,
+            properties: props.length > 0 ? props : undefined,
+            methods: methods.length > 0 ? methods : undefined,
         };
     }
 
@@ -360,28 +362,33 @@ export class Extractor {
         decl.getGetAccessors().forEach(accessor => this.appendGetAccessor2ClassProperties(props, accessor));
         decl.getSetAccessors().forEach(accessor => this.appendSetAccessor2ClassProperties(props, accessor));
 
+        const tps = decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc));
+        const methods = decl.getMethods().map(method => this.fromMethodDeclaration(method));
+
         return {
             kind: 'class',
             name: decl.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            typeParams: decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
-            properties: props,
-            methods: decl.getMethods().map(method => this.fromMethodDeclaration(method)),
+            typeParams: tps.length > 0 ? tps : undefined,
+            properties: props.length > 0 ? props : undefined,
+            methods: methods.length > 0 ? methods : undefined,
         };
     }
 
     private fromFunctionDeclaration(decl: FunctionDeclaration): Type {
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
+        const tps = decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc));
+        const params = decl.getParameters().map(p => this.formParameterDeclaration(p, tsdoc));
         return {
             kind: 'function',
             name: decl.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
             type: decl.getReturnType().getText(),
-            typeParams: decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
-            params: decl.getParameters().map(p => this.formParameterDeclaration(p, tsdoc)),
+            typeParams: tps.length > 0 ? tps : undefined,
+            params: params.length > 0 ? params : undefined,
             return: this.getReturnType(decl.getReturnTypeNode(), tsdoc),
         };
     }
@@ -420,7 +427,7 @@ export class Extractor {
         };
 
         if (Node.isPropertyDeclaration(decl)) {
-            prop.readonly = decl.isReadonly();
+            prop.readonly = decl.isReadonly() ? true : undefined;
             prop.def = decl.getInitializer()?.getText() ?? undefined;
         } else if (Node.isGetAccessorDeclaration(decl)) {
             prop.getter = true;
@@ -462,7 +469,7 @@ export class Extractor {
             remarks: comment2String(tsdoc?.remarksBlock?.content),
             type: this.getType(decl),
             def: getCustomDoc(StandardTags.defaultValue.tagName, tsdoc),
-            reactive: tsdoc?.modifierTagSet.hasTagName(reactiveTag)
+            reactive: tsdoc?.modifierTagSet.hasTagName(reactiveTag) ? true : undefined,
         };
 
 
@@ -471,7 +478,7 @@ export class Extractor {
         } else if (Node.isSetAccessorDeclaration(decl)) {
             prop.setter = true;
         } else if (Node.isPropertySignature(decl)) {
-            prop.readonly = decl.isReadonly();
+            prop.readonly = decl.isReadonly() ? true : undefined;
         }
 
         return prop;
@@ -479,13 +486,15 @@ export class Extractor {
 
     private fromMethodDeclaration(method: MethodDeclaration): ClassMethod {
         const tsdoc = getTsdoc(this.#tsdocParser, method);
+        const tps = method.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc));
+        const params = method.getParameters().map(p => this.formParameterDeclaration(p, tsdoc));
         return {
             name: method.getName(),
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
             type: this.getType(method),
-            typeParams: method.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
-            params: method.getParameters().map(p => this.formParameterDeclaration(p, tsdoc)),
+            typeParams: tps.length > 0 ? tps : undefined,
+            params: params.length > 0 ? params : undefined,
             return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
             static: method.isStatic(),
         };
@@ -493,13 +502,15 @@ export class Extractor {
 
     private fromMethodSignature(method: MethodSignature): InterfaceMethod {
         const tsdoc = getTsdoc(this.#tsdocParser, method);
+        const tps = method.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc));
+        const params = method.getParameters().map(p => this.formParameterDeclaration(p, tsdoc));
         return {
             name: method.getName(),
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
             type: this.getType(method),
-            typeParams: method.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
-            params: method.getParameters().map(p => this.formParameterDeclaration(p, tsdoc)),
+            typeParams: tps.length > 0 ? tps : undefined,
+            params: params.length > 0 ? params : undefined,
             return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
         };
     }
