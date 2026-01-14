@@ -6,13 +6,14 @@ import { DocComment, StandardTags } from '@microsoft/tsdoc';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
-    ClassDeclaration, FunctionDeclaration, InterfaceDeclaration, ModuledNode, Node, ParameterDeclaration,
-    Project, TypeAliasDeclaration, TypeChecker, TypeNode, TypeParameterDeclaration, Type as XType
+    ClassDeclaration, FunctionDeclaration, GetAccessorDeclaration, InterfaceDeclaration, JSDocableNode, MethodDeclaration,
+    MethodSignature, ModuledNode, Node, ParameterDeclaration, Project, PropertyDeclaration, PropertySignature,
+    SetAccessorDeclaration, Symbol, TypeAliasDeclaration, TypeChecker, TypeNode, TypeParameterDeclaration, Type as XType
 } from 'ts-morph';
 
 import { comment2String, getCustomDoc, getTsdoc, newTSDocParser, reactiveTag } from './tsdoc';
 import {
-    Alias, AliasUnion, ClassMethod, ClassProperty, InterfaceMethod,
+    Alias, AliasUnion, Class, ClassMethod, ClassProperty, Interface, InterfaceMethod,
     InterfaceProperty, Parameter, ReturnType as RT, Type, TypeParameter
 } from './types';
 
@@ -96,63 +97,26 @@ export class Extractor {
 
     private conv(decl: Node, chk: TypeChecker): Type {
         if (Node.isInterfaceDeclaration(decl)) {
-            return this.convInterface(decl);
+            return this.fromInterfaceDeclaration(decl);
         } else if (Node.isClassDeclaration(decl)) {
-            return this.convClass(decl);
+            return this.fromClassDeclaration(decl);
         } else if (Node.isFunctionDeclaration(decl)) {
-            return this.convFunction(decl);
+            return this.fromFunctionDeclaration(decl);
         } else if (Node.isTypeAliasDeclaration(decl)) {
-            return this.convAlias(decl, chk);
+            return this.fromTypeAliasDeclaration(decl, chk);
         }
 
+        const tsdoc = Node.isJSDocable(decl) ? getTsdoc(this.#tsdocParser, decl as JSDocableNode) : undefined;
         return {
             kind: 'source',
+            name: '',
+            summary: comment2String(tsdoc?.summarySection),
+            remarks: comment2String(tsdoc?.remarksBlock?.content),
             source: decl.getText(),
         };
     }
 
-    private getType(n?: Node): string {
-        if (!n) { return ''; }
-
-        const sf = n.getSourceFile();
-        const txt = n.getType().getText(sf);
-        if (!txt.includes('import(')) { return txt; }
-
-        const alias = sf.getTypeAliasOrThrow(n.getType().getText());
-        return alias.getTypeNodeOrThrow().getText();
-    }
-
-    private getTypeParam(decl: TypeParameterDeclaration, tsdoc?: DocComment): TypeParameter {
-        const tt = this.getType(decl.getConstraint());
-        const name = decl.getName();
-        return {
-            name: name,
-            summary: comment2String(tsdoc?.typeParams.blocks.find(blk=>blk.parameterName === name)?.content),
-            type: tt ? tt : 'any',
-            init: decl.getDefault()?.getText() ?? undefined,
-        };
-    }
-
-    private getReturnType(node?: TypeNode, tsdoc?: DocComment): RT {
-        return {
-            summary: comment2String(tsdoc?.returnsBlock?.content),
-            type: this.getType(node),
-        };
-    }
-
-    // 获取函数参数
-    private getParam(p: ParameterDeclaration, tsdoc?: DocComment): Parameter {
-        const d = tsdoc?.params.blocks.find(block => block.parameterName === p.getName())?.content;
-        const cp: Parameter = {
-            name: p.getName(),
-            summary: comment2String(d),
-            type: this.getType(p),
-            def: p.getInitializer()?.getText() ?? undefined,
-        };
-        return cp;
-    }
-
-    private convAlias(decl: TypeAliasDeclaration, chk: TypeChecker): Type {
+    private fromTypeAliasDeclaration(decl: TypeAliasDeclaration, chk: TypeChecker): Type {
         // 判断 t 是否为标准库的类型
         const isStd = (t: Node): boolean => {
             const sourceFile = t.getSourceFile();
@@ -296,8 +260,7 @@ export class Extractor {
             alias.type = {
                 kind: 'intersection',
                 type: typ.getIntersectionTypes().map(t => {
-                    return this.conv(t.getSymbol()?.getDeclarations()[0]!, chk);
-                    //return t.isLiteral() ? t.getLiteralValue() : t.getText();
+                    return this.fromSymbols(t.getProperties(), 'interface');
                 }),
             };
         } else { // 其它情况应该只有一个 declarations
@@ -310,118 +273,105 @@ export class Extractor {
         return alias;
     }
 
-    private convInterface(decl: InterfaceDeclaration): Type {
+    /**
+     * 从 getProperties() 方法返回的列表中构建一个 {@link Class} 或是 {@link Interface} 对象
+     */
+    private fromSymbols(symbols: Array<Symbol>, kind: 'class' | 'interface'): Type {
+        switch (kind) {
+        case 'class':
+            const cls: Class = {
+                kind: 'class',
+                name: symbols[0].getName(),
+                properties: [],
+                methods: [],
+            };
+
+            for (const sym of symbols) {
+                const decl = sym.getDeclarations()[0]!;
+
+                if (Node.isPropertyDeclaration(decl)) {
+                    cls.properties!.push(this.buildClassProperty(decl));
+                } else if (Node.isMethodDeclaration(decl)) {
+                    cls.methods!.push(this.fromMethodDeclaration(decl));
+                } else if (Node.isGetAccessorDeclaration(decl)) {
+                    this.appendGetAccessor2ClassProperties(cls.properties!, decl);
+                } else if (Node.isSetAccessorDeclaration(decl)) {
+                    this.appendSetAccessor2ClassProperties(cls.properties!, decl);
+                }
+            }
+
+            return cls;
+        case 'interface':
+            const intf: Interface = {
+                kind: 'interface',
+                name: symbols[0].getName(),
+                properties: [],
+                methods: [],
+            };
+
+            for (const sym of symbols) {
+                const decl = sym.getDeclarations()[0]!;
+
+                if (Node.isPropertySignature(decl)) {
+                    intf.properties!.push(this.buildInterfaceProperty(decl));
+                } else if (Node.isMethodSignature(decl)) {
+                    intf.methods!.push(this.fromMethodSignature(decl));
+                } else if (Node.isGetAccessorDeclaration(decl)) {
+                    this.appendGetAccessor2InterfaceProperties(intf.properties!, decl);
+                } else if (Node.isSetAccessorDeclaration(decl)) {
+                    this.appendSetAccessor2InterfaceProperties(intf.properties!, decl);
+                }
+            }
+
+            return intf;
+        default:
+            throw new Error('参数 kind 无效');
+        }
+    }
+
+    private fromInterfaceDeclaration(decl: InterfaceDeclaration): Type {
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
+
+        const props = decl.getProperties().map(prop => {
+            return this.buildInterfaceProperty(prop);
+        });
+        decl.getGetAccessors().forEach(accessor => this.appendGetAccessor2InterfaceProperties(props, accessor));
+        decl.getSetAccessors().forEach(accessor => this.appendSetAccessor2InterfaceProperties(props, accessor));
 
         return {
             kind: 'interface',
             name: decl.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-
-            typeParams: decl.getTypeParameters().map(param => this.getTypeParam(param, tsdoc)),
-
-            properties: decl.getProperties().map(prop => {
-                const tsdoc = getTsdoc(this.#tsdocParser, prop);
-                const ip: InterfaceProperty = {
-                    name: prop.getName(),
-                    summary: comment2String(tsdoc?.summarySection),
-                    remarks: comment2String(tsdoc?.remarksBlock?.content),
-                    type: this.getType(prop),
-                    def: getCustomDoc(StandardTags.defaultValue.tagName, tsdoc),
-                    reactive: tsdoc?.modifierTagSet.hasTagName(reactiveTag)
-                };
-                return ip;
-            }),
-
+            typeParams: decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
+            properties: props,
             methods: decl.getMethods().map(method => {
-                const tsdoc = getTsdoc(this.#tsdocParser, method);
-                const im: InterfaceMethod = {
-                    name: method.getName(),
-                    summary: comment2String(tsdoc?.summarySection),
-                    remarks: comment2String(tsdoc?.remarksBlock?.content),
-                    type: this.getType(method),
-                    typeParams: method.getTypeParameters().map(param => this.getTypeParam(param, tsdoc)),
-                    params: method.getParameters().map(p => this.getParam(p, tsdoc)),
-                    return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
-                };
-                return im;
+                return this.fromMethodSignature(method);
             }),
         };
     }
 
-    private convClass(decl: ClassDeclaration): Type {
+    private fromClassDeclaration(decl: ClassDeclaration): Type {
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
         const props: Array<ClassProperty> = decl.getProperties().map(prop => {
-            const tsdoc = getTsdoc(this.#tsdocParser, prop);
-            const cp: ClassProperty = {
-                name: prop.getName(),
-                summary: comment2String(tsdoc?.summarySection),
-                remarks: comment2String(tsdoc?.remarksBlock?.content),
-                type: this.getType(prop),
-                def: prop.getInitializer()?.getText() ?? undefined,
-                static: prop.isStatic(),
-            };
-            return cp;
+            return this.buildClassProperty(prop);
         });
-
-        decl.getGetAccessors().forEach(accessor => {
-            const tsdoc = getTsdoc(this.#tsdocParser, accessor);
-            const cp: ClassProperty = {
-                name: accessor.getName(),
-                summary: comment2String(tsdoc?.summarySection),
-                remarks: comment2String(tsdoc?.remarksBlock?.content),
-                type: this.getType(accessor),
-                static: accessor.isStatic(),
-                getter: true,
-            };
-            props.push(cp);
-        });
-
-        decl.getSetAccessors().forEach(accessor => {
-            const p = props.find(p => p.name === accessor.getName());
-            if (p) {
-                p.setter = true;
-                return;
-            }
-
-            const tsdoc = getTsdoc(this.#tsdocParser, accessor);
-            const cp: ClassProperty = {
-                name: accessor.getName(),
-                summary: comment2String(tsdoc?.summarySection),
-                remarks: comment2String(tsdoc?.remarksBlock?.content),
-                type: this.getType(accessor),
-                static: accessor.isStatic(),
-            };
-            props.push(cp);
-        });
+        decl.getGetAccessors().forEach(accessor => this.appendGetAccessor2ClassProperties(props, accessor));
+        decl.getSetAccessors().forEach(accessor => this.appendSetAccessor2ClassProperties(props, accessor));
 
         return {
             kind: 'class',
             name: decl.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            typeParams: decl.getTypeParameters().map(param => this.getTypeParam(param, tsdoc)),
+            typeParams: decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
             properties: props,
-            methods: decl.getMethods().map(method => {
-                const tsdoc = getTsdoc(this.#tsdocParser, method);
-                const cm: ClassMethod = {
-                    name: method.getName(),
-                    summary: comment2String(tsdoc?.summarySection),
-                    remarks: comment2String(tsdoc?.remarksBlock?.content),
-                    type: this.getType(method),
-                    typeParams: method.getTypeParameters().map(param => this.getTypeParam(param, tsdoc)),
-                    params: method.getParameters().map(p => this.getParam(p, tsdoc)),
-                    return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
-                    static: method.isStatic(),
-                };
-                return cm;
-            }),
+            methods: decl.getMethods().map(method => this.fromMethodDeclaration(method)),
         };
     }
 
-    private convFunction(decl: FunctionDeclaration): Type {
+    private fromFunctionDeclaration(decl: FunctionDeclaration): Type {
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
         return {
@@ -430,9 +380,167 @@ export class Extractor {
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
             type: decl.getReturnType().getText(),
-            typeParams: decl.getTypeParameters().map(param => this.getTypeParam(param, tsdoc)),
-            params: decl.getParameters().map(p => this.getParam(p, tsdoc)),
+            typeParams: decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
+            params: decl.getParameters().map(p => this.formParameterDeclaration(p, tsdoc)),
             return: this.getReturnType(decl.getReturnTypeNode(), tsdoc),
         };
+    }
+
+    private appendGetAccessor2ClassProperties(props: Array<ClassProperty>, accessor: GetAccessorDeclaration) {
+        const p = props.find(p => p.name === accessor.getName());
+        if (p) {
+            p.getter = true;
+            return;
+        }
+        props.push(this.buildClassProperty(accessor));
+    }
+
+    private appendSetAccessor2ClassProperties(props: Array<ClassProperty>, accessor: SetAccessorDeclaration) {
+        const p = props.find(p => p.name === accessor.getName());
+        if (p) {
+            p.setter = true;
+            return;
+        }
+        props.push(this.buildClassProperty(accessor));
+    }
+
+    /**
+     * 根据 decl 的类型生成不同字段的 {@link ClassProperty}
+     */
+    private buildClassProperty(
+        decl: PropertyDeclaration | GetAccessorDeclaration | SetAccessorDeclaration
+    ): ClassProperty {
+        const tsdoc = getTsdoc(this.#tsdocParser, decl);
+        const prop: ClassProperty = {
+            name: decl.getName(),
+            summary: comment2String(tsdoc?.summarySection),
+            remarks: comment2String(tsdoc?.remarksBlock?.content),
+            type: this.getType(decl),
+            static: decl.isStatic(),
+        };
+
+        if (Node.isPropertyDeclaration(decl)) {
+            prop.readonly = decl.isReadonly();
+            prop.def = decl.getInitializer()?.getText() ?? undefined;
+        } else if (Node.isGetAccessorDeclaration(decl)) {
+            prop.getter = true;
+        } else if (Node.isSetAccessorDeclaration(decl)) {
+            prop.setter = true;
+        }
+
+        return prop;
+    }
+
+    private appendGetAccessor2InterfaceProperties(props: Array<InterfaceProperty>, accessor: GetAccessorDeclaration) {
+        const p = props.find(p => p.name === accessor.getName());
+        if (p) {
+            p.getter = true;
+            return;
+        }
+        props.push(this.buildInterfaceProperty(accessor));
+    }
+
+    private appendSetAccessor2InterfaceProperties(props: Array<InterfaceProperty>, accessor: SetAccessorDeclaration) {
+        const p = props.find(p => p.name === accessor.getName());
+        if (p) {
+            p.setter = true;
+            return;
+        }
+        props.push(this.buildInterfaceProperty(accessor));
+    }
+
+    /**
+     * 根据 decl 的类型生成不同字段的 {@link InterfaceProperty}
+     */
+    private buildInterfaceProperty(
+        decl: PropertySignature | GetAccessorDeclaration | SetAccessorDeclaration
+    ): InterfaceProperty {
+        const tsdoc = getTsdoc(this.#tsdocParser, decl);
+        const prop: InterfaceProperty = {
+            name: decl.getName(),
+            summary: comment2String(tsdoc?.summarySection),
+            remarks: comment2String(tsdoc?.remarksBlock?.content),
+            type: this.getType(decl),
+            def: getCustomDoc(StandardTags.defaultValue.tagName, tsdoc),
+            reactive: tsdoc?.modifierTagSet.hasTagName(reactiveTag)
+        };
+
+
+        if (Node.isGetAccessorDeclaration(decl)) {
+            prop.getter = true;
+        } else if (Node.isSetAccessorDeclaration(decl)) {
+            prop.setter = true;
+        } else if (Node.isPropertySignature(decl)) {
+            prop.readonly = decl.isReadonly();
+        }
+
+        return prop;
+    }
+
+    private fromMethodDeclaration(method: MethodDeclaration): ClassMethod {
+        const tsdoc = getTsdoc(this.#tsdocParser, method);
+        return {
+            name: method.getName(),
+            summary: comment2String(tsdoc?.summarySection),
+            remarks: comment2String(tsdoc?.remarksBlock?.content),
+            type: this.getType(method),
+            typeParams: method.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
+            params: method.getParameters().map(p => this.formParameterDeclaration(p, tsdoc)),
+            return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
+            static: method.isStatic(),
+        };
+    }
+
+    private fromMethodSignature(method: MethodSignature): InterfaceMethod {
+        const tsdoc = getTsdoc(this.#tsdocParser, method);
+        return {
+            name: method.getName(),
+            summary: comment2String(tsdoc?.summarySection),
+            remarks: comment2String(tsdoc?.remarksBlock?.content),
+            type: this.getType(method),
+            typeParams: method.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc)),
+            params: method.getParameters().map(p => this.formParameterDeclaration(p, tsdoc)),
+            return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
+        };
+    }
+
+    private formParameterDeclaration(p: ParameterDeclaration, tsdoc?: DocComment): Parameter {
+        const d = tsdoc?.params.blocks.find(block => block.parameterName === p.getName())?.content;
+        const cp: Parameter = {
+            name: p.getName(),
+            summary: comment2String(d),
+            type: this.getType(p),
+            def: p.getInitializer()?.getText() ?? undefined,
+        };
+        return cp;
+    }
+
+    private getReturnType(node?: TypeNode, tsdoc?: DocComment): RT {
+        return {
+            summary: comment2String(tsdoc?.returnsBlock?.content),
+            type: this.getType(node),
+        };
+    }
+
+    private fromTypeParamterDecleration(decl: TypeParameterDeclaration, tsdoc?: DocComment): TypeParameter {
+        const tt = this.getType(decl.getConstraint());
+        const name = decl.getName();
+        return {
+            name: name,
+            summary: comment2String(tsdoc?.typeParams.blocks.find(blk=>blk.parameterName === name)?.content),
+            type: tt ? tt : 'any',
+            init: decl.getDefault()?.getText() ?? undefined,
+        };
+    }
+
+    private getType(n?: Node): string {
+        if (!n) { return ''; }
+
+        const sf = n.getSourceFile();
+        const txt = n.getType().getText(sf);
+        if (!txt.includes('import(')) { return txt; }
+
+        const alias = sf.getTypeAliasOrThrow(n.getType().getText());
+        return alias.getTypeNodeOrThrow().getText();
     }
 }

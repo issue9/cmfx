@@ -206,7 +206,7 @@ describe('Extractor', { timeout: 20000 }, () => {
         }
     });
 
-    test('alias intersection interface', () => {
+    test('alias union intersection interface', () => {
         const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ConfirmButtonProps');
         expect(items).length(1);
 
@@ -234,6 +234,37 @@ describe('Extractor', { timeout: 20000 }, () => {
                 expect(u1.type.kind).toEqual('intersection');
                 expect(u1.type.type).length(2);
             }
+        }
+    });
+
+    test('alias intersection', () => {
+        const items = extractor.extract('@cmfx/components', 'index.d.ts', 'DividerProps');
+        expect(items).length(1);
+
+        const alias = items![0];
+        expect(alias.kind).toEqual('alias');
+        if (alias.kind === 'alias') {
+            expect(alias.type.kind).toEqual('intersection');
+            expect(alias.type.type).length(3);
+
+            const i0 = alias.type.type[0] as Interface;
+            expect(i0).toBeDefined();
+            expect(i0.kind).toEqual('interface');
+            expect(i0.properties).length(3);
+            expect(i0.properties![0].name).toEqual('pos');
+            expect(i0.properties![0].type).toEqual('"start" | "center" | "end" | undefined');
+
+            const i1 = alias.type.type[1] as Interface;
+            expect(i1).toBeDefined();
+            expect(i1.properties).length(3);
+            expect(i1.properties![1].name).toEqual('class');
+            expect(i1.properties![1].type).toEqual('string | undefined');
+
+            const i2 = alias.type.type[2] as Interface;
+            expect(i2).toBeDefined();
+            expect(i2.properties).length(1);
+            expect(i2.properties![0].name).toEqual('children');
+            expect(i2.properties![0].type).toEqual('JSX.Element'); // JSX.Element 本身包含 undefined
         }
     });
 

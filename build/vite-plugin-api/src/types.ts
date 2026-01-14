@@ -11,12 +11,12 @@ interface Named extends Doc {
     name: string;
 }
 
-/**
- * 定义类属性
- */
 export interface Property extends Named {
     type: string;
     def?: string; // 默认值或是类中的初始值
+    readonly?: boolean;
+    getter?: boolean;
+    setter?: boolean;
 }
 
 /**
@@ -43,8 +43,6 @@ export interface TypeParameter {
 
 export interface ClassProperty extends Property {
     static?: boolean;
-    getter?: boolean;
-    setter?: boolean;
 }
 
 /**
@@ -95,7 +93,7 @@ export interface Interface extends Named {
  * @remarks
  * 所有未指定的类型，也放在此类型上。
  */
-export interface Source {
+export interface Source extends Named {
     kind: 'source';
     source?: string;
 }
