@@ -8,8 +8,8 @@ import path from 'node:path';
 import {
     ClassDeclaration, FunctionDeclaration, GetAccessorDeclaration, InterfaceDeclaration, JSDocableNode,
     MethodDeclaration, MethodSignature, ModuledNode, Node, ParameterDeclaration, Project, PropertyDeclaration,
-    PropertySignature, SetAccessorDeclaration, Signature, Symbol, TypeAliasDeclaration, TypeChecker, TypeNode,
-    TypeParameterDeclaration, Type as XType
+    PropertySignature, Scope, SetAccessorDeclaration, Signature, Symbol, TypeAliasDeclaration, TypeChecker,
+    TypeNode, TypeParameterDeclaration, Type as XType
 } from 'ts-morph';
 
 import { comment2String, getCustomDoc, getTsdoc, newTSDocParser, reactiveTag } from './tsdoc';
@@ -288,13 +288,13 @@ export class Extractor {
                 const decl = sym.getDeclarations()[0]!;
 
                 if (Node.isPropertyDeclaration(decl)) {
-                    cp.push(this.buildClassProperty(decl));
+                    if (decl.getScope() === Scope.Public) { cp.push(this.buildClassProperty(decl)); }
                 } else if (Node.isMethodDeclaration(decl)) {
-                    cm.push(this.fromMethodDeclaration(decl));
+                    if (decl.getScope() === Scope.Public) { cm.push(this.fromMethodDeclaration(decl)); }
                 } else if (Node.isGetAccessorDeclaration(decl)) {
-                    this.appendGetAccessor2ClassProperties(cp, decl);
+                    if (decl.getScope() === Scope.Public) { this.appendGetAccessor2ClassProperties(cp, decl); }
                 } else if (Node.isSetAccessorDeclaration(decl)) {
-                    this.appendSetAccessor2ClassProperties(cp, decl);
+                    if (decl.getScope() === Scope.Public) { this.appendSetAccessor2ClassProperties(cp, decl); }
                 }
             }
 
@@ -334,9 +334,7 @@ export class Extractor {
     private fromInterfaceDeclaration(decl: InterfaceDeclaration): Type {
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
-        const props = decl.getProperties().map(prop => {
-            return this.buildInterfaceProperty(prop);
-        });
+        const props = decl.getProperties().map(prop => this.buildInterfaceProperty(prop));
         decl.getGetAccessors().forEach(accessor => this.appendGetAccessor2InterfaceProperties(props, accessor));
         decl.getSetAccessors().forEach(accessor => this.appendSetAccessor2InterfaceProperties(props, accessor));
 
@@ -356,14 +354,21 @@ export class Extractor {
     private fromClassDeclaration(decl: ClassDeclaration): Type {
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
-        const props: Array<ClassProperty> = decl.getProperties().map(prop => {
-            return this.buildClassProperty(prop);
-        });
-        decl.getGetAccessors().forEach(accessor => this.appendGetAccessor2ClassProperties(props, accessor));
-        decl.getSetAccessors().forEach(accessor => this.appendSetAccessor2ClassProperties(props, accessor));
+        const f = (p: PropertyDeclaration | MethodDeclaration | GetAccessorDeclaration | SetAccessorDeclaration) => {
+            return p.getScope() === Scope.Public;
+        };
+
+        const props: Array<ClassProperty> = decl.getProperties().filter(f)
+            .map(prop => {
+                return this.buildClassProperty(prop);
+            });
+        decl.getGetAccessors().filter(f)
+            .forEach(accessor => this.appendGetAccessor2ClassProperties(props, accessor));
+        decl.getSetAccessors().filter(f)
+            .forEach(accessor => this.appendSetAccessor2ClassProperties(props, accessor));
 
         const tps = decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc));
-        const methods = decl.getMethods().map(method => this.fromMethodDeclaration(method));
+        const methods = decl.getMethods().filter(f).map(method => this.fromMethodDeclaration(method));
 
         return {
             kind: 'class',
