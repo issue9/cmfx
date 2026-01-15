@@ -45,17 +45,6 @@ export interface ClassProperty extends Property {
     static?: boolean;
 }
 
-/**
- * 定义类的方法
- */
-export interface ClassMethod extends Named {
-    type: string; // 方法的整体签名
-    static?: boolean;
-    typeParams?: Array<TypeParameter>;
-    params?: Array<Parameter>;
-    return: ReturnType;
-};
-
 export interface InterfaceProperty extends Property {
     reactive?: boolean;
 }
@@ -66,6 +55,13 @@ export interface InterfaceMethod extends Named {
     params?: Array<Parameter>;
     return: ReturnType;
 }
+
+/**
+ * 定义类的方法
+ */
+export interface ClassMethod extends InterfaceMethod {
+    static?: boolean;
+};
 
 /**
  * 定义类的结构
@@ -103,12 +99,8 @@ export interface Source extends Named {
 /**
  * 定义函数
  */
-export interface Function extends Named {
+export interface Function extends InterfaceMethod {
     kind: 'function';
-    type: string;
-    typeParams?: Array<TypeParameter>;
-    params?: Array<Parameter>;
-    return: ReturnType;
 }
 
 /**

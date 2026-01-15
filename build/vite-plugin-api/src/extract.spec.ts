@@ -264,6 +264,8 @@ describe('Extractor', { timeout: 20000 }, () => {
 
         if (f.kind === 'function') {
             expect(f.name).toEqual('joinClass');
+            expect(f.type).toEqual('function joinClass(palette?: Palette, ...cls: Array<string | undefined | null>): string | undefined;');
+
             expect(f.return).toBeDefined();
             expect(f.return.type).toEqual('string | undefined');
             expect(f.return.summary?.trim()).toEqual('由参数组合的 class 属性值；');

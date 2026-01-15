@@ -8,7 +8,7 @@ import path from 'node:path';
 import {
     ClassDeclaration, FunctionDeclaration, GetAccessorDeclaration, InterfaceDeclaration, JSDocableNode,
     MethodDeclaration, MethodSignature, ModuledNode, Node, ParameterDeclaration, Project, PropertyDeclaration,
-    PropertySignature, SetAccessorDeclaration, Symbol, TypeAliasDeclaration, TypeChecker, TypeNode,
+    PropertySignature, SetAccessorDeclaration, Signature, Symbol, TypeAliasDeclaration, TypeChecker, TypeNode,
     TypeParameterDeclaration, Type as XType
 } from 'ts-morph';
 
@@ -386,7 +386,7 @@ export class Extractor {
             name: decl.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            type: decl.getReturnType().getText(),
+            type: this.getFuncSig(decl.getType().getCallSignatures()[0]),
             typeParams: tps.length > 0 ? tps : undefined,
             params: params.length > 0 ? params : undefined,
             return: this.getReturnType(decl.getReturnTypeNode(), tsdoc),
@@ -492,7 +492,7 @@ export class Extractor {
             name: method.getName(),
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            type: this.getType(method),
+            type: this.getFuncSig(method.getType().getCallSignatures()[0]),
             typeParams: tps.length > 0 ? tps : undefined,
             params: params.length > 0 ? params : undefined,
             return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
@@ -508,7 +508,7 @@ export class Extractor {
             name: method.getName(),
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            type: this.getType(method),
+            type: this.getFuncSig(method.getType().getCallSignatures()[0]),
             typeParams: tps.length > 0 ? tps : undefined,
             params: params.length > 0 ? params : undefined,
             return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
@@ -544,6 +544,12 @@ export class Extractor {
         };
     }
 
+    private getFuncSig(sig: Signature): string {
+        const s = sig.getDeclaration().getText().trim();
+
+        return s.startsWith(exportDeclare) ? s.slice(exportDeclare.length) : s;
+    }
+
     private getType(n?: Node): string {
         if (!n) { return ''; }
 
@@ -555,3 +561,5 @@ export class Extractor {
         return alias.getTypeNodeOrThrow().getText();
     }
 }
+
+const exportDeclare = 'export declare ';
