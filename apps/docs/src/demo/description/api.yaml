@@ -2,4 +2,8 @@
 #
 # SPDX-License-Identifier: MIT
 
-- DescriptionProps
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - DescriptionProps

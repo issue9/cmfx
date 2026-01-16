@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -15,15 +15,15 @@ export type Props = BaseProps & ParentProps & MountProps;
 interface DialogProps extends BaseProps { header?: string; }
 
 /**
- * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
+ * 提供了 {@link xalert}、{@link xconfirm} 和 {@link xprompt} 的方法，可用于替换对应的浏览器方法。
  */
 export default function SystemDialog(props: Props): JSX.Element {
     const [, o] = useOptions();
 
     if (o.systemDialog) {
-        window.alert = alert;
-        window.confirm = confirm as any;
-        window.prompt = prompt as any;
+        window.alert = xalert;
+        window.confirm = xconfirm as any;
+        window.prompt = xprompt as any;
     }
 
     return <>
@@ -38,7 +38,7 @@ export default function SystemDialog(props: Props): JSX.Element {
 
 /************************ alert *****************************/
 
-let alertInst: typeof alert;
+let alertInst: typeof xalert;
 
 function Alert(props: DialogProps): JSX.Element {
     let dlg: Ref;
@@ -67,13 +67,13 @@ function Alert(props: DialogProps): JSX.Element {
  * @param msg - 提示框的内容；
  * @param title - 提示框的标题；
  */
-export async function alert(msg: any, title?: string): Promise<void> {
+export async function xalert(msg: any, title?: string): Promise<void> {
     await alertInst(msg, title);
 }
 
 /************************ confirm *****************************/
 
-let confirmInst: typeof confirm;
+let confirmInst: typeof xconfirm;
 
 function Confirm(props: DialogProps): JSX.Element {
     let dlg: Ref;
@@ -105,13 +105,13 @@ function Confirm(props: DialogProps): JSX.Element {
  * @param msg - 提示框的内容；
  * @param title - 提示框的标题；
  */
-export async function confirm(msg?: string, title?: string): Promise<boolean> {
+export async function xconfirm(msg?: string, title?: string): Promise<boolean> {
     return await confirmInst(msg, title);
 }
 
 /************************ prompt *****************************/
 
-let promptInst: typeof prompt;
+let promptInst: typeof xprompt;
 
 function Prompt(props: DialogProps): JSX.Element {
     let dlg: Ref;
@@ -147,6 +147,6 @@ function Prompt(props: DialogProps): JSX.Element {
  * @param val - 对话框中的默认值；
  * @param title - 对话框的标题；
  */
-export async function prompt(msg?: string, val?: string, title?: string): Promise<string | null> {
+export async function xprompt(msg?: string, val?: string, title?: string): Promise<string | null> {
     return await promptInst(msg, val, title);
 }

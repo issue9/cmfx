@@ -2,4 +2,8 @@
 #
 # SPDX-License-Identifier: MIT
 
-- LabelProps
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - LabelProps

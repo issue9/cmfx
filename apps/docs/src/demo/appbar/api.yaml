@@ -2,5 +2,9 @@
 #
 # SPDX-License-Identifier: MIT
 
-- AppbarProps
-- AppbarRef
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - AppbarProps
+            - AppbarRef

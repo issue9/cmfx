@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -58,8 +58,7 @@ export default defineConfig({
                     } else { return ''; }
                 }
             },
-            // ts-morph 必须要加上，否则调用方无法正确编译。
-            external: ['vite', 'node:fs', 'node:path', 'ts-morph']
+            external: ['vite', 'node:fs', 'node:path', 'node:os', '@microsoft/tsdoc', 'ts-morph', 'typescript']
         }
     },
 });

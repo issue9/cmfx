@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -19,6 +19,9 @@ export interface Column<T extends object> {
     label?: string;
 
     /**
+     * 渲染单元格的方法
+     *
+     * @remarks
      * 如果导出列的内容需要进行转换，可以指定此方法。
      */
     content?: CellRenderFunc<T>;
@@ -32,7 +35,7 @@ export interface Column<T extends object> {
 /**
  * 渲染单元格的方法
  */
-export interface CellRenderFunc<T extends object> {
+interface CellRenderFunc<T extends object> {
     /**
      * @param id - 同 {@link Column#id}；
      * @param val - 如果该 id 存在于 T 中，那返回其在 T 中当前行的值，如果不存在则是 undefined；

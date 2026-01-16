@@ -1,18 +1,17 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Checkbox, Nav, Page, Table, useLocale } from '@cmfx/components';
-import { Object } from '@cmfx/vite-plugin-api';
-import { useCurrentMatches, A } from '@solidjs/router';
-import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
+import { Nav, Page, useLocale } from '@cmfx/components';
+import { Type } from '@cmfx/vite-plugin-api';
+import { A, useCurrentMatches } from '@solidjs/router';
+import { For, JSX, ParentProps, Show } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 
-
-import { default as Stage, Props as StageProps } from './stage';
-import { markdown } from './markdown';
-import styles from './style.module.css';
 import pkg from '../../package.json';
+import { API } from './api';
+import { default as Stage, Props as StageProps } from './stage';
+import styles from './style.module.css';
 
 // 演示文件的基地址
 const baseURL = pkg.repository.url + '/tree/master/' + pkg.repository.directory;
@@ -36,7 +35,7 @@ export interface Props extends ParentProps {
     /**
      * API 内容
      */
-    api?: Array<Object>;
+    api?: Array<Type>;
 }
 
 /**
@@ -76,7 +75,7 @@ export default function Stages(props: Props):JSX.Element {
                     <article class={styles.apis}>
                         <h3>{l.t('_d.stages.api')}</h3>
                         <For each={apis()}>
-                            {api => buildAPI(api)}
+                            {api => <API api={api} />}
                         </For>
                     </article>
                 }
@@ -92,67 +91,6 @@ export default function Stages(props: Props):JSX.Element {
             </Show>
         </article>
 
-        <Nav minHeaderCount={5} class={styles.nav} target={articleRef!} query='h3,h4,h5,h6' />
+        <Nav minHeaderCount={5} class={styles.nav} target={articleRef!} query='h3,h4' />
     </Page>;
-}
-
-function tscode(code?: string): string {
-    return code ? markdown('```ts\n' + code.trim() + '\n```') : '';
-}
-
-function buildAPI(api: Object): JSX.Element {
-    const l = useLocale();
-    const isFunc = api.fields && api.type;
-
-    return <section class={styles.api}>
-        <h4>{api.name}</h4>
-        <Show when={api.summary}>{summary =>
-            <p innerHTML={markdown(summary())} />
-        }</Show>
-        <Show when={api.remarks}>{remarks =>
-            <p innerHTML={markdown(remarks())} />
-        }</Show>
-        <Switch fallback={<p innerHTML={tscode(api.type)} />}>
-            <Match when={api.fields}>
-                <Show when={api.type}>{c => <p innerHTML={ tscode(c())} />}</Show>
-                <Table hoverable>
-                    <thead>
-                        <tr>
-                            <th>{l.t('_d.stages.param')}</th>
-                            <th>{l.t('_d.stages.type')}</th>
-                            <th>{l.t('_d.stages.preset')}</th>
-                            <Show when={!isFunc}><th>{l.t('_d.stages.reactive')}</th></Show>
-                            <th>{l.t('_d.stages.desc')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <For each={api.fields}>
-                            {field => (
-                                <tr>
-                                    <th>{field.name}</th>
-                                    <td innerHTML={tscode(field.type)} />
-                                    <td innerHTML={tscode(field.preset)} />
-                                    <Show when={!isFunc}>
-                                        <td>
-                                            <Show when={field.reactive} fallback={<Checkbox class={styles.chk} readonly />}>
-                                                <Checkbox class={styles.chk} checked readonly />
-                                            </Show>
-                                        </td>
-                                    </Show>
-                                    <td>
-                                        <Show when={field.summary}>{summary =>
-                                            <p innerHTML={markdown(summary())} />
-                                        }</Show>
-                                        <Show when={field.remarks}>{remarks =>
-                                            <p innerHTML={markdown(remarks())} />
-                                        }</Show>
-                                    </td>
-                                </tr>
-                            )}
-                        </For>
-                    </tbody>
-                </Table>
-            </Match>
-        </Switch>
-    </section>;
 }

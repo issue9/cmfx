@@ -16,7 +16,7 @@ import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 import { Palette, RefProps } from '@/base';
 import { Button, SplitButton, ToggleFitScreenButton } from '@/button';
 import { useLocale, useOptions } from '@/context';
-import { prompt } from '@/dialog';
+import { xprompt } from '@/dialog';
 import { Divider } from '@/divider';
 import { Checkbox, ObjectAccessor, Radio } from '@/form';
 import { Label } from '@/label';
@@ -195,7 +195,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
         delete q.page;
 
         await e.fetch(load, q);
-        const filename = await prompt(l.t('_c.table.downloadFilename'), props.filename);
+        const filename = await xprompt(l.t('_c.table.downloadFilename'), props.filename);
         if (filename) {
             e.export(filename, ext, l.locale.language);
         }

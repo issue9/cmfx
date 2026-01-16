@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -47,18 +47,18 @@ interface Base extends BaseProps, ParentProps {
  */
 export interface BProps extends Base, RefProps<Ref<false>> {
     /**
-     * 是否处于选中状态
-     *
-     * @reactive
-     */
-    checked?: boolean;
-
-    /**
      * 按钮的类型了
      *
      * @defaultValue 'button'
      */
     type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+
+    /**
+     * 是否处于选中状态
+     *
+     * @reactive
+     */
+    checked?: boolean;
 
     /**
      * 关联的表单 id
@@ -70,12 +70,22 @@ export interface BProps extends Base, RefProps<Ref<false>> {
  * 链接类型的按钮属性
  */
 export interface AProps extends Base, RefProps<Ref<true>> {
+    /**
+     * 表示这是一个链接类型的按钮
+     */
     type: 'a';
 
+    /**
+     * 链接上的 target 属性
+     *
+     * @reactive
+     */
     target?: JSX.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
 
     /**
      * 指向的链接
+     *
+     * @reactive
      */
     href?: AnchorProps['href'];
 };

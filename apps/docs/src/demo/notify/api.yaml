@@ -2,8 +2,12 @@
 #
 # SPDX-License-Identifier: MIT
 
-- notify
-- NotifyType
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - notify
+            - NotifyType
 
-- Alert
-- AlertProps
+            - Alert
+            - AlertProps

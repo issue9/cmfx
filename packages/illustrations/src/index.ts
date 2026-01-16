@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -14,3 +14,4 @@ export { default as BUG } from './bug';
 export { default as Building } from './building';
 export { default as Login } from './login';
 
+export type { Props as IllustrationProps } from './props';

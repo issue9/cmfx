@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import {
-    createEffect, createMemo, createSignal, Match, onCleanup, onMount, Show, splitProps, Switch, untrack
-} from 'solid-js';
 import equal from 'fast-deep-equal';
+import {
+    createEffect, createMemo, createSignal, JSX, Match, onCleanup, onMount, Show, splitProps, Switch, untrack
+} from 'solid-js';
 
 import { joinClass } from '@/base';
 import { Button } from '@/button';
@@ -31,7 +31,7 @@ export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef
 /**
  * 日期范围选择组件
  */
-export function DateRangePanel(props: Props) {
+export function DateRangePanel(props: Props): JSX.Element {
     const [_, panelProps] = splitProps(props, ['value', 'onChange', 'popover', 'ref', 'class', 'palette', 'style']);
 
     const l = useLocale();

@@ -1,19 +1,23 @@
-# SPDX-FileCopyrightText: 2025 caixw
+# SPDX-FileCopyrightText: 2025-2026 caixw
 #
 # SPDX-License-Identifier: MIT
 
-- ButtonProps
-- ButtonRef
-- ButtonKind
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - ButtonProps
+            - ButtonRef
+            - ButtonKind
 
-- ConfirmButtonProps
+            - ConfirmButtonProps
 
-- SplitButtonProps
-- SplitButtonRef
+            - SplitButtonProps
+            - SplitButtonRef
 
-- ButtonGroupProps
-- ButtonGroupRef
+            - ButtonGroupProps
+            - ButtonGroupRef
 
-- ToggleButtonProps
-- ToggleFitScreenButtonProps
-- ToggleFullScreenButtonProps
+            - ToggleButtonProps
+            - ToggleFitScreenButtonProps
+            - ToggleFullScreenButtonProps

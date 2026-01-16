@@ -1,9 +1,13 @@
-# SPDX-FileCopyrightText: 2025 caixw
+# SPDX-FileCopyrightText: 2025-2026 caixw
 #
 # SPDX-License-Identifier: MIT
 
-- FormAPI
-- FormAPIOptions
-- FormProps
-- FormActions
-- createForm
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - FormAPI
+            - FormAPIOptions
+            - FormProps
+            - FormActions
+            - createForm

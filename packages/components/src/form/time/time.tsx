@@ -1,9 +1,9 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
-import { createMemo, createSignal, createUniqueId, mergeProps, Show, untrack } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, untrack } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
@@ -31,7 +31,7 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
     return ret;
 }
 
-export default function Time(props: Props) {
+export default function Time(props: Props): JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
     const l = useLocale();

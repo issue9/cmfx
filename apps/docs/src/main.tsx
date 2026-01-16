@@ -1,15 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import './style.css';
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItemItem, Mode, modes, Result,
-    run, Search, ToggleFullScreenButton, Transition,
-    useLocale,
-    useOptions,
-    useTheme
+    Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItemItem, Mode, modes,
+    Result, run, Search, ToggleFullScreenButton, Transition, useLocale, useOptions, useTheme
 } from '@cmfx/components';
 import * as illustrations from '@cmfx/illustrations';
 import { RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';

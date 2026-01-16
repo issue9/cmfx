@@ -1,9 +1,9 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import {
-    BundledLanguage, CodeToHastOptions, createHighlighter, ThemeRegistrationRaw, codeToHtml, HighlighterGeneric
+    BundledLanguage, CodeToHastOptions, codeToHtml, createHighlighter, HighlighterGeneric, ThemeRegistrationRaw
 } from 'shiki/bundle/full';
 
 import { BaseProps, joinClass, style2String } from '@/base';
@@ -34,6 +34,8 @@ export class Highlighter<L extends BundledLanguage> {
      * 构造可以高亮指定语言的对象
      *
      * @param langs - 语言 ID 列表；
+     * @typeParam L - 表示语言的 ID；
+     * @returns 返回 {@link Highlighter} 对象；
      */
     static async build<L extends BundledLanguage>(...langs: Array<L>): Promise<Highlighter<L>> {
         const h = await createHighlighter({ themes: [shikiTheme], langs: langs });
