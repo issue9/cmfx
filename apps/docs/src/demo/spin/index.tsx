@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -15,10 +16,10 @@ import { default as indicator } from './indicator.tsx?raw';
 import { default as Overlay } from './overlay';
 import { default as overlay } from './overlay.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/spin' api={api} stages={[
+    return <Stages dir='demo/spin' api={api as Array<Type>} stages={[
         { component: Spin, source: spin, title: '基本功能' },
         { component: Indicator, source: indicator, title: 'indicator' },
         { component: Overlay, source: overlay, title: 'overlay' },

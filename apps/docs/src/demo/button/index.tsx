@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -27,10 +28,10 @@ import { default as button } from './button.tsx?raw';
 import { default as Confirm } from './confirm';
 import { default as confirm } from './confirm.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/button' api={api} stages={[
+    return <Stages dir='demo/button' api={api as Array<Type>} stages={[
         { component: Button, source: button, title: 'button' },
         { component: Confirm, source: confirm, title: 'confirm' },
         { component: Anchor, source: anchor, title: 'anchor button' },

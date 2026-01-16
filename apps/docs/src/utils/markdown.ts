@@ -7,7 +7,7 @@ import { Marked, MarkedExtension } from 'marked';
 
 import styles from './style.module.css';
 
-const higlighter = await Highlighter.build('ts', 'tsx', 'js', 'jsx', 'html', 'css', 'go', 'git-commit');
+const higlighter = await Highlighter.build('bash', 'css', 'git-commit', 'go', 'html', 'js', 'json', 'jsx', 'ts', 'tsx', 'yaml');
 
 function markedCode(): MarkedExtension {
     return {

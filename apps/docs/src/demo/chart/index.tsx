@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -15,10 +16,10 @@ import { default as pie } from './pie.tsx?raw';
 import { default as Axis } from './axis';
 import { default as axis } from './axis.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/chart' api={api} stages={[
+    return <Stages dir='demo/chart' api={api as Array<Type>} stages={[
         { component: Chart, source: chart, title: 'chart' },
         { component: Pie, source: pie, title: 'pie' },
         { component: Axis, source: axis, title: 'axis' },

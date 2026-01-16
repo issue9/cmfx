@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -9,10 +10,10 @@ import { Stages } from '../../stages';
 import { default as Desc } from './description';
 import { default as desc } from './description.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/typography' api={api} stages={[
+    return <Stages dir='demo/typography' api={api as Array<Type>} stages={[
         { component: Desc, source: desc, title: 'description' },
     ]}>
     </Stages>;

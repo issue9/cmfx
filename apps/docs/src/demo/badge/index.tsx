@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -18,10 +19,10 @@ import { default as long } from './long.tsx?raw';
 import { default as Icon } from './icon';
 import { default as icon } from './icon.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/badge' api={api} stages={[
+    return <Stages dir='demo/badge' api={api as Array<Type>} stages={[
         { component: Basic, source: basic, title: '基本功能' },
         { component: Text, source: text, title: '文本' },
         { component: Long, source: long, title: '长文本' },

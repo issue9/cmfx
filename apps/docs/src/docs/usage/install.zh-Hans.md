@@ -32,7 +32,7 @@ npm i shiki
 
 #### browserslist
 
-如果要保持与 @cmfx/admin 相同的浏览器版本，需要在 browserslist 中指定 `extends @cmfx/admin`。
+如果要保持与 `@cmfx/admin` 相同的浏览器版本，需要在 `browserslist` 中指定 `extends @cmfx/admin`。
 
 #### tsdoc
 

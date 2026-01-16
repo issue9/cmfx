@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 import { default as Textarea } from './textarea';
 import { default as textarea } from './textarea.tsx?raw';
@@ -12,7 +13,7 @@ import { default as textarea } from './textarea.tsx?raw';
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/form/textarea' api={api} stages={[
+    return <Stages dir='demo/form/textarea' api={api as Array<Type>} stages={[
         { component: Textarea, source: textarea, title: 'textarea' },
     ]}>
     </Stages>;

@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -18,10 +19,10 @@ import { default as dialog } from './dialog.tsx?raw';
 import { default as Scroller } from './scroller';
 import { default as scroller } from './scroller.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/dialog' api={api} stages={[
+    return <Stages dir='demo/dialog' api={api as Array<Type>} stages={[
         { component: Basic, source: basic, title: '基本功能' },
         { component: System, source: system, title: '替换系统对话框' },
         { component: Dialog, source: dialog, title: '对话框' },

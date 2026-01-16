@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../../stages';
@@ -24,10 +25,10 @@ import { default as custom } from './custom.tsx?raw';
 import { default as OnPopover } from './onpopover';
 import { default as onpopover } from './onpopover.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/menu' api={api} stages={[
+    return <Stages dir='demo/menu' api={api as Array<Type>} stages={[
         { component: Dropdown, source: dropdown, title: 'dropdown' },
         { component: Multip, source: multip, title: 'multip-dropdown' },
         { component: Context, source: context, title: 'context' },

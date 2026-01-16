@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../../stages';
@@ -15,10 +16,10 @@ import { default as global } from './global.tsx?raw';
 import { default as Nested } from './nested';
 import { default as nested } from './nested.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/config/theme' api={api} stages={[
+    return <Stages dir='demo/config/theme' api={api as Array<Type>} stages={[
         { component: Theme, source: theme, title: 'ThemeProvider' },
         { component: Global, source: global, title: '修改全局主题' },
         { component: Nested, source: nested, title: '嵌套' },

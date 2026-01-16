@@ -1,7 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -21,10 +22,10 @@ import { default as empty } from './empty.tsx?raw';
 import { default as Custom } from './custom-empty';
 import { default as custom } from './custom-empty.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/result' api={api} stages={[
+    return <Stages dir='demo/result' api={api as Array<Type>} stages={[
         { component: H, source: h, title: 'horizontal' },
         { component: V, source: v, title: 'vertical' },
         { component: Auto, source: auto, title: 'auto' },

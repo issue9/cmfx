@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Type } from '@cmfx/vite-plugin-api';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -18,10 +19,10 @@ import { default as body } from './body.tsx?raw';
 import { default as Duration } from './duration';
 import { default as duration } from './duration.tsx?raw';
 
-import { default as api } from './api.json';
+import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): JSX.Element {
-    return <Stages dir='demo/notify' api={api} stages={[
+    return <Stages dir='demo/notify' api={api as Array<Type>} stages={[
         { component: Notify, source: notify, title: 'notify' },
         { component: Alert, source: alert, title: 'alert' },
         { component: Body, source: body, title: 'alert with body' },
