@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Highlighter } from '@cmfx/components';
-import { MarkedExtension, Marked } from 'marked';
+import { Marked, MarkedExtension } from 'marked';
 
 import styles from './style.module.css';
 
@@ -37,6 +37,6 @@ const markedParser = new Marked({ async: false }, markedCode());
 /**
  * 解析 markdown 内容为普通的 html
  */
-export function markdown(text: string): string {
-    return markedParser.parse(text, { async: false });
+export function markdown(text?: string): string {
+    return text ? markedParser.parse(text, { async: false }) : '';
 }

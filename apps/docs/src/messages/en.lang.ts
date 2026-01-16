@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,14 +8,23 @@ const messages = {
         stages: {
             codeDemo: 'Code Demo',
 
+            parameter: 'Parameter',
             api: 'API',
-            param: 'Parameter',
             type: 'Type',
+            typeParam: 'Type parameter',
+            methods: 'Methods',
+            properties: 'Properties',
+            constraint: 'Constraint',
             preset: 'Preset value',
             reactive: 'Reactive',
+            readonly: 'Readonly',
+            getter: 'Getter',
+            setter: 'Setter',
             desc: 'Description',
             faq: 'FAQ',
             editOnGithub: 'Edit on github',
+            property: 'Property',
+            returnValue: 'Return value',
         },
         error: {
             pageNotFound: 'Page not found',

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -11,12 +11,17 @@ export type Props = ParentProps<{
     /**
      * 如果存在文字，表示文字的位置，否则该值无意义。
      *
-     * @remarks 在 children 不为空的情况下，如果未指定 pos，会初始化 'start'。
+     * @remarks
+     * 在 children 不为空的情况下，如果未指定 pos，会初始化 'start'。
+     *
+     * @reactive
      */
     pos?: 'start' | 'center' | 'end';
 
     /**
      * 组件布局方向
+     *
+     * @reactive
      */
     layout?: Layout;
 
@@ -27,6 +32,8 @@ export type Props = ParentProps<{
      *  - padding: 10px；
      *  - padding: 10px 10px；
      *  - padding: 5% 10%；
+     *
+     * @reactive
      */
     padding?: string;
 } & BaseProps>;

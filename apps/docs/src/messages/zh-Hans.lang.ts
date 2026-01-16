@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,14 +9,23 @@ const messages: typeof m = {
         stages: {
             codeDemo: '代码演示',
 
+            parameter: '参数',
             api: 'API',
-            param: '参数',
             type: '类型',
+            typeParam: '类型参数',
+            methods: '方法',
+            properties: '属性',
+            constraint: '约束',
             preset: '默认值',
             reactive: '响应式',
+            readonly: '只读',
+            getter: 'Getter',
+            setter: 'Setter',
             desc: '描述',
             faq: 'FAQ',
             editOnGithub: '在 github 编辑',
+            property: '属性',
+            returnValue: '返回值',
         },
         error: {
             pageNotFound: '页面不存在',

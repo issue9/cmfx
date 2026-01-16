@@ -6,6 +6,7 @@ export { default as api } from './plugin';
 export type { Options } from './plugin';
 
 export type {
-    Class, Function, Interface, InterfaceMethod, Intersection, Literal,
-    Parameter, Property, Source, Type, TypeParameter, Union
+    Class, ClassMethod, ClassProperty, Function, Interface, InterfaceMethod, InterfaceProperty,
+    Intersection, Literal, Parameter, Property, Source, Type, TypeParameter, Union
 } from './types';
+

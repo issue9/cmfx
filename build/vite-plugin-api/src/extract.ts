@@ -288,13 +288,21 @@ export class Extractor {
                 const decl = sym.getDeclarations()[0]!;
 
                 if (Node.isPropertyDeclaration(decl)) {
-                    if (decl.getScope() === Scope.Public) { cp.push(this.buildClassProperty(decl)); }
+                    if (decl.getScope() === Scope.Public && !decl.getName().startsWith('#')) {
+                        cp.push(this.buildClassProperty(decl));
+                    }
                 } else if (Node.isMethodDeclaration(decl)) {
-                    if (decl.getScope() === Scope.Public) { cm.push(this.fromMethodDeclaration(decl)); }
+                    if (decl.getScope() === Scope.Public && !decl.getName().startsWith('#')) {
+                        cm.push(this.fromMethodDeclaration(decl));
+                    }
                 } else if (Node.isGetAccessorDeclaration(decl)) {
-                    if (decl.getScope() === Scope.Public) { this.appendGetAccessor2ClassProperties(cp, decl); }
+                    if (decl.getScope() === Scope.Public && !decl.getName().startsWith('#')) {
+                        this.appendGetAccessor2ClassProperties(cp, decl);
+                    }
                 } else if (Node.isSetAccessorDeclaration(decl)) {
-                    if (decl.getScope() === Scope.Public) { this.appendSetAccessor2ClassProperties(cp, decl); }
+                    if (decl.getScope() === Scope.Public && !decl.getName().startsWith('#')) {
+                        this.appendSetAccessor2ClassProperties(cp, decl);
+                    }
                 }
             }
 
@@ -355,7 +363,7 @@ export class Extractor {
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
         const f = (p: PropertyDeclaration | MethodDeclaration | GetAccessorDeclaration | SetAccessorDeclaration) => {
-            return p.getScope() === Scope.Public;
+            return p.getScope() === Scope.Public && !p.getName().startsWith('#');
         };
 
         const props: Array<ClassProperty> = decl.getProperties().filter(f)
@@ -428,7 +436,7 @@ export class Extractor {
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
             type: this.getType(decl),
-            static: decl.isStatic(),
+            static: decl.isStatic() ? true : undefined,
         };
 
         if (Node.isPropertyDeclaration(decl)) {
