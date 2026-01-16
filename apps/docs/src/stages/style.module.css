@@ -25,6 +25,11 @@
                     @apply text-sm;
                 }
 
+                .dropdown {
+                    @apply cursor-pointer border border-transparent hover:border-palette-border-actived;
+                    @apply transition;
+                }
+
                 table tbody th {
                     @apply flex gap-1 items-center;
                     white-space: nowrap;

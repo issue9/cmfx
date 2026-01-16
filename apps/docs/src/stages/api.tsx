@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, FieldOptions, RadioGroup, Table, useLocale } from '@cmfx/components';
+import { Dropdown, Table, useLocale } from '@cmfx/components';
 import {
     Class, ClassMethod, ClassProperty, Function, Interface, InterfaceMethod,
     InterfaceProperty, Intersection, Literal, Type, Union
 } from '@cmfx/vite-plugin-api';
 import { createSignal, For, JSX, Match, Show, Switch } from 'solid-js';
+import IconDown from '~icons/material-symbols/arrow-drop-down';
 
 import { markdown } from './markdown';
 import styles from './style.module.css';
@@ -49,17 +50,17 @@ function LiteralBody(props: {literal: Literal}): JSX.Element {
 }
 
 function UnionBody(props: {union: Union}): JSX.Element {
-    const discriminants: FieldOptions<string> = [];
+    const discriminants: Array<string> = [];
     if (props.union.discriminant) {
         for (const u of props.union.types) {
             if (u.kind === 'interface' || u.kind === 'class') {
                 const v = u.properties?.find(p => p.name === props.union.discriminant)!.type!;
-                discriminants.push({ value: v, label: v });
+                discriminants.push(v);
             } else if (u.kind === 'intersection') {
                 for (const i of u.types) {
                     if (i.kind === 'interface' || i.kind === 'class') {
                         const v = i.properties?.find(p => p.name === props.union.discriminant)!.type!;
-                        discriminants.push({ value: v, label: v });
+                        discriminants.push(v);
                     }
                 }
             }
@@ -69,7 +70,6 @@ function UnionBody(props: {union: Union}): JSX.Element {
     const [properties, setProperties]  = createSignal<Array<InterfaceProperty | ClassProperty>>();
     const [methods, setMethods]  = createSignal<Array<InterfaceMethod | ClassMethod>>();
 
-    const discriminant = fieldAccessor<string>('discriminant', '');
     const change = (v: string) => {
         for (const p of props.union.types) {
             if (p.kind === 'interface' || p.kind === 'class') {
@@ -93,15 +93,11 @@ function UnionBody(props: {union: Union}): JSX.Element {
             }
         }
     };
-    discriminant.onChange(v => change(v));
-    change(discriminants[0] ? discriminants[0].value : '');
+    change(discriminants[0] ? discriminants[0] : '');
 
     return <>
-        <Show when={props.union.discriminant}>
-            <RadioGroup accessor={discriminant} label={props.union.discriminant} options={discriminants} />
-        </Show>
         <TypeParams typeParams={props.union.typeParams} />
-        <Properties props={properties()} />
+        <Properties props={properties()} discriminant={props.union.discriminant} discriminants={discriminants} onchange={change} />
         <Methods methods={methods()} />
     </>;
 }
@@ -192,10 +188,20 @@ function Methods(props:{methods: Interface['methods'] | Class['methods']}): JSX.
     </Show>;
 }
 
+interface PropertiesProps {
+    props: Class['properties'] | Interface['properties']; // 属性列表
+
+    // 以下为区分联合类型字段的相关属性
+
+    onchange?: (value: string) => void; // 区分联合类型切换时触发的事件
+    discriminants?: Array<string>; // 区分联合类型选项列表
+    discriminant?: string; // 区分联合类型在 {@link props} 中的列表
+}
+
 /**
  * {@link Interface} 和 {@link Class} 的属性展示组件
  */
-function Properties(props: { props: Class['properties'] | Interface['properties'] }): JSX.Element {
+function Properties(props: PropertiesProps): JSX.Element {
     const l = useLocale();
 
     return <Show when={props.props && props.props.length > 0}>
@@ -213,7 +219,16 @@ function Properties(props: { props: Class['properties'] | Interface['properties'
                 <For each={props.props}>
                     {field => (
                         <tr>
-                            <th>{field.name}<Chips {...field} /></th>
+                            <th>{field.name}
+                                <Chips {...field} />
+                                <Show when={props.discriminant === field.name}>
+                                    <Dropdown align='start' onChange={props.onchange}
+                                        items={props.discriminants!.map(v => ({ label: v, value: v, type: 'item' }))}
+                                    >
+                                        <IconDown class={styles.dropdown} />
+                                    </Dropdown>
+                                </Show>
+                            </th>
                             <td innerHTML={tscode(field.type)} />
                             <td innerHTML={tscode(field.def)} />
                             <td>
