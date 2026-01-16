@@ -280,4 +280,25 @@ describe('Extractor', { timeout: 20000 }, () => {
             expect(ps[1].summary?.trim()).toEqual('CSS 类名列表；');
         }
     });
+
+    test('Omit<X,Y>', () => {
+        const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ToggleFullScreenButtonProps');
+        expect(items).length(1);
+
+        const f = items![0];
+        expect(f.kind).toEqual('interface');
+
+        if (f.kind === 'interface') {
+            expect(f.name).toEqual('ToggleFullScreenButtonProps');
+            expect(f.summary).toBeUndefined();
+            expect(f.properties).toBeDefined();
+
+            const typ = f.properties?.find(p => p.name === 'type');
+            expect(typ).toBeDefined();
+            expect(typ?.summary?.trim()).toEqual('按钮的类型');
+            expect(typ?.def?.trim()).toEqual('\'button\'');
+
+            expect(f.properties?.find(p => p.name === 'toggle')).toBeUndefined();
+        }
+    });
 });

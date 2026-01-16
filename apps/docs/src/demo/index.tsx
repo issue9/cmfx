@@ -8,6 +8,7 @@ import { onCleanup, onMount, ParentProps, Setter } from 'solid-js';
 
 import { default as overview } from './overview';
 import { buildMenus, routes } from './routes';
+import styles from './style.module.css';
 
 /**
  * 组件预览的路由定义
@@ -28,7 +29,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
             onCleanup(() => setDrawer(undefined));
 
             return <Drawer visible floating='xs' ref={el => ref = el}
-                palette='secondary' mainClass={joinClass('surface')} main={props.children}
+                palette='secondary' mainClass={joinClass('surface', styles.main)} main={props.children}
             >
                 <Menu ref={el => menuRef = el} class="min-w-65" layout='inline' items={buildMenus(l, prefix)} />
             </Drawer>;

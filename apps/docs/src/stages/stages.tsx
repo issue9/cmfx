@@ -91,6 +91,6 @@ export default function Stages(props: Props):JSX.Element {
             </Show>
         </article>
 
-        <Nav minHeaderCount={5} class={styles.nav} target={articleRef!} query='h3,h4,h5,h6' />
+        <Nav minHeaderCount={5} class={styles.nav} target={articleRef!} query='h3,h4' />
     </Page>;
 }

@@ -118,33 +118,13 @@ export class Extractor {
     }
 
     private fromTypeAliasDeclaration(decl: TypeAliasDeclaration, chk: TypeChecker): Type {
-        // 判断 t 是否为标准库的类型
-        const isStd = (t: Node): boolean => {
-            const sourceFile = t.getSourceFile();
-            return sourceFile.getFilePath().includes('typescript/lib/lib.');
-        };
-
-        // 判断 t 是否为第三方包中的类型
-        const isModules = (t: Node): boolean => {
-            const sourceFile = t.getSourceFile();
-            return sourceFile.getFilePath().includes('node_modules/');
-        };
-
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
         const name = decl.getName() ?? '';
         const summary = comment2String(tsdoc?.summarySection);
         const remarks = comment2String(tsdoc?.remarksBlock?.content);
-
         const typ = chk.getTypeAtLocation(decl);
 
-        if (typ.getSymbol()?.getDeclarations().every(v=>isStd(v) || isModules(v))) {
-            const ret: Literal = {
-                name, summary, remarks,
-                kind: 'literal',
-                type: typ.getText(),
-            };
-            return ret;
-        }else if (typ.isUnion()) {
+        if (typ.isUnion()) { // type x = 'a' | 'b' | 'c'
             const unionTypes = typ.getUnionTypes();
 
             const intersectionIsLiteral = (t: XType): boolean => {
@@ -247,7 +227,7 @@ export class Extractor {
             };
 
             return unions;
-        } else if (typ.isIntersection()) {
+        } else if (typ.isIntersection()) { // type x = a & b
             if (typ.getIntersectionTypes().every(t=>t.isLiteral())) { // 字符串类型的交集
                 const t: Literal = {
                     name, summary, remarks,
@@ -265,13 +245,10 @@ export class Extractor {
                 }),
             };
             return t;
-        } else { // 其它情况应该只有一个 declarations
-            const t: Literal = {
-                name, summary, remarks,
-                kind: 'literal',
-                type: typ.getText(),
-            };
-            return t;
+        } else { // type x = Omit<x, 'a' | 'b'>
+            const intf = this.fromSymbols(typ.getProperties(), 'interface');
+            intf.name = decl.getName();
+            return intf;
         }
     }
 
@@ -342,24 +319,24 @@ export class Extractor {
     private fromInterfaceDeclaration(decl: InterfaceDeclaration): Type {
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
-        const props = decl.getProperties().map(prop => this.buildInterfaceProperty(prop));
-        decl.getGetAccessors().forEach(accessor => this.appendGetAccessor2InterfaceProperties(props, accessor));
-        decl.getSetAccessors().forEach(accessor => this.appendSetAccessor2InterfaceProperties(props, accessor));
+        const symbols = decl.getType().getProperties(); // 包含父类
+        const intf = this.fromSymbols(symbols, 'interface') as Interface;
 
         const tps = decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc));
-        const methods = decl.getMethods().map(method => this.fromMethodSignature(method));
         return {
             kind: 'interface',
             name: decl.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
             typeParams: tps.length > 0 ? tps : undefined,
-            properties: props.length > 0 ? props : undefined,
-            methods: methods.length > 0 ? methods : undefined,
+            properties: intf.properties,
+            methods: intf.methods,
         };
     }
 
     private fromClassDeclaration(decl: ClassDeclaration): Type {
+        // NOTE: 类与 interface 稍有不同，类不会自动获取父类的属性的方法
+
         const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
         const f = (p: PropertyDeclaration | MethodDeclaration | GetAccessorDeclaration | SetAccessorDeclaration) => {
