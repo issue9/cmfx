@@ -62,6 +62,9 @@ const messages: typeof m = {
             customTheme: '自定义主题',
             svg: 'SVG',
         },
+        contribute: {
+            contribute: '贡献指南',
+        },
         demo: {
             overview: '组件总览',
             palette: '调色板',

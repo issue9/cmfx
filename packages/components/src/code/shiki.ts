@@ -34,10 +34,10 @@ export class Highlighter<L extends BundledLanguage> {
      * 构造可以高亮指定语言的对象
      *
      * @param langs - 语言 ID 列表；
-     * @typeParam L - 表示语言的 ID；
+     * @typeParam L - 表示语言的 ID，不能为空；
      * @returns 返回 {@link Highlighter} 对象；
      */
-    static async build<L extends BundledLanguage>(...langs: Array<L>): Promise<Highlighter<L>> {
+    static async build<L extends BundledLanguage>(...langs: [L, ...Array<L>]): Promise<Highlighter<L>> {
         const h = await createHighlighter({ themes: [shikiTheme], langs: langs });
         return new Highlighter<L>(h);
     }

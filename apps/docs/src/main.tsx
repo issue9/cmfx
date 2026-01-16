@@ -5,7 +5,7 @@
 import './style.css';
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItemItem, Mode, modes,
+    Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItem, MenuItemItem, Mode, modes,
     Result, run, Search, ToggleFullScreenButton, Transition, useLocale, useOptions, useTheme
 } from '@cmfx/components';
 import * as illustrations from '@cmfx/illustrations';
@@ -26,6 +26,7 @@ import IconTheme from '~icons/material-symbols/palette';
 import IconBuilder from '~icons/mdi/theme';
 
 import pkg from '../package.json';
+import { buildRoute as buildContributeRoute } from './contribute';
 import { buildMenus as buildDemoMenus, buildRoute as buildDemoRoute } from './demo';
 import { buildMenus as buildDocsMenus, buildRoute as buildDocsRoute } from './docs';
 import { options } from './options';
@@ -41,6 +42,7 @@ const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
 
 const docsRoute = '/docs';
 const demoRoute = '/demo';
+const contributeRoute = '/contribute';
 const themeRoute = '/theme-builder';
 
 const [docsRef, setDocsRef] = createSignal<DrawerRef>();
@@ -53,7 +55,11 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
     const [dir, setDir] = createSignal<'ltr' | 'rtl' | 'auto'>('auto');
     const theme = useTheme();
 
-    const menus = [...buildDemoMenus(l, demoRoute), ...buildDocsMenus(l, docsRoute)];
+    const menus: Array<MenuItem<string>> = [
+        ...buildDemoMenus(l, demoRoute),
+        ...buildDocsMenus(l, docsRoute),
+        { type: 'a', value: contributeRoute, label: l.t('_d.contribute.contribute') },
+    ];
     const search = async (value: string) => {
         const items: Array<MenuItemItem<string>> = [];
 
@@ -140,6 +146,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
         }>
             <Menu class='ms-5 me-5' layout='horizontal' items={[
                 { type: 'a', label: l.t('_d.main.home'), value: '/' },
+                { type: 'a', label: l.t('_d.contribute.contribute'), value: contributeRoute },
                 { type: 'a', label: l.t('_d.main.docs'), value: docsRoute },
                 { type: 'a', label: l.t('_d.main.components'), value: demoRoute },
             ]} />
@@ -167,9 +174,11 @@ function NotFound(): JSX.Element {
 
 const routes: Array<RouteDefinition> = [
     { path: '/', component: lazy(() => import('./home')) },
+
     buildThemeRoute(themeRoute, setThemeRef),
     buildDemoRoute(demoRoute, setDemoRef),
     buildDocsRoute(docsRoute, setDocsRef),
+    buildContributeRoute(contributeRoute),
     { path: '*', component: NotFound }
 ];
 

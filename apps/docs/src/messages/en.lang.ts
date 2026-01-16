@@ -61,6 +61,9 @@ const messages = {
             customTheme: 'Custom theme',
             svg: 'SVG',
         },
+        contribute: {
+            contribute: 'Contribute',
+        },
         demo: {
             overview: 'Overview',
             palette: 'Palette',

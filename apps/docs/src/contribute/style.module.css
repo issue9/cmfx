@@ -1,0 +1,82 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+
+    .contribute {
+        @apply p-5 flex flex-row gap-1 justify-between overflow-y-auto h-full;
+        @apply @container/contribute;
+
+        .nav {
+            @apply max-w-50 @max-3xl/contribute:hidden;
+        }
+
+        h1 {
+            @apply text-3xl font-bold mb-4;
+        }
+
+        h2 {
+            @apply text-2xl font-bold mb-2 mt-5;
+        }
+
+        h3 {
+            @apply text-xl font-bold mb-1 mt-4;
+        }
+
+        h4 {
+            @apply text-lg font-bold mb-1 mt-4;
+        }
+
+        h5 {
+            @apply text-lg font-bold mb-1 mt-4;
+        }
+
+        h6 {
+            @apply text-base font-bold mb-1 mt-4;
+        }
+
+        table {
+            h1,h2,h3,h4,h5,h6 {
+                @apply text-base;
+            }
+        }
+
+        p {
+            @apply py-1;
+        }
+
+        ul {
+            @apply ps-1 list-inside list-disc;
+        }
+
+        a {
+            @apply relative;
+        }
+        a:link,
+        a:visited {
+            @apply text-palette-fg-focused;
+        }
+        a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width var(--default-transition-duration) ease;
+        }
+        a:hover::after {
+            width: 100%;
+        }
+
+        pre { /* 代码块的样式 */
+            @apply bg-palette-bg-low! text-palette-fg! rounded-md p-2;
+        }
+    }
+}

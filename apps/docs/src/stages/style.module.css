@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -157,11 +157,6 @@
                         @apply @max-3xl/stages:w-full! @max-3xl/stages:flex-none;
                     }
                 }
-            }
-
-            .simple-code {
-                /* 背景需要透明，否则显示在表格中，在 hover 会很难看 */
-                @apply border-none! px-0! bg-transparent!;
             }
         }
     }

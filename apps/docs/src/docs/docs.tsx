@@ -7,7 +7,6 @@ import {
 } from '@cmfx/components';
 import { ArrayElement, Locale } from '@cmfx/core';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import { Marked } from 'marked';
 import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
 import introChangeLog from '../../../../CHANGELOG.md?raw';
@@ -31,11 +30,9 @@ import advanceLocaleZHHans from './advance/locale.zh-Hans.md?raw';
 import advancePluginsEN from './advance/plugins.en.md?raw';
 import advancePluginsZHHans from './advance/plugins.zh-Hans.md?raw';
 
-import { markedShiki } from './shiki';
+import { markdown } from '../utils';
 
 import styles from './style.module.css';
-
-const markedHiglight = new Marked(markedShiki());
 
 // NOTE: 增删文件，需要同时修改以下几处：
 //  - maps
@@ -195,20 +192,20 @@ function Markdown(props: { article: string }): JSX.Element {
     const route = useCurrentMatches()();
     const title = route[route.length - 1].route.info?.title;
 
-    let articleRef: HTMLElement;
+    let articleRef!: HTMLElement;
     let navRef: NavRef;
 
-    createEffect(async () => {
+    createEffect(() => {
         const data = curr()?.get(props.article);
         if (data) {
-            setHTML(await markedHiglight.parse(data));
+            setHTML(markdown(data));
             navRef.refresh();
         }
     });
 
     return <Page title={title} class={styles.docs}>
         <article ref={el => articleRef = el} class={styles.doc} innerHTML={html()} />
-        <Nav minHeaderCount={5} class={styles.nav} ref={el => navRef = el} target={articleRef!} query='h2,h3,h4,h5,h6' />
+        <Nav minHeaderCount={5} class={styles.nav} ref={el => navRef = el} target={articleRef} query='h2,h3,h4,h5,h6' />
     </Page>;
 }
 

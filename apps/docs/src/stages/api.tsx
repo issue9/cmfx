@@ -10,7 +10,7 @@ import {
 import { createSignal, For, JSX, Match, Show, Switch } from 'solid-js';
 import IconDown from '~icons/material-symbols/arrow-drop-down';
 
-import { markdown } from './markdown';
+import { markdown } from '../utils';
 import styles from './style.module.css';
 
 /**
