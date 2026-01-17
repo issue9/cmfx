@@ -7,10 +7,13 @@
 @reference '../style.css';
 
 @layer components {
-
     .contribute {
-        @apply p-5 flex flex-row gap-1 justify-between overflow-y-auto h-full;
+        @apply p-5 pb-8 flex flex-row gap-1 justify-between overflow-y-auto h-full;
         @apply @container/contribute;
+
+        >article {
+            @apply h-fit;
+        }
 
         .nav {
             @apply max-w-50 @max-3xl/contribute:hidden;

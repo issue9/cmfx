@@ -8,7 +8,7 @@
 
 @layer components {
     .stages-page {
-        @apply flex flex-row gap-1 justify-between;
+        @apply flex flex-row gap-1 justify-between pb-8;
         @apply @container/stages;
 
         .nav {

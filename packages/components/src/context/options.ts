@@ -102,7 +102,8 @@ export interface Options {
     /**
      * 网站的标题
      *
-     * @remarks 如果不为空，会和 {@link titleSeparator} 组成页面标题的后缀。
+     * @remarks
+     * 如果不为空，会和 {@link titleSeparator} 组成页面标题的后缀。
      */
     title: string;
 

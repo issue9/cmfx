@@ -16,7 +16,7 @@
         }
 
         article.doc {
-            @apply p-2;
+            @apply p-2 pb-8;
 
             p:first-of-type {
                 /* 应用在 README.md 中的 badge 图标上 */
