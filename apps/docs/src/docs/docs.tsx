@@ -6,8 +6,12 @@ import {
     Drawer, DrawerRef, Menu, MenuItem, MenuItemGroup, MenuRef, Nav, NavRef, Page, joinClass, useLocale
 } from '@cmfx/components';
 import { ArrayElement, Locale } from '@cmfx/core';
+import { Source } from '@cmfx/vite-plugin-api';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
+
+import { markdown } from '../utils';
+import styles from './style.module.css';
 
 import introChangeLog from '../../../../CHANGELOG.md?raw';
 import introReadme from '../../../../README.md?raw';
@@ -23,50 +27,48 @@ import usageSvgZHHans from './usage/svg.zh-Hans.md?raw';
 import usageThemeEN from './usage/theme.en.md?raw';
 import usageThemeZHHans from './usage/theme.zh-Hans.md?raw';
 
+import { default as advanceAPI } from './advance/api.json' with { type: 'json' };
 import advanceCustomThemeEN from './advance/custom-theme.en.md?raw';
 import advanceCustomThemeZHHans from './advance/custom-theme.zh-Hans.md?raw';
 import advanceLocaleEN from './advance/locale.en.md?raw';
 import advanceLocaleZHHans from './advance/locale.zh-Hans.md?raw';
 import advancePluginsEN from './advance/plugins.en.md?raw';
 import advancePluginsZHHans from './advance/plugins.zh-Hans.md?raw';
-
-import { markdown } from '../utils';
-
-import styles from './style.module.css';
+import { default as usageAPI } from './usage/api.json' with { type: 'json' };
 
 // NOTE: 增删文件，需要同时修改以下几处：
 //  - maps
 //  - routes
 
 // 外层键名为语言 ID，内层键名为文档 ID，值为文档内容。
-const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
+const maps: ReadonlyMap<string, ReadonlyMap<string, [string, Array<Source> | undefined]>> = new Map([
     ['en', new Map([
-        ['intro/readme', introReadme],
-        ['intro/changelog', introChangeLog],
+        ['intro/readme', [introReadme, undefined]],
+        ['intro/changelog', [introChangeLog, undefined]],
 
-        ['usage/install', usageInstallEN],
-        ['usage/platform', usagePlatformEN],
-        ['usage/faq', usageFAQEN],
-        ['usage/theme', usageThemeEN],
-        ['usage/svg', usageSvgEN],
+        ['usage/install', [usageInstallEN, usageAPI as Array<Source>]],
+        ['usage/platform', [usagePlatformEN, usageAPI as Array<Source>]],
+        ['usage/faq', [usageFAQEN, usageAPI as Array<Source>]],
+        ['usage/theme', [usageThemeEN, usageAPI as Array<Source>]],
+        ['usage/svg', [usageSvgEN, usageAPI as Array<Source>]],
 
-        ['advance/locale', advanceLocaleEN],
-        ['advance/plugins', advancePluginsEN],
-        ['advance/custom-theme', advanceCustomThemeEN]
+        ['advance/locale', [advanceLocaleEN, advanceAPI as Array<Source>]],
+        ['advance/plugins', [advancePluginsEN, advanceAPI as Array<Source>]],
+        ['advance/custom-theme', [advanceCustomThemeEN, advanceAPI as Array<Source>]]
     ])],
     ['zh-Hans', new Map([
-        ['intro/readme', introReadme],
-        ['intro/changelog', introChangeLog],
+        ['intro/readme', [introReadme, undefined]],
+        ['intro/changelog', [introChangeLog, undefined]],
 
-        ['usage/install', usageInstallZHHans],
-        ['usage/platform', usagePlatformZHHans],
-        ['usage/faq', usageFAQZHHans],
-        ['usage/theme', usageThemeZHHans],
-        ['usage/svg', usageSvgZHHans],
+        ['usage/install', [usageInstallZHHans, usageAPI as Array<Source>]],
+        ['usage/platform', [usagePlatformZHHans, usageAPI as Array<Source>]],
+        ['usage/faq', [usageFAQZHHans, usageAPI as Array<Source>]],
+        ['usage/theme', [usageThemeZHHans, usageAPI as Array<Source>]],
+        ['usage/svg', [usageSvgZHHans, usageAPI as Array<Source>]],
 
-        ['advance/locale', advanceLocaleZHHans],
-        ['advance/plugins', advancePluginsZHHans],
-        ['advance/custom-theme', advanceCustomThemeZHHans]
+        ['advance/locale', [advanceLocaleZHHans, advanceAPI as Array<Source>]],
+        ['advance/plugins', [advancePluginsZHHans, advanceAPI as Array<Source>]],
+        ['advance/custom-theme', [advanceCustomThemeZHHans, advanceAPI as Array<Source>]]
     ])],
 ]);
 
@@ -187,7 +189,7 @@ function Markdown(props: { article: string }): JSX.Element {
     // 返回当前语言的文档映射
     const curr = createMemo(() => { return maps.get(l.match(localesID)); });
 
-    const [html, setHTML] = createSignal(curr()?.get(props.article));
+    const [html, setHTML] = createSignal<string | undefined>(curr()?.get(props.article)![0]);
 
     const route = useCurrentMatches()();
     const title = route[route.length - 1].route.info?.title;
@@ -198,7 +200,7 @@ function Markdown(props: { article: string }): JSX.Element {
     createEffect(() => {
         const data = curr()?.get(props.article);
         if (data) {
-            setHTML(markdown(data));
+            setHTML(markdown(data[0], data[1]));
             navRef.refresh();
         }
     });

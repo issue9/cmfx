@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2026 caixw
+#
+# SPDX-License-Identifier: MIT
+
+- pkg: "@cmfx/core"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - printElement,source

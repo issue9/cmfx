@@ -22,5 +22,10 @@ Record<string, Array<{(): Promise<Dict>;}>>
 
 前端引用的部分库本身带有翻译内容，需要将其加载过程转换为上面的类型，有以下几个：
 
-- `createChartLocaleLoader`: 由 [@cmfx/components](https://www.npmjs.com/package/@cmfx/components) 的 echarts 组件而引入；
-- `createLocaleLoader`: 由 [@cmfx/core](https://www.npmjs.com/package/@cmfx/core) 的 zod 组件而引入；
+- `createChartLocaleLoader`: 由 [@cmfx/components](https://www.npmjs.com/package/@cmfx/components) 的 echart 组件而引入；
+```ts createChartLocaleLoader
+```
+
+- `createZodLocaleLoader`: 由 [@cmfx/core](https://www.npmjs.com/package/@cmfx/core) 的 zod 组件而引入；
+```ts createZodLocaleLoader
+```

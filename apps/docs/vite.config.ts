@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -56,7 +56,7 @@ export default defineConfig(({ mode }) => {
                     [path.resolve(__dirname, '../../packages/illustrations'), 'index.d.ts'],
                     [path.resolve(__dirname, '../../packages/admin'), 'index.d.ts'],
                 ],
-                root: './src/demo',
+                root: './src',
             }),
             Icons({
                 compiler: 'solid',
@@ -71,7 +71,7 @@ export default defineConfig(({ mode }) => {
                     {
                         src: '../../assets/brand-static.svg',
                         dest: '../apps/docs/public',
-                        transform: (content, path) => {
+                        transform: (content, _) => {
                             return content.replace(/currentColor/g, '#00a1f1');
                         }
                     },

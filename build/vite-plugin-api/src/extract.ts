@@ -15,7 +15,7 @@ import {
 import { comment2String, getCustomDoc, getTsdoc, newTSDocParser, reactiveTag } from './tsdoc';
 import {
     Class, ClassMethod, ClassProperty, Interface, InterfaceMethod, InterfaceProperty,
-    Intersection, Literal, Parameter, ReturnType as RT, Type, TypeParameter, Union
+    Intersection, Literal, Parameter, ReturnType as RT, Source, Type, TypeParameter, Union
 } from './types';
 
 interface TSProject {
@@ -79,24 +79,29 @@ export class Extractor {
 
         const exports = project.exports.get(entrypoint);
         if (!exports) {
-            throw new Error(`入口点 ${entrypoint} 未找到`);
+            throw new Error(`项目 ${pkg} 不存在入口点 ${entrypoint}`);
         }
 
         const types: Array<Type> = [];
         for (const name of names) {
-            const typ = exports.get(name);
+            const ns = name.split(',');
+            const source = ns.length > 1 ? (ns[1].toLowerCase() === 'source') : false;
+
+            const typ = exports.get(ns[0]);
             if (!typ || typ.length === 0) {
-                throw new Error(`类型 ${name} 未找到`);
+                throw new Error(`${pkg}/${entrypoint} 中找不到类型 ${ns[0]}`);
             } else if (typ.length > 1) {
-                throw new Error(`类型 ${name} 有多个定义`);
+                throw new Error(`${pkg}/${entrypoint} 中有多个类型 ${ns[0]}`);
             }
-            types.push(this.conv(typ[0], project.checker));
+            types.push(this.conv(typ[0], project.checker, source));
         }
 
         return types;
     }
 
-    private conv(decl: Node, chk: TypeChecker): Type {
+    private conv(decl: Node, chk: TypeChecker, source?: boolean): Type {
+        if (source) { return this.convSource(decl); }
+
         if (Node.isInterfaceDeclaration(decl)) {
             return this.fromInterfaceDeclaration(decl);
         } else if (Node.isClassDeclaration(decl)) {
@@ -105,15 +110,19 @@ export class Extractor {
             return this.fromFunctionDeclaration(decl);
         } else if (Node.isTypeAliasDeclaration(decl)) {
             return this.fromTypeAliasDeclaration(decl, chk);
+        } else {
+            return this.convSource(decl);
         }
+    }
 
+    private convSource(decl: Node): Source {
         const tsdoc = Node.isJSDocable(decl) ? getTsdoc(this.#tsdocParser, decl as JSDocableNode) : undefined;
         return {
             kind: 'source',
-            name: '',
+            name: decl.getSymbol()?.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            source: decl.getText(),
+            source: trimSource(decl.getText()),
         };
     }
 
@@ -255,7 +264,7 @@ export class Extractor {
     /**
      * 从 getProperties() 方法返回的列表中构建一个 {@link Class} 或是 {@link Interface} 对象
      */
-    private fromSymbols(symbols: Array<Symbol>, kind: 'class' | 'interface'): Type {
+    private fromSymbols(symbols: Array<Symbol>, kind: 'class' | 'interface'): Interface | Class {
         switch (kind) {
         case 'class':
             const cp: Array<ClassProperty> = [];
@@ -535,9 +544,7 @@ export class Extractor {
     }
 
     private getFuncSig(sig: Signature): string {
-        const s = sig.getDeclaration().getText().trim();
-
-        return s.startsWith(exportDeclare) ? s.slice(exportDeclare.length) : s;
+        return trimSource(sig.getDeclaration().getText());
     }
 
     private getType(n?: Node): string {
@@ -553,3 +560,9 @@ export class Extractor {
 }
 
 const exportDeclare = 'export declare ';
+
+function trimSource(source: string): string {
+    source = source.trim();
+    source = source.startsWith(exportDeclare) ? source.slice(exportDeclare.length) : source;
+    return source.endsWith(';') ? source.slice(0, -1) : source;
+}
