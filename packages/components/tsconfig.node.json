@@ -2,6 +2,7 @@
     "extends": "../../build/tsconfig.node.json",
     "include": [
         "vite.config.ts",
-        "./src/vitest_setup.ts"
+        "./src/vitest_setup.ts",
+        "../../build/unplugin-icons.ts"
     ]
 }

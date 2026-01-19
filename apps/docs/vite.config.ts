@@ -10,6 +10,7 @@ import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+import customIcons from '../../build/unplugin-icons';
 import pkg from './package.json';
 
 // https://vitejs.dev/config/
@@ -60,6 +61,7 @@ export default defineConfig(({ mode }) => {
             Icons({
                 compiler: 'solid',
                 scale: 1,
+                customCollections: customIcons,
             }),
             tailwindcss(),
             viteStaticCopy({
