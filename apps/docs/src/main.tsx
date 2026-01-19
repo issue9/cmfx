@@ -26,8 +26,8 @@ import IconTheme from '~icons/material-symbols/palette';
 import IconBuilder from '~icons/mdi/theme';
 
 import pkg from '../package.json';
+import { buildMenus as buildComponentsMenus, buildRoute as buildComponentsRoute } from './components';
 import { buildRoute as buildContributeRoute } from './contribute';
-import { buildMenus as buildDemoMenus, buildRoute as buildDemoRoute } from './demo';
 import { buildMenus as buildDocsMenus, buildRoute as buildDocsRoute } from './docs';
 import { options } from './options';
 import { buildRoute as buildThemeRoute } from './theme/builder';
@@ -41,7 +41,7 @@ const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
 ]);
 
 const docsRoute = '/docs';
-const demoRoute = '/demo';
+const componentsRoute = '/components/demo/';
 const contributeRoute = '/contribute';
 const themeRoute = '/theme-builder';
 
@@ -56,7 +56,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
     const theme = useTheme();
 
     const menus: Array<MenuItem<string>> = [
-        ...buildDemoMenus(l, demoRoute),
+        ...buildComponentsMenus(l, componentsRoute),
         ...buildDocsMenus(l, docsRoute),
         { type: 'a', value: contributeRoute, label: l.t('_d.contribute.contribute') },
     ];
@@ -148,7 +148,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
                 { type: 'a', label: l.t('_d.main.home'), value: '/' },
                 { type: 'a', label: l.t('_d.contribute.contribute'), value: contributeRoute },
                 { type: 'a', label: l.t('_d.main.docs'), value: docsRoute },
-                { type: 'a', label: l.t('_d.main.components'), value: demoRoute },
+                { type: 'a', label: l.t('_d.main.components'), value: componentsRoute },
             ]} />
 
             <Search class={styles.search} onSearch={search} icon clear hotkey={new Hotkey('k', 'control')} />
@@ -176,7 +176,7 @@ const routes: Array<RouteDefinition> = [
     { path: '/', component: lazy(() => import('./home')) },
 
     buildThemeRoute(themeRoute, setThemeRef),
-    buildDemoRoute(demoRoute, setDemoRef),
+    buildComponentsRoute(componentsRoute, setDemoRef),
     buildDocsRoute(docsRoute, setDocsRef),
     buildContributeRoute(contributeRoute),
     { path: '*', component: NotFound }

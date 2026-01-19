@@ -1,0 +1,25 @@
+// SPDX-FileCopyrightText: 2025-2026 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import { Type } from '@cmfx/vite-plugin-api';
+import IconTimePanel from '~icons/mingcute/calendar-time-add-fill';
+
+import type { Info } from '@docs/components/base';
+import { Stages } from '@docs/components/stages';
+
+import { default as Timepanel } from './timepanel';
+import { default as timepanel } from './timepanel.tsx?raw';
+
+import { default as api } from './api.json' with { type: 'json' };
+
+export default function(): Info {
+    return {
+        info: { title: '_d.demo.timepanel', icon: <IconTimePanel /> },
+        kind: 'data-display', path: 'datetime/timepanel', component: () =>
+            <Stages dir='datetime/timepanel' api={api as Array<Type>} stages={[
+                { component: Timepanel, source: timepanel, title: 'timepanel' },
+            ]}>
+            </Stages>,
+    };
+}

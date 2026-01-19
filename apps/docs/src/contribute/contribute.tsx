@@ -5,8 +5,8 @@
 import { Nav, Page, useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
+import { markdown } from '@docs/utils';
 import txt from '../../../../CONTRIBUTING.md?raw';
-import { markdown } from '../utils';
 import styles from './style.module.css';
 
 export function Contribute(): JSX.Element {

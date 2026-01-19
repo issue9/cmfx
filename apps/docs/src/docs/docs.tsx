@@ -10,7 +10,7 @@ import { Source } from '@cmfx/vite-plugin-api';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
-import { markdown } from '../utils';
+import { markdown } from '@docs/utils';
 import styles from './style.module.css';
 
 import introChangeLog from '../../../../CHANGELOG.md?raw';

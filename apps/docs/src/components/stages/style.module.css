@@ -1,0 +1,163 @@
+/*
+ * SPDX-FileCopyrightText: 2025-2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .stages-page {
+        @apply flex flex-row gap-1 justify-between pb-8;
+        @apply @container/stages;
+
+        .nav {
+            @apply max-w-50 @max-3xl/stages:hidden;
+        }
+
+        .apis {
+            @apply mt-2 flex flex-col gap-2;
+
+            .api {
+                @apply flex flex-col gap-1;
+
+                .remarks {
+                    @apply text-sm;
+                }
+
+                .dropdown {
+                    @apply cursor-pointer border border-transparent hover:border-palette-border-actived;
+                    @apply transition;
+                }
+
+                table tbody th {
+                    @apply flex gap-1 items-center;
+                    white-space: nowrap;
+
+                    >kbd {
+                        @apply px-1 font-mono aspect-square m-0! cursor-pointer;
+                        @apply hover:border-palette-border-actived! hover:bg-palette-bg-actived! hover:text-palette-fg-actived!;
+                    }
+                }
+
+                table th,
+                table td {
+                    @apply text-left;
+                }
+            }
+
+            code { /* 文档中的类型名称等 codespan 类型的简要代码 */
+                @apply px-1 font-mono;
+            }
+        }
+
+        article.root {
+            @apply w-full;
+
+            h2 {
+                @apply text-3xl flex gap-2 items-center font-bold;
+
+                .edit {
+                    @apply text-xl text-palette-fg/50;
+                    @apply hover:text-palette-fg-focused;
+                    @apply active:text-palette-fg-actived;
+                }
+            }
+
+            h3 {
+                @apply text-2xl mt-4 font-semibold;
+            }
+
+            h4 {
+                @apply text-xl mt-6 mb-3 font-medium;
+            }
+
+            h5 {
+                @apply mt-2 mb-1 font-medium;
+            }
+
+            /* 表格中的可能存在 markdown 生成带 h1-h6 的 html */
+            table {
+                h2,h3,h4,h5 {
+                    @apply text-base;
+                }
+            }
+
+            .desc {
+                @apply mt-4 mb-2;
+            }
+
+            /* 限定在 p 元素之内，以免其它展示组件的元素被涉及。 */
+            p ul,
+            p ol {
+                @apply ps-1 list-inside list-disc;
+            }
+
+            .stages {
+                @apply flex flex-col w-full;
+
+                .stage { /* 单个展示舞台，包含演示区域和代码 */
+                    @apply flex mb-4 rounded-lg bg-palette-bg-low overflow-clip;
+                    @apply border border-palette-border;
+
+                    .demo { /* 演示区域，包含了常规的工具栏和演示组件 */
+                        @apply flex flex-col justify-between p-2 flex-1 h-fit w-1/2;
+
+                        >.toolbar {
+                            @apply w-full pb-2 border border-transparent border-b-palette-border mb-4;
+                            @apply flex gap-2 justify-start flex-wrap;
+
+                            >.left {
+                                @apply flex gap-2 justify-start;
+                            }
+
+                            >.right {
+                                @apply flex flex-wrap gap-2 justify-start items-center;
+
+                                >div { /* 这是由 Portal 额外添加的，需要将其内容进行过滤 */
+                                    @apply contents;
+                                }
+                            }
+                        }
+
+                        .component { /* 演示组件 */
+                            @apply bg-palette-bg text-palette-fg p-2 border border-palette-border;
+                            @apply min-w-fit min-h-fit grow;
+                            @apply flex flex-wrap gap-2;
+                        }
+                    }
+
+                    .code {
+                        @apply border-transparent rounded-none! flex-1 w-1/2;
+                    }
+                }
+
+                .stage.vertical {
+                    @apply flex-col items-stretch! justify-stretch!;
+
+                    .demo {
+                        @apply w-full max-w-full;
+                    }
+
+                    .code {
+                        @apply w-full;
+                    }
+                }
+
+                .stage.auto {
+                    @apply @max-3xl/stages:flex-col! @max-3xl/stages:justify-start! @max-3xl/stages:items-start!;
+
+                    .demo {
+                        @apply h-full min-h-fit w-1/2;
+                        @apply @max-3xl/stages:w-full!;
+                    }
+
+                    .code {
+                        @apply w-1/2 overflow-y-auto;
+                        @apply @max-3xl/stages:w-full! @max-3xl/stages:flex-none;
+                    }
+                }
+            }
+        }
+    }
+}

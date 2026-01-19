@@ -1,0 +1,25 @@
+// SPDX-FileCopyrightText: 2025-2026 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import { Type } from '@cmfx/vite-plugin-api';
+import IconTime from '~icons/bxs/time';
+
+import type { Info } from '@docs/components/base';
+import { Stages } from '@docs/components/stages';
+
+import { default as api } from './api.json' with { type: 'json' };
+
+import { default as Time } from './time';
+import { default as time } from './time.tsx?raw';
+
+export default function(): Info {
+    return {
+        info: { title: '_d.demo.time', icon: <IconTime /> },
+        kind: 'data-input', path: 'form-time', component: () =>
+            <Stages dir='form/time' api={api as Array<Type>} stages={[
+                { component: Time, source: time, title: 'time' },
+            ]}>
+            </Stages>,
+    };
+}
