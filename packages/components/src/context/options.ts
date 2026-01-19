@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
+import { Component } from 'solid-js';
+import { default as IconCmfxBrandAnimate } from '~icons/cmfx/brand-animate';
 
 import { Mode, readScheme, Scheme } from '@/base';
 
@@ -19,6 +21,16 @@ export interface Options {
      * 项目的 LOGO
      */
     logo: string;
+
+    /**
+     * 表示加载状态的组件
+     *
+     * @remarks
+     * 在页面未加载完成之前会显示此组件的内容。一般为一个动态的图标组件。
+     *
+     * @defaultValue IconCmfxBrandAnimate
+     */
+    loading?: Component;
 
     /**
      * 是否替换系统对话框
@@ -136,6 +148,7 @@ const presetOptions: PickOptional<Options> = {
     locale: document.documentElement.lang
         || navigator.language
         || (navigator.languages.length > 0 ? navigator.languages[0] : 'en'),
+    loading: IconCmfxBrandAnimate,
     displayStyle: 'short',
     scheme: '',
     schemes: new Map([]),

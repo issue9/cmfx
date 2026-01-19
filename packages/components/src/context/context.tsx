@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,7 +7,6 @@ import { createContext, createResource, JSX, Match, ParentProps, splitProps, Swi
 import { createStore } from 'solid-js/store';
 
 import { Mode, Scheme } from '@/base';
-import { IconCmfxBrandAnimate } from '@/icon';
 import { ContextNotFoundError } from './errors';
 import { LocaleProvider } from './locale';
 import { ReqOptions } from './options';
@@ -60,7 +59,7 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
     // NOTE: 需要通过 messageResource.loading 等待 createResource 完成，才能真正加载组件。
 
     return <optionsGetSetContext.Provider value={obj}>
-        <Switch fallback={<div class={styles.loading}><IconCmfxBrandAnimate /></div>}>
+        <Switch fallback={<div class={styles.loading}>{props.loading({})}</div>}>
             <Match when={!messageResource.loading}>
                 <ThemeProvider mode={obj[0].mode} styleElement={document.documentElement} scheme={obj[0].scheme}>
                     <LocaleProvider id={obj[0].locale} displayStyle={obj[0].displayStyle} timezone={obj[0].timezone}>
