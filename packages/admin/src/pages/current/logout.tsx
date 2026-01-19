@@ -1,16 +1,17 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { IconCmfxBrandAnimate, Page, useLocale } from '@cmfx/components';
+import { Page, useLocale, useOptions } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX, onMount } from 'solid-js';
 
-import { useAdmin, useOptions } from '@/app';
+import { useAdmin, useOptions as useAdminOptions } from '@/app';
 import styles from './style.module.css';
 
 export function Logout(): JSX.Element {
-    const opt = useOptions();
+    const opt = useAdminOptions();
+    const [, xo] = useOptions();
     const usr = useAdmin();
     const l = useLocale();
     const nav = useNavigate();
@@ -22,6 +23,6 @@ export function Logout(): JSX.Element {
 
     // 在网络不通时，ctx.logout 可能会非常耗时，所以此处展示一个简单的提示页面。
     return <Page title="_p.current.logout" class={styles.logout}>
-        <IconCmfxBrandAnimate />{l.t('_p.current.loggingOut')}
+        { xo.loading({}) }{l.t('_p.current.loggingOut')}
     </Page>;
 }

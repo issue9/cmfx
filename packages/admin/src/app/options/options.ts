@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DrawerProps, Layout, Mode, Scheme } from '@cmfx/components';
+import { BaseProps, DrawerProps, Layout, Mode, Scheme, presetOptions as xpo } from '@cmfx/components';
 import { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import { Component } from 'solid-js';
 
@@ -88,6 +88,8 @@ export interface Options {
      * LOGO，URL 格式
      */
     logo: string;
+
+    loading?: Component<BaseProps>;
 
     /**
      * 采用系统通知
@@ -189,26 +191,26 @@ export interface Options {
     stays?: number;
 }
 
+// 大部分的默认值在 @cmfx/components 中是已经定义过的。
 const presetOptions: Readonly<PickOptional<Options>> = {
     tokenStorage: sessionStorage,
     layout: 'vertical',
     float: false,
     width: 0,
-    systemDialog: false,
-    systemNotify: false,
-    titleSeparator: ' - ',
+    loading: xpo.loading,
+    systemDialog: xpo.systemDialog,
+    systemNotify: xpo.systemDialog,
+    titleSeparator: xpo.titleSeparator,
     floatingMinWidth: 'lg',
-    mode: 'system',
+    mode: xpo.mode,
     scheme: '',
-    schemes: new Map(),
+    schemes: xpo.schemes,
     toolbar: [],
     userMenus: [],
-    locale: document.documentElement.lang
-        || navigator.language
-        || (navigator.languages.length > 0 ? navigator.languages[0] : 'en'),
-    displayStyle: 'short',
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    stays: 5000,
+    locale: xpo.locale,
+    displayStyle: xpo.displayStyle,
+    timezone: xpo.timezone,
+    stays: xpo.stays,
 } as const;
 
 type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };

@@ -4,6 +4,7 @@
 
 export { ContextNotFoundError } from './errors';
 
+export { presetOptions } from './options';
 export type { Options } from './options';
 
 export { useOptions } from './context';

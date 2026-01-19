@@ -4,9 +4,9 @@
 
 import { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import { Component } from 'solid-js';
-import { default as IconCmfxBrandAnimate } from '~icons/cmfx/brand-animate';
+import { default as IconLoading } from '~icons/cmfx/loading';
 
-import { Mode, readScheme, Scheme } from '@/base';
+import { BaseProps, joinClass, Mode, readScheme, Scheme } from '@/base';
 
 /**
 * 组件库的全局配置项
@@ -28,9 +28,9 @@ export interface Options {
      * @remarks
      * 在页面未加载完成之前会显示此组件的内容。一般为一个动态的图标组件。
      *
-     * @defaultValue IconCmfxBrandAnimate
+     * @defaultValue `~icons/cmfx/loading`
      */
-    loading?: Component;
+    loading?: Component<BaseProps>;
 
     /**
      * 是否替换系统对话框
@@ -141,14 +141,18 @@ export interface Options {
     pageSize?: number;
 }
 
-const presetOptions: PickOptional<Options> = {
+/**
+ * 提供了 {@link Options} 对象的所有可选项的默认值
+ */
+export const presetOptions: PickOptional<Options> = {
     fontSize: '14px',
     systemDialog: false,
     systemNotify: false,
     locale: document.documentElement.lang
         || navigator.language
         || (navigator.languages.length > 0 ? navigator.languages[0] : 'en'),
-    loading: IconCmfxBrandAnimate,
+    loading: (props: BaseProps) =>
+        IconLoading({ style: props.style, class: joinClass(props.palette, props.class) }),
     displayStyle: 'short',
     scheme: '',
     schemes: new Map([]),

@@ -1,8 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import tailwindcss from '@tailwindcss/vite';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import { fileURLToPath, URL } from 'node:url';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
@@ -11,7 +13,6 @@ import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import pkg from './package.json';
-import customIcons from '../../build/unplugin-icons';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,7 +28,11 @@ export default defineConfig({
         Icons({
             compiler: 'solid',
             scale: 1,
-            customCollections: customIcons,
+            customCollections: {
+                cmfx: {
+                    'loading': () => fs.readFile(path.resolve(__dirname, '../../assets/brand-animate.svg'), 'utf-8'),
+                },
+            },
         }),
         dts({
             entryRoot: './src',

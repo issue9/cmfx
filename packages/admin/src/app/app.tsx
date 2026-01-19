@@ -41,6 +41,7 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
         // 非机密数据，且有固化要求，使用 localStorage 存储，不考虑其它。
         config: new Config(opt.id, presetConfigName, localStorage),
         logo: opt.logo,
+        loading: opt.loading,
         systemNotify: opt.systemNotify,
         systemDialog: opt.systemDialog,
 
