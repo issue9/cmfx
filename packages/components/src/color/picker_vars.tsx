@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { For, JSX, Signal } from 'solid-js';
 
 import { PickerPanel } from './picker';
-import { joinClass } from '@/base';
+import { joinClass } from '@components/base';
 import styles from './style.module.css';
 
 const vars: Array<string> = [

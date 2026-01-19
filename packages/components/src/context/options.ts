@@ -6,7 +6,7 @@ import { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import { Component } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 
-import { BaseProps, joinClass, Mode, readScheme, Scheme } from '@/base';
+import { BaseProps, joinClass, Mode, readScheme, Scheme } from '@components/base';
 
 /**
 * 组件库的全局配置项

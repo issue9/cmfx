@@ -6,12 +6,12 @@ import {
     createEffect, createMemo, createSignal, createUniqueId, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch
 } from 'solid-js';
 
-import { BaseProps, RefProps, style2String } from '@/base';
+import { BaseProps, RefProps, style2String } from '@components/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
-} from '@/form/field';
-import { AutoComplete, Input, InputMode, InputRef, InputValue } from '@/input';
-import { Dropdown, DropdownRef, MenuItemItem } from '@/menu';
+} from '@components/form/field';
+import { AutoComplete, Input, InputMode, InputRef, InputValue } from '@components/input';
+import { Dropdown, DropdownRef, MenuItemItem } from '@components/menu';
 
 export type Ref = InputRef;
 

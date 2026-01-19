@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { AvailableEnumType } from '@/base';
+import { AvailableEnumType } from '@components/base';
 
 /**
  * 菜单项

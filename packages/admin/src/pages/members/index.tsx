@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Component } from 'solid-js';
 import IconGroup from '~icons/material-symbols/group';
 
-import { Pages } from '@/pages/pages';
+import { Pages } from '@admin/pages/pages';
 import { ActionProps, Members } from './members';
 import { PanelProps, View } from './view';
 export type { Member } from './types';

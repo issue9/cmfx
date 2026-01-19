@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -10,7 +10,7 @@ import { JSX } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
 import IconPasskey from '~icons/material-symbols/passkey';
 
-import { handleProblem, useREST } from '@/app';
+import { handleProblem, useREST } from '@admin/app';
 import styles from './style.module.css';
 
 export type Role = {

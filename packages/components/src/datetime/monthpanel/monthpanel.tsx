@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createMemo, createSignal, For, JSX, untrack } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
-import { months } from '@/datetime/utils';
+import { BaseProps, joinClass, RefProps } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale } from '@components/context';
+import { months } from '@components/datetime/utils';
 import { adjustPopoverPosition } from '@cmfx/core';
 import styles from './style.module.css';
 import { default as YearPanel, Ref as YearPanelRef } from './yearpanel';

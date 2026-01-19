@@ -13,15 +13,15 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { BaseProps, joinClass, Mode, RefProps } from '@/base';
-import { Button } from '@/button';
-import { useLocale, useOptions } from '@/context';
-import { Timezone } from '@/datetime';
-import { Description } from '@/description';
-import { Divider } from '@/divider';
-import { Checkbox, Choice, fieldAccessor, Number, RadioGroup, Range } from '@/form';
-import { createBytesFormatter } from '@/kit';
-import { SchemeSelector } from '@/theme';
+import { BaseProps, joinClass, Mode, RefProps } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale, useOptions } from '@components/context';
+import { Timezone } from '@components/datetime';
+import { Description } from '@components/description';
+import { Divider } from '@components/divider';
+import { Checkbox, Choice, fieldAccessor, Number, RadioGroup, Range } from '@components/form';
+import { createBytesFormatter } from '@components/kit';
+import { SchemeSelector } from '@components/theme';
 import styles from './style.module.css';
 
 /**

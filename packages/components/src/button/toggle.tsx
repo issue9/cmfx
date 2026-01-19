@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,7 +8,7 @@ import IconExpand from '~icons/material-symbols/expand-content';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
-import { IconSet } from '@/icon';
+import { IconSet } from '@components/icon';
 import { Props as BaseProps, Button } from './button';
 import styles from './style.module.css';
 import { presetProps } from './types';

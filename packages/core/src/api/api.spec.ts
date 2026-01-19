@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import { sleep } from '@/time';
+import { sleep } from '@core/time';
 import { API, query2Search, REST } from './api';
 import { Token, writeToken } from './token';
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,8 +8,8 @@ import {
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
 
-import { BaseProps, joinClass, Layout } from '@/base';
-import { ChangeFunc } from '@/form/field';
+import { BaseProps, joinClass, Layout } from '@components/base';
+import { ChangeFunc } from '@components/form/field';
 import styles from './style.module.css';
 
 export interface Item {

@@ -5,12 +5,12 @@
 import { calcPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, JSX, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps, joinClass, Palette } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
-import { Dialog, DialogRef } from '@/dialog';
-import { Label } from '@/label';
-import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
+import { BaseProps, joinClass, Palette } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale } from '@components/context';
+import { Dialog, DialogRef } from '@components/dialog';
+import { Label } from '@components/label';
+import { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
 import styles from './style.module.css';
 
 export interface Ref extends WizardRef {

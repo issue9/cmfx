@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,10 +6,10 @@ import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitP
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass } from '@/base';
-import { Week, WeekPanel } from '@/datetime';
-import { WeekValueType } from '@/datetime/dateview';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
+import { joinClass } from '@components/base';
+import { Week, WeekPanel } from '@components/datetime';
+import { WeekValueType } from '@components/datetime/dateview';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@components/form/field';
 import { Props as PickerProps, DateType } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';

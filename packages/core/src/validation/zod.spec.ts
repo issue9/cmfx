@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 import * as z from 'zod';
 
-import { I18n } from '@/locale';
+import { I18n } from '@core/locale';
 import { createZodLocaleLoader, validator } from './zod';
 
 const usr = z.object({

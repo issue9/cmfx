@@ -1,9 +1,9 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Admin } from '@/app';
-import { Sex, State } from '@/schemas';
+import { Admin } from '@admin/app';
+import { Sex, State } from '@admin/schemas';
 
 export type Member = {
     id: number;

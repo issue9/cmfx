@@ -6,10 +6,10 @@ import Color from 'colorjs.io';
 import { createEffect, createSignal, JSX, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 
-import { BaseProps, joinClass, PropsError, wcag } from '@/base';
-import { Button } from '@/button';
-import { copy2Clipboard, useLocale } from '@/context';
-import { Choice, ChoiceOption, fieldAccessor } from '@/form';
+import { BaseProps, joinClass, PropsError, wcag } from '@components/base';
+import { Button } from '@components/button';
+import { copy2Clipboard, useLocale } from '@components/context';
+import { Choice, ChoiceOption, fieldAccessor } from '@components/form';
 import { PickerPanel } from './picker';
 import styles from './style.module.css';
 

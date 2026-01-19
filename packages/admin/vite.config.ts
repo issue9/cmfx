@@ -1,20 +1,21 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import tailwindcss from '@tailwindcss/vite';
-import { fileURLToPath, URL } from 'node:url';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 import pkg from './package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
+        tsconfigPaths(),
         solidPlugin(),
         Icons({ compiler: 'solid', scale: 1 }),
         dts({
@@ -38,12 +39,6 @@ export default defineConfig({
     ],
 
     define: { 'process.env': {} },
-
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url)),
-        }
-    },
 
     build: {
         minify: true,

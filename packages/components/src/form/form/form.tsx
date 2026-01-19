@@ -1,16 +1,16 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Flattenable } from '@cmfx/core';
 import { Component, createEffect, createUniqueId, JSX, mergeProps, ParentProps, Show, splitProps } from 'solid-js';
 
-import { BaseProps, joinClass, Layout, Palette } from '@/base';
-import { Button } from '@/button';
-import { BProps } from '@/button/button';
-import { useLocale } from '@/context';
-import { FormContext, FormProvider, useForm } from '@/form/field';
-import { Spin } from '@/spin';
+import { BaseProps, joinClass, Layout, Palette } from '@components/base';
+import { Button } from '@components/button';
+import { BProps } from '@components/button/button';
+import { useLocale } from '@components/context';
+import { FormContext, FormProvider, useForm } from '@components/form/field';
+import { Spin } from '@components/spin';
 import { FormAPI, Options } from './api';
 import styles from './style.module.css';
 

@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
-import { Counter, CounterProps } from '@/counter';
+import { BaseProps, joinClass } from '@components/base';
+import { Counter, CounterProps } from '@components/counter';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

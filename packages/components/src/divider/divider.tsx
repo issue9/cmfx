@@ -4,7 +4,7 @@
 
 import { createMemo, JSX, mergeProps, ParentProps } from 'solid-js';
 
-import { BaseProps, classList, Layout, style2String } from '@/base';
+import { BaseProps, classList, Layout, style2String } from '@components/base';
 import styles from './style.module.css';
 
 export type Props = ParentProps<{

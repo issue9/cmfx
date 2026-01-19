@@ -4,8 +4,8 @@
 
 import { JSX } from 'solid-js';
 
-import { useLocale } from '@/context';
-import { useTheme } from '@/context/theme';
+import { useLocale } from '@components/context';
+import { useTheme } from '@components/context/theme';
 import { Message, Props as MessageProps } from './message';
 
 export type Props = Omit<MessageProps, 'transitionDuration' | 'closeAriaLabel'>;

@@ -1,14 +1,14 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createMemo, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
-import { joinClass } from '@/base';
+import { joinClass } from '@components/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
-} from '@/form/field';
-import { InputMode } from '@/input';
+} from '@components/form/field';
+import { InputMode } from '@components/input';
 import styles from './style.module.css';
 
 type Value = string | number | Array<string>;

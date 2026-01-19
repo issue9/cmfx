@@ -6,9 +6,9 @@ import { CancelMovable, Locale, movable } from '@cmfx/core';
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
-import { BaseProps, joinClass } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
+import { BaseProps, joinClass } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
 /**

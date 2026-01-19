@@ -9,7 +9,7 @@
             "@testing-library/jest-dom",
         ],
         "paths": {
-            "@/*": [
+            "@illustrations/*": [
                 "src/*"
             ]
         },

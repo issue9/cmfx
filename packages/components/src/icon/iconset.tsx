@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,8 @@ import { bundleSvgsStringSync, easings, Rotation, rotations, SVGMorpheus } from 
 import { createEffect, createMemo, JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, isReducedMotion, joinClass, RefProps, style2String } from '@/base';
-import { useTheme } from '@/context';
+import { BaseProps, isReducedMotion, joinClass, RefProps, style2String } from '@components/base';
+import { useTheme } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref {

@@ -5,7 +5,7 @@
 import { JSX, mergeProps, ParentProps, Show, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass } from '@components/base';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps, ParentProps {

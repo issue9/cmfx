@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,7 @@ import { describe, test, expect } from 'vitest';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 
-import { ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@components/context/context.spec';
 import { IconSet, Ref } from './iconset';
 
 describe('IconSet', async () => {

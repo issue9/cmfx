@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -11,7 +11,7 @@ import IconGroup from '~icons/material-symbols/group';
 import IconPersonChk from '~icons/material-symbols/person-check';
 import IconRecord from '~icons/material-symbols/record-voice-over';
 
-import { handleProblem, useREST } from '@/app';
+import { handleProblem, useREST } from '@admin/app';
 import styles from './style.module.css';
 
 export function MemStatistic(): JSX.Element {

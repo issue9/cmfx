@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, JSX, Match, Show, Switch } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass } from '@components/base';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

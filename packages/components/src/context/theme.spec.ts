@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { expect, test } from 'vitest';
 
-import { schemes } from '@/theme';
+import { schemes } from '@components/theme';
 import { Theme, applyTheme, hasTheme } from './theme';
 
 test('theme', () => {

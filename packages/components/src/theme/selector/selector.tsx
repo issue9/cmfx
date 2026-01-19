@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import equal from 'fast-deep-equal';
 import { createEffect, createSignal, For, JSX } from 'solid-js';
 
-import { BaseProps, joinClass, Scheme } from '@/base';
+import { BaseProps, joinClass, Scheme } from '@components/base';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

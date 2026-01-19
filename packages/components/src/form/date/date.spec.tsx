@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { describe, test } from 'vitest';
 
-import { ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@components/context/context.spec';
 import { DatePicker } from './date';
-import { fieldAccessor } from '@/form/field';
+import { fieldAccessor } from '@components/form/field';
 
 describe('DatePicker', async () => {
     const fa = fieldAccessor<Date, 'number'>('chk', new Date());

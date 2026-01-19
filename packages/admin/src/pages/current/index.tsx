@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,7 +9,7 @@ import IconLogout from '~icons/material-symbols/logout';
 import IconSecurity from '~icons/material-symbols/security';
 import IconSettings from '~icons/material-symbols/settings';
 
-import { Pages } from '@/pages/pages';
+import { Pages } from '@admin/pages/pages';
 import { Dashboard } from './dashboard';
 import { Login, Props as LoginProps } from './login';
 import { Logout } from './logout';

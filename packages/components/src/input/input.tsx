@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, JSX, Show, untrack } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export type Value = string | number;

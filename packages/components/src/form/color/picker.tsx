@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createMemo, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { classList } from '@/base';
-import { ColorPanel, ColorPanelProps } from '@/color';
-import { Dialog, DialogRef } from '@/dialog';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
+import { classList } from '@components/base';
+import { ColorPanel, ColorPanelProps } from '@components/color';
+import { Dialog, DialogRef } from '@components/dialog';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@components/form/field';
 import styles from './style.module.css';
 
 export interface Props extends Omit<ColorPanelProps, 'value' | 'onChange'>, FieldBaseProps {

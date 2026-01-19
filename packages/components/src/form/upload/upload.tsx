@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
-import { FieldBaseProps, useForm } from '@/form/field';
+import { FieldBaseProps, useForm } from '@components/form/field';
 
 /**
  * 上传组件的外放接口

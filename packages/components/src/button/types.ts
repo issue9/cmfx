@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
 
-import { BaseProps } from '@/base';
+import { BaseProps } from '@components/base';
 
 export const kinds = ['flat' , 'border' , 'fill'] as const;
 

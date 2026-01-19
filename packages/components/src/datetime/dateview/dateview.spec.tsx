@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@components/context/context.spec';
 import { default as DateView, inRange } from './dateview';
 import styles from './style.module.css';
 

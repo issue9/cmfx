@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,13 +6,13 @@ import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitP
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
-import { DatePanel, DatePanelProps, Week } from '@/datetime';
+import { joinClass } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale } from '@components/context';
+import { DatePanel, DatePanelProps, Week } from '@components/datetime';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
-} from '@/form/field';
+} from '@components/form/field';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 

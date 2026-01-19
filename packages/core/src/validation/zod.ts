@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import * as z from 'zod';
 
-import { Params } from '@/api';
-import { Dict, DictLoader, I18n, Locale } from '@/locale';
-import { FlattenKeys, Flattenable } from '@/types';
+import { Params } from '@core/api';
+import { Dict, DictLoader, I18n, Locale } from '@core/locale';
+import { FlattenKeys, Flattenable } from '@core/types';
 import { ValidResult, Validator } from './validation';
 
 const objects = I18n.createObject<any>();

@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createSignal, For, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

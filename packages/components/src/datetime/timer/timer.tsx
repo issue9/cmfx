@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createTimer, Duration, ms, nano2IntlDuration, parseDuration } from '@cmfx/core';
 import { Accessor, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
-import { useLocale } from '@/context';
+import { BaseProps, joinClass, RefProps } from '@components/base';
+import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
 export const fields = ['seconds', 'minutes', 'hours', 'days'] as const;

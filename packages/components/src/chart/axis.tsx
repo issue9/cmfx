@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createSignal, JSX, mergeProps, onMount, splitProps } from 'solid-js';
 
-import { RefProps } from '@/base';
+import { RefProps } from '@components/base';
 import { Props as BaseProps, Chart, presetProps, ChartOption, Ref as ChartRef } from './chart';
 
 export interface Ref<T extends object> {

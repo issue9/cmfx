@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,9 +9,9 @@ import IconEdit from '~icons/material-symbols/edit';
 import IconLock from '~icons/material-symbols/lock';
 import IconLockOpenRight from '~icons/material-symbols/lock-open-right';
 
-import { handleProblem, useREST } from '@/app';
-import { localeSexes, localeStates, SexSelector, StateSelector } from '@/components';
-import { Sex, State } from '@/schemas';
+import { handleProblem, useREST } from '@admin/app';
+import { localeSexes, localeStates, SexSelector, StateSelector } from '@admin/components';
+import { Sex, State } from '@admin/schemas';
 
 interface Props {
     /**

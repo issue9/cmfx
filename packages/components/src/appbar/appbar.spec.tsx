@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@components/context/context.spec';
 import { default as Appbar, Ref } from './appbar';
 
 describe('Appbar', async () => {

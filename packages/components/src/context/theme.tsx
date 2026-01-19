@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,7 @@ import {
     children, createContext, createEffect, createMemo, For, JSX, ParentProps, splitProps, useContext
 } from 'solid-js';
 
-import { changeMode, Mode, Scheme, writeScheme } from '@/base';
+import { changeMode, Mode, Scheme, writeScheme } from '@components/base';
 import { useOptions } from './context';
 import { ContextNotFoundError } from './errors';
 

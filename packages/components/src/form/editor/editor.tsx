@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,10 +8,10 @@ import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.snow.css';
 import { createEffect, createMemo, createUniqueId, JSX, mergeProps, onMount, Show } from 'solid-js';
 
-import { joinClass, RefProps } from '@/base';
+import { joinClass, RefProps } from '@components/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
-} from '@/form/field';
+} from '@components/form/field';
 import styles from './style.module.css';
 
 export interface Ref {

@@ -4,7 +4,7 @@
 
 import { JSX, ParentProps } from 'solid-js';
 
-import { BaseProps, classList, RefProps } from '@/base';
+import { BaseProps, classList, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

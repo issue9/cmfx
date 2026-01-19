@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { ContextNotFoundError } from '@cmfx/components';
 import { createContext, JSX, ParentProps, splitProps, useContext } from 'solid-js';
 
-import { build } from '@/app/options';
+import { build } from '@admin/app/options';
 
 type OptionsContext = ReturnType<typeof build>;
 

@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, mergeProps, ParentProps } from 'solid-js';
 import IconNoData from '~icons/oui/index-close';
 
-import { BaseProps } from '@/base';
+import { BaseProps } from '@components/base';
 import Result from './result';
 
 export interface Props extends BaseProps, ParentProps {

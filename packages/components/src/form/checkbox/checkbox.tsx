@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createMemo, JSX, mergeProps } from 'solid-js';
 
-import { joinClass, RefProps } from '@/base';
-import { FieldBaseProps } from '@/form/field';
+import { joinClass, RefProps } from '@components/base';
+import { FieldBaseProps } from '@components/form/field';
 import styles from './style.module.css';
 
 export interface Ref {

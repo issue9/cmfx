@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,7 @@ import { Choice, ChoiceProps, useLocale } from '@cmfx/components';
 import { I18n, Locale } from '@cmfx/core';
 import { JSX, createMemo } from 'solid-js';
 
-import { State } from '@/schemas';
+import { State } from '@admin/schemas';
 
 const localeObjects = I18n.createObject<Array<{type: 'item', value: State, label: string}>>();
 

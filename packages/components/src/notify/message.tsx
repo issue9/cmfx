@@ -10,7 +10,7 @@ import IconClose from '~icons/material-symbols/close';
 import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
 
-import { BaseProps, joinClass, Palette } from '@/base';
+import { BaseProps, joinClass, Palette } from '@components/base';
 import styles from './style.module.css';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;

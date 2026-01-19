@@ -6,7 +6,7 @@ import { A } from '@solidjs/router';
 import { JSX, ParentProps, Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

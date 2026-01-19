@@ -4,9 +4,9 @@
 
 import { describe, test } from 'vitest';
 
-import { ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@components/context/context.spec';
+import { MenuItemItem } from '@components/menu';
 import Search from './search';
-import { MenuItemItem } from '@/menu';
 
 describe('Search', async () => {
     const search =

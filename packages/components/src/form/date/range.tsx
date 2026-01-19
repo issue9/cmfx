@@ -1,18 +1,18 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 import equal from 'fast-deep-equal';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
-import { DateRangePanel, DateRangeValueType, Week } from '@/datetime';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@/form/field';
+import { joinClass } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale } from '@components/context';
+import { DateRangePanel, DateRangeValueType, Week } from '@components/datetime';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@components/form/field';
 import { DateType, Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';

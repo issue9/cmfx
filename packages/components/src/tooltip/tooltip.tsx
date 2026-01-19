@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
-import { useOptions } from '@/context';
+import { BaseProps, joinClass } from '@components/base';
+import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref {

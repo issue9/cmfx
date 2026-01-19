@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
-import { useOptions, useLocale } from '@/context';
-import { Choice, ChoiceOption, fieldAccessor } from '@/form';
+import { BaseProps, joinClass } from '@components/base';
+import { useLocale, useOptions } from '@components/context';
+import { Choice, ChoiceOption, fieldAccessor } from '@components/form';
 import { Pagination } from './pagination';
 import styles from './style.module.css';
 

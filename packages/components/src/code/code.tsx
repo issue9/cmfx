@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,7 @@ import { BundledLanguage } from 'shiki/bundle/full';
 import { createEffect, createSignal, JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import { highlight } from './shiki';
 
 export interface Ref {

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,8 @@ import { HashRouter, RouteDefinition, Router, RouteSectionProps } from '@solidjs
 import { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { default as SystemDialog } from '@/dialog/system';
-import { Notify } from '@/notify/notify';
+import { default as SystemDialog } from '@components/dialog/system';
+import { Notify } from '@components/notify/notify';
 import { Clipboard } from './clipboard';
 import { OptionsProvider } from './context';
 import { Options, requiredOptions } from './options';

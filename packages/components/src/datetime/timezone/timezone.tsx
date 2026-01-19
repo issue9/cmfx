@@ -1,15 +1,15 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { DisplayStyle } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show, untrack } from 'solid-js';
 
-import { BaseProps } from '@/base';
-import { Button, ButtonRef } from '@/button';
-import { useLocale } from '@/context';
-import { ChangeFunc } from '@/form/field';
-import { Tab, TabItem } from '@/tab';
+import { BaseProps } from '@components/base';
+import { Button, ButtonRef } from '@components/button';
+import { useLocale } from '@components/context';
+import { ChangeFunc } from '@components/form/field';
+import { Tab, TabItem } from '@components/tab';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

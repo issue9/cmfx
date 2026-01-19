@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, JSX, Match, onMount, ParentProps, Switch } from 'solid-js';
 
-import { BackTop, BackTopProps, BackTopRef } from '@/backtop';
-import { BaseProps, joinClass, RefProps } from '@/base';
-import { useLocale, useOptions } from '@/context';
+import { BackTop, BackTopProps, BackTopRef } from '@components/backtop';
+import { BaseProps, joinClass, RefProps } from '@components/base';
+import { useLocale, useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref {

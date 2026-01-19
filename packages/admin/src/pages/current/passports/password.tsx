@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -11,8 +11,8 @@ import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
 import IconPerson from '~icons/material-symbols/person';
 
-import { handleProblem, useAdmin, useOptions, useREST } from '@/app';
-import { usernameSchema } from '@/schemas';
+import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
+import { usernameSchema } from '@admin/schemas';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 

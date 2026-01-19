@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
@@ -28,12 +27,6 @@ export default defineConfig({
             ]
         })
     ],
-
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
-    },
 
     build: {
         minify: true,

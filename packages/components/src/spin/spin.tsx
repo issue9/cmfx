@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, ParentProps, Show, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

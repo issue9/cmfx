@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createMemo, createSignal, For, JSX, onMount, untrack } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
-import { hoursOptions, minutesOptions } from '@/datetime/utils';
+import { BaseProps, joinClass, RefProps } from '@components/base';
+import { hoursOptions, minutesOptions } from '@components/datetime/utils';
 import styles from './style.module.css';
 
 export interface Ref {

@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { getISOWeek } from '@cmfx/core';
 
-import { BaseProps } from '@/base';
-import { DatetimePlugin } from '@/datetime/plugin';
-import { Week } from '@/datetime/utils';
+import { BaseProps } from '@components/base';
+import { DatetimePlugin } from '@components/datetime/plugin';
+import { Week } from '@components/datetime/utils';
 
 /**
  * 用于表示周数，第一个元素为年份，第二个元素为在该年份中的周数。

@@ -6,8 +6,8 @@ import {
     BundledLanguage, CodeToHastOptions, codeToHtml, createHighlighter, HighlighterGeneric, ThemeRegistrationRaw
 } from 'shiki/bundle/full';
 
-import { BaseProps, joinClass, style2String } from '@/base';
-import { copy2Clipboard } from '@/context';
+import { BaseProps, joinClass, style2String } from '@components/base';
+import { copy2Clipboard } from '@components/context';
 import styles from './style.module.css';
 
 window.copyShikiCode2Clipboard = copy2Clipboard;

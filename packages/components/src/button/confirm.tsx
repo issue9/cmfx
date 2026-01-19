@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,8 @@ import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { handleEvent, joinClass } from '@/base';
-import { useLocale } from '@/context';
+import { handleEvent, joinClass } from '@components/base';
+import { useLocale } from '@components/context';
 import { AProps, Props as BaseProps, BProps, Button, Ref as ButtonRef, presetProps } from './button';
 import styles from './style.module.css';
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,7 @@ import { Button, Checkbox, Page, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
-import { handleProblem, useREST } from '@/app';
+import { handleProblem, useREST } from '@admin/app';
 import styles from './style.module.css';
 
 interface Resource {

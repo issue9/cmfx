@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { getISOWeek, getISOWeekRange } from '@cmfx/core';
 import { createMemo, createSignal, For, JSX, mergeProps, Show, untrack } from 'solid-js';
 
-import { classList, joinClass } from '@/base';
-import { useLocale } from '@/context';
-import { compareDate, equalDate, sunday, weekDay, weekDays, weeks } from '@/datetime/utils';
+import { classList, joinClass } from '@components/base';
+import { useLocale } from '@components/context';
+import { compareDate, equalDate, sunday, weekDay, weekDays, weeks } from '@components/datetime/utils';
 import { buildHeader } from './header';
 import styles from './style.module.css';
 import { Props, Ref } from './types';

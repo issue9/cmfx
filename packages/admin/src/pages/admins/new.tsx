@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,10 +8,10 @@ import { JSX } from 'solid-js';
 import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
-import { handleProblem, useREST } from '@/app';
-import { SexSelector } from '@/components';
-import { roles } from '@/pages/roles';
-import { Sex, sexSchema } from '@/schemas';
+import { handleProblem, useREST } from '@admin/app';
+import { SexSelector } from '@admin/components';
+import { roles } from '@admin/pages/roles';
+import { Sex, sexSchema } from '@admin/schemas';
 
 interface Props {
     /**

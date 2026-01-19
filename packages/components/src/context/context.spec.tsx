@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,8 +9,8 @@ import { JSX, ParentProps } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { afterAll, expect, test } from 'vitest';
 
-import { BaseProps } from '@/base';
-import { schemes } from '@/theme';
+import { BaseProps } from '@components/base';
+import { schemes } from '@components/theme';
 import { buildSetter, OptionsProvider } from './context';
 import { Options, requiredOptions } from './options';
 
@@ -25,7 +25,7 @@ const options: Options = {
     mode: 'dark',
     locale: 'zh-Hans',
     displayStyle: 'full',
-    messages: { 'zh-Hans': [async () => (await import('@/messages/zh-Hans.lang')).default] },
+    messages: { 'zh-Hans': [async () => (await import('@components/messages/zh-Hans.lang')).default] },
     title: 'title',
     titleSeparator: '-',
     pageSize: 20,

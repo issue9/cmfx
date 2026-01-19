@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import IntlMessageFormat from 'intl-messageformat';
 
-import { flatten } from '@/types';
+import { flatten } from '@core/types';
 import { Dict, DictKeys, Loader } from './dict';
 import { DisplayStyle, Locale, TranslateArgs } from './locale';
 import { match } from './match';

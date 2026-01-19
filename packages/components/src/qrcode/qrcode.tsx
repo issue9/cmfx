@@ -7,7 +7,7 @@ import QRCodeStyling, {
 } from 'qr-code-styling';
 import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 // NOTE: 必须要将 CornerDotType 等作类型别名再由 index.ts 导出，否则在 vite-plugin-api 中无法导出

@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 // 采用 oklch 作为颜色值
 
-import { Scheme } from '@/base';
+import { Scheme } from '@components/base';
 
 export default {
     error: 'oklch(30.66% 0.242 51.977)',

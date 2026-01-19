@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,7 +8,7 @@ import { render } from 'solid-js/web';
 import IconOK from '~icons/material-symbols/check';
 import IconError from '~icons/material-symbols/error';
 
-import { useOptions, useTheme } from '@/context';
+import { useOptions, useTheme } from '@components/context';
 import styles from './style.module.css';
 
 let copy2ClipboardInst: typeof copy2Clipboard;

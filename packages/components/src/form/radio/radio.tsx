@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createMemo, JSX, mergeProps } from 'solid-js';
 
-import { AvailableEnumType, joinClass } from '@/base';
-import { FieldBaseProps } from '@/form/field';
+import { AvailableEnumType, joinClass } from '@components/base';
+import { FieldBaseProps } from '@components/form/field';
 import styles from './style.module.css';
 
 export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {

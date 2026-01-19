@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createMemo, JSX, mergeProps, ParentProps } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass } from '@components/base';
 import styles from './style.module.css';
 
 /**

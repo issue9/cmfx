@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,7 +7,7 @@ import { Duration, formatDuration, Method, parseDuration, Query } from '@cmfx/co
 import { JSX } from 'solid-js';
 import IconRoutes from '~icons/material-symbols/route';
 
-import { useREST } from '@/app';
+import { useREST } from '@admin/app';
 
 type Route = {
     method: string;

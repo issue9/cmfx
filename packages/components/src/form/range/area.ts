@@ -1,9 +1,9 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Layout } from '@/base';
-import type { FieldArea, FieldAreas } from '@/form/field';
+import { Layout } from '@components/base';
+import type { FieldArea, FieldAreas } from '@components/form/field';
 
 type RangeAreas = FieldAreas & {
     valueArea?: FieldArea;

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,9 +8,9 @@ import IconNext from '~icons/material-symbols/chevron-right';
 import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
-import { BaseProps, joinClass } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
+import { BaseProps, joinClass } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

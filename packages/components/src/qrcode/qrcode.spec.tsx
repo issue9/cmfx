@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,7 @@ import { expect, test, describe } from 'vitest';
 
 import { QRCode, Ref } from './qrcode';
 import styles from './style.module.css';
-import { ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@components/context/context.spec';
 
 describe('QRCode', async () => {
     let ref: Ref;

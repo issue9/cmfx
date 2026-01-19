@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps, isReducedMotion, joinClass, RefProps } from '@/base';
-import { useLocale, useTheme } from '@/context';
+import { BaseProps, isReducedMotion, joinClass, RefProps } from '@components/base';
+import { useLocale, useTheme } from '@components/context';
 import { matchLocale } from './locale';
 
 export type ChartOption = echarts.EChartsOption;

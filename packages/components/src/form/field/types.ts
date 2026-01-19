@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX } from 'solid-js';
 
-import { AvailableEnumType, BaseProps, Layout } from '@/base';
+import { AvailableEnumType, BaseProps, Layout } from '@components/base';
 
 /**
  * 组件 Field 的属性

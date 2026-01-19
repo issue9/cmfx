@@ -6,9 +6,9 @@ import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, splitP
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import { BaseProps, classList, joinClass, RefProps } from '@/base';
-import { ToggleButton, ToggleButtonProps } from '@/button';
-import { Transition } from '@/transition';
+import { BaseProps, classList, joinClass, RefProps } from '@components/base';
+import { ToggleButton, ToggleButtonProps } from '@components/button';
+import { Transition } from '@components/transition';
 import styles from './style.module.css';
 
 export interface Ref {

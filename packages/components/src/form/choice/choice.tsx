@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,11 +6,11 @@ import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch }
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { AvailableEnumType, cloneElement, joinClass } from '@/base';
+import { AvailableEnumType, cloneElement, joinClass } from '@components/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
-} from '@/form/field';
-import { Dropdown, DropdownRef, MenuItem, MenuItemItem } from '@/menu';
+} from '@components/form/field';
+import { Dropdown, DropdownRef, MenuItem, MenuItemItem } from '@components/menu';
 import styles from './style.module.css';
 
 /**

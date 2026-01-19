@@ -10,7 +10,7 @@
             "unplugin-icons/types/solid"
         ],
         "paths": {
-            "@/*": [
+            "@components/*": [
                 "src/*"
             ]
         },

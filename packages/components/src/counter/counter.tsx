@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
 import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
-import { useTheme } from '@/context';
+import { BaseProps, joinClass, RefProps } from '@components/base';
+import { useTheme } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref {

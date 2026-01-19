@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from 'vitest';
 
-import { nano2IntlDuration } from '@/time';
+import { nano2IntlDuration } from '@core/time';
 import { I18n } from './i18n';
 
 describe('i18n', async () => {

@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@components/context/context.spec';
 import { buildLocaleRegion, buildRegion, default as Timezone } from './timezone';
 
 describe('region', () => {

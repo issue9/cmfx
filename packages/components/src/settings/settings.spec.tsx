@@ -4,8 +4,8 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@/context/context.spec';
-import { Settings, Ref } from './settings';
+import { ComponentTester } from '@components/context/context.spec';
+import { Ref, Settings } from './settings';
 
 describe('Settings', async () => {
     let ref: Ref;

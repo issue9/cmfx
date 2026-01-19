@@ -17,8 +17,8 @@ const api = {
 
 const locales = {
     messages: {
-        'en': [async () => { return (await import('@/messages/en.lang')).default; }],
-        'zh-Hans': [async () => { return (await import('@/messages/zh-Hans.lang')).default; }],
+        'en': [async () => { return (await import('@admin/messages/en.lang')).default; }],
+        'zh-Hans': [async () => { return (await import('@admin/messages/zh-Hans.lang')).default; }],
     },
     fallback: 'en'
 };

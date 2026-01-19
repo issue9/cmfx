@@ -70,6 +70,7 @@
         "vite-plugin-dts": "catalog:",
         "vite-plugin-solid": "catalog:",
         "vite-plugin-static-copy": "catalog:",
+        "vite-tsconfig-paths": "catalog:",
         "vitest": "catalog:"
     }
 }

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,7 @@ import { Flattenable, FlattenKeys, Params, Validator } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, produce, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
-import { Accessor, ChangeFunc } from '@/form/field';
+import { Accessor, ChangeFunc } from '@components/form/field';
 
 // ObjectAccessor 中保存错误的类型
 type Err<T extends Flattenable> = Record<FlattenKeys<T>, string | undefined>;

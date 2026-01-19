@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { For, JSX, Show } from 'solid-js';
 
-import { joinClass, RefProps } from '@/base';
-import { useLocale } from '@/context';
-import { Empty } from '@/result';
-import { Spin, SpinRef } from '@/spin';
+import { joinClass, RefProps } from '@components/base';
+import { useLocale } from '@components/context';
+import { Empty } from '@components/result';
+import { Spin, SpinRef } from '@components/spin';
 import { Column } from './column';
 import styles from './style.module.css';
 import { Table, Props as TableProps, Ref as TableRef } from './table';

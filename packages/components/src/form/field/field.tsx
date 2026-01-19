@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, ParentProps } from 'solid-js';
 
-import { joinClass, Layout, RefProps } from '@/base';
+import { joinClass, Layout, RefProps } from '@components/base';
 import { Accessor } from './access';
-import type { Props } from './types';
 import styles from './style.module.css';
+import type { Props } from './types';
 
 /**
  * 子组件所处的位置

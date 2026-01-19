@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition, Hotkey, pointInElement, PopoverAlign } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
-import { AvailableEnumType, joinClass, RefProps } from '@/base';
-import { Menu, MenuProps, MenuRef } from '@/menu';
+import { AvailableEnumType, joinClass, RefProps } from '@components/base';
+import { Menu, MenuProps, MenuRef } from '@components/menu';
 import styles from './style.module.css';
 
 export interface Ref {

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,7 +7,7 @@ import { Query as Q } from '@cmfx/core';
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
-import { useREST } from '@/app';
+import { useREST } from '@admin/app';
 
 type SecurityLog = {
     content: string;

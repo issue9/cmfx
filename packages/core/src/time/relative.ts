@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { round } from '@/math';
+import { round } from '@core/math';
 import { day, Duration, hour, minute, parseDuration, second } from './duration';
 
 const nameValues: Array<[Intl.RelativeTimeFormatUnit, number]> = [

@@ -7,10 +7,10 @@ import { createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from
 import IconClear from '~icons/material-symbols/close';
 import IconSearch from '~icons/material-symbols/search';
 
-import { BaseProps, joinClass } from '@/base';
-import { useLocale } from '@/context';
-import { Input, InputMode, InputRef } from '@/input';
-import { Dropdown, DropdownProps, DropdownRef, MenuItemItem } from '@/menu';
+import { BaseProps, joinClass } from '@components/base';
+import { useLocale } from '@components/context';
+import { Input, InputMode, InputRef } from '@components/input';
+import { Dropdown, DropdownProps, DropdownRef, MenuItemItem } from '@components/menu';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

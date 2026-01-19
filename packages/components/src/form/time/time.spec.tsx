@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { describe, test } from 'vitest';
 
-import { ComponentTester } from '@/context/context.spec';
-import { fieldAccessor } from '@/form/field';
+import { ComponentTester } from '@components/context/context.spec';
+import { fieldAccessor } from '@components/form/field';
 import { default as Time } from './time';
 
 describe('Time', async () => {

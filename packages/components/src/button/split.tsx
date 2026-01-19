@@ -5,8 +5,8 @@
 import { JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
-import { AvailableEnumType, Layout, RefProps } from '@/base';
-import { Dropdown, DropdownProps, DropdownRef } from '@/menu/dropdown';
+import { AvailableEnumType, Layout, RefProps } from '@components/base';
+import { Dropdown, DropdownProps, DropdownRef } from '@components/menu/dropdown';
 import { Button, Ref as ButtonRef } from './button';
 import { ButtonGroup, Ref as ButtonGroupRef } from './group';
 import styles from './style.module.css';

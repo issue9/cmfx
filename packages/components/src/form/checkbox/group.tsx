@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { For, JSX, Show, createMemo, mergeProps, splitProps } from 'solid-js';
 
-import { AvailableEnumType, Layout, joinClass } from '@/base';
+import { AvailableEnumType, Layout, joinClass } from '@components/base';
 import {
     Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useForm
-} from '@/form/field';
+} from '@components/form/field';
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
 

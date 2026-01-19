@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,8 @@ import { getScrollableParent } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, ParentProps } from 'solid-js';
 import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
-import { Button, ButtonRef } from '@/button';
+import { BaseProps, joinClass, RefProps } from '@components/base';
+import { Button, ButtonRef } from '@components/button';
 import styles from './style.module.css';
 
 export interface Ref {

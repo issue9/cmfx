@@ -6,7 +6,7 @@ import { DisplayStyle, Hotkey, I18n } from '@cmfx/core';
 import { createContext, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
-import { Mode, Scheme } from '@/base';
+import { Mode, Scheme } from '@components/base';
 import { ContextNotFoundError } from './errors';
 import { LocaleProvider } from './locale';
 import { ReqOptions } from './options';

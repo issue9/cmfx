@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps, ParentProps } from 'solid-js';
 
-import { classList, Layout, RefProps } from '@/base';
+import { classList, Layout, RefProps } from '@components/base';
 import styles from './style.module.css';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 

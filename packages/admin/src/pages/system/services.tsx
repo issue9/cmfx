@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,8 +8,8 @@ import { createMemo, JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
 import IconTask from '~icons/material-symbols/task';
 
-import { handleProblem, useREST } from '@/app';
-import { MessagesKey } from '@/messages';
+import { handleProblem, useREST } from '@admin/app';
+import { MessagesKey } from '@admin/messages';
 import styles from './style.module.css';
 
 interface Service {

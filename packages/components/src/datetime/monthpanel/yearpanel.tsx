@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,8 +7,8 @@ import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
-import { BaseProps, joinClass, RefProps } from '@/base';
-import { Button, ButtonGroup } from '@/button';
+import { BaseProps, joinClass, RefProps } from '@components/base';
+import { Button, ButtonGroup } from '@components/button';
 import styles from './style.module.css';
 
 export interface Ref {

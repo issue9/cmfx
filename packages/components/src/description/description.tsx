@@ -4,8 +4,8 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
-import { Label } from '@/label';
+import { BaseProps, joinClass } from '@components/base';
+import { Label } from '@components/label';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps, ParentProps {

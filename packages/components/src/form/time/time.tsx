@@ -7,12 +7,12 @@ import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, untrac
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass } from '@/base';
-import { useLocale } from '@/context';
-import { TimePanel, TimePanelProps, TimePanelRef } from '@/datetime/timepanel';
+import { joinClass } from '@components/base';
+import { useLocale } from '@components/context';
+import { TimePanel, TimePanelProps, TimePanelRef } from '@components/datetime/timepanel';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
-} from '@/form/field';
+} from '@components/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps, Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {

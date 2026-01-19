@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,8 @@ import { JSX, createSignal, mergeProps, onMount } from 'solid-js';
 import IconVisibility from '~icons/material-symbols/visibility';
 import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
-import { ToggleButton } from '@/button';
-import { useForm } from '@/form/field';
+import { ToggleButton } from '@components/button';
+import { useForm } from '@components/form/field';
 import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfield';
 
 export interface Props extends Omit<BaseProps<string>, 'suffix' | 'type' | 'ref' | 'autocomplete'> {

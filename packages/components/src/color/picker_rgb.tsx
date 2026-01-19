@@ -1,14 +1,14 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, JSX, Signal } from 'solid-js';
 import Color from 'colorjs.io';
 
-import { ObjectAccessor, Range, RangeRef } from '@/form';
+import { ObjectAccessor, Range, RangeRef } from '@components/form';
 import { PickerPanel } from './picker';
 import styles from './style.module.css';
-import { useLocale } from '@/context';
+import { useLocale } from '@components/context';
 
 type RGB = {
     r: number;

@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, createSignal, mergeProps } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
-import { DateView, DateViewRef } from '@/datetime/dateview';
-import { DatetimePlugin } from '@/datetime/plugin';
-import { Week } from '@/datetime/utils';
+import { BaseProps, joinClass } from '@components/base';
+import { DateView, DateViewRef } from '@components/datetime/dateview';
+import { DatetimePlugin } from '@components/datetime/plugin';
+import { Week } from '@components/datetime/utils';
 import styles from './style.module.css';
 
 /**

@@ -11,7 +11,7 @@ import IconLayout from '~icons/material-symbols/responsive-layout-rounded';
 import IconHorizontal from '~icons/ph/square-split-horizontal-fill';
 import IconVertical from '~icons/ph/square-split-vertical-fill';
 
-import { useLayout } from '@/app';
+import { useLayout } from '@admin/app';
 import styles from './style.module.css';
 
 /**

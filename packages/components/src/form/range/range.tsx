@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,8 @@ import {
     createEffect, createMemo, createSignal, createUniqueId, For, JSX, mergeProps, onCleanup, onMount, Show
 } from 'solid-js';
 
-import { RefProps } from '@/base';
-import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
+import { RefProps } from '@components/base';
+import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@components/form/field';
 import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 

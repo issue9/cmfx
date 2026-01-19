@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createMemo, createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
 
-import { BaseProps, joinClass, Layout, RefProps } from '@/base';
-import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
+import { BaseProps, joinClass, Layout, RefProps } from '@components/base';
+import { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
 import styles from './style.module.css';
 
 export interface Ref extends WizardRef {

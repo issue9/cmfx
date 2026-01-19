@@ -5,9 +5,9 @@
 import { createSignal, JSX, ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps, MountProps } from '@/base';
-import { useOptions } from '@/context';
-import { fieldAccessor, TextField } from '@/form';
+import { BaseProps, MountProps } from '@components/base';
+import { useOptions } from '@components/context';
+import { fieldAccessor, TextField } from '@components/form';
 import { Dialog, Ref } from './dialog';
 
 export type Props = BaseProps & ParentProps & MountProps;

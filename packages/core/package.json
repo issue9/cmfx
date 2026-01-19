@@ -53,6 +53,7 @@
         "vite": "catalog:",
         "vite-plugin-dts": "catalog:",
         "vite-plugin-static-copy": "catalog:",
+        "vite-tsconfig-paths": "catalog:",
         "vitest-fetch-mock": "catalog:",
         "vitest": "catalog:"
     }

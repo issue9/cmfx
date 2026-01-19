@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Params } from '@/api';
-import { Locale } from '@/locale';
-import { FlattenKeys, Flattenable } from '@/types';
+import { Params } from '@core/api';
+import { Locale } from '@core/locale';
+import { FlattenKeys, Flattenable } from '@core/types';
 
 /**
  * 验证数据的返回结果

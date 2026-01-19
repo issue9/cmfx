@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,9 +6,9 @@ import { Page, Problem, Query, query2Search, REST } from '@cmfx/core';
 import { JSX, onMount, splitProps } from 'solid-js';
 import IconDelete from '~icons/material-symbols/delete';
 
-import { RefProps } from '@/base';
-import { ConfirmButton } from '@/button';
-import { useLocale } from '@/context';
+import { RefProps } from '@components/base';
+import { ConfirmButton } from '@components/button';
+import { useLocale } from '@components/context';
 import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
 
 /**

@@ -7,8 +7,8 @@ import { Return, Token } from '@cmfx/core';
 import { createContext, createResource, ParentProps, ResourceReturn, useContext } from 'solid-js';
 import { z } from 'zod';
 
-import { presetConfigName } from '@/app/options';
-import { sexSchema, stateSchema } from '@/schemas';
+import { presetConfigName } from '@admin/app/options';
+import { sexSchema, stateSchema } from '@admin/schemas';
 import { useOptions as useAdminOptions } from './options';
 import { useAPI, useREST } from './rest';
 

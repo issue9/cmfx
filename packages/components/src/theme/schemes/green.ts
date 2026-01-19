@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 // 采用 tailwind 变量名作为颜色值
 
-import { Scheme } from '@/base';
+import { Scheme } from '@components/base';
 
 export default {
     primary: 'var(--color-blue-900)',

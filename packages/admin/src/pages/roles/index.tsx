@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import IconGroups from '~icons/material-symbols/groups';
 
-import { Pages } from '@/pages/pages';
+import { Pages } from '@admin/pages/pages';
 import { Permission } from './permission';
 import { Roles } from './roles';
 import { Selector } from './selector';

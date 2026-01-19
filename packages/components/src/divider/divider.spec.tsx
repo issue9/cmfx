@@ -1,12 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@/context/context.spec';
-import { joinClass } from '@/base';
+import { ComponentTester } from '@components/context/context.spec';
+import { joinClass } from '@components/base';
 import { Divider, Props } from './divider';
 import styles from './style.module.css';
 

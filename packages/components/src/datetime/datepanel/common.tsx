@@ -1,14 +1,14 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
-import { DateView, DateViewProps, DateViewRef } from '@/datetime/dateview';
-import { DatetimePlugin } from '@/datetime/plugin';
-import { TimePanel, TimePanelRef } from '@/datetime/timepanel';
-import { Week } from '@/datetime/utils';
+import { BaseProps, joinClass } from '@components/base';
+import { DateView, DateViewProps, DateViewRef } from '@components/datetime/dateview';
+import { DatetimePlugin } from '@components/datetime/plugin';
+import { TimePanel, TimePanelRef } from '@components/datetime/timepanel';
+import { Week } from '@components/datetime/utils';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

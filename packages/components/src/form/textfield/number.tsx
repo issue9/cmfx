@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,9 +6,9 @@ import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
-import { PropsError } from '@/base';
-import { Button } from '@/button';
-import { useForm } from '@/form/field';
+import { PropsError } from '@components/base';
+import { Button } from '@components/button';
+import { useForm } from '@components/form/field';
 import styles from './style.module.css';
 import { Ref, TextField, Props as TextFieldProps } from './textfield';
 

@@ -6,8 +6,8 @@ import { sleep } from '@cmfx/core';
 import { JSX, mergeProps, ParentProps } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
-import { BaseProps, joinClass, MountProps, Palette } from '@/base';
-import { useLocale, useOptions } from '@/context';
+import { BaseProps, joinClass, MountProps, Palette } from '@components/base';
+import { useLocale, useOptions } from '@components/context';
 import { Message, Props as MessageProps, Type } from './message';
 import styles from './style.module.css';
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,11 +12,11 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { AvailableEnumType, BaseProps, classList, joinClass, Layout, RefProps } from '@/base';
-import { useTheme } from '@/context';
-import { Divider } from '@/divider';
-import { ChangeFunc } from '@/form/field';
-import { IconSet, IconSetRef } from '@/icon';
+import { AvailableEnumType, BaseProps, classList, joinClass, Layout, RefProps } from '@components/base';
+import { useTheme } from '@components/context';
+import { Divider } from '@components/divider';
+import { ChangeFunc } from '@components/form/field';
+import { IconSet, IconSetRef } from '@components/icon';
 import { buildRenderItemType, MenuItem, RenderMenuItem } from './item';
 import styles from './style.module.css';
 

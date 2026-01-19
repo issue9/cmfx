@@ -6,7 +6,7 @@ import { Hotkey } from '@cmfx/core';
 import { A, AnchorProps } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
-import { classList, PropsError, RefProps } from '@/base';
+import { classList, PropsError, RefProps } from '@components/base';
 import styles from './style.module.css';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 

@@ -11,7 +11,7 @@ import {
     For, JSX, Match, onCleanup, onMount, ParentProps, Signal, Switch, useContext
 } from 'solid-js';
 
-import { buildItems } from '@/app/options';
+import { buildItems } from '@admin/app/options';
 import { useAdmin } from './admin';
 import { ErrorHandler } from './errors';
 import { useOptions } from './options';

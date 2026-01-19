@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,8 +7,8 @@ import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
-import { joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@/form/field';
+import { joinClass } from '@components/base';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@components/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import styles from './style.module.css';
 import { Props as BaseProps, Ref, Upload } from './upload';

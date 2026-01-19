@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,8 @@ import { joinClass, Page, useLocale } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { Component, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { handleProblem, useOptions, useREST } from '@/app';
-import { localeSexes, localeStates, Passport } from '@/components';
+import { handleProblem, useOptions, useREST } from '@admin/app';
+import { localeSexes, localeStates, Passport } from '@admin/components';
 import styles from './style.module.css';
 import { Member } from './types';
 

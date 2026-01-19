@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, createEffect, createSignal, splitProps, untrack } from 'solid-js';
 
-import { DateViewRef, WeekValueType } from '@/datetime/dateview';
-import { ChangeFunc } from '@/form/field';
+import { DateViewRef, WeekValueType } from '@components/datetime/dateview';
+import { ChangeFunc } from '@components/form/field';
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
 import { CommonPanel, Props as CommonProps } from './common';
 

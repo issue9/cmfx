@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,7 +8,7 @@ import IconHelp from '~icons/material-symbols/help';
 import IconInfo from '~icons/material-symbols/page-info';
 import IconRoutes from '~icons/material-symbols/route';
 
-import { Pages } from '@/pages/pages';
+import { Pages } from '@admin/pages/pages';
 import { About } from './about';
 import { Info } from './info';
 import { Routes } from './routes';

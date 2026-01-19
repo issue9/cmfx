@@ -1,17 +1,18 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 import pkg from './package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
+        tsconfigPaths(),
         dts({
             entryRoot: './src',
             insertTypesEntry: true,
@@ -31,12 +32,6 @@ export default defineConfig({
     ],
 
     define: { 'process.env': {} },
-
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
-    },
 
     build: {
         minify: true,

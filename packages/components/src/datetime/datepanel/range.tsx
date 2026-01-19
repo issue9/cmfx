@@ -7,10 +7,10 @@ import {
     createEffect, createMemo, createSignal, JSX, Match, onCleanup, onMount, Show, splitProps, Switch, untrack
 } from 'solid-js';
 
-import { joinClass } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
-import { DateViewRef } from '@/datetime/dateview';
+import { joinClass } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale } from '@components/context';
+import { DateViewRef } from '@components/datetime/dateview';
 import { CommonPanel, Props as CommonProps } from './common';
 import {
     DateRangeValueType, nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, thisQuarter, thisYear

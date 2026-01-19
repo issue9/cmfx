@@ -3,17 +3,17 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Avatar, Button, createForm, Divider,fieldAccessor, file2Base64,
-    Page, Table, TextField, Upload, UploadRef,useLocale
+    Avatar, Button, createForm, Divider, fieldAccessor, file2Base64,
+    Page, Table, TextField, Upload, UploadRef, useLocale
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
 import IconCamera from '~icons/material-symbols/photo-camera';
 
-import { handleProblem, useAdmin, useOptions, useREST } from '@/app';
-import { Passport, SexSelector } from '@/components';
-import { Sex, sexSchema } from '@/schemas';
+import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
+import { Passport, SexSelector } from '@admin/components';
+import { Sex, sexSchema } from '@admin/schemas';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
