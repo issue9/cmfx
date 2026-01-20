@@ -15,6 +15,7 @@
         }
 
         .search {
+            @apply ms-5;
             @apply @max-3xl/root:hidden;
         }
     }

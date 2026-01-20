@@ -11,6 +11,7 @@ import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
 import { markdown } from '@docs/utils';
+import { floatingWidth } from '@docs/utils/options';
 import styles from './style.module.css';
 
 import introChangeLog from '../../../../CHANGELOG.md?raw';
@@ -228,7 +229,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
             });
             onCleanup(() => setDrawer(undefined));
 
-            return <Drawer visible floating='xs' ref={el => ref = el}
+            return <Drawer visible floating={floatingWidth} ref={el => ref = el}
                 palette='secondary' mainClass={joinClass('surface')} main={props.children}
             >
                 <Menu ref={el => menuRef = el} class="min-w-60" layout='inline' items={buildMenus(l, prefix)} />

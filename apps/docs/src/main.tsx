@@ -144,7 +144,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
                 <Button type='a' kind='flat' square href={pkg.repository.url}><IconGithub /></Button>
             </>
         }>
-            <Menu class='ms-5 me-5' layout='horizontal' items={[
+            <Menu layout='horizontal' items={[
                 { type: 'a', label: l.t('_d.main.home'), value: '/' },
                 { type: 'a', label: l.t('_d.contribute.contribute'), value: contributeRoute },
                 { type: 'a', label: l.t('_d.main.docs'), value: docsRoute },

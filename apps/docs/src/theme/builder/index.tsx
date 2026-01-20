@@ -7,6 +7,7 @@ import { RouteDefinition } from '@solidjs/router';
 import { createEffect, onCleanup, onMount, Setter } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 
+import { floatingWidth } from '@docs/utils/options';
 import { Demo } from './demo';
 import { params } from './params';
 import styles from './style.module.css';
@@ -31,7 +32,7 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
 
             createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 
-            return <Drawer class={styles.builder} floating='xs' ref={el => {
+            return <Drawer class={styles.builder} floating={floatingWidth} ref={el => {
                 drawerRef = el;
                 el.main().style.overflow = 'unset';
             }} palette='secondary' mainClass={joinClass('surface')} main={<Demo s={schemeFA} />}

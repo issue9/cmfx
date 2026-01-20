@@ -6,6 +6,7 @@ import { Drawer, DrawerRef, joinClass, Menu, MenuRef, useLocale } from '@cmfx/co
 import { RouteDefinition } from '@solidjs/router';
 import { onCleanup, onMount, ParentProps, Setter } from 'solid-js';
 
+import { floatingWidth } from '@docs/utils/options';
 import { buildMenus, default as overview, routes } from './overview';
 import styles from './style.module.css';
 
@@ -29,7 +30,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
             });
             onCleanup(() => setDrawer(undefined));
 
-            return <Drawer visible floating='xs' ref={el => ref = el}
+            return <Drawer visible floating={floatingWidth} ref={el => ref = el}
                 palette='secondary' mainClass={joinClass('surface', styles.main)} main={props.children}
             >
                 <Menu ref={el => menuRef = el} class="min-w-65" layout='inline' items={buildMenus(l, prefix)} />
