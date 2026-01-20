@@ -18,12 +18,11 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.backtop', icon: <IconBacktop /> },
-        kind: 'navigation', path: 'backtop', component: () =>
-            <Stages dir='backtop' api={api as Array<Type>} stages={[
-                { component: C1, source: s1, title: '基本功能' },
-                { component: C2, source: s2, title: '自定义图标' },
-            ]}>
-            </Stages>,
+        kind: 'navigation', title: '_d.demo.backtop', icon: IconBacktop, path: 'backtop',
+        component: () => <Stages dir='backtop' api={api as Array<Type>} stages={[
+            { component: C1, source: s1, title: '基本功能' },
+            { component: C2, source: s2, title: '自定义图标' },
+        ]}>
+        </Stages>,
     };
 }

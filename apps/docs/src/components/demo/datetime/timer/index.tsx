@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.timer', icon: <IconTimer /> },
-        kind: 'data-display', path: 'datetime/timer', component: () =>
-            <Stages dir='datetime/timer' api={api as Array<Type>} stages={[
-                { component: Timer, source: timer, title: 'timer' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.timer', icon: IconTimer, path: 'datetime/timer',
+        component: () => <Stages dir='datetime/timer' api={api as Array<Type>} stages={[
+            { component: Timer, source: timer, title: 'timer' },
+        ]}>
+        </Stages>,
     };
 }

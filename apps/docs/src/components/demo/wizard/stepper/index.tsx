@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.stepper', icon: <IconStepper /> },
-        kind: 'navigation', path: 'wizard/stepper', component: () =>
-            <Stages dir='wizard/stepper' api={api as Array<Type>} stages={[
-                { component: Stepper, source: stepper, title: 'stepper' },
-            ]}>
-            </Stages>,
+        kind: 'navigation', title: '_d.demo.stepper', icon: IconStepper, path: 'wizard/stepper',
+        component: () => <Stages dir='wizard/stepper' api={api as Array<Type>} stages={[
+            { component: Stepper, source: stepper, title: 'stepper' },
+        ]}>
+        </Stages>,
     };
 }

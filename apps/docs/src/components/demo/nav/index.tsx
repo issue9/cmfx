@@ -15,10 +15,9 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.nav', icon: <IconNav /> },
-        kind: 'navigation', path: 'nav', component: () =>
-            <Stages dir='nav' api={api as Array<Type>} stages={[
-                { component: Nav, source: nav, layout: 'vertical', title: 'nav' },
-            ]} />,
+        kind: 'navigation', title: '_d.demo.nav', icon: IconNav, path: 'nav',
+        component: () => <Stages dir='nav' api={api as Array<Type>} stages={[
+            { component: Nav, source: nav, layout: 'vertical', title: 'nav' },
+        ]} />,
     };
 }

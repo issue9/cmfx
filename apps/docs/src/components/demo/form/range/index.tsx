@@ -21,13 +21,12 @@ import { default as mark } from './mark.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.range', icon: <IconRange /> },
-        kind: 'data-input', path: 'form/range', component: () =>
-            <Stages dir='form/range' api={api as Array<Type>} stages={[
-                { component: Basic, source: basic, title: 'basic' },
-                { component: Step, source: step, title: 'step' },
-                { component: Mark, source: mark, title: 'mark' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.range', icon: IconRange, path: 'form/range',
+        component: () => <Stages dir='form/range' api={api as Array<Type>} stages={[
+            { component: Basic, source: basic, title: 'basic' },
+            { component: Step, source: step, title: 'step' },
+            { component: Mark, source: mark, title: 'mark' },
+        ]}>
+        </Stages>,
     };
 }

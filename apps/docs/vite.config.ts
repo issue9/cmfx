@@ -17,7 +17,7 @@ import pkg from './package.json';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     return {
-        base: '/cmfx/', // 项目地址是 https://issue9.github.io/cmfx/
+        base: new URL(pkg.homepage).pathname,
         root: './',
         server: {
             host: true
@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
         resolve: mode === 'development' ? {
             alias: [
                 { find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
-                { find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') }, // 解决 components 中的 @ 符号
+                { find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') },
 
                 { find: '@cmfx/illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
                 { find: '@illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },

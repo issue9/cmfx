@@ -18,12 +18,11 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.qrcode', icon: <IconQRCode /> },
-        kind: 'data-display', path: 'qrcode', component: () =>
-            <Stages dir='qrcode' api={api as Array<Type>} stages={[
-                { component: Basic, source: basic, title: '基本功能' },
-                { component: Download, source: download, title: '下载' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.qrcode', icon: IconQRCode, path: 'qrcode',
+        component: () => <Stages dir='qrcode' api={api as Array<Type>} stages={[
+            { component: Basic, source: basic, title: '基本功能' },
+            { component: Download, source: download, title: '下载' },
+        ]}>
+        </Stages>,
     };
 }

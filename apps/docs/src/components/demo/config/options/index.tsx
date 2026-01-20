@@ -15,12 +15,11 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.optionsConfig', icon: <IconOptionsConfig /> },
-        kind: 'config', path: 'config/options', component: () =>
-            <Stages dir='config/options' api={api as Array<Type>} stages={[
-                { component: C1, source: s1, title: 'config' },
-            ]}>
-                经由 `run` 方法传入的一个全局性配置对象。
-            </Stages>,
+        kind: 'config', title: '_d.demo.optionsConfig', icon: IconOptionsConfig, path: 'config/options',
+        component: () => <Stages dir='config/options' api={api as Array<Type>} stages={[
+            { component: C1, source: s1, title: 'config' },
+        ]}>
+            经由 `run` 方法传入的一个全局性配置对象。
+        </Stages>,
     };
 }

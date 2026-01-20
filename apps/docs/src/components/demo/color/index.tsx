@@ -21,13 +21,12 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.color', icon: <IconColorPanel /> },
-        kind: 'data-display', path: 'color', component: () =>
-            <Stages dir='color' api={api as Array<Type>} stages={[
-                { component: Basic, source: basic, layout: 'auto', title: '基本功能' },
-                { component: WCAG, source: wcag, layout: 'auto', title: 'WCAG' },
-                { component: Disabled, source: disabled, layout: 'auto', title: 'disabled' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.color', icon: IconColorPanel, path: 'color',
+        component: () => <Stages dir='color' api={api as Array<Type>} stages={[
+            { component: Basic, source: basic, layout: 'auto', title: '基本功能' },
+            { component: WCAG, source: wcag, layout: 'auto', title: 'WCAG' },
+            { component: Disabled, source: disabled, layout: 'auto', title: 'disabled' },
+        ]}>
+        </Stages>,
     };
 }

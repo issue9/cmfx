@@ -15,11 +15,10 @@ import { default as time } from './time.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.time', icon: <IconTime /> },
-        kind: 'data-input', path: 'form-time', component: () =>
-            <Stages dir='form/time' api={api as Array<Type>} stages={[
-                { component: Time, source: time, title: 'time' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.time', icon: IconTime, path: 'form/time',
+        component: () => <Stages dir='form/time' api={api as Array<Type>} stages={[
+            { component: Time, source: time, title: 'time' },
+        ]}>
+        </Stages>,
     };
 }

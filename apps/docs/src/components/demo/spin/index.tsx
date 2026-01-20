@@ -21,13 +21,12 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.spin', icon: <IconSpin /> },
-        kind: 'feedback', path: 'spin', component: () =>
-            <Stages dir='spin' api={api as Array<Type>} stages={[
-                { component: Spin, source: spin, title: '基本功能' },
-                { component: Indicator, source: indicator, title: 'indicator' },
-                { component: Overlay, source: overlay, title: 'overlay' },
-            ]}>
-            </Stages>,
+        kind: 'feedback', title: '_d.demo.spin', icon: IconSpin, path: 'spin',
+        component: () => <Stages dir='spin' api={api as Array<Type>} stages={[
+            { component: Spin, source: spin, title: '基本功能' },
+            { component: Indicator, source: indicator, title: 'indicator' },
+            { component: Overlay, source: overlay, title: 'overlay' },
+        ]}>
+        </Stages>,
     };
 }

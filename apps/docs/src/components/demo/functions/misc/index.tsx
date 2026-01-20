@@ -12,8 +12,7 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.misc', icon: <IconMisc /> },
-        kind: 'function', path: 'functions/misc', component: () =>
-            <Stages dir='functions/misc' api={api as Array<Type>} />,
+        kind: 'function', title: '_d.demo.misc', icon: IconMisc, path: 'functions/misc',
+        component: () => <Stages dir='functions/misc' api={api as Array<Type>} />,
     };
 }

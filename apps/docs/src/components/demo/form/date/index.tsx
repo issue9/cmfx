@@ -21,13 +21,12 @@ import { default as week } from './week.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.date', icon: <IconDate /> },
-        kind: 'data-input', path: 'form/date', component: () =>
-            <Stages dir='form/date' api={api as Array<Type>} stages={[
-                { component: Date, source: date, title: 'date' },
-                { component: Range, source: range, title: 'range' },
-                { component: Week, source: week, title: 'week' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.date', icon: IconDate, path: 'form/date',
+        component: () => <Stages dir='form/date' api={api as Array<Type>} stages={[
+            { component: Date, source: date, title: 'date' },
+            { component: Range, source: range, title: 'range' },
+            { component: Week, source: week, title: 'week' },
+        ]}>
+        </Stages>,
     };
 }

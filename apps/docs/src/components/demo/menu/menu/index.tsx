@@ -21,13 +21,12 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.menu', icon: <IconMenu /> },
-        kind: 'navigation', path: 'menu/menu', component: () =>
-            <Stages dir='menu/menu' api={api as Array<Type>} stages={[
-                { component: Layout, source: layout, title: '布局' },
-                { component: Multiple, source: multiple, title: '多选' },
-                { component: Anchor, source: anchor, title: '链接' },
-            ]}>
-            </Stages>,
+        kind: 'navigation', title: '_d.demo.menu', icon: IconMenu, path: 'menu/menu',
+        component: () => <Stages dir='menu/menu' api={api as Array<Type>} stages={[
+            { component: Layout, source: layout, title: '布局' },
+            { component: Multiple, source: multiple, title: '多选' },
+            { component: Anchor, source: anchor, title: '链接' },
+        ]}>
+        </Stages>,
     };
 }

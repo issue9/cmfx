@@ -21,13 +21,12 @@ import { default as cols } from './col.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.form', icon: <IconForm /> },
-        kind: 'data-input', path: 'form/form', component: () =>
-            <Stages dir='form/form' api={api as Array<Type>} stages={[
-                { component: Form, source: form, title: 'form' },
-                { component: Label, source: label, title: 'label' },
-                { component: Cols, source: cols, title: '多列' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.form', icon: IconForm, path: 'form/form',
+        component: () => <Stages dir='form/form' api={api as Array<Type>} stages={[
+            { component: Form, source: form, title: 'form' },
+            { component: Label, source: label, title: 'label' },
+            { component: Cols, source: cols, title: '多列' },
+        ]}>
+        </Stages>,
     };
 }

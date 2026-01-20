@@ -21,13 +21,12 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.avatar', icon: <IconAvatar /> },
-        kind: 'data-display', path: 'avatar', component: () =>
-            <Stages dir='avatar' api={api as Array<Type>} stages={[
-                { component: Avatar, source: avatar, title: '基本功能' },
-                { component: Alt, source: alt, title: '无图片' },
-                { component: Hover, source: hover, title: 'hover' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.avatar', icon: IconAvatar, path: 'avatar',
+        component: () => <Stages dir='avatar' api={api as Array<Type>} stages={[
+            { component: Avatar, source: avatar, title: '基本功能' },
+            { component: Alt, source: alt, title: '无图片' },
+            { component: Hover, source: hover, title: 'hover' },
+        ]}>
+        </Stages>,
     };
 }

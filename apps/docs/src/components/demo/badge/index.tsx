@@ -24,14 +24,13 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.badge', icon: <IconBadge /> },
-        kind: 'feedback', path: 'badge', component: () =>
-            <Stages dir='badge' api={api as Array<Type>} stages={[
-                { component: Basic, source: basic, title: '基本功能' },
-                { component: Text, source: text, title: '文本' },
-                { component: Long, source: long, title: '长文本' },
-                { component: Icon, source: icon, title: '图标' },
-            ]}>
-            </Stages>,
+        kind: 'feedback', title: '_d.demo.badge', icon: IconBadge, path: 'badge',
+        component: () => <Stages dir='badge' api={api as Array<Type>} stages={[
+            { component: Basic, source: basic, title: '基本功能' },
+            { component: Text, source: text, title: '文本' },
+            { component: Long, source: long, title: '长文本' },
+            { component: Icon, source: icon, title: '图标' },
+        ]}>
+        </Stages>,
     };
 }

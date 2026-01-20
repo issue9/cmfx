@@ -27,15 +27,14 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.tab', icon: <IconTab /> },
-        kind: 'navigation', path: 'tab', component: () =>
-            <Stages dir='tab' api={api as Array<Type>} stages={[
-                { component: H, source: h, layout: 'horizontal', title: '横向' },
-                { component: V, source: v, layout: 'horizontal', title: '纵向' },
-                { component: Panel, source: panel, layout: 'horizontal', title: '带面板' },
-                { component: ScrollV, source: scrollV, layout: 'horizontal', title: '纵向滚动' },
-                { component: ScrollH, source: scrollH, layout: 'horizontal', title: '横向滚动' },
-            ]}>
-            </Stages>,
+        kind: 'navigation', title: '_d.demo.tab', icon: IconTab, path: 'tab',
+        component: () => <Stages dir='tab' api={api as Array<Type>} stages={[
+            { component: H, source: h, layout: 'horizontal', title: '横向' },
+            { component: V, source: v, layout: 'horizontal', title: '纵向' },
+            { component: Panel, source: panel, layout: 'horizontal', title: '带面板' },
+            { component: ScrollV, source: scrollV, layout: 'horizontal', title: '纵向滚动' },
+            { component: ScrollH, source: scrollH, layout: 'horizontal', title: '横向滚动' },
+        ]}>
+        </Stages>,
     };
 }

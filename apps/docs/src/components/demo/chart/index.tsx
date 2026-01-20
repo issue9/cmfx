@@ -21,13 +21,12 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.chart', icon: <IconChart /> },
-        kind: 'data-display', path: 'chart', component: () =>
-            <Stages dir='chart' api={api as Array<Type>} stages={[
-                { component: Chart, source: chart, title: 'chart' },
-                { component: Pie, source: pie, title: 'pie' },
-                { component: Axis, source: axis, title: 'axis' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.chart', icon: IconChart, path: 'chart',
+        component: () => <Stages dir='chart' api={api as Array<Type>} stages={[
+            { component: Chart, source: chart, title: 'chart' },
+            { component: Pie, source: pie, title: 'pie' },
+            { component: Axis, source: axis, title: 'axis' },
+        ]}>
+        </Stages>,
     };
 }

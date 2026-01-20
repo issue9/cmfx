@@ -21,13 +21,12 @@ import { default as password } from './password.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.textfield', icon: <IconTextfield /> },
-        kind: 'data-input', path: 'form/textfield', component: () =>
-            <Stages dir='form/textfield' api={api as Array<Type>} stages={[
-                { component: TextField, source: textField, title: 'textfield' },
-                { component: Number, source: number, title: 'number' },
-                { component: Password, source: password, title: 'password' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.textfield', icon: IconTextfield, path: 'form/textfield',
+        component: () => <Stages dir='form/textfield' api={api as Array<Type>} stages={[
+            { component: TextField, source: textField, title: 'textfield' },
+            { component: Number, source: number, title: 'number' },
+            { component: Password, source: password, title: 'password' },
+        ]}>
+        </Stages>,
     };
 }

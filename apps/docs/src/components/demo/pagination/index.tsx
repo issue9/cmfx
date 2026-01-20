@@ -18,12 +18,11 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.pagination', icon: <IconPagination /> },
-        kind: 'navigation', path: 'pagination', component: () =>
-            <Stages dir='pagination' api={api as Array<Type>} stages={[
-                { component: Pagination, source: pagination, title: 'pagination' },
-                { component: Bar, source: bar, title: 'pagination bar' },
-            ]}>
-            </Stages>,
+        kind: 'navigation', title: '_d.demo.pagination', icon: IconPagination, path: 'pagination',
+        component: () => <Stages dir='pagination' api={api as Array<Type>} stages={[
+            { component: Pagination, source: pagination, title: 'pagination' },
+            { component: Bar, source: bar, title: 'pagination bar' },
+        ]}>
+        </Stages>,
     };
 }

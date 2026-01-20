@@ -18,12 +18,11 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.appbar', icon: <IconAppbar /> },
-        kind: 'general', path: 'appbar', component: () =>
-            <Stages dir='appbar' api={api as Array<Type>} stages={[
-                { component: Appbar, source: appbar, title: '基本功能' },
-                { component: Anchor, source: anchor, title: '带链接' },
-            ]}>
-            </Stages>,
+        kind: 'general', title: '_d.demo.appbar', icon: IconAppbar, path: 'appbar',
+        component: () => <Stages dir='appbar' api={api as Array<Type>} stages={[
+            { component: Appbar, source: appbar, title: '基本功能' },
+            { component: Anchor, source: anchor, title: '带链接' },
+        ]}>
+        </Stages>,
     };
 }

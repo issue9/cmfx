@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.divider', icon: <IconDivider /> },
-        kind: 'layout', path: 'divider', component: () =>
-            <Stages dir='divider' api={api as Array<Type>} stages={[
-                { component: Divider, source: divider, title: 'basic' },
-            ]}>
-            </Stages>,
+        kind: 'layout', title: '_d.demo.divider', icon: IconDivider, path: 'divider',
+        component: () => <Stages dir='divider' api={api as Array<Type>} stages={[
+            { component: Divider, source: divider, title: 'basic' },
+        ]}>
+        </Stages>,
     };
 }

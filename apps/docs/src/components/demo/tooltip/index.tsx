@@ -15,12 +15,11 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.tooltip', icon: <IconTooltip /> },
-        kind: 'feedback', path: 'tooltip', component: () =>
-            <Stages dir='tooltip' api={api as Array<Type>} stages={[
-                { component: Tooltip, source: tooltip, title: 'tooltip' },
-            ]}>
-                这是一个弹出提示组件
-            </Stages>,
+        kind: 'feedback', title: '_d.demo.tooltip', icon: IconTooltip, path: 'tooltip',
+        component: () => <Stages dir='tooltip' api={api as Array<Type>} stages={[
+            { component: Tooltip, source: tooltip, title: 'tooltip' },
+        ]}>
+            这是一个弹出提示组件
+        </Stages>,
     };
 }

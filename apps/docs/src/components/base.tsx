@@ -6,9 +6,11 @@ import {
     ButtonKind, buttonKinds, Checkbox, Choice, ChoiceOption, fieldAccessor,
     LabelAlignment, labelAlignments, Layout, layouts, Palette, palettes, useLocale
 } from '@cmfx/components';
-import { PopoverPosition } from '@cmfx/core';
+import { DictKeys, PopoverPosition } from '@cmfx/core';
 import { RouteDefinition } from '@solidjs/router';
 import { Accessor, Component, createSignal, createUniqueId, Setter } from 'solid-js';
+
+import messages from '@docs/messages/en.lang';
 
 export function posSelector(preset?: PopoverPosition) {
     return arraySelector('_d.demo.tooltipPos', ['left', 'right', 'top', 'bottom'], preset ?? 'left');
@@ -18,13 +20,20 @@ export function labelAlignSelector(preset: LabelAlignment) {
     return arraySelector('_d.demo.labelAlign', labelAlignments, preset);
 }
 
-// 组件的分类
-export type Kind = 'general' | 'layout' | 'navigation' | 'data-input' | 'data-display' | 'feedback' | 'config' | 'function';
+/**
+ * 组件的分类
+ */
+export type Kind
+    = 'general' | 'layout' | 'navigation' | 'data-input' | 'data-display' | 'feedback' | 'config' | 'function';
 
 /**
- * 组件信息
+ * 表示演示组件的信息
  */
-export type Info = RouteDefinition & { kind: Kind };
+export type Info = RouteDefinition & {
+    kind: Kind,
+    title: DictKeys<typeof messages>,
+    icon?: Component, // 在侧边栏和 overview 中都有显示，所以直接采用函数。
+};
 
 /**
  * 创建一个 bool 选择项

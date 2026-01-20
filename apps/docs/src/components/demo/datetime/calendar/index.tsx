@@ -18,12 +18,11 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.calendar', icon: <IconCalendar /> },
-        kind: 'data-display', path: 'datetime/calendar', component: () =>
-            <Stages dir='datetime/calendar' api={api as Array<Type>} stages={[
-                { component: Calendar, source: calendar, layout: 'vertical', title: '基本功能' },
-                { component: Lunar, source: lunar, layout: 'vertical', title: '农历' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.calendar', icon: IconCalendar, path: 'datetime/calendar',
+        component: () => <Stages dir='datetime/calendar' api={api as Array<Type>} stages={[
+            { component: Calendar, source: calendar, layout: 'vertical', title: '基本功能' },
+            { component: Lunar, source: lunar, layout: 'vertical', title: '农历' },
+        ]}>
+        </Stages>,
     };
 }

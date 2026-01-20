@@ -12,11 +12,10 @@ import { default as transition } from './transition.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.transition', icon: <IconTransition /> },
-        kind: 'general', path: 'transition', component: () =>
-            <Stages dir='transition' stages={[
-                { component: Transition, source: transition, title: 'transition' },
-            ]}>
-            </Stages>,
+        kind: 'general', title: '_d.demo.transition', icon: IconTransition, path: 'transition',
+        component: () => <Stages dir='transition' stages={[
+            { component: Transition, source: transition, title: 'transition' },
+        ]}>
+        </Stages>,
     };
 }

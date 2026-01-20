@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.timezone', icon: <IconTimezone /> },
-        kind: 'data-display', path: 'datetime/timezone', component: () =>
-            <Stages dir='datetime/timezone' api={api as Array<Type>} stages={[
-                { component: Timezone, source: timezone, layout: 'vertical', title: '基本功能' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.timezone', icon: IconTimezone, path: 'datetime/timezone',
+        component: () => <Stages dir='datetime/timezone' api={api as Array<Type>} stages={[
+            { component: Timezone, source: timezone, layout: 'vertical', title: '基本功能' },
+        ]}>
+        </Stages>,
     };
 }

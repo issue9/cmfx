@@ -15,11 +15,10 @@ import { default as input } from './input.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.input', icon: <IconInput /> },
-        kind: 'general', path: 'input', component: () =>
-            <Stages dir='input' api={api as Array<Type>} stages={[
-                { component: Input, source: input, title: 'input' },
-            ]}>
-            </Stages>,
+        kind: 'general', title: '_d.demo.input', icon: IconInput, path: 'input',
+        component: () => <Stages dir='input' api={api as Array<Type>} stages={[
+            { component: Input, source: input, title: 'input' },
+        ]}>
+        </Stages>,
     };
 }

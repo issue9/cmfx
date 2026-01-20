@@ -12,10 +12,7 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.style', icon: <IconStyle /> },
-        kind: 'function', path: 'functions/style', component: () =>
-            <Stages dir='functions/style' api={api as Array<Type>}>
-                提供了与样式相关的功能
-            </Stages>,
+        kind: 'function', title: '_d.demo.style', icon: IconStyle, path: 'functions/style',
+        component: () => <Stages dir='functions/style' api={api as Array<Type>}></Stages>,
     };
 }

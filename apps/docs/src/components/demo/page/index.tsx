@@ -15,11 +15,10 @@ import { default as page } from './page.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.page', icon: <IconPage /> },
-        kind: 'layout', path: 'page', component: () =>
-            <Stages dir='page' api={api as Array<Type>} stages={[
-                { component: Page, source: page, title: '基本用法' },
-            ]}>
-            </Stages>,
+        kind: 'layout', title: '_d.demo.page', icon: IconPage, path: 'page',
+        component: () => <Stages dir='page' api={api as Array<Type>} stages={[
+            { component: Page, source: page, title: '基本用法' },
+        ]}>
+        </Stages>,
     };
 }

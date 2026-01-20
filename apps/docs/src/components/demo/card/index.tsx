@@ -18,12 +18,11 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.card', icon: <IconCard /> },
-        kind: 'general', path: 'card', component: () =>
-            <Stages dir='card' api={api as Array<Type>} stages={[
-                { component: Header, source: header, title: 'header' },
-                { component: Footer, source: footer, title: 'footer' },
-            ]}>
-            </Stages>,
+        kind: 'general', title: '_d.demo.card', icon: IconCard, path: 'card',
+        component: () => <Stages dir='card' api={api as Array<Type>} stages={[
+            { component: Header, source: header, title: 'header' },
+            { component: Footer, source: footer, title: 'footer' },
+        ]}>
+        </Stages>,
     };
 }

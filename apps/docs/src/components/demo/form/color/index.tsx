@@ -15,11 +15,10 @@ import { default as picker } from './picker.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.color', icon: <IconColor /> },
-        kind: 'data-input', path: 'form/color', component: () =>
-            <Stages dir='form/color' api={api as Array<Type>} stages={[
-                { component: Picker, source: picker, title: 'picker' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.color', icon: IconColor, path: 'form/color',
+        component: () => <Stages dir='form/color' api={api as Array<Type>} stages={[
+            { component: Picker, source: picker, title: 'picker' },
+        ]}>
+        </Stages>,
     };
 }

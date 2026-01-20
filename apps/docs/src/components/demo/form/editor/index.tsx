@@ -18,12 +18,11 @@ import { default as bubble } from './bubble.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.editor', icon: <IconEditor /> },
-        kind: 'data-input', path: 'form/editor', component: () =>
-            <Stages dir='form/editor' api={api as Array<Type>} stages={[
-                { component: Snow, source: snow, title: '默认的编辑器' },
-                { component: Bubble, source: bubble, title: '简单的编辑器' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.editor', icon: IconEditor, path: 'form/editor',
+        component: () => <Stages dir='form/editor' api={api as Array<Type>} stages={[
+            { component: Snow, source: snow, title: '默认的编辑器' },
+            { component: Bubble, source: bubble, title: '简单的编辑器' },
+        ]}>
+        </Stages>,
     };
 }

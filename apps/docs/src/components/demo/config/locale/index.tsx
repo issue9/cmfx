@@ -24,14 +24,13 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.localeConfig', icon: <IconLocaleConfig /> },
-        kind: 'config', path: 'config/locale', component: () =>
-            <Stages dir='config/locale' api={api as Array<Type>} stages={[
-                { component: Locale, source: locale, title: 'LocaleProvider', desc: '可通过 `LocaleProvider` 的属性修改所包含内容的语言。' },
-                { component: Global, source: global, title: 'setLocale', desc: '可通过 `setLocale` 修改全局的本地化内容。' },
-                { component: Other, source: other, title: '其它属性' },
-                { component: Nested, source: nested, title: '嵌套使用' },
-            ]}>
-            </Stages>,
+        kind: 'config', title: '_d.demo.localeConfig', icon: IconLocaleConfig, path: 'config/locale',
+        component: () => <Stages dir='config/locale' api={api as Array<Type>} stages={[
+            { component: Locale, source: locale, title: 'LocaleProvider', desc: '可通过 `LocaleProvider` 的属性修改所包含内容的语言。' },
+            { component: Global, source: global, title: 'setLocale', desc: '可通过 `setLocale` 修改全局的本地化内容。' },
+            { component: Other, source: other, title: '其它属性' },
+            { component: Nested, source: nested, title: '嵌套使用' },
+        ]}>
+        </Stages>,
     };
 }

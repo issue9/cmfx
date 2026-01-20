@@ -15,11 +15,10 @@ import { default as upload } from './upload.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.upload', icon: <IconUpload /> },
-        kind: 'data-input', path: 'form/upload', component: () =>
-            <Stages dir='form/upload' api={api as Array<Type>} stages={[
-                { component: Upload, source: upload, title: 'upload' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.upload', icon: IconUpload, path: 'form/upload',
+        component: () => <Stages dir='form/upload' api={api as Array<Type>} stages={[
+            { component: Upload, source: upload, title: 'upload' },
+        ]}>
+        </Stages>,
     };
 }

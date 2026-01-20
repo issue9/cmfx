@@ -19,14 +19,14 @@ export function typeSelector(preset: QRCodeDotType = 'square') {
 }
 
 export function cornerTypeSelector(preset: QRCodeCornerDotType = 'square') {
-    const corners = new Map<QRCodeCornerDotType, string>(cornerDotTypes.map(v => [v, v]));
-    corners.set('' as any, 'undefined');
+    const corners = new Map(cornerDotTypes.map(v => [v, v]));
+    corners.set('' as any, 'undefined' as any);
     return arraySelector('corner type', corners, preset);
 }
 
 export function cornerSquareTypeSelector(preset: QRCodeCornerSquareType = 'square') {
-    const corners = new Map<QRCodeCornerSquareType, string>(cornerSquareTypes.map(v => [v, v]));
-    corners.set('' as any, 'undefined');
+    const corners = new Map(cornerSquareTypes.map(v => [v, v]));
+    corners.set('' as any, 'undefined' as any);
     return arraySelector('corner square type', corners, preset);
 }
 

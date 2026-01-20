@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.search', icon: <IconSearch /> },
-        kind: 'feedback', path: 'search', component: () =>
-            <Stages dir='search' api={api as Array<Type>} stages={[
-                { component: Search, source: search, title: '基本功能' },
-            ]}>
-            </Stages>,
+        kind: 'feedback', title: '_d.demo.search', icon: IconSearch, path: 'search',
+        component: () => <Stages dir='search' api={api as Array<Type>} stages={[
+            { component: Search, source: search, title: '基本功能' },
+        ]}>
+        </Stages>,
     };
 }

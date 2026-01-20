@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.weekPanel', icon: <IconWeekPanel />, },
-        kind: 'data-display', path: 'datetime/week', component: () =>
-            <Stages dir='datetime/week' api={api as Array<Type>} stages={[
-                { component: Week, source: week, title: 'week' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.weekPanel', icon: IconWeekPanel, path: 'datetime/week',
+        component: () => <Stages dir='datetime/week' api={api as Array<Type>} stages={[
+            { component: Week, source: week, title: 'week' },
+        ]}>
+        </Stages>,
     };
 }

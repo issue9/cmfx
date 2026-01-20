@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.settings', icon: <IconSettings /> },
-        kind: 'config', path: 'config/settings', component: () =>
-            <Stages dir='config/settings' api={api as Array<Type>} stages={[
-                { component: Settings, source: settings, layout: 'vertical', title: '设置页面' },
-            ]}>
-            </Stages>,
+        kind: 'config', title: '_d.demo.settings', icon: IconSettings, path: 'config/settings',
+        component: () => <Stages dir='config/settings' api={api as Array<Type>} stages={[
+            { component: Settings, source: settings, layout: 'vertical', title: '设置页面' },
+        ]}>
+        </Stages>,
     };
 }

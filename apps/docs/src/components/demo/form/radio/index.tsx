@@ -18,12 +18,11 @@ import { default as group } from './group.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.radio', icon: <IconRadio /> },
-        kind: 'data-input', path: 'form/radio', component: () =>
-            <Stages dir='form/radio' api={api as Array<Type>} stages={[
-                { component: Radio, source: radio, title: 'radio' },
-                { component: Group, source: group, title: 'group' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.radio', icon: IconRadio, path: 'form/radio',
+        component: () => <Stages dir='form/radio' api={api as Array<Type>} stages={[
+            { component: Radio, source: radio, title: 'radio' },
+            { component: Group, source: group, title: 'group' },
+        ]}>
+        </Stages>,
     };
 }

@@ -18,12 +18,11 @@ import { default as iconSet } from './iconset.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.icon', icon: <IconIcon /> },
-        kind: 'general', path: 'icon', component: () =>
-            <Stages dir='icon' api={api as Array<Type>} stages={[
-                { component: Text, source: text, title: '与文本的排版' },
-                { component: IconSet, source: iconSet, title: '图标集' },
-            ]}>
-            </Stages>,
+        kind: 'general', title: '_d.demo.icon', icon: IconIcon, path: 'icon',
+        component: () => <Stages dir='icon' api={api as Array<Type>} stages={[
+            { component: Text, source: text, title: '与文本的排版' },
+            { component: IconSet, source: iconSet, title: '图标集' },
+        ]}>
+        </Stages>,
     };
 }

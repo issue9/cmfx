@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Card, cloneElement, MenuItem, MenuItemGroup, Page, useLocale } from '@cmfx/components';
+import { Card, MenuItem, MenuItemGroup, Page, useLocale } from '@cmfx/components';
 import { ArrayElement, Locale } from '@cmfx/core';
 import { A } from '@solidjs/router';
 import { For, JSX } from 'solid-js';
@@ -13,8 +13,15 @@ import styles from './style.module.css';
 
 const demos = import.meta.glob<{ default: () => Info }>('./demo/**/index.tsx', { eager: true });
 
-export const routes: Array<Info> = Object.values(demos).map(d => d.default());
+/**
+ * 所有的演示组件列表
+ */
+export const components: Array<Info> = Object.values(demos).map(d => d.default());
 
+/**
+ * 展示组件列表
+ * @param prefix - 路由地址；
+ */
 export default function Overview(prefix: string): JSX.Element {
     const l = useLocale();
     const items = buildMenus(l, prefix);
@@ -28,7 +35,7 @@ export default function Overview(prefix: string): JSX.Element {
                         {item =>
                             <A href={(item as any).value}>
                                 <Card header={(item as any).label} class={styles.card}>
-                                    <div class={styles.icon}>{cloneElement((item as any).prefix)}</div>
+                                    <div class={styles.icon}>{(item as any).prefix}</div>
                                 </Card>
                             </A>
                         }
@@ -42,7 +49,7 @@ export default function Overview(prefix: string): JSX.Element {
 // 生成 Drawer 组件的侧边栏菜单
 export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
     const menus: Array<MenuItem<string>> = [
-        { type: 'a', label: l.t('_d.demo.overview'), value: prefix + '/', suffix: routes.length }, // 指向 overview
+        { type: 'a', label: l.t('_d.demo.overview'), value: prefix + '/', suffix: components.length }, // 指向 overview
         { type: 'group', label: l.t('_d.demo.general'), items: [] },
         { type: 'group', label: l.t('_d.demo.layout'), items: [] },
         { type: 'group', label: l.t('_d.demo.navigation'), items: [] },
@@ -53,17 +60,17 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
         { type: 'group', label: l.t('_d.demo.function'), items: [] },
     ];
 
-    const append = (group: MenuItem<string>, r: ArrayElement<typeof routes>) => {
+    const append = (group: MenuItem<string>, r: ArrayElement<typeof components>) => {
         const p = Array.isArray(r.path) ? r.path[0] : r.path;
         (group as MenuItemGroup<string>).items.push({
             type: 'a',
-            label: l.t(r.info?.title),
+            label: l.t(r.title),
             value: prefix + p,
-            prefix: r.info?.icon ?? <IconPresetComponent />,
+            prefix: r.icon ? r.icon({}) : <IconPresetComponent />,
         });
     };
 
-    routes.forEach(r => {
+    components.forEach(r => {
         switch (r.kind) {
         case 'general':
             append(menus[1], r);

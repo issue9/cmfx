@@ -33,17 +33,16 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.button', icon: <IconButton /> },
-        kind: 'general', path: 'button', component: () =>
-            <Stages dir='button' api={api as Array<Type>} stages={[
-                { component: Button, source: button, title: 'button' },
-                { component: Confirm, source: confirm, title: 'confirm' },
-                { component: Anchor, source: anchor, title: 'anchor button' },
-                { component: Toggle, source: toggle, title: 'toggle button' },
-                { component: Block, source: block, title: 'block' },
-                { component: Group, source: group, title: 'group' },
-                { component: Split, source: split, title: 'SplitMenu' },
-            ]}>
-            </Stages>,
+        kind: 'general', title: '_d.demo.button', icon: IconButton, path: 'button',
+        component: () => <Stages dir='button' api={api as Array<Type>} stages={[
+            { component: Button, source: button, title: 'button' },
+            { component: Confirm, source: confirm, title: 'confirm' },
+            { component: Anchor, source: anchor, title: 'anchor button' },
+            { component: Toggle, source: toggle, title: 'toggle button' },
+            { component: Block, source: block, title: 'block' },
+            { component: Group, source: group, title: 'group' },
+            { component: Split, source: split, title: 'SplitMenu' },
+        ]}>
+        </Stages>,
     };
 }

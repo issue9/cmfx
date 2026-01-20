@@ -15,11 +15,10 @@ import { default as textarea } from './textarea.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.textarea', icon: <IconTextarea /> },
-        kind: 'data-input', path: 'form/textarea', component: () =>
-            <Stages dir='form/textarea' api={api as Array<Type>} stages={[
-                { component: Textarea, source: textarea, title: 'textarea' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.textarea', icon: IconTextarea, path: 'form/textarea',
+        component: () => <Stages dir='form/textarea' api={api as Array<Type>} stages={[
+            { component: Textarea, source: textarea, title: 'textarea' },
+        ]}>
+        </Stages>,
     };
 }

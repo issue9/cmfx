@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.timepanel', icon: <IconTimePanel /> },
-        kind: 'data-display', path: 'datetime/timepanel', component: () =>
-            <Stages dir='datetime/timepanel' api={api as Array<Type>} stages={[
-                { component: Timepanel, source: timepanel, title: 'timepanel' },
-            ]}>
-            </Stages>,
+        kind: 'data-display', title: '_d.demo.timepanel', icon: IconTimePanel, path: 'datetime/timepanel',
+        component: () => <Stages dir='datetime/timepanel' api={api as Array<Type>} stages={[
+            { component: Timepanel, source: timepanel, title: 'timepanel' },
+        ]}>
+        </Stages>,
     };
 }

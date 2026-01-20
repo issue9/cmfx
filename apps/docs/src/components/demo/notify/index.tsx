@@ -24,14 +24,13 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.notify', icon: <IconNotify /> },
-        kind: 'feedback', path: 'notify', component: () =>
-            <Stages dir='notify' api={api as Array<Type>} stages={[
-                { component: Notify, source: notify, title: 'notify' },
-                { component: Alert, source: alert, title: 'alert' },
-                { component: Body, source: body, title: 'alert with body' },
-                { component: Duration, source: duration, title: 'duration' },
-            ]}>
-            </Stages>,
+        kind: 'feedback', title: '_d.demo.notify', icon: IconNotify, path: 'notify',
+        component: () => <Stages dir='notify' api={api as Array<Type>} stages={[
+            { component: Notify, source: notify, title: 'notify' },
+            { component: Alert, source: alert, title: 'alert' },
+            { component: Body, source: body, title: 'alert with body' },
+            { component: Duration, source: duration, title: 'duration' },
+        ]}>
+        </Stages>,
     };
 }

@@ -18,12 +18,11 @@ import { default as multiple } from './multiple.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.choice', icon: <IconChoice /> },
-        kind: 'data-input', path: 'form-choice', component: () =>
-            <Stages dir='form/choice' api={api as Array<Type>} stages={[
-                { component: Basic, source: basic, title: 'basic' },
-                { component: Multiple, source: multiple, title: 'multiple' },
-            ]}>
-            </Stages>,
+        kind: 'data-input', title: '_d.demo.choice', icon: IconChoice, path: 'form/choice',
+        component: () => <Stages dir='form/choice' api={api as Array<Type>} stages={[
+            { component: Basic, source: basic, title: 'basic' },
+            { component: Multiple, source: multiple, title: 'multiple' },
+        ]}>
+        </Stages>,
     };
 }

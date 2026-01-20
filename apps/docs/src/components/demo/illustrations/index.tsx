@@ -42,21 +42,20 @@ import { default as building } from './building.tsx?raw';
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.illustrations', icon: <IconIllustration /> },
-        kind: 'general', path: 'illustrations', component: () =>
-            <Stages dir='illustations' stages={[
-                { component: E400, source: e400, title: '400' },
-                { component: E401, source: e401, title: '401' },
-                { component: E403, source: e403, title: '403' },
-                { component: E404, source: e404, title: '404' },
-                { component: E429, source: e429, title: '429' },
-                { component: E500, source: e500, title: '500' },
-                { component: E503, source: e503, title: '503' },
-                { component: E504, source: e504, title: '504' },
-                { component: BUG, source: bug, title: 'bug' },
-                { component: Building, source: building, title: 'Building' },
-                { component: Login, source: login, title: 'Login' },
-            ]}>
-            </Stages>,
+        kind: 'general', title: '_d.demo.illustrations', icon: IconIllustration, path: 'illustrations',
+        component: () => <Stages dir='illustations' stages={[
+            { component: E400, source: e400, title: '400' },
+            { component: E401, source: e401, title: '401' },
+            { component: E403, source: e403, title: '403' },
+            { component: E404, source: e404, title: '404' },
+            { component: E429, source: e429, title: '429' },
+            { component: E500, source: e500, title: '500' },
+            { component: E503, source: e503, title: '503' },
+            { component: E504, source: e504, title: '504' },
+            { component: BUG, source: bug, title: 'bug' },
+            { component: Building, source: building, title: 'Building' },
+            { component: Login, source: login, title: 'Login' },
+        ]}>
+        </Stages>,
     };
 }

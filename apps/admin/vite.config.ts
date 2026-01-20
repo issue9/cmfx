@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
         resolve: mode === 'development' ? {
             alias: [
                 { find: '@cmfx/admin', replacement: path.resolve(__dirname, '../../packages/admin/src') },
-                { find: '@admin', replacement: path.resolve(__dirname, '../../packages/admin/src') }, // 解决 admin 中的 @ 符号
+                { find: '@admin', replacement: path.resolve(__dirname, '../../packages/admin/src') }, // 解决 admin 中的 @admin 引用
             ],
         } : undefined,
 

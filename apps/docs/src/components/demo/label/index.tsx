@@ -15,11 +15,10 @@ import { default as api } from './api.json' with { type: 'json' };
 
 export default function(): Info {
     return {
-        info: { title: '_d.demo.label', icon: <IconLabel /> },
-        kind: 'general', path: 'label', component: () =>
-            <Stages dir='label' api={api as Array<Type>} stages={[
-                { component: Label, source: label, title: 'label' },
-            ]}>
-            </Stages>,
+        kind: 'general', title: '_d.demo.label', icon: IconLabel, path: 'label',
+        component: () => <Stages dir='label' api={api as Array<Type>} stages={[
+            { component: Label, source: label, title: 'label' },
+        ]}>
+        </Stages>,
     };
 }
