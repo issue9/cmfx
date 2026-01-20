@@ -30,9 +30,9 @@ export type Kind
  * 表示演示组件的信息
  */
 export type Info = RouteDefinition & {
-    kind: Kind,
-    title: DictKeys<typeof messages>,
-    icon?: Component, // 在侧边栏和 overview 中都有显示，所以直接采用函数。
+    kind: Kind, // 组件分类
+    title: DictKeys<typeof messages>, // 演示组件的标题
+    icon?: Component, // 演示组件的图标，需要多处使用，所以使用函数。如果为空会有默认图标。
 };
 
 /**

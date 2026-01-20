@@ -2,7 +2,7 @@
 
 ## 图标
 
-cmfx 采用 [unplugin-icons](https://github.com/antfu/unplugin-icons) 管理图标，
+cmfx 默认采用 [unplugin-icons](https://github.com/antfu/unplugin-icons) 管理图标，
 可以很方便地使用 <https://icon-sets.iconify.design/> 下的所有图标。
 
 ## 插画

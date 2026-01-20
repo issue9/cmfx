@@ -8,7 +8,7 @@
 
 @layer components {
     .contribute {
-        @apply p-5 pb-8 flex flex-row gap-1 justify-between overflow-y-auto h-full;
+        @apply p-8 pb-10 flex flex-row gap-1 justify-between overflow-y-auto h-full;
         @apply @container/contribute;
 
         >article {

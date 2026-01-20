@@ -75,6 +75,9 @@ function ButtonAction (props: BProps): JSX.Element {
  *  - 0 {@link FormAPI} 实例；
  *  - 1 Form 组件；
  *  - 2 表单常用的一些操作按钮；
+ * @typeParam T - 表示需要提交的对象类型；
+ * @typeParam R - 表示服务端返回的类型；
+ * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
 export function createForm<T extends Flattenable, R = never, P = never>(
     options: Options<T, R, P>

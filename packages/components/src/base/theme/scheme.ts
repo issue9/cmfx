@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -14,7 +14,15 @@ export type Scheme = {
     primary: string;
     secondary: string;
     tertiary: string;
+
+    /**
+     * 表示错误信息
+     */
     error: string;
+
+    /**
+     * 一般用于大面积的背景色
+     */
     surface: string;
 
     /**

@@ -6,7 +6,7 @@
 
 ### 代码
 
-Go 采用 `gofmt` 进行格式化，无须手动处理，在 `gofmt` 允许的范围之内用户可自行决定。
+Go 采用 `gofmt` 进行格式化，无须手动处理，在 `gofmt` 允许的范围之内的格式用户可自行决定。
 
 前端代码已经配置 `ESLint`，需要在 IDE 做相应的配置，以开启自动检测功能。
 
@@ -49,12 +49,12 @@ scope 表示修改的范围，可以为空，不作强制要求，但应该尽�
 - illustrations: 对 `/packages/illustrations` 下的内容进行了修改；
 - admin: 对 `/packages/admin` 下的内容进行了修改；
 - docs: 对 `/apps/docs` 下的内容进行了修改；
-- server: 对 `/cmfx` 下的内容进行了修改；
+- cmfx: 对 `/cmfx` 下的内容进行了修改；
 - plugin-about: 对 `/build/vite-plugin-about` 下的内容进行了修改；
 - plugin-api: 对 `/build/vite-plugin-api` 下的内容进行了修改；
 - assets: 对 `/assets` 下的内容进行了修改；
 
-subject 对此次变更的简要描述，一般不超过 **80 个字符**。
+subject 对此次变更的简要描述，一般事先控制在 **80 个字符**以内。
 
 body 可选项，此次更改的具体信息，如果是多行，每行应该保持在 **80 个字符**之内。
 
@@ -88,6 +88,16 @@ close #1
 可以将 `./scripts/commit-msg.sh` 添加到项目 `.git/hooks` 之下，并命名为 `commit-msg`，可以在每次提交之前对提交信息格式进行检测，
 部分系统可能还需要为 `commit-msg` 添加可执行权限，比如 macOS 下需要执行 `chmod +x .git/hooks/commit-msg`。
 
+## 分支管理
+
+主分支 master 上保持最新的代码，相关的 feature、bugfix 分支需要基于 master 分支进行开发，开发完成后需要合并到 master 分支。
+发布版本才用 `git tag`。
+
+## 如何参与
+
+对于简单的功能修改可以直接在 github 上发起 PR。
+对于复杂的修改或是新功能，最好能先发一个 issue，描述功能需求，然后在 issue 中讨论，最后再发起 PR。
+
 ## 测试环境搭建
 
 首先必须安装以下工具：
@@ -112,12 +122,14 @@ close #1
 
 ### 目录结构
 
-- apps/server 简单的后端服务；
-- apps/admin 适配 `apps/server` 的后台管理；
+- apps/server 简单的后端服务演示代码；
+- apps/admin 适配 `apps/server` 的后台管理演示代码；
 - apps/docs 生成项目文档；
 - assets 一些资源文件；
+- build/vite-plugin-about vite 插件，用于生成 `pakcages/admin` 下关于页面的信息；
+- build/vite-plugin-api vite 插件，用于提取文档内容；
 - cmfx 后端源码的主目录；
-- packages/core 前端的核心代码库；
+- packages/core 前端的核心代码库，包含了与后端的通信以及和具体 UI 无关的一些逻辑处理；
 - packages/components 前端组件库；
 - packages/illustrations 为前端组件库提供的插图；
 - packages/admin 前端的后台管理界面；
@@ -137,7 +149,6 @@ close #1
 - solid-router 只能有一个实例对象，否则会出现 `Error: A and 'use' router primitives can be only used inside a Route.` 的错误，
 所以在所有的 `vite.config.ts` 中都将 `solid-router` 加入到 `rollupOptions.external`，只在主项目中真实导入；
 - 组件文档，如果某个对象存在多个文档内容，只提取其最后一个作为文档内容；
-- 文档采用 [tsdoc](https://tsdoc.org) 标准，与 JSDoc 稍有差异，比如 `@template` 应该改为 `@typeParam`，`@default` 应该改为 `@defaultValue` 等；
 - solid 的条件组件内尽量使用参数初始化，比如
   ```tsx
   <Show when={props.xx}>{c=><div>c()</div>}</Show>
@@ -146,7 +157,6 @@ close #1
   ```tsx
   <Show when={props.xx}><div>{props.xx}</div></Show>
   ```
-  后一种形式可能会造成部分功能不可用，比如 Hotkey 会提示快捷键重复使用；
 
 ### 后端
 
@@ -155,3 +165,14 @@ close #1
 - PO 持久化对象，一般为 ORM 中映射的对象；
 - VO 值对象，服务端传递给客户端；
 - TO 客户端传递给服务端的数据；
+
+## 文档
+
+后端的文档可以直接通过 [pkg.go.dev](https://pkg.go.dev/github.com/issue9/cmfx) 查看，文档格式也依照 Go 的规范。
+
+`apps/docs`主要是提供了前端的组件演示以及组件的属性等功能。此节主要介绍前端部分的文档书写注意事件。
+
+文档采用 [tsdoc](https://tsdoc.org) 标准，与 JSDoc 稍有差异，比如 `@template` 应该改为 `@typeParam`，`@default` 应该改为 `@defaultValue` 等。
+同时还定义了一个 tsdoc 标签：`@reactive` 用于标记一个属性是否为响应式的，所有组件的响应字段需要使用此标签标出。
+
+如果是 `packages/components` 下的组件开发，还需要在 `apps/docs/components/demo` 创建一段此组件的演示代码。
