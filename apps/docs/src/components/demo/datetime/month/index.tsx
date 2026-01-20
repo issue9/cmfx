@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconMonthPanel from '~icons/tabler/calendar-month';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as Month } from './month';
 import { default as month } from './month.tsx?raw';
@@ -19,10 +18,9 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.monthpanel', icon: IconMonthPanel, path: 'datetime/month',
-        component: () => <Stages dir='datetime/month' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Month, source: month, title: 'month' },
             { component: Year, source: year, title: 'year' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

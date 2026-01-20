@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconColorPanel from '~icons/material-symbols/format-color-fill-rounded';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as Basic } from './basic';
 import { default as basic } from './basic.tsx?raw';
@@ -22,11 +21,10 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.color', icon: IconColorPanel, path: 'color',
-        component: () => <Stages dir='color' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Basic, source: basic, layout: 'auto', title: '基本功能' },
             { component: WCAG, source: wcag, layout: 'auto', title: 'WCAG' },
             { component: Disabled, source: disabled, layout: 'auto', title: 'disabled' },
-        ]}>
-        </Stages>,
+        ],
     };
 }

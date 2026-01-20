@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconCounter from '~icons/ix/counter';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as Basic } from './basic';
 import { default as basic } from './basic.tsx?raw';
@@ -19,10 +18,9 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.counter', icon: IconCounter, path: 'counter',
-        component: () => <Stages dir='counter' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Basic, source: basic, title: 'basic' },
             { component: Formatter, source: formatter, title: 'formatter' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

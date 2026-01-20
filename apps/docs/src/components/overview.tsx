@@ -4,19 +4,30 @@
 
 import { Card, MenuItem, MenuItemGroup, Page, useLocale } from '@cmfx/components';
 import { ArrayElement, Locale } from '@cmfx/core';
-import { A } from '@solidjs/router';
+import { A, RouteDefinition } from '@solidjs/router';
 import { For, JSX } from 'solid-js';
 import IconPresetComponent from '~icons/iconamoon/component-fill'; // 组件的默认图标
 
 import { Info } from './base';
+import { Stages } from './stages';
 import styles from './style.module.css';
 
 const demos = import.meta.glob<{ default: () => Info }>('./demo/**/index.tsx', { eager: true });
 
-/**
- * 所有的演示组件列表
- */
-export const components: Array<Info> = Object.values(demos).map(d => d.default());
+export const routes: Array<RouteDefinition> = Object.values(demos).map(d => {
+    const r = d.default();
+
+    const route: RouteDefinition = {
+        path: r.path,
+        info: {
+            title: r.title,
+            kind: r.kind,
+            icon: r.icon,
+        },
+        component: () => <Stages dir={r.path} api={r.api} stages={r.stages} faq={r.faq}>{r.desc}</Stages>,
+    };
+    return route;
+});
 
 /**
  * 展示组件列表
@@ -49,7 +60,7 @@ export default function Overview(prefix: string): JSX.Element {
 // 生成 Drawer 组件的侧边栏菜单
 export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
     const menus: Array<MenuItem<string>> = [
-        { type: 'a', label: l.t('_d.demo.overview'), value: prefix + '/', suffix: components.length }, // 指向 overview
+        { type: 'a', label: l.t('_d.demo.overview'), value: prefix + '/', suffix: routes.length }, // 指向 overview
         { type: 'group', label: l.t('_d.demo.general'), items: [] },
         { type: 'group', label: l.t('_d.demo.layout'), items: [] },
         { type: 'group', label: l.t('_d.demo.navigation'), items: [] },
@@ -60,18 +71,18 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
         { type: 'group', label: l.t('_d.demo.function'), items: [] },
     ];
 
-    const append = (group: MenuItem<string>, r: ArrayElement<typeof components>) => {
+    const append = (group: MenuItem<string>, r: ArrayElement<typeof routes>) => {
         const p = Array.isArray(r.path) ? r.path[0] : r.path;
         (group as MenuItemGroup<string>).items.push({
             type: 'a',
-            label: l.t(r.title),
+            label: l.t(r.info?.title),
             value: prefix + p,
-            prefix: r.icon ? r.icon({}) : <IconPresetComponent />,
+            prefix: r.info?.icon ? r.info.icon({}) : <IconPresetComponent />,
         });
     };
 
-    components.forEach(r => {
-        switch (r.kind) {
+    routes.forEach(r => {
+        switch (r.info?.kind) {
         case 'general':
             append(menus[1], r);
             break;

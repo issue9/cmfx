@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconPage from '~icons/icon-park-outline/page';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as api } from './api.json' with { type: 'json' };
 
@@ -16,9 +15,8 @@ import { default as page } from './page.tsx?raw';
 export default function(): Info {
     return {
         kind: 'layout', title: '_d.demo.page', icon: IconPage, path: 'page',
-        component: () => <Stages dir='page' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Page, source: page, title: '基本用法' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

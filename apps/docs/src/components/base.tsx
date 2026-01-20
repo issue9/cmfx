@@ -7,8 +7,9 @@ import {
     LabelAlignment, labelAlignments, Layout, layouts, Palette, palettes, useLocale
 } from '@cmfx/components';
 import { DictKeys, PopoverPosition } from '@cmfx/core';
-import { RouteDefinition } from '@solidjs/router';
-import { Accessor, Component, createSignal, createUniqueId, Setter } from 'solid-js';
+import { Type } from '@cmfx/vite-plugin-api';
+import { Accessor, Component, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
+import { StageProps } from './stages';
 
 import messages from '@docs/messages/en.lang';
 
@@ -29,10 +30,15 @@ export type Kind
 /**
  * 表示演示组件的信息
  */
-export type Info = RouteDefinition & {
+export type Info = {
     kind: Kind, // 组件分类
     title: DictKeys<typeof messages>, // 演示组件的标题
     icon?: Component, // 演示组件的图标，需要多处使用，所以使用函数。如果为空会有默认图标。
+    path: string; // 相对于当前目录的路径
+    stages?: Array<StageProps>; // 演示内容
+    faq?: JSX.Element;
+    api?: Array<Type>; // 关联的接口文档
+    desc?: JSX.Element; // 描述信息
 };
 
 /**

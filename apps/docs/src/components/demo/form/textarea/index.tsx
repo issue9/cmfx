@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconTextarea from '~icons/bi/textarea-resize';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as api } from './api.json' with { type: 'json' };
 
@@ -16,9 +15,8 @@ import { default as textarea } from './textarea.tsx?raw';
 export default function(): Info {
     return {
         kind: 'data-input', title: '_d.demo.textarea', icon: IconTextarea, path: 'form/textarea',
-        component: () => <Stages dir='form/textarea' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Textarea, source: textarea, title: 'textarea' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

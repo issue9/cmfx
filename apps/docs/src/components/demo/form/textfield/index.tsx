@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconTextfield from '~icons/streamline-plump/input-box-solid';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as api } from './api.json' with { type: 'json' };
 
@@ -22,11 +21,10 @@ import { default as password } from './password.tsx?raw';
 export default function(): Info {
     return {
         kind: 'data-input', title: '_d.demo.textfield', icon: IconTextfield, path: 'form/textfield',
-        component: () => <Stages dir='form/textfield' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: TextField, source: textField, title: 'textfield' },
             { component: Number, source: number, title: 'number' },
             { component: Password, source: password, title: 'password' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

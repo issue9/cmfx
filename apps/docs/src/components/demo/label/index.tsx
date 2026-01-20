@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconLabel from '~icons/material-symbols/label-rounded';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as Label } from './label';
 import { default as label } from './label.tsx?raw';
@@ -16,9 +15,8 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'general', title: '_d.demo.label', icon: IconLabel, path: 'label',
-        component: () => <Stages dir='label' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Label, source: label, title: 'label' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconResult from '~icons/stash/search-results';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as H } from './horizontal';
 import { default as h } from './horizontal.tsx?raw';
@@ -28,14 +27,13 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'feedback', title: '_d.demo.result', icon: IconResult, path: 'result',
-        component: () => <Stages dir='result' api={api as Array<Type>} stages={[
+        desc: '用于是展示一操作的结果页',
+        api: api as Array<Type>, stages: [
             { component: H, source: h, title: 'horizontal' },
             { component: V, source: v, title: 'vertical' },
             { component: Auto, source: auto, title: 'auto' },
             { component: Empty, source: empty, height: '250px', title: 'empty' },
             { component: Custom, source: custom, height: '300px', title: 'custom-empty' },
-        ]}>
-            用于是展示一操作的结果页
-        </Stages>,
+        ]
     };
 }

@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconAvatar from '~icons/material-symbols/person';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as Avatar } from './avatar';
 import { default as avatar } from './avatar.tsx?raw';
@@ -22,11 +21,10 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.avatar', icon: IconAvatar, path: 'avatar',
-        component: () => <Stages dir='avatar' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Avatar, source: avatar, title: '基本功能' },
             { component: Alt, source: alt, title: '无图片' },
             { component: Hover, source: hover, title: 'hover' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

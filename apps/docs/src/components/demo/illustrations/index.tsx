@@ -5,7 +5,6 @@
 import IconIllustration from '~icons/uil/illustration';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as Login } from './login';
 import { default as login } from './login.tsx?raw';
@@ -43,7 +42,7 @@ import { default as building } from './building.tsx?raw';
 export default function(): Info {
     return {
         kind: 'general', title: '_d.demo.illustrations', icon: IconIllustration, path: 'illustrations',
-        component: () => <Stages dir='illustations' stages={[
+        stages: [
             { component: E400, source: e400, title: '400' },
             { component: E401, source: e401, title: '401' },
             { component: E403, source: e403, title: '403' },
@@ -55,7 +54,6 @@ export default function(): Info {
             { component: BUG, source: bug, title: 'bug' },
             { component: Building, source: building, title: 'Building' },
             { component: Login, source: login, title: 'Login' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

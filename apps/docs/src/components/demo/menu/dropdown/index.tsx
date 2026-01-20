@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconDropdown from '~icons/material-symbols/dropdown-outline';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as Dropdown } from './dropdown';
 import { default as dropdown } from './dropdown.tsx?raw';
@@ -31,14 +30,13 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'navigation', title: '_d.demo.dropdown', icon: IconDropdown, path: 'menu/dropdown',
-        component: () => <Stages dir='menu/dropdown' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Dropdown, source: dropdown, title: 'dropdown' },
             { component: Multip, source: multip, title: 'multip-dropdown' },
             { component: Context, source: context, title: 'context' },
             { component: Empty, source: empty, title: 'empty-dropdown', desc: '下拉菜单内容为空' },
             { component: Custom, source: custom, title: 'custom', desc: '自定义触发条件' },
             { component: OnPopover, source: onpopover, title: 'onpopover', desc: '由 onPopover 阻止弹出菜单' },
-        ]}>
-        </Stages>,
+        ]
     };
 }

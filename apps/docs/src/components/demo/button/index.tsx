@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconButton from '~icons/tdesign/button-filled';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as Anchor } from './anchor';
 import { default as anchor } from './anchor.tsx?raw';
@@ -34,7 +33,7 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'general', title: '_d.demo.button', icon: IconButton, path: 'button',
-        component: () => <Stages dir='button' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Button, source: button, title: 'button' },
             { component: Confirm, source: confirm, title: 'confirm' },
             { component: Anchor, source: anchor, title: 'anchor button' },
@@ -42,7 +41,6 @@ export default function(): Info {
             { component: Block, source: block, title: 'block' },
             { component: Group, source: group, title: 'group' },
             { component: Split, source: split, title: 'SplitMenu' },
-        ]}>
-        </Stages>,
+        ],
     };
 }

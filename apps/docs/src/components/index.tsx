@@ -6,7 +6,7 @@ import { Drawer, DrawerRef, joinClass, Menu, MenuRef, useLocale } from '@cmfx/co
 import { RouteDefinition } from '@solidjs/router';
 import { onCleanup, onMount, ParentProps, Setter } from 'solid-js';
 
-import { buildMenus, components, default as overview } from './overview';
+import { buildMenus, default as overview, routes } from './overview';
 import styles from './style.module.css';
 
 export { buildMenus } from './overview';
@@ -37,7 +37,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
         },
         children: [
             { path: '/', component: () => overview(prefix) }, // 指向 overview
-            ...components
+            ...routes
         ]
     };
 }

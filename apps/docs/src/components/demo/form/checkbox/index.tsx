@@ -6,7 +6,6 @@ import { Type } from '@cmfx/vite-plugin-api';
 import IconCheckbox from '~icons/mdi/checkbox-multiple-marked';
 
 import type { Info } from '@docs/components/base';
-import { Stages } from '@docs/components/stages';
 
 import { default as api } from './api.json' with { type: 'json' };
 
@@ -25,12 +24,11 @@ import { default as indeterminate } from './indeterminate.tsx?raw';
 export default function(): Info {
     return {
         kind: 'data-input', title: '_d.demo.checkbox', icon: IconCheckbox, path: 'form/checkbox',
-        component: () => <Stages dir='form/checkbox' api={api as Array<Type>} stages={[
+        api: api as Array<Type>, stages: [
             { component: Checkbox, source: checkbox, title: 'checkbox' },
             { component: Group, source: group, title: 'checkbox group' },
             { component: Label, source: label, title: 'label' },
             { component: Indeterminate, source: indeterminate, title: 'indeterminate' },
-        ]}>
-        </Stages>,
+        ]
     };
 }
