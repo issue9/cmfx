@@ -16,26 +16,36 @@ import styles from './style.module.css';
 export interface Props extends BaseProps {
     /**
      * 允许的最小日期
+     *
+     * @reactive
      */
     min?: Date;
 
     /**
      * 允许的最大日期
+     *
+     * @reactive
      */
     max?: Date;
 
     /**
      * 一周的开始，默认为 0，即周日。
+     *
+     * @reactive
      */
     weekBase?: Week;
 
     /**
      * 当前显示的月份
+     *
+     * @reactive
      */
     current?: Date;
 
     /**
      * 选中项
+     *
+     * @reactive
      */
     selected?: Date;
 
@@ -53,6 +63,8 @@ export interface Props extends BaseProps {
 
     /**
      * 是否高亮周末的列
+     *
+     * @reactive
      */
     weekend?: boolean;
 }

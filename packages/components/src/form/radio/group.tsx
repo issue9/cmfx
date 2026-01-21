@@ -14,11 +14,15 @@ import styles from './style.module.css';
 export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
     /**
      * 是否显示为块
+     *
+     * @reactive
      */
     block?: boolean;
 
     /**
      * 所有 checkbox 项的布局
+     *
+     * @reactive
      */
     itemLayout?: Layout;
 
@@ -27,6 +31,11 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
      */
     accessor: Accessor<T>;
 
+    /**
+     * 选择项
+     *
+     * @reactive
+     */
     options: Options<T>;
 }
 

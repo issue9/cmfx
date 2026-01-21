@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
@@ -59,7 +59,7 @@ type ToggleDrawerButtonProps = Omit<ToggleButtonProps, 'toggle' | 'value' | 'on'
     off?: JSX.Element;
 };
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     /**
      * 侧边栏的初始状态
      */
@@ -82,11 +82,6 @@ export interface Props extends BaseProps, RefProps<Ref> {
      * @reactive
      */
     pos?: 'start' | 'end';
-
-    /**
-     * 侧边栏的内容
-     */
-    children: JSX.Element;
 
     /**
      * 主元素区的内容

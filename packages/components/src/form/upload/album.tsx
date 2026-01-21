@@ -16,20 +16,18 @@ import { Props as BaseProps, Ref, Upload } from './upload';
 export interface Props extends Omit<BaseProps,'dropzone'|'ref'> {
     /**
      * 是否接受直接拖入文件
-     *
-     * 非响应式的属性
      */
     droppable?: boolean;
 
     /**
      * 是否自动执行上传操作
+     *
+     * @reactive
      */
     auto?: boolean;
 
     /**
      * 逆向显示内容，这将会导致上传按钮显示在最前面。
-     *
-     * NOTE: 非响应式属性
      */
     reverse?: boolean;
 
@@ -40,9 +38,16 @@ export interface Props extends Omit<BaseProps,'dropzone'|'ref'> {
 
     /**
      * 子项的宽度
+     *
+     * @reactive
      */
     itemSize?: string;
 
+    /**
+     * 圆角
+     *
+     * @reactive
+     */
     rounded?: boolean;
 }
 

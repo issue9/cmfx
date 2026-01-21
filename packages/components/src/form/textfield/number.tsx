@@ -17,6 +17,12 @@ export interface Props extends Omit<TextFieldProps<number>, omitFields> {
     min?: number;
     max?: number;
     step?: number;
+
+    /**
+     * 键盘的输入模式
+     *
+     * @reactive
+     */
     inputMode?: 'decimal' | 'numeric';
 }
 

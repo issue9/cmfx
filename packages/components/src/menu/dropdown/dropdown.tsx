@@ -42,7 +42,8 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      * 触发方式
      *
      * @defaultValue 'click'
-     * @remarks 下拉菜单的打开的方式，可以是以下值：
+     * @remarks
+     * 下拉菜单的打开的方式，可以是以下值：
      *  - click 鼠标点击；
      *  - hover 鼠标悬停，*移动端不支持*；
      *  - contextmenu 右键菜单；

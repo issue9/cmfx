@@ -20,6 +20,8 @@ import { togglePop } from './utils';
 export interface Props<T extends DateType> extends Omit<PickerProps<T>, 'accessor'> {
     /**
      * 中间的箭头
+     *
+     * @reactive
      */
     arrowIcon?: JSX.Element;
 
@@ -31,6 +33,8 @@ export interface Props<T extends DateType> extends Omit<PickerProps<T>, 'accesso
 
     /**
      * 是否显示右侧快捷选择栏
+     *
+     * @reactive
      */
     shortcuts?: boolean;
 }

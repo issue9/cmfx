@@ -44,6 +44,10 @@
                 table td {
                     @apply text-left;
                 }
+
+                .func {
+                    @apply mt-2;
+                }
             }
 
             code { /* 文档中的类型名称等 codespan 类型的简要代码 */

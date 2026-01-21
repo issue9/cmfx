@@ -16,15 +16,15 @@ import styles from './style.module.css';
 export interface Props extends BaseProps {
     /**
      * 总的页码数量
+     *
+     * @reactive
      */
     count: number;
 
     /**
      * 当前页的页码，取值范围为 [1, {@link Props#count}]。
-     *
-     * NOTE: 这是一个非响应式的属性。
      */
-    value: number;
+    initValue: number;
 
     /**
      * 在页码改变的时候触发
@@ -33,6 +33,8 @@ export interface Props extends BaseProps {
 
     /**
      * 按钮的数量
+     *
+     * @reactive
      */
     spans?: number;
 }
@@ -55,7 +57,7 @@ export function Pagination(props: Props): JSX.Element {
 
     const [prevs, setPrevs] = createSignal<Array<number>>([]);
     const [nexts, setNexts] = createSignal<Array<number>>([]);
-    const [current, setCurrent] = createSignal(props.value);
+    const [current, setCurrent] = createSignal(props.initValue);
 
     const change = (page: number) => {
         const old = current();

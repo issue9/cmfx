@@ -59,34 +59,56 @@ export interface Ref {
 }
 
 export interface Props extends BaseProps {
+    /**
+     * 禁用
+     *
+     * @reactive
+     */
     disabled?: boolean;
+
+    /**
+     * 只读
+     *
+     * @reactive
+     */
     readonly?: boolean;
 
     /**
      * 允许的最小日期
+     *
+     * @reactive
      */
     min?: Date;
 
     /**
      * 允许的最大日期
+     *
+     * @reactive
      */
     max?: Date;
 
     /**
      * 是否高亮周末的列
+     *
+     * @reactive
      */
     weekend?: boolean;
 
     /**
      * 一周的开始，默认为 0，即周日。
+     *
+     * @reactive
      */
     weekBase?: Week;
 
     /**
      * 是否显示周数
      *
+     * @remarks
      * NOTE: 周数是依据 ISO 8601 拿所在行的中间列计算所得。
      * 如果 {@link Props#weekBase} 不为 1，那么周数指向的可能并不是当前行。
+     *
+     * @reactive
      */
     weeks?: boolean;
 
@@ -95,7 +117,7 @@ export interface Props extends BaseProps {
      * @param week - 周数；
      * @param range - 周数范围；
      */
-    onWeekClick?: (week: WeekValueType, range: [Date, Date]) => void;
+    onWeekClick?: { (week: WeekValueType, range: [Date, Date]): void; };
 
     /**
      * 非响应式属性
@@ -104,16 +126,19 @@ export interface Props extends BaseProps {
 
     /**
      * 星期名称的格式
+     *
+     * @remarks
+     * 中文模式下，格式如下：
      *  - narrow 一
      *  - long 星期一
      * 不同语言可能会稍有不同
+     *
+     * @reactive
      */
     weekName: 'narrow' | 'long';
 
     /**
      * 面板初始时显示的月份
-     *
-     * NOTE: 非响应式属性
      */
     initValue: Date;
 
@@ -147,15 +172,36 @@ export interface Props extends BaseProps {
 
     /**
      * 插件列表
-     *
-     * NOTE: 这是一个非响应式的属性。
      */
     plugins?: Array<DatetimePlugin>;
 
     // 以下样式都将作用在 td 之上，用于表示单元格在不同状态下的样式。
 
+    /**
+     * 选中项的样式
+     *
+     * @reactive
+     */
     selectedClass: string;
+
+    /**
+     * 覆盖项的样式
+     *
+     * @reactive
+     */
     coveredClass: string;
+
+    /**
+     * 当日项的样式
+     *
+     * @reactive
+     */
     todayClass: string;
+
+    /**
+     * 禁用项的样式
+     *
+     * @reactive
+     */
     disabledClass: string;
 }

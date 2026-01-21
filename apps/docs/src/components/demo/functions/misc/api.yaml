@@ -9,5 +9,10 @@
             - run
             - createBytesFormatter
             - copy2Clipboard
-            - notify
-            - file2Base64
+
+- pkg: "@cmfx/admin"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - create
+            - handleProblem

@@ -21,6 +21,11 @@ export interface Props<T extends Value> extends FieldBaseProps {
      */
     accessor: Accessor<T>;
 
+    /**
+     * 指定输入键盘的模式
+     *
+     * @reactive
+     */
     inputMode?: InputMode;
 }
 

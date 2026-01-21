@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import userEvent from '@testing-library/user-event';
-import { expect, describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { Pagination } from './pagination';
@@ -15,7 +15,7 @@ describe('pagination', async () => {
 
     const ct = await ComponentTester.build(
         'Pagination',
-        props => <Pagination count={5} value={3} onChange={(val) => curr=val} {...props} />
+        props => <Pagination count={5} initValue={3} onChange={(val) => curr=val} {...props} />
     );
 
     test('props', () => ct.testProps());

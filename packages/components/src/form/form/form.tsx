@@ -21,6 +21,8 @@ export interface Props extends BaseProps, FormContext, ParentProps {
      * @remarks
      * 如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，
      * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
+     *
+     * @reactive
      */
     inDialog?: boolean;
 }

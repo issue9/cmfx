@@ -18,12 +18,22 @@ import {
 import styles from './style.module.css';
 
 export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave'> {
+    /**
+     * 关联的值
+     *
+     * @reactive
+     */
     value?: DateRangeValueType;
 
+    /**
+     * 修改值时触发的事件
+     */
     onChange?: { (val?: DateRangeValueType, old?: DateRangeValueType): void; };
 
     /**
      * 是否显示右侧快捷选择栏
+     *
+     * @reactive
      */
     shortcuts?: boolean;
 }

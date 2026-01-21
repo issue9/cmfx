@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { create as createApp } from './app';
+export { create } from './app';
 
 export { handleProblem } from './utils';
 

@@ -13,6 +13,11 @@ import { Tab, TabItem } from '@components/tab';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
+    /**
+     * 关联的值
+     *
+     * @reactive
+     */
     value?: string;
 
     /**

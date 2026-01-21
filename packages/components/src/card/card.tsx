@@ -10,26 +10,36 @@ import styles from './style.module.css';
 export interface Props extends BaseProps, ParentProps {
     /**
      * 卡片的标题部分
+     *
+     * @reactive
      */
     header?: JSX.Element;
 
     /**
      * 为标题容器追加新的 CSS 样式类
+     *
+     * @reactive
      */
     headerClass?: string;
 
     /**
      * 卡片的页脚部分
+     *
+     * @reactive
      */
     footer?: JSX.Element;
 
     /**
      * 为页脚容器追加新的 CSS 样式类
+     *
+     * @reactive
      */
     footerClass?: string;
 
     /**
      * 为内容容器追加新的 CSS 样式类
+     *
+     * @reactive
      */
     mainClass?: string;
 }

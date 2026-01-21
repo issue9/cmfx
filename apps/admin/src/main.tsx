@@ -5,7 +5,7 @@
 import './style.css';
 
 import {
-    admins, createApp, createClear, createFullscreen, createSearch, current, members, Options, roles, system,
+    admins, create, createClear, createFullscreen, createSearch, current, members, Options, roles, system,
 } from '@cmfx/admin';
 import { Card, createChartLocaleLoader, Label, Scheme, schemes, useLocale } from '@cmfx/components';
 import { createZodLocaleLoader, Hotkey } from '@cmfx/core';
@@ -145,4 +145,4 @@ const o: Options = {
     ]
 };
 
-createApp('app', o);
+create('app', o);

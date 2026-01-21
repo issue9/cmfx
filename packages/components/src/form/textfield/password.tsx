@@ -15,6 +15,8 @@ export interface Props extends Omit<BaseProps<string>, 'suffix' | 'type' | 'ref'
 
     /**
      * 默认情况下密码是否可见
+     *
+     * @reactive
      */
     visible?: boolean;
 }

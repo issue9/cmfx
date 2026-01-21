@@ -4,7 +4,7 @@
 
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Choice, ChoiceOption, fieldAccessor } from '@components/form';
 import { Pagination } from './pagination';
@@ -13,20 +13,18 @@ import styles from './style.module.css';
 export interface Props extends BaseProps {
     /**
      * 总共的数据量
+     *
+     * @reactive
      */
     total: number;
 
     /**
      * 当前页的页码，取值范围为 [1, {@link Props#total}/{@link Props#size}]。
-     *
-     * NOTE: 这是一个非响应式的属性。
      */
     page: number;
 
     /**
      * 每页的数据条数，默认为 sizes 属性的第二项。
-     *
-     * NOTE: 该值必须存在于 sizes 中。
      */
     size?: number;
 
@@ -41,6 +39,8 @@ export interface Props extends BaseProps {
 
     /**
      * 按钮的数量
+     *
+     * @reactive
      */
     spans?: number;
 }
@@ -60,7 +60,7 @@ export function PaginationBar(props: Props): JSX.Element {
     }, props);
 
     if (props.sizes!.indexOf(props.size!)<0) {
-        throw `参数 props.size:${props.size} 必须存在于 props.sizes: ${props.sizes}`;
+        throw new PropsError('size', `必须存在于 props.sizes: ${props.sizes}`);
     }
 
     const l = useLocale();
@@ -110,7 +110,7 @@ export function PaginationBar(props: Props): JSX.Element {
         {l.t('_c.pagination.items', translateItems())}
         <div class={styles.right}>
             <Choice accessor={sizeAccessor} options={sizesOptions()} />
-            <Pagination spans={props.spans} onChange={pageChange} value={props.page} count={pages()} />
+            <Pagination spans={props.spans} onChange={pageChange} initValue={props.page} count={pages()} />
         </div>
     </div>;
 }

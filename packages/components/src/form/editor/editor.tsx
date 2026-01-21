@@ -30,7 +30,8 @@ export interface Props extends Omit<FieldBaseProps, 'rounded'>, RefProps<Ref> {
     /**
      * 简单样式
      *
-     * @remarks 如果为 true，将使用 bubble 主题，否则使用 snow 主题。
+     * @remarks
+     * 如果为 true，将使用 bubble 主题，否则使用 snow 主题。
      */
     simple?: boolean;
 

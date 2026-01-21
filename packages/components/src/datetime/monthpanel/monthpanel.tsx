@@ -4,11 +4,11 @@
 
 import { createEffect, createMemo, createSignal, For, JSX, untrack } from 'solid-js';
 
+import { adjustPopoverPosition } from '@cmfx/core';
 import { BaseProps, joinClass, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { months } from '@components/datetime/utils';
-import { adjustPopoverPosition } from '@cmfx/core';
 import styles from './style.module.css';
 import { default as YearPanel, Ref as YearPanelRef } from './yearpanel';
 
@@ -17,16 +17,40 @@ export interface Ref {
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
+    /**
+     * 禁用状态
+     *
+     * @reactive
+     */
     disabled?: boolean;
+
+    /**
+     * 只读状态
+     *
+     * @reactive
+     */
     readonly?: boolean;
 
     popover?: boolean | 'manual' | 'auto';
 
+    /**
+     * 最小值
+     *
+     * @reactive
+     */
     min?: Date;
+
+    /**
+     * 最大值
+     *
+     * @reactive
+     */
     max?: Date;
 
     /**
      * 关联的值
+     *
+     * @reactive
      */
     value?: Date;
 

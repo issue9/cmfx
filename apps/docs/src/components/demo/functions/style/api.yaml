@@ -8,8 +8,6 @@
         types:
             - joinClass
             - classList
-            - highlight
             - style2String
-            - Highlighter
             - Palette
             - wcag

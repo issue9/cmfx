@@ -19,18 +19,23 @@ export type Field = typeof fields[number];
 export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 时间段
+     *
+     * @reactive
      */
     duration: Duration;
 
     /**
      * 分隔符的内容
+     *
+     * @reactive
      */
     separator?: JSX.Element;
 
     /**
      * 需要显示的最小字段名称
      *
-     * @remarks 默认为 minutes，即只显示分钟和秒数。
+     * @remarks
+     * 默认为 minutes，即只显示分钟和秒数。
      * 当指定的单位无法全部显示指定的值时，大于此单位的数值会换算累加到该单位上。
      * 比如：当只指定了 seconds，但是表示分钟的值也不为空，则分钟会转换为秒数累加在秒之上。
      */
@@ -39,7 +44,8 @@ export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 频率
      *
-     * @remarks 最小单位为秒，负数为减少 duration，直到为零。正数为增加。
+     * @remarks
+     * 最小单位为秒，负数为减少 duration，直到为零。正数为增加。
      * 默认为 -1。
      */
     interval?: number;
@@ -56,6 +62,8 @@ export interface Props extends BaseProps, RefProps<Ref> {
 
     /**
      * 是否显示单位
+     *
+     * @reactive
      */
     unit?: boolean;
 

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { CancelMovable, Locale, movable } from '@cmfx/core';
-import { JSX, onCleanup, onMount, Show } from 'solid-js';
+import { JSX, onCleanup, onMount, ParentProps, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
 import { BaseProps, joinClass } from '@components/base';
@@ -67,23 +67,29 @@ export interface Ref {
     DefaultActions(ok: ClickFunc, cancel?: ClickFunc): JSX.Element;
 }
 
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, ParentProps {
     ref: { (m: Ref): void };
 
     /**
      * 标题内容，如果此值不为空则同时会显示关闭按钮。
+     *
+     * @reactive
      */
     header?: JSX.Element;
 
     /**
-     * 底部的按钮，返回按钮组成的列表即可，不需要包含外层的元素，每个按钮需要自行处理关闭事件。
+     * 底部的按钮
      *
+     * @remarks
+     * 返回按钮组成的列表即可，不需要包含外层的元素，每个按钮需要自行处理关闭事件。
      * 比如：
      * ```JSX
      * <>
      *     <button>cancel</button><button>ok</button>
      * </>
      * ```
+     *
+     * @reactive
      */
     actions?: JSX.Element;
 
@@ -92,10 +98,10 @@ export interface Props extends BaseProps {
      */
     movable?: boolean;
 
-    children: JSX.Element;
-
     /**
      * 内容是否可滚动
+     *
+     * @reactive
      */
     scrollable?: boolean;
 }

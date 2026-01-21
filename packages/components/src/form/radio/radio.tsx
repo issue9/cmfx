@@ -12,19 +12,34 @@ export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
     /**
      * 是否显示为块
      *
-     * @remarks 是否隐藏原本的单选按钮，只显示文本内容配以边框。
+     * @remarks
+     * 是否隐藏原本的单选按钮，只显示文本内容配以边框。
+     *
+     * @reactive
      */
     block?: boolean;
 
     /**
      * 复选框的初始状态，true 为选中，false 为未选中。
+     *
+     * @reactive
      */
     checked?: boolean;
 
     onChange?: { (v?: boolean): void };
 
+    /**
+     * 圆角
+     *
+     * @reactive
+     */
     rounded?: boolean;
 
+    /**
+     * 字段名称
+     *
+     * @reactive
+     */
     name?: string;
 
     value?: AvailableEnumType;

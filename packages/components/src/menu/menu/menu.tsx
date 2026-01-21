@@ -39,8 +39,10 @@ type CF<M extends boolean = false, T extends AvailableEnumType = string, V = M e
 
 export interface Props<M extends boolean = false, T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
     /**
-     * 组件布局方式，可以有以下取值：
+     * 组件布局方式
      *
+     * @remarks
+     * 可以有以下取值：
      *  - horizontal 横向菜单，子菜单以弹出形式展示；
      *  - vertical 纵向菜单，子菜单以弹出形式展示；
      *  - inline 内联菜单，纵向菜单的变体，子菜单内嵌在组件之内；

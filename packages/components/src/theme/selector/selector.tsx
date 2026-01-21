@@ -16,6 +16,8 @@ export interface Props extends BaseProps {
 
     /**
      * 当前的主题值
+     *
+     * @reactive
      */
     value: string | Scheme;
 

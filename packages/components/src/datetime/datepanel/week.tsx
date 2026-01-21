@@ -4,14 +4,16 @@
 
 import { JSX, createEffect, createSignal, splitProps, untrack } from 'solid-js';
 
+import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
 import { DateViewRef, WeekValueType } from '@components/datetime/dateview';
 import { ChangeFunc } from '@components/form/field';
-import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
 import { CommonPanel, Props as CommonProps } from './common';
 
 export type Props = Omit<CommonProps, 'viewRef' | 'onEnter' | 'onLeave' | 'weeks' | 'onWeekClick' | 'value' | 'onChange'> & {
     /**
      * 关联的值
+     *
+     * @reactive
      */
     value?: WeekValueType;
 

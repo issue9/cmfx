@@ -8,6 +8,7 @@ import {
     Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItem, MenuItemItem, Mode, modes,
     Result, run, Search, ToggleFullScreenButton, Transition, useLocale, useOptions, useTheme
 } from '@cmfx/components';
+import { Hotkey } from '@cmfx/core';
 import * as illustrations from '@cmfx/illustrations';
 import { RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, JSX, lazy, Show } from 'solid-js';
@@ -32,7 +33,6 @@ import { buildMenus as buildDocsMenus, buildRoute as buildDocsRoute } from './do
 import { options } from './options';
 import { buildRoute as buildThemeRoute } from './theme/builder';
 
-import { Hotkey } from '@cmfx/core';
 import styles from './style.module.css';
 
 const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
@@ -41,7 +41,7 @@ const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
 ]);
 
 const docsRoute = '/docs';
-const componentsRoute = '/components/demo/';
+const componentsRoute = '/components/demo';
 const contributeRoute = '/contribute';
 const themeRoute = '/theme-builder';
 

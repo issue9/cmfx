@@ -16,6 +16,8 @@ export { buildMenus } from './overview';
  * 组件预览的路由定义
  */
 export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefined>): RouteDefinition {
+    if (!prefix.endsWith('/')) { prefix += '/'; }
+
     return {
         path: prefix,
         component: (props: ParentProps) => {

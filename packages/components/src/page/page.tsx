@@ -36,6 +36,8 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 
     /**
      * 页面标题的翻译 ID
+     *
+     * @reactive
      */
     title: string;
 }

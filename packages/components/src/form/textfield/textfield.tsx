@@ -40,7 +40,10 @@ export interface Props<T extends InputValue = string> extends FieldBaseProps, Re
     /**
      * 内容类型
      *
-     * @remarks 只有在此值为 number 时，内容才会被当作数值处理。
+     * @remarks
+     * 只有在此值为 number 时，内容才会被当作数值处理。
+     *
+     * @reactive
      */
     type?: 'text' | 'url' | 'tel' | 'email' | 'number' | 'password' | 'search';
 

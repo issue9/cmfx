@@ -53,6 +53,8 @@ export interface Props extends BaseProps, ParentProps {
 
     /**
      * 应用在标签面板上的样式
+     *
+     * @reactive
      */
     panelClass?: string;
 

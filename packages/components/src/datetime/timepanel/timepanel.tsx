@@ -13,13 +13,26 @@ export interface Ref {
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
+    /**
+     * 禁用状态
+     *
+     * @reactive
+     */
     disabled?: boolean;
+
+    /**
+     * 只读状态
+     *
+     * @reactive
+     */
     readonly?: boolean;
 
     popover?: boolean | 'manual' | 'auto';
 
     /**
      * 关联的值
+     *
+     * @reactive
      */
     value?: Date;
 

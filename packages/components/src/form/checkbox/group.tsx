@@ -14,11 +14,15 @@ import styles from './style.module.css';
 export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
     /**
      * 是否显示为块
+     *
+     * @reactive
      */
     block?: boolean;
 
     /**
      * 子项的布局方式
+     *
+     * @reactive
      */
     itemLayout?: Layout;
 
@@ -27,6 +31,11 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
      */
     accessor: Accessor<Array<T>>;
 
+    /**
+     * 下拉选择项
+     *
+     * @reactive
+     */
     options: Options<T>;
 }
 
@@ -58,7 +67,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
                             if (v) {
                                 access.setValue([...access.getValue(), item.value]);
                             } else {
-                                access.setValue([...access.getValue().filter((v) => v !== item.value)]);
+                                access.setValue(access.getValue().filter((v) => v !== item.value));
                             }
                             access.setError();
                         }}

@@ -35,9 +35,16 @@ export interface Step extends WizardStep {
 
     /**
      * 弹出框相对于关联元素的位置
+     *
+     * @reactive
      */
     pos: PopoverPosition;
 
+    /**
+     * 图标
+     *
+     * @reactive
+     */
     icon?: JSX.Element;
 }
 
