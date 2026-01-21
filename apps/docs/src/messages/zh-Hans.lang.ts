@@ -60,6 +60,7 @@ const messages: typeof m = {
             plugins: '插件',
             changelog: '变更日志',
             customTheme: '自定义主题',
+            error: '错误处理',
             svg: 'SVG',
         },
         contribute: {

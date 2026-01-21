@@ -15,4 +15,3 @@
       - entrypoint: "index.d.ts"
         types:
             - create
-            - handleProblem

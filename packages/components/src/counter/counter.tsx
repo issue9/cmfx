@@ -33,7 +33,8 @@ export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 对数值进行格式化的方法
      *
-     * @remarks 一般情况下，该方法可以对数值进行一些格式化操作，比如固定小数位，或是进行本地化的操作。
+     * @remarks
+     * 一般情况下，该方法可以对数值进行一些格式化操作，比如固定小数位，或是进行本地化的操作。
      * 如果该值为空，那么将原样返回。
      */
     formatter?: { (val: number): string; };
@@ -56,7 +57,8 @@ const presetProps: Readonly<Partial<Props>> = {
 /**
  * 一个跳动的计数器组件
  *
- * @remarks 该组件不受 `@media (prefers-reduced-motion: reduce)` 的影响。
+ * @remarks
+ * 该组件不受 `@media (prefers-reduced-motion: reduce)` 的影响。
  */
 export default function Counter(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);

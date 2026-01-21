@@ -31,6 +31,8 @@ import usageThemeZHHans from './usage/theme.zh-Hans.md?raw';
 import { default as advanceAPI } from './advance/api.json' with { type: 'json' };
 import advanceCustomThemeEN from './advance/custom-theme.en.md?raw';
 import advanceCustomThemeZHHans from './advance/custom-theme.zh-Hans.md?raw';
+import advanceErrorEN from './advance/error.en.md?raw';
+import advanceErrorZHHans from './advance/error.zh-Hans.md?raw';
 import advanceLocaleEN from './advance/locale.en.md?raw';
 import advanceLocaleZHHans from './advance/locale.zh-Hans.md?raw';
 import advancePluginsEN from './advance/plugins.en.md?raw';
@@ -54,8 +56,9 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, [string, Array<Source> | und
         ['usage/svg', [usageSvgEN, usageAPI as Array<Source>]],
 
         ['advance/locale', [advanceLocaleEN, advanceAPI as Array<Source>]],
+        ['advance/error', [advanceErrorEN, advanceAPI as Array<Source>]],
+        ['advance/custom-theme', [advanceCustomThemeEN, advanceAPI as Array<Source>]],
         ['advance/plugins', [advancePluginsEN, advanceAPI as Array<Source>]],
-        ['advance/custom-theme', [advanceCustomThemeEN, advanceAPI as Array<Source>]]
     ])],
     ['zh-Hans', new Map([
         ['intro/readme', [introReadme, undefined]],
@@ -68,8 +71,9 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, [string, Array<Source> | und
         ['usage/svg', [usageSvgZHHans, usageAPI as Array<Source>]],
 
         ['advance/locale', [advanceLocaleZHHans, advanceAPI as Array<Source>]],
+        ['advance/error', [advanceErrorZHHans, advanceAPI as Array<Source>]],
+        ['advance/custom-theme', [advanceCustomThemeZHHans, advanceAPI as Array<Source>]],
         ['advance/plugins', [advancePluginsZHHans, advanceAPI as Array<Source>]],
-        ['advance/custom-theme', [advanceCustomThemeZHHans, advanceAPI as Array<Source>]]
     ])],
 ]);
 
@@ -136,15 +140,21 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
     },
     {
         kind: 'advance',
-        path: '/advance/plugins',
-        info: { title: '_d.docs.plugins' },
-        component: () => <Markdown article='advance/plugins' />
+        path: '/advance/error',
+        info: { title: '_d.docs.error' },
+        component: () => <Markdown article='advance/error' />
     },
     {
         kind: 'advance',
         path: '/advance/custom-theme',
         info: { title: '_d.docs.customTheme' },
         component: () => <Markdown article='advance/custom-theme' />
+    },
+    {
+        kind: 'advance',
+        path: '/advance/plugins',
+        info: { title: '_d.docs.plugins' },
+        component: () => <Markdown article='advance/plugins' />
     },
 
 ] as const;

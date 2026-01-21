@@ -30,6 +30,8 @@ export interface Props extends BaseProps {
      * 组件的展示风格
      *
      * @reactive
+     *
+     * @defaultValue 'fill'
      */
     kind?: Kind;
 

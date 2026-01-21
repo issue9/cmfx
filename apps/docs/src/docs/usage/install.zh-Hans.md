@@ -34,20 +34,6 @@ npm i shiki
 
 如果要保持与 `@cmfx/admin` 相同的浏览器版本，需要在 `browserslist` 中指定 `extends @cmfx/admin`。
 
-#### tsdoc
-
-自定义了部分 [tsdoc](https://tsdoc.org/) 标签，在 [@cmfx/vite-plugin-api](https://www.npmjs.com/package/@cmfx/vite-plugin-api) 使用，如果你的项目中也需要用到，可以在项目的 `tsdoc.json` 中引入：
-
-```json
-{
-    "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
-    "extends": [
-        "@cmfx/admin/tsdoc.json"
-    ]
-}
-
-```
-
 #### tailwind
 
 对 tailwind 的进行了部分自定义，**必须**在项目的样式文件中引入相关定义：

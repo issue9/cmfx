@@ -122,7 +122,7 @@ export class Extractor {
             name: decl.getSymbol()?.getName() ?? '',
             summary: comment2String(tsdoc?.summarySection),
             remarks: comment2String(tsdoc?.remarksBlock?.content),
-            source: trimSource(decl.getText()),
+            source: trimSource(decl.getFullText()),
         };
     }
 

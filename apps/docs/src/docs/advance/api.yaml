@@ -15,3 +15,11 @@
       - entrypoint: "index.d.ts"
         types:
             - createZodLocaleLoader,source
+            - Problem,source
+
+- pkg: "@cmfx/admin"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - handleProblem,source
+            - HTTPError,source

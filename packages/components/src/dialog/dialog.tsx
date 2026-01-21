@@ -13,12 +13,11 @@ import styles from './style.module.css';
 
 /**
  * {@link Props#actions} 元素中的点击事件
+ *
+ * @returns 如果返回 false，将阻止对话框的关闭，其它值将关闭对话框将作为对话框的 returnValue 返回。
+ * 需要注意 undefined 是一个有效果的关闭对话框返回值。
  */
 interface ClickFunc {
-    /**
-     * @returns 如果返回 false，将阻止对话框的关闭，其它值将关闭对话框将作为对话框的 returnValue 返回。
-     * 需要注意 undefined 是一个有效果的关闭对话框返回值。
-     */
     (): Promise<false | string | undefined>;
 }
 

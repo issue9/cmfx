@@ -58,6 +58,7 @@ const messages = {
             plugins: 'Plugins',
             changelog: 'Changelog',
             customTheme: 'Custom theme',
+            error: 'Error handle',
             svg: 'SVG',
         },
         contribute: {
