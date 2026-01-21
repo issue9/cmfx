@@ -26,7 +26,9 @@ export interface Parameter {
     name?: string; // 表示返回类型时则为空
     summary?: string;
     type: string;
-    def?: string;
+
+    // 从 d.ts 中获取的函数，默认参数始终为空
+    // def?: string;
 }
 
 export interface ReturnType {

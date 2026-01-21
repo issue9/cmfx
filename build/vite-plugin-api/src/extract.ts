@@ -520,7 +520,9 @@ export class Extractor {
             name: p.getName(),
             summary: comment2String(d),
             type: this.getType(p),
-            def: p.getInitializer()?.getText() ?? undefined,
+
+            // 从 d.ts 中获取的函数，默认参数始终为空
+            // def: p.getInitializer()?.getText() ?? undefined,
         };
         return cp;
     }

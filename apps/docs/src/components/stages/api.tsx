@@ -271,7 +271,6 @@ function Func(props: { func: InterfaceMethod }): JSX.Element {
                     <tr>
                         <th>{l.t('_d.stages.parameter')}</th>
                         <th>{l.t('_d.stages.type')}</th>
-                        <th>{l.t('_d.stages.preset')}</th>
                         <th>{l.t('_d.stages.desc')}</th>
                     </tr>
                 </thead>
@@ -280,7 +279,6 @@ function Func(props: { func: InterfaceMethod }): JSX.Element {
                         {param => <tr>
                             <td>{param.name}</td>
                             <td innerHTML={tscode(param.type)} />
-                            <td innerHTML={tscode(param.def)} />
                             <td innerHTML={markdown(param.summary)} />
                         </tr>
                         }
@@ -288,7 +286,6 @@ function Func(props: { func: InterfaceMethod }): JSX.Element {
                     <tr>
                         <td>{l.t('_d.stages.returnValue')}</td>
                         <td innerHTML={tscode(props.func.return.type)} />
-                        <td></td>
                         <td innerHTML={markdown(props.func.return.summary)} />
                     </tr>
                 </tbody>
