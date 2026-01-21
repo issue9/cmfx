@@ -9,9 +9,9 @@ import {
 import { DictKeys, PopoverPosition } from '@cmfx/core';
 import { Type } from '@cmfx/vite-plugin-api';
 import { Accessor, Component, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
-import { StageProps } from './stages';
 
 import messages from '@docs/messages/en.lang';
+import { StageProps } from './stages';
 
 export function posSelector(preset?: PopoverPosition) {
     return arraySelector('_d.demo.tooltipPos', ['left', 'right', 'top', 'bottom'], preset ?? 'left');

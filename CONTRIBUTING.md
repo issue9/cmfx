@@ -170,7 +170,7 @@ close #1
 
 后端的文档可以直接通过 [pkg.go.dev](https://pkg.go.dev/github.com/issue9/cmfx) 查看，文档格式也依照 Go 的规范。
 
-`apps/docs`主要是提供了前端的组件演示以及组件的属性等功能。此节主要介绍前端部分的文档书写注意事件。
+`apps/docs` 主要是提供了前端的组件演示以及组件的属性等功能。此节主要介绍前端部分的文档书写注意事件。
 
 文档采用 [tsdoc](https://tsdoc.org) 标准，与 JSDoc 稍有差异，比如 `@template` 应该改为 `@typeParam`，`@default` 应该改为 `@defaultValue` 等。
 同时还定义了一个 tsdoc 标签：`@reactive` 用于标记一个属性是否为响应式的，所有组件的响应字段需要使用此标签标出。

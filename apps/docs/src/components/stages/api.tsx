@@ -18,9 +18,12 @@ import styles from './style.module.css';
  */
 export function API(props: { api: Type }): JSX.Element {
     return <section class={styles.api}>
-        <h4>{props.api.name}</h4>
+        <div class={styles.title}>
+            <h4>{props.api.name}</h4>
+            <span class={styles.pkg}>{props.api.pkg}</span>
+        </div>
         <Show when={props.api.summary}>{summary =><p innerHTML={markdown(summary())} />}</Show>
-        <Show when={props.api.remarks}>{remarks =><p innerHTML={markdown(remarks())} />}</Show>
+        <Show when={props.api.remarks}>{remarks =><p class={styles.remarks} innerHTML={markdown(remarks())} />}</Show>
 
         <Switch>
             <Match when={props.api.kind === 'literal' ? props.api : undefined}>
@@ -152,7 +155,7 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 
     return <Show when={props.typeParams && props.typeParams.length > 0}>
         <h5>{ l.t('_d.stages.typeParam') }</h5>
-        <Table hoverable class={styles.interface}>
+        <Table hoverable>
             <thead>
                 <tr>
                     <th>{l.t('_d.stages.type')}</th>
@@ -183,13 +186,7 @@ function Methods(props:{methods: Interface['methods'] | Class['methods']}): JSX.
     return <Show when={props.methods && props.methods.length > 0}>
         <h5>{l.t('_d.stages.methods')}</h5>
         <For each={props.methods}>
-            {f =>
-                <>
-                    <Show when={f.summary}>{summary => <p innerHTML={markdown(summary())} />}</Show>
-                    <Show when={f.remarks}>{remarks => <p innerHTML={markdown(remarks())} />}</Show>
-                    <Func func={f} />
-                </>
-            }
+            {f => <Func func={f} isMethod />}
         </For>
     </Show>;
 }
@@ -212,7 +209,7 @@ function Properties(props: PropertiesProps): JSX.Element {
 
     return <Show when={props.props && props.props.length > 0}>
         <h5>{ l.t('_d.stages.properties') }</h5>
-        <Table hoverable class={styles.interface}>
+        <Table hoverable>
             <thead>
                 <tr>
                     <th>{l.t('_d.stages.property')}</th>
@@ -256,41 +253,44 @@ function Properties(props: PropertiesProps): JSX.Element {
 /**
  * 单个函数或方法的展示
  */
-function Func(props: { func: InterfaceMethod }): JSX.Element {
+function Func(props: { func: InterfaceMethod, isMethod?: boolean }): JSX.Element {
     const l = useLocale();
 
     return <div class={styles.func}>
-        <p class={styles.signature} innerHTML={tscode(props.func.type)} />
+        <p innerHTML={tscode(props.func.type)} />
+
+        <Show when={props.isMethod}>
+            <Show when={props.func.summary}>{summary => <p innerHTML={markdown(summary())} />}</Show>
+            <Show when={props.func.remarks}>{remarks => <p class={styles.remarks} innerHTML={markdown(remarks())} />}</Show>
+        </Show>
 
         <TypeParams typeParams={props.func.typeParams} />
 
-        { /* 如果没有参数，没必要显示表格 */ }
-        <Show when={(props.func.params && props.func.params.length > 0) || props.func.return.summary}>
-            <Table hoverable>
-                <thead>
-                    <tr>
-                        <th>{l.t('_d.stages.parameter')}</th>
-                        <th>{l.t('_d.stages.type')}</th>
-                        <th>{l.t('_d.stages.desc')}</th>
+        <h5>{l.t('_d.stages.parameter')}</h5>
+        <Table hoverable>
+            <thead>
+                <tr>
+                    <th>{l.t('_d.stages.parameter')}</th>
+                    <th>{l.t('_d.stages.type')}</th>
+                    <th>{l.t('_d.stages.desc')}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <For each={props.func.params}>
+                    {param => <tr>
+                        <td>{param.name}</td>
+                        <td innerHTML={tscode(param.type)} />
+                        <td innerHTML={markdown(param.summary)} />
                     </tr>
-                </thead>
-                <tbody>
-                    <For each={props.func.params}>
-                        {param => <tr>
-                            <td>{param.name}</td>
-                            <td innerHTML={tscode(param.type)} />
-                            <td innerHTML={markdown(param.summary)} />
-                        </tr>
-                        }
-                    </For>
-                    <tr>
-                        <td>{l.t('_d.stages.returnValue')}</td>
-                        <td innerHTML={tscode(props.func.return.type)} />
-                        <td innerHTML={markdown(props.func.return.summary)} />
-                    </tr>
-                </tbody>
-            </Table>
-        </Show>
+                    }
+                </For>
+                <tr>
+                    <td>{l.t('_d.stages.returnValue')}</td>
+                    <td innerHTML={tscode(props.func.return.type)} />
+                    <td innerHTML={markdown(props.func.return.summary)} />
+                </tr>
+            </tbody>
+        </Table>
     </div>;
 }
 

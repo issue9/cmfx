@@ -6,6 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - run
-            - useOptions
             - Options
+            - useOptions
+            - run

@@ -93,7 +93,9 @@ export class Extractor {
             } else if (typ.length > 1) {
                 throw new Error(`${pkg}/${entrypoint} 中有多个类型 ${ns[0]}`);
             }
-            types.push(this.conv(typ[0], project.checker, source));
+            const t = this.conv(typ[0], project.checker, source);
+            t.pkg = pkg;
+            types.push(t);
         }
 
         return types;
