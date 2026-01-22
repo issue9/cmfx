@@ -14,7 +14,7 @@ import { default as Stage, Props as StageProps } from './stage';
 import styles from './style.module.css';
 
 // 演示文件的基地址
-const baseURL = pkg.repository.url + '/tree/master/' + pkg.repository.directory;
+const baseURL = pkg.repository.url + '/tree/master/' + pkg.repository.directory + '/src/components/demo/';
 
 export interface Props extends ParentProps {
     /**
@@ -48,7 +48,7 @@ export default function Stages(props: Props):JSX.Element {
     const title = route[route.length - 1].route.info?.title;
 
     let articleRef: HTMLElement;
-    const url = baseURL + '/src/components/demo/' + props.dir;
+    const url = baseURL + props.dir;
 
     return <Page class={styles['stages-page']} title={title}>
         <article class={styles.root} ref={el => articleRef = el}>
