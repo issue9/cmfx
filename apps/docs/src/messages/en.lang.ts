@@ -20,7 +20,6 @@ const messages = {
             getter: 'Getter',
             setter: 'Setter',
             desc: 'Description',
-            faq: 'FAQ',
             editOnGithub: 'Edit on github',
             property: 'Property',
             returnValue: 'Return value',

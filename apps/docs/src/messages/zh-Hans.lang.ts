@@ -22,7 +22,6 @@ const messages: typeof m = {
             getter: 'Getter',
             setter: 'Setter',
             desc: '描述',
-            faq: 'FAQ',
             editOnGithub: '在 github 编辑',
             property: '属性',
             returnValue: '返回值',

@@ -27,7 +27,7 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'feedback', title: '_d.demo.result', icon: IconResult, path: 'result',
-        desc: '用于是展示一操作的结果页',
+        header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw' }),
         api: api as Array<Type>, stages: [
             { component: H, source: h, title: 'horizontal' },
             { component: V, source: v, title: 'vertical' },

@@ -21,7 +21,7 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.code', icon: IconCode, path: 'code',
-        desc: '提供了代码高亮功能，但是未引入 `shiki` 包，如果需要使用代码高亮功能，需要引入 `shiki` 包。',
+        header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw' }),
         api: api as Array<Type>, stages: [
             { component: Basic, source: basic, title: '基本功能' },
             { component: Scrollable, source: scrollable, title: '可滚动' },

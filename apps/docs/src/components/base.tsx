@@ -8,9 +8,10 @@ import {
 } from '@cmfx/components';
 import { DictKeys, PopoverPosition } from '@cmfx/core';
 import { Type } from '@cmfx/vite-plugin-api';
-import { Accessor, Component, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
+import { Accessor, Component, createSignal, createUniqueId, Setter } from 'solid-js';
 
 import messages from '@docs/messages/en.lang';
+import { MarkdownFileObject } from '@docs/utils';
 import { StageProps } from './stages';
 
 export function posSelector(preset?: PopoverPosition) {
@@ -36,9 +37,10 @@ export type Info = {
     icon?: Component, // 演示组件的图标，需要多处使用，所以使用函数。如果为空会有默认图标。
     path: string; // 相对于 components/demo 的路径，同时作为文件路径和导航的路由路径。
     stages?: Array<StageProps>; // 演示内容
-    faq?: JSX.Element;
+
+    header?: MarkdownFileObject; // 页面的顶部
     api?: Array<Type>; // 关联的接口文档
-    desc?: JSX.Element; // 描述信息
+    footer?: MarkdownFileObject; // 页面的底部
 };
 
 /**

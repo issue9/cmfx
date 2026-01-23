@@ -69,7 +69,7 @@
             @apply w-full;
 
             h2 {
-                @apply text-3xl flex gap-2 items-center font-bold;
+                @apply text-3xl flex gap-2 items-center font-bold mb-5;
 
                 .edit {
                     @apply text-xl text-palette-fg/50;

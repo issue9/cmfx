@@ -5,9 +5,10 @@
 import { Nav, Page, useLocale } from '@cmfx/components';
 import { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
-import { For, JSX, ParentProps, Show } from 'solid-js';
+import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 
+import { markdown, MarkdownFileObject } from '@docs/utils';
 import pkg from '../../../package.json';
 import { API } from './api';
 import { default as Stage, Props as StageProps } from './stage';
@@ -16,7 +17,7 @@ import styles from './style.module.css';
 // 演示文件的基地址
 const baseURL = pkg.repository.url + '/tree/master/' + pkg.repository.directory + '/src/components/demo/';
 
-export interface Props extends ParentProps {
+export interface Props {
     /**
      * 演示文件相对于 apps/docs/src/components/demo 的目录
      */
@@ -28,9 +29,14 @@ export interface Props extends ParentProps {
     stages?: Array<StageProps>;
 
     /**
-     * 常见问题
+     * 演示页面的底部内容
      */
-    faq?: JSX.Element;
+    footer?: MarkdownFileObject;
+
+    /**
+     * 演示页面的顶部内容
+     */
+    header?: MarkdownFileObject;
 
     /**
      * API 内容
@@ -50,6 +56,30 @@ export default function Stages(props: Props):JSX.Element {
     let articleRef: HTMLElement;
     const url = baseURL + props.dir;
 
+    const [footer, setFooter] = createSignal<string>('');
+    if (props.footer) {
+        const arr = Object.entries(props.footer).map(([k, v]) =>
+            [k.replace(/^\.\/FOOTER\./, '').replace(/\.md$/, ''), v.default]);
+        const obj = Object.fromEntries(arr);
+
+        createEffect(() => {
+            const loc = l.match(Object.keys(obj));
+            setFooter(obj[loc]);
+        });
+    }
+
+    const [header, setHeader] = createSignal<string>('');
+    if (props.header) {
+        const arr = Object.entries(props.header).map(([k, v]) =>
+            [k.replace(/^\.\/HEADER\./, '').replace(/\.md$/, ''), v.default]);
+        const obj = Object.fromEntries(arr);
+
+        createEffect(() => {
+            const loc = l.match(Object.keys(obj));
+            setHeader(obj[loc]);
+        });
+    }
+
     return <Page class={styles['stages-page']} title={title}>
         <article class={styles.root} ref={el => articleRef = el}>
             <h2>
@@ -57,10 +87,12 @@ export default function Stages(props: Props):JSX.Element {
                 <A class={styles.edit} href={url} title={l.t('_d.stages.editOnGithub')}><IconGithub /></A>
             </h2>
 
-            <div>{props.children}</div>
+            <Show when={header()}>
+                {d => <article innerHTML={markdown(d())} />}
+            </Show>
 
             <Show when={props.stages}>
-                {stages =><>
+                {stages => <>
                     <h3>{l.t('_d.stages.codeDemo')}</h3>
                     <div class={styles.stages}>
                         <For each={stages()}>
@@ -81,13 +113,8 @@ export default function Stages(props: Props):JSX.Element {
                 }
             </Show>
 
-            <Show when={props.faq}>
-                {faq =>
-                    <article>
-                        <h3>{l.t('_d.stages.faq')}</h3>
-                        {faq()}
-                    </article>
-                }
+            <Show when={footer()}>
+                {f => <article innerHTML={markdown(f())} />}
             </Show>
         </article>
 

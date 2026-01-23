@@ -15,7 +15,7 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'config', title: '_d.demo.optionsConfig', icon: IconOptionsConfig, path: 'config/options',
-        desc: '经由 `run` 方法传入的一个全局性配置对象。',
+        header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw' }),
         api: api as Array<Type>, stages: [
             { component: C1, source: s1, title: 'config' },
         ]

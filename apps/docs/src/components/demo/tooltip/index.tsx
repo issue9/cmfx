@@ -15,7 +15,7 @@ import { default as api } from './api.json' with { type: 'json' };
 export default function(): Info {
     return {
         kind: 'feedback', title: '_d.demo.tooltip', icon: IconTooltip, path: 'tooltip',
-        desc: '这是一个弹出提示组件',
+        header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw' }),
         api: api as Array<Type>, stages: [
             { component: Tooltip, source: tooltip, title: 'tooltip' },
         ]

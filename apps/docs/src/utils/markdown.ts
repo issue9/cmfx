@@ -12,6 +12,16 @@ const higlighter = await Highlighter.build(
     'bash', 'css', 'git-commit', 'go', 'html', 'js', 'json', 'jsx', 'ts', 'tsx', 'yaml'
 );
 
+/**
+ * 表示 markdown 文件加载后的内容
+ */
+export type MarkdownFile = { default: string };
+
+/**
+ * 表示 markdown 文件加载后的对象
+ */
+export type MarkdownFileObject = Record<string, MarkdownFile>;
+
 function markdownCode(types?: Array<Source>) {
     return (token: Token) => {
         switch (token.type) {
