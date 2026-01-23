@@ -2,12 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconRange from '~icons/uil/slider-h-range';
 
 import type { Info } from '@docs/components/base';
-
-import { default as api } from './api.json' with { type: 'json' };
 
 import { default as Basic } from './basic';
 import { default as basic } from './basic.tsx?raw';
@@ -21,7 +18,8 @@ import { default as mark } from './mark.tsx?raw';
 export default function(): Info {
     return {
         kind: 'data-input', title: '_d.demo.range', icon: IconRange, path: 'form/range',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Basic, source: basic, title: 'basic' },
             { component: Step, source: step, title: 'step' },
             { component: Mark, source: mark, title: 'mark' },

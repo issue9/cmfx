@@ -1,0 +1,814 @@
+[
+	{
+		"kind": "interface",
+		"properties": [
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "popover",
+				"type": "boolean | \"manual\" | \"auto\" | undefined"
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"type": "((el: HTMLFieldSetElement) => void) | undefined"
+			},
+			{
+				"name": "onChange",
+				"summary": "值发生改变时触发的事件\n\n\nval 表示修改的新值；\nold 表示修改之前的值；\ntime 是否只修改了时间部分，该值只有在\n`time`\n为 true 时才有效；\n\n\n此方法只在以下条件下触发：\n- 点击天数；\n- 点击小时、分钟和秒；\n\n",
+				"type": "((val?: Date, old?: Date, time?: boolean) => void) | undefined"
+			},
+			{
+				"name": "value",
+				"summary": "关联的值\n\n",
+				"type": "Date | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "readonly",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "time",
+				"summary": "是否符带时间选择器\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "min",
+				"summary": "允许的最小日期\n\n",
+				"type": "Date | undefined"
+			},
+			{
+				"name": "max",
+				"summary": "允许的最大日期\n\n",
+				"type": "Date | undefined"
+			},
+			{
+				"name": "weekend",
+				"summary": "是否高亮周末的列\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "weekBase",
+				"summary": "一周的开始，默认为 0，即周日。\n\n",
+				"type": "0 | 5 | 4 | 3 | 2 | 1 | 6 | undefined"
+			},
+			{
+				"name": "weeks",
+				"summary": "是否显示周数\n\n\nNOTE: 周数是依据 ISO 8601 拿所在行的中间列计算所得。\n如果\n`weekBase`\n不为 1，那么周数指向的可能并不是当前行。\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "onWeekClick",
+				"summary": "点击周数时的回调函数\n\n",
+				"type": "((week: WeekValueType, range: [Date, Date]) => void) | undefined"
+			},
+			{
+				"name": "onPaging",
+				"summary": "翻页时的回调函数\n\n",
+				"type": "((val: Date, old?: Date) => void) | undefined"
+			},
+			{
+				"name": "plugins",
+				"summary": "插件列表\n\n\nNOTE: 这是一个非响应式的属性。\n\n",
+				"type": "DatetimePlugin[] | undefined"
+			}
+		],
+		"name": "DatePanelProps",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "DateRangePanelProps",
+		"properties": [
+			{
+				"name": "value",
+				"summary": "关联的值\n\n",
+				"type": "DateRangeValueType | undefined",
+				"reactive": true
+			},
+			{
+				"name": "onChange",
+				"summary": "修改值时触发的事件\n\n",
+				"type": "((val?: DateRangeValueType, old?: DateRangeValueType) => void) | undefined"
+			},
+			{
+				"name": "shortcuts",
+				"summary": "是否显示右侧快捷选择栏\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "popover",
+				"type": "boolean | \"manual\" | \"auto\" | undefined"
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"type": "((el: HTMLFieldSetElement) => void) | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "readonly",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "time",
+				"summary": "是否符带时间选择器\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "min",
+				"summary": "允许的最小日期\n\n",
+				"type": "Date | undefined"
+			},
+			{
+				"name": "max",
+				"summary": "允许的最大日期\n\n",
+				"type": "Date | undefined"
+			},
+			{
+				"name": "weekend",
+				"summary": "是否高亮周末的列\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "weekBase",
+				"summary": "一周的开始，默认为 0，即周日。\n\n",
+				"type": "0 | 5 | 4 | 3 | 2 | 1 | 6 | undefined"
+			},
+			{
+				"name": "weeks",
+				"summary": "是否显示周数\n\n\nNOTE: 周数是依据 ISO 8601 拿所在行的中间列计算所得。\n如果\n`weekBase`\n不为 1，那么周数指向的可能并不是当前行。\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "onWeekClick",
+				"summary": "点击周数时的回调函数\n\n",
+				"type": "((week: WeekValueType, range: [Date, Date]) => void) | undefined"
+			},
+			{
+				"name": "onPaging",
+				"summary": "翻页时的回调函数\n\n",
+				"type": "((val: Date, old?: Date) => void) | undefined"
+			},
+			{
+				"name": "plugins",
+				"summary": "插件列表\n\n\nNOTE: 这是一个非响应式的属性。\n\n",
+				"type": "DatetimePlugin[] | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"properties": [
+			{
+				"name": "[Symbol.unscopables]",
+				"type": "{ [x: number]: boolean | undefined; length?: boolean | undefined; toString?: boolean | undefined; toLocaleString?: boolean | undefined; pop?: boolean | undefined; push?: boolean | undefined; concat?: boolean | undefined; join?: boolean | undefined; reverse?: boolean | undefined; shift?: boolean | undefined; slice?: boolean | undefined; sort?: boolean | undefined; splice?: boolean | undefined; unshift?: boolean | undefined; indexOf?: boolean | undefined; lastIndexOf?: boolean | undefined; every?: boolean | undefined; some?: boolean | undefined; forEach?: boolean | undefined; map?: boolean | undefined; filter?: boolean | undefined; reduce?: boolean | undefined; reduceRight?: boolean | undefined; find?: boolean | undefined; findIndex?: boolean | undefined; fill?: boolean | undefined; copyWithin?: boolean | undefined; entries?: boolean | undefined; keys?: boolean | undefined; values?: boolean | undefined; includes?: boolean | undefined; flatMap?: boolean | undefined; flat?: boolean | undefined; at?: boolean | undefined; findLast?: boolean | undefined; findLastIndex?: boolean | undefined; toReversed?: boolean | undefined; toSorted?: boolean | undefined; toSpliced?: boolean | undefined; with?: boolean | undefined; [Symbol.iterator]?: boolean | undefined; readonly [Symbol.unscopables]?: boolean | undefined; }",
+				"readonly": true
+			}
+		],
+		"methods": [
+			{
+				"name": "toString",
+				"type": "toString():string",
+				"return": {
+					"type": "string"
+				}
+			},
+			{
+				"name": "toLocaleString",
+				"type": "toLocaleString():string",
+				"return": {
+					"type": "string"
+				}
+			},
+			{
+				"name": "pop",
+				"type": "pop():T|undefined",
+				"return": {
+					"type": "T | undefined"
+				}
+			},
+			{
+				"name": "push",
+				"type": "push(...items:T[]):number",
+				"params": [
+					{
+						"name": "items",
+						"type": "T[]"
+					}
+				],
+				"return": {
+					"type": "number"
+				}
+			},
+			{
+				"name": "concat",
+				"type": "concat(...items:ConcatArray<T>[]):T[]",
+				"params": [
+					{
+						"name": "items",
+						"type": "ConcatArray<T>[]"
+					}
+				],
+				"return": {
+					"type": "T[]"
+				}
+			},
+			{
+				"name": "join",
+				"type": "join(separator?:string):string",
+				"params": [
+					{
+						"name": "separator",
+						"type": "string | undefined"
+					}
+				],
+				"return": {
+					"type": "string"
+				}
+			},
+			{
+				"name": "reverse",
+				"type": "reverse():T[]",
+				"return": {
+					"type": "T[]"
+				}
+			},
+			{
+				"name": "shift",
+				"type": "shift():T|undefined",
+				"return": {
+					"type": "T | undefined"
+				}
+			},
+			{
+				"name": "slice",
+				"type": "slice(start?:number,end?:number):T[]",
+				"params": [
+					{
+						"name": "start",
+						"type": "number | undefined"
+					},
+					{
+						"name": "end",
+						"type": "number | undefined"
+					}
+				],
+				"return": {
+					"type": "T[]"
+				}
+			},
+			{
+				"name": "sort",
+				"type": "sort(compareFn?:(a:T,b:T)=>number):this",
+				"params": [
+					{
+						"name": "compareFn",
+						"type": "((a: T, b: T) => number) | undefined"
+					}
+				],
+				"return": {
+					"type": "this"
+				}
+			},
+			{
+				"name": "splice",
+				"type": "splice(start:number,deleteCount?:number):T[]",
+				"params": [
+					{
+						"name": "start",
+						"type": "number"
+					},
+					{
+						"name": "deleteCount",
+						"type": "number | undefined"
+					}
+				],
+				"return": {
+					"type": "T[]"
+				}
+			},
+			{
+				"name": "unshift",
+				"type": "unshift(...items:T[]):number",
+				"params": [
+					{
+						"name": "items",
+						"type": "T[]"
+					}
+				],
+				"return": {
+					"type": "number"
+				}
+			},
+			{
+				"name": "indexOf",
+				"type": "indexOf(searchElement:T,fromIndex?:number):number",
+				"params": [
+					{
+						"name": "searchElement",
+						"type": "T"
+					},
+					{
+						"name": "fromIndex",
+						"type": "number | undefined"
+					}
+				],
+				"return": {
+					"type": "number"
+				}
+			},
+			{
+				"name": "lastIndexOf",
+				"type": "lastIndexOf(searchElement:T,fromIndex?:number):number",
+				"params": [
+					{
+						"name": "searchElement",
+						"type": "T"
+					},
+					{
+						"name": "fromIndex",
+						"type": "number | undefined"
+					}
+				],
+				"return": {
+					"type": "number"
+				}
+			},
+			{
+				"name": "every",
+				"type": "every<S extends T>(predicate:(value:T,index:number,array:T[])=>value is S,thisArg?:any):this is S[]",
+				"typeParams": [
+					{
+						"name": "S",
+						"type": "T"
+					}
+				],
+				"params": [
+					{
+						"name": "predicate",
+						"type": "(value: T, index: number, array: T[]) => value is S"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "boolean"
+				}
+			},
+			{
+				"name": "some",
+				"type": "some(predicate:(value:T,index:number,array:T[])=>unknown,thisArg?:any):boolean",
+				"params": [
+					{
+						"name": "predicate",
+						"type": "(value: T, index: number, array: T[]) => unknown"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "boolean"
+				}
+			},
+			{
+				"name": "forEach",
+				"type": "forEach(callbackfn:(value:T,index:number,array:T[])=>void,thisArg?:any):void",
+				"params": [
+					{
+						"name": "callbackfn",
+						"type": "(value: T, index: number, array: T[]) => void"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "map",
+				"type": "map<U>(callbackfn:(value:T,index:number,array:T[])=>U,thisArg?:any):U[]",
+				"typeParams": [
+					{
+						"name": "U",
+						"type": "any"
+					}
+				],
+				"params": [
+					{
+						"name": "callbackfn",
+						"type": "(value: T, index: number, array: T[]) => U"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "U[]"
+				}
+			},
+			{
+				"name": "filter",
+				"type": "filter<S extends T>(predicate:(value:T,index:number,array:T[])=>value is S,thisArg?:any):S[]",
+				"typeParams": [
+					{
+						"name": "S",
+						"type": "T"
+					}
+				],
+				"params": [
+					{
+						"name": "predicate",
+						"type": "(value: T, index: number, array: T[]) => value is S"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "S[]"
+				}
+			},
+			{
+				"name": "reduce",
+				"type": "reduce(callbackfn:(previousValue:T,currentValue:T,currentIndex:number,array:T[])=>T):T",
+				"params": [
+					{
+						"name": "callbackfn",
+						"type": "(previousValue: T, currentValue: T, currentIndex: number, array: T[]) => T"
+					}
+				],
+				"return": {
+					"type": "T"
+				}
+			},
+			{
+				"name": "reduceRight",
+				"type": "reduceRight(callbackfn:(previousValue:T,currentValue:T,currentIndex:number,array:T[])=>T):T",
+				"params": [
+					{
+						"name": "callbackfn",
+						"type": "(previousValue: T, currentValue: T, currentIndex: number, array: T[]) => T"
+					}
+				],
+				"return": {
+					"type": "T"
+				}
+			},
+			{
+				"name": "find",
+				"type": "find<S extends T>(predicate:(value:T,index:number,obj:T[])=>value is S,thisArg?:any):S|undefined",
+				"typeParams": [
+					{
+						"name": "S",
+						"type": "T"
+					}
+				],
+				"params": [
+					{
+						"name": "predicate",
+						"type": "(value: T, index: number, obj: T[]) => value is S"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "S | undefined"
+				}
+			},
+			{
+				"name": "findIndex",
+				"type": "findIndex(predicate:(value:T,index:number,obj:T[])=>unknown,thisArg?:any):number",
+				"params": [
+					{
+						"name": "predicate",
+						"type": "(value: T, index: number, obj: T[]) => unknown"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "number"
+				}
+			},
+			{
+				"name": "fill",
+				"type": "fill(value:T,start?:number,end?:number):this",
+				"params": [
+					{
+						"name": "value",
+						"type": "T"
+					},
+					{
+						"name": "start",
+						"type": "number | undefined"
+					},
+					{
+						"name": "end",
+						"type": "number | undefined"
+					}
+				],
+				"return": {
+					"type": "this"
+				}
+			},
+			{
+				"name": "copyWithin",
+				"type": "copyWithin(target:number,start:number,end?:number):this",
+				"params": [
+					{
+						"name": "target",
+						"type": "number"
+					},
+					{
+						"name": "start",
+						"type": "number"
+					},
+					{
+						"name": "end",
+						"type": "number | undefined"
+					}
+				],
+				"return": {
+					"type": "this"
+				}
+			},
+			{
+				"name": "entries",
+				"type": "entries():ArrayIterator<[number,T]>",
+				"return": {
+					"type": "ArrayIterator<[number, T]>"
+				}
+			},
+			{
+				"name": "keys",
+				"type": "keys():ArrayIterator<number>",
+				"return": {
+					"type": "ArrayIterator<number>"
+				}
+			},
+			{
+				"name": "values",
+				"type": "values():ArrayIterator<T>",
+				"return": {
+					"type": "ArrayIterator<T>"
+				}
+			},
+			{
+				"name": "includes",
+				"type": "includes(searchElement:T,fromIndex?:number):boolean",
+				"params": [
+					{
+						"name": "searchElement",
+						"type": "T"
+					},
+					{
+						"name": "fromIndex",
+						"type": "number | undefined"
+					}
+				],
+				"return": {
+					"type": "boolean"
+				}
+			},
+			{
+				"name": "flatMap",
+				"type": "flatMap<U,This=undefined>(callback:(this:This,value:T,index:number,array:T[])=>U|ReadonlyArray<U>,thisArg?:This,):U[]",
+				"typeParams": [
+					{
+						"name": "U",
+						"type": "any"
+					},
+					{
+						"name": "This",
+						"type": "any",
+						"init": "undefined"
+					}
+				],
+				"params": [
+					{
+						"name": "callback",
+						"type": "(this: This, value: T, index: number, array: T[]) => U | ReadonlyArray<U>"
+					},
+					{
+						"name": "thisArg",
+						"type": "This | undefined"
+					}
+				],
+				"return": {
+					"type": "U[]"
+				}
+			},
+			{
+				"name": "flat",
+				"type": "flat<A,D extends number=1>(this:A,depth?:D,):FlatArray<A,D>[]",
+				"typeParams": [
+					{
+						"name": "A",
+						"type": "any"
+					},
+					{
+						"name": "D",
+						"type": "number",
+						"init": "1"
+					}
+				],
+				"params": [
+					{
+						"name": "this",
+						"type": "A"
+					},
+					{
+						"name": "depth",
+						"type": "D | undefined"
+					}
+				],
+				"return": {
+					"type": "FlatArray<A, D>[]"
+				}
+			},
+			{
+				"name": "at",
+				"type": "at(index:number):T|undefined",
+				"params": [
+					{
+						"name": "index",
+						"type": "number"
+					}
+				],
+				"return": {
+					"type": "T | undefined"
+				}
+			},
+			{
+				"name": "findLast",
+				"type": "findLast<S extends T>(predicate:(value:T,index:number,array:T[])=>value is S,thisArg?:any):S|undefined",
+				"typeParams": [
+					{
+						"name": "S",
+						"type": "T"
+					}
+				],
+				"params": [
+					{
+						"name": "predicate",
+						"type": "(value: T, index: number, array: T[]) => value is S"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "S | undefined"
+				}
+			},
+			{
+				"name": "findLastIndex",
+				"type": "findLastIndex(predicate:(value:T,index:number,array:T[])=>unknown,thisArg?:any):number",
+				"params": [
+					{
+						"name": "predicate",
+						"type": "(value: T, index: number, array: T[]) => unknown"
+					},
+					{
+						"name": "thisArg",
+						"type": "any"
+					}
+				],
+				"return": {
+					"type": "number"
+				}
+			},
+			{
+				"name": "toReversed",
+				"type": "toReversed():T[]",
+				"return": {
+					"type": "T[]"
+				}
+			},
+			{
+				"name": "toSorted",
+				"type": "toSorted(compareFn?:(a:T,b:T)=>number):T[]",
+				"params": [
+					{
+						"name": "compareFn",
+						"type": "((a: T, b: T) => number) | undefined"
+					}
+				],
+				"return": {
+					"type": "T[]"
+				}
+			},
+			{
+				"name": "toSpliced",
+				"type": "toSpliced(start:number,deleteCount:number,...items:T[]):T[]",
+				"params": [
+					{
+						"name": "start",
+						"type": "number"
+					},
+					{
+						"name": "deleteCount",
+						"type": "number"
+					},
+					{
+						"name": "items",
+						"type": "T[]"
+					}
+				],
+				"return": {
+					"type": "T[]"
+				}
+			},
+			{
+				"name": "with",
+				"type": "with(index:number,value:T):T[]",
+				"params": [
+					{
+						"name": "index",
+						"type": "number"
+					},
+					{
+						"name": "value",
+						"type": "T"
+					}
+				],
+				"return": {
+					"type": "T[]"
+				}
+			},
+			{
+				"name": "[Symbol.iterator]",
+				"type": "[Symbol.iterator]():ArrayIterator<T>",
+				"return": {
+					"type": "ArrayIterator<T>"
+				}
+			}
+		],
+		"name": "DateRangeValueType",
+		"pkg": "@cmfx/components"
+	}
+]

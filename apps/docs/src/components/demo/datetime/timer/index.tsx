@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconTimer from '~icons/fluent/timer-10-24-filled';
 
 import type { Info } from '@docs/components/base';
@@ -10,12 +9,11 @@ import type { Info } from '@docs/components/base';
 import { default as Timer } from './timer';
 import { default as timer } from './timer.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.timer', icon: IconTimer, path: 'datetime/timer',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Timer, source: timer, title: 'timer' },
         ]
     };

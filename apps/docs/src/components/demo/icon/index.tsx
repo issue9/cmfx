@@ -2,12 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconIcon from '~icons/tdesign/icon-filled';
 
 import type { Info } from '@docs/components/base';
-
-import { default as api } from './api.json' with { type: 'json' };
 
 import { default as Text } from './text';
 import { default as text } from './text.tsx?raw';
@@ -18,7 +15,8 @@ import { default as iconSet } from './iconset.tsx?raw';
 export default function(): Info {
     return {
         kind: 'general', title: '_d.demo.icon', icon: IconIcon, path: 'icon',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Text, source: text, title: '与文本的排版' },
             { component: IconSet, source: iconSet, title: '图标集' },
         ]

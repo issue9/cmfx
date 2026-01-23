@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconResult from '~icons/stash/search-results';
 
 import type { Info } from '@docs/components/base';
@@ -22,13 +21,12 @@ import { default as empty } from './empty.tsx?raw';
 import { default as Custom } from './custom-empty';
 import { default as custom } from './custom-empty.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'feedback', title: '_d.demo.result', icon: IconResult, path: 'result',
-        header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw' }),
-        api: api as Array<Type>, stages: [
+        header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw', import: 'default' }),
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: H, source: h, title: 'horizontal' },
             { component: V, source: v, title: 'vertical' },
             { component: Auto, source: auto, title: 'auto' },

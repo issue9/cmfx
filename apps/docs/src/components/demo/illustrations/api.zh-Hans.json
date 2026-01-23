@@ -1,0 +1,2276 @@
+[
+	{
+		"name": "IllustrationProps",
+		"kind": "intersection",
+		"types": [
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "\"xmlns:xlink\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "contentScriptType",
+						"type": "string | undefined"
+					},
+					{
+						"name": "contentStyleType",
+						"type": "string | undefined"
+					},
+					{
+						"name": "height",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "width",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "x",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "xmlns",
+						"type": "string | undefined"
+					},
+					{
+						"name": "y",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "baseProfile",
+						"type": "string | undefined"
+					},
+					{
+						"name": "version",
+						"type": "string | undefined"
+					},
+					{
+						"name": "lang",
+						"type": "string | undefined"
+					},
+					{
+						"name": "tabindex",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "tabIndex",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "innerHTML",
+						"type": "string | undefined"
+					},
+					{
+						"name": "textContent",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "autofocus",
+						"type": "boolean | undefined"
+					},
+					{
+						"name": "class",
+						"type": "string | undefined"
+					},
+					{
+						"name": "elementtiming",
+						"type": "string | undefined"
+					},
+					{
+						"name": "id",
+						"type": "string | undefined"
+					},
+					{
+						"name": "nonce",
+						"type": "string | undefined"
+					},
+					{
+						"name": "slot",
+						"type": "string | undefined"
+					},
+					{
+						"name": "style",
+						"type": "string | JSX.CSSProperties | undefined"
+					},
+					{
+						"name": "ref",
+						"type": "T | ((el: T) => void) | undefined"
+					},
+					{
+						"name": "children",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "classList",
+						"type": "{ [k: string]: boolean | undefined; } | undefined"
+					},
+					{
+						"name": "$ServerOnly",
+						"type": "boolean | undefined"
+					},
+					{
+						"name": "onAbort",
+						"type": "JSX.EventHandlerUnion<T, UIEvent, JSX.EventHandler<T, UIEvent>> | undefined"
+					},
+					{
+						"name": "onAnimationCancel",
+						"type": "JSX.EventHandlerUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "onAnimationEnd",
+						"type": "JSX.EventHandlerUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "onAnimationIteration",
+						"type": "JSX.EventHandlerUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "onAnimationStart",
+						"type": "JSX.EventHandlerUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "onAuxClick",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onBeforeCopy",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onBeforeCut",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onBeforeInput",
+						"type": "JSX.InputEventHandlerUnion<T, InputEvent> | undefined"
+					},
+					{
+						"name": "onBeforeMatch",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onBeforePaste",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onBeforeToggle",
+						"type": "JSX.EventHandlerUnion<T, ToggleEvent, JSX.EventHandler<T, ToggleEvent>> | undefined"
+					},
+					{
+						"name": "onBeforeXRSelect",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onBlur",
+						"type": "JSX.FocusEventHandlerUnion<T, FocusEvent> | undefined"
+					},
+					{
+						"name": "onCancel",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onCanPlay",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onCanPlayThrough",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onChange",
+						"type": "JSX.ChangeEventHandlerUnion<T, Event> | undefined"
+					},
+					{
+						"name": "onClick",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onClose",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onCommand",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onCompositionEnd",
+						"type": "JSX.EventHandlerUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "onCompositionStart",
+						"type": "JSX.EventHandlerUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "onCompositionUpdate",
+						"type": "JSX.EventHandlerUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "onContentVisibilityAutoStateChange",
+						"type": "JSX.EventHandlerUnion<T, ContentVisibilityAutoStateChangeEvent, JSX.EventHandler<T, ContentVisibilityAutoStateChangeEvent>> | undefined"
+					},
+					{
+						"name": "onContextLost",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onContextMenu",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onContextRestored",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onCopy",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onCueChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onCut",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onDblClick",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onDrag",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "onDragEnd",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "onDragEnter",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "onDragExit",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "onDragLeave",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "onDragOver",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "onDragStart",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "onDrop",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "onDurationChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onEmptied",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onEnded",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onError",
+						"type": "JSX.EventHandlerUnion<T, ErrorEvent, JSX.EventHandler<T, ErrorEvent>> | undefined"
+					},
+					{
+						"name": "onFocus",
+						"type": "JSX.FocusEventHandlerUnion<T, FocusEvent> | undefined"
+					},
+					{
+						"name": "onFocusIn",
+						"type": "JSX.FocusEventHandlerUnion<T, FocusEvent> | undefined"
+					},
+					{
+						"name": "onFocusOut",
+						"type": "JSX.FocusEventHandlerUnion<T, FocusEvent> | undefined"
+					},
+					{
+						"name": "onFormData",
+						"type": "JSX.EventHandlerUnion<T, FormDataEvent, JSX.EventHandler<T, FormDataEvent>> | undefined"
+					},
+					{
+						"name": "onFullscreenChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onFullscreenError",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onGotPointerCapture",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onInput",
+						"type": "JSX.InputEventHandlerUnion<T, InputEvent> | undefined"
+					},
+					{
+						"name": "onInvalid",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onKeyDown",
+						"type": "JSX.EventHandlerUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "onKeyPress",
+						"type": "JSX.EventHandlerUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "onKeyUp",
+						"type": "JSX.EventHandlerUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "onLoad",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onLoadedData",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onLoadedMetadata",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onLoadStart",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onLostPointerCapture",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onMouseDown",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onMouseEnter",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onMouseLeave",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onMouseMove",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onMouseOut",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onMouseOver",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onMouseUp",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onPaste",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onPause",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onPlay",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onPlaying",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onPointerCancel",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onPointerDown",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onPointerEnter",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onPointerLeave",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onPointerMove",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onPointerOut",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onPointerOver",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onPointerRawUpdate",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onPointerUp",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onProgress",
+						"type": "JSX.EventHandlerUnion<T, ProgressEvent<EventTarget>, JSX.EventHandler<T, ProgressEvent<EventTarget>>> | undefined"
+					},
+					{
+						"name": "onRateChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onReset",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onResize",
+						"type": "JSX.EventHandlerUnion<T, UIEvent, JSX.EventHandler<T, UIEvent>> | undefined"
+					},
+					{
+						"name": "onScroll",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onScrollEnd",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onScrollSnapChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onScrollSnapChanging",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onSecurityPolicyViolation",
+						"type": "JSX.EventHandlerUnion<T, SecurityPolicyViolationEvent, JSX.EventHandler<T, SecurityPolicyViolationEvent>> | undefined"
+					},
+					{
+						"name": "onSeeked",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onSeeking",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onSelect",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onSelectionChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onSelectStart",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onSlotChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onStalled",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onSubmit",
+						"type": "JSX.EventHandlerUnion<T, SubmitEvent, JSX.EventHandler<T, SubmitEvent>> | undefined"
+					},
+					{
+						"name": "onSuspend",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onTimeUpdate",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onToggle",
+						"type": "JSX.EventHandlerUnion<T, ToggleEvent, JSX.EventHandler<T, ToggleEvent>> | undefined"
+					},
+					{
+						"name": "onTouchCancel",
+						"type": "JSX.EventHandlerUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "onTouchEnd",
+						"type": "JSX.EventHandlerUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "onTouchMove",
+						"type": "JSX.EventHandlerUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "onTouchStart",
+						"type": "JSX.EventHandlerUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "onTransitionCancel",
+						"type": "JSX.EventHandlerUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "onTransitionEnd",
+						"type": "JSX.EventHandlerUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "onTransitionRun",
+						"type": "JSX.EventHandlerUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "onTransitionStart",
+						"type": "JSX.EventHandlerUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "onVolumeChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onWaiting",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onWheel",
+						"type": "JSX.EventHandlerUnion<T, WheelEvent, JSX.EventHandler<T, WheelEvent>> | undefined"
+					},
+					{
+						"name": "onabort",
+						"type": "JSX.EventHandlerUnion<T, UIEvent, JSX.EventHandler<T, UIEvent>> | undefined"
+					},
+					{
+						"name": "onanimationcancel",
+						"type": "JSX.EventHandlerUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "onanimationend",
+						"type": "JSX.EventHandlerUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "onanimationiteration",
+						"type": "JSX.EventHandlerUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "onanimationstart",
+						"type": "JSX.EventHandlerUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "onauxclick",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onbeforecopy",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onbeforecut",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onbeforeinput",
+						"type": "JSX.InputEventHandlerUnion<T, InputEvent> | undefined"
+					},
+					{
+						"name": "onbeforematch",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onbeforepaste",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onbeforetoggle",
+						"type": "JSX.EventHandlerUnion<T, ToggleEvent, JSX.EventHandler<T, ToggleEvent>> | undefined"
+					},
+					{
+						"name": "onbeforexrselect",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onblur",
+						"type": "JSX.FocusEventHandlerUnion<T, FocusEvent> | undefined"
+					},
+					{
+						"name": "oncancel",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "oncanplay",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "oncanplaythrough",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onchange",
+						"type": "JSX.ChangeEventHandlerUnion<T, Event> | undefined"
+					},
+					{
+						"name": "onclick",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onclose",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "oncommand",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "oncompositionend",
+						"type": "JSX.EventHandlerUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "oncompositionstart",
+						"type": "JSX.EventHandlerUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "oncompositionupdate",
+						"type": "JSX.EventHandlerUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "oncontentvisibilityautostatechange",
+						"type": "JSX.EventHandlerUnion<T, ContentVisibilityAutoStateChangeEvent, JSX.EventHandler<T, ContentVisibilityAutoStateChangeEvent>> | undefined"
+					},
+					{
+						"name": "oncontextlost",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "oncontextmenu",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "oncontextrestored",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "oncopy",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "oncuechange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "oncut",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "ondblclick",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "ondrag",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "ondragend",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "ondragenter",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "ondragexit",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "ondragleave",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "ondragover",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "ondragstart",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "ondrop",
+						"type": "JSX.EventHandlerUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "ondurationchange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onemptied",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onended",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onerror",
+						"type": "JSX.EventHandlerUnion<T, ErrorEvent, JSX.EventHandler<T, ErrorEvent>> | undefined"
+					},
+					{
+						"name": "onfocus",
+						"type": "JSX.FocusEventHandlerUnion<T, FocusEvent> | undefined"
+					},
+					{
+						"name": "onfocusin",
+						"type": "JSX.FocusEventHandlerUnion<T, FocusEvent> | undefined"
+					},
+					{
+						"name": "onfocusout",
+						"type": "JSX.FocusEventHandlerUnion<T, FocusEvent> | undefined"
+					},
+					{
+						"name": "onformdata",
+						"type": "JSX.EventHandlerUnion<T, FormDataEvent, JSX.EventHandler<T, FormDataEvent>> | undefined"
+					},
+					{
+						"name": "onfullscreenchange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onfullscreenerror",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "ongotpointercapture",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "oninput",
+						"type": "JSX.InputEventHandlerUnion<T, InputEvent> | undefined"
+					},
+					{
+						"name": "oninvalid",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onkeydown",
+						"type": "JSX.EventHandlerUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "onkeypress",
+						"type": "JSX.EventHandlerUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "onkeyup",
+						"type": "JSX.EventHandlerUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "onload",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onloadeddata",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onloadedmetadata",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onloadstart",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onlostpointercapture",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onmousedown",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onmouseenter",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onmouseleave",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onmousemove",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onmouseout",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onmouseover",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onmouseup",
+						"type": "JSX.EventHandlerUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "onpaste",
+						"type": "JSX.EventHandlerUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "onpause",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onplay",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onplaying",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onpointercancel",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onpointerdown",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onpointerenter",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onpointerleave",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onpointermove",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onpointerout",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onpointerover",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onpointerrawupdate",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onpointerup",
+						"type": "JSX.EventHandlerUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "onprogress",
+						"type": "JSX.EventHandlerUnion<T, ProgressEvent<EventTarget>, JSX.EventHandler<T, ProgressEvent<EventTarget>>> | undefined"
+					},
+					{
+						"name": "onratechange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onreset",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onresize",
+						"type": "JSX.EventHandlerUnion<T, UIEvent, JSX.EventHandler<T, UIEvent>> | undefined"
+					},
+					{
+						"name": "onscroll",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onscrollend",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onscrollsnapchange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onscrollsnapchanging",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onsecuritypolicyviolation",
+						"type": "JSX.EventHandlerUnion<T, SecurityPolicyViolationEvent, JSX.EventHandler<T, SecurityPolicyViolationEvent>> | undefined"
+					},
+					{
+						"name": "onseeked",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onseeking",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onselect",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onselectionchange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onselectstart",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onslotchange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onstalled",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onsubmit",
+						"type": "JSX.EventHandlerUnion<T, SubmitEvent, JSX.EventHandler<T, SubmitEvent>> | undefined"
+					},
+					{
+						"name": "onsuspend",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "ontimeupdate",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "ontoggle",
+						"type": "JSX.EventHandlerUnion<T, ToggleEvent, JSX.EventHandler<T, ToggleEvent>> | undefined"
+					},
+					{
+						"name": "ontouchcancel",
+						"type": "JSX.EventHandlerUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "ontouchend",
+						"type": "JSX.EventHandlerUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "ontouchmove",
+						"type": "JSX.EventHandlerUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "ontouchstart",
+						"type": "JSX.EventHandlerUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "ontransitioncancel",
+						"type": "JSX.EventHandlerUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "ontransitionend",
+						"type": "JSX.EventHandlerUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "ontransitionrun",
+						"type": "JSX.EventHandlerUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "ontransitionstart",
+						"type": "JSX.EventHandlerUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "onvolumechange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onwaiting",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onwheel",
+						"type": "JSX.EventHandlerUnion<T, WheelEvent, JSX.EventHandler<T, WheelEvent>> | undefined"
+					},
+					{
+						"name": "\"on:abort\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, UIEvent, JSX.EventHandler<T, UIEvent>> | undefined"
+					},
+					{
+						"name": "\"on:animationcancel\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "\"on:animationend\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "\"on:animationiteration\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "\"on:animationstart\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, AnimationEvent, JSX.EventHandler<T, AnimationEvent>> | undefined"
+					},
+					{
+						"name": "\"on:auxclick\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:beforecopy\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:beforecut\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:beforeinput\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, InputEvent, JSX.InputEventHandler<T, InputEvent>> | undefined"
+					},
+					{
+						"name": "\"on:beforematch\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:beforepaste\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:beforetoggle\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ToggleEvent, JSX.EventHandler<T, ToggleEvent>> | undefined"
+					},
+					{
+						"name": "\"on:beforexrselect\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:blur\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, FocusEvent, JSX.FocusEventHandler<T, FocusEvent>> | undefined"
+					},
+					{
+						"name": "\"on:cancel\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:canplay\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:canplaythrough\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:change\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.ChangeEventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:click\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:close\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:command\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:compositionend\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:compositionstart\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:compositionupdate\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, CompositionEvent, JSX.EventHandler<T, CompositionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:contentvisibilityautostatechange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ContentVisibilityAutoStateChangeEvent, JSX.EventHandler<T, ContentVisibilityAutoStateChangeEvent>> | undefined"
+					},
+					{
+						"name": "\"on:contextlost\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:contextmenu\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:contextrestored\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:copy\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:cuechange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:cut\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:dblclick\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:drag\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "\"on:dragend\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "\"on:dragenter\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "\"on:dragexit\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "\"on:dragleave\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "\"on:dragover\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "\"on:dragstart\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "\"on:drop\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, DragEvent, JSX.EventHandler<T, DragEvent>> | undefined"
+					},
+					{
+						"name": "\"on:durationchange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:emptied\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:ended\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:error\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ErrorEvent, JSX.EventHandler<T, ErrorEvent>> | undefined"
+					},
+					{
+						"name": "\"on:focus\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, FocusEvent, JSX.FocusEventHandler<T, FocusEvent>> | undefined"
+					},
+					{
+						"name": "\"on:focusin\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, FocusEvent, JSX.FocusEventHandler<T, FocusEvent>> | undefined"
+					},
+					{
+						"name": "\"on:focusout\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, FocusEvent, JSX.FocusEventHandler<T, FocusEvent>> | undefined"
+					},
+					{
+						"name": "\"on:formdata\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, FormDataEvent, JSX.EventHandler<T, FormDataEvent>> | undefined"
+					},
+					{
+						"name": "\"on:fullscreenchange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:fullscreenerror\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:gotpointercapture\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:input\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, InputEvent, JSX.InputEventHandler<T, InputEvent>> | undefined"
+					},
+					{
+						"name": "\"on:invalid\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:keydown\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:keypress\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:keyup\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, KeyboardEvent, JSX.EventHandler<T, KeyboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:load\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:loadeddata\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:loadedmetadata\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:loadstart\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:lostpointercapture\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:mousedown\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:mouseenter\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:mouseleave\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:mousemove\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:mouseout\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:mouseover\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:mouseup\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MouseEvent, JSX.EventHandler<T, MouseEvent>> | undefined"
+					},
+					{
+						"name": "\"on:paste\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ClipboardEvent, JSX.EventHandler<T, ClipboardEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pause\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:play\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:playing\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:pointercancel\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pointerdown\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pointerenter\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pointerleave\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pointermove\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pointerout\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pointerover\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pointerrawupdate\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pointerup\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PointerEvent, JSX.EventHandler<T, PointerEvent>> | undefined"
+					},
+					{
+						"name": "\"on:progress\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ProgressEvent<EventTarget>, JSX.EventHandler<T, ProgressEvent<EventTarget>>> | undefined"
+					},
+					{
+						"name": "\"on:ratechange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:reset\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:resize\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, UIEvent, JSX.EventHandler<T, UIEvent>> | undefined"
+					},
+					{
+						"name": "\"on:scroll\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:scrollend\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:scrollsnapchange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:scrollsnapchanging\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:securitypolicyviolation\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, SecurityPolicyViolationEvent, JSX.EventHandler<T, SecurityPolicyViolationEvent>> | undefined"
+					},
+					{
+						"name": "\"on:seeked\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:seeking\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:select\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:selectionchange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:selectstart\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:slotchange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:stalled\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:submit\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, SubmitEvent, JSX.EventHandler<T, SubmitEvent>> | undefined"
+					},
+					{
+						"name": "\"on:suspend\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:timeupdate\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:toggle\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, ToggleEvent, JSX.EventHandler<T, ToggleEvent>> | undefined"
+					},
+					{
+						"name": "\"on:touchcancel\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "\"on:touchend\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "\"on:touchmove\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "\"on:touchstart\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, TouchEvent, JSX.EventHandler<T, TouchEvent>> | undefined"
+					},
+					{
+						"name": "\"on:transitioncancel\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:transitionend\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:transitionrun\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:transitionstart\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, TransitionEvent, JSX.EventHandler<T, TransitionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:volumechange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:waiting\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:wheel\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, WheelEvent, JSX.EventHandler<T, WheelEvent>> | undefined"
+					},
+					{
+						"name": "\"aria-activedescendant\"",
+						"summary": "Identifies the currently active element when DOM focus is on a composite widget, textbox,\ngroup, or application.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-atomic\"",
+						"summary": "Indicates whether assistive technologies will present all, or only parts of, the changed\nregion based on the change notifications defined by the aria-relevant attribute.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-braillelabel\"",
+						"summary": "Similar to the global aria-label. Defines a string value that labels the current element,\nwhich is intended to be converted into Braille.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-brailleroledescription\"",
+						"summary": "Defines a human-readable, author-localized abbreviated description for the role of an element\nintended to be converted into Braille. Braille is not a one-to-one transliteration of letters\nand numbers, but rather it includes various abbreviations, contractions, and characters that\nrepresent words (known as logograms).\n\n\nInstead of converting long role descriptions to Braille, the aria-brailleroledescription\nattribute allows for providing an abbreviated version of the aria-roledescription value,\nwhich is a human-readable, author-localized description for the role of an element, for\nimproved user experience with braille interfaces.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-autocomplete\"",
+						"summary": "Indicates whether inputting text could trigger display of one or more predictions of the\nuser's intended value for an input and specifies how predictions would be presented if they\nare made.\n\n",
+						"type": "\"none\" | \"inline\" | \"list\" | \"both\" | undefined"
+					},
+					{
+						"name": "\"aria-busy\"",
+						"summary": "Indicates an element is being modified and that assistive technologies MAY want to wait until\nthe modifications are complete before exposing them to the user.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-checked\"",
+						"summary": "Indicates the current \"checked\" state of checkboxes, radio buttons, and other widgets.\n\n",
+						"type": "boolean | \"false\" | \"true\" | \"mixed\" | undefined"
+					},
+					{
+						"name": "\"aria-colcount\"",
+						"summary": "Defines the total number of columns in a table, grid, or treegrid.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-colindex\"",
+						"summary": "Defines an element's column index or position with respect to the total number of columns\nwithin a table, grid, or treegrid.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-colindextext\"",
+						"summary": "Defines a human-readable text alternative of the numeric aria-colindex.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-colspan\"",
+						"summary": "Defines the number of columns spanned by a cell or gridcell within a table, grid, or\ntreegrid.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-controls\"",
+						"summary": "Identifies the element (or elements) whose contents or presence are controlled by the current\nelement.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-current\"",
+						"summary": "Indicates the element that represents the current item within a container or set of related\nelements.\n\n",
+						"type": "boolean | \"time\" | \"false\" | \"true\" | \"page\" | \"step\" | \"location\" | \"date\" | undefined"
+					},
+					{
+						"name": "\"aria-describedby\"",
+						"summary": "Identifies the element (or elements) that describes the object.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-description\"",
+						"summary": "Defines a string value that describes or annotates the current element.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-details\"",
+						"summary": "Identifies the element that provides a detailed, extended description for the object.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-disabled\"",
+						"summary": "Indicates that the element is perceivable but disabled, so it is not editable or otherwise\noperable.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-dropeffect\"",
+						"summary": "Indicates what functions can be performed when a dragged object is released on the drop\ntarget.\n\n",
+						"type": "\"link\" | \"none\" | \"copy\" | \"execute\" | \"move\" | \"popup\" | undefined"
+					},
+					{
+						"name": "\"aria-errormessage\"",
+						"summary": "Identifies the element that provides an error message for the object.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-expanded\"",
+						"summary": "Indicates whether the element, or another grouping element it controls, is currently expanded\nor collapsed.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-flowto\"",
+						"summary": "Identifies the next element (or elements) in an alternate reading order of content which, at\nthe user's discretion, allows assistive technology to override the general default of reading\nin document source order.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-grabbed\"",
+						"summary": "Indicates an element's \"grabbed\" state in a drag-and-drop operation.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-haspopup\"",
+						"summary": "Indicates the availability and type of interactive popup element, such as menu or dialog,\nthat can be triggered by an element.\n\n",
+						"type": "boolean | \"dialog\" | \"menu\" | \"false\" | \"true\" | \"listbox\" | \"tree\" | \"grid\" | undefined"
+					},
+					{
+						"name": "\"aria-hidden\"",
+						"summary": "Indicates whether the element is exposed to an accessibility API.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-invalid\"",
+						"summary": "Indicates the entered value does not conform to the format expected by the application.\n\n",
+						"type": "boolean | \"false\" | \"true\" | \"grammar\" | \"spelling\" | undefined"
+					},
+					{
+						"name": "\"aria-keyshortcuts\"",
+						"summary": "Indicates keyboard shortcuts that an author has implemented to activate or give focus to an\nelement.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-label\"",
+						"summary": "Defines a string value that labels the current element.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-labelledby\"",
+						"summary": "Identifies the element (or elements) that labels the current element.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-level\"",
+						"summary": "Defines the hierarchical level of an element within a structure.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-live\"",
+						"summary": "Indicates that an element will be updated, and describes the types of updates the user\nagents, assistive technologies, and user can expect from the live region.\n\n",
+						"type": "\"off\" | \"assertive\" | \"polite\" | undefined"
+					},
+					{
+						"name": "\"aria-modal\"",
+						"summary": "Indicates whether an element is modal when displayed.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-multiline\"",
+						"summary": "Indicates whether a text box accepts multiple lines of input or only a single line.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-multiselectable\"",
+						"summary": "Indicates that the user may select more than one item from the current selectable\ndescendants.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-orientation\"",
+						"summary": "Indicates whether the element's orientation is horizontal, vertical, or unknown/ambiguous.\n\n",
+						"type": "\"horizontal\" | \"vertical\" | undefined"
+					},
+					{
+						"name": "\"aria-owns\"",
+						"summary": "Identifies an element (or elements) in order to define a visual, functional, or contextual\nparent/child relationship between DOM elements where the DOM hierarchy cannot be used to\nrepresent the relationship.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-placeholder\"",
+						"summary": "Defines a short hint (a word or short phrase) intended to aid the user with data entry when\nthe control has no value. A hint could be a sample value or a brief description of the\nexpected format.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-posinset\"",
+						"summary": "Defines an element's number or position in the current set of listitems or treeitems. Not\nrequired if all elements in the set are present in the DOM.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-pressed\"",
+						"summary": "Indicates the current \"pressed\" state of toggle buttons.\n\n",
+						"type": "boolean | \"false\" | \"true\" | \"mixed\" | undefined"
+					},
+					{
+						"name": "\"aria-readonly\"",
+						"summary": "Indicates that the element is not editable, but is otherwise operable.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-relevant\"",
+						"summary": "Indicates what notifications the user agent will trigger when the accessibility tree within a\nlive region is modified.\n\n",
+						"type": "\"text\" | \"additions\" | \"additions removals\" | \"additions text\" | \"all\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text additions\" | \"text removals\" | undefined"
+					},
+					{
+						"name": "\"aria-required\"",
+						"summary": "Indicates that user input is required on the element before a form may be submitted.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-roledescription\"",
+						"summary": "Defines a human-readable, author-localized description for the role of an element.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"aria-rowcount\"",
+						"summary": "Defines the total number of rows in a table, grid, or treegrid.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-rowindex\"",
+						"summary": "Defines an element's row index or position with respect to the total number of rows within a\ntable, grid, or treegrid.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-rowindextext\"",
+						"summary": "Defines a human-readable text alternative of aria-rowindex.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-rowspan\"",
+						"summary": "Defines the number of rows spanned by a cell or gridcell within a table, grid, or treegrid.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-selected\"",
+						"summary": "Indicates the current \"selected\" state of various widgets.\n\n",
+						"type": "boolean | \"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "\"aria-setsize\"",
+						"summary": "Defines the number of items in the current set of listitems or treeitems. Not required if all\nelements in the set are present in the DOM.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-sort\"",
+						"summary": "Indicates if items in a table or grid are sorted in ascending or descending order.\n\n",
+						"type": "\"none\" | \"ascending\" | \"descending\" | \"other\" | undefined"
+					},
+					{
+						"name": "\"aria-valuemax\"",
+						"summary": "Defines the maximum allowed value for a range widget.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-valuemin\"",
+						"summary": "Defines the minimum allowed value for a range widget.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-valuenow\"",
+						"summary": "Defines the current value for a range widget.\n\n",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"aria-valuetext\"",
+						"summary": "Defines the human readable text alternative of aria-valuenow for a range widget.\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "role",
+						"type": "\"article\" | \"button\" | \"dialog\" | \"figure\" | \"form\" | \"img\" | \"link\" | \"main\" | \"menu\" | \"meter\" | \"option\" | \"search\" | \"table\" | \"menuitem\" | \"switch\" | \"math\" | \"none\" | \"list\" | \"listbox\" | \"tree\" | \"grid\" | \"alert\" | \"alertdialog\" | \"application\" | \"banner\" | \"cell\" | \"checkbox\" | \"columnheader\" | \"combobox\" | \"complementary\" | \"contentinfo\" | \"definition\" | \"directory\" | \"document\" | \"feed\" | \"gridcell\" | \"group\" | \"heading\" | \"listitem\" | \"log\" | \"marquee\" | \"menubar\" | \"menuitemcheckbox\" | \"menuitemradio\" | \"navigation\" | \"note\" | \"presentation\" | \"progressbar\" | \"radio\" | \"radiogroup\" | \"region\" | \"row\" | \"rowgroup\" | \"rowheader\" | \"scrollbar\" | \"searchbox\" | \"separator\" | \"slider\" | \"spinbutton\" | \"status\" | \"tab\" | \"tablist\" | \"tabpanel\" | \"term\" | \"textbox\" | \"timer\" | \"toolbar\" | \"tooltip\" | \"treegrid\" | \"treeitem\" | undefined"
+					},
+					{
+						"name": "color",
+						"type": "string | undefined"
+					},
+					{
+						"name": "fill",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"fill-rule\"",
+						"type": "\"nonzero\" | \"evenodd\" | \"inherit\" | undefined"
+					},
+					{
+						"name": "\"fill-opacity\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "stroke",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"stroke-width\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"stroke-linecap\"",
+						"type": "\"inherit\" | \"butt\" | \"round\" | \"square\" | undefined"
+					},
+					{
+						"name": "\"stroke-linejoin\"",
+						"type": "\"inherit\" | \"round\" | \"arcs\" | \"bevel\" | \"miter\" | \"miter-clip\" | undefined"
+					},
+					{
+						"name": "\"stroke-miterlimit\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"stroke-dasharray\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"stroke-dashoffset\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"stroke-opacity\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"shape-rendering\"",
+						"type": "\"inherit\" | \"auto\" | \"optimizeSpeed\" | \"crispEdges\" | \"geometricPrecision\" | undefined"
+					},
+					{
+						"name": "pathLength",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "filter",
+						"type": "string | undefined"
+					},
+					{
+						"name": "mask",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"clip-path\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "cursor",
+						"type": "string | undefined"
+					},
+					{
+						"name": "opacity",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"enable-background\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"color-interpolation\"",
+						"type": "\"inherit\" | \"auto\" | \"sRGB\" | \"linearRGB\" | undefined"
+					},
+					{
+						"name": "\"color-rendering\"",
+						"type": "\"inherit\" | \"auto\" | \"optimizeSpeed\" | \"optimizeQuality\" | undefined"
+					},
+					{
+						"name": "viewBox",
+						"type": "string | undefined"
+					},
+					{
+						"name": "overflow",
+						"type": "\"inherit\" | \"auto\" | \"visible\" | \"hidden\" | \"scroll\" | undefined"
+					},
+					{
+						"name": "clip",
+						"type": "string | undefined"
+					},
+					{
+						"name": "requiredExtensions",
+						"type": "string | undefined"
+					},
+					{
+						"name": "requiredFeatures",
+						"type": "string | undefined"
+					},
+					{
+						"name": "systemLanguage",
+						"type": "string | undefined"
+					},
+					{
+						"name": "externalResourcesRequired",
+						"type": "\"false\" | \"true\" | undefined"
+					},
+					{
+						"name": "preserveAspectRatio",
+						"type": "JSX.SVGPreserveAspectRatio | undefined"
+					},
+					{
+						"name": "zoomAndPan",
+						"type": "\"disable\" | \"magnify\" | undefined"
+					},
+					{
+						"name": "\"alignment-baseline\"",
+						"type": "\"inherit\" | \"auto\" | \"baseline\" | \"before-edge\" | \"text-before-edge\" | \"middle\" | \"central\" | \"after-edge\" | \"text-after-edge\" | \"ideographic\" | \"alphabetic\" | \"hanging\" | \"mathematical\" | undefined"
+					},
+					{
+						"name": "\"baseline-shift\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"clip-rule\"",
+						"type": "\"nonzero\" | \"evenodd\" | \"inherit\" | undefined"
+					},
+					{
+						"name": "\"color-interpolation-filters\"",
+						"type": "\"inherit\" | \"auto\" | \"sRGB\" | \"linearRGB\" | undefined"
+					},
+					{
+						"name": "\"color-profile\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"dominant-baseline\"",
+						"type": "\"inherit\" | \"auto\" | \"middle\" | \"central\" | \"ideographic\" | \"alphabetic\" | \"hanging\" | \"mathematical\" | \"text-bottom\" | \"text-top\" | undefined"
+					},
+					{
+						"name": "\"flood-color\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"flood-opacity\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"font-family\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"font-size\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"font-size-adjust\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"font-stretch\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"font-style\"",
+						"type": "\"inherit\" | \"normal\" | \"italic\" | \"oblique\" | undefined"
+					},
+					{
+						"name": "\"font-variant\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"font-weight\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"glyph-orientation-horizontal\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"glyph-orientation-vertical\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"image-rendering\"",
+						"type": "\"inherit\" | \"auto\" | \"optimizeSpeed\" | \"optimizeQuality\" | undefined"
+					},
+					{
+						"name": "\"letter-spacing\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"lighting-color\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"marker-end\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"marker-mid\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"marker-start\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"pointer-events\"",
+						"type": "\"color\" | \"fill\" | \"stroke\" | \"none\" | \"all\" | \"inherit\" | \"visible\" | \"bounding-box\" | \"visiblePainted\" | \"visibleFill\" | \"visibleStroke\" | \"painted\" | undefined"
+					},
+					{
+						"name": "\"stop-color\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"stop-opacity\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"text-anchor\"",
+						"type": "\"inherit\" | \"middle\" | \"start\" | \"end\" | undefined"
+					},
+					{
+						"name": "\"text-decoration\"",
+						"type": "\"none\" | \"inherit\" | \"underline\" | \"overline\" | \"line-through\" | \"blink\" | undefined"
+					},
+					{
+						"name": "\"text-rendering\"",
+						"type": "\"inherit\" | \"auto\" | \"optimizeSpeed\" | \"geometricPrecision\" | \"optimizeLegibility\" | undefined"
+					},
+					{
+						"name": "\"unicode-bidi\"",
+						"type": "string | undefined"
+					},
+					{
+						"name": "\"word-spacing\"",
+						"type": "string | number | undefined"
+					},
+					{
+						"name": "\"writing-mode\"",
+						"type": "\"inherit\" | \"lr-tb\" | \"rl-tb\" | \"tb-rl\" | \"lr\" | \"rl\" | \"tb\" | undefined"
+					},
+					{
+						"name": "direction",
+						"type": "\"inherit\" | \"ltr\" | \"rtl\" | undefined"
+					},
+					{
+						"name": "display",
+						"type": "string | undefined"
+					},
+					{
+						"name": "kerning",
+						"type": "string | undefined"
+					},
+					{
+						"name": "visibility",
+						"type": "\"inherit\" | \"visible\" | \"hidden\" | \"collapse\" | undefined"
+					},
+					{
+						"name": "onAfterPrint",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onBeforePrint",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onBeforeUnload",
+						"type": "JSX.EventHandlerUnion<T, BeforeUnloadEvent, JSX.EventHandler<T, BeforeUnloadEvent>> | undefined"
+					},
+					{
+						"name": "onGamepadConnected",
+						"type": "JSX.EventHandlerUnion<T, GamepadEvent, JSX.EventHandler<T, GamepadEvent>> | undefined"
+					},
+					{
+						"name": "onGamepadDisconnected",
+						"type": "JSX.EventHandlerUnion<T, GamepadEvent, JSX.EventHandler<T, GamepadEvent>> | undefined"
+					},
+					{
+						"name": "onHashchange",
+						"type": "JSX.EventHandlerUnion<T, HashChangeEvent, JSX.EventHandler<T, HashChangeEvent>> | undefined"
+					},
+					{
+						"name": "onLanguageChange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onMessage",
+						"type": "JSX.EventHandlerUnion<T, MessageEvent<any>, JSX.EventHandler<T, MessageEvent<any>>> | undefined"
+					},
+					{
+						"name": "onMessageError",
+						"type": "JSX.EventHandlerUnion<T, MessageEvent<any>, JSX.EventHandler<T, MessageEvent<any>>> | undefined"
+					},
+					{
+						"name": "onOffline",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onOnline",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onPageHide",
+						"type": "JSX.EventHandlerUnion<T, PageTransitionEvent, JSX.EventHandler<T, PageTransitionEvent>> | undefined"
+					},
+					{
+						"name": "onPageReveal",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onPageShow",
+						"type": "JSX.EventHandlerUnion<T, PageTransitionEvent, JSX.EventHandler<T, PageTransitionEvent>> | undefined"
+					},
+					{
+						"name": "onPageSwap",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onPopstate",
+						"type": "JSX.EventHandlerUnion<T, PopStateEvent, JSX.EventHandler<T, PopStateEvent>> | undefined"
+					},
+					{
+						"name": "onRejectionHandled",
+						"type": "JSX.EventHandlerUnion<T, PromiseRejectionEvent, JSX.EventHandler<T, PromiseRejectionEvent>> | undefined"
+					},
+					{
+						"name": "onStorage",
+						"type": "JSX.EventHandlerUnion<T, StorageEvent, JSX.EventHandler<T, StorageEvent>> | undefined"
+					},
+					{
+						"name": "onUnhandledRejection",
+						"type": "JSX.EventHandlerUnion<T, PromiseRejectionEvent, JSX.EventHandler<T, PromiseRejectionEvent>> | undefined"
+					},
+					{
+						"name": "onUnload",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onafterprint",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onbeforeprint",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onbeforeunload",
+						"type": "JSX.EventHandlerUnion<T, BeforeUnloadEvent, JSX.EventHandler<T, BeforeUnloadEvent>> | undefined"
+					},
+					{
+						"name": "ongamepadconnected",
+						"type": "JSX.EventHandlerUnion<T, GamepadEvent, JSX.EventHandler<T, GamepadEvent>> | undefined"
+					},
+					{
+						"name": "ongamepaddisconnected",
+						"type": "JSX.EventHandlerUnion<T, GamepadEvent, JSX.EventHandler<T, GamepadEvent>> | undefined"
+					},
+					{
+						"name": "onhashchange",
+						"type": "JSX.EventHandlerUnion<T, HashChangeEvent, JSX.EventHandler<T, HashChangeEvent>> | undefined"
+					},
+					{
+						"name": "onlanguagechange",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onmessage",
+						"type": "JSX.EventHandlerUnion<T, MessageEvent<any>, JSX.EventHandler<T, MessageEvent<any>>> | undefined"
+					},
+					{
+						"name": "onmessageerror",
+						"type": "JSX.EventHandlerUnion<T, MessageEvent<any>, JSX.EventHandler<T, MessageEvent<any>>> | undefined"
+					},
+					{
+						"name": "onoffline",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "ononline",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onpagehide",
+						"type": "JSX.EventHandlerUnion<T, PageTransitionEvent, JSX.EventHandler<T, PageTransitionEvent>> | undefined"
+					},
+					{
+						"name": "onpagereveal",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onpageshow",
+						"type": "JSX.EventHandlerUnion<T, PageTransitionEvent, JSX.EventHandler<T, PageTransitionEvent>> | undefined"
+					},
+					{
+						"name": "onpageswap",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "onpopstate",
+						"type": "JSX.EventHandlerUnion<T, PopStateEvent, JSX.EventHandler<T, PopStateEvent>> | undefined"
+					},
+					{
+						"name": "onrejectionhandled",
+						"type": "JSX.EventHandlerUnion<T, PromiseRejectionEvent, JSX.EventHandler<T, PromiseRejectionEvent>> | undefined"
+					},
+					{
+						"name": "onstorage",
+						"type": "JSX.EventHandlerUnion<T, StorageEvent, JSX.EventHandler<T, StorageEvent>> | undefined"
+					},
+					{
+						"name": "onunhandledrejection",
+						"type": "JSX.EventHandlerUnion<T, PromiseRejectionEvent, JSX.EventHandler<T, PromiseRejectionEvent>> | undefined"
+					},
+					{
+						"name": "onunload",
+						"type": "JSX.EventHandlerUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:afterprint\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:beforeprint\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:beforeunload\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, BeforeUnloadEvent, JSX.EventHandler<T, BeforeUnloadEvent>> | undefined"
+					},
+					{
+						"name": "\"on:gamepadconnected\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, GamepadEvent, JSX.EventHandler<T, GamepadEvent>> | undefined"
+					},
+					{
+						"name": "\"on:gamepaddisconnected\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, GamepadEvent, JSX.EventHandler<T, GamepadEvent>> | undefined"
+					},
+					{
+						"name": "\"on:hashchange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, HashChangeEvent, JSX.EventHandler<T, HashChangeEvent>> | undefined"
+					},
+					{
+						"name": "\"on:languagechange\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:message\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MessageEvent<any>, JSX.EventHandler<T, MessageEvent<any>>> | undefined"
+					},
+					{
+						"name": "\"on:messageerror\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, MessageEvent<any>, JSX.EventHandler<T, MessageEvent<any>>> | undefined"
+					},
+					{
+						"name": "\"on:offline\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:online\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:pagehide\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PageTransitionEvent, JSX.EventHandler<T, PageTransitionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pagereveal\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:pageshow\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PageTransitionEvent, JSX.EventHandler<T, PageTransitionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:pageswap\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					},
+					{
+						"name": "\"on:popstate\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PopStateEvent, JSX.EventHandler<T, PopStateEvent>> | undefined"
+					},
+					{
+						"name": "\"on:rejectionhandled\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PromiseRejectionEvent, JSX.EventHandler<T, PromiseRejectionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:storage\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, StorageEvent, JSX.EventHandler<T, StorageEvent>> | undefined"
+					},
+					{
+						"name": "\"on:unhandledrejection\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, PromiseRejectionEvent, JSX.EventHandler<T, PromiseRejectionEvent>> | undefined"
+					},
+					{
+						"name": "\"on:unload\"",
+						"type": "JSX.EventHandlerWithOptionsUnion<T, Event, JSX.EventHandler<T, Event>> | undefined"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"def": "undefined\n\n",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "text",
+						"summary": "组件内的提示文字\n\n",
+						"type": "string | undefined"
+					}
+				]
+			}
+		],
+		"pkg": "@cmfx/illustrations"
+	}
+]

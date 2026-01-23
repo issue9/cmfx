@@ -1,0 +1,338 @@
+[
+	{
+		"kind": "interface",
+		"name": "UploadProps",
+		"properties": [
+			{
+				"name": "fieldName",
+				"summary": "上传文件在表单中的名称\n\n",
+				"type": "string"
+			},
+			{
+				"name": "multiple",
+				"summary": "是否多选\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "accept",
+				"summary": "支持的文件列表，同 https://developer.mozilla.org/zh-CN/docs/Web/HTML/Attributes/accept，但改为数组类型。\n\n",
+				"type": "string[] | undefined"
+			},
+			{
+				"name": "ref",
+				"type": "(el: UploadRef) => void"
+			},
+			{
+				"name": "dropzone",
+				"summary": "指定一个接受拖拖拽文件的区域\n\n",
+				"type": "HTMLElement | undefined"
+			},
+			{
+				"name": "upload",
+				"summary": "执行上传操作\n\n",
+				"type": "(obj: FormData) => Promise<Array<string> | undefined>"
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "title",
+				"summary": "鼠标提示内容\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "tabindex",
+				"type": "number | undefined"
+			},
+			{
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "hasHelp",
+				"summary": "表单组件的 hasHelp 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"def": "true\n\n",
+				"reactive": true
+			},
+			{
+				"name": "labelWidth",
+				"summary": "表单组件中 label 宽度的默认值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelAlign",
+				"summary": "表单组件中 label 的对齐方式\n\n",
+				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+				"type": "\"start\" | \"center\" | \"end\" | undefined",
+				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "label",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "help",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"type": "JSX.Element"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "UploadRef",
+		"summary": "上传组件的外放接口\n\n",
+		"methods": [
+			{
+				"name": "pick",
+				"summary": "显示文件选取对话框，如果有选择文件的话，还自动添加至\n`files`\n中。\n\n",
+				"type": "pick(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "files",
+				"summary": "返回所有未上传的文件\n\n",
+				"type": "files(): Array<File>",
+				"return": {
+					"type": "File[]"
+				}
+			},
+			{
+				"name": "delete",
+				"summary": "删除\n`files`\n中的第 index 对象\n\n",
+				"type": "delete(index: number): void",
+				"params": [
+					{
+						"name": "index",
+						"type": "number"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "clear",
+				"summary": "清除所有未上传的内容\n\n",
+				"type": "clear(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "upload",
+				"summary": "上传\n`files`\n中的文件\n\n",
+				"type": "upload(): Promise<Array<string> | undefined>",
+				"return": {
+					"type": "Promise<string[] | undefined>"
+				}
+			},
+			{
+				"name": "root",
+				"type": "root(): HTMLInputElement",
+				"return": {
+					"type": "HTMLInputElement"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "AlbumProps",
+		"properties": [
+			{
+				"name": "droppable",
+				"summary": "是否接受直接拖入文件\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "auto",
+				"summary": "是否自动执行上传操作\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "reverse",
+				"summary": "逆向显示内容，这将会导致上传按钮显示在最前面。\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "accessor",
+				"summary": "保存着所有已经上传的文件列表\n\n",
+				"type": "Accessor<string[], string>"
+			},
+			{
+				"name": "itemSize",
+				"summary": "子项的宽度\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "圆角\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "title",
+				"summary": "鼠标提示内容\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "tabindex",
+				"type": "number | undefined"
+			},
+			{
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "multiple",
+				"summary": "是否多选\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "hasHelp",
+				"summary": "表单组件的 hasHelp 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"def": "true\n\n",
+				"reactive": true
+			},
+			{
+				"name": "labelWidth",
+				"summary": "表单组件中 label 宽度的默认值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelAlign",
+				"summary": "表单组件中 label 的对齐方式\n\n",
+				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+				"type": "\"start\" | \"center\" | \"end\" | undefined",
+				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "label",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "help",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "fieldName",
+				"summary": "上传文件在表单中的名称\n\n",
+				"type": "string"
+			},
+			{
+				"name": "accept",
+				"summary": "支持的文件列表，同 https://developer.mozilla.org/zh-CN/docs/Web/HTML/Attributes/accept，但改为数组类型。\n\n",
+				"type": "string[] | undefined"
+			},
+			{
+				"name": "upload",
+				"summary": "执行上传操作\n\n",
+				"type": "(obj: FormData) => Promise<Array<string> | undefined>"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "file2Base64",
+		"summary": "将文件对象转换为 Base64 字符串\n\n",
+		"type": "function file2Base64(file: File): Promise<string>",
+		"params": [
+			{
+				"name": "file",
+				"summary": "需要转换的文件对象；\n\n",
+				"type": "File"
+			}
+		],
+		"return": {
+			"type": "Promise<string>"
+		},
+		"pkg": "@cmfx/components"
+	}
+]

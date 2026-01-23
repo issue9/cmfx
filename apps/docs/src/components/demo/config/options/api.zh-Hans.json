@@ -1,0 +1,166 @@
+[
+	{
+		"kind": "interface",
+		"name": "Options",
+		"summary": "组件库的全局配置项\n\n",
+		"properties": [
+			{
+				"name": "config",
+				"summary": "提供用于保存配置项到\n`Storage`\n对象的接口\n\n",
+				"type": "Config"
+			},
+			{
+				"name": "logo",
+				"summary": "项目的 LOGO\n\n",
+				"type": "string"
+			},
+			{
+				"name": "loading",
+				"summary": "表示加载状态的组件\n\n",
+				"remarks": "在页面未加载完成之前会显示此组件的内容。一般为一个动态的图标组件。\n\n",
+				"type": "Component<BaseProps> | undefined",
+				"def": "`~icons/cmfx/loading`\n\n"
+			},
+			{
+				"name": "systemDialog",
+				"summary": "是否替换系统对话框\n\n",
+				"type": "boolean | undefined",
+				"def": "false\n\n"
+			},
+			{
+				"name": "systemNotify",
+				"summary": "是否使用系统通知，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "boolean | undefined",
+				"def": "false\n\n"
+			},
+			{
+				"name": "fontSize",
+				"summary": "字体大小，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "scheme",
+				"summary": "默认的主题样式，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"remarks": "如果是字符串，会尝试从\n`schemes`\n中获取对应的\n`Scheme`\n对象。\n\n",
+				"type": "string | Scheme | undefined",
+				"def": "schemes 的第一个元素或是从 html 读取对应的变量作为默认值\n\n"
+			},
+			{
+				"name": "schemes",
+				"summary": "支持的主题列表\n\n",
+				"remarks": "`schemes`\n下定义部分主题可以直接在此处使用。\n\n",
+				"type": "Map<string, Scheme> | undefined",
+				"def": "`new Map()`\n\n"
+			},
+			{
+				"name": "mode",
+				"summary": "默认的主题模式，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "\"system\" | \"dark\" | \"light\" | undefined",
+				"def": "'system'\n\n"
+			},
+			{
+				"name": "locale",
+				"summary": "初始的本地化语言 ID，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "string | undefined",
+				"def": "`document.documentElement.lang || navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en')`\n\n"
+			},
+			{
+				"name": "displayStyle",
+				"summary": "本地化的量词风格，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "\"full\" | \"short\" | \"narrow\" | undefined",
+				"def": "'short'\n\n"
+			},
+			{
+				"name": "timezone",
+				"summary": "指定时区，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "string | undefined",
+				"def": "`Intl.DateTimeFormat().resolvedOptions().timeZone`\n\n"
+			},
+			{
+				"name": "stays",
+				"summary": "提示框，通知栏等元素在界面上的默认停留时间。单位为 ms。当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "number | undefined",
+				"def": "5000\n\n"
+			},
+			{
+				"name": "messages",
+				"summary": "当前支持的语言列表以及加载方法\n\n",
+				"type": "Record<string, DictLoader[]>"
+			},
+			{
+				"name": "title",
+				"summary": "网站的标题\n\n",
+				"remarks": "如果不为空，会和\n`titleSeparator`\n组成页面标题的后缀。\n\n",
+				"type": "string"
+			},
+			{
+				"name": "titleSeparator",
+				"summary": "网页标题的分隔符\n\n",
+				"type": "string | undefined",
+				"def": "' - '\n\n"
+			},
+			{
+				"name": "pageSizes",
+				"summary": "分页符中页码选项的默认值\n\n",
+				"type": "number[] | undefined",
+				"def": "[10, 20, 50, 100]\n\n"
+			},
+			{
+				"name": "pageSize",
+				"summary": "表格等需要分页对象的每页默认数量\n\n",
+				"type": "number | undefined",
+				"def": "20\n\n"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "useOptions",
+		"summary": "获取组件库的顶层配置项及期衍生出来的一些操作方法\n\n",
+		"type": "function useOptions(): [setter: OptionsSetter, options: ReqOptions]",
+		"return": {
+			"summary": "返回一个元组，包含以下属性：\n- 0: 组件库提供的其它方法；\n- 1: 组件库初始化时的选项；\n\n",
+			"type": "[setter: { switchConfig(id: string): void; setTitle(v: string): void; setFontSize(size: string): void; setLocale(id: string): void; setDisplayStyle(style: DisplayStyle): void; setTimezone(tz: string): void; setScheme(scheme: string | Scheme): void; setMode(mode: Mode): void; setStays(stay: number): void; setSystemNotify(v: boolean): void; clearStorage(): void; }, options: Required<Omit<Options, \"scheme\"> & { scheme: Scheme; }>]"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "run",
+		"summary": "运行项目\n\n",
+		"remarks": "此方法提供了当前组件库一些必不可少的条件，比如\n`useOptions`\n等的数据，\n所以组件库必须要以此方法作为入口，否则部分组件可能无法正常运行。\n\n\n此方法会将 'root' 作为 mountedElement 上的\n`container-name`\n值，\n子组件的 css 样式可以使用此作为容器查询，比如\n`Notify`\n就使用\n`@sm/root:`\n作为样式变体。\n\n",
+		"type": "function run(app: Component<RouteSectionProps>, mountedElement: HTMLElement, o: Options, routes: Array<RouteDefinition>, router?: typeof Router): void",
+		"params": [
+			{
+				"name": "app",
+				"summary": "实际的内容组件；\n\n",
+				"type": "Component<RouteSectionProps<unknown>>"
+			},
+			{
+				"name": "mountedElement",
+				"summary": "组件挂载的元素；\n\n",
+				"type": "HTMLElement"
+			},
+			{
+				"name": "o",
+				"summary": "初始化参数；\n\n",
+				"type": "Options"
+			},
+			{
+				"name": "routes",
+				"summary": "路由数据；\n\n",
+				"type": "RouteDefinition[]"
+			},
+			{
+				"name": "router",
+				"summary": "指定路由类型，默认为\n`HashRouter`\n；\n\n",
+				"type": "typeof Router | undefined"
+			}
+		],
+		"return": {
+			"type": "void"
+		},
+		"pkg": "@cmfx/components"
+	}
+]

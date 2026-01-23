@@ -284,7 +284,9 @@ export class I18n implements Locale {
         return new Intl.RelativeTimeFormat(this.locale, o);
     }
 
-    match(locales: Array<string>) { return match(this.locale.toString(), locales, 'und'); }
+    match(locales: Array<string>, preset: string) {
+        return match(this.locale.toString(), locales, preset);
+    }
 
     get locales() {
         const loc: Array<[string, string]> = [];

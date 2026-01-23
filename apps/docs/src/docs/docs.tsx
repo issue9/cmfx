@@ -10,8 +10,7 @@ import { Source } from '@cmfx/vite-plugin-api';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
-import { markdown } from '@docs/utils';
-import { floatingWidth } from '@docs/utils/options';
+import { fallbackLocale, floatingWidth, markdown } from '@docs/utils';
 import styles from './style.module.css';
 
 import introChangeLog from '../../../../CHANGELOG.md?raw';
@@ -28,7 +27,7 @@ import usageSvgZHHans from './usage/svg.zh-Hans.md?raw';
 import usageThemeEN from './usage/theme.en.md?raw';
 import usageThemeZHHans from './usage/theme.zh-Hans.md?raw';
 
-import { default as advanceAPI } from './advance/api.json' with { type: 'json' };
+import { default as advanceAPI } from './advance/api.zh-Hans.json' with { type: 'json' };
 import advanceCustomThemeEN from './advance/custom-theme.en.md?raw';
 import advanceCustomThemeZHHans from './advance/custom-theme.zh-Hans.md?raw';
 import advanceErrorEN from './advance/error.en.md?raw';
@@ -37,7 +36,7 @@ import advanceLocaleEN from './advance/locale.en.md?raw';
 import advanceLocaleZHHans from './advance/locale.zh-Hans.md?raw';
 import advancePluginsEN from './advance/plugins.en.md?raw';
 import advancePluginsZHHans from './advance/plugins.zh-Hans.md?raw';
-import { default as usageAPI } from './usage/api.json' with { type: 'json' };
+import { default as usageAPI } from './usage/api.zh-Hans.json' with { type: 'json' };
 
 // NOTE: 增删文件，需要同时修改以下几处：
 //  - maps
@@ -198,7 +197,7 @@ function Markdown(props: { article: string }): JSX.Element {
     const l = useLocale();
 
     // 返回当前语言的文档映射
-    const curr = createMemo(() => { return maps.get(l.match(localesID)); });
+    const curr = createMemo(() => { return maps.get(l.match(localesID, fallbackLocale)); });
 
     const [html, setHTML] = createSignal<string | undefined>(curr()?.get(props.article)![0]);
 

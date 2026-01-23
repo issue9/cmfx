@@ -1,0 +1,54 @@
+[
+	{
+		"kind": "interface",
+		"name": "ColorPanelProps",
+		"properties": [
+			{
+				"name": "value",
+				"summary": "初始的颜色值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "wcag",
+				"summary": "指定一个用于计算 WCAG 值的颜色\n\n",
+				"remarks": "如果该值不为空，那么在颜色展示区域上的文字会以此颜色值显示，否则使用默认颜色值或是没有文字。\n该值只能是所有 CSS 直接支持的颜色值，不能是 CSS 变量。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "onChange",
+				"summary": "颜色值发生变化时触发的事件\n\n",
+				"type": "((value: string) => void) | undefined"
+			},
+			{
+				"name": "pickers",
+				"summary": "指定的颜色拾取面板的类型\n\n",
+				"type": "ColorPickerPanel[]"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

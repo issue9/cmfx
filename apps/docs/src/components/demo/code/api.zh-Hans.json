@@ -1,0 +1,232 @@
+[
+	{
+		"kind": "interface",
+		"name": "CodeProps",
+		"properties": [
+			{
+				"name": "children",
+				"summary": "代码\n\n",
+				"type": "string",
+				"reactive": true
+			},
+			{
+				"name": "editable",
+				"summary": "是否可编辑\n\n",
+				"remarks": "编辑内容并不会重新渲染内容，一些高亮内容可能不再准确。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "oninput",
+				"summary": "修改内容触发的事件\n\n",
+				"remarks": "仅在\n`editable`\n为 true 时生效。\n\n",
+				"type": "((value: string) => void) | undefined"
+			},
+			{
+				"name": "wrap",
+				"summary": "内容自动换行\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "lang",
+				"summary": "高亮的语言名称，如果为空则为 text。\n\n",
+				"type": "BundledLanguage | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ln",
+				"summary": "是否显示行号如果为 Number 类型则表示起始行号。\n\n",
+				"type": "number | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "CodeRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): HTMLElement",
+				"return": {
+					"type": "HTMLElement"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "class",
+		"name": "Highlighter",
+		"summary": "提供特定语言的代码高亮功能\n\n",
+		"remarks": "与\n`highlight`\n的区别在于：\n- Highlighter 提供的高亮方法是同步的，而\n`highlight`\n是异步的；\n- Highlighter 在不使用时需要手动清除对象；\n用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
+		"typeParams": [
+			{
+				"name": "L",
+				"summary": "表示语言的 ID；\n\n",
+				"type": "BundledLanguage"
+			}
+		],
+		"methods": [
+			{
+				"name": "build",
+				"summary": "构造可以高亮指定语言的对象\n\n",
+				"type": "static build<L extends BundledLanguage>(...langs: [L, ...Array<L>]): Promise<Highlighter<L>>",
+				"typeParams": [
+					{
+						"name": "L",
+						"summary": "表示语言的 ID，不能为空；\n\n",
+						"type": "BundledLanguage"
+					}
+				],
+				"params": [
+					{
+						"name": "langs",
+						"summary": "语言 ID 列表；\n\n",
+						"type": "[L, ...L[]]"
+					}
+				],
+				"return": {
+					"summary": "返回\n`Highlighter`\n对象；\n\n",
+					"type": "Promise<Highlighter<L>>"
+				},
+				"static": true
+			},
+			{
+				"name": "html",
+				"summary": "高亮代码\n\n",
+				"type": "html(code: string, lang: L, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean): string",
+				"params": [
+					{
+						"name": "code",
+						"summary": "代码；\n\n",
+						"type": "string"
+					},
+					{
+						"name": "lang",
+						"summary": "语言 ID；\n\n",
+						"type": "L"
+					},
+					{
+						"name": "ln",
+						"summary": "起始行号，unndefined 表示不显示行号；\n\n",
+						"type": "number | undefined"
+					},
+					{
+						"name": "wrap",
+						"summary": "是否换行；\n\n",
+						"type": "boolean | undefined"
+					},
+					{
+						"name": "cls",
+						"summary": "传递给 pre 标签的 CSS 类名；\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "style",
+						"summary": "传递给 pre 标签的 CSS 样式；\n\n",
+						"type": "string | JSX.CSSProperties | undefined"
+					},
+					{
+						"name": "simple",
+						"summary": "简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；\n\n",
+						"type": "boolean | undefined"
+					}
+				],
+				"return": {
+					"summary": "高亮处理之后的 html 代码；\n\n",
+					"type": "string"
+				},
+				"static": false
+			},
+			{
+				"name": "dispose",
+				"summary": "释放当前对象\n\n",
+				"type": "dispose(): void",
+				"return": {
+					"type": "void"
+				},
+				"static": false
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "highlight",
+		"summary": "高亮代码\n\n",
+		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
+		"type": "function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean): Promise<string>",
+		"params": [
+			{
+				"name": "code",
+				"summary": "代码文本；\n\n",
+				"type": "string"
+			},
+			{
+				"name": "lang",
+				"summary": "语言名称，默认为 text；\n\n",
+				"type": "BundledLanguage | undefined"
+			},
+			{
+				"name": "ln",
+				"summary": "起始行号，不需要则为 undefined；\n\n",
+				"type": "number | undefined"
+			},
+			{
+				"name": "wrap",
+				"summary": "是否自动换行；\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "cls",
+				"summary": "传递给 pre 标签的 CSS 类名；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "style",
+				"summary": "传递给 pre 标签的 CSS 样式；\n\n",
+				"type": "string | JSX.CSSProperties | undefined"
+			},
+			{
+				"name": "simple",
+				"summary": "简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；\n\n",
+				"type": "boolean | undefined"
+			}
+		],
+		"return": {
+			"summary": "高亮后的 HTML 代码；\n\n",
+			"type": "Promise<string>"
+		},
+		"pkg": "@cmfx/components"
+	}
+]

@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconBadge from '~icons/f7/app-badge-fill';
 
 import type { Info } from '@docs/components/base';
@@ -19,12 +18,11 @@ import { default as long } from './long.tsx?raw';
 import { default as Icon } from './icon';
 import { default as icon } from './icon.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'feedback', title: '_d.demo.badge', icon: IconBadge, path: 'badge',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Basic, source: basic, title: '基本功能' },
             { component: Text, source: text, title: '文本' },
             { component: Long, source: long, title: '长文本' },

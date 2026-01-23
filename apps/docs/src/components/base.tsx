@@ -7,12 +7,10 @@ import {
     LabelAlignment, labelAlignments, Layout, layouts, Palette, palettes, useLocale
 } from '@cmfx/components';
 import { DictKeys, PopoverPosition } from '@cmfx/core';
-import { Type } from '@cmfx/vite-plugin-api';
 import { Accessor, Component, createSignal, createUniqueId, Setter } from 'solid-js';
 
 import messages from '@docs/messages/en.lang';
-import { MarkdownFileObject } from '@docs/utils';
-import { StageProps } from './stages';
+import { StageProps, StagesProps } from './stages';
 
 export function posSelector(preset?: PopoverPosition) {
     return arraySelector('_d.demo.tooltipPos', ['left', 'right', 'top', 'bottom'], preset ?? 'left');
@@ -38,9 +36,9 @@ export type Info = {
     path: string; // 相对于 components/demo 的路径，同时作为文件路径和导航的路由路径。
     stages?: Array<StageProps>; // 演示内容
 
-    header?: MarkdownFileObject; // 页面的顶部
-    api?: Array<Type>; // 关联的接口文档
-    footer?: MarkdownFileObject; // 页面的底部
+    header?: StagesProps['header']; // 页面的顶部
+    api?: StagesProps['api']; // 关联的接口文档
+    footer?: StagesProps['footer']; // 页面的底部
 };
 
 /**

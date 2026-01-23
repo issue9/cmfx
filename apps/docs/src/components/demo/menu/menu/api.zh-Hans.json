@@ -1,0 +1,216 @@
+[
+	{
+		"kind": "interface",
+		"name": "MenuProps",
+		"typeParams": [
+			{
+				"name": "M",
+				"type": "boolean",
+				"init": "false"
+			},
+			{
+				"name": "T",
+				"type": "AvailableEnumType",
+				"init": "string"
+			}
+		],
+		"properties": [
+			{
+				"name": "layout",
+				"summary": "组件布局方式\n\n",
+				"remarks": "可以有以下取值：\n- horizontal 横向菜单，子菜单以弹出形式展示；\n- vertical 纵向菜单，子菜单以弹出形式展示；\n- inline 内联菜单，纵向菜单的变体，子菜单内嵌在组件之内；\n\n",
+				"type": "\"horizontal\" | \"vertical\" | \"inline\" | undefined"
+			},
+			{
+				"name": "multiple",
+				"summary": "多选模式\n\n",
+				"remarks": "在该模式下，点击并不会主动关闭弹出的菜单。如果子项的 type 为 a，那么多选对该项无效。\n\n",
+				"type": "M | undefined"
+			},
+			{
+				"name": "items",
+				"summary": "菜单项\n\n",
+				"type": "MenuItem<T>[]",
+				"reactive": true
+			},
+			{
+				"name": "onChange",
+				"summary": "当选择项发生变化时触发的事件\n\n",
+				"type": "CF<M, T, M extends true ? T[] : T> | undefined"
+			},
+			{
+				"name": "value",
+				"summary": "默认的选中项\n\n",
+				"type": "T[] | undefined",
+				"reactive": true
+			},
+			{
+				"name": "tag",
+				"summary": "根元素的标签类型\n\n",
+				"type": "\"menu\" | \"nav\" | undefined",
+				"def": "'nav'\n\n"
+			},
+			{
+				"name": "selectedClass",
+				"summary": "选中项的样式\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "disabledClass",
+				"summary": "禁用项的样式\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "MenuRef",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): HTMLMenuElement | HTMLElement",
+				"return": {
+					"type": "HTMLElement | HTMLMenuElement"
+				}
+			},
+			{
+				"name": "scrollSelectedIntoView",
+				"summary": "将选中项滚动到可见范围\n\n",
+				"remarks": "如果选中项是子菜单，那么将滚动到让其父元素处于可见位置。\n\n",
+				"type": "scrollSelectedIntoView(): void",
+				"return": {
+					"type": "void"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "MenuItem",
+		"summary": "菜单项\n\n",
+		"kind": "union",
+		"types": [
+			{
+				"kind": "interface",
+				"name": "MenuItemDivider",
+				"properties": [
+					{
+						"name": "type",
+						"type": "\"divider\""
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "MenuItemGroup",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "AvailableEnumType"
+					}
+				],
+				"properties": [
+					{
+						"name": "type",
+						"type": "\"group\""
+					},
+					{
+						"name": "label",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "items",
+						"summary": "分组的子项\n\n",
+						"type": "MenuItem<T>[]"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "MenuItemItem",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "AvailableEnumType"
+					}
+				],
+				"properties": [
+					{
+						"name": "type",
+						"summary": "表示普通的菜单项，如果为 a 表示这是一个链接。\n\n",
+						"type": "\"a\" | \"item\""
+					},
+					{
+						"name": "value",
+						"summary": "表示当前项的唯一值\n\n",
+						"remarks": "该值为空时，\n`items`\n不能为空，\n如果\n`type`\n为 a 时，当前值表示链接的地址。\n\n",
+						"type": "T | undefined"
+					},
+					{
+						"name": "items",
+						"summary": "子项\n\n",
+						"remarks": "该值为空时，\n`value`\n不能为空。\n\n",
+						"type": "MenuItem<T>[] | undefined"
+					},
+					{
+						"name": "label",
+						"summary": "菜单项的内容\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "prefix",
+						"summary": "菜单项前置的内容\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "suffix",
+						"summary": "菜单项尾部的内容\n\n",
+						"remarks": "当\n`items`\n不为空时，该值无效。\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "disabled",
+						"summary": "是否禁用该项\n\n",
+						"type": "boolean | undefined"
+					},
+					{
+						"name": "hotkey",
+						"summary": "快捷键\n\n",
+						"type": "Hotkey | undefined"
+					}
+				]
+			}
+		],
+		"discriminant": "type",
+		"pkg": "@cmfx/components"
+	}
+]

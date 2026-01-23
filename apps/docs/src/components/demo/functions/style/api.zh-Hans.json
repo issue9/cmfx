@@ -1,0 +1,105 @@
+[
+	{
+		"kind": "function",
+		"name": "joinClass",
+		"summary": "将多个 CSS 的类名组合成 class 属性值\n\n",
+		"type": "function joinClass(palette?: Palette, ...cls: Array<string | undefined | null>): string | undefined",
+		"params": [
+			{
+				"name": "palette",
+				"summary": "颜色主题；\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined"
+			},
+			{
+				"name": "cls",
+				"summary": "CSS 类名列表；\n\n",
+				"type": "(string | null | undefined)[]"
+			}
+		],
+		"return": {
+			"summary": "由参数组合的 class 属性值；\n\n",
+			"type": "string | undefined"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "classList",
+		"summary": "将 solidjs 中的 classList 内容转换为 class 属性\n\n",
+		"type": "function classList(palette?: Palette, list?: JSX.CustomAttributes<HTMLElement>['classList'], ...cls: Array<string | undefined | null>): string | undefined",
+		"params": [
+			{
+				"name": "palette",
+				"summary": "颜色主题；\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined"
+			},
+			{
+				"name": "list",
+				"summary": "组件的 classList 对象；\n\n",
+				"type": "{ [k: string]: boolean | undefined; } | undefined"
+			},
+			{
+				"name": "cls",
+				"summary": "CSS 类名列表；\n\n",
+				"type": "(string | null | undefined)[]"
+			}
+		],
+		"return": {
+			"summary": "由参数组合的 class 属性值；\n\n",
+			"type": "string | undefined"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "style2String",
+		"summary": "将 solidjs 的 style 组件属性转换为字符串\n\n",
+		"type": "function style2String(...style: Array<BaseProps['style']>): string",
+		"params": [
+			{
+				"name": "style",
+				"summary": "符合 solidjs 中的 style 属性的值列表；\n\n",
+				"type": "(string | JSX.CSSProperties | undefined)[]"
+			}
+		],
+		"return": {
+			"type": "string"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "Palette",
+		"summary": "组件可用的几种色盘\n\n",
+		"remarks": "当为组件指定一个色盘时，并不是直接改变相应在的颜色，而是在该组件上指定相应在的颜色变量，\n具体可参考 /tailwind.css 中的\n`palette--primary`\n等相关的定义。\n\n",
+		"kind": "literal",
+		"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\"",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "wcag",
+		"summary": "计算两个颜色值之间的 wcag 值\n\n",
+		"type": "function wcag(c1: string, c2: string, apca?: boolean): string",
+		"params": [
+			{
+				"name": "c1",
+				"summary": "第一个颜色值；\n\n",
+				"type": "string"
+			},
+			{
+				"name": "c2",
+				"summary": "第二个颜色值；\n\n",
+				"type": "string"
+			},
+			{
+				"name": "apca",
+				"summary": "是否使用 APCA 算法计算；\n\n",
+				"type": "boolean | undefined"
+			}
+		],
+		"return": {
+			"type": "string"
+		},
+		"pkg": "@cmfx/components"
+	}
+]

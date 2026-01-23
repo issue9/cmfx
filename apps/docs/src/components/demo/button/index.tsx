@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconButton from '~icons/tdesign/button-filled';
 
 import type { Info } from '@docs/components/base';
@@ -28,12 +27,11 @@ import { default as button } from './button.tsx?raw';
 import { default as Confirm } from './confirm';
 import { default as confirm } from './confirm.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'general', title: '_d.demo.button', icon: IconButton, path: 'button',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Button, source: button, title: 'button' },
             { component: Confirm, source: confirm, title: 'confirm' },
             { component: Anchor, source: anchor, title: 'anchor button' },

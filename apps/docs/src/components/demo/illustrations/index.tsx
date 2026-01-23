@@ -42,6 +42,7 @@ import { default as building } from './building.tsx?raw';
 export default function(): Info {
     return {
         kind: 'general', title: '_d.demo.illustrations', icon: IconIllustration, path: 'illustrations',
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
             { component: E400, source: e400, title: '400' },
             { component: E401, source: e401, title: '401' },

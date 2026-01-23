@@ -2,12 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconTime from '~icons/bxs/time';
 
 import type { Info } from '@docs/components/base';
-
-import { default as api } from './api.json' with { type: 'json' };
 
 import { default as Time } from './time';
 import { default as time } from './time.tsx?raw';
@@ -15,7 +12,8 @@ import { default as time } from './time.tsx?raw';
 export default function(): Info {
     return {
         kind: 'data-input', title: '_d.demo.time', icon: IconTime, path: 'form/time',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Time, source: time, title: 'time' },
         ]
     };

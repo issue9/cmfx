@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconDivider from '~icons/pixel/divider-solid';
 
 import type { Info } from '@docs/components/base';
@@ -10,12 +9,11 @@ import type { Info } from '@docs/components/base';
 import { default as Divider } from './divider';
 import { default as divider } from './divider.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'layout', title: '_d.demo.divider', icon: IconDivider, path: 'divider',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Divider, source: divider, title: 'basic' },
         ]
     };

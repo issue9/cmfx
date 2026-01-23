@@ -8,7 +8,7 @@ import { A, useCurrentMatches } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 
-import { markdown, MarkdownFileObject } from '@docs/utils';
+import { fallbackLocale, markdown, MarkdownFileObject } from '@docs/utils';
 import pkg from '../../../package.json';
 import { API } from './api';
 import { default as Stage, Props as StageProps } from './stage';
@@ -41,7 +41,7 @@ export interface Props {
     /**
      * API 内容
      */
-    api?: Array<Type>;
+    api?: Record<string, Array<Type>>;
 }
 
 /**
@@ -59,11 +59,11 @@ export default function Stages(props: Props):JSX.Element {
     const [footer, setFooter] = createSignal<string>('');
     if (props.footer) {
         const arr = Object.entries(props.footer).map(([k, v]) =>
-            [k.replace(/^\.\/FOOTER\./, '').replace(/\.md$/, ''), v.default]);
+            [k.replace(/^\.\/FOOTER\./, '').replace(/\.md$/, ''), v]);
         const obj = Object.fromEntries(arr);
 
         createEffect(() => {
-            const loc = l.match(Object.keys(obj));
+            const loc = l.match(Object.keys(obj), fallbackLocale);
             setFooter(obj[loc]);
         });
     }
@@ -71,12 +71,24 @@ export default function Stages(props: Props):JSX.Element {
     const [header, setHeader] = createSignal<string>('');
     if (props.header) {
         const arr = Object.entries(props.header).map(([k, v]) =>
-            [k.replace(/^\.\/HEADER\./, '').replace(/\.md$/, ''), v.default]);
+            [k.replace(/^\.\/HEADER\./, '').replace(/\.md$/, ''), v]);
         const obj = Object.fromEntries(arr);
 
         createEffect(() => {
-            const loc = l.match(Object.keys(obj));
+            const loc = l.match(Object.keys(obj), fallbackLocale);
             setHeader(obj[loc]);
+        });
+    }
+
+    const [api, setAPI] = createSignal<Array<Type>>([]);
+    if (props.api) {
+        const arr = Object.entries(props.api).map(([k, v]) =>
+            [k.replace(/^\.\/api\./, '').replace(/\.json$/, ''), v]);
+        const obj = Object.fromEntries(arr);
+
+        createEffect(() => {
+            const loc = l.match(Object.keys(obj), fallbackLocale);
+            setAPI(obj[loc]);
         });
     }
 
@@ -102,7 +114,7 @@ export default function Stages(props: Props):JSX.Element {
                 </>}
             </Show>
 
-            <Show when={props.api}>
+            <Show when={api()}>
                 {apis =>
                     <article class={styles.apis}>
                         <h3>{l.t('_d.stages.api')}</h3>

@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconCard from '~icons/mdi/card';
 
 import type { Info } from '@docs/components/base';
@@ -13,12 +12,11 @@ import { default as header } from './header.tsx?raw';
 import { default as Footer } from './footer';
 import { default as footer } from './footer.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'general', title: '_d.demo.card', icon: IconCard, path: 'card',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Header, source: header, title: 'header' },
             { component: Footer, source: footer, title: 'footer' },
         ],

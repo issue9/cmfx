@@ -1,0 +1,116 @@
+[
+	{
+		"name": "ThemeProps",
+		"kind": "intersection",
+		"types": [
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "scheme",
+						"summary": "当前主题的样式\n\n",
+						"type": "Scheme"
+					},
+					{
+						"name": "mode",
+						"summary": "主题的模式\n\n",
+						"type": "\"system\" | \"dark\" | \"light\""
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "styleElement",
+						"summary": "指定用于保存当前主题样式的元素 ID\n\n",
+						"remarks": "当指定了该值，会将主题的样式写在此元素上。否则样式会依次写在\n`children`\n元素上。\n某些情况下可能存在一个无任何展示内容的父元素，此时可以指定其作为保存主题样式的元素。\n\n",
+						"type": "HTMLElement | undefined"
+					},
+					{
+						"name": "p",
+						"summary": "上一层 ThemeProvider 的属性值\n\n",
+						"type": "ThemeProps | undefined"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "children",
+						"type": "JSX.Element"
+					}
+				]
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "useTheme",
+		"summary": "返回主题设置的参数\n\n",
+		"type": "function useTheme(): Theme",
+		"return": {
+			"type": "Theme"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Theme",
+		"summary": "提供与主题相关的接口\n\n",
+		"properties": [
+			{
+				"name": "scheme",
+				"summary": "当前主题的样式\n\n",
+				"type": "Scheme"
+			},
+			{
+				"name": "mode",
+				"summary": "主题的模式\n\n",
+				"type": "\"system\" | \"dark\" | \"light\""
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"properties": [
+			{
+				"name": "primary",
+				"type": "string"
+			},
+			{
+				"name": "secondary",
+				"type": "string"
+			},
+			{
+				"name": "tertiary",
+				"type": "string"
+			},
+			{
+				"name": "error",
+				"summary": "表示错误信息\n\n",
+				"type": "string"
+			},
+			{
+				"name": "surface",
+				"summary": "一般用于大面积的背景色\n\n",
+				"type": "string"
+			},
+			{
+				"name": "radius",
+				"summary": "各种不同大小的组件的圆角设置\n\n",
+				"type": "Radius"
+			},
+			{
+				"name": "transitionDuration",
+				"summary": "动画的时长，默认为 300，单位为 ms。\n\n",
+				"type": "number"
+			}
+		],
+		"name": "Scheme",
+		"pkg": "@cmfx/components"
+	}
+]

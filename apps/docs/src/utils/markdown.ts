@@ -13,14 +13,9 @@ const higlighter = await Highlighter.build(
 );
 
 /**
- * 表示 markdown 文件加载后的内容
- */
-export type MarkdownFile = { default: string };
-
-/**
  * 表示 markdown 文件加载后的对象
  */
-export type MarkdownFileObject = Record<string, MarkdownFile>;
+export type MarkdownFileObject = Record<string, string>;
 
 function markdownCode(types?: Array<Source>) {
     return (token: Token) => {

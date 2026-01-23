@@ -1,0 +1,117 @@
+[
+	{
+		"kind": "interface",
+		"name": "PaginationProps",
+		"properties": [
+			{
+				"name": "count",
+				"summary": "总的页码数量\n\n",
+				"type": "number",
+				"reactive": true
+			},
+			{
+				"name": "initValue",
+				"summary": "当前页的页码，取值范围为 [1,\n`count`\n]。\n\n",
+				"type": "number"
+			},
+			{
+				"name": "onChange",
+				"summary": "在页码改变的时候触发\n\n",
+				"type": "((current: number, old?: number) => void) | undefined"
+			},
+			{
+				"name": "spans",
+				"summary": "按钮的数量\n\n",
+				"type": "number | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "PaginationBarProps",
+		"properties": [
+			{
+				"name": "total",
+				"summary": "总共的数据量\n\n",
+				"type": "number",
+				"reactive": true
+			},
+			{
+				"name": "page",
+				"summary": "当前页的页码，取值范围为 [1,\n`total`\n/\n`size`\n]。\n\n",
+				"type": "number"
+			},
+			{
+				"name": "size",
+				"summary": "每页的数据条数，默认为 sizes 属性的第二项。\n\n",
+				"type": "number | undefined"
+			},
+			{
+				"name": "sizes",
+				"summary": "属性 size 可用值的列表，默认为\n`api\npageSizes`\n\n",
+				"type": "number[] | undefined"
+			},
+			{
+				"name": "onPageChange",
+				"type": "((current: number, old?: number) => void) | undefined"
+			},
+			{
+				"name": "onSizeChange",
+				"type": "((current: number, old?: number) => void) | undefined"
+			},
+			{
+				"name": "spans",
+				"summary": "按钮的数量\n\n",
+				"type": "number | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

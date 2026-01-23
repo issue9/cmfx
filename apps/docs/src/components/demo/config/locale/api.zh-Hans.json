@@ -1,0 +1,52 @@
+[
+	{
+		"name": "LocaleProps",
+		"kind": "intersection",
+		"types": [
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "id",
+						"summary": "语言 ID\n\n",
+						"type": "string",
+						"reactive": true
+					},
+					{
+						"name": "displayStyle",
+						"summary": "一些数据的显示风格\n\n",
+						"type": "\"full\" | \"short\" | \"narrow\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "timezone",
+						"summary": "时区信息\n\n",
+						"remarks": "该值必须是当前浏览器的\n`Intl.supportedValuesOf('timeZone')`\n的返回值之一。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "children",
+						"type": "JSX.Element"
+					}
+				]
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "useLocale",
+		"summary": "返回用于本地化的对象\n\n",
+		"type": "function useLocale(): Locale",
+		"return": {
+			"type": "Locale"
+		},
+		"pkg": "@cmfx/components"
+	}
+]
