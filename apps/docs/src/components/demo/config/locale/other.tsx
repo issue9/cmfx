@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,13 +7,13 @@ import { DisplayStyle } from '@cmfx/core';
 import { createSignal, JSX } from 'solid-js';
 
 export default function(): JSX.Element {
-    const [, opt] = useOptions();
+    const [accessor] = useOptions();
     const l = useLocale();
     const now = new Date();
 
     const [locale, setLocale] = createSignal(l.locale.toString());
-    const [style, setStyle] = createSignal<DisplayStyle>(opt.displayStyle);
-    const [tz, setTZ] = createSignal(opt.timezone);
+    const [style, setStyle] = createSignal<DisplayStyle>(accessor.getDisplayStyle());
+    const [tz, setTZ] = createSignal(accessor.getTimezone());
 
     return <div>
         <p>这是继承全局的翻译内容：{ l.datetimeFormat().format(now) }</p>

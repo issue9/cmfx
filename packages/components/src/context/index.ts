@@ -8,7 +8,7 @@ export { presetOptions } from './options';
 export type { Options } from './options';
 
 export { useOptions } from './context';
-export type { OptionsSetter } from './context';
+export type { OptionsAccessor } from './context';
 
 export { LocaleProvider, useLocale } from './locale';
 export type { Props as LocaleProps } from './locale';

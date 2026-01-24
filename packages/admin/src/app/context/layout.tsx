@@ -58,8 +58,8 @@ export function useLayout(): LayoutContext {
 }
 
 export function AppLayout(props: ParentProps): JSX.Element {
-    const [,co] = useComponentOptions();
-    const config = co.config;
+    const [, origin] = useComponentOptions();
+    const config = origin.config;
 
     const opt = useOptions();
     const layout = createSignal(config.get<Layout>(layoutKey) ?? opt.layout);

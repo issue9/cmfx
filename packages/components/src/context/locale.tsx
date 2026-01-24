@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -72,21 +72,21 @@ export function useLocale(): Locale {
  */
 export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
     const pl = useContext(localeContext);
-    const [, opt] = useOptions();
+    const [accessor] = useOptions();
 
     const [get, set] = createSignal<Locale>(
         new I18n(
             props.id,
-            props.displayStyle ?? (pl ? pl().displayStyle : opt.displayStyle),
-            props.timezone ?? (pl ? pl().timezone : opt.timezone)
+            props.displayStyle ?? (pl ? pl().displayStyle : accessor.getDisplayStyle()),
+            props.timezone ?? (pl ? pl().timezone : accessor.getTimezone())
         )
     );
 
     createEffect(() => {
         set(new I18n(
             props.id,
-            props.displayStyle ?? (pl ? pl().displayStyle : opt.displayStyle),
-            props.timezone ?? (pl ? pl().timezone : opt.timezone))
+            props.displayStyle ?? (pl ? pl().displayStyle : accessor.getDisplayStyle()),
+            props.timezone ?? (pl ? pl().timezone : accessor.getTimezone()))
         );
     });
 

@@ -46,14 +46,14 @@ export function Notify(props: Props): JSX.Element {
 }
 
 function initNotify(p: Props): JSX.Element {
-    const [, opt] = useOptions();
+    const [accessor, opt] = useOptions();
     const l = useLocale();
     let ref: HTMLDivElement;
 
     notifyInst = async (title: string, body?: string, type?: Type, lang?: string, duration?: number) => {
-        duration = duration ?? opt.stays;
+        duration = duration ?? accessor.getStays();
 
-        if (opt.systemNotify && await systemNotify(title, body, opt.logo, lang ?? opt.locale, duration)) { return; }
+        if (accessor.getSystemNotify() && await systemNotify(title, body, opt.logo, lang ?? accessor.getLocale(), duration)) { return; }
 
         const props: MessageProps = {
             title,
@@ -64,7 +64,7 @@ function initNotify(p: Props): JSX.Element {
             icon: false,
 
             // 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
-            transitionDuration: opt.scheme.transitionDuration,
+            transitionDuration: accessor.getScheme().transitionDuration,
             closeAriaLabel: l.t('_c.close'),
         };
         render(() => <Message {...props} />, ref);

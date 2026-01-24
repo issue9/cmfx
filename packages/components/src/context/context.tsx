@@ -23,15 +23,14 @@ const systemNotifyKey = 'system-notify';
 const fontSizeKey = 'font-size';
 
 /**
- * 提供了对全局配置的更改
+ * 提供了对全局配置的存取功能
  */
-export type OptionsSetter = ReturnType<typeof buildSetter>;
+export type OptionsAccessor = ReturnType<typeof buildAccessor>;
 
-type OptionsGetSetter = ReqOptions & {
-    setter?: OptionsSetter;
-};
-
-type OptionsGetSetContext = ReturnType<typeof createStore<OptionsGetSetter>>;
+interface OptionsGetSetContext {
+    origin: Readonly<ReqOptions>;
+    accessor: OptionsAccessor;
+}
 
 const optionsGetSetContext = createContext<OptionsGetSetContext>();
 
@@ -53,16 +52,19 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
     }, { initialValue: true });
 
     const [, opt] = splitProps(props, ['children']);
-    const obj = createStore<OptionsGetSetter>(opt);
-    obj[1]({ setter: buildSetter(obj) });
+    const accessor = buildAccessor(opt);
 
     // NOTE: 需要通过 messageResource.loading 等待 createResource 完成，才能真正加载组件。
 
-    return <optionsGetSetContext.Provider value={obj}>
+    return <optionsGetSetContext.Provider value={{origin: opt, accessor: accessor}}>
         <Switch fallback={<div class={styles.loading}>{props.loading({})}</div>}>
             <Match when={!messageResource.loading}>
-                <ThemeProvider mode={obj[0].mode} styleElement={document.documentElement} scheme={obj[0].scheme}>
-                    <LocaleProvider id={obj[0].locale} displayStyle={obj[0].displayStyle} timezone={obj[0].timezone}>
+                <ThemeProvider mode={accessor.getMode()} styleElement={document.documentElement}
+                    scheme={accessor.getScheme()}
+                >
+                    <LocaleProvider id={accessor.getLocale()} displayStyle={accessor.getDisplayStyle()}
+                        timezone={accessor.getTimezone()}
+                    >
                         {props.children}
                     </LocaleProvider>
                 </ThemeProvider>
@@ -75,33 +77,43 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
  * 获取组件库的顶层配置项及期衍生出来的一些操作方法
  *
  * @returns 返回一个元组，包含以下属性：
- * - 0: 组件库提供的其它方法；
- * - 1: 组件库初始化时的选项；
+ * - 0: 提供对组件库选项的存取功能；
+ * - 1: 组件库选项的原始值；
  */
-export function useOptions(): [setter: OptionsSetter, options: ReqOptions] {
+export function useOptions(): [accessor: OptionsAccessor, origin: ReqOptions] {
     const ctx = useContext(optionsGetSetContext);
-    if (!ctx) { throw new ContextNotFoundError('optionsGetSetContext'); }
-    return [ctx[0].setter!, ctx[0]];
+    if (!ctx) { throw new ContextNotFoundError('OptionsGetSetContext'); }
+    return [ctx.accessor, ctx.origin];
 }
 
-export function buildSetter(ctx: OptionsGetSetContext) {
-    const o = ctx[0];
-    const set = ctx[1];
+export function buildAccessor(o: ReqOptions) {
+    const conf = o.config;
+
+    const [val, set] = createStore({
+        scheme: o.scheme,
+        mode: o.mode,
+        locale: o.locale,
+        displayStyle: o.displayStyle,
+        timezone: o.timezone,
+        stays: o.stays,
+        systemNotify: o.systemNotify,
+        fontSize: o.fontSize,
+    });
 
     const read = () => { // 从配置内容中读取
         set({
-            scheme: o.config.get(schemeKey) ?? o.scheme,
-            mode: o.config.get(modeKey) ?? o.mode,
-            locale: o.config.get(localeKey) ?? o.locale,
-            displayStyle: o.config.get(displayStyleKey) ?? o.displayStyle,
-            timezone: o.config.get(tzKey) ?? o.timezone,
-            stays: o.config.get(staysKey) ?? o.stays,
-            systemNotify: o.config.get(systemNotifyKey) ?? o.systemNotify,
-            fontSize: o.config.get(fontSizeKey) ?? o.fontSize,
+            scheme: conf.get(schemeKey) ?? val.scheme,
+            mode: conf.get(modeKey) ?? val.mode,
+            locale: conf.get(localeKey) ?? val.locale,
+            displayStyle: conf.get(displayStyleKey) ?? val.displayStyle,
+            timezone: conf.get(tzKey) ?? val.timezone,
+            stays: conf.get(staysKey) ?? val.stays,
+            systemNotify: conf.get(systemNotifyKey) ?? val.systemNotify,
+            fontSize: conf.get(fontSizeKey) ?? val.fontSize,
         });
 
-        if (o.fontSize !== document.documentElement.style.fontSize) {
-            document.documentElement.style.fontSize = o.fontSize;
+        if (val.fontSize !== document.documentElement.style.fontSize) {
+            document.documentElement.style.fontSize = val.fontSize;
         }
     };
 
@@ -116,15 +128,15 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          *
          * @param id - 新配置的 ID，一般为用户 ID 等能表示用户唯一标记的值；
          */
-        switchConfig(id: string) {
-            o.config.switch(id);
+        switchConfig(id: string): void {
+            conf.switch(id);
             read();
         },
 
         /**
          * 设置 HTML 文档的标题
          */
-        setTitle(v: string) {
+        setTitle(v: string): void {
             if (o.title) { v = v + o.titleSeparator + o.title; }
             document.title = v;
         },
@@ -134,11 +146,13 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          *
          * @param size - 字段大小的有效值，比如 '16px' 或是 'clamp(min, preferred, max)' 等；
          */
-        setFontSize(size: string) {
+        setFontSize(size: string): void {
             set({ fontSize: size });
-            o.config.set(fontSizeKey, size);
+            conf.set(fontSizeKey, size);
             document.documentElement.style.fontSize = size;
         },
+
+        getFontSize(): string { return val.fontSize; },
 
         /**
          * 设置当前配置的全局语言
@@ -147,25 +161,31 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          */
         setLocale(id: string): void {
             set({ locale: id });
-            o.config.set(localeKey, id);
+            conf.set(localeKey, id);
             document.documentElement.lang = id;
         },
+
+        getLocale(): string { return val.locale; },
 
         /**
          * 设置当前配置的全局单位样式
          */
-        setDisplayStyle(style: DisplayStyle) {
+        setDisplayStyle(style: DisplayStyle): void {
             set({ displayStyle: style });
-            o.config.set(displayStyleKey, style);
+            conf.set(displayStyleKey, style);
         },
+
+        getDisplayStyle(): DisplayStyle { return val.displayStyle; },
 
         /**
          * 设置当前配置的全局时区
          */
-        setTimezone(tz: string) {
+        setTimezone(tz: string): void {
             set({ timezone: tz });
-            o.config.set(tzKey, tz);
+            conf.set(tzKey, tz);
         },
+
+        getTimezone(): string { return val.timezone; },
 
         /**
          * 设置当前配置的全局主题色
@@ -173,41 +193,49 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          * @param scheme - 新主题色的 ID 或 {@link Scheme} 对象，
          * 如果是对象类型，需要注意该值必须是能被 {@link structuredClone} 复制的，防止外部修改时，引起主题变化。
          */
-        setScheme(scheme: string | Scheme) {
+        setScheme(scheme: string | Scheme): void {
             const s = structuredClone((typeof scheme === 'string') ? o.schemes.get(scheme) : scheme);
             if (!s) { throw new Error(`无效的主题: ${scheme}`); }
 
             set({ scheme: s });
-            o.config.set(schemeKey, s);
+            conf.set(schemeKey, s);
         },
+
+        getScheme(): Scheme { return val.scheme; },
 
         /**
          * 设置当前配置的全局主题模式
          */
-        setMode(mode: Mode) {
+        setMode(mode: Mode): void {
             set({ mode: mode });
-            o.config.set(modeKey, mode);
+            conf.set(modeKey, mode);
         },
+
+        getMode(): Mode { return val.mode; },
 
         /**
          * 设置当前配置中通知的停留时间，单位为毫秒。
          */
-        setStays(stay: number) {
+        setStays(stay: number): void {
             set({ stays: stay });
-            o.config.set(staysKey, stay);
+            conf.set(staysKey, stay);
         },
+
+        getStays(): number { return val.stays; },
 
         /**
          * 是否启用系统通知
          */
-        setSystemNotify(v: boolean) {
+        setSystemNotify(v: boolean): void {
             set({ systemNotify: v });
-            o.config.set(systemNotifyKey, v);
+            conf.set(systemNotifyKey, v);
         },
+
+        getSystemNotify(): boolean { return val.systemNotify; },
 
         /**
          * 清除当前用户的配置
          */
-        clearStorage() { o.config.clear(); }
+        clearStorage(): void { conf.clear(); }
     };
 }

@@ -6,12 +6,11 @@ import { Config, sleep } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
 import { JSX, ParentProps } from 'solid-js';
-import { createStore } from 'solid-js/store';
 import { afterAll, expect, test } from 'vitest';
 
 import { BaseProps } from '@components/base';
 import { schemes } from '@components/theme';
-import { buildSetter, OptionsProvider } from './context';
+import { buildAccessor, OptionsProvider } from './context';
 import { Options, requiredOptions } from './options';
 
 // 提供用于测试的配置项
@@ -70,7 +69,7 @@ export class ComponentTester {
      */
     static async build(name: string, r: { (props: BaseProps): JSX.Element; }, dur: number = 500): Promise<ComponentTester> {
         const props = { palette: 'primary', 'class': 'custom-cls', style: { '--custom-style': 'red' } } as const;
-        const result = render(() => r(props), { wrapper: Provider, });
+        const result = render(() => r(props), { wrapper: Provider });
 
         await sleep(dur); // Provider 是异步的，需要等待其完成加载。
         afterAll(result.unmount);
@@ -111,10 +110,11 @@ export class ComponentTester {
     }
 }
 
-test('buildSetter',  () => {
-    const act = buildSetter(createStore({...requiredOptions(options)}));
-    expect(act).not.toBeUndefined();
+test('buildAccessor',  () => {
+    const req = requiredOptions(options);
+    const accessor = buildAccessor(req);
+    expect(accessor).not.toBeUndefined();
 
-    act.setTitle('t');
+    accessor.setTitle('t');
     expect(document.title, 't' + options.titleSeparator + options.title);
 });

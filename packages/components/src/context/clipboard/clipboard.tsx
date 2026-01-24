@@ -19,7 +19,7 @@ const positions: Array<string> = ['absolute', 'relative', 'fixed'] as const;
  * 初始化剪切版环境
  */
 export default function Clipboard(props: ParentProps): JSX.Element {
-    const [, opt] = useOptions();
+    const [opt] = useOptions();
     const t = useTheme();
 
     copy2ClipboardInst = async (target: HTMLElement, text: string): Promise<void> => {
@@ -46,7 +46,7 @@ export default function Clipboard(props: ParentProps): JSX.Element {
 
             render(() => ok ? <IconOK /> : <IconError />, overlay);
 
-            await sleep(opt.stays);
+            await sleep(opt.getStays());
             overlay.style.opacity = '0';
             await sleep(t.scheme.transitionDuration); // 等待动画完成
             overlay.remove();

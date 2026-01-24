@@ -113,14 +113,14 @@ export function hasTheme(elem: HTMLElement): boolean {
 }
 
 function createTheme(props: Props): Theme {
-    const [, o] = useOptions();
+    const [accessor] = useOptions();
     const obj = createMemo(() => {
         const p = props.p;
-        const os = o.scheme;
+        const os = accessor.getScheme();
 
         const radius = Object.assign({}, os.radius, p?.scheme?.radius, props.scheme?.radius);
         const scheme = Object.assign({ radius }, os, p?.scheme, props.scheme);
-        const ret = Object.assign({}, { mode: o.mode }, { scheme: os }, { mode: p?.mode, scheme }, props);
+        const ret = Object.assign({}, { mode: accessor.getMode() }, { scheme: os }, { mode: p?.mode, scheme }, props);
         delete ret.p;
         return ret;
     });

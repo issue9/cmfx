@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,12 +9,12 @@ import IconFace from '~icons/material-symbols/face';
 import IconPerson from '~icons/material-symbols/person';
 
 export default function() {
-    const [, opt] = useOptions();
-    const [s, setScheme] = createSignal<Scheme | undefined>(typeof opt.scheme === 'string' ? opt.schemes?.get(opt.scheme) : opt.scheme);
-    const [m, setMode] = createSignal(opt.mode);
+    const [accessor, origin] = useOptions();
+    const [s, setScheme] = createSignal<Scheme | undefined>(typeof accessor.getScheme() === 'string' ? origin.schemes?.get(accessor.getScheme()) : origin.scheme);
+    const [m, setMode] = createSignal(origin.mode);
     const g = useTheme();
 
-    const [m2, setMode2] = createSignal(opt.mode);
+    const [m2, setMode2] = createSignal(origin.mode);
 
     let ref: IconSetRef;
 
@@ -25,8 +25,8 @@ export default function() {
         <ThemeProvider mode={m()} scheme={s()}>
             <Button>这是当前主题 {useTheme().mode}, {useTheme().scheme?.primary}</Button>
 
-            <Button onclick={() => setScheme(opt.schemes?.get('purple'))}>主题-purple</Button>
-            <Button onclick={() => setScheme(opt.schemes?.get('green'))}>主题-green</Button>
+            <Button onclick={() => setScheme(origin.schemes?.get('purple'))}>主题-purple</Button>
+            <Button onclick={() => setScheme(origin.schemes?.get('green'))}>主题-green</Button>
 
             <Button onclick={() => setMode('light')}>浅色</Button>
             <Button onclick={() => setMode('dark')}>深色</Button>

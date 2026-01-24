@@ -71,7 +71,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {}
  * 这是对 {@link useOptions} 中部分选项的设置。
  */
 export function Settings(props: Props) {
-    const [set, opt] = useOptions();
+    const [accessor, origin] = useOptions();
     const l = useLocale();
     let count = 0;
 
@@ -87,20 +87,20 @@ export function Settings(props: Props) {
         </>;
     };
 
-    const fontSizeFA = fieldAccessor<number>('fontSize', parseInt(opt.fontSize.slice(0, -2)));
-    fontSizeFA.onChange(v => set.setFontSize(v + 'px'));
+    const fontSizeFA = fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2)));
+    fontSizeFA.onChange(v => accessor.setFontSize(v + 'px'));
 
-    const modeFA = fieldAccessor<Mode>('mode', opt.mode);
-    modeFA.onChange(m => set.setMode(m));
+    const modeFA = fieldAccessor<Mode>('mode', accessor.getMode());
+    modeFA.onChange(m => accessor.setMode(m));
 
-    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(opt.locale));
-    localeFA.onChange(v => set.setLocale(v));
+    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
+    localeFA.onChange(v => accessor.setLocale(v));
 
-    const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);
-    unitFA.onChange(v => set.setDisplayStyle(v));
+    const unitFA = fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
+    unitFA.onChange(v => accessor.setDisplayStyle(v));
 
-    const staysFA = fieldAccessor<number>('stays', opt.stays);
-    staysFA.onChange(v => set.setStays(v));
+    const staysFA = fieldAccessor<number>('stays', accessor.getStays());
+    staysFA.onChange(v => accessor.setStays(v));
 
     const [sysNotifyDisabled, setSysNotifyDisabled] = createSignal(false);
     const requestSysNotify = async () => {
@@ -155,10 +155,10 @@ export function Settings(props: Props) {
 
         {/***************************** scheme *******************************/}
 
-        <Show when={opt.schemes && opt.scheme}>
+        <Show when={origin.schemes && accessor.getScheme()}>
             <Item icon={<IconPalette />} title={l.t('_c.settings.color')} desc={l.t('_c.settings.colorDesc')}>
-                <SchemeSelector schemes={opt.schemes}
-                    value={opt.scheme} onChange={val => set.setScheme(val)} />
+                <SchemeSelector schemes={origin.schemes}
+                    value={accessor.getScheme()} onChange={val => accessor.setScheme(val)} />
             </Item>
         </Show>
 
@@ -176,11 +176,13 @@ export function Settings(props: Props) {
             >
                 <div class={styles.notify}>
                     <Checkbox label={l.t('_c.settings.enabled')} class={styles.checkbox} disabled={sysNotifyDisabled()}
-                        checked={opt.systemNotify} onChange={async v => {
-                            set.setSystemNotify(!!v);
+                        checked={accessor.getSystemNotify()} onChange={async v => {
+                            accessor.setSystemNotify(!!v);
                         }}
                     />
-                    <Button kind='flat' onclick={requestSysNotify}>{ l.t('_c.settings.requestNotifyPermission') }</Button>
+                    <Button kind='flat' onclick={requestSysNotify}>
+                        {l.t('_c.settings.requestNotifyPermission')}
+                    </Button>
                 </div>
             </Item>
         </Show>
@@ -215,7 +217,7 @@ export function Settings(props: Props) {
         <Item icon={/*@once*/<IconTimezone />}
             title={l.t('_c.settings.timezone')} desc={l.t('_c.settings.timezoneDesc')}
         >
-            <div><Timezone value={opt.timezone} onChange={v => { set.setTimezone(v); }} /></div>
+            <div><Timezone value={accessor.getTimezone()} onChange={v => { accessor.setTimezone(v); }} /></div>
         </Item>
     </div>;
 }

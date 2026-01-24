@@ -14,7 +14,7 @@ import { boolSelector } from '@docs/components/base';
 export default function(props: MountProps): JSX.Element {
     const l = useLocale();
     const [System, system] = boolSelector('system');
-    const [set] = useOptions();
+    const [accessor] = useOptions();
 
     const typ = fieldAccessor<NotifyType>('type', 'success');
     const timeout = fieldAccessor<number>('timeout', 5000);
@@ -26,7 +26,7 @@ export default function(props: MountProps): JSX.Element {
     };
 
     createEffect(() => {
-        set.setSystemNotify(system());
+        accessor.setSystemNotify(system());
     });
 
     return <div class="flex flex-col gap-2 w-40">
