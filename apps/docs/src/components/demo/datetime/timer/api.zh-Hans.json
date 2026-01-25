@@ -1,0 +1,126 @@
+[
+	{
+		"name": "TimerField",
+		"kind": "literal",
+		"type": "\"seconds\" | \"minutes\" | \"hours\" | \"days\"",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "TimerProps",
+		"summary": "倒计时的计时器\n\n",
+		"properties": [
+			{
+				"name": "duration",
+				"summary": "时间段\n\n",
+				"type": "Duration",
+				"reactive": true
+			},
+			{
+				"name": "separator",
+				"summary": "分隔符的内容\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "startField",
+				"summary": "需要显示的最小字段名称\n\n",
+				"remarks": "默认为 minutes，即只显示分钟和秒数。\n当指定的单位无法全部显示指定的值时，大于此单位的数值会换算累加到该单位上。\n比如：当只指定了 seconds，但是表示分钟的值也不为空，则分钟会转换为秒数累加在秒之上。\n\n",
+				"type": "\"seconds\" | \"minutes\" | \"hours\" | \"days\" | undefined"
+			},
+			{
+				"name": "interval",
+				"summary": "频率\n\n",
+				"remarks": "最小单位为秒，负数为减少 duration，直到为零。正数为增加。\n默认为 -1。\n\n",
+				"type": "number | undefined"
+			},
+			{
+				"name": "autoStart",
+				"summary": "是否自动开始倒计时\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "onTick",
+				"summary": "每一步倒计时触发的事件\n\n",
+				"type": "(() => void) | undefined"
+			},
+			{
+				"name": "unit",
+				"summary": "是否显示单位\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "onComplete",
+				"summary": "完成时触发\n\n",
+				"type": "(() => void) | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "TimerRef",
+		"methods": [
+			{
+				"name": "toggle",
+				"summary": "切换开始和暂停状态\n\n",
+				"type": "toggle(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "start",
+				"summary": "开始计数\n\n",
+				"type": "start(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "pause",
+				"summary": "暂停计数\n\n",
+				"type": "pause(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

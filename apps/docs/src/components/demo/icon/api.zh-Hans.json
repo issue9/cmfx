@@ -1,0 +1,107 @@
+[
+	{
+		"kind": "interface",
+		"name": "IconSetProps",
+		"properties": [
+			{
+				"name": "icons",
+				"summary": "图标集\n\n",
+				"remarks": "键名为图标的 ID，键值为图标实例；\n\n",
+				"type": "Record<string, JSX.Element>"
+			},
+			{
+				"name": "value",
+				"summary": "显示的图标，如果未指定，则采用\n`Props\nicons`\n中的最后一个。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "easing",
+				"summary": "缓动函数\n\n",
+				"remarks": "如果需要自定义缓动函数，可以通过使用\n`registerEasing`\n方法进行注册。\n\n",
+				"type": "\"circ-in\" | \"circ-out\" | \"circ-in-out\" | \"cubic-in\" | \"cubic-out\" | \"cubic-in-out\" | \"elastic-in\" | \"elastic-out\" | \"elastic-in-out\" | \"expo-in\" | \"expo-out\" | \"expo-in-out\" | \"linear\" | \"quad-in\" | \"quad-out\" | \"quad-in-out\" | \"quart-in\" | \"quart-out\" | \"quart-in-out\" | \"quint-in\" | \"quint-out\" | \"quint-in-out\" | \"sine-in\" | \"sine-out\" | \"sine-in-out\" | undefined"
+			},
+			{
+				"name": "rotation",
+				"summary": "旋转方式\n\n",
+				"type": "\"none\" | \"clock\" | \"counterclock\" | \"random\" | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "IconSetRef",
+		"methods": [
+			{
+				"name": "to",
+				"summary": "跳转至新图标\n\n",
+				"type": "to(gid: string): void",
+				"params": [
+					{
+						"name": "gid",
+						"summary": "跳转至新图标的 ID，该值必须是图标集中的一个，如果不存在则不执行任何操作；\n\n",
+						"type": "string"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "next",
+				"summary": "显示下一个图标\n\n",
+				"remarks": "图标的顺序与\n`icons`\n的顺序是相同的。\n\n",
+				"type": "next(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "prev",
+				"summary": "显示上一个图标\n\n",
+				"remarks": "图标的顺序与\n`icons`\n的顺序是相同的。\n\n",
+				"type": "prev(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "组件的根元素\n\n",
+				"type": "root(): SVGSVGElement",
+				"return": {
+					"type": "SVGSVGElement"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

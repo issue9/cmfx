@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconChart from '~icons/tdesign/chart-pie-filled';
 
 import type { Info } from '@docs/components/base';
@@ -16,12 +15,11 @@ import { default as pie } from './pie.tsx?raw';
 import { default as Axis } from './axis';
 import { default as axis } from './axis.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.chart', icon: IconChart, path: 'chart',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Chart, source: chart, title: 'chart' },
             { component: Pie, source: pie, title: 'pie' },
             { component: Axis, source: axis, title: 'axis' },

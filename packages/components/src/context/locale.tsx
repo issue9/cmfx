@@ -55,7 +55,7 @@ export function useLocale(): Locale {
         relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat {
             return ctx().relativeTimeFormat(o);
         },
-        match(locales: Array<string>): string { return ctx().match(locales); },
+        match(locales: Array<string>, preset: string): string { return ctx().match(locales, preset); },
         get locales(): [id: string, displayName: string][] { return ctx().locales; },
         t<D extends Dict>(key: string | DictKeys<D>, args?: TranslateArgs): string { return ctx().t(key, args); },
         tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {

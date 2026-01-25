@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconLocaleConfig from '~icons/fluent-mdl2/locale-language';
 
 import type { Info } from '@docs/components/base';
@@ -19,12 +18,11 @@ import { default as other } from './other.tsx?raw';
 import { default as Nested } from './nested';
 import { default as nested } from './nested.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'config', title: '_d.demo.localeConfig', icon: IconLocaleConfig, path: 'config/locale',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Locale, source: locale, title: 'LocaleProvider', desc: '可通过 `LocaleProvider` 的属性修改所包含内容的语言。' },
             { component: Global, source: global, title: 'setLocale', desc: '可通过 `setLocale` 修改全局的本地化内容。' },
             { component: Other, source: other, title: '其它属性' },

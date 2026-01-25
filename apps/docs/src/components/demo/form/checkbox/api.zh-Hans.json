@@ -1,0 +1,232 @@
+[
+	{
+		"kind": "interface",
+		"name": "CheckboxProps",
+		"properties": [
+			{
+				"name": "indeterminate",
+				"summary": "设置为不确定状态，只负责样式控制。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "block",
+				"summary": "是否显示为块\n\n",
+				"remarks": "是否隐藏原本的单选按钮，只显示文本内容配以边框。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "checked",
+				"summary": "复选框的状态，true 为选中，false 为未选中。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "onChange",
+				"type": "((v?: boolean) => void) | undefined"
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "title",
+				"summary": "鼠标提示内容\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "tabindex",
+				"type": "number | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelWidth",
+				"summary": "表单组件中 label 宽度的默认值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelAlign",
+				"summary": "表单组件中 label 的对齐方式\n\n",
+				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+				"type": "\"start\" | \"center\" | \"end\" | undefined",
+				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "label",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "help",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "CheckboxGroupProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "AvailableEnumType"
+			}
+		],
+		"properties": [
+			{
+				"name": "block",
+				"summary": "是否显示为块\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "itemLayout",
+				"summary": "子项的布局方式\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "accessor",
+				"summary": "NOTE: 非响应式属性\n\n",
+				"type": "Accessor<T[], string>"
+			},
+			{
+				"name": "options",
+				"summary": "下拉选择项\n\n",
+				"type": "FieldOptions<T>",
+				"reactive": true
+			},
+			{
+				"name": "title",
+				"summary": "鼠标提示内容\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "hasHelp",
+				"summary": "表单组件的 hasHelp 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"def": "true\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelWidth",
+				"summary": "表单组件中 label 宽度的默认值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelAlign",
+				"summary": "表单组件中 label 的对齐方式\n\n",
+				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+				"type": "\"start\" | \"center\" | \"end\" | undefined",
+				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "tabindex",
+				"type": "number | undefined"
+			},
+			{
+				"name": "label",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "help",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"type": "JSX.Element"
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

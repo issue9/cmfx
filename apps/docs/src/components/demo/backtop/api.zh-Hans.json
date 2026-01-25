@@ -1,0 +1,75 @@
+[
+	{
+		"kind": "interface",
+		"name": "BackTopProps",
+		"properties": [
+			{
+				"name": "distance",
+				"summary": "当容器顶部不可见区域达到此值时才会显示按钮，默认为 10。\n\n",
+				"type": "number | undefined",
+				"def": "10\n\n"
+			},
+			{
+				"name": "rounded",
+				"summary": "是否为圆形\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "BackTopRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): ButtonRef",
+				"return": {
+					"type": "ButtonRef<false, HTMLButtonElement>"
+				}
+			},
+			{
+				"name": "backtop",
+				"summary": "返回页面顶部\n\n",
+				"remarks": "该功能与直接点击按钮具有相同的效果。\n\n",
+				"type": "backtop(): void",
+				"return": {
+					"type": "void"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

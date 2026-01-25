@@ -1,0 +1,52 @@
+[
+	{
+		"kind": "source",
+		"name": "Scheme",
+		"summary": "定义主题相关的各类变量\n\n",
+		"source": "/**\r\n * 定义主题相关的各类变量\r\n */\r\nexport declare type Scheme = {\r\n    primary: string;\r\n    secondary: string;\r\n    tertiary: string;\r\n    /**\r\n     * 表示错误信息\r\n     */\r\n    error: string;\r\n    /**\r\n     * 一般用于大面积的背景色\r\n     */\r\n    surface: string;\r\n    /**\r\n     * 各种不同大小的组件的圆角设置\r\n     */\r\n    radius: Radius;\r\n    /**\r\n     * 动画的时长，默认为 300，单位为 ms。\r\n     */\r\n    transitionDuration: number;\r\n}",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "source",
+		"name": "Radius",
+		"summary": "圆角参数的设置\n\n",
+		"remarks": "属性名表示的是组件的大小。单位为 rem。\n\n",
+		"source": "/**\r\n * 圆角参数的设置\r\n *\r\n * @remarks\r\n * 属性名表示的是组件的大小。单位为 rem。\r\n */\r\nexport declare type Radius = {\r\n    xs: number;\r\n    sm: number;\r\n    md: number;\r\n    lg: number;\r\n    xl: number;\r\n}",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "source",
+		"name": "createChartLocaleLoader",
+		"summary": "创建用于加载 echarts 语言包的加载器\n\n",
+		"source": "/**\r\n * 创建用于加载 echarts 语言包的加载器\r\n * @param obj - 需要加载的内容，比如 `(await import(`../../node_modules/echarts/lib/i18n/langEN.js`)).default`；\r\n * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；\r\n */\r\nexport declare function createChartLocaleLoader(obj: Parameters<typeof echarts_2.registerLocale>[1]): DictLoader",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "source",
+		"name": "createZodLocaleLoader",
+		"summary": "创建一个用于加载 zod 本地化语言的函数\n\n",
+		"source": "/**\r\n * 创建一个用于加载 zod 本地化语言的函数\r\n *\r\n * @param f - 加载 zod 本地化语言内容，比如 `(await import('../../node_modules/zod/v4/locales/en.js')).default`；\r\n * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；\r\n */\r\nexport declare function createZodLocaleLoader(f: () => any): DictLoader",
+		"pkg": "@cmfx/core"
+	},
+	{
+		"kind": "source",
+		"name": "Problem",
+		"summary": "接口错误返回的对象\n\n",
+		"source": "/**\r\n * 接口错误返回的对象\r\n *\r\n * @typeParam E - 表示 extension 字段的类型，如果该字段空值，不需要指定。\r\n */\r\nexport declare interface Problem<E = never> {\r\n    type: string;\r\n    title: string;\r\n    status: number;\r\n    detail?: string;\r\n    instance?: string;\r\n    extension?: E;\r\n    /**\r\n     * 具体的错误字段\r\n     *\r\n     * 根据 status 的不同，可能表示提交对象、查询参数或是报头的错误。\r\n     */\r\n    params?: Params;\r\n}",
+		"pkg": "@cmfx/core"
+	},
+	{
+		"kind": "source",
+		"name": "handleProblem",
+		"summary": "将\n`Problem`\n作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\n\n",
+		"source": "/**\r\n * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\r\n *\r\n * @param p - 如果该值空，则会抛出异常；\r\n */\r\nexport declare function handleProblem<P>(p?: Problem<P>): Promise<void>",
+		"pkg": "@cmfx/admin"
+	},
+	{
+		"kind": "source",
+		"name": "HTTPError",
+		"summary": "一个包含 HTTP 状态码的错误\n\n",
+		"source": "/**\r\n * 一个包含 HTTP 状态码的错误\r\n */\r\nexport declare class HTTPError extends Error {\r\n    #private;\r\n    /**\r\n     * 构造函数\r\n     * @param status - 状态码；\r\n     * @param title - 简要的错误说明；\r\n     * @param message - 详细的错误说明；\r\n     */\r\n    constructor(status: number, title: string, message?: string);\r\n    /**\r\n     * 表示 HTTP 状态码\r\n     */\r\n    get status(): number;\r\n    /**\r\n     * 表示简要的错误说明\r\n     */\r\n    get title(): string;\r\n}",
+		"pkg": "@cmfx/admin"
+	}
+]

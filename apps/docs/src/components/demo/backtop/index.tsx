@@ -2,25 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconBacktop from '~icons/tabler/transition-top-filled';
 
 import type { Info } from '@docs/components/base';
 
-import { default as C1 } from './preset';
-import { default as s1 } from './preset.tsx?raw';
+import { default as Custom } from './custom';
+import { default as custom } from './custom.tsx?raw';
 
-import { default as C2 } from './custom';
-import { default as s2 } from './custom.tsx?raw';
-
-import { default as api } from './api.json' with { type: 'json' };
+import { default as Preset } from './preset';
+import { default as preset } from './preset.tsx?raw';
 
 export default function(): Info {
     return {
         kind: 'navigation', title: '_d.demo.backtop', icon: IconBacktop, path: 'backtop',
-        api: api as Array<Type>, stages: [
-            { component: C1, source: s1, title: '基本功能' },
-            { component: C2, source: s2, title: '自定义图标' },
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
+            { component: Preset, source: preset, title: '_d.demo.basicFunctions' },
+            { component: Custom, source: custom, title: '自定义图标' },
         ]
     };
 }

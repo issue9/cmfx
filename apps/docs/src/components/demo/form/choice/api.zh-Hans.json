@@ -1,0 +1,236 @@
+[
+	{
+		"kind": "interface",
+		"name": "ChoiceProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "AvailableEnumType",
+				"init": "string"
+			},
+			{
+				"name": "M",
+				"type": "boolean",
+				"init": "false"
+			}
+		],
+		"properties": [
+			{
+				"name": "placeholder",
+				"type": "string | undefined"
+			},
+			{
+				"name": "options",
+				"summary": "选择项\n\n",
+				"type": "ChoiceOption<T>[]",
+				"reactive": true
+			},
+			{
+				"name": "multiple",
+				"summary": "是否多选\n\n",
+				"type": "M | undefined",
+				"reactive": true
+			},
+			{
+				"name": "closable",
+				"summary": "选项是否可关闭\n\n",
+				"remarks": "如果为 true，表示可以通过每个选中项后的关闭按钮取消当前选中项，\n如果是单选，那么可以让整个选项处于没有选中项的状态。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "accessor",
+				"summary": "NOTE: 非响应式属性\n\n",
+				"type": "M extends true ? Accessor<T[] | undefined, string> : Accessor<T | undefined, string>"
+			},
+			{
+				"name": "title",
+				"summary": "鼠标提示内容\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "hasHelp",
+				"summary": "表单组件的 hasHelp 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"def": "true\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelWidth",
+				"summary": "表单组件中 label 宽度的默认值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelAlign",
+				"summary": "表单组件中 label 的对齐方式\n\n",
+				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+				"type": "\"start\" | \"center\" | \"end\" | undefined",
+				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "tabindex",
+				"type": "number | undefined"
+			},
+			{
+				"name": "label",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "help",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"type": "JSX.Element"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "ChoiceOption",
+		"summary": "单个选择项的类型\n\n",
+		"remarks": "直接采用了与\n`MenuItem`\n相同的类型，但是对为 type 为 a 的项是忽略处理的。\n\n",
+		"kind": "union",
+		"types": [
+			{
+				"kind": "interface",
+				"name": "MenuItemDivider",
+				"properties": [
+					{
+						"name": "type",
+						"type": "\"divider\""
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "MenuItemGroup",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "AvailableEnumType"
+					}
+				],
+				"properties": [
+					{
+						"name": "type",
+						"type": "\"group\""
+					},
+					{
+						"name": "label",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "items",
+						"summary": "分组的子项\n\n",
+						"type": "MenuItem<T>[]"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "MenuItemItem",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "AvailableEnumType"
+					}
+				],
+				"properties": [
+					{
+						"name": "type",
+						"summary": "表示普通的菜单项，如果为 a 表示这是一个链接。\n\n",
+						"type": "\"a\" | \"item\""
+					},
+					{
+						"name": "value",
+						"summary": "表示当前项的唯一值\n\n",
+						"remarks": "该值为空时，\n`items`\n不能为空，\n如果\n`type`\n为 a 时，当前值表示链接的地址。\n\n",
+						"type": "T | undefined"
+					},
+					{
+						"name": "items",
+						"summary": "子项\n\n",
+						"remarks": "该值为空时，\n`value`\n不能为空。\n\n",
+						"type": "MenuItem<T>[] | undefined"
+					},
+					{
+						"name": "label",
+						"summary": "菜单项的内容\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "prefix",
+						"summary": "菜单项前置的内容\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "suffix",
+						"summary": "菜单项尾部的内容\n\n",
+						"remarks": "当\n`items`\n不为空时，该值无效。\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "disabled",
+						"summary": "是否禁用该项\n\n",
+						"type": "boolean | undefined"
+					},
+					{
+						"name": "hotkey",
+						"summary": "快捷键\n\n",
+						"type": "Hotkey | undefined"
+					}
+				]
+			}
+		],
+		"discriminant": "type",
+		"pkg": "@cmfx/components"
+	}
+]

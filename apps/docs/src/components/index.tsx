@@ -6,7 +6,7 @@ import { Drawer, DrawerRef, joinClass, Menu, MenuRef, useLocale } from '@cmfx/co
 import { RouteDefinition } from '@solidjs/router';
 import { onCleanup, onMount, ParentProps, Setter } from 'solid-js';
 
-import { floatingWidth } from '@docs/utils/options';
+import { floatingWidth } from '@docs/utils';
 import { buildMenus, default as overview, routes } from './overview';
 import styles from './style.module.css';
 

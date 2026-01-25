@@ -7,11 +7,10 @@ import {
     LabelAlignment, labelAlignments, Layout, layouts, Palette, palettes, useLocale
 } from '@cmfx/components';
 import { DictKeys, PopoverPosition } from '@cmfx/core';
-import { Type } from '@cmfx/vite-plugin-api';
-import { Accessor, Component, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
+import { Accessor, Component, createSignal, createUniqueId, Setter } from 'solid-js';
 
 import messages from '@docs/messages/en.lang';
-import { StageProps } from './stages';
+import { StageProps, StagesProps } from './stages';
 
 export function posSelector(preset?: PopoverPosition) {
     return arraySelector('_d.demo.tooltipPos', ['left', 'right', 'top', 'bottom'], preset ?? 'left');
@@ -32,13 +31,14 @@ export type Kind
  */
 export type Info = {
     kind: Kind, // 组件分类
-    title: DictKeys<typeof messages>, // 演示组件的标题
+    title: DictKeys<typeof messages>, // 演示组件的标题，同时也是页面的标题。
     icon?: Component, // 演示组件的图标，需要多处使用，所以使用函数。如果为空会有默认图标。
-    path: string; // 相对于当前目录的路径
+    path: string; // 相对于 components/demo 的路径，同时作为文件路径和导航的路由路径。
     stages?: Array<StageProps>; // 演示内容
-    faq?: JSX.Element;
-    api?: Array<Type>; // 关联的接口文档
-    desc?: JSX.Element; // 描述信息
+
+    header?: StagesProps['header']; // 页面的顶部
+    api?: StagesProps['api']; // 关联的接口文档
+    footer?: StagesProps['footer']; // 页面的底部
 };
 
 /**

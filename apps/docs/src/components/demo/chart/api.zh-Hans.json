@@ -1,0 +1,406 @@
+[
+	{
+		"kind": "interface",
+		"name": "ChartProps",
+		"properties": [
+			{
+				"name": "useCoarsePointer",
+				"summary": "是否扩大可点击元素的响应范围\n\n",
+				"remarks": "- null 表示对移动设备开启；\n- true 表示总是开启；\n- false 表示总是不开启。\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "pointerSize",
+				"summary": "扩大元素响应范围的像素大小\n\n",
+				"type": "number | undefined"
+			},
+			{
+				"name": "height",
+				"summary": "可显式指定实例高度，单位为像素。如果传入值为 null/undefined/'auto'，则表示自动取容器的高度。\n\n",
+				"type": "string | number | undefined"
+			},
+			{
+				"name": "width",
+				"summary": "可显式指定实例宽度，单位为像素。如果传入值为 null/undefined/'auto'，则表示自动取容器的宽度。\n\n",
+				"type": "string | number | undefined"
+			},
+			{
+				"name": "initValue",
+				"summary": "图表的初始数据\n\n",
+				"type": "echarts_2.EChartsOption"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ChartRef",
+		"methods": [
+			{
+				"name": "echarts",
+				"summary": "返回 echarts 的操作实例\n\n",
+				"type": "echarts(): echarts_2.ECharts",
+				"return": {
+					"type": "echarts_2.ECharts"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "组件根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "update",
+				"summary": "更新图表数据\n\n",
+				"type": "update(o: ChartOption): void",
+				"params": [
+					{
+						"name": "o",
+						"summary": "新的图表数据\n\n",
+						"type": "echarts_2.EChartsOption"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ChartAxisProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "object"
+			}
+		],
+		"properties": [
+			{
+				"name": "xAxis",
+				"summary": "X 轴的设置\n\n",
+				"type": "ChartAxisPropsAxis<T>"
+			},
+			{
+				"name": "yAxis",
+				"summary": "Y 轴名称\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "tooltip",
+				"summary": "是否显示提示信息\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "legend",
+				"summary": "是否显示每一系列数据的标题\n\n",
+				"type": "\"center\" | \"left\" | \"right\" | undefined"
+			},
+			{
+				"name": "series",
+				"summary": "对数据列的定义\n\n",
+				"type": "ChartAxisPropsSeries<T>[]"
+			},
+			{
+				"name": "selectedMode",
+				"summary": "选中的模式\n\n",
+				"type": "boolean | \"multiple\" | \"single\" | \"series\" | undefined"
+			},
+			{
+				"name": "initValue",
+				"summary": "展示的数据\n\n",
+				"remarks": "可通过\n`append`\n，如果总量超过\n`size`\n，最早的数据会被删除。\n\n",
+				"type": "T[]"
+			},
+			{
+				"name": "size",
+				"summary": "最大的数据量，当图表中的数据大于此值时，会删除顶部的数据。\n\n",
+				"type": "number | undefined"
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "useCoarsePointer",
+				"summary": "是否扩大可点击元素的响应范围\n\n",
+				"remarks": "- null 表示对移动设备开启；\n- true 表示总是开启；\n- false 表示总是不开启。\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "pointerSize",
+				"summary": "扩大元素响应范围的像素大小\n\n",
+				"type": "number | undefined"
+			},
+			{
+				"name": "height",
+				"summary": "可显式指定实例高度，单位为像素。如果传入值为 null/undefined/'auto'，则表示自动取容器的高度。\n\n",
+				"type": "string | number | undefined"
+			},
+			{
+				"name": "width",
+				"summary": "可显式指定实例宽度，单位为像素。如果传入值为 null/undefined/'auto'，则表示自动取容器的宽度。\n\n",
+				"type": "string | number | undefined"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ChartAxisPropsAxis",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "object"
+			}
+		],
+		"properties": [
+			{
+				"name": "name",
+				"summary": "X 轴上的名称\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "key",
+				"summary": "显示在 X 轴上的字段名\n\n",
+				"type": "keyof T"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ChartAxisPropsSeries",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "object"
+			}
+		],
+		"properties": [
+			{
+				"name": "type",
+				"summary": "展示类型\n\n",
+				"type": "\"bar\" | \"line\""
+			},
+			{
+				"name": "key",
+				"summary": "该列对应的字段名\n\n",
+				"type": "keyof T"
+			},
+			{
+				"name": "name",
+				"summary": "如果为空，则采用 key 作为默认值。\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "yAxisIndex",
+				"summary": "数值对应的坐标轴，默认为 0，即左侧的坐标轴。\n\n",
+				"type": "0 | 1 | undefined"
+			},
+			{
+				"name": "stack",
+				"summary": "拥有相同非空值的此属性，将显示一列上。\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "smooth",
+				"summary": "平滑的线段，仅对 type === 'line' 有效果\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "area",
+				"summary": "显示填充区域，仅对 type === 'line' 有效果\n\n",
+				"type": "boolean | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ChartAxisRef",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "object"
+			}
+		],
+		"methods": [
+			{
+				"name": "root",
+				"summary": "组件根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "append",
+				"summary": "追加数据\n\n",
+				"type": "append(...data: Array<T>): void",
+				"params": [
+					{
+						"name": "data",
+						"type": "T[]"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "clear",
+				"summary": "清空数据\n\n",
+				"type": "clear(): void",
+				"return": {
+					"type": "void"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ChartPieProps",
+		"properties": [
+			{
+				"name": "tooltip",
+				"summary": "是否显示提示信息\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "legend",
+				"summary": "是否显示每一系列数据的标题\n\n",
+				"type": "\"center\" | \"left\" | \"right\" | undefined"
+			},
+			{
+				"name": "padding",
+				"summary": "间隔的角度\n\n",
+				"type": "number | undefined"
+			},
+			{
+				"name": "radius",
+				"summary": "半径，0-75% 或是表示像素的数值\n\n",
+				"type": "string | number | (string | number)[] | undefined"
+			},
+			{
+				"name": "roseType",
+				"summary": "南丁格尔玫瑰图\n\n",
+				"type": "\"radius\" | \"area\" | undefined"
+			},
+			{
+				"name": "borderRadius",
+				"summary": "圆角\n\n",
+				"type": "string | number | undefined"
+			},
+			{
+				"name": "selectedMode",
+				"summary": "选中的模式\n\n",
+				"type": "boolean | \"multiple\" | \"single\" | \"series\" | undefined"
+			},
+			{
+				"name": "initValue",
+				"summary": "展示的数据\n\n",
+				"type": "{ name: string; value: number; selected?: boolean; }[]"
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "useCoarsePointer",
+				"summary": "是否扩大可点击元素的响应范围\n\n",
+				"remarks": "- null 表示对移动设备开启；\n- true 表示总是开启；\n- false 表示总是不开启。\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "pointerSize",
+				"summary": "扩大元素响应范围的像素大小\n\n",
+				"type": "number | undefined"
+			},
+			{
+				"name": "height",
+				"summary": "可显式指定实例高度，单位为像素。如果传入值为 null/undefined/'auto'，则表示自动取容器的高度。\n\n",
+				"type": "string | number | undefined"
+			},
+			{
+				"name": "width",
+				"summary": "可显式指定实例宽度，单位为像素。如果传入值为 null/undefined/'auto'，则表示自动取容器的宽度。\n\n",
+				"type": "string | number | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

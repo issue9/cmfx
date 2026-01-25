@@ -1,0 +1,107 @@
+[
+	{
+		"kind": "function",
+		"name": "run",
+		"summary": "运行项目\n\n",
+		"remarks": "此方法提供了当前组件库一些必不可少的条件，比如\n`useOptions`\n等的数据，\n所以组件库必须要以此方法作为入口，否则部分组件可能无法正常运行。\n\n\n此方法会将 'root' 作为 mountedElement 上的\n`container-name`\n值，\n子组件的 css 样式可以使用此作为容器查询，比如\n`Notify`\n就使用\n`@sm/root:`\n作为样式变体。\n\n",
+		"type": "function run(app: Component<RouteSectionProps>, mountedElement: HTMLElement, o: Options, routes: Array<RouteDefinition>, router?: typeof Router): void",
+		"params": [
+			{
+				"name": "app",
+				"summary": "实际的内容组件；\n\n",
+				"type": "Component<RouteSectionProps<unknown>>"
+			},
+			{
+				"name": "mountedElement",
+				"summary": "组件挂载的元素；\n\n",
+				"type": "HTMLElement"
+			},
+			{
+				"name": "o",
+				"summary": "初始化参数；\n\n",
+				"type": "Options"
+			},
+			{
+				"name": "routes",
+				"summary": "路由数据；\n\n",
+				"type": "RouteDefinition[]"
+			},
+			{
+				"name": "router",
+				"summary": "指定路由类型，默认为\n`HashRouter`\n；\n\n",
+				"type": "typeof Router | undefined"
+			}
+		],
+		"return": {
+			"type": "void"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "createBytesFormatter",
+		"summary": "创建用于格式化字节大小的函数\n\n",
+		"type": "function createBytesFormatter(l: Locale): {\r\n    (byte: number): string;\r\n}",
+		"params": [
+			{
+				"name": "l",
+				"summary": "本地化接口；\n\n",
+				"type": "Locale"
+			}
+		],
+		"return": {
+			"summary": "用于格式化的函数，会根据传入的字节大小自动选择合适的单位；\n\n",
+			"type": "(byte: number) => string"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "copy2Clipboard",
+		"summary": "复制内容到剪切版，并在 target 显示复制状态。\n\n",
+		"type": "function copy2Clipboard(target: HTMLElement, text: string): Promise<void>",
+		"params": [
+			{
+				"name": "target",
+				"summary": "显示复制状态的对象，状态会显示在该对象之上，要求 target.parentElement 不能为空；\n\n",
+				"type": "HTMLElement"
+			},
+			{
+				"name": "text",
+				"summary": "复制的内容；\n\n",
+				"type": "string"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "create",
+		"summary": "初始化整个项目\n\n",
+		"type": "function create(elementID: string, o: Options, router?: typeof Router): Promise<void>",
+		"params": [
+			{
+				"name": "elementID",
+				"summary": "挂载的元素 ID；\n\n",
+				"type": "string"
+			},
+			{
+				"name": "o",
+				"summary": "项目的初始化选项；\n\n",
+				"type": "Options"
+			},
+			{
+				"name": "router",
+				"summary": "指定路由对象，默认为\n`HashRouter`\n；\n\n",
+				"type": "typeof Router | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/admin"
+	}
+]

@@ -1,0 +1,239 @@
+[
+	{
+		"kind": "interface",
+		"name": "DialogProps",
+		"properties": [
+			{
+				"name": "ref",
+				"type": "(m: DialogRef) => void"
+			},
+			{
+				"name": "header",
+				"summary": "标题内容，如果此值不为空则同时会显示关闭按钮。\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "actions",
+				"summary": "底部的按钮\n\n",
+				"remarks": "返回按钮组成的列表即可，不需要包含外层的元素，每个按钮需要自行处理关闭事件。\n比如：\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "movable",
+				"summary": "是否是可拖拽移动的\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "scrollable",
+				"summary": "内容是否可滚动\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "DialogRef",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): HTMLDialogElement",
+				"return": {
+					"type": "HTMLDialogElement"
+				}
+			},
+			{
+				"name": "move",
+				"summary": "移动对话框的位置\n\n",
+				"type": "move(p?: {\r\n        x: number | string;\r\n        y: number | string;\r\n    }): void",
+				"params": [
+					{
+						"name": "p",
+						"summary": "如果为 undefined，那么将会居中显示，否则显示在指定位置。\n\n",
+						"type": "{ x: number | string; y: number | string; } | undefined"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "Action",
+				"summary": "生成对话框上的按钮\n\n",
+				"type": "Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element",
+				"params": [
+					{
+						"name": "title",
+						"summary": "按钮内容；\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "click",
+						"summary": "点击事件；\n\n",
+						"type": "ClickFunc | undefined"
+					},
+					{
+						"name": "def",
+						"summary": "是否为默认按钮，如果是则会响应回车事件；\n\n",
+						"type": "boolean | undefined"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			},
+			{
+				"name": "CancelAction",
+				"summary": "生成取消按钮的组件\n\n",
+				"type": "CancelAction(click?: ClickFunc): JSX.Element",
+				"params": [
+					{
+						"name": "click",
+						"summary": "如果不为空，则在关闭对话框之前执行该方法，如果返回 false，则会中断关闭对话框。\n\n",
+						"type": "ClickFunc | undefined"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			},
+			{
+				"name": "OKAction",
+				"summary": "生成确定的按钮\n\n",
+				"type": "OKAction(click: ClickFunc): JSX.Element",
+				"params": [
+					{
+						"name": "click",
+						"summary": "点击事件\n\n",
+						"type": "ClickFunc"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			},
+			{
+				"name": "DefaultActions",
+				"summary": "生成带有确认和取消两个按钮的操作栏\n\n",
+				"type": "DefaultActions(ok: ClickFunc, cancel?: ClickFunc): JSX.Element",
+				"params": [
+					{
+						"name": "ok",
+						"summary": "确定按钮的事件\n\n",
+						"type": "ClickFunc"
+					},
+					{
+						"name": "cancel",
+						"summary": "取消按钮的事件\n\n",
+						"type": "ClickFunc | undefined"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "xalert",
+		"summary": "提供了与\n`alert`\n相同的功能，但是在行为上有些不同。\n`alert`\n是阻塞模式的，而当前函数则是异步函数。\n\n",
+		"type": "function xalert(msg: any, title?: string): Promise<void>",
+		"params": [
+			{
+				"name": "msg",
+				"summary": "提示框的内容；\n\n",
+				"type": "any"
+			},
+			{
+				"name": "title",
+				"summary": "提示框的标题；\n\n",
+				"type": "string | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "xconfirm",
+		"summary": "提供了与\n`confirm`\n相同的功能，但是在行为上有些不同。\n`confirm`\n是阻塞模式的，而当前函数则是异步函数。\n\n",
+		"type": "function xconfirm(msg?: string, title?: string): Promise<boolean>",
+		"params": [
+			{
+				"name": "msg",
+				"summary": "提示框的内容；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "title",
+				"summary": "提示框的标题；\n\n",
+				"type": "string | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<boolean>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "xprompt",
+		"summary": "提供了与\n`prompt`\n相同的功能，但是在行为上有些不同。\n`prompt`\n是阻塞模式的，而当前函数则是异步函数。\n\n",
+		"type": "function xprompt(msg?: string, val?: string, title?: string): Promise<string | null>",
+		"params": [
+			{
+				"name": "msg",
+				"summary": "对话框的内容；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "val",
+				"summary": "对话框中的默认值；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "title",
+				"summary": "对话框的标题；\n\n",
+				"type": "string | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<string | null>"
+		},
+		"pkg": "@cmfx/components"
+	}
+]

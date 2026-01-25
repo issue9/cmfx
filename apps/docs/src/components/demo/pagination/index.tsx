@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconPagination from '~icons/stash/pagination-duotone';
 
 import type { Info } from '@docs/components/base';
@@ -13,12 +12,11 @@ import { default as pagination } from './pagination.tsx?raw';
 import { default as Bar } from './bar';
 import { default as bar } from './bar.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'navigation', title: '_d.demo.pagination', icon: IconPagination, path: 'pagination',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Pagination, source: pagination, title: 'pagination' },
             { component: Bar, source: bar, title: 'pagination bar' },
         ]

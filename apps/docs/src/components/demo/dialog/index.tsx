@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconDialog from '~icons/material-symbols/dialogs-outline-rounded';
 
 import type { Info } from '@docs/components/base';
@@ -19,13 +18,12 @@ import { default as dialog } from './dialog.tsx?raw';
 import { default as Scroller } from './scroller';
 import { default as scroller } from './scroller.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'feedback', title: '_d.demo.dialog', icon: IconDialog, path: 'dialog',
-        api: api as Array<Type>, stages: [
-            { component: Basic, source: basic, title: '基本功能' },
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
+            { component: Basic, source: basic, title: '_d.demo.basicFunctions' },
             { component: System, source: system, title: '替换系统对话框' },
             { component: Dialog, source: dialog, title: '对话框' },
             { component: Scroller, source: scroller, title: '可滚动' },

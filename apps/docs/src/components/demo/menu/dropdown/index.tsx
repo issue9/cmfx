@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconDropdown from '~icons/material-symbols/dropdown-outline';
 
 import type { Info } from '@docs/components/base';
@@ -25,12 +24,11 @@ import { default as custom } from './custom.tsx?raw';
 import { default as OnPopover } from './onpopover';
 import { default as onpopover } from './onpopover.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'navigation', title: '_d.demo.dropdown', icon: IconDropdown, path: 'menu/dropdown',
-        api: api as Array<Type>, stages: [
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
             { component: Dropdown, source: dropdown, title: 'dropdown' },
             { component: Multip, source: multip, title: 'multip-dropdown' },
             { component: Context, source: context, title: 'context' },

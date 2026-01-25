@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconCalendar from '~icons/solar/calendar-bold';
 
 import type { Info } from '@docs/components/base';
@@ -13,13 +12,12 @@ import { default as calendar } from './calendar.tsx?raw';
 import { default as Lunar } from './lunar';
 import { default as lunar } from './lunar.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.calendar', icon: IconCalendar, path: 'datetime/calendar',
-        api: api as Array<Type>, stages: [
-            { component: Calendar, source: calendar, layout: 'vertical', title: '基本功能' },
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
+            { component: Calendar, source: calendar, layout: 'vertical', title: '_d.demo.basicFunctions' },
             { component: Lunar, source: lunar, layout: 'vertical', title: '农历' },
         ]
     };

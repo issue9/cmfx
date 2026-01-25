@@ -7,7 +7,7 @@ import { RouteDefinition } from '@solidjs/router';
 import { createEffect, onCleanup, onMount, Setter } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 
-import { floatingWidth } from '@docs/utils/options';
+import { floatingWidth } from '@docs/utils';
 import { Demo } from './demo';
 import { params } from './params';
 import styles from './style.module.css';

@@ -1,0 +1,1022 @@
+[
+	{
+		"name": "ButtonProps",
+		"kind": "union",
+		"types": [
+			{
+				"kind": "interface",
+				"name": "BProps",
+				"summary": "按钮类型的属性\n\n",
+				"properties": [
+					{
+						"name": "type",
+						"summary": "按钮的类型了\n\n",
+						"type": "\"submit\" | \"reset\" | \"button\" | \"menu\" | undefined",
+						"def": "'button'\n\n"
+					},
+					{
+						"name": "checked",
+						"summary": "是否处于选中状态\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "form",
+						"summary": "关联的表单 id\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "title",
+						"summary": "鼠标的提示内容\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "square",
+						"summary": "是否为一个长宽比为 1:1 的按钮\n\n",
+						"remarks": "比如图标之类可能需要此属性，\n但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "onclick",
+						"summary": "按钮的点击操作，type 为 'a'，也会触发此事件。\n\n",
+						"type": "JSX.EventHandlerUnion<HTMLElement, MouseEvent, JSX.EventHandler<HTMLElement, MouseEvent>> | undefined"
+					},
+					{
+						"name": "disabled",
+						"summary": "是否禁用\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "kind",
+						"summary": "组件的展示风格\n\n",
+						"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+						"def": "'fill'\n\n",
+						"reactive": true
+					},
+					{
+						"name": "rounded",
+						"summary": "是否为圆角\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "hotkey",
+						"summary": "快捷键\n\n",
+						"type": "Hotkey | undefined"
+					},
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"def": "undefined\n\n",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					},
+					{
+						"name": "children",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "AProps",
+				"summary": "链接类型的按钮属性\n\n",
+				"properties": [
+					{
+						"name": "type",
+						"summary": "表示这是一个链接类型的按钮\n\n",
+						"type": "\"a\""
+					},
+					{
+						"name": "target",
+						"summary": "链接上的 target 属性\n\n",
+						"type": "(string & {}) | \"_self\" | \"_blank\" | \"_parent\" | \"_top\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "href",
+						"summary": "指向的链接\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "title",
+						"summary": "鼠标的提示内容\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "square",
+						"summary": "是否为一个长宽比为 1:1 的按钮\n\n",
+						"remarks": "比如图标之类可能需要此属性，\n但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "onclick",
+						"summary": "按钮的点击操作，type 为 'a'，也会触发此事件。\n\n",
+						"type": "JSX.EventHandlerUnion<HTMLElement, MouseEvent, JSX.EventHandler<HTMLElement, MouseEvent>> | undefined"
+					},
+					{
+						"name": "disabled",
+						"summary": "是否禁用\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "kind",
+						"summary": "组件的展示风格\n\n",
+						"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+						"def": "'fill'\n\n",
+						"reactive": true
+					},
+					{
+						"name": "rounded",
+						"summary": "是否为圆角\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "hotkey",
+						"summary": "快捷键\n\n",
+						"type": "Hotkey | undefined"
+					},
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"def": "undefined\n\n",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					},
+					{
+						"name": "children",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
+			}
+		],
+		"discriminant": "type",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ButtonRef",
+		"typeParams": [
+			{
+				"name": "A",
+				"type": "boolean",
+				"init": "false"
+			},
+			{
+				"name": "E",
+				"type": "any",
+				"init": "A extends false ? HTMLButtonElement : HTMLAnchorElement"
+			}
+		],
+		"methods": [
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): E",
+				"return": {
+					"type": "E"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "ButtonKind",
+		"summary": "组件的风格\n\n",
+		"remarks": "组件的展示风格，包含以下几种取值：\n- flat 无背景，无边框；\n- border 无背景，有边框；\n- fill 有背景，有边框；\n\n",
+		"kind": "literal",
+		"type": "\"flat\" | \"border\" | \"fill\"",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "ConfirmButtonProps",
+		"kind": "union",
+		"types": [
+			{
+				"name": "",
+				"kind": "intersection",
+				"types": [
+					{
+						"kind": "interface",
+						"name": "Base_2",
+						"properties": [
+							{
+								"name": "prompt",
+								"summary": "确认框的提示内容，如果为空会显示一条默认的提示语句。\n\n",
+								"type": "JSX.Element"
+							},
+							{
+								"name": "ok",
+								"summary": "自定义确定按钮上的内容\n\n",
+								"type": "JSX.Element"
+							},
+							{
+								"name": "cancel",
+								"summary": "自定义取消按钮上的内容\n\n",
+								"type": "JSX.Element"
+							}
+						]
+					},
+					{
+						"kind": "interface",
+						"name": "AProps",
+						"summary": "链接类型的按钮属性\n\n",
+						"properties": [
+							{
+								"name": "type",
+								"summary": "表示这是一个链接类型的按钮\n\n",
+								"type": "\"a\""
+							},
+							{
+								"name": "target",
+								"summary": "链接上的 target 属性\n\n",
+								"type": "(string & {}) | \"_self\" | \"_blank\" | \"_parent\" | \"_top\" | undefined",
+								"reactive": true
+							},
+							{
+								"name": "href",
+								"summary": "指向的链接\n\n",
+								"type": "string | undefined",
+								"reactive": true
+							},
+							{
+								"name": "title",
+								"summary": "鼠标的提示内容\n\n",
+								"type": "string | undefined",
+								"reactive": true
+							},
+							{
+								"name": "square",
+								"summary": "是否为一个长宽比为 1:1 的按钮\n\n",
+								"remarks": "比如图标之类可能需要此属性，\n但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "onclick",
+								"summary": "按钮的点击操作，type 为 'a'，也会触发此事件。\n\n",
+								"type": "JSX.EventHandlerUnion<HTMLElement, MouseEvent, JSX.EventHandler<HTMLElement, MouseEvent>> | undefined"
+							},
+							{
+								"name": "disabled",
+								"summary": "是否禁用\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "kind",
+								"summary": "组件的展示风格\n\n",
+								"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+								"def": "'fill'\n\n",
+								"reactive": true
+							},
+							{
+								"name": "rounded",
+								"summary": "是否为圆角\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "hotkey",
+								"summary": "快捷键\n\n",
+								"type": "Hotkey | undefined"
+							},
+							{
+								"name": "palette",
+								"summary": "指定当前组件采用的色盘\n\n",
+								"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+								"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+								"reactive": true
+							},
+							{
+								"name": "class",
+								"summary": "为组件的根元素指定 CSS 类名\n\n",
+								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+								"type": "string | undefined",
+								"def": "undefined\n\n",
+								"reactive": true
+							},
+							{
+								"name": "style",
+								"summary": "组件根元素的样式\n\n",
+								"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+								"type": "string | JSX.CSSProperties | undefined",
+								"reactive": true
+							},
+							{
+								"name": "children",
+								"type": "JSX.Element"
+							},
+							{
+								"name": "ref",
+								"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+								"type": "((m: REF) => void) | undefined"
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "",
+				"kind": "intersection",
+				"types": [
+					{
+						"kind": "interface",
+						"name": "Base_2",
+						"properties": [
+							{
+								"name": "prompt",
+								"summary": "确认框的提示内容，如果为空会显示一条默认的提示语句。\n\n",
+								"type": "JSX.Element"
+							},
+							{
+								"name": "ok",
+								"summary": "自定义确定按钮上的内容\n\n",
+								"type": "JSX.Element"
+							},
+							{
+								"name": "cancel",
+								"summary": "自定义取消按钮上的内容\n\n",
+								"type": "JSX.Element"
+							}
+						]
+					},
+					{
+						"kind": "interface",
+						"name": "BProps",
+						"summary": "按钮类型的属性\n\n",
+						"properties": [
+							{
+								"name": "type",
+								"summary": "按钮的类型了\n\n",
+								"type": "\"submit\" | \"reset\" | \"button\" | \"menu\" | undefined",
+								"def": "'button'\n\n"
+							},
+							{
+								"name": "checked",
+								"summary": "是否处于选中状态\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "form",
+								"summary": "关联的表单 id\n\n",
+								"type": "string | undefined"
+							},
+							{
+								"name": "title",
+								"summary": "鼠标的提示内容\n\n",
+								"type": "string | undefined",
+								"reactive": true
+							},
+							{
+								"name": "square",
+								"summary": "是否为一个长宽比为 1:1 的按钮\n\n",
+								"remarks": "比如图标之类可能需要此属性，\n但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "onclick",
+								"summary": "按钮的点击操作，type 为 'a'，也会触发此事件。\n\n",
+								"type": "JSX.EventHandlerUnion<HTMLElement, MouseEvent, JSX.EventHandler<HTMLElement, MouseEvent>> | undefined"
+							},
+							{
+								"name": "disabled",
+								"summary": "是否禁用\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "kind",
+								"summary": "组件的展示风格\n\n",
+								"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+								"def": "'fill'\n\n",
+								"reactive": true
+							},
+							{
+								"name": "rounded",
+								"summary": "是否为圆角\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "hotkey",
+								"summary": "快捷键\n\n",
+								"type": "Hotkey | undefined"
+							},
+							{
+								"name": "palette",
+								"summary": "指定当前组件采用的色盘\n\n",
+								"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+								"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+								"reactive": true
+							},
+							{
+								"name": "class",
+								"summary": "为组件的根元素指定 CSS 类名\n\n",
+								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+								"type": "string | undefined",
+								"def": "undefined\n\n",
+								"reactive": true
+							},
+							{
+								"name": "style",
+								"summary": "组件根元素的样式\n\n",
+								"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+								"type": "string | JSX.CSSProperties | undefined",
+								"reactive": true
+							},
+							{
+								"name": "children",
+								"type": "JSX.Element"
+							},
+							{
+								"name": "ref",
+								"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+								"type": "((m: REF) => void) | undefined"
+							}
+						]
+					}
+				]
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "SplitButtonProps",
+		"typeParams": [
+			{
+				"name": "M",
+				"type": "boolean",
+				"init": "false"
+			},
+			{
+				"name": "T",
+				"type": "AvailableEnumType",
+				"init": "string"
+			}
+		],
+		"properties": [
+			{
+				"name": "layout",
+				"summary": "按钮的布局\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined"
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "onChange",
+				"summary": "当选择项发生变化时触发的事件\n\n",
+				"type": "CF<M, T, M extends true ? T[] : T> | undefined"
+			},
+			{
+				"name": "multiple",
+				"summary": "多选模式\n\n",
+				"remarks": "在该模式下，点击并不会主动关闭弹出的菜单。如果子项的 type 为 a，那么多选对该项无效。\n\n",
+				"type": "M | undefined"
+			},
+			{
+				"name": "items",
+				"summary": "菜单项\n\n",
+				"type": "MenuItem<T>[]",
+				"reactive": true
+			},
+			{
+				"name": "value",
+				"summary": "默认的选中项\n\n",
+				"type": "T[] | undefined",
+				"reactive": true
+			},
+			{
+				"name": "selectedClass",
+				"summary": "选中项的样式\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "disabledClass",
+				"summary": "禁用项的样式\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "onPopover",
+				"summary": "下拉菜单弹出时的回调函数\n\n",
+				"remarks": "下拉菜单弹出时的回调函数，其原型为\n`(visible: boolean): boolean`\n，\nvisible 参数表示当前是否为可见状态，返回值为\n`true`\n时，将阻止下拉菜单的弹出。\n\n",
+				"type": "((visible: boolean) => boolean | undefined) | undefined"
+			},
+			{
+				"name": "hotkey",
+				"summary": "快捷键\n\n",
+				"type": "Hotkey | undefined"
+			},
+			{
+				"name": "align",
+				"summary": "菜单展开的对齐方式\n\n",
+				"type": "PopoverAlign | undefined",
+				"def": "'end'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			},
+			{
+				"name": "disabled",
+				"summary": "是否禁用\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "kind",
+				"summary": "组件的展示风格\n\n",
+				"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+				"def": "'fill'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "是否为圆角\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "SplitButtonRef",
+		"methods": [
+			{
+				"name": "group",
+				"summary": "返回按按钮组的组件实例\n\n",
+				"type": "group(): ButtonGroupRef",
+				"return": {
+					"type": "ButtonGroupRef"
+				}
+			},
+			{
+				"name": "show",
+				"summary": "显示下拉的菜单\n\n",
+				"type": "show(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "hide",
+				"summary": "隐藏下拉的菜单\n\n",
+				"type": "hide(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "toggle",
+				"summary": "切换菜单的显示和关闭\n\n",
+				"type": "toggle(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "组件的根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "menu",
+				"summary": "下拉菜单的元素\n\n",
+				"type": "menu(): MenuRef",
+				"return": {
+					"type": "MenuRef"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ButtonGroupProps",
+		"properties": [
+			{
+				"name": "layout",
+				"type": "\"horizontal\" | \"vertical\" | undefined"
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "是否禁用\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "kind",
+				"summary": "组件的展示风格\n\n",
+				"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+				"def": "'fill'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "是否为圆角\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ButtonGroupRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): HTMLFieldSetElement",
+				"return": {
+					"type": "HTMLFieldSetElement"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ToggleButtonProps",
+		"properties": [
+			{
+				"name": "type",
+				"summary": "按钮的类型\n\n",
+				"type": "\"submit\" | \"reset\" | \"button\" | \"menu\" | undefined",
+				"def": "'button'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "value",
+				"summary": "指定按钮的状态\n\n",
+				"remarks": "有些条件下可能会通过外部状态修改按钮的状态，此时可以使用此属性。\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "toggle",
+				"summary": "执行切换状态的方法\n\n",
+				"remarks": "该方法应该返回一个\n`Promise<boolean>`\n，用于异步执行切换操作。\n当 Promise 解决时，根据返回的值决定显示\n`on`\n或是\n`off`\n。\n\n",
+				"type": "() => Promise<boolean>"
+			},
+			{
+				"name": "on",
+				"summary": "状态 1 的图标\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "off",
+				"summary": "状态 2 的图标\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "title",
+				"summary": "鼠标的提示内容\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "hotkey",
+				"summary": "快捷键\n\n",
+				"type": "Hotkey | undefined"
+			},
+			{
+				"name": "disabled",
+				"summary": "是否禁用\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "kind",
+				"summary": "组件的展示风格\n\n",
+				"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+				"def": "'fill'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "是否为圆角\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "square",
+				"summary": "是否为一个长宽比为 1:1 的按钮\n\n",
+				"remarks": "比如图标之类可能需要此属性，\n但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "ToggleFitScreenButtonProps",
+		"kind": "intersection",
+		"types": [
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					},
+					{
+						"name": "type",
+						"summary": "按钮的类型\n\n",
+						"type": "\"submit\" | \"reset\" | \"button\" | \"menu\" | undefined",
+						"def": "'button'\n\n",
+						"reactive": true
+					},
+					{
+						"name": "title",
+						"summary": "鼠标的提示内容\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"def": "undefined\n\n",
+						"reactive": true
+					},
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					},
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "hotkey",
+						"summary": "快捷键\n\n",
+						"type": "Hotkey | undefined"
+					},
+					{
+						"name": "disabled",
+						"summary": "是否禁用\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "kind",
+						"summary": "组件的展示风格\n\n",
+						"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+						"def": "'fill'\n\n",
+						"reactive": true
+					},
+					{
+						"name": "rounded",
+						"summary": "是否为圆角\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "square",
+						"summary": "是否为一个长宽比为 1:1 的按钮\n\n",
+						"remarks": "比如图标之类可能需要此属性，\n但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "container",
+						"summary": "指定需要扩展的容器\n\n",
+						"type": "HTMLElement"
+					}
+				]
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"properties": [
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "type",
+				"summary": "按钮的类型\n\n",
+				"type": "\"submit\" | \"reset\" | \"button\" | \"menu\" | undefined",
+				"def": "'button'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "title",
+				"summary": "鼠标的提示内容\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "hotkey",
+				"summary": "快捷键\n\n",
+				"type": "Hotkey | undefined"
+			},
+			{
+				"name": "disabled",
+				"summary": "是否禁用\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "kind",
+				"summary": "组件的展示风格\n\n",
+				"type": "\"flat\" | \"border\" | \"fill\" | undefined",
+				"def": "'fill'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "是否为圆角\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "square",
+				"summary": "是否为一个长宽比为 1:1 的按钮\n\n",
+				"remarks": "比如图标之类可能需要此属性，\n但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			}
+		],
+		"name": "ToggleFullScreenButtonProps",
+		"pkg": "@cmfx/components"
+	}
+]

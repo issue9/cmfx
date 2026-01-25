@@ -1,0 +1,89 @@
+[
+	{
+		"kind": "interface",
+		"name": "TooltipRef",
+		"methods": [
+			{
+				"name": "show",
+				"summary": "显示提示框\n\n",
+				"type": "show(anchor: HTMLElement, pos: PopoverPosition): void",
+				"params": [
+					{
+						"name": "anchor",
+						"summary": "用于定位提示框的元素；\n\n",
+						"type": "HTMLElement"
+					},
+					{
+						"name": "pos",
+						"summary": "相对 anchor 的位置；\n\n",
+						"type": "PopoverPosition"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "hide",
+				"summary": "隐藏提示内容\n\n",
+				"type": "hide(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "TooltipProps",
+		"summary": "Tooltip 组件的属性\n\n",
+		"properties": [
+			{
+				"name": "stays",
+				"summary": "停留时间\n\n",
+				"type": "number | undefined",
+				"def": "采用\n`Options\nstays`\n\n",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"type": "(ref: TooltipRef) => void"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

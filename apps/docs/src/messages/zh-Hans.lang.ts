@@ -22,7 +22,6 @@ const messages: typeof m = {
             getter: 'Getter',
             setter: 'Setter',
             desc: '描述',
-            faq: 'FAQ',
             editOnGithub: '在 github 编辑',
             property: '属性',
             returnValue: '返回值',
@@ -80,6 +79,7 @@ const messages: typeof m = {
             componentLayout: '布局',
             itemLayout: '子项布局',
             block: '方块',
+            basicFunctions: '基本功能',
 
             // 分类名称
 

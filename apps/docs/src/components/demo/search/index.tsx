@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconSearch from '~icons/material-symbols/search-rounded';
 
 import type { Info } from '@docs/components/base';
@@ -10,13 +9,12 @@ import type { Info } from '@docs/components/base';
 import { default as Search } from './search';
 import { default as search } from './search.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'feedback', title: '_d.demo.search', icon: IconSearch, path: 'search',
-        api: api as Array<Type>, stages: [
-            { component: Search, source: search, title: '基本功能' },
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
+            { component: Search, source: search, title: '_d.demo.basicFunctions' },
         ]
     };
 }

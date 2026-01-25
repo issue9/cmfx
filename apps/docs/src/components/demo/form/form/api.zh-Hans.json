@@ -1,0 +1,321 @@
+[
+	{
+		"kind": "class",
+		"name": "FormAPI",
+		"summary": "用于操作表单的 API\n\n",
+		"remarks": "相对于\n`ObjectAccessor`\n，当前对象提供了一些额外的接口用于以方便与表单进行配合操作。\n\n",
+		"typeParams": [
+			{
+				"name": "T",
+				"summary": "表示需要提交的对象类型；\n\n",
+				"type": "Flattenable"
+			},
+			{
+				"name": "R",
+				"summary": "表示服务端返回的类型；\n\n",
+				"type": "any",
+				"init": "never"
+			},
+			{
+				"name": "P",
+				"summary": "表示服务端出错是返回的\n`extension`\n类型；\n\n",
+				"type": "any",
+				"init": "never"
+			}
+		],
+		"methods": [
+			{
+				"name": "spinning",
+				"summary": "指示是否处于交互状态\n\n",
+				"remarks": "在\n`load`\n和\n`submit`\n的调用过程中，会返回 true。\n\n",
+				"type": "spinning(): boolean",
+				"return": {
+					"type": "boolean"
+				},
+				"static": false
+			},
+			{
+				"name": "load",
+				"summary": "加载数据\n\n",
+				"remarks": "只有在正确加载数据的情况下，才会更换当前表单中的数据。否则保持原有数据不变。\n加载的数据不会调用验证器对数据进行验证。\n\n",
+				"type": "load(): Promise<boolean>",
+				"return": {
+					"type": "Promise<boolean>"
+				},
+				"static": false
+			},
+			{
+				"name": "submit",
+				"summary": "提交数据\n\n",
+				"type": "submit(): Promise<boolean>",
+				"return": {
+					"summary": "表示接口是否成功调用，如果当前表单未在构造函数中指定\n`submit`\n参数，则始终返回 false。\n\n",
+					"type": "Promise<boolean>"
+				},
+				"static": false
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "FormAPIOptions",
+		"summary": "初始\n`FormAPI`\n的参数\n\n",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "Flattenable"
+			},
+			{
+				"name": "R",
+				"type": "any",
+				"init": "never"
+			},
+			{
+				"name": "PE",
+				"type": "any",
+				"init": "never"
+			}
+		],
+		"properties": [
+			{
+				"name": "initValue",
+				"summary": "初始值\n\n",
+				"remarks": "该值仅作为数据表的初始默认值使用，一般情况下直接给定一个所有字段均为零值的对象即可。\n如果\n`load`\n不为空，可能还需要调用该方法对数据表进行真正的初始化，比如从远程拉取数据。\n\n",
+				"type": "T",
+				"readonly": true
+			},
+			{
+				"name": "onProblem",
+				"summary": "在服务端返回未处理的\n`Problem`\n对象时的处理方法\n\n",
+				"remarks": "该方法仅在\n`load`\n和\n`submit`\n的调用过程中会调用。\n`submit`\n会自动处理状态码为 400 的错误。onProblem 只需要处理其它情况即可。\n\n",
+				"type": "((p: Problem<PE>) => Promise<void>) | undefined",
+				"readonly": true
+			},
+			{
+				"name": "onSuccess",
+				"summary": "在接口正常返回时调用的方法\n\n",
+				"type": "((r?: Return<R, never>) => void) | undefined",
+				"readonly": true
+			},
+			{
+				"name": "validator",
+				"summary": "提交前对数据的验证方法；\n\n",
+				"remarks": "如果需要验证器输出的错误信息保持与当前环境相同的本地化语言，\n在\n`FormAPI`\n中使用需要手动使用\n`changeLocale`\n更新语言，\n在\n`createForm`\n中则会自动调用\n`changeLocale`\n更新语言。\n\n",
+				"type": "Validator<T> | undefined",
+				"readonly": true
+			},
+			{
+				"name": "validOnChange",
+				"summary": "是否在单个数据变更时即验证该条数据\n\n",
+				"type": "boolean | undefined",
+				"readonly": true
+			},
+			{
+				"name": "submit",
+				"summary": "提交数据的方法\n\n",
+				"remarks": "如果为空那么\n`submit`\n和\n`spinning`\n将无实际作用\n\n",
+				"type": "((obj: T) => Promise<Return<R, PE>>) | undefined",
+				"readonly": true
+			},
+			{
+				"name": "load",
+				"summary": "加载表单数据\n\n",
+				"remarks": "如果为空，\n`load`\n将无实际用处。\n\n",
+				"type": "(() => Promise<Return<T, PE>>) | undefined",
+				"readonly": true
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "FormProps",
+		"properties": [
+			{
+				"name": "inDialog",
+				"summary": "表单位于对话框中\n\n",
+				"remarks": "如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，\n且 submit 按钮的 value 属性会传递给 dialog.returnValue。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "hasHelp",
+				"summary": "表单组件的 hasHelp 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"def": "true\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelWidth",
+				"summary": "表单组件中 label 宽度的默认值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelAlign",
+				"summary": "表单组件中 label 的对齐方式\n\n",
+				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+				"type": "\"start\" | \"center\" | \"end\" | undefined",
+				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "FormActions",
+		"methods": [
+			{
+				"name": "Button",
+				"summary": "普通的按钮，但是可以跟随\n`rounded`\n属性变化\n\n",
+				"type": "Button(props: BProps): JSX.Element",
+				"params": [
+					{
+						"name": "props",
+						"type": "BProps"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			},
+			{
+				"name": "Submit",
+				"summary": "提交按钮\n\n",
+				"remarks": "如果指定了\n`inDialog`\n属性，那么表单的 submit 按钮将会关闭所在的对话框，\n且 submit 按钮的 value 属性会传递给 dialog.returnValue。\n按钮可以在表单之外，点击时会正确触发对应的表单事件。\n\n",
+				"type": "Submit(props: Omit<BProps, 'type' | 'onclick'>): JSX.Element",
+				"params": [
+					{
+						"name": "props",
+						"type": "Omit<BProps, \"type\" | \"onclick\">"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			},
+			{
+				"name": "Reset",
+				"summary": "重置按钮\n\n",
+				"remarks": "按钮可以在表单之外，点击时会正确触发对应的表单事件。\n\n",
+				"type": "Reset(props: Omit<BProps, 'type' | 'onclick'>): JSX.Element",
+				"params": [
+					{
+						"name": "props",
+						"type": "Omit<BProps, \"type\" | \"onclick\">"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			},
+			{
+				"name": "Message",
+				"summary": "显示整个表单的错误信息\n\n",
+				"type": "Message(props: BaseProps): JSX.Element",
+				"params": [
+					{
+						"name": "props",
+						"summary": "组件属性，默认值为\n`{ palette: 'error' as Palette }`\n\n",
+						"type": "BaseProps"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "createForm",
+		"summary": "生成创建表单的相关功能\n\n",
+		"type": "function createForm<T extends Flattenable, R = never, P = never>(options: FormAPIOptions<T, R, P>): [api: FormAPI<T, R, P>, Form: Component<FormProps>, actions: FormActions]",
+		"typeParams": [
+			{
+				"name": "T",
+				"summary": "表示需要提交的对象类型；\n\n",
+				"type": "Flattenable"
+			},
+			{
+				"name": "R",
+				"summary": "表示服务端返回的类型；\n\n",
+				"type": "any",
+				"init": "never"
+			},
+			{
+				"name": "P",
+				"summary": "表示服务端出错是返回的\n`extension`\n类型；\n\n",
+				"type": "any",
+				"init": "never"
+			}
+		],
+		"params": [
+			{
+				"name": "options",
+				"summary": "初始化参数；\n\n",
+				"type": "FormAPIOptions<T, R, P>"
+			}
+		],
+		"return": {
+			"summary": "返回元组，包含以下元素：\n- 0\n`FormAPI`\n实例；\n- 1 Form 组件；\n- 2 表单常用的一些操作按钮；\n\n",
+			"type": "[api: FormAPI<T, R, P>, Form: Component<FormProps>, actions: FormActions]"
+		},
+		"pkg": "@cmfx/components"
+	}
+]

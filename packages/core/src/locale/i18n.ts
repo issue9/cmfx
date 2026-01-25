@@ -33,7 +33,8 @@ export class I18n implements Locale {
      * @remarks
      * 对于一些引入的第三方库，其本身可能提供了本地化的相关数据，但是又没有能力同时加载多个语言环境，比如 zod。
      * 当前方法返回的对象可以保存这些数据，以便在需要时直接使用，而无需再次加载。
-     * @param id - 唯一 ID，一般直接使用包名即可。
+     * @param id - 唯一 ID，一般直接使用包名即可；
+     * @typeParam T - 缓存对象的类型；
      */
     static createObject<T>() {
         const obj = new Map<string, T>();
@@ -70,6 +71,11 @@ export class I18n implements Locale {
              * @param o - 缓存对象；
              */
             set(locale: string, o: T): void { obj.set(locale, o); },
+
+            /**
+             * 返回所有的语言 ID
+             */
+            locales(): Array<string> { return Array.from(obj.keys()); },
 
             /**
              * 销毁指定语言的缓存对象
@@ -278,7 +284,9 @@ export class I18n implements Locale {
         return new Intl.RelativeTimeFormat(this.locale, o);
     }
 
-    match(locales: Array<string>) { return match(this.locale.toString(), locales, 'und'); }
+    match(locales: Array<string>, preset: string) {
+        return match(this.locale.toString(), locales, preset);
+    }
 
     get locales() {
         const loc: Array<[string, string]> = [];

@@ -69,7 +69,7 @@ export default function api(o: Options): Plugin {
                 }
 
                 const dir = path.dirname(f);
-                writeFileSync(path.join(dir, `${filename}.json`), JSON.stringify(types, null, '\t'));
+                writeFileSync(path.join(dir, `${filename}.zh-Hans.json`), JSON.stringify(types, null, '\t'));
             }
         }
     };

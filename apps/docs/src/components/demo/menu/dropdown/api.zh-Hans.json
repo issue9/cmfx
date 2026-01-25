@@ -1,0 +1,157 @@
+[
+	{
+		"kind": "interface",
+		"name": "DropdownProps",
+		"typeParams": [
+			{
+				"name": "M",
+				"type": "boolean",
+				"init": "false"
+			},
+			{
+				"name": "T",
+				"type": "AvailableEnumType",
+				"init": "string"
+			}
+		],
+		"properties": [
+			{
+				"name": "trigger",
+				"summary": "触发方式\n\n",
+				"remarks": "下拉菜单的打开的方式，可以是以下值：\n- click 鼠标点击；\n- hover 鼠标悬停，*移动端不支持*；\n- contextmenu 右键菜单；\n- custom 自定义，可通过\n`Ref`\n控制；\n\n",
+				"type": "\"contextmenu\" | \"click\" | \"hover\" | \"custom\" | undefined",
+				"def": "'click'\n\n"
+			},
+			{
+				"name": "onPopover",
+				"summary": "下拉菜单弹出时的回调函数\n\n",
+				"remarks": "下拉菜单弹出时的回调函数，其原型为\n`(visible: boolean): boolean`\n，\nvisible 参数表示当前是否为可见状态，返回值为\n`true`\n时，将阻止下拉菜单的弹出。\n\n",
+				"type": "((visible: boolean) => boolean | undefined) | undefined"
+			},
+			{
+				"name": "hotkey",
+				"summary": "快捷键\n\n",
+				"type": "Hotkey | undefined"
+			},
+			{
+				"name": "align",
+				"summary": "菜单展开的对齐方式\n\n",
+				"type": "PopoverAlign | undefined",
+				"def": "'end'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "onChange",
+				"summary": "当选择项发生变化时触发的事件\n\n",
+				"type": "CF<M, T, M extends true ? T[] : T> | undefined"
+			},
+			{
+				"name": "multiple",
+				"summary": "多选模式\n\n",
+				"remarks": "在该模式下，点击并不会主动关闭弹出的菜单。如果子项的 type 为 a，那么多选对该项无效。\n\n",
+				"type": "M | undefined"
+			},
+			{
+				"name": "items",
+				"summary": "菜单项\n\n",
+				"type": "MenuItem<T>[]",
+				"reactive": true
+			},
+			{
+				"name": "value",
+				"summary": "默认的选中项\n\n",
+				"type": "T[] | undefined",
+				"reactive": true
+			},
+			{
+				"name": "selectedClass",
+				"summary": "选中项的样式\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "disabledClass",
+				"summary": "禁用项的样式\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "DropdownRef",
+		"methods": [
+			{
+				"name": "show",
+				"summary": "显示下拉的菜单\n\n",
+				"type": "show(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "hide",
+				"summary": "隐藏下拉的菜单\n\n",
+				"type": "hide(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "toggle",
+				"summary": "切换菜单的显示和关闭\n\n",
+				"type": "toggle(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "组件的根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "menu",
+				"summary": "下拉菜单的元素\n\n",
+				"type": "menu(): MenuRef",
+				"return": {
+					"type": "MenuRef"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

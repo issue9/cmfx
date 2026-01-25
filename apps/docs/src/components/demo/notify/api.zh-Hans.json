@@ -1,0 +1,129 @@
+[
+	{
+		"kind": "function",
+		"name": "notify",
+		"summary": "发送一条通知给用户\n\n",
+		"type": "function notify(title: string, body?: string, type?: NotifyType, lang?: string, duration?: number): Promise<void>",
+		"params": [
+			{
+				"name": "title",
+				"summary": "标题；\n\n",
+				"type": "string"
+			},
+			{
+				"name": "body",
+				"summary": "具体内容，如果为空则只显示标题；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "type",
+				"summary": "类型，仅对非系统通知的情况下有效；\n\n",
+				"type": "\"error\" | \"warning\" | \"success\" | \"info\" | undefined"
+			},
+			{
+				"name": "lang",
+				"summary": "语言，仅对系统通知的情况下有效；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "duration",
+				"summary": "如果大于 0，超过此毫秒数时将自动关闭提示框；\n\n",
+				"type": "number | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "NotifyType",
+		"kind": "literal",
+		"type": "\"error\" | \"warning\" | \"success\" | \"info\"",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Alert",
+		"summary": "警告框\n\n",
+		"type": "function Alert(props: AlertProps): JSX.Element",
+		"params": [
+			{
+				"name": "props",
+				"type": "AlertProps"
+			}
+		],
+		"return": {
+			"type": "JSX.Element"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"properties": [
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "type",
+				"summary": "警告的类型\n\n",
+				"remarks": "该值最终是调整了\n`palette`\n属性，如果 type 与 palette 存在冲突，则以 type 为准。\n\n",
+				"type": "\"error\" | \"warning\" | \"success\" | \"info\" | undefined",
+				"def": "'info'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "title",
+				"summary": "标题\n\n",
+				"type": "string",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "body",
+				"summary": "内容\n\n",
+				"remarks": "为了与 Notification 组件保持一致，如果需要换行，需要使用\n`\\n`\n，不支持 HTML 标签。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "icon",
+				"summary": "显示的图标\n\n",
+				"remarks": "如果未指定，则根据 type 自动选择图标。若不想显示图标，可以将此值指定为 false。\n\n",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "duration",
+				"summary": "持续时间，单位毫秒。\n\n",
+				"type": "number | undefined",
+				"reactive": true
+			},
+			{
+				"name": "closable",
+				"summary": "是否带关闭按钮\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			}
+		],
+		"name": "AlertProps",
+		"pkg": "@cmfx/components"
+	}
+]

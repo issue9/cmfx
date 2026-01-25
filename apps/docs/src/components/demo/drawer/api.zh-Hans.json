@@ -1,0 +1,146 @@
+[
+	{
+		"kind": "interface",
+		"name": "DrawerProps",
+		"properties": [
+			{
+				"name": "visible",
+				"summary": "侧边栏的初始状态\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "floating",
+				"summary": "侧边栏是以浮动的形式出现\n\n",
+				"remarks": "默认值为 false。如果是 true 或是 false 表示始终保持一种状态，\n其它的值表示在整个页面小于此值时才变为浮动状态。\n除 boolean 以外的取值与窗口查询的值相对应，比如 2xl 对应的是\n`@2xl`\n。\n\n",
+				"type": "boolean | \"md\" | \"3xs\" | \"xs\" | \"sm\" | \"lg\" | \"2xl\" | \"4xl\" | \"6xl\" | \"8xl\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "pos",
+				"summary": "位置，默认值为 start\n\n",
+				"type": "\"start\" | \"end\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "main",
+				"summary": "主元素区的内容\n\n",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "mainClass",
+				"summary": "内容区的样式\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "asideClass",
+				"summary": "侧边栏的样式\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"def": "undefined\n\n",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "DrawerRef",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "aside",
+				"summary": "返回侧边栏的元素\n\n",
+				"type": "aside(): HTMLElement",
+				"return": {
+					"type": "HTMLElement"
+				}
+			},
+			{
+				"name": "main",
+				"summary": "返回组件主区域的元素\n\n",
+				"type": "main(): HTMLElement",
+				"return": {
+					"type": "HTMLElement"
+				}
+			},
+			{
+				"name": "show",
+				"summary": "显示侧边栏\n\n",
+				"type": "show(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "hide",
+				"summary": "隐藏侧边栏\n\n",
+				"type": "hide(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "toggle",
+				"summary": "切换侧边栏的状态\n\n",
+				"type": "toggle(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "ToggleButton",
+				"summary": "生成一个用于显示和隐藏侧边栏的按钮组件\n\n",
+				"remarks": "该按钮会根据侧边栏的状态是否处于可调整的状态而自动显示或是隐藏。\n\n",
+				"type": "ToggleButton(props?: ToggleDrawerButtonProps): JSX.Element",
+				"params": [
+					{
+						"name": "props",
+						"summary": "组件属性，参数说明如下：\n- on 显示状态下的图标；\n- off 隐藏状态下的图标；\n\n",
+						"type": "ToggleDrawerButtonProps | undefined"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -74,9 +74,9 @@ export interface Locale {
     relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat;
 
     /**
-     * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 und。
+     * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 preset。
      */
-    match(locales: Array<string>): string;
+    match(locales: Array<string>, preset: string): string;
 
     /**
      * 返回支持的本地化列表

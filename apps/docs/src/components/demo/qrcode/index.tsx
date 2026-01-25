@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Type } from '@cmfx/vite-plugin-api';
 import IconQRCode from '~icons/mingcute/qrcode-2-fill';
 
 import type { Info } from '@docs/components/base';
@@ -13,13 +12,12 @@ import { default as basic } from './basic.tsx?raw';
 import { default as Download } from './download';
 import { default as download } from './download.tsx?raw';
 
-import { default as api } from './api.json' with { type: 'json' };
-
 export default function(): Info {
     return {
         kind: 'data-display', title: '_d.demo.qrcode', icon: IconQRCode, path: 'qrcode',
-        api: api as Array<Type>, stages: [
-            { component: Basic, source: basic, title: '基本功能' },
+        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+        stages: [
+            { component: Basic, source: basic, title: '_d.demo.basicFunctions' },
             { component: Download, source: download, title: '下载' },
         ]
     };
