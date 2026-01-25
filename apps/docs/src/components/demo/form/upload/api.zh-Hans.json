@@ -49,7 +49,6 @@
 				"summary": "为组件的根元素指定 CSS 类名\n\n",
 				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 				"type": "string | undefined",
-				"def": "undefined\n\n",
 				"reactive": true
 			},
 			{
@@ -231,7 +230,6 @@
 				"summary": "为组件的根元素指定 CSS 类名\n\n",
 				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 				"type": "string | undefined",
-				"def": "undefined\n\n",
 				"reactive": true
 			},
 			{

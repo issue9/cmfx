@@ -1,10 +1,10 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, splitProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props, buildClass } from './props';
 
-const presetText = 'GATEWAY TIME OUT';
+const presetText = 'Gateway Time Out';
 
 /**
  * 表示 504 错误的 SVG 插画组件
@@ -12,8 +12,9 @@ const presetText = 'GATEWAY TIME OUT';
  * https://storyset.com/illustration/504-error-gateway-timeout/amico
  */
 export default function Error504(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
+        ref={el => props.ref?.({ root() { return el; }})}
+    >
         <defs>
             <path id="illustrations-504-1" d="M74.12,361.07c1.18-13.21,1.86-25.44-3.43-44.76C66.25,300.1,53,283.08,43.16,283c-9.15-.06-12,11-4.58,21.55s23.84,31,23.9,44.79l2.31,15.86Z" />
             <path id="illustrations-504-2" d="M280.39,78a1.07,1.07,0,0,1-.16-.8,1,1,0,0,1,.45-.67l4.14-2.74a1.09,1.09,0,0,1,1.47.29l2.19,3.32a1,1,0,0,1,.15.79,1,1,0,0,1-.45.68l-4.13,2.74a1,1,0,0,1-.79.15,1,1,0,0,1-.68-.45ZM268.54,60.16a1,1,0,0,1-.15-.79,1,1,0,0,1,.45-.68L273,56a1.07,1.07,0,0,1,1.47.3l9.37,14.14a1,1,0,0,1,.15.79,1,1,0,0,1-.45.68l-4.13,2.74a1.07,1.07,0,0,1-1.47-.3Z" />

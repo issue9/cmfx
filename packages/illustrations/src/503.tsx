@@ -1,10 +1,10 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, splitProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props, buildClass } from './props';
 
-const presetText = 'SERVICE UNAVAILABLE';
+const presetText = 'Service Unavailable';
 
 /**
  * 表示 503 错误的 SVG 插画组件
@@ -12,8 +12,9 @@ const presetText = 'SERVICE UNAVAILABLE';
  * https://storyset.com/illustration/503-error-service-unavailable/amico
  */
 export default function Error503(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
+        ref={el => props.ref?.({ root() { return el; }})}
+    >
         <defs>
             <polygon id="illustrations-503-1" points="259.14 154.86 259.14 151.1 259.14 151.1 259.14 122.41 255.83 120.56 255.83 153.02 165.07 205.5 165.07 209.33 255.83 156.78 255.83 229.69 259.14 231.54 259.14 154.86 259.14 154.86" />
             <path id="illustrations-503-2" d="M161.76,175v3.76h0V287.92l3.32-2V213l94.06-54.47v73l3.32-1.85V116.8Zm97.38-20.17-94.06,54.47V183.78l94.06-54.17Z" />

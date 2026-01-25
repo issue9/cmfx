@@ -4,6 +4,11 @@
 		"name": "SettingsProps",
 		"properties": [
 			{
+				"name": "onReset",
+				"summary": "重置事件\n\n",
+				"type": "() => void"
+			},
+			{
 				"name": "palette",
 				"summary": "指定当前组件采用的色盘\n\n",
 				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
@@ -15,7 +20,6 @@
 				"summary": "为组件的根元素指定 CSS 类名\n\n",
 				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 				"type": "string | undefined",
-				"def": "undefined\n\n",
 				"reactive": true
 			},
 			{
@@ -86,7 +90,7 @@
 			{
 				"name": "desc",
 				"summary": "设置内容的详细描述\n\n",
-				"type": "string",
+				"type": "string | undefined",
 				"reactive": true
 			},
 			{

@@ -14,4 +14,4 @@ export { default as BUG } from './bug';
 export { default as Building } from './building';
 export { default as Login } from './login';
 
-export type { Props as IllustrationProps } from './props';
+export type { Props as IllustrationProps, Ref as IllustrationRef } from './props';

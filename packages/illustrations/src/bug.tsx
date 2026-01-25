@@ -1,6 +1,6 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, splitProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props, buildClass } from './props';
 
@@ -10,8 +10,9 @@ import { Props, buildClass } from './props';
  * https://storyset.com/illustration/bug-fixing/amico
  */
 export default function BUG(props: Omit<Props, 'text'>): JSX.Element {
-    const [, svgProps] = splitProps(props, ['palette', 'class']);
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
+        ref={el => props.ref?.({ root() { return el; }})}
+    >
         <defs>
             <path id="illustrations-bug-1" d="M187.31,364.63c1.58.91,1.58,2.37,0,3.28L160,383.79a6.22,6.22,0,0,1-5.65,0l-27.5-15.87c-1.57-.9-1.58-2.37,0-3.27l27.32-15.89a6.27,6.27,0,0,1,5.66,0Z" />
             <path id="illustrations-bug-2" d="M240.75,333.53c1.57.9,1.57,2.37,0,3.28l-27.33,15.88a6.22,6.22,0,0,1-5.65,0l-27.5-15.87c-1.57-.91-1.57-2.37,0-3.28l27.33-15.88a6.25,6.25,0,0,1,5.65,0Z" />

@@ -1,6 +1,6 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, splitProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props, buildClass } from './props';
 
@@ -12,8 +12,9 @@ const presetText = 'Too Many Requests';
  * https://storyset.com/illustration/error-429/amico
  */
 export default function Error429(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
+        ref={el => props.ref?.({ root() { return el; }})}
+    >
         <defs>
             <path id="illustrations-429-1" d="M135.44,280.79,98,259.19l-.12,43.94,55.94,32.31.07-22.64Z" />
             <path id="illustrations-429-2" d="M153.92,312.8l107.35-62.39-18.47-32L135.44,280.79Z" />

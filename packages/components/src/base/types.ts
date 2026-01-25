@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -38,7 +38,6 @@ export interface Props {
      * 为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，
      * 以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。
      *
-     * @defaultValue undefined
      * @reactive
      */
     class?: string;
