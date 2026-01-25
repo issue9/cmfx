@@ -1,9 +1,9 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, ButtonGroup, Code, joinClass, MountProps, Layout, ThemeProvider, ToggleFitScreenButton,
+    Button, ButtonGroup, Code, joinClass, Layout, MountProps, ThemeProvider, ToggleFitScreenButton, useLocale,
 } from '@cmfx/components';
 import { Component, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
@@ -22,20 +22,21 @@ export interface Props {
     /**
      * 源代码对应的组件
      *
-     * @remarks 该组件可以接受一个 {@link MountProps} 类型作为组件的属性列表。
+     * @remarks
+     * 该组件可以接受一个 {@link MountProps} 类型作为组件的属性列表。
      * 组件内可以通过 {@link MountProps.mount} 将设置项添加到工具栏上。
      */
     component: Component<MountProps>;
 
     /**
-     * 标题
+     * 标题的翻译 ID
      */
-    title?: JSX.Element;
+    title?: string;
 
     /**
-     * 对当前演示代码的描述
+     * 对当前演示代码描述的翻译 ID
      */
-    desc?: JSX.Element;
+    desc?: string;
 
     /**
      * 组件内的演示内容高度
@@ -51,7 +52,9 @@ export interface Props {
 /**
  * 用于展示组件的舞台
  */
-export default function Stage(props: Props) {
+export default function Stage(props: Props): JSX.Element {
+    const l = useLocale();
+
     props = mergeProps({ layout: 'auto' as Layout }, props);
 
     const initDir = window.getComputedStyle(document.body).direction === 'rtl' ? 'rtl' : 'ltr';
@@ -61,7 +64,7 @@ export default function Stage(props: Props) {
     const [demoRef, setDemoRef] = createSignal<HTMLDivElement>();
     const [codeHeight, setCodeHeight] = createSignal<string>();
 
-    onMount(()=>{
+    onMount(() => {
         const ro = new ResizeObserver(entries => {
             setCodeHeight(entries[0]!.borderBoxSize[0].blockSize.toString() + 'px');
         });
@@ -70,7 +73,7 @@ export default function Stage(props: Props) {
         onCleanup(() => ro.disconnect());
     });
 
-    const stageCls = createMemo(()=>{
+    const stageCls = createMemo(() => {
         return joinClass(
             undefined,
             styles.stage,
@@ -81,11 +84,11 @@ export default function Stage(props: Props) {
     let settingRef: HTMLElement;
 
     return <>
-        <Show when={props.title}>{title => <h4>{title()}</h4>}</Show>
+        <Show when={props.title}>{title => <h4>{l.t(title())}</h4>}</Show>
 
-        <Show when={props.desc}>{desc =>
-            <article class={styles.desc}>{desc()}</article>
-        }</Show>
+        <Show when={props.desc}>
+            {desc => <article class={styles.desc}>{l.t(desc())}</article>}
+        </Show>
 
         <div class={stageCls()}>
             <div class={styles.demo} ref={setDemoRef} style={{ height: props.height }}>
@@ -123,7 +126,7 @@ export default function Stage(props: Props) {
             </div>
 
             <Show when={props.source}>
-                {s => <Code wrap ln={0} lang='tsx' class={styles.code} style={{height: codeHeight()}}>{s()}</Code>}
+                {s => <Code wrap ln={0} lang='tsx' class={styles.code} style={{ height: codeHeight() }}>{s()}</Code>}
             </Show>
         </div>
     </>;

@@ -14,7 +14,7 @@ export default function(): Info {
         kind: 'feedback', title: '_d.demo.search', icon: IconSearch, path: 'search',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Search, source: search, title: '基本功能' },
+            { component: Search, source: search, title: '_d.demo.basicFunctions' },
         ]
     };
 }

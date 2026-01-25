@@ -17,7 +17,7 @@ export default function(): Info {
         kind: 'data-display', title: '_d.demo.calendar', icon: IconCalendar, path: 'datetime/calendar',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Calendar, source: calendar, layout: 'vertical', title: '基本功能' },
+            { component: Calendar, source: calendar, layout: 'vertical', title: '_d.demo.basicFunctions' },
             { component: Lunar, source: lunar, layout: 'vertical', title: '农历' },
         ]
     };

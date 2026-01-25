@@ -19,7 +19,7 @@ export default function(): Info {
         header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw', import: 'default' }),
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Appbar, source: appbar, title: '基本功能' },
+            { component: Appbar, source: appbar, title: '_d.demo.basicFunctions' },
             { component: Anchor, source: anchor, title: '带链接' },
         ],
     };

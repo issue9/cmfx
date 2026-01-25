@@ -23,7 +23,7 @@ export default function(): Info {
         kind: 'feedback', title: '_d.demo.dialog', icon: IconDialog, path: 'dialog',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Basic, source: basic, title: '基本功能' },
+            { component: Basic, source: basic, title: '_d.demo.basicFunctions' },
             { component: System, source: system, title: '替换系统对话框' },
             { component: Dialog, source: dialog, title: '对话框' },
             { component: Scroller, source: scroller, title: '可滚动' },

@@ -8,73 +8,13 @@ import {
 import { ArrayElement, Locale } from '@cmfx/core';
 import { Source } from '@cmfx/vite-plugin-api';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
+import { JSX, ParentProps, Setter, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 
-import { fallbackLocale, floatingWidth, markdown } from '@docs/utils';
+import { MarkdownFileObject, fallbackLocale, floatingWidth, markdown } from '@docs/utils';
 import styles from './style.module.css';
 
-import introChangeLog from '../../../../CHANGELOG.md?raw';
-import introReadme from '../../../../README.md?raw';
-
-import usageFAQEN from './usage/faq.en.md?raw';
-import usageFAQZHHans from './usage/faq.zh-Hans.md?raw';
-import usageInstallEN from './usage/install.en.md?raw';
-import usageInstallZHHans from './usage/install.zh-Hans.md?raw';
-import usagePlatformEN from './usage/platform.en.md?raw';
-import usagePlatformZHHans from './usage/platform.zh-Hans.md?raw';
-import usageSvgEN from './usage/svg.en.md?raw';
-import usageSvgZHHans from './usage/svg.zh-Hans.md?raw';
-import usageThemeEN from './usage/theme.en.md?raw';
-import usageThemeZHHans from './usage/theme.zh-Hans.md?raw';
-
 import { default as advanceAPI } from './advance/api.zh-Hans.json' with { type: 'json' };
-import advanceCustomThemeEN from './advance/custom-theme.en.md?raw';
-import advanceCustomThemeZHHans from './advance/custom-theme.zh-Hans.md?raw';
-import advanceErrorEN from './advance/error.en.md?raw';
-import advanceErrorZHHans from './advance/error.zh-Hans.md?raw';
-import advanceLocaleEN from './advance/locale.en.md?raw';
-import advanceLocaleZHHans from './advance/locale.zh-Hans.md?raw';
-import advancePluginsEN from './advance/plugins.en.md?raw';
-import advancePluginsZHHans from './advance/plugins.zh-Hans.md?raw';
 import { default as usageAPI } from './usage/api.zh-Hans.json' with { type: 'json' };
-
-// NOTE: 增删文件，需要同时修改以下几处：
-//  - maps
-//  - routes
-
-// 外层键名为语言 ID，内层键名为文档 ID，值为文档内容。
-const maps: ReadonlyMap<string, ReadonlyMap<string, [string, Array<Source> | undefined]>> = new Map([
-    ['en', new Map([
-        ['intro/readme', [introReadme, undefined]],
-        ['intro/changelog', [introChangeLog, undefined]],
-
-        ['usage/install', [usageInstallEN, usageAPI as Array<Source>]],
-        ['usage/platform', [usagePlatformEN, usageAPI as Array<Source>]],
-        ['usage/faq', [usageFAQEN, usageAPI as Array<Source>]],
-        ['usage/theme', [usageThemeEN, usageAPI as Array<Source>]],
-        ['usage/svg', [usageSvgEN, usageAPI as Array<Source>]],
-
-        ['advance/locale', [advanceLocaleEN, advanceAPI as Array<Source>]],
-        ['advance/error', [advanceErrorEN, advanceAPI as Array<Source>]],
-        ['advance/custom-theme', [advanceCustomThemeEN, advanceAPI as Array<Source>]],
-        ['advance/plugins', [advancePluginsEN, advanceAPI as Array<Source>]],
-    ])],
-    ['zh-Hans', new Map([
-        ['intro/readme', [introReadme, undefined]],
-        ['intro/changelog', [introChangeLog, undefined]],
-
-        ['usage/install', [usageInstallZHHans, usageAPI as Array<Source>]],
-        ['usage/platform', [usagePlatformZHHans, usageAPI as Array<Source>]],
-        ['usage/faq', [usageFAQZHHans, usageAPI as Array<Source>]],
-        ['usage/theme', [usageThemeZHHans, usageAPI as Array<Source>]],
-        ['usage/svg', [usageSvgZHHans, usageAPI as Array<Source>]],
-
-        ['advance/locale', [advanceLocaleZHHans, advanceAPI as Array<Source>]],
-        ['advance/error', [advanceErrorZHHans, advanceAPI as Array<Source>]],
-        ['advance/custom-theme', [advanceCustomThemeZHHans, advanceAPI as Array<Source>]],
-        ['advance/plugins', [advancePluginsZHHans, advanceAPI as Array<Source>]],
-    ])],
-]);
 
 type Kind = 'intro' | 'usage' | 'advance';
 
@@ -87,13 +27,17 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
         kind: 'intro',
         path: ['/', '/intro/readme'],
         info: { title: '_d.docs.intro' },
-        component: () => <Markdown article='intro/readme' />
+        component: () => <Markdown
+            articles={import.meta.glob('../../../../README.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
     {
         kind: 'intro',
         path: '/intro/changelog',
         info: { title: '_d.docs.changelog' },
-        component: () => <Markdown article='intro/changelog' />
+        component: () => <Markdown
+            articles={import.meta.glob('../../../../CHANGELOG.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
 
     //////////////////// usage
@@ -102,31 +46,41 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
         kind: 'usage',
         path: '/usage/install',
         info: { title: '_d.docs.install' },
-        component: () => <Markdown article='usage/install' />
+        component: () => <Markdown types={usageAPI as Array<Source>}
+            articles={import.meta.glob('./usage/install.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
     {
         kind: 'usage',
         path: '/usage/platform',
         info: { title: '_d.docs.platform' },
-        component: () => <Markdown article='usage/platform' />
+        component: () => <Markdown types={usageAPI as Array<Source>}
+            articles={import.meta.glob('./usage/platform.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
     {
         kind: 'usage',
         path: '/usage/svg',
         info: { title: '_d.docs.svg' },
-        component: () => <Markdown article='usage/svg' />
+        component: () => <Markdown types={usageAPI as Array<Source>}
+            articles={import.meta.glob('./usage/svg.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
     {
         kind: 'usage',
         path: '/usage/theme',
         info: { title: '_d.docs.theme' },
-        component: () => <Markdown article='usage/theme' />
+        component: () => <Markdown types={usageAPI as Array<Source>}
+            articles={import.meta.glob('./usage/theme.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
     {
         kind: 'usage',
         path: '/usage/faq',
         info: { title: '_d.docs.faq' },
-        component: () => <Markdown article='usage/faq' />
+        component: () => <Markdown types={usageAPI as Array<Source>}
+            articles={import.meta.glob('./usage/faq.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
 
     //////////////////// advance
@@ -135,25 +89,33 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
         kind: 'advance',
         path: '/advance/locale',
         info: { title: '_d.docs.locale' },
-        component: () => <Markdown article='advance/locale' />
+        component: () => <Markdown types={advanceAPI as Array<Source>}
+            articles={import.meta.glob('./advance/locale.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
     {
         kind: 'advance',
         path: '/advance/error',
         info: { title: '_d.docs.error' },
-        component: () => <Markdown article='advance/error' />
+        component: () => <Markdown types={advanceAPI as Array<Source>}
+            articles={import.meta.glob('./advance/error.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
     {
         kind: 'advance',
         path: '/advance/custom-theme',
         info: { title: '_d.docs.customTheme' },
-        component: () => <Markdown article='advance/custom-theme' />
+        component: () => <Markdown types={advanceAPI as Array<Source>}
+            articles={import.meta.glob('./advance/custom-theme.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
     {
         kind: 'advance',
         path: '/advance/plugins',
         info: { title: '_d.docs.plugins' },
-        component: () => <Markdown article='advance/plugins' />
+        component: () => <Markdown types={advanceAPI as Array<Source>}
+            articles={import.meta.glob('./advance/plugins.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
     },
 
 ] as const;
@@ -188,32 +150,41 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
     return menus;
 }
 
-const localesID = Array.from(maps.keys());
+interface MarkdownProps {
+    articles: MarkdownFileObject;
+    types?: Array<Source>;
+}
 
 // 加载 Markdown 文档
 //
 // article 对应的是 maps 中的文章 ID；
-function Markdown(props: { article: string }): JSX.Element {
+function Markdown(props: MarkdownProps): JSX.Element {
     const l = useLocale();
-
-    // 返回当前语言的文档映射
-    const curr = createMemo(() => { return maps.get(l.match(localesID, fallbackLocale)); });
-
-    const [html, setHTML] = createSignal<string | undefined>(curr()?.get(props.article)![0]);
 
     const route = useCurrentMatches()();
     const title = route[route.length - 1].route.info?.title;
 
+    const articleObjs = Object.entries(props.articles).map(([k, v]) =>
+        [k.replace(/\.md$/, '').replace(/^\.\/(usage|advance)\/[^.]*\./, ''), v]);
+    const articles = Object.fromEntries(articleObjs);
+    const keys = Object.keys(articles);
+
     let articleRef!: HTMLElement;
     let navRef: NavRef;
 
-    createEffect(() => {
-        const data = curr()?.get(props.article);
-        if (data) {
-            setHTML(markdown(data[0], data[1]));
-            navRef.refresh();
-        }
-    });
+    const [html, setHTML] = createSignal<string>(articleObjs.length > 1
+        ? markdown(articles[l.match(keys, fallbackLocale)], props.types)
+        : markdown(articleObjs[0][1], props.types));
+
+    if (articleObjs.length > 1) {
+        createEffect(() => {
+            const data = articles[l.match(keys, fallbackLocale)];
+            if (data) {
+                setHTML(markdown(data, props.types));
+                navRef.refresh();
+            }
+        });
+    }
 
     return <Page title={title} class={styles.docs}>
         <article ref={el => articleRef = el} class={styles.doc} innerHTML={html()} />

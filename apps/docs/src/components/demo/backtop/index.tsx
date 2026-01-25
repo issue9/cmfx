@@ -17,7 +17,7 @@ export default function(): Info {
         kind: 'navigation', title: '_d.demo.backtop', icon: IconBacktop, path: 'backtop',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Preset, source: preset, title: '基本功能' },
+            { component: Preset, source: preset, title: '_d.demo.basicFunctions' },
             { component: Custom, source: custom, title: '自定义图标' },
         ]
     };

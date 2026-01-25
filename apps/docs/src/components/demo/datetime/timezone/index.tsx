@@ -14,7 +14,7 @@ export default function(): Info {
         kind: 'data-display', title: '_d.demo.timezone', icon: IconTimezone, path: 'datetime/timezone',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Timezone, source: timezone, layout: 'vertical', title: '基本功能' },
+            { component: Timezone, source: timezone, layout: 'vertical', title: '_d.demo.basicFunctions' },
         ]
     };
 }

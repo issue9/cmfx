@@ -20,7 +20,7 @@ export default function(): Info {
         kind: 'data-display', title: '_d.demo.color', icon: IconColorPanel, path: 'color',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Basic, source: basic, layout: 'auto', title: '基本功能' },
+            { component: Basic, source: basic, layout: 'auto', title: '_d.demo.basicFunctions' },
             { component: WCAG, source: wcag, layout: 'auto', title: 'WCAG' },
             { component: Disabled, source: disabled, layout: 'auto', title: 'disabled' },
         ],

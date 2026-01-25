@@ -21,7 +21,7 @@ export default function(): Info {
         header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw', import: 'default' }),
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Basic, source: basic, title: '基本功能' },
+            { component: Basic, source: basic, title: '_d.demo.basicFunctions' },
             { component: Scrollable, source: scrollable, title: '可滚动' },
             { component: Multiple, source: multiple, title: '多行不可滚动' },
         ],

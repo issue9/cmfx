@@ -20,7 +20,7 @@ export default function(): Info {
         kind: 'feedback', title: '_d.demo.spin', icon: IconSpin, path: 'spin',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Spin, source: spin, title: '基本功能' },
+            { component: Spin, source: spin, title: '_d.demo.basicFunctions' },
             { component: Indicator, source: indicator, title: 'indicator' },
             { component: Overlay, source: overlay, title: 'overlay' },
         ]

@@ -17,7 +17,7 @@ export default function(): Info {
         kind: 'data-display', title: '_d.demo.qrcode', icon: IconQRCode, path: 'qrcode',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Basic, source: basic, title: '基本功能' },
+            { component: Basic, source: basic, title: '_d.demo.basicFunctions' },
             { component: Download, source: download, title: '下载' },
         ]
     };

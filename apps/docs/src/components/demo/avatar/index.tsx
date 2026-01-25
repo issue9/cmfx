@@ -20,7 +20,7 @@ export default function(): Info {
         kind: 'data-display', title: '_d.demo.avatar', icon: IconAvatar, path: 'avatar',
         api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
         stages: [
-            { component: Avatar, source: avatar, title: '基本功能' },
+            { component: Avatar, source: avatar, title: '_d.demo.basicFunctions' },
             { component: Alt, source: alt, title: '无图片' },
             { component: Hover, source: hover, title: 'hover' },
         ]
