@@ -8,6 +8,7 @@ import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconSystemNotify from '~icons/material-symbols/notification-settings';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
 import IconPalette from '~icons/material-symbols/palette';
+import IconReset from '~icons/material-symbols/reset-settings-outline-rounded';
 import IconMode from '~icons/material-symbols/settings-night-sight';
 import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
@@ -47,7 +48,7 @@ export interface ItemProps extends ParentProps {
      *
      * @reactive
      */
-    desc: string;
+    desc?: string;
 }
 
 export interface Ref {
@@ -62,7 +63,12 @@ export interface Ref {
     Item(props: ItemProps): JSX.Element;
 }
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {}
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+    /**
+     * 重置事件
+     */
+    onReset: { (): void; };
+}
 
 /**
  * 提供了整个项目页可设置的选项
@@ -218,6 +224,21 @@ export function Settings(props: Props) {
             title={l.t('_c.settings.timezone')} desc={l.t('_c.settings.timezoneDesc')}
         >
             <div><Timezone value={accessor.getTimezone()} onChange={v => { accessor.setTimezone(v); }} /></div>
+        </Item>
+
+        {/***************************** reset *******************************/}
+
+        <Item icon={/*@once*/<IconReset />} title={l.t('_c.settings.resetOptions')}>
+            <Button kind='fill' palette='error' onclick={() => {
+                accessor.reset();
+                fontSizeFA.setValue(parseInt(accessor.getFontSize().slice(0, -2)));
+                modeFA.setValue(accessor.getMode());
+                localeFA.setValue(accessor.getLocale());
+                unitFA.setValue(accessor.getDisplayStyle());
+                staysFA.setValue(accessor.getStays());
+
+                if (props.onReset) { props.onReset(); }
+            }}>{ l.t('_c.reset') }</Button>
         </Item>
     </div>;
 }

@@ -40,7 +40,7 @@ export function Settings(): JSX.Element {
     />;
 
     return <Page title='_p.current.settings' class={joinClass(undefined, styles.settings)}>
-        <XSettings ref={el => ref = el}>
+        <XSettings ref={el => ref = el} onReset={() => lay.reset()}>
             <Alert type='warning' title={l.t('_p.current.settingsDesc')} />
 
             <Divider padding='16px 8px' />

@@ -89,6 +89,7 @@ const messages = {
             systemNotifyDesc: 'Send the notification to the operating system\'s notification center. If this is unavailable, click `{request}` button to manually refresh permissions.',
             enabled: 'Enabled',
             requestNotifyPermission: 'Request notify permission',
+            resetOptions: 'Reset options',
         },
         table: {
             nodata: 'No data',

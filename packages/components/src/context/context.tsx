@@ -27,12 +27,12 @@ const fontSizeKey = 'font-size';
  */
 export type OptionsAccessor = ReturnType<typeof buildAccessor>;
 
-interface OptionsGetSetContext {
+interface OptionsContext {
     origin: Readonly<ReqOptions>;
     accessor: OptionsAccessor;
 }
 
-const optionsGetSetContext = createContext<OptionsGetSetContext>();
+const optionsContext = createContext<OptionsContext>();
 
 /**
  * 初始化当前组件的环境
@@ -56,7 +56,7 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
 
     // NOTE: 需要通过 messageResource.loading 等待 createResource 完成，才能真正加载组件。
 
-    return <optionsGetSetContext.Provider value={{origin: opt, accessor: accessor}}>
+    return <optionsContext.Provider value={{origin: opt, accessor: accessor}}>
         <Switch fallback={<div class={styles.loading}>{props.loading({})}</div>}>
             <Match when={!messageResource.loading}>
                 <ThemeProvider mode={accessor.getMode()} styleElement={document.documentElement}
@@ -70,7 +70,7 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
                 </ThemeProvider>
             </Match>
         </Switch>
-    </optionsGetSetContext.Provider>;
+    </optionsContext.Provider>;
 }
 
 /**
@@ -81,8 +81,8 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
  * - 1: 组件库选项的原始值；
  */
 export function useOptions(): [accessor: OptionsAccessor, origin: ReqOptions] {
-    const ctx = useContext(optionsGetSetContext);
-    if (!ctx) { throw new ContextNotFoundError('OptionsGetSetContext'); }
+    const ctx = useContext(optionsContext);
+    if (!ctx) { throw new ContextNotFoundError('optionsContext'); }
     return [ctx.accessor, ctx.origin];
 }
 
@@ -131,6 +131,20 @@ export function buildAccessor(o: ReqOptions) {
         switchConfig(id: string): void {
             conf.switch(id);
             read();
+        },
+
+        /**
+         * 重置配置项
+         */
+        reset() {
+            this.setScheme(o.scheme);
+            this.setMode(o.mode);
+            this.setLocale(o.locale);
+            this.setDisplayStyle(o.displayStyle);
+            this.setTimezone(o.timezone);
+            this.setStays(o.stays);
+            this.setSystemNotify(o.systemNotify);
+            this.setFontSize(o.fontSize);
         },
 
         /**

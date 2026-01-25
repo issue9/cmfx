@@ -44,6 +44,8 @@ interface LayoutContext {
      * 提供修改页面最大宽度的接口
      */
     width(): Signal<number>;
+
+    reset(): void;
 }
 
 const layoutContext = createContext<LayoutContext>();
@@ -75,7 +77,12 @@ export function AppLayout(props: ParentProps): JSX.Element {
     const ctx = {
         layout() { return layout; },
         float() { return float; },
-        width() { return width; }
+        width() { return width; },
+        reset() {
+            layout[1](opt.layout);
+            float[1](opt.float);
+            width[1](opt.width);
+        }
     };
 
     return <layoutContext.Provider value={ctx}>

@@ -91,6 +91,7 @@ const messages: Messages = {
             systemNotifyDesc: '将通知发送到操作系统的通知中心。若不可用，可点击`{request}`按钮手动刷新权限。',
             enabled: '启用',
             requestNotifyPermission: '请求权限',
+            resetOptions: '重置设置项',
         },
         table: {
             nodata: '没有数据',
