@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, Page, useLocale } from '@cmfx/components';
+import { Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 
-import { fallbackLocale, markdown, MarkdownFileObject } from '@docs/utils';
+import { markdown, MarkdownFileObject } from '@docs/utils';
 import pkg from '../../../package.json';
 import { API } from './api';
 import { default as Stage, Props as StageProps } from './stage';
@@ -49,6 +49,7 @@ export interface Props {
  */
 export default function Stages(props: Props):JSX.Element {
     const l = useLocale();
+    const [, origin] = useOptions();
 
     const route = useCurrentMatches()();
     const title = route[route.length - 1].route.info?.title;
@@ -63,7 +64,7 @@ export default function Stages(props: Props):JSX.Element {
         const obj = Object.fromEntries(arr);
 
         createEffect(() => {
-            const loc = l.match(Object.keys(obj), fallbackLocale);
+            const loc = l.match(Object.keys(obj), origin.locale);
             setFooter(obj[loc]);
         });
     }
@@ -75,7 +76,7 @@ export default function Stages(props: Props):JSX.Element {
         const obj = Object.fromEntries(arr);
 
         createEffect(() => {
-            const loc = l.match(Object.keys(obj), fallbackLocale);
+            const loc = l.match(Object.keys(obj), origin.locale);
             setHeader(obj[loc]);
         });
     }
@@ -87,7 +88,7 @@ export default function Stages(props: Props):JSX.Element {
         const obj = Object.fromEntries(arr);
 
         createEffect(() => {
-            const loc = l.match(Object.keys(obj), fallbackLocale);
+            const loc = l.match(Object.keys(obj), origin.locale);
             setAPI(obj[loc]);
         });
     }

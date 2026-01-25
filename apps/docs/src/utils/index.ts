@@ -5,4 +5,4 @@
 export { markdown } from './markdown';
 export type { MarkdownFileObject } from './markdown';
 
-export { fallbackLocale, floatingWidth } from './options';
+export { floatingWidth } from './options';

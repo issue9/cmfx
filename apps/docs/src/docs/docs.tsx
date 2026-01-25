@@ -3,14 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Drawer, DrawerRef, Menu, MenuItem, MenuItemGroup, MenuRef, Nav, NavRef, Page, joinClass, useLocale
+    Drawer, DrawerRef, Menu, MenuItem, MenuItemGroup, MenuRef, Nav, NavRef, Page, joinClass, useLocale, useOptions
 } from '@cmfx/components';
 import { ArrayElement, Locale } from '@cmfx/core';
 import { Source } from '@cmfx/vite-plugin-api';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { JSX, ParentProps, Setter, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 
-import { MarkdownFileObject, fallbackLocale, floatingWidth, markdown } from '@docs/utils';
+import { MarkdownFileObject, floatingWidth, markdown } from '@docs/utils';
 import styles from './style.module.css';
 
 import { default as advanceAPI } from './advance/api.zh-Hans.json' with { type: 'json' };
@@ -160,6 +160,7 @@ interface MarkdownProps {
 // article 对应的是 maps 中的文章 ID；
 function Markdown(props: MarkdownProps): JSX.Element {
     const l = useLocale();
+    const [, origin] = useOptions();
 
     const route = useCurrentMatches()();
     const title = route[route.length - 1].route.info?.title;
@@ -173,12 +174,12 @@ function Markdown(props: MarkdownProps): JSX.Element {
     let navRef: NavRef;
 
     const [html, setHTML] = createSignal<string>(articleObjs.length > 1
-        ? markdown(articles[l.match(keys, fallbackLocale)], props.types)
+        ? markdown(articles[l.match(keys, origin.locale)], props.types)
         : markdown(articleObjs[0][1], props.types));
 
     if (articleObjs.length > 1) {
         createEffect(() => {
-            const data = articles[l.match(keys, fallbackLocale)];
+            const data = articles[l.match(keys, origin.locale)];
             if (data) {
                 setHTML(markdown(data, props.types));
                 navRef.refresh();

@@ -5,5 +5,3 @@
 import { DrawerProps } from '@cmfx/components';
 
 export const floatingWidth: DrawerProps['floating'] = 'lg';
-
-export const fallbackLocale = 'zh-Hans';
