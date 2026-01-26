@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+
 const messages = {
     _d: {
         stages: {
@@ -59,6 +60,7 @@ const messages = {
             customTheme: 'Custom theme',
             error: 'Error handle',
             svg: 'SVG',
+            validator: 'Validator',
         },
         contribute: {
             contribute: 'Contribute',

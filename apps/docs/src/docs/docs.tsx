@@ -95,6 +95,14 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
     },
     {
         kind: 'advance',
+        path: '/advance/validator',
+        info: { title: '_d.docs.validator' },
+        component: () => <Markdown types={advanceAPI as Array<Source>}
+            articles={import.meta.glob('./advance/validator.*.md', { eager: true, query: '?raw', import: 'default' })}
+        />
+    },
+    {
+        kind: 'advance',
         path: '/advance/error',
         info: { title: '_d.docs.error' },
         component: () => <Markdown types={advanceAPI as Array<Source>}

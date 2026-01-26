@@ -16,6 +16,9 @@
         types:
             - createZodLocaleLoader,source
             - Problem,source
+            - zodValidator,source
+            - Validator,source
+            - ValidResult,source
 
 - pkg: "@cmfx/admin"
   entrypoints:

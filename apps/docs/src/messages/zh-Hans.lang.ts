@@ -61,6 +61,7 @@ const messages: typeof m = {
             customTheme: '自定义主题',
             error: '错误处理',
             svg: 'SVG',
+            validator: '数据验证',
         },
         contribute: {
             contribute: '贡献指南',

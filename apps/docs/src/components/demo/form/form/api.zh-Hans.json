@@ -316,5 +316,174 @@
 			"type": "[api: FormAPI<T, R, P>, Form: Component<FormProps>, actions: FormActions]"
 		},
 		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Accessor",
+		"summary": "每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制\n\n",
+		"typeParams": [
+			{
+				"name": "T",
+				"summary": "关联的值类型；\n\n",
+				"type": "any"
+			},
+			{
+				"name": "K",
+				"summary": "这是对 T 的描述，当 T 的实际值为 undefined 等时，\n无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；\n\n",
+				"type": "string",
+				"init": "string"
+			}
+		],
+		"methods": [
+			{
+				"name": "kind",
+				"summary": "这是对类型 T 的补充说明\n\n",
+				"remarks": "当 T 无法说明类型时，比如 undefined，由 kind 返回具体的类型说明。\n\n\nNOTE: 当 Accessor 支持多种类型时，比如\n`Accessor<string|date|undefined>`\n，\n在初始化时传递的是 undefined，就无法真正确定类型是什么，此时可以通过此方法进行类型识别。\n\n",
+				"type": "kind(): K | undefined",
+				"return": {
+					"type": "K | undefined"
+				}
+			},
+			{
+				"name": "name",
+				"summary": "字段的名称\n\n\n该字段会被用在 input 的 name 属性中。\n\n",
+				"type": "name(): string",
+				"return": {
+					"type": "string"
+				}
+			},
+			{
+				"name": "getValue",
+				"summary": "获取关联的值，这是一个响应式的值。\n\n",
+				"type": "getValue(): T",
+				"return": {
+					"type": "T"
+				}
+			},
+			{
+				"name": "setValue",
+				"summary": "修改值，如果与旧值相同，则不会触发修改。\n\n",
+				"type": "setValue(val: T): void",
+				"params": [
+					{
+						"name": "val",
+						"type": "T"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "onChange",
+				"summary": "注册值发生改变时的触发函数\n\n",
+				"type": "onChange(change: ChangeFunc<T>): void",
+				"params": [
+					{
+						"name": "change",
+						"type": "ChangeFunc<T>"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "getError",
+				"summary": "返回当前组件的错误信息\n\n",
+				"type": "getError(): string | undefined",
+				"return": {
+					"type": "string | undefined"
+				}
+			},
+			{
+				"name": "setError",
+				"summary": "设置当前组件的错误信息\n\n",
+				"type": "setError(err?: string): void",
+				"params": [
+					{
+						"name": "err",
+						"summary": "错误信息，undefined 表示清除错误；\n\n",
+						"type": "string | undefined"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "reset",
+				"summary": "重置为初始状态\n\n",
+				"type": "reset(): void",
+				"return": {
+					"type": "void"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "useForm",
+		"summary": "获取最近一个表单的上下文环境\n\n",
+		"type": "function useForm(): FormContext",
+		"return": {
+			"type": "CommonProps"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"properties": [
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "hasHelp",
+				"summary": "表单组件的 hasHelp 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"def": "true\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelWidth",
+				"summary": "表单组件中 label 宽度的默认值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelAlign",
+				"summary": "表单组件中 label 的对齐方式\n\n",
+				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+				"type": "\"start\" | \"center\" | \"end\" | undefined",
+				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			}
+		],
+		"name": "FormContext",
+		"pkg": "@cmfx/components"
 	}
 ]
