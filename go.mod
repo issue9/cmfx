@@ -20,11 +20,11 @@ ignore (
 require (
 	github.com/fxamacker/cbor/v2 v2.9.0
 	github.com/go-webauthn/webauthn v0.15.0
-	github.com/goccy/go-yaml v1.19.0
+	github.com/goccy/go-yaml v1.19.2
 	github.com/issue9/assert/v4 v4.3.1
 	github.com/issue9/cache v0.19.5
 	github.com/issue9/config v0.9.4
-	github.com/issue9/conv v1.3.6
+	github.com/issue9/conv v1.3.7
 	github.com/issue9/errwrap v0.3.3
 	github.com/issue9/events v0.9.2
 	github.com/issue9/logs/v7 v7.6.9
@@ -34,18 +34,18 @@ require (
 	github.com/issue9/scheduled v0.22.4
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v5 v5.0.0
-	github.com/issue9/web v0.104.3
-	github.com/issue9/webuse/v7 v7.0.0-20251204064944-89e0b70b86bc
+	github.com/issue9/web v0.104.4
+	github.com/issue9/webuse/v7 v7.0.0-20260126071401-104667309329
 	github.com/kardianos/service v1.2.4
 	github.com/mattn/go-sqlite3 v1.14.32
-	github.com/shirou/gopsutil/v4 v4.25.11
+	github.com/shirou/gopsutil/v4 v4.25.12
 	golang.org/x/crypto v0.46.0
 	golang.org/x/text v0.32.0
 )
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/BurntSushi/toml v1.5.0 // indirect
+	github.com/BurntSushi/toml v1.6.0 // indirect
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20250403215159-8d39553ac7cf // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -66,11 +66,11 @@ require (
 	github.com/issue9/version v1.0.9 // indirect
 	github.com/issue9/watermark v1.2.5 // indirect
 	github.com/jellydator/ttlcache/v3 v3.4.0 // indirect
-	github.com/klauspost/compress v1.18.2 // indirect
+	github.com/klauspost/compress v1.18.3 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/lufia/plan9stats v0.0.0-20250827001030-24949be3fa54 // indirect
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
-	github.com/puzpuzpuz/xsync/v4 v4.2.0 // indirect
+	github.com/puzpuzpuz/xsync/v4 v4.4.0 // indirect
 	github.com/redis/go-redis/v9 v9.17.2 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.16 // indirect
