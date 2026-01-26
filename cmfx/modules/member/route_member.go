@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -27,7 +27,7 @@ type memberInfoVO struct {
 	NO       string     `json:"no" yaml:"no" cbor:"no" xml:"no,attr"`
 	Created  time.Time  `json:"created" yaml:"created" cbor:"created" xml:"created"`
 	State    user.State `json:"state" yaml:"state" cbor:"state" xml:"state"`
-	Birthday time.Time  `json:"birthday,omitzero" cbor:"birthday,omitzero" xml:"birthday,omitzero" yaml:"birthday,omitempty"`
+	Birthday time.Time  `json:"birthday,omitzero" cbor:"birthday,omitzero" xml:"birthday,omitempty" yaml:"birthday,omitempty"`
 	Sex      types.Sex  `json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex"`
 	Nickname string     `json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname"`
 	Avatar   string     `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
@@ -70,7 +70,7 @@ type memberInfoPathTO struct {
 	m *Module
 
 	XMLName  struct{}  `xml:"info" json:"-" cbor:"-" yaml:"-"`
-	Birthday time.Time `json:"birthday,omitzero" cbor:"birthday,omitzero" xml:"birthday,omitzero" yaml:"birthday,omitempty"`
+	Birthday time.Time `json:"birthday,omitzero" cbor:"birthday,omitzero" xml:"birthday,omitempty" yaml:"birthday,omitempty"`
 	Sex      types.Sex `json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex"`
 	Nickname string    `json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname"`
 	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`

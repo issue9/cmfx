@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2025 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -15,6 +15,7 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/auth/temporary"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/categories/linkage"
 	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/query"
 	"github.com/issue9/cmfx/cmfx/user"
@@ -26,6 +27,7 @@ type Module struct {
 	roleGroup *rbac.RoleGroup
 	sse       *sse.Server[int64]
 	temp      *temporary.Temporary[*user.User]
+	deps      *linkage.Linkages
 }
 
 // Load 加载管理模块
@@ -53,14 +55,17 @@ func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	m.roleGroup = rg
 
 	g := m.NewResourceGroup(mod)
-	postGroup := g.New("post-roles", web.StringPhrase("post roles"))
-	delGroup := g.New("delete-roles", web.StringPhrase("delete roles"))
-	putGroup := g.New("put-roles", web.StringPhrase("edit roles"))
-	putGroupResources := g.New("put-roles-resources", web.StringPhrase("put roles resources"))
+	postRoles := g.New("post-roles", web.StringPhrase("post roles"))
+	delRole := g.New("delete-roles", web.StringPhrase("delete roles"))
+	putRole := g.New("put-roles", web.StringPhrase("edit roles"))
+	putRoleResources := g.New("put-roles-resources", web.StringPhrase("put roles resources"))
 	getAdmin := g.New("get-admin", web.StringPhrase("get admins"))
 	putAdmin := g.New("put-admin", web.StringPhrase("put admin"))
 	postAdmin := g.New("post-admin", web.StringPhrase("post admins"))
 	delAdmin := g.New("del-admin", web.StringPhrase("delete admins"))
+	postDepartments := g.New("post-departments", web.StringPhrase("post departments"))
+	deleteDepartment := g.New("delete-department", web.StringPhrase("delete department"))
+	putDepartment := g.New("put-department", web.StringPhrase("edit department"))
 
 	p := mod.Router().Prefix(m.URLPrefix(), m)
 
@@ -74,20 +79,20 @@ func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 				Desc(web.Phrase("get roles list api"), nil).
 				Response200([]rbac.RoleVO{})
 		})).
-		Post("/roles", m.postRoles, postGroup, mod.API(func(o *openapi.Operation) {
+		Post("/roles", m.postRoles, postRoles, mod.API(func(o *openapi.Operation) {
 			o.Tag("rbac").
 				Desc(web.Phrase("add role api"), nil).
 				ResponseEmpty("201").
 				Body(&rbac.RoleTO{}, false, nil, nil)
 		})).
-		Put("/roles/{id:digit}", m.putRole, putGroup, mod.API(func(o *openapi.Operation) {
+		Put("/roles/{id:digit}", m.putRole, putRole, mod.API(func(o *openapi.Operation) {
 			o.Tag("rbac").
 				PathID("id:digit", web.Phrase("the role id")).
 				Desc(web.Phrase("edit role info api"), nil).
 				Body(&rbac.RoleTO{}, false, nil, nil).
 				ResponseEmpty("204")
 		})).
-		Delete("/roles/{id:digit}", m.deleteRole, delGroup, mod.API(func(o *openapi.Operation) {
+		Delete("/roles/{id:digit}", m.deleteRole, delRole, mod.API(func(o *openapi.Operation) {
 			o.Tag("rbac").
 				Desc(web.Phrase("delete role api"), nil).
 				ResponseEmpty("204")
@@ -98,10 +103,35 @@ func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 				Desc(web.Phrase("get role resources api"), nil).
 				Response200(&xrbac.RoleResources{})
 		})).
-		Put("/roles/{id:digit}/resources", m.putRoleResources, putGroupResources, mod.API(func(o *openapi.Operation) {
+		Put("/roles/{id:digit}/resources", m.putRoleResources, putRoleResources, mod.API(func(o *openapi.Operation) {
 			o.Tag("rbac").
 				Desc(web.Phrase("edit role resources api"), nil).
 				Body([]string{}, false, nil, nil).
+				ResponseEmpty("204")
+		})).
+		Get("/departments", m.getDepartments, mod.API(func(o *openapi.Operation) {
+			o.Tag("department").
+				Desc(web.Phrase("get departments api"), nil).
+				Response200([]linkage.Linkage{})
+		})).
+		Post("/departments/{id:digit}", m.postDepartments, postDepartments, mod.API(func(o *openapi.Operation) {
+			o.Tag("department").
+				PathID("id:digit", web.Phrase("the department id")).
+				Desc(web.Phrase("create department api"), nil).
+				Body(&linkage.LinkageTO{}, false, nil, nil).
+				ResponseEmpty("201")
+		})).
+		Put("/departments/{id:digit}", m.putDepartment, putDepartment, mod.API(func(o *openapi.Operation) {
+			o.Tag("department").
+				PathID("id:digit", web.Phrase("the department id")).
+				Desc(web.Phrase("edit department api"), nil).
+				Body(&linkage.LinkageTO{}, false, nil, nil).
+				ResponseEmpty("204")
+		})).
+		Delete("/departments/{id:digit}", m.deleteDepartment, deleteDepartment, mod.API(func(o *openapi.Operation) {
+			o.Tag("department").
+				PathID("id:digit", web.Phrase("the department id")).
+				Desc(web.Phrase("delete department api"), nil).
 				ResponseEmpty("204")
 		})).
 		Post("/sse", m.postSSE, mod.API(func(o *openapi.Operation) {

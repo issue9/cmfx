@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2025 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -146,8 +146,8 @@ type serviceVO struct {
 // 计划任务
 type jobVO struct {
 	serviceVO `yaml:",inline"`
-	Next      time.Time `json:"next,omitzero" xml:"next,omitzero" cbor:"next,omitzero" yaml:"next,omitempty"` // 下一次执行时间
-	Prev      time.Time `json:"prev,omitzero" xml:"prev,omitzero" cbor:"prev,omitzero" yaml:"prev,omitempty"` // 上一次执行时间
+	Next      time.Time `json:"next,omitzero" xml:"next,omitempty" cbor:"next,omitzero" yaml:"next,omitempty"` // 下一次执行时间
+	Prev      time.Time `json:"prev,omitzero" xml:"prev,omitempty" cbor:"prev,omitzero" yaml:"prev,omitempty"` // 上一次执行时间
 }
 
 // 服务和计划任务

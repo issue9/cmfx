@@ -37,6 +37,9 @@ type info struct {
 
 	// 头像
 	Avatar string `orm:"name(avatar);len(1000)" json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
+
+	// 部门
+	Department int64 `orm:"name(department)" json:"department,omitzero" xml:"department,omitempty" cbor:"department,omitzero" yaml:"department,omitzero" comment:"department"`
 }
 
 // 包含权限的管理员信息

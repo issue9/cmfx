@@ -126,6 +126,9 @@ messages:
     - key: code receiver, ignore when binded
       message:
           msg: 验证码接收者，如果已经绑定，则会忽略此值
+    - key: create department api
+      message:
+          msg: 创建部门
     - key: create sse token api
       message:
           msg: 生成用于访问 SSE 接口的令牌
@@ -153,6 +156,12 @@ messages:
     - key: delete backup file api
       message:
           msg: 删除备份文件
+    - key: delete department
+      message:
+          msg: 删除部门
+    - key: delete department api
+      message:
+          msg: 删除部门
     - key: delete member
       message:
           msg: 删除会员
@@ -171,6 +180,15 @@ messages:
     - key: delete the member api
       message:
           msg: 删除会员
+    - key: department
+      message:
+          msg: 部门
+    - key: edit department
+      message:
+          msg: 编辑部门
+    - key: edit department api
+      message:
+          msg: 编辑部门
     - key: edit role info api
       message:
           msg: 编辑角色信息
@@ -222,15 +240,15 @@ messages:
     - key: get admins
       message:
           msg: 查看管理员信息
-    - key: get api list api
-      message:
-          msg: 获取所有 API 的信息列表
     - key: get backup database list
       message:
           msg: 查看备份数据库的文件列表
     - key: get backup file list api
       message:
           msg: 获取备份文件列表
+    - key: get departments api
+      message:
+          msg: 获取部门列表
     - key: get login user info api
       message:
           msg: 获取当前登录用户的信息
@@ -270,6 +288,9 @@ messages:
     - key: get roles list api
       message:
           msg: 获取角色列表
+    - key: get routes list api
+      message:
+          msg: 获取路由列表
     - key: get services list api
       message:
           msg: 获取服务列表
@@ -429,6 +450,9 @@ messages:
     - key: post admins
       message:
           msg: 添加管理员
+    - key: post departments
+      message:
+          msg: 添加部门
     - key: post roles
       message:
           msg: 添加角色
@@ -571,6 +595,9 @@ messages:
     - key: the backup filename
       message:
           msg: 备份文件的文件名
+    - key: the department id
+      message:
+          msg: 部门 ID
     - key: the file name
       message:
           msg: 文件名

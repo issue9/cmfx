@@ -119,6 +119,9 @@ messages:
 - key: code receiver, ignore when binded
   message:
     msg: code receiver, ignore when binded
+- key: create department api
+  message:
+    msg: create department api
 - key: create sse token api
   message:
     msg: create sse token api
@@ -146,6 +149,12 @@ messages:
 - key: delete backup file api
   message:
     msg: delete backup file api
+- key: delete department
+  message:
+    msg: delete department
+- key: delete department api
+  message:
+    msg: delete department api
 - key: delete member
   message:
     msg: delete member
@@ -164,6 +173,15 @@ messages:
 - key: delete the member api
   message:
     msg: delete the member api
+- key: department
+  message:
+    msg: department
+- key: edit department
+  message:
+    msg: edit department
+- key: edit department api
+  message:
+    msg: edit department api
 - key: edit role info api
   message:
     msg: edit role info api
@@ -215,15 +233,15 @@ messages:
 - key: get admins
   message:
     msg: get admins
-- key: get api list api
-  message:
-    msg: get api list api
 - key: get backup database list
   message:
     msg: get backup database list
 - key: get backup file list api
   message:
     msg: get backup file list api
+- key: get departments api
+  message:
+    msg: get departments api
 - key: get login user info api
   message:
     msg: get login user info api
@@ -263,6 +281,9 @@ messages:
 - key: get roles list api
   message:
     msg: get roles list api
+- key: get routes list api
+  message:
+    msg: get routes list api
 - key: get services list api
   message:
     msg: get services list api
@@ -419,6 +440,9 @@ messages:
 - key: post admins
   message:
     msg: post admins
+- key: post departments
+  message:
+    msg: post departments
 - key: post roles
   message:
     msg: post roles
@@ -561,6 +585,9 @@ messages:
 - key: the backup filename
   message:
     msg: the backup filename
+- key: the department id
+  message:
+    msg: the department id
 - key: the file name
   message:
     msg: the file name

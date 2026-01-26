@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,6 +8,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/categories/linkage"
 	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
@@ -17,6 +18,7 @@ import (
 func Install(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	user.Install(mod)
 	rbac.Install(mod)
+	linkage.Install(mod, departmentsTableName, &linkage.Linkage{Title: departmentsTableName})
 
 	if err := mod.DB().Create(&info{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
