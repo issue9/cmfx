@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Nav, NavRef, Page, useLocale, useOptions } from '@cmfx/components';
 import { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
@@ -54,7 +54,8 @@ export default function Stages(props: Props):JSX.Element {
     const route = useCurrentMatches()();
     const title = route[route.length - 1].route.info?.title;
 
-    let articleRef: HTMLElement;
+    let articleRef!: HTMLElement;
+    let navRef!: NavRef;
     const url = baseURL + props.dir;
 
     const [footer, setFooter] = createSignal<string>('');
@@ -66,6 +67,8 @@ export default function Stages(props: Props):JSX.Element {
         createEffect(() => {
             const loc = l.match(Object.keys(obj), origin.locale);
             setFooter(obj[loc]);
+
+            requestIdleCallback(() => navRef.refresh());
         });
     }
 
@@ -78,10 +81,12 @@ export default function Stages(props: Props):JSX.Element {
         createEffect(() => {
             const loc = l.match(Object.keys(obj), origin.locale);
             setHeader(obj[loc]);
+
+            requestIdleCallback(() => navRef.refresh());
         });
     }
 
-    const [api, setAPI] = createSignal<Array<Type>>([]);
+    const [api, setAPI] = createSignal<Array<Type>>();
     if (props.api) {
         const arr = Object.entries(props.api).map(([k, v]) =>
             [k.replace(/^\.\/api\./, '').replace(/\.json$/, ''), v]);
@@ -90,6 +95,8 @@ export default function Stages(props: Props):JSX.Element {
         createEffect(() => {
             const loc = l.match(Object.keys(obj), origin.locale);
             setAPI(obj[loc]);
+
+            requestIdleCallback(() => navRef.refresh());
         });
     }
 
@@ -131,6 +138,6 @@ export default function Stages(props: Props):JSX.Element {
             </Show>
         </article>
 
-        <Nav minHeaderCount={5} class={styles.nav} target={articleRef!} query='h3,h4' />
+        <Nav minHeaderCount={5} ref={el => navRef = el} class={styles.nav} target={articleRef} query='h3,h4' />
     </Page>;
 }
