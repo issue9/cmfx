@@ -143,7 +143,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
                                             <span class={styles.chip}>
                                                 {cloneElement(item.label)}
                                                 <Show when={props.closable}>
-                                                    <IconClose class={styles.close} onclick={e => {
+                                                    <IconClose class={styles.close} onclick={(e: MouseEvent) => {
                                                         if (props.disabled || props.readonly) { return; }
 
                                                         if (props.multiple) {

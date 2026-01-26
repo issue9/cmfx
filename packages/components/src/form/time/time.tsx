@@ -72,7 +72,7 @@ export default function Time(props: Props): JSX.Element {
                 value={ac.getValue() ? formatter().format(ac.getValue()) : ''}
             />
             <Show when={hover() && ac.getValue()} fallback={<IconExpandAll />}>
-                <IconClose onClick={e => {
+                <IconClose onClick={(e: MouseEvent) => {
                     e.stopPropagation();
                     ac.setValue(undefined);
                 }} />

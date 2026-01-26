@@ -127,7 +127,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
             />
 
             <Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
-                <IconClose class="shrink-0" onClick={e => {
+                <IconClose class="shrink-0" onClick={(e: MouseEvent) => {
                     e.stopPropagation();
                     props.accessor.setValue(undefined);
                 }} />

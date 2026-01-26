@@ -10,7 +10,7 @@ import { joinClass } from '@components/base';
 import { Week, WeekPanel } from '@components/datetime';
 import { WeekValueType } from '@components/datetime/dateview';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@components/form/field';
-import { Props as PickerProps, DateType } from './date';
+import { DateType, Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
@@ -63,7 +63,7 @@ export function WeekPicker<T extends DateType>(props: Props<T>): JSX.Element {
             />
 
             <Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
-                <IconClose class="shrink-0" onClick={e => {
+                <IconClose class="shrink-0" onClick={(e: MouseEvent) => {
                     e.stopPropagation();
                     props.accessor.setValue(undefined);
                 }} />

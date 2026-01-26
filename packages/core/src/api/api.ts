@@ -273,8 +273,9 @@ export class API implements REST {
     cache(path: string, ...deps: Array<string>): void {
         path = this.buildURL(path);
         if (!this.#cachePaths.has(path)) {
-            deps.push(path);
-            this.#cachePaths.set(path, deps.map(v => this.buildURL(v)));
+            const dep = deps.map(v => this.buildURL(v));
+            dep.push(path);
+            this.#cachePaths.set(path, dep);
         }
     }
 
@@ -511,7 +512,7 @@ export class API implements REST {
                 } else if (req.method !== 'OPTIONS' && req.method !== 'HEAD') { // 非 GET 请求，则清除缓存。
                     const key = this.#needUncache(fullPath);
                     if (key) {
-                        await this.#cache.delete(this.buildURL(key));
+                        await this.#cache.delete(key);
                     }
                 }
 

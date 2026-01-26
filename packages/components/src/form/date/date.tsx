@@ -96,7 +96,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
                 value={props.accessor.getValue() ? formater()(getValue()) : ''}
             />
             <Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll />}>
-                <IconClose onClick={e => {
+                <IconClose onClick={(e: MouseEvent) => {
                     e.stopPropagation();
                     props.accessor.setValue(undefined);
                 }} />
