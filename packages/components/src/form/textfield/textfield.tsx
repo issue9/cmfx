@@ -7,15 +7,29 @@ import {
 } from 'solid-js';
 
 import { BaseProps, RefProps, style2String } from '@components/base';
-import {
-    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
-} from '@components/form/field';
-import { AutoComplete, Input, InputMode, InputRef, InputValue } from '@components/input';
+import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@components/form/field';
+import { AutoComplete, Input, InputRef } from '@components/input';
+import { TextProps } from '@components/input/input';
 import { Dropdown, DropdownRef, MenuItemItem } from '@components/menu';
+import { calcLayoutFieldAreas } from './area';
 
 export type Ref = InputRef;
 
-export interface Props<T extends InputValue = string> extends FieldBaseProps, RefProps<Ref> {
+export interface Props extends FieldBaseProps, RefProps<Ref> {
+    /**
+     * 最小的字符数量
+     *
+     * @reactive
+     */
+    maxLength?: number;
+
+    /**
+     * 最大的字符数量
+     *
+     * @reactive
+     */
+    minLength?: number;
+
     /**
      * 文本框内顶部的内容
      *
@@ -45,19 +59,19 @@ export interface Props<T extends InputValue = string> extends FieldBaseProps, Re
      *
      * @reactive
      */
-    type?: 'text' | 'url' | 'tel' | 'email' | 'number' | 'password' | 'search';
+    type?: TextProps['type'];
 
     /**
      * NOTE: 非响应式属性
      */
-    accessor: Accessor<T | undefined>;
+    accessor: Accessor<string | undefined>;
 
     /**
      * 键盘的输入模式
      *
      * @reactive
      */
-    inputMode?: InputMode;
+    inputMode?: TextProps['inputMode'];
 
     /**
      * autocomplete
@@ -67,12 +81,33 @@ export interface Props<T extends InputValue = string> extends FieldBaseProps, Re
     autocomplete?: AutoComplete;
 
     /**
+     * 指定显示字符串统计的格式化方法
+     *
+     * @remarks
+     * 如果为方法，表示采用此方法格式化字符串统计内容并显示在恰当的位置，
+     * 如果为 true，相当于指定了类似以下方法作为格式化方法：
+     * ```ts
+     * (val, max?) => `${val}/${max}`
+     * ```
+     * 如果为 false 或是为空表示不需要展示统计数据。
+     *
+     * 显示位置会因为其它变量的不同而有所变化，如果 {@link hasHelp} 为 true，
+     * 那么统计内容始终显示在提示信息的尾部，否则会根据 {@link layout} 的不同有所变化，
+     * 当 layout === 'horizontal' 时，统计内容显示在标题的右侧，否则显示在整个组件的右侧。
+     */
+    count?: boolean | { (val: number, max?: number): string; };
+
+    /**
      * 提供候选词列表
      *
      * @remarks
      * 当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。
      */
-    onSearch?: { (text?: T): Array<Exclude<T, undefined>>; };
+    onSearch?: { (text?: string): Array<string>; };
+}
+
+function countFormater(val: number, max?: number): string {
+    return max !== undefined ? `${val}/${max}` : val.toString();
 }
 
 /**
@@ -80,13 +115,23 @@ export interface Props<T extends InputValue = string> extends FieldBaseProps, Re
  *
  * @typeParam T - 文本框内容的类型
  */
-export function TextField<T extends InputValue = string>(props: Props<T>):JSX.Element {
+export function TextField(props: Props):JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
 
     const id = createUniqueId();
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-    const [candidate, setCandidate] = createSignal<Array<MenuItemItem<Exclude<T, undefined>>>>([]);
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label, !!props.count));
+    const [candidate, setCandidate] = createSignal<Array<MenuItemItem<string>>>([]);
+
+    const [count, setCount] = createSignal('');
+    createEffect(() => {
+        if (props.count) {
+            const formatter = props.count === true ? countFormater : props.count;
+            setCount(formatter(props.accessor.getValue()?.toString().length ?? 0, props.maxLength));
+        } else {
+            setCount('');
+        }
+    });
 
     let dropdownRef: DropdownRef;
     let rootRef: HTMLDivElement;
@@ -166,6 +211,10 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
 
         <Show when={areas().helpArea}>
             {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
+
+        <Show when={areas().countArea}>
+            {area => <div style={fieldArea2Style(area())}>{count()}</div>}
         </Show>
     </Field>;
 }

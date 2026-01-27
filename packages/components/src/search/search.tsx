@@ -9,7 +9,8 @@ import IconSearch from '~icons/material-symbols/search';
 
 import { BaseProps, joinClass } from '@components/base';
 import { useLocale } from '@components/context';
-import { Input, InputMode, InputRef } from '@components/input';
+import { Input, InputRef } from '@components/input';
+import { TextProps } from '@components/input/input';
 import { Dropdown, DropdownProps, DropdownRef, MenuItemItem } from '@components/menu';
 import styles from './style.module.css';
 
@@ -49,7 +50,7 @@ export interface Props extends BaseProps {
      *
      * @reactive
      */
-    inputMode?: InputMode;
+    inputMode: TextProps['inputMode'];
 
     onSearch: { (text: string): Promise<Array<MenuItemItem<string>>>; };
 

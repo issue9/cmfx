@@ -92,7 +92,7 @@ export type FieldBaseProps = Props & CommonProps & {
     /**
      * 提示信息
      *
-     * 该内容显示在 helpArea 区别，只有 {@link FieldBaseProps#hasHelp} 为真时才会显示。
+     * 该内容显示在 helpArea 区域，只有 {@link CommonProps#hasHelp} 为真时才会显示。
      */
     help?: JSX.Element;
 };

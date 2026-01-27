@@ -10,7 +10,8 @@ import { ToggleButton } from '@components/button';
 import { useForm } from '@components/form/field';
 import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfield';
 
-export interface Props extends Omit<BaseProps<string>, 'suffix' | 'type' | 'ref' | 'autocomplete'> {
+type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete';
+export interface Props extends Omit<BaseProps, omitFields> {
     autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
 
     /**

@@ -93,7 +93,7 @@ export interface TextProps extends InputBaseProps {
      *
      * @reactive
      */
-    inputMode: Exclude<JSX.HTMLAttributes<HTMLElement>['inputMode'], 'numeric' | 'decimal'>;
+    inputMode?: Exclude<JSX.HTMLAttributes<HTMLElement>['inputMode'], 'numeric' | 'decimal'>;
 
     /**
      * 值
@@ -102,7 +102,7 @@ export interface TextProps extends InputBaseProps {
      */
     value?: string;
 
-    onChange:   { (val?: string, old?: string): void; };
+    onChange: { (val?: string, old?: string): void; };
 }
 export interface NumberProps extends InputBaseProps {
     /**
@@ -126,7 +126,7 @@ export interface NumberProps extends InputBaseProps {
      */
     value?: number;
 
-    onChange:   { (val?: number, old?: number): void; };
+    onChange: { (val?: number, old?: number): void; };
 }
 
 export type Props = TextProps | NumberProps;

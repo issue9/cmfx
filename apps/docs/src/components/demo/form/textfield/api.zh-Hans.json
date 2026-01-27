@@ -5,11 +5,19 @@
 		"typeParams": [
 			{
 				"name": "T",
-				"type": "InputValue",
+				"type": "string | number",
 				"init": "string"
 			}
 		],
 		"properties": [
+			{
+				"name": "maxLength",
+				"type": "number | undefined"
+			},
+			{
+				"name": "minLength",
+				"type": "number | undefined"
+			},
 			{
 				"name": "prefix",
 				"summary": "文本框内顶部的内容\n\n",
@@ -43,7 +51,7 @@
 			{
 				"name": "inputMode",
 				"summary": "键盘的输入模式\n\n",
-				"type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"numeric\" | \"decimal\" | \"search\" | undefined",
+				"type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | undefined",
 				"reactive": true
 			},
 			{
@@ -51,6 +59,12 @@
 				"summary": "autocomplete\n\n",
 				"type": "JSX.HTMLAutocomplete | undefined",
 				"reactive": true
+			},
+			{
+				"name": "count",
+				"summary": "指定显示字符串统计的格式化方法\n\n",
+				"remarks": "如果为方法，表示采用此方法格式化字符串统计内容并显示在恰当的位置，\n如果为 true，相当于指定了类似以下方法作为格式化方法：\n\n\n如果为 false 或是为空表示不需要展示统计数据。\n\n\n显示位置会因为其它变量的不同而有所变化，如果\n`hasHelp`\n为 true，\n那么统计内容始终显示在提示信息的尾部，否则会根据\n`layout`\n的不同有所变化，\n当 layout === 'horizontal' 时，统计内容显示在标题的右侧，否则显示在整个组件的右侧。\n\n",
+				"type": "boolean | ((val: number, max?: number) => string) | undefined"
 			},
 			{
 				"name": "onSearch",
@@ -301,6 +315,20 @@
 				"reactive": true
 			},
 			{
+				"name": "maxLength",
+				"type": "number | undefined"
+			},
+			{
+				"name": "minLength",
+				"type": "number | undefined"
+			},
+			{
+				"name": "count",
+				"summary": "指定显示字符串统计的格式化方法\n\n",
+				"remarks": "如果为方法，表示采用此方法格式化字符串统计内容并显示在恰当的位置，\n如果为 true，相当于指定了类似以下方法作为格式化方法：\n\n\n如果为 false 或是为空表示不需要展示统计数据。\n\n\n显示位置会因为其它变量的不同而有所变化，如果\n`hasHelp`\n为 true，\n那么统计内容始终显示在提示信息的尾部，否则会根据\n`layout`\n的不同有所变化，\n当 layout === 'horizontal' 时，统计内容显示在标题的右侧，否则显示在整个组件的右侧。\n\n",
+				"type": "boolean | ((val: number, max?: number) => string) | undefined"
+			},
+			{
 				"name": "onSearch",
 				"summary": "提供候选词列表\n\n",
 				"remarks": "当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。\n\n",
@@ -338,7 +366,7 @@
 			{
 				"name": "inputMode",
 				"summary": "键盘的输入模式\n\n",
-				"type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"numeric\" | \"decimal\" | \"search\" | undefined",
+				"type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | undefined",
 				"reactive": true
 			},
 			{
@@ -431,6 +459,20 @@
 				"summary": "placeholder\n\n",
 				"type": "string | undefined",
 				"reactive": true
+			},
+			{
+				"name": "maxLength",
+				"type": "number | undefined"
+			},
+			{
+				"name": "minLength",
+				"type": "number | undefined"
+			},
+			{
+				"name": "count",
+				"summary": "指定显示字符串统计的格式化方法\n\n",
+				"remarks": "如果为方法，表示采用此方法格式化字符串统计内容并显示在恰当的位置，\n如果为 true，相当于指定了类似以下方法作为格式化方法：\n\n\n如果为 false 或是为空表示不需要展示统计数据。\n\n\n显示位置会因为其它变量的不同而有所变化，如果\n`hasHelp`\n为 true，\n那么统计内容始终显示在提示信息的尾部，否则会根据\n`layout`\n的不同有所变化，\n当 layout === 'horizontal' 时，统计内容显示在标题的右侧，否则显示在整个组件的右侧。\n\n",
+				"type": "boolean | ((val: number, max?: number) => string) | undefined"
 			},
 			{
 				"name": "onSearch",
