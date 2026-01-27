@@ -215,7 +215,8 @@ export class Extractor {
                         }
                     };
 
-                    if (values.length>0 && values.every(v => v !== undefined)) {
+                    // 有值，不能包含 undefined，且值不能相同。
+                    if (values.length>0 && values.every(v => v !== undefined) && (new Set(values).size === values.length)) {
                         unions.discriminant = name;
                         break;
                     }
