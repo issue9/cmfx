@@ -22,7 +22,6 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
                 { src: '../../LICENSE', dest: '../' },
-                { src: '../../.browserslistrc', dest: '../' },
                 { src: './src/tailwind.css', dest: './' },
             ]
         }),

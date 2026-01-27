@@ -1,6 +1,5 @@
 node_modules/
 dist/
 
-# 以下几个文件是从根目录复制的
+# 以下文件是从根目录复制的
 LICENSE
-.browserslistrc

@@ -6,6 +6,7 @@
 - [pnpm](https://pnpm.io/zh/)
 - [Go](https://go.dev/)
 - Git
+- [web](https://github.com/issue9/web/releases)
 
 如果只是作一个简单的项目，可以跳过以下安装步骤，直接在 `apps` 下作开发：
 
@@ -28,15 +29,9 @@ npm i @cmfx/admin @cmfx/core @cmfx/components @cmfx/illustrations
 npm i shiki
 ```
 
-### 可继承的属性
+### tailwind
 
-#### browserslist
-
-如果要保持与 `@cmfx/admin` 相同的浏览器版本，需要在 `browserslist` 中指定 `extends @cmfx/admin`。
-
-#### tailwind
-
-对 tailwind 的进行了部分自定义，**必须**在项目的样式文件中引入相关定义：
+cmfx 对 tailwind 的进行了部分自定义，**必须**在项目的样式文件中引入相关定义：
 
 ```css
 /* style.css */
@@ -45,6 +40,7 @@ npm i shiki
 @import 'tailwindcss';                    /* 导入 tailwind */
 @import '@cmfx/components/style.css';     /* 导入组件样式 */
 @import '@cmfx/components/tailwind.css';  /* 导入组件库中对 tailwind 样式的修改 */
+@import '@cmfx/admin/style.css';          /* 如果使用有了 @cmfx/admin，还需要引用其使用的样式表 */
 ```
 
 项目中，**必须**第一个引用样式文件，否则可能存在部分样式文件失效的情况：

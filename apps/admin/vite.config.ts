@@ -55,7 +55,6 @@ export default defineConfig(({ mode }) => {
             viteStaticCopy({
                 targets: [
                     { src: '../../LICENSE', dest: '../' },
-                    { src: '../../.browserslistrc', dest: '../' },
                     {
                         src: '../../assets/brand-static.svg',
                         dest: '../public/',

@@ -71,7 +71,6 @@ export default defineConfig(({ mode }) => {
             viteStaticCopy({
                 targets: [
                     { src: '../../LICENSE', dest: '../apps/docs' }, // dest 是相对于 tsconfig 中 outdir 目录的
-                    { src: '../../.browserslistrc', dest: '../apps/docs' },
                     {
                         src: '../../assets/brand-static.svg',
                         dest: '../apps/docs/public',

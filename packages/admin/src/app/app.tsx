@@ -8,16 +8,16 @@ import { Navigate, RouteDefinition, Router } from '@solidjs/router';
 import { ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 
 import {
-    AdminProvider, APIProvider, AppLayout, ErrorHandler, NotFound, OptionsProvider, useAdmin, useAPI, useOptions
+    AdminProvider, APIProvider, AppLayout, ErrorHandler, NotFound, OptionsProvider, useAdmin, useOptions
 } from './context';
 import { build as buildOptions, Options, presetConfigName } from './options';
 
 /**
- * 初始化整个项目
+ * 创建项目
  *
  * @param elementID - 挂载的元素 ID；
  * @param o - 项目的初始化选项；
- * @param router - 指定路由对象，默认为 {@link HashRouter}；
+ * @param router - 指定路由对象，默认值同 {@link run} 中对应的参数；
  */
 export async function create(elementID: string, o: Options, router?: typeof Router) {
     const opt = buildOptions(o);
@@ -81,11 +81,10 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 
 function Private(props: ParentProps): JSX.Element {
     const usr = useAdmin();
-    const api = useAPI();
     const opt = useOptions();
 
     return <Switch>
-        <Match when={!api.isLogin()}>
+        <Match when={!usr.isLogin()}>
             <Navigate href={opt.routes.public.home} />
         </Match>
         <Match when={usr.isLogin()}>
