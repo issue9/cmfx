@@ -12,6 +12,7 @@ import { AutoComplete, Input, InputRef } from '@components/input';
 import { TextProps } from '@components/input/input';
 import { Dropdown, DropdownRef, MenuItemItem } from '@components/menu';
 import { calcLayoutFieldAreas } from './area';
+import styles from './style.module.css';
 
 export type Ref = InputRef;
 
@@ -94,6 +95,8 @@ export interface Props extends FieldBaseProps, RefProps<Ref> {
      * 显示位置会因为其它变量的不同而有所变化，如果 {@link hasHelp} 为 true，
      * 那么统计内容始终显示在提示信息的尾部，否则会根据 {@link layout} 的不同有所变化，
      * 当 layout === 'horizontal' 时，统计内容显示在标题的右侧，否则显示在整个组件的右侧。
+     *
+     * @reactive
      */
     count?: boolean | { (val: number, max?: number): string; };
 
@@ -214,7 +217,7 @@ export function TextField(props: Props):JSX.Element {
         </Show>
 
         <Show when={areas().countArea}>
-            {area => <div style={fieldArea2Style(area())}>{count()}</div>}
+            {area => <div class={styles.count} style={fieldArea2Style(area())}>{count()}</div>}
         </Show>
     </Field>;
 }

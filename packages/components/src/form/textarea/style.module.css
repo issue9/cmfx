@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -7,18 +7,26 @@
 @reference '../../style.css';
 
 @layer components {
-    .textarea {
-        @apply rounded-md outline-none bg-transparent border border-palette-border flex px-2 py-2 w-full text-left;
-        @apply read-only:cursor-default;
-        @apply transition;
+    .ta {
+        @apply relative;
 
-        @apply focus:enabled:border-palette-border-focused focus:enabled:bg-palette-bg-focused;
-        @apply hover:enabled:border-palette-border-focused hover:enabled:bg-palette-bg-focused;
-        @apply active:enabled:border-palette-border-actived active:enabled:bg-palette-bg-actived;
-        @apply disabled:cursor-not-allowed disabled:text-palette-fg-disabled disabled:border-palette-border-disabled;
-    }
+        .textarea {
+            @apply rounded-md outline-none bg-transparent border border-palette-border flex px-2 py-2 w-full text-left;
+            @apply read-only:cursor-default;
+            @apply transition;
 
-    .textarea.rounded {
-        @apply rounded-full;
+            @apply focus:enabled:border-palette-border-focused focus:enabled:bg-palette-bg-focused;
+            @apply hover:enabled:border-palette-border-focused hover:enabled:bg-palette-bg-focused;
+            @apply active:enabled:border-palette-border-actived active:enabled:bg-palette-bg-actived;
+            @apply disabled:cursor-not-allowed disabled:text-palette-fg-disabled disabled:border-palette-border-disabled;
+        }
+
+        .textarea.rounded {
+            @apply rounded-full;
+        }
+
+        .count {
+            @apply absolute end-1;
+        }
     }
 }

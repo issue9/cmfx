@@ -142,13 +142,14 @@ interface HelpAreaProps {
     getError: Accessor<any>['getError'];
     help?: JSX.Element;
     area: FieldArea;
+    ref?: { (el: HTMLParagraphElement): void; };
 }
 
 /**
  * 可在 {@link Field} 中显示帮助和错误信息的子组件
  */
 export function HelpArea(props: HelpAreaProps): JSX.Element {
-    return <p style={fieldArea2Style(props.area)} role="alert"
+    return <p style={fieldArea2Style(props.area)} role="alert" ref={props.ref}
         class={joinClass(undefined, styles.help, props.getError() ? styles.error : '')}
     >
         {props.getError() ?? props.help}
