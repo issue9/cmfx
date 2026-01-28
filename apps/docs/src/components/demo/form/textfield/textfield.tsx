@@ -39,7 +39,7 @@ export default function(props: MountProps): JSX.Element {
             <TextField count={count() ? (v, m) => `${v}-${m}` : undefined} hasHelp
                 layout={layout()} placeholder='placeholder' palette={palette()}
                 disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-            <TextField count={count()} hasHelp layout={layout()} placeholder='placeholder' label="label"
+            <TextField maxLength={10} count={count()} layout={layout()} placeholder='placeholder' label="label+no help"
                 palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
             <TextField count={count()} hasHelp layout={layout()} placeholder='placeholder' label="prefix"
                 prefix={<IconFace class='self-center' />} palette={palette()} disabled={disabled()}
@@ -48,7 +48,7 @@ export default function(props: MountProps): JSX.Element {
                 prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()}
                 disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
 
-            <TextField count={count()} hasHelp layout={layout()} placeholder='placeholder' label="onsearch" class="w-100"
+            <TextField maxLength={10} count={count()} hasHelp layout={layout()} placeholder='placeholder' label="onsearch" class="w-100"
                 prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()}
                 disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt}
                 onSearch={v => {

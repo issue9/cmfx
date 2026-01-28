@@ -10,7 +10,7 @@
 					{
 						"name": "type",
 						"summary": "内容类型\n\n",
-						"type": "\"submit\" | \"reset\" | \"button\" | \"time\" | \"date\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | \"password\" | \"color\" | \"datetime-local\" | \"file\" | \"image\" | \"month\" | \"range\" | \"week\" | undefined",
+						"type": "\"submit\" | \"reset\" | \"button\" | \"time\" | \"date\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | \"color\" | \"datetime-local\" | \"file\" | \"image\" | \"month\" | \"password\" | \"range\" | \"week\" | undefined",
 						"reactive": true
 					},
 					{

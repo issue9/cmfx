@@ -7,3 +7,4 @@
       - entrypoint: "index.d.ts"
         types:
             - TextAreaProps
+            - TextAreaRef

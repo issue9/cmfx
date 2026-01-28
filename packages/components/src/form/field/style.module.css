@@ -12,9 +12,9 @@
         grid-template-rows: minmax(0, auto) 1fr minmax(0, auto);
         grid-template-columns: minmax(0, auto) 1fr minmax(0, auto);
         column-gap: var(--spacing);
-        grid-template-areas: 'top-left top-center top-right'
-            'middle-left middle-center middle-right'
-            'bottom-left bottom-center bottom-right';
+        grid-template-areas: 'top-start top-center top-end'
+            'middle-start middle-center middle-end'
+            'bottom-start bottom-center bottom-end';
         align-items: center;
         justify-items: start;
 

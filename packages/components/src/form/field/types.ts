@@ -78,7 +78,7 @@ export interface CommonProps {
      * @reactive
      * @defaultValue layout === 'horizontal' ? 'end' : 'start'
      */
-    labelAlign?: 'start' | 'center' | 'end';
+    labelAlign?: LabelAlignment;
 }
 
 /**

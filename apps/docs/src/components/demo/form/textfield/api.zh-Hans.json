@@ -2,21 +2,18 @@
 	{
 		"kind": "interface",
 		"name": "TextFieldProps",
-		"typeParams": [
-			{
-				"name": "T",
-				"type": "string | number",
-				"init": "string"
-			}
-		],
 		"properties": [
 			{
 				"name": "maxLength",
-				"type": "number | undefined"
+				"summary": "最小的字符数量\n\n",
+				"type": "number | undefined",
+				"reactive": true
 			},
 			{
 				"name": "minLength",
-				"type": "number | undefined"
+				"summary": "最大的字符数量\n\n",
+				"type": "number | undefined",
+				"reactive": true
 			},
 			{
 				"name": "prefix",
@@ -40,13 +37,13 @@
 				"name": "type",
 				"summary": "内容类型\n\n",
 				"remarks": "只有在此值为 number 时，内容才会被当作数值处理。\n\n",
-				"type": "\"number\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | \"password\" | undefined",
+				"type": "\"submit\" | \"reset\" | \"button\" | \"time\" | \"date\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | \"color\" | \"datetime-local\" | \"file\" | \"image\" | \"month\" | \"password\" | \"range\" | \"week\" | undefined",
 				"reactive": true
 			},
 			{
 				"name": "accessor",
 				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor<T | undefined, string>"
+				"type": "Accessor<string | undefined, string>"
 			},
 			{
 				"name": "inputMode",
@@ -64,13 +61,14 @@
 				"name": "count",
 				"summary": "指定显示字符串统计的格式化方法\n\n",
 				"remarks": "如果为方法，表示采用此方法格式化字符串统计内容并显示在恰当的位置，\n如果为 true，相当于指定了类似以下方法作为格式化方法：\n\n\n如果为 false 或是为空表示不需要展示统计数据。\n\n\n显示位置会因为其它变量的不同而有所变化，如果\n`hasHelp`\n为 true，\n那么统计内容始终显示在提示信息的尾部，否则会根据\n`layout`\n的不同有所变化，\n当 layout === 'horizontal' 时，统计内容显示在标题的右侧，否则显示在整个组件的右侧。\n\n",
-				"type": "boolean | ((val: number, max?: number) => string) | undefined"
+				"type": "boolean | ((val: number, max?: number) => string) | undefined",
+				"reactive": true
 			},
 			{
 				"name": "onSearch",
 				"summary": "提供候选词列表\n\n",
 				"remarks": "当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。\n\n",
-				"type": "((text?: T) => Array<Exclude<T, undefined>>) | undefined"
+				"type": "((text?: string) => Array<string>) | undefined"
 			},
 			{
 				"name": "title",
@@ -155,7 +153,7 @@
 			},
 			{
 				"name": "help",
-				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区域，只有\n`hasHelp`\n为真时才会显示。\n\n",
 				"type": "JSX.Element"
 			},
 			{
@@ -195,15 +193,35 @@
 		"properties": [
 			{
 				"name": "min",
+				"summary": "最小值\n\n",
 				"type": "number | undefined"
 			},
 			{
 				"name": "max",
+				"summary": "最大值\n\n",
 				"type": "number | undefined"
 			},
 			{
 				"name": "step",
+				"summary": "步长\n\n",
 				"type": "number | undefined"
+			},
+			{
+				"name": "prefix",
+				"summary": "文本框内顶部的内容\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "placeholder",
+				"summary": "placeholder\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "accessor",
+				"summary": "NOTE: 非响应式属性\n\n",
+				"type": "Accessor<number | undefined, string>"
 			},
 			{
 				"name": "inputMode",
@@ -212,21 +230,15 @@
 				"reactive": true
 			},
 			{
-				"name": "style",
-				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
-				"type": "string | JSX.CSSProperties | undefined",
-				"reactive": true
-			},
-			{
 				"name": "title",
 				"summary": "鼠标提示内容\n\n",
 				"type": "string | undefined"
 			},
 			{
-				"name": "prefix",
-				"summary": "文本框内顶部的内容\n\n",
-				"type": "JSX.Element",
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
 				"reactive": true
 			},
 			{
@@ -237,33 +249,15 @@
 				"reactive": true
 			},
 			{
-				"name": "tabindex",
-				"type": "number | undefined"
-			},
-			{
-				"name": "layout",
-				"summary": "表单组件的 layout 属性的默认值\n\n",
-				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
-				"type": "\"horizontal\" | \"vertical\" | undefined",
-				"def": "'horizontal'\n\n",
-				"reactive": true
-			},
-			{
-				"name": "palette",
-				"summary": "指定当前组件采用的色盘\n\n",
-				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
 			},
 			{
 				"name": "disabled",
 				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "rounded",
-				"summary": "表单组件的 rounded 属性的默认值\n\n",
 				"type": "boolean | undefined",
 				"reactive": true
 			},
@@ -274,10 +268,24 @@
 				"reactive": true
 			},
 			{
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
 				"name": "hasHelp",
 				"summary": "表单组件的 hasHelp 属性的默认值\n\n",
 				"type": "boolean | undefined",
 				"def": "true\n\n",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{
@@ -295,44 +303,22 @@
 				"reactive": true
 			},
 			{
+				"name": "tabindex",
+				"type": "number | undefined"
+			},
+			{
 				"name": "label",
 				"type": "JSX.Element"
 			},
 			{
 				"name": "help",
-				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区域，只有\n`hasHelp`\n为真时才会显示。\n\n",
 				"type": "JSX.Element"
 			},
 			{
-				"name": "accessor",
-				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor<T | undefined, string>"
-			},
-			{
-				"name": "placeholder",
-				"summary": "placeholder\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "maxLength",
-				"type": "number | undefined"
-			},
-			{
-				"name": "minLength",
-				"type": "number | undefined"
-			},
-			{
-				"name": "count",
-				"summary": "指定显示字符串统计的格式化方法\n\n",
-				"remarks": "如果为方法，表示采用此方法格式化字符串统计内容并显示在恰当的位置，\n如果为 true，相当于指定了类似以下方法作为格式化方法：\n\n\n如果为 false 或是为空表示不需要展示统计数据。\n\n\n显示位置会因为其它变量的不同而有所变化，如果\n`hasHelp`\n为 true，\n那么统计内容始终显示在提示信息的尾部，否则会根据\n`layout`\n的不同有所变化，\n当 layout === 'horizontal' 时，统计内容显示在标题的右侧，否则显示在整个组件的右侧。\n\n",
-				"type": "boolean | ((val: number, max?: number) => string) | undefined"
-			},
-			{
-				"name": "onSearch",
-				"summary": "提供候选词列表\n\n",
-				"remarks": "当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。\n\n",
-				"type": "((text?: T) => Array<Exclude<T, undefined>>) | undefined"
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -446,13 +432,13 @@
 			},
 			{
 				"name": "help",
-				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区域，只有\n`hasHelp`\n为真时才会显示。\n\n",
 				"type": "JSX.Element"
 			},
 			{
 				"name": "accessor",
 				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor<T | undefined, string>"
+				"type": "Accessor<string | undefined, string>"
 			},
 			{
 				"name": "placeholder",
@@ -462,23 +448,28 @@
 			},
 			{
 				"name": "maxLength",
-				"type": "number | undefined"
+				"summary": "最小的字符数量\n\n",
+				"type": "number | undefined",
+				"reactive": true
 			},
 			{
 				"name": "minLength",
-				"type": "number | undefined"
+				"summary": "最大的字符数量\n\n",
+				"type": "number | undefined",
+				"reactive": true
 			},
 			{
 				"name": "count",
 				"summary": "指定显示字符串统计的格式化方法\n\n",
 				"remarks": "如果为方法，表示采用此方法格式化字符串统计内容并显示在恰当的位置，\n如果为 true，相当于指定了类似以下方法作为格式化方法：\n\n\n如果为 false 或是为空表示不需要展示统计数据。\n\n\n显示位置会因为其它变量的不同而有所变化，如果\n`hasHelp`\n为 true，\n那么统计内容始终显示在提示信息的尾部，否则会根据\n`layout`\n的不同有所变化，\n当 layout === 'horizontal' 时，统计内容显示在标题的右侧，否则显示在整个组件的右侧。\n\n",
-				"type": "boolean | ((val: number, max?: number) => string) | undefined"
+				"type": "boolean | ((val: number, max?: number) => string) | undefined",
+				"reactive": true
 			},
 			{
 				"name": "onSearch",
 				"summary": "提供候选词列表\n\n",
 				"remarks": "当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。\n\n",
-				"type": "((text?: T) => Array<Exclude<T, undefined>>) | undefined"
+				"type": "((text?: string) => Array<string>) | undefined"
 			}
 		],
 		"pkg": "@cmfx/components"

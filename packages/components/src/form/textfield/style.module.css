@@ -12,6 +12,6 @@
     }
 
     .count {
-        @apply flex items-center justify-end pe-[1px];
+        @apply flex items-center justify-end pe-px;
     }
 }

@@ -32,14 +32,14 @@ function calcHorizontalFieldAreas(hasHelp?: boolean, hasLabel?: boolean, hasCoun
         if (hasHelp) {
             if (hasCount) {
                 return {
-                    labelArea: { pos: 'top-left', rows: 2 }, // label 只需要与 input 横向对齐，所以 rows 应该保持与 input 一样。
+                    labelArea: { pos: 'top-start', rows: 2 }, // label 只需要与 input 横向对齐，所以 rows 应该保持与 input 一样。
                     inputArea: { pos: 'top-center', cols: 2, rows: 2 },
                     helpArea: { pos: 'bottom-center' },
-                    countArea: { pos: 'bottom-right' },
+                    countArea: { pos: 'bottom-end' },
                 };
             }
             return {
-                labelArea: { pos: 'top-left', rows: 2 }, // label 只需要与 input 横向对齐，所以 rows 应该保持与 input 一样。
+                labelArea: { pos: 'top-start', rows: 2 }, // label 只需要与 input 横向对齐，所以 rows 应该保持与 input 一样。
                 inputArea: { pos: 'top-center', cols: 2, rows: 2 },
                 helpArea: { pos: 'bottom-center', cols: 2 },
             };
@@ -47,13 +47,13 @@ function calcHorizontalFieldAreas(hasHelp?: boolean, hasLabel?: boolean, hasCoun
 
         if (hasCount) {
             return {
-                labelArea: { pos: 'top-left', rows: 3 },
+                labelArea: { pos: 'top-start', rows: 3 },
                 inputArea: { pos: 'top-center', rows: 3 },
-                countArea: { pos: 'top-right', rows: 3 },
+                countArea: { pos: 'top-end', rows: 3 },
             };
         }
         return {
-            labelArea: { pos: 'top-left', rows: 3 },
+            labelArea: { pos: 'top-start', rows: 3 },
             inputArea: { pos: 'top-center', cols: 2, rows: 3 },
         };
     }
@@ -61,24 +61,24 @@ function calcHorizontalFieldAreas(hasHelp?: boolean, hasLabel?: boolean, hasCoun
     if (hasHelp) {
         if (hasCount) {
             return {
-                inputArea: { pos: 'top-left', cols: 3 },
-                helpArea: { pos: 'bottom-left', cols: 2 },
-                countArea: { pos: 'bottom-right' },
+                inputArea: { pos: 'top-start', cols: 3 },
+                helpArea: { pos: 'bottom-start', cols: 2 },
+                countArea: { pos: 'bottom-end' },
             };
         }
         return {
-            inputArea: { pos: 'top-left', cols: 3, rows: 2 },
-            helpArea: { pos: 'bottom-left', cols: 3 }
+            inputArea: { pos: 'top-start', cols: 3, rows: 2 },
+            helpArea: { pos: 'bottom-start', cols: 3 }
         };
     }
 
     if (hasCount) {
         return {
-            inputArea: { pos: 'top-left', cols: 2, rows: 3 },
-            countArea: { pos: 'bottom-right', rows: 3 },
+            inputArea: { pos: 'top-start', cols: 2, rows: 3 },
+            countArea: { pos: 'top-end', rows: 3 },
         };
     }
-    return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
+    return { inputArea: { pos: 'top-start', cols: 3, rows: 3 } };
 }
 
 function calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean, hasCount?: boolean): TextFieldAreas {
@@ -86,51 +86,51 @@ function calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean, hasCount?
         if (hasHelp) {
             if (hasCount) {
                 return {
-                    labelArea: { pos: 'top-left', cols: 3 },
-                    inputArea: { pos: 'middle-left', cols: 3 },
-                    helpArea: { pos: 'bottom-left', cols: 2 },
-                    countArea: { pos: 'bottom-right' },
+                    labelArea: { pos: 'top-start', cols: 3 },
+                    inputArea: { pos: 'middle-start', cols: 3 },
+                    helpArea: { pos: 'bottom-start', cols: 2 },
+                    countArea: { pos: 'bottom-end' },
                 };
             }
             return {
-                labelArea: { pos: 'top-left', cols: 3 },
-                inputArea: { pos: 'middle-left', cols: 3 },
-                helpArea: { pos: 'bottom-left', cols: 3 }
+                labelArea: { pos: 'top-start', cols: 3 },
+                inputArea: { pos: 'middle-start', cols: 3 },
+                helpArea: { pos: 'bottom-start', cols: 3 }
             };
         }
 
         if (hasCount) {
             return {
-                labelArea: { pos: 'top-left', cols: 3 },
-                inputArea: { pos: 'middle-left', cols: 2, rows:2 },
-                countArea: { pos: 'middle-right', rows:2 },
+                labelArea: { pos: 'top-start', cols: 2 },
+                inputArea: { pos: 'middle-start', cols: 3, rows:2 },
+                countArea: { pos: 'top-end' },
             };
         }
         return {
-            labelArea: { pos: 'top-left', cols: 3 },
-            inputArea: { pos: 'middle-left', cols: 3, rows: 2 },
+            labelArea: { pos: 'top-start', cols: 3 },
+            inputArea: { pos: 'middle-start', cols: 3, rows: 2 },
         };
     }
 
     if (hasHelp) {
         if (hasCount) {
             return {
-                inputArea: { pos: 'top-left', cols: 3 },
-                helpArea: { pos: 'middle-left', cols: 2, rows: 2 },
-                countArea: { pos: 'middle-right', rows: 2 }
+                inputArea: { pos: 'top-start', cols: 3 },
+                helpArea: { pos: 'middle-start', cols: 2, rows: 2 },
+                countArea: { pos: 'middle-end', rows: 2 }
             };
         }
         return {
-            inputArea: { pos: 'top-left', cols: 3 },
-            helpArea: { pos: 'middle-left', cols: 3, rows: 2 }
+            inputArea: { pos: 'top-start', cols: 3 },
+            helpArea: { pos: 'middle-start', cols: 3, rows: 2 }
         };
     }
 
     if (hasCount) {
         return {
-            inputArea: { pos: 'top-left', cols: 2, rows: 3 },
-            countArea: { pos: 'top-right', rows: 3 }
+            inputArea: { pos: 'top-start', cols: 2, rows: 3 },
+            countArea: { pos: 'top-end', rows: 3 }
         };
     }
-    return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
+    return { inputArea: { pos: 'top-start', cols: 3, rows: 3 } };
 }
