@@ -50,7 +50,7 @@ export interface Props extends BaseProps {
      *
      * @reactive
      */
-    inputMode: TextProps['inputMode'];
+    inputMode?: TextProps['inputMode'];
 
     onSearch: { (text: string): Promise<Array<MenuItemItem<string>>>; };
 

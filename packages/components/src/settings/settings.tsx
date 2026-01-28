@@ -67,7 +67,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     /**
      * 重置事件
      */
-    onReset: { (): void; };
+    onReset?: { (): void; };
 }
 
 /**

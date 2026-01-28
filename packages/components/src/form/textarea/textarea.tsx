@@ -50,7 +50,7 @@ export interface Props extends FieldBaseProps, RefProps<Ref> {
      *
      * @reactive
      */
-    inputMode: TextProps['inputMode'];
+    inputMode?: TextProps['inputMode'];
 
     /**
      * 指定显示字符串统计的格式化方法

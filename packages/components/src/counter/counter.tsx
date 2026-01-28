@@ -10,9 +10,15 @@ import { useTheme } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref {
+    /**
+     * 组件的根元素
+     */
     root(): HTMLDivElement;
 
-    play(): void;
+    /**
+     * 运行计数器
+     */
+    play(): Promise<void>;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
@@ -81,18 +87,18 @@ export default function Counter(props: Props): JSX.Element {
 
     onMount(() => play());
 
-    createEffect(() => {
+    createEffect(async () => {
         void props.frequency;
         void props.value;
         void props.start;
-        play();
+        await play();
     });
 
     return <div class={joinClass(props.palette, styles.counter, props.class)} style={props.style} ref={el => {
         if (props.ref) {
             props.ref({
                 root() { return el; },
-                play() { play(); },
+                async play(): Promise<void> { await play(); },
             });
         }
     }}>{value()}</div>;
