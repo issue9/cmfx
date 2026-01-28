@@ -80,6 +80,7 @@ const messages = {
             itemLayout: 'Item layout',
             block: 'Block',
             basicFunctions: 'Basic function',
+            charCount: 'Character count',
 
             // 分类名称
 

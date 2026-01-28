@@ -95,7 +95,7 @@
 			},
 			{
 				"name": "help",
-				"summary": "提示信息\n\n\n该内容显示在 helpArea 区别，只有\n`hasHelp`\n为真时才会显示。\n\n",
+				"summary": "提示信息\n\n\n该内容显示在 helpArea 区域，只有\n`hasHelp`\n为真时才会显示。\n\n",
 				"type": "JSX.Element"
 			}
 		],

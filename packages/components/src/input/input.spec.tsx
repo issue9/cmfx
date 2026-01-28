@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Ref, Input } from './input';
+import { Input, Ref } from './input';
 
 describe('Input', async () => {
     let ref: Ref;

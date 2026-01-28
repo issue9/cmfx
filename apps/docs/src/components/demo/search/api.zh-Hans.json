@@ -34,7 +34,7 @@
 			{
 				"name": "inputMode",
 				"summary": "键盘的输入模式\n\n",
-				"type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"numeric\" | \"decimal\" | \"search\" | undefined",
+				"type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | undefined",
 				"reactive": true
 			},
 			{

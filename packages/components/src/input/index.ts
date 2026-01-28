@@ -1,8 +1,7 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export type {
-    Value as InputValue, Mode as InputMode, AutoComplete, Ref as InputRef, Props as InputProps
-} from './input';
 export { Input } from './input';
+export type { AutoComplete, Props as InputProps, Ref as InputRef } from './input';
+

@@ -13,17 +13,19 @@ export default function(props: MountProps): JSX.Element {
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
     const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
+    const [Count, count] = boolSelector('_d.demo.charCount', false);
 
     return <div>
         <Portal mount={props.mount}>
             <Readonly />
             <Disabled />
             <Layout />
+            <Count />
             <Button palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</Button>
         </Portal>
-        <TextArea hasHelp layout={layout()} palette='primary' label='primary' title='primary'
+        <TextArea count={count()} hasHelp layout={layout()} palette='primary' label='primary' title='primary'
             disabled={disabled()} readonly={readonly()} accessor={f} />
-        <TextArea hasHelp layout={layout()} palette='error' label='error' title='error'
+        <TextArea count={count()} hasHelp layout={layout()} palette='error' label='error' title='error'
             disabled={disabled()} readonly={readonly()} accessor={f} />
     </div>;
 }

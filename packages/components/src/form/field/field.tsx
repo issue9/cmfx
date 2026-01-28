@@ -16,9 +16,9 @@ export interface FieldArea {
     /**
      * 指位置
      */
-    pos: 'top-left' | 'top-center' | 'top-right'
-    | 'middle-left' | 'middle-center' | 'middle-right'
-    | 'bottom-left' | 'bottom-center' | 'bottom-right';
+    pos: 'top-start' | 'top-center' | 'top-end'
+    | 'middle-start' | 'middle-center' | 'middle-end'
+    | 'bottom-start' | 'bottom-center' | 'bottom-end';
 
     /**
      * 向后跨的列数
@@ -67,52 +67,52 @@ function calcHorizontalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldA
     if (hasLabel) {
         if (hasHelp) {
             return {
-                labelArea: { pos: 'top-left', rows: 2 }, // label 只需要与 input 横向对齐，所以 rows 应该保持与 input 一样。
+                labelArea: { pos: 'top-start', rows: 2 }, // label 只需要与 input 横向对齐，所以 rows 应该保持与 input 一样。
                 inputArea: { pos: 'top-center', cols: 2, rows: 2 },
                 helpArea: { pos: 'bottom-center', cols: 2 }
             };
         }
 
         return {
-            labelArea: { pos: 'top-left', rows: 3 },
+            labelArea: { pos: 'top-start', rows: 3 },
             inputArea: { pos: 'top-center', cols: 2, rows: 3 },
         };
     }
 
     if (hasHelp) {
         return {
-            inputArea: { pos: 'top-left', cols: 3, rows: 2 },
-            helpArea: { pos: 'bottom-left', cols: 3 }
+            inputArea: { pos: 'top-start', cols: 3, rows: 2 },
+            helpArea: { pos: 'bottom-start', cols: 3 }
         };
     }
 
-    return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
+    return { inputArea: { pos: 'top-start', cols: 3, rows: 3 } };
 }
 
 function calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
     if (hasLabel) {
         if (hasHelp) {
             return {
-                labelArea: { pos: 'top-left', cols: 3 },
-                inputArea: { pos: 'middle-left', cols: 3 },
-                helpArea: { pos: 'bottom-left', cols: 3 }
+                labelArea: { pos: 'top-start', cols: 3 },
+                inputArea: { pos: 'middle-start', cols: 3 },
+                helpArea: { pos: 'bottom-start', cols: 3 }
             };
         }
 
         return {
-            labelArea: { pos: 'top-left', cols: 3 },
-            inputArea: { pos: 'middle-left', cols: 3, rows: 2 },
+            labelArea: { pos: 'top-start', cols: 3 },
+            inputArea: { pos: 'middle-start', cols: 3, rows: 2 },
         };
     }
 
     if (hasHelp) {
         return {
-            inputArea: { pos: 'top-left', cols: 3 },
-            helpArea: { pos: 'middle-left', cols: 3, rows: 2 }
+            inputArea: { pos: 'top-start', cols: 3 },
+            helpArea: { pos: 'middle-start', cols: 3, rows: 2 }
         };
     }
 
-    return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
+    return { inputArea: { pos: 'top-start', cols: 3, rows: 3 } };
 }
 
 export type FieldProps = ParentProps<Props & RefProps<HTMLDivElement>>;
@@ -124,9 +124,9 @@ export type FieldProps = ParentProps<Props & RefProps<HTMLDivElement>>;
  * 所有的表单字段可基于此组件作二次开发，以达到样式上的统一。
  *
  * 组件内的各个子组件，需要通过 style 属性指定位置，可指定的位置如下：
- *  top-left    | top-center    | top-right
- *  middle-left | middle-center | middle-right
- *  bottom-left | bottom-center | bottom-right
+ *  top-start    | top-center    | top-end
+ *  middle-start | middle-center | middle-end
+ *  bottom-start | bottom-center | bottom-end
  */
 export default function Field(props: FieldProps): JSX.Element {
     // NOTE: 采用 grid 主要是方便对齐方式的实现。
@@ -142,13 +142,14 @@ interface HelpAreaProps {
     getError: Accessor<any>['getError'];
     help?: JSX.Element;
     area: FieldArea;
+    ref?: { (el: HTMLParagraphElement): void; };
 }
 
 /**
  * 可在 {@link Field} 中显示帮助和错误信息的子组件
  */
 export function HelpArea(props: HelpAreaProps): JSX.Element {
-    return <p style={fieldArea2Style(props.area)} role="alert"
+    return <p style={fieldArea2Style(props.area)} role="alert" ref={props.ref}
         class={joinClass(undefined, styles.help, props.getError() ? styles.error : '')}
     >
         {props.getError() ?? props.help}

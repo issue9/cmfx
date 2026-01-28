@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -9,5 +9,9 @@
 @layer components {
     .number-spin {
         @apply px-px! py-0! rounded-none;
+    }
+
+    .count {
+        @apply flex items-center justify-end pe-px;
     }
 }
