@@ -10,9 +10,9 @@ import { Button } from '@components/button';
 import { BProps } from '@components/button/button';
 import { useLocale } from '@components/context';
 import { FormContext, FormProvider, useForm } from '@components/form/field';
+import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
 import { FormAPI, Options } from './api';
-import styles from './style.module.css';
 
 export interface Props extends BaseProps, FormContext, ParentProps {
     /**
@@ -139,7 +139,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             props = mergeProps({ palette: 'error' as Palette }, props );
             return <Show when={api.getError()}>
                 {err =>
-                    <div class={joinClass(props.palette, styles.error, props.class)} style={props.style}>{err()}</div>
+                    <Alert type='error' title={err()} class={props.class} style={props.style} />
                 }
             </Show>;
         }

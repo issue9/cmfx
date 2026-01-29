@@ -10,6 +10,7 @@ import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import customIcons from '../../build/unplugin-icons';
 
 import pkg from './package.json';
 
@@ -42,11 +43,18 @@ export default defineConfig(({ mode }) => {
             alias: [
                 { find: '@cmfx/admin', replacement: path.resolve(__dirname, '../../packages/admin/src') },
                 { find: '@admin', replacement: path.resolve(__dirname, '../../packages/admin/src') }, // 解决 admin 中的 @admin 引用
+
+                { find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
+                { find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') }, // 解决 admin 中的 @admin 引用
             ],
         } : undefined,
 
         plugins: [
-            Icons({ compiler: 'solid', scale: 1 }),
+            Icons({
+                compiler: 'solid',
+                scale: 1,
+                customCollections: customIcons,
+            }),
             tailwindcss(),
             about({
                 packages: ['./package.json'],
@@ -58,7 +66,7 @@ export default defineConfig(({ mode }) => {
                     {
                         src: '../../assets/brand-static.svg',
                         dest: '../public/',
-                        transform: (content, path) => {
+                        transform: (content, _) => {
                             return content.replace(/currentColor/g, '#00a1f1');
                         }
                     },

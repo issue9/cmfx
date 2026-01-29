@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2025 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -31,7 +31,7 @@ type password struct {
 type accountTO struct {
 	XMLName  struct{} `xml:"account" json:"-" cbor:"-" yaml:"-"`
 	Username string   `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"`
-	Password string   `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"passport"`
+	Password string   `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"password"`
 }
 
 func (c *accountTO) Filter(v *web.FilterContext) {
