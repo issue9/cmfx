@@ -58,8 +58,6 @@ export interface Actions {
 
     /**
      * 显示整个表单的错误信息
-     *
-     * @param props - 组件属性，默认值为 `{ palette: 'error' as Palette }`
      */
     Message(props: BaseProps): JSX.Element;
 }
@@ -135,11 +133,13 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             return <ButtonAction form={id} {...props} type="submit" />;
         },
 
-        Message(props: BaseProps): JSX.Element {
-            props = mergeProps({ palette: 'error' as Palette }, props );
+        Message(props: BaseProps & { closable?: boolean, duration?: number }): JSX.Element {
+            props = mergeProps({ palette: 'error' as Palette }, props);
             return <Show when={api.getError()}>
                 {err =>
-                    <Alert type='error' title={err()} class={props.class} style={props.style} />
+                    <Alert closable={props.closable} duration={props.duration} type='error' title={err()}
+                        class={props.class} style={props.style} onClose={async () => api.setError()}
+                    />
                 }
             </Show>;
         }

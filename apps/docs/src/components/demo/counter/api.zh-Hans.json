@@ -64,6 +64,7 @@
 		"methods": [
 			{
 				"name": "root",
+				"summary": "组件的根元素\n\n",
 				"type": "root(): HTMLDivElement",
 				"return": {
 					"type": "HTMLDivElement"
@@ -71,9 +72,10 @@
 			},
 			{
 				"name": "play",
-				"type": "play(): void",
+				"summary": "运行计数器\n\n",
+				"type": "play(): Promise<void>",
 				"return": {
-					"type": "void"
+					"type": "Promise<void>"
 				}
 			}
 		],

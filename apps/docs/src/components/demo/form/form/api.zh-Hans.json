@@ -269,7 +269,6 @@
 				"params": [
 					{
 						"name": "props",
-						"summary": "组件属性，默认值为\n`{ palette: 'error' as Palette }`\n\n",
 						"type": "BaseProps"
 					}
 				],

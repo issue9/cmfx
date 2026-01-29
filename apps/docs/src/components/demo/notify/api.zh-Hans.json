@@ -43,22 +43,6 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"kind": "function",
-		"name": "Alert",
-		"summary": "警告框\n\n",
-		"type": "function Alert(props: AlertProps): JSX.Element",
-		"params": [
-			{
-				"name": "props",
-				"type": "AlertProps"
-			}
-		],
-		"return": {
-			"type": "JSX.Element"
-		},
-		"pkg": "@cmfx/components"
-	},
-	{
 		"kind": "interface",
 		"properties": [
 			{
@@ -88,6 +72,16 @@
 				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 				"type": "string | undefined",
 				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			},
+			{
+				"name": "onClose",
+				"summary": "在将当前组件从 DOM 中移除之前执行的操作，返回 true 将阻止后续的移除操作。\n\n",
+				"type": "(() => Promise<boolean | void>) | undefined"
 			},
 			{
 				"name": "palette",
@@ -123,6 +117,30 @@
 			}
 		],
 		"name": "AlertProps",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "组件根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "close",
+				"summary": "从 DOM 中移除当前组件\n\n",
+				"remarks": "该行为可能受到\n`onClose`\n的影响。\n\n",
+				"type": "close(): Promise<void>",
+				"return": {
+					"type": "Promise<void>"
+				}
+			}
+		],
+		"name": "AlertRef",
 		"pkg": "@cmfx/components"
 	}
 ]

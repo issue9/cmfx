@@ -10,7 +10,7 @@ import IconClose from '~icons/material-symbols/close';
 import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
 
-import { BaseProps, joinClass, Palette } from '@components/base';
+import { BaseProps, joinClass, Palette, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;
@@ -24,7 +24,22 @@ const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
     ['info', 'secondary'],
 ]);
 
-export interface Props extends BaseProps {
+export interface Ref {
+    /**
+     * 组件根元素
+     */
+    root(): HTMLDivElement;
+
+    /**
+     * 从 DOM 中移除当前组件
+     *
+     * @remarks
+     * 该行为可能受到 {@link Props#onClose} 的影响。
+     */
+    close(): Promise<void>;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 显示的图标
      *
@@ -75,6 +90,11 @@ export interface Props extends BaseProps {
      */
     closable?: boolean;
 
+    /**
+     * 在将当前组件从 DOM 中移除之前执行的操作，返回 true 将阻止后续的移除操作。
+     */
+    onClose?: () => Promise<boolean | void>;
+
     // 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，无法使用 useTheme 获取动画时长。
     transitionDuration: number;
 
@@ -93,7 +113,9 @@ export function Message(props: Props): JSX.Element {
     let rootRef: HTMLDivElement;
     let buttonRef: HTMLButtonElement;
 
-    const del = async () => {
+    const close = async () => {
+        if (props.onClose && (await props.onClose())) { return; }
+
         if (!props.transitionDuration) { return; }
 
         rootRef.style.height = '0';
@@ -110,7 +132,7 @@ export function Message(props: Props): JSX.Element {
             const timer = createTimer(timeout, -100, (t: number) => {
                 const p = (timeout - t) / timeout * 100;
                 buttonRef.style.background = `conic-gradient(var(--palette-bg-low) 0% ${p}%, var(--palette-bg-high) ${p}% 100%)`;
-                if (t <= 0) { del(); }
+                if (t <= 0) { close(); }
             });
             timer.start();
 
@@ -142,8 +164,17 @@ export function Message(props: Props): JSX.Element {
     onMount(() => { ob.observe(labelRef); });
     onCleanup(() => ob.disconnect());
 
-    return <div ref={el => rootRef = el} class={cls()} style={props.style}
+    return <div class={cls()} style={props.style}
         role="alert" aria-labelledby={titleID} aria-describedby={props.body ? contentID : undefined}
+        ref={el => {
+            rootRef = el;
+            if (props.ref) {
+                props.ref({
+                    root() { return el; },
+                    async close() { await close(); },
+                });
+            }
+        }}
     >
         <Show when={props.icon !== false}>
             <div class={styles.left} aria-hidden="true" ref={el => leftRef = el}>
@@ -162,7 +193,7 @@ export function Message(props: Props): JSX.Element {
                 <p id={titleID}>{props.title}</p>
                 <Show when={props.closable}>
                     <button class={styles['close-wrap']} ref={el => buttonRef = el} aria-label={props.closeAriaLabel}>
-                        <IconClose onClick={del} class={styles.close} />
+                        <IconClose onClick={close} class={styles.close} />
                     </button>
                 </Show>
             </div>

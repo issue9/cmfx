@@ -6,9 +6,11 @@ import { JSX } from 'solid-js';
 
 import { useLocale } from '@components/context';
 import { useTheme } from '@components/context/theme';
-import { Message, Props as MessageProps } from './message';
+import { Message, Props as MessageProps, Ref as MessageRef } from './message';
 
 export type Props = Omit<MessageProps, 'transitionDuration' | 'closeAriaLabel'>;
+
+export type Ref = MessageRef;
 
 /**
  * 警告框

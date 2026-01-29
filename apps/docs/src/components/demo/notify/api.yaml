@@ -8,6 +8,5 @@
         types:
             - notify
             - NotifyType
-
-            - Alert
             - AlertProps
+            - AlertRef

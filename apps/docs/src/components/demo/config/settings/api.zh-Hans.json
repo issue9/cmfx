@@ -6,7 +6,7 @@
 			{
 				"name": "onReset",
 				"summary": "重置事件\n\n",
-				"type": "() => void"
+				"type": "(() => void) | undefined"
 			},
 			{
 				"name": "palette",
