@@ -13,7 +13,7 @@ import {
 
 import { buildItems } from '@admin/app/options';
 import { useAdmin } from './admin';
-import { ErrorHandler } from './errors';
+import { errorHandler } from './errors';
 import { useOptions } from './options';
 import styles from './style.module.css';
 
@@ -129,7 +129,7 @@ function Horizontal(props: ParentProps): JSX.Element {
     return <Drawer class={joinClass(undefined, styles.app, styles.horizontal, layout.float()[0]() ? styles.float : undefined)}
         floating={opt.floatingMinWidth} ref={setDrawerRef} style={style()}
         asideClass={joinClass(bgPalette, styles.aside)} mainClass={joinClass('surface', styles.main)} main={
-            <ErrorBoundary fallback={ErrorHandler}>
+            <ErrorBoundary fallback={errorHandler}>
                 <div class='contents'>
                     <Appbar ref={el => toolbar = el} class={styles.toolbar} palette={bgPalette} actions={
                         <>
@@ -185,7 +185,7 @@ function Vertical(props: ParentProps): JSX.Element {
             <Drawer floating={opt.floatingMinWidth} ref={setDrawerRef}
                 asideClass={joinClass(bgPalette, styles.aside)}
                 mainClass={joinClass('surface')} main={
-                    <ErrorBoundary fallback={ErrorHandler}>{props.children}</ErrorBoundary>
+                    <ErrorBoundary fallback={errorHandler}>{props.children}</ErrorBoundary>
                 }>
                 <Menu ref={el => menuRef = el} layout='inline' items={buildItems(l, opt.menus)} />
             </Drawer>

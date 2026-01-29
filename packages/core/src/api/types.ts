@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,7 +7,7 @@ export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 /**
  * 接口错误返回的对象
  *
- * @typeParam E - 表示 extension 字段的类型，如果该字段空值，不需要指定。
+ * @typeParam E - 表示 {@link extension} 字段的类型，如果该字段空值，不需要指定。
  */
 export interface Problem<E = never> {
     type: string;
@@ -20,7 +20,7 @@ export interface Problem<E = never> {
     /**
      * 具体的错误字段
      *
-     * 根据 status 的不同，可能表示提交对象、查询参数或是报头的错误。
+     * 根据 {@link status} 的不同，可能表示提交对象、查询参数或是报头的错误。
      */
     params?: Params;
 }
@@ -49,7 +49,7 @@ export type Params<K extends string = string> = Array<{
  * 接口返回的对象
  *
  * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果为空表示 never；
- * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，表示为 never。
+ * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，表示为 never；
  */
 export type Return<R = never, PE = never> = {
     /**

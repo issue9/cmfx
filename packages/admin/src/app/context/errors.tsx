@@ -3,10 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Result, useLocale } from '@cmfx/components';
-import { API } from '@cmfx/core';
 import * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
-import { createMemo, JSX } from 'solid-js';
+import { createMemo, createSignal, JSX } from 'solid-js';
 
 import { useOptions } from './options';
 import styles from './style.module.css';
@@ -17,17 +16,21 @@ import styles from './style.module.css';
 export class HTTPError extends Error {
     #status: number;
     #title: string;
+    #headers?: Headers;
 
     /**
      * 构造函数
+     *
      * @param status - 状态码；
      * @param title - 简要的错误说明；
+     * @param headers - HTTP 响应头；
      * @param message - 详细的错误说明；
      */
-    constructor(status: number, title: string, message?: string) {
+    constructor(status: number, title: string, headers?: Headers, message?: string) {
         super(message);
         this.#status = status;
         this.#title = title;
+        this.#headers = headers;
         this.name = 'HTTPError';
     }
 
@@ -40,6 +43,8 @@ export class HTTPError extends Error {
      * 表示简要的错误说明
      */
     get title(): string { return this.#title; }
+
+    get headers(): Headers | undefined { return this.#headers; }
 }
 
 /**
@@ -67,7 +72,9 @@ export function NotFound(): JSX.Element {
  * 尽可能地抛出 {@link HTTPError} 对象，可以显示更明确的错误页面。
  * 这是 {@link ErrorBoundary} 的 fallback 类型。
  */
-export function ErrorHandler(props: { err: any, reset: () => void }): JSX.Element {
+export function errorHandler(err: any, reset: () => void): JSX.Element {
+    // NOTE: HTTPError 错误，需要重新刷新整个页面才有效果，而其它错误，可能仅仅是 UI 问题，使用 reset 就可以了。
+
     const opt = useOptions();
     const nav = useNavigate();
     const l = useLocale();
@@ -78,25 +85,22 @@ export function ErrorHandler(props: { err: any, reset: () => void }): JSX.Elemen
             <div class={styles['error-actions']}>
                 <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
                 <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
-                <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
+                <Button palette='primary' onclick={reset}>{l.t('_c.reset')}</Button>
             </div>
         </Result>;
     };
 
-    const err = props.err;
     if (err instanceof HTTPError) {
-        console.error(err.message, err.stack);
+        console.error(err.name, err.message);
 
         let text: string;
         switch (err.status) {
-        case API.ErrorCode:
-            return unknown(err.title, err.message);
         case 400:
             text = l.t('_p.error.badRequest');
             return <Result palette='error' title={text} illustration={<illustrations.Error400 text={text} />}>
                 <div class={styles['error-actions']}>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
-                    <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
+                    <RetryButton retry={err.headers?.get('Retry-After')} />
                 </div>
             </Result>;
         case 401:
@@ -109,16 +113,18 @@ export function ErrorHandler(props: { err: any, reset: () => void }): JSX.Elemen
             return <Result palette='error' title={text} illustration={<illustrations.Error401 text={text} />}>
                 <div class={styles['error-actions']}>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
-                    <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
+                    <RetryButton retry={err.headers?.get('Retry-After')} />
                 </div>
             </Result>;
         case 403:
             text = l.t('_p.error.forbidden');
             return <Result palette='error' title={text} illustration={<illustrations.Error403 text={text} />}>
                 <div class={styles['error-actions']}>
-                    <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
+                    <Button palette='primary' type='a' href={opt.routes.private.home}>
+                        {l.t('_p.error.backHome')}
+                    </Button>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
-                    <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
+                    <RetryButton retry={err.headers?.get('Retry-After')} />
                 </div>
             </Result>;
         case 404:
@@ -128,44 +134,77 @@ export function ErrorHandler(props: { err: any, reset: () => void }): JSX.Elemen
             return <Result palette='error' title={text} illustration={<illustrations.Error429 text={text} />}>
                 <div class={styles['error-actions']}>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
-                    <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
+                    <RetryButton retry={err.headers?.get('Retry-After')} />
                 </div>
             </Result>;
         case 500:
             text = l.t('_p.error.internalServerError');
             return <Result palette='error' title={text} illustration={<illustrations.Error500 text={text} />}>
                 <div class={styles['error-actions']}>
-                    <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
+                    <Button palette='primary' type='a' href={opt.routes.private.home}>
+                        {l.t('_p.error.backHome')}
+                    </Button>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
-                    <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
+                    <RetryButton retry={err.headers?.get('Retry-After')} />
                 </div>
             </Result>;
         case 503:
             text = l.t('_p.error.serverUnavailable');
             return <Result palette='error' title={text} illustration={<illustrations.Error503 text={text} />}>
                 <div class={styles['error-actions']}>
-                    <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
+                    <Button palette='primary' type='a' href={opt.routes.private.home}>
+                        {l.t('_p.error.backHome')}
+                    </Button>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                     <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
+                    <RetryButton retry={err.headers?.get('Retry-After')} />
                 </div>
             </Result>;
         case 504:
             text = l.t('_p.error.gatewayTimeout');
             return <Result palette='error' title={text} illustration={<illustrations.Error504 text={text} />}>
                 <div class={styles['error-actions']}>
-                    <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
+                    <Button palette='primary' type='a' href={opt.routes.private.home}>
+                        {l.t('_p.error.backHome')}
+                    </Button>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
-                    <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
+                    <RetryButton retry={err.headers?.get('Retry-After')} />
                 </div>
             </Result>;
         default:
             return unknown(l.t('_p.error.unknownError'));
         }
     } else if (err instanceof Error) { // TODO: 改为 Error.isError https://caniuse.com/?search=isError
-        console.error(err.message, err.stack);
+        console.error(err.name, err.message);
         return unknown(err.name, err.message);
     }
 
     console.error(err);
-    return unknown(l.t('_p.error.unknownError'));
+    return unknown(l.t('_p.error.unknownError'), err.toString());
+}
+
+/**
+ * 根据 Retry-After 头部信息显示重试按钮
+ */
+function RetryButton(props: { retry?: string | null }): JSX.Element {
+    const l = useLocale();
+
+    if (!props.retry) {
+        return <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>;
+    }
+
+    const retryN = Number(props.retry);
+    const retry = !isNaN(retryN) ? retryN / 1000 : (new Date(props.retry).getTime() - Date.now()) / 1000;
+
+    const [time, setTime] = createSignal(retry);
+    const timer = setInterval(() => {
+        setTime(time() - 1);
+        if (time() <= 0) { clearInterval(timer); }
+    }, 1000);
+
+    return (
+        <Button palette='primary' onclick={() => window.location.reload()} disabled={time() <= 0}>
+            {l.t('_c.refresh')} ({time()})
+        </Button>
+    );
 }

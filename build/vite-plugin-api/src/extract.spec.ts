@@ -37,14 +37,6 @@ describe('Extractor', { timeout: 20000 }, () => {
             expect(baseURL.remarks).toBeUndefined();
             expect(baseURL.static).toBeFalsy();
 
-            const errcode = props.find(p => p.name === 'ErrorCode')!;
-            expect(errcode.name).toEqual('ErrorCode');
-            expect(errcode.type).toEqual('418');
-            expect(errcode.def).toEqual('418');
-            expect(errcode.summary?.trim()).toEqual('当前客户端发生的一些非预料错误时的错误代码');
-            expect(errcode.remarks).toBeDefined();
-            expect(errcode.static).toBe(true);
-
             //-------------------- method
 
             const methods = cls.methods;

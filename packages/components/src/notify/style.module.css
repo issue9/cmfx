@@ -18,14 +18,14 @@
         @apply transition-[height];
 
         .left {
-            @apply text-3xl flex justify-center items-center;
+            @apply text-2xl flex justify-center items-center;
         }
 
         .right {
             @apply flex flex-col items-start gap-1 flex-1;
 
             .label {
-                @apply flex justify-between items-center text-xl w-full;
+                @apply flex justify-between items-center w-full;
 
                 /* 比 close 大一圈，用以显示进度 */
                 .close-wrap {

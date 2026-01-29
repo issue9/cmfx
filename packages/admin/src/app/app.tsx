@@ -8,7 +8,7 @@ import { Navigate, RouteDefinition, Router } from '@solidjs/router';
 import { ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 
 import {
-    AdminProvider, APIProvider, AppLayout, ErrorHandler, NotFound, OptionsProvider, useAdmin, useOptions
+    AdminProvider, APIProvider, AppLayout, errorHandler, NotFound, OptionsProvider, useAdmin, useOptions
 } from './context';
 import { build as buildOptions, Options, presetConfigName } from './options';
 
@@ -69,7 +69,7 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
     const root = (p: ParentProps) => {
         return <OptionsProvider {...opt}>
             <APIProvider api={api}>
-                <ErrorBoundary fallback={ErrorHandler}>
+                <ErrorBoundary fallback={errorHandler}>
                     <AdminProvider>{p.children}</AdminProvider>
                 </ErrorBoundary>
             </APIProvider>

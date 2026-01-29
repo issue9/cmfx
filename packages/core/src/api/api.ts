@@ -104,18 +104,10 @@ export interface REST {
  * 封装了访问后端接口的基本功能
  */
 export class API implements REST {
-    /**
-     * 当前客户端发生的一些非预料错误时的错误代码
-     *
-     * @remarks 表示客户端本身的错误，比如浏览器因版本问题导致其 fetch 的异常等。
-     *  采用了 418 这个正常情况下很少被用的 HTTP 代码表示。
-     */
-    static readonly ErrorCode = 418;
-
     // NOTE: API 可能存在多个不同配置的实例，在添加静态属性时要注意。
 
     /**
-     * 构建一个用于访问 API 的对象
+     * 构建一个 API 的对象
      *
      * @param id - 保存令牌时的名称，在多实例中，通完此值判定不同的令牌；
      * @param s - 保存令牌的对象；
@@ -235,9 +227,9 @@ export class API implements REST {
             },
 
             async upload<R = never, PE = never>(
-                path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true, headers?: Headers
+                path: string, obj: FormData, m: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true, h?: Headers
             ): Promise<Return<R, PE>> {
-                return await self.upload<R, PE>(path, obj, method, withToken, build(headers));
+                return await self.upload<R, PE>(path, obj, m, withToken, build(h));
             }
         };
     }
@@ -492,54 +484,35 @@ export class API implements REST {
         const isGET = req.method === 'GET';
         const fullPath = req.url;
 
-        try {
-            let resp: Response | undefined;
-            if (isGET && this.#cachePaths.has(fullPath)) {
-                resp = await this.#cache.match(req);
-            }
-            const isMatched = !!resp; // 是否是从缓存中匹配到的数据
-            if (!resp) {
-                resp = await fetch(req);
-            }
-
-            // 200-299
-
-            if (resp.ok) {
-                if (isGET) {
-                    if (!isMatched && this.#cachePaths.has(fullPath)) {
-                        await this.#cache.put(req, resp.clone());
-                    }
-                } else if (req.method !== 'OPTIONS' && req.method !== 'HEAD') { // 非 GET 请求，则清除缓存。
-                    const key = this.#needUncache(fullPath);
-                    if (key) {
-                        await this.#cache.delete(key);
-                    }
-                }
-
-                return { headers: resp.headers, status: resp.status, ok: true, body: await this.parse<R>(resp) };
-            }
-
-            // 400-599
-
-            if (resp.status === 401) {
-                this.#token = undefined;
-                delToken(this.#id, this.#storage);
-            }
-            return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
-        } catch (e) { // 此处捕获的是客户端代码本身的错误
-            const td = e instanceof Error // TODO: 采用 Error.isError https://caniuse.com/?search=isError
-                ? { title: e.name, detail: e.message }
-                : { title: String(e), detail: String(e) };
-            return {
-                status: API.ErrorCode,
-                ok: false,
-                body: {
-                    type: API.ErrorCode.toString(),
-                    status: API.ErrorCode,
-                    ...td
-                }
-            };
+        let resp: Response | undefined;
+        if (isGET && this.#cachePaths.has(fullPath)) {
+            resp = await this.#cache.match(req);
         }
+        const isMatched = !!resp; // 是否是从缓存中匹配到的数据
+        if (!resp) { resp = await fetch(req); }
+
+        // 200-299
+
+        if (resp.ok) {
+            if (isGET) {
+                if (!isMatched && this.#cachePaths.has(fullPath)) {
+                    await this.#cache.put(req, resp.clone());
+                }
+            } else if (req.method !== 'OPTIONS' && req.method !== 'HEAD') { // 非 GET 请求，则清除缓存。
+                const key = this.#needUncache(fullPath);
+                if (key) { await this.#cache.delete(key); }
+            }
+
+            return { headers: resp.headers, status: resp.status, ok: true, body: await this.parse<R>(resp) };
+        }
+
+        // 400-599
+
+        if (resp.status === 401) {
+            this.#token = undefined;
+            delToken(this.#id, this.#storage);
+        }
+        return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
     }
 
     #needUncache(path: string): string | undefined {

@@ -43,6 +43,9 @@ export default defineConfig(({ mode }) => {
 
         resolve: mode === 'development' ? {
             alias: [
+                { find: '@cmfx/core', replacement: path.resolve(__dirname, '../../packages/core/src') },
+                { find: '@core', replacement: path.resolve(__dirname, '../../packages/core/src') },
+
                 { find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
                 { find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') },
 

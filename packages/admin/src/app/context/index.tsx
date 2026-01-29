@@ -9,6 +9,6 @@ export { OptionsProvider, useOptions } from './options';
 
 export { APIProvider, useAPI, useREST } from './rest';
 
-export { ErrorHandler, HTTPError, NotFound } from './errors';
+export { errorHandler, HTTPError, NotFound } from './errors';
 
 export { AppLayout, useLayout } from './layout';

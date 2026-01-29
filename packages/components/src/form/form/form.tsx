@@ -32,6 +32,22 @@ const preset: Props = {
     hasHelp: true,
 } as const;
 
+interface MessageProps extends BaseProps {
+    /**
+     * 是否显示关闭按钮
+     *
+     * @reactive
+     */
+    closable?: boolean;
+
+    /**
+     * 非空值表示组件展示的时长
+     *
+     * @reactive
+     */
+    duration?: number;
+}
+
 export interface Actions {
     /**
      * 普通的按钮，但是可以跟随 {@link FormContext#rounded} 属性变化
@@ -59,7 +75,7 @@ export interface Actions {
     /**
      * 显示整个表单的错误信息
      */
-    Message(props: BaseProps): JSX.Element;
+    Message(props: MessageProps): JSX.Element;
 }
 
 function ButtonAction (props: BProps): JSX.Element {
@@ -133,7 +149,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             return <ButtonAction form={id} {...props} type="submit" />;
         },
 
-        Message(props: BaseProps & { closable?: boolean, duration?: number }): JSX.Element {
+        Message(props: MessageProps): JSX.Element {
             props = mergeProps({ palette: 'error' as Palette }, props);
             return <Show when={api.getError()}>
                 {err =>
