@@ -3,49 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Result, useLocale } from '@cmfx/components';
+import { APIError } from '@cmfx/core';
 import * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, JSX } from 'solid-js';
 
 import { useOptions } from './options';
 import styles from './style.module.css';
-
-/**
- * 一个包含 HTTP 状态码的错误
- */
-export class HTTPError extends Error {
-    #status: number;
-    #title: string;
-    #headers?: Headers;
-
-    /**
-     * 构造函数
-     *
-     * @param status - 状态码；
-     * @param title - 简要的错误说明；
-     * @param headers - HTTP 响应头；
-     * @param message - 详细的错误说明；
-     */
-    constructor(status: number, title: string, headers?: Headers, message?: string) {
-        super(message);
-        this.#status = status;
-        this.#title = title;
-        this.#headers = headers;
-        this.name = 'HTTPError';
-    }
-
-    /**
-     * 表示 HTTP 状态码
-     */
-    get status(): number { return this.#status; }
-
-    /**
-     * 表示简要的错误说明
-     */
-    get title(): string { return this.#title; }
-
-    get headers(): Headers | undefined { return this.#headers; }
-}
 
 /**
  * 404 错误
@@ -69,11 +33,11 @@ export function NotFound(): JSX.Element {
  * 错误处理方法
  *
  * @remarks
- * 尽可能地抛出 {@link HTTPError} 对象，可以显示更明确的错误页面。
+ * 尽可能地抛出 {@link APIError} 对象，可以显示更明确的错误页面。
  * 这是 {@link ErrorBoundary} 的 fallback 类型。
  */
 export function errorHandler(err: any, reset: () => void): JSX.Element {
-    // NOTE: HTTPError 错误，需要重新刷新整个页面才有效果，而其它错误，可能仅仅是 UI 问题，使用 reset 就可以了。
+    // NOTE: APIError 错误，需要重新刷新整个页面才有效果，而其它错误，可能仅仅是 UI 问题，使用 reset 就可以了。
 
     const opt = useOptions();
     const nav = useNavigate();
@@ -90,7 +54,7 @@ export function errorHandler(err: any, reset: () => void): JSX.Element {
         </Result>;
     };
 
-    if (err instanceof HTTPError) {
+    if (err instanceof APIError) {
         console.error(err.name, err.message);
 
         let text: string;

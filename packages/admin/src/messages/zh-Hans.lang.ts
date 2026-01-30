@@ -67,7 +67,6 @@ const messages: typeof m = {
             username: '账号',
             password: '密码',
             loggingOut: '正在退出...',
-            invalidAccount: '无效的账号',
 
             securitylog: '安全日志',
             content: '内容',
@@ -87,7 +86,6 @@ const messages: typeof m = {
             bindWebauthn: '绑定证书',
             unbindWebauthn: '解绑证书',
             unbindAllWebauthn: '解绑所有证书',
-            invalidCode: '无效的验证码',
             webauthnCredentials: 'webauthn 证书管理',
             lastUsed: '最后使用时间',
             passwordsMustBeDifferent: '新旧密码不能相同',

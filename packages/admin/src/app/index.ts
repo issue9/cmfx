@@ -6,7 +6,7 @@ export { create } from './app';
 
 export { handleProblem } from './utils';
 
-export { adminSchema, HTTPError, useAdmin, useAPI, useLayout, useOptions, useREST } from './context';
+export { adminSchema, useAdmin, useAPI, useLayout, useOptions, useREST } from './context';
 export type { Admin } from './context';
 
 export type { Options } from './options';

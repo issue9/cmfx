@@ -19,10 +19,10 @@
             - zodValidator,source
             - Validator,source
             - ValidResult,source
+            - APIError,source
 
 - pkg: "@cmfx/admin"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
             - handleProblem,source
-            - HTTPError,source

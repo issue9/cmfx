@@ -485,6 +485,9 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.0.18(@types/node@25.1.0)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(yaml@2.8.2)
+      vitest-fetch-mock:
+        specifier: 'catalog:'
+        version: 0.4.5(vitest@4.0.18(@types/node@25.1.0)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(yaml@2.8.2))
 
   packages/core:
     dependencies:

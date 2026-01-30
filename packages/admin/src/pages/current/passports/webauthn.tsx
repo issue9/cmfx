@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, ConfirmButton, Dialog, DialogRef, fieldAccessor,
+    Button, ConfirmButton, createForm, Dialog, DialogRef, fieldAccessor,
     Label, RemoteTable, RemoteTableRef, TextField, useLocale
 } from '@cmfx/components';
-import { Token } from '@cmfx/core';
-import { base64urlnopad } from '@scure/base';
+import { Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, Show } from 'solid-js';
+import { z } from 'zod';
 import IconAddLink from '~icons/material-symbols/add-link';
 import IconClose from '~icons/material-symbols/close';
 import IconCredit from '~icons/material-symbols/credit-card-gear';
@@ -17,11 +17,11 @@ import IconDelete from '~icons/material-symbols/delete';
 import IconLinkOff from '~icons/material-symbols/link-off';
 import IconPerson from '~icons/material-symbols/person';
 
-import { handleProblem, useOptions, useREST } from '@admin/app';
+import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
+import { usernameSchema } from '@admin/schemas';
+import { decodeBase64, encodeBase64 } from './base';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
-
-const textDecoder = new TextDecoder('utf-8');
 
 type Credential = {
     id: string;
@@ -44,73 +44,79 @@ export class Webauthn implements PassportComponents {
 
     Login(): JSX.Element {
         const api = useREST();
-        const opt = useOptions();
         const l = useLocale();
-        const nav = useNavigate();
+        const usr = useAdmin();
         const account = fieldAccessor('account', '');
+        const opt = useOptions();
+        const nav = useNavigate();
 
-        return <form class={styles.webauthn} onReset={() => account.reset()} onSubmit={async () => {
-            const r1 = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${account.getValue()}`);
-            if (!r1.ok) {
-                if (r1.status === 401) {
-                    account.setError(l.t('_p.current.invalidAccount'));
+        const accountSchema = z.object({
+            account: usernameSchema.clone(),
+        });
+
+        const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+            initValue: { account: '' },
+            validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
+            validOnChange: true,
+            submit: async obj => {
+                const cro = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${obj}`);
+                if (!cro.ok) { return cro; }
+
+                const publicKey = cro.body!.publicKey!; // 判断非空也是抛出异常，不如直接非空断言
+                publicKey.challenge = decodeBase64(publicKey.challenge);
+                if (publicKey.allowCredentials) {
+                    publicKey.allowCredentials = publicKey.allowCredentials.map(c => ({
+                        ...c,
+                        id: decodeBase64(c.id),
+                    }));
+                }
+                const credential = await navigator.credentials.get({ publicKey }) as PublicKeyCredential;
+                const resp = credential.response as AuthenticatorAssertionResponse;
+
+                const pc = {
+                    id: credential.id,
+                    rawId: encodeBase64(credential.rawId),
+                    type: credential.type,
+                    response: {
+                        authenticatorData: encodeBase64(resp.authenticatorData),
+                        clientDataJSON: encodeBase64(resp.clientDataJSON),
+                        signature: encodeBase64(resp.signature),
+                        userHandle: resp.userHandle ? encodeBase64(resp.userHandle) : null
+                    }
+                };
+                const token = await api.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
+                if (!token.ok) {
+                    return token;
+                }
+
+                await usr.login(token);
+                return token;
+            },
+            onProblem: async p => {
+                if (p.status === 401) {
+                    fapi.setError(p.title);
                     return;
                 }
-                await handleProblem(r1.body);
-                return;
-            }
 
-            const pubKey = r1.body!.publicKey!;
-            pubKey.challenge = new Uint8Array(base64urlnopad.decode(textDecoder.decode(pubKey.challenge)));
-            if (pubKey.allowCredentials) {
-                pubKey.allowCredentials = pubKey.allowCredentials.map(c => ({
-                    ...c,
-                    id: base64urlnopad.decode(textDecoder.decode(c.id)),
-                })) as any;
-            }
-            const credential = await navigator.credentials.get({ publicKey: pubKey }) as any;
+                await handleProblem(p);
+            },
+            onSuccess: async () => nav(opt.routes.private.home),
+        });
 
-            const pc = {
-                id: credential.id,
-                rawId: bufferToBase64URL(credential.rawId),
-                type: credential.type,
-                response: {
-                    authenticatorData: bufferToBase64URL(credential.response.authenticatorData),
-                    clientDataJSON: bufferToBase64URL(credential.response.clientDataJSON),
-                    signature: bufferToBase64URL(credential.response.signature),
-                    userHandle: credential.response.userHandle ? bufferToBase64URL(credential.response.userHandle) : null
-                }
-            };
-            const r2 = await api.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
-            if (!r2.ok) {
-                if (r1.status === 401) {
-                    account.setError(l.t('_p.current.invalidAccount'));
-                    return;
-                }
-                await handleProblem(r2.body);
-                return;
-            }
-
-            const ret = await api.api().login(r2);
-            if (ret === true) {
-                nav(opt.routes.private.home);
-            } else if (ret) {
-                await handleProblem(ret);
-            }
-        }}>
+        return <Form class={styles.webauthn}>
             <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
                 suffix={
                     <Show when={account.getValue()!==''}>
                         <IconClose class={styles['text-field']} onClick={()=>account.setValue('')} />
                     </Show>
                 }
-                placeholder={l.t('_p.current.username')} accessor={account} />
-
-            <Button palette='primary' disabled={account.getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
-        </form>;
+                placeholder={l.t('_p.current.username')} accessor={account}
+            />
+            <actions.Submit palette='secondary' disabled={account.getValue() == ''}>{l.t('_c.ok')}</actions.Submit>
+        </Form>;
     }
 
-    Actions(f: RefreshFunc): JSX.Element {
+    Actions(refresh: RefreshFunc): JSX.Element {
         const l = useLocale();
         const api = useREST();
         let dialogRef: DialogRef;
@@ -125,7 +131,8 @@ export class Webauthn implements PassportComponents {
                 <Label icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label>
             }>
                 <div class="overflow-auto">
-                    <RemoteTable<Credential, {}> rest={api} ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
+                    <RemoteTable<Credential, {}> rest={api} ref={el => tableRef = el} queries={{}}
+                        path={`/passports/${this.#id}/credentials`}
                         columns={[
                             { id: 'id', label: l.t('_p.id') },
                             { id: 'ua', label: l.t('_p.current.ua') },
@@ -144,7 +151,7 @@ export class Webauthn implements PassportComponents {
                                             }
 
                                             tableRef.refresh();
-                                            await f();
+                                            await refresh();
                                         }}
                                     ><IconDelete /></ConfirmButton>
                                 )
@@ -152,37 +159,37 @@ export class Webauthn implements PassportComponents {
                         ]}
                         toolbar={<div class="flex gap-2">
                             <Button palette='primary' rounded onclick={async () => {
-                                const r1 = await api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
-                                if (!r1.ok) {
-                                    await handleProblem(r1.body);
+                                const cco = await api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
+                                if (!cco.ok) {
+                                    await handleProblem(cco.body);
                                     return;
                                 }
 
-                                const pubKey = r1.body!.publicKey!;
-                                pubKey.challenge = new Uint8Array(base64urlnopad.decode(textDecoder.decode(pubKey.challenge)));
-                                if (pubKey.user && pubKey.user.id) {
-                                    pubKey.user.id = new Uint8Array(base64urlnopad.decode(pubKey.user.id as any));
+                                const publicKey = cco.body!.publicKey!; // 判断非空也是抛出异常，不如直接非空断言
+                                publicKey.challenge = decodeBase64(publicKey.challenge);
+                                if (publicKey.user && publicKey.user.id) {
+                                    publicKey.user.id = decodeBase64(publicKey.user.id);
                                 }
-                                const credential = await navigator.credentials.create({ publicKey: pubKey }) as any;
-
+                                const credential = await navigator.credentials.create({ publicKey }) as PublicKeyCredential;
+                                const resp = credential.response as AuthenticatorAttestationResponse;
                                 const pc = {
                                     id: credential.id,
-                                    rawId: bufferToBase64URL(credential.rawId),
+                                    rawId: encodeBase64(credential.rawId),
                                     type: credential.type,
                                     response: {
-                                        attestationObject: bufferToBase64URL(credential.response.attestationObject),
-                                        clientDataJSON: bufferToBase64URL(credential.response.clientDataJSON),
+                                        attestationObject: encodeBase64(resp.attestationObject),
+                                        clientDataJSON: encodeBase64(resp.clientDataJSON),
                                     }
                                 };
 
-                                const r2 = await api.post(`/passports/${this.#id}/register`, pc);
-                                if (!r2.ok) {
-                                    await handleProblem(r2.body);
+                                const reg = await api.post(`/passports/${this.#id}/register`, pc);
+                                if (!reg.ok) {
+                                    await handleProblem(reg.body);
                                     return;
                                 }
 
                                 tableRef.refresh();
-                                await f();
+                                await refresh();
                             }}><IconAddLink />&#160;{l.t('_p.current.bindWebauthn')}</Button>
 
                             <ConfirmButton palette='secondary' rounded onclick={async () => {
@@ -191,7 +198,7 @@ export class Webauthn implements PassportComponents {
                                     await handleProblem(r1.body);
                                     return;
                                 }
-                                await f();
+                                await refresh();
                             }}><IconLinkOff />&#160;{l.t('_p.current.unbindAllWebauthn')}</ConfirmButton>
                         </div>}
                     />
@@ -199,8 +206,4 @@ export class Webauthn implements PassportComponents {
             </Dialog>
         </>;
     }
-}
-
-function bufferToBase64URL(b: ArrayBuffer): string {
-    return base64urlnopad.encode(new Uint8Array(b));
 }

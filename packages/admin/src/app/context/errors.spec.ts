@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { APIError } from '@cmfx/core';
 import { expect, test } from 'vitest';
 
-import { HTTPError } from './errors';
+test('APIError', () => {
+    const e = new APIError(500, 'title', new Headers({'Retry-After': '10'}), 'msg');
 
-test('HTTPError', () => {
-    const e = new HTTPError(500, 'title', new Headers({'Retry-After': '10'}), 'msg');
-
-    expect(e).toBeInstanceOf(HTTPError);
+    expect(e).toBeInstanceOf(APIError);
     expect(e).toBeInstanceOf(Error);
     //expect(Error.isError(e)).toBeTruthy();
     expect(e.status).toEqual(500);

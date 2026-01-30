@@ -67,11 +67,8 @@ function LoginBox(props: Props): JSX.Element {
     });
 
     return <Page backtop={false} title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
-        <Appbar class={styles.toolbar} title={opt.title} logo={opt.logo} actionsClass={styles.actions} actions={
-            <>
-                <Actions />
-            </>
-        }
+        <Appbar class={styles.toolbar} title={opt.title} logo={opt.logo} actionsClass={styles.actions}
+            actions={<Actions />}
         />
 
         <ErrorBoundary fallback={errorHandler}>

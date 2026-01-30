@@ -1,8 +1,12 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { vi } from 'vitest';
+import createFetchMock from 'vitest-fetch-mock';
+
+const fetchMocker = createFetchMock(vi);
+fetchMocker.enableMocks();
 
 // https://github.com/jsdom/jsdom/issues/3368
 window.ResizeObserver = window.ResizeObserver || class ResizeObserver {

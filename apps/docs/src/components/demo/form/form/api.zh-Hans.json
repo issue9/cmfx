@@ -265,11 +265,11 @@
 			{
 				"name": "Message",
 				"summary": "显示整个表单的错误信息\n\n",
-				"type": "Message(props: BaseProps): JSX.Element",
+				"type": "Message(props: MessageProps): JSX.Element",
 				"params": [
 					{
 						"name": "props",
-						"type": "BaseProps"
+						"type": "MessageProps"
 					}
 				],
 				"return": {

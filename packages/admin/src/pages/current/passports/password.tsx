@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, createForm, Dialog, DialogRef, Password, TextField, useLocale } from '@cmfx/components';
-import { zodValidator } from '@cmfx/core';
+import { Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import { z } from 'zod';
@@ -43,14 +43,14 @@ export class Pwd implements PassportComponents {
         const api = useREST();
         const opt = useOptions();
         const usr = useAdmin();
-
         const nav = useNavigate();
-        const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>>({
+
+        const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>, Token>({
             initValue: {username: '', password: ''},
             validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
             validOnChange: true,
             submit: async obj => {
-                const ret = await api.post(`/passports/${this.#id}/login`, obj);
+                const ret = await api.post<Token>(`/passports/${this.#id}/login`, obj);
                 await usr.login(ret);
                 return ret;
             },
@@ -66,7 +66,7 @@ export class Pwd implements PassportComponents {
         });
 
         return <Form class={styles.password}>
-            <actions.Message />
+            <actions.Message closable />
 
             <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
                 placeholder={l.t('_p.current.username')} accessor={fapi.accessor<string>('username')} />
@@ -115,11 +115,10 @@ export class Pwd implements PassportComponents {
                 dialogRef.root().showModal();
             }}><IconPasskey /></Button>
 
-            <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}>
-                <Form class={styles['action-form']}>
+            <Dialog movable ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}>
+                <Form class={styles['action-form']} inDialog>
                     <TextField placeholder={l.t('_p.current.oldPassword')} accessor={fapi.accessor<string>('old')} />
                     <TextField placeholder={l.t('_p.current.newPassword')} accessor={fapi.accessor<string>('new')} />
-
                     <actions.Submit class="ms-auto">{ l.t('_c.ok') }</actions.Submit>
                 </Form>
             </Dialog>

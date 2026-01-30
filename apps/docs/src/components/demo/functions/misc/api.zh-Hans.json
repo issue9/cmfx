@@ -80,7 +80,7 @@
 	{
 		"kind": "function",
 		"name": "create",
-		"summary": "初始化整个项目\n\n",
+		"summary": "创建项目\n\n",
 		"type": "function create(elementID: string, o: Options, router?: typeof Router): Promise<void>",
 		"params": [
 			{
@@ -95,7 +95,7 @@
 			},
 			{
 				"name": "router",
-				"summary": "指定路由对象，默认为\n`HashRouter`\n；\n\n",
+				"summary": "指定路由对象，默认值同\n`run`\n中对应的参数；\n\n",
 				"type": "typeof Router | undefined"
 			}
 		],

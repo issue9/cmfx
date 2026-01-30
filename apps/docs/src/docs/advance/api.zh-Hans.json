@@ -32,7 +32,7 @@
 		"kind": "source",
 		"name": "Problem",
 		"summary": "接口错误返回的对象\n\n",
-		"source": "/**\r\n * 接口错误返回的对象\r\n *\r\n * @typeParam E - 表示 extension 字段的类型，如果该字段空值，不需要指定。\r\n */\r\nexport declare interface Problem<E = never> {\r\n    type: string;\r\n    title: string;\r\n    status: number;\r\n    detail?: string;\r\n    instance?: string;\r\n    extension?: E;\r\n    /**\r\n     * 具体的错误字段\r\n     *\r\n     * 根据 status 的不同，可能表示提交对象、查询参数或是报头的错误。\r\n     */\r\n    params?: Params;\r\n}",
+		"source": "/**\r\n * 接口错误返回的对象\r\n *\r\n * @typeParam E - 表示 {@link extension} 字段的类型，如果该字段空值，不需要指定。\r\n */\r\nexport declare interface Problem<E = never> {\r\n    type: string;\r\n    title: string;\r\n    status: number;\r\n    detail?: string;\r\n    instance?: string;\r\n    extension?: E;\r\n    headers?: Headers;\r\n    /**\r\n     * 具体的错误字段\r\n     *\r\n     * 根据 {@link status} 的不同，可能表示提交对象、查询参数或是报头的错误。\r\n     */\r\n    params?: Params;\r\n}",
 		"pkg": "@cmfx/core"
 	},
 	{
@@ -58,16 +58,16 @@
 	},
 	{
 		"kind": "source",
-		"name": "handleProblem",
-		"summary": "将\n`Problem`\n作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\n\n",
-		"source": "/**\r\n * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\r\n *\r\n * @param p - 如果该值空，则会抛出异常；\r\n */\r\nexport declare function handleProblem<P>(p?: Problem<P>): Promise<void>",
-		"pkg": "@cmfx/admin"
+		"name": "APIError",
+		"summary": "表示与后端交互过程中的错误信息\n\n",
+		"source": "/**\r\n * 表示与后端交互过程中的错误信息\r\n */\r\nexport declare class APIError extends Error {\r\n    #private;\r\n    /**\r\n     * 将 {@link Problem} 转换为 {@link APIError} 对象\r\n     */\r\n    static fromProblem<E>(p: Problem<E>): APIError;\r\n    /**\r\n     * 构造函数\r\n     *\r\n     * @param status - 状态码；\r\n     * @param title - 简要的错误说明；\r\n     * @param headers - HTTP 响应头；\r\n     * @param message - 详细的错误说明；\r\n     */\r\n    constructor(status: number, title?: string, headers?: Headers, message?: string);\r\n    /**\r\n     * 表示 HTTP 状态码\r\n     */\r\n    get status(): number;\r\n    /**\r\n     * 表示简要的错误说明\r\n     */\r\n    get title(): string | undefined;\r\n    /**\r\n     * 报头\r\n     */\r\n    get headers(): Headers | undefined;\r\n}",
+		"pkg": "@cmfx/core"
 	},
 	{
 		"kind": "source",
-		"name": "HTTPError",
-		"summary": "一个包含 HTTP 状态码的错误\n\n",
-		"source": "/**\r\n * 一个包含 HTTP 状态码的错误\r\n */\r\nexport declare class HTTPError extends Error {\r\n    #private;\r\n    /**\r\n     * 构造函数\r\n     * @param status - 状态码；\r\n     * @param title - 简要的错误说明；\r\n     * @param message - 详细的错误说明；\r\n     */\r\n    constructor(status: number, title: string, message?: string);\r\n    /**\r\n     * 表示 HTTP 状态码\r\n     */\r\n    get status(): number;\r\n    /**\r\n     * 表示简要的错误说明\r\n     */\r\n    get title(): string;\r\n}",
+		"name": "handleProblem",
+		"summary": "将\n`Problem`\n作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\n\n",
+		"source": "/**\r\n * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\r\n *\r\n * @param p - 如果该值空，则会抛出异常；\r\n * @typeParam P - {@link Problem} 的泛型参数 E；\r\n */\r\nexport declare function handleProblem<P>(p?: Problem<P>): Promise<void>",
 		"pkg": "@cmfx/admin"
 	}
 ]

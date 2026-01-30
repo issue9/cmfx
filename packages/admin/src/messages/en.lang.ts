@@ -65,7 +65,6 @@ const messages = {
             username: 'Username',
             password: 'Password',
             loggingOut: 'Logging out ...',
-            invalidAccount: 'Invalid account',
 
             securitylog: 'Security logs',
             content: 'Content',
@@ -85,7 +84,6 @@ const messages = {
             bindWebauthn: 'Bind webauthn',
             unbindWebauthn: 'Unbind webauthn',
             unbindAllWebauthn: 'Unbind all webauthn',
-            invalidCode: 'Invalid code',
             webauthnCredentials: 'Webauthn credentials',
             lastUsed: 'Last used',
             passwordsMustBeDifferent: 'Passwords must be different',

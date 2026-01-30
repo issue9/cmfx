@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { API, Query } from '@cmfx/core';
-import { describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { BasicTable, Ref as BasicTableRef } from './basic';
@@ -40,6 +40,12 @@ describe('RemoteTable', async () => {
     type Obj = {
         name: string;
     };
+
+    beforeEach(() => {
+        fetchMock.resetMocks();
+    });
+
+    fetchMock.mockResponseOnce('123');
 
     const api = await API.build('id', sessionStorage, 'http://localhost/base', '/token', 'application/json', 'application/json', 'zh-CN');
 

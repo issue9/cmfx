@@ -16,6 +16,7 @@ export interface Problem<E = never> {
     detail?: string;
     instance?: string;
     extension?: E;
+    headers?: Headers;
 
     /**
      * 具体的错误字段

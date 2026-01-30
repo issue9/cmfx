@@ -512,7 +512,9 @@ export class API implements REST {
             this.#token = undefined;
             delToken(this.#id, this.#storage);
         }
-        return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
+        const body = await this.parse<Problem<PE>>(resp);
+        if (body) { body!.headers = resp.headers; }
+        return { headers: resp.headers, status: resp.status, ok: false, body: body };
     }
 
     #needUncache(path: string): string | undefined {

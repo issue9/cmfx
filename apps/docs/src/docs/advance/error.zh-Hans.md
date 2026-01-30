@@ -2,9 +2,9 @@
 
 ## 前端
 
-在 [@cmfx/admin](https://www.npmjs.com/package/@cmfx/admin) 默认会拦截所有用户抛出的错误对象，
-本身也提供了一个 `HTTPError` 类用以表示各种 HTTP 状态码下的错误。
-```ts HTTPError
+在 [@cmfx/core](https://www.npmjs.com/package/@cmfx/core) 默认会拦截所有用户抛出的错误对象，
+本身也提供了一个 `APIError` 类用以表示各种 HTTP 状态码下的错误。
+```ts APIError
 ```
 
 由后端返回的错误类型为 `Problem`，这是一个符合 [RFC7807](https://datatracker.ietf.org/doc/html/rfc7807) 的错误描述对象，
