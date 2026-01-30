@@ -47,6 +47,13 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
      * @reactive
      */
     actions?: JSX.Element;
+
+    /**
+     * 为 actions 的根元素添加 CSS 类
+     *
+     * @reactive
+     */
+    actionsClass?: string;
 }
 
 /**
@@ -59,7 +66,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  */
 export default function Appbar(props: Props): JSX.Element {
     return <header role="toolbar" class={joinClass(props.palette, styles.appbar, props.class)} style={props.style}
-        ref={el=>{
+        ref={el => {
             if (props.ref) {
                 props.ref({
                     root() { return el; }
@@ -83,7 +90,7 @@ export default function Appbar(props: Props): JSX.Element {
         </Show>
 
         <Show when={props.actions}>
-            {c => <div class={styles.actions}>{c()}</div>}
+            {c => <div class={joinClass(undefined, styles.actions, props.actionsClass)}>{c()}</div>}
         </Show>
     </header>;
 }

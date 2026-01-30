@@ -9,7 +9,10 @@ import { default as Appbar, Ref } from './appbar';
 
 describe('Appbar', async () => {
     let ref: Ref;
-    const ct = await ComponentTester.build('Appbar', props => <Appbar title="title" {...props} ref={r => ref = r}>abc</Appbar>);
+    const ct = await ComponentTester.build(
+        'Appbar',
+        props => <Appbar title="title" {...props} ref={r => ref = r}>abc</Appbar>
+    );
 
     test('props', async () => {
         const root = ct.result.container.firstElementChild!;

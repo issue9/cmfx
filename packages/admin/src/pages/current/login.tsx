@@ -3,12 +3,18 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    BaseProps, Choice, ChoiceOption, fieldAccessor, joinClass, Page, Transition, useLocale
+    Appbar, BaseProps, Choice,
+    ChoiceOption, fieldAccessor, joinClass,
+    Mode,
+    modes,
+    Page, Transition, useLocale, useOptions
 } from '@cmfx/components';
+import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
-import { createResource, For, JSX, Match, Show, Switch } from 'solid-js';
+import { createResource, ErrorBoundary, For, JSX, Match, Show, Switch } from 'solid-js';
 
-import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
+import { handleProblem, useAdmin, useOptions as useAdminOptions, useREST } from '@admin/app';
+import { errorHandler } from '@admin/app/context';
 import { Passport } from '@admin/components';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
@@ -31,7 +37,7 @@ interface Link {
  * 登录页面
  */
 export function Login(props: Props): JSX.Element {
-    const opt = useOptions();
+    const opt = useAdminOptions();
     const usr = useAdmin();
 
     return <Switch>
@@ -43,7 +49,8 @@ export function Login(props: Props): JSX.Element {
 function LoginBox(props: Props): JSX.Element {
     const api = useREST();
     const l = useLocale();
-    const [q,setQ] = useSearchParams<{ type: string }>();
+    const [q, setQ] = useSearchParams<{ type: string }>();
+    const [, opt] = useOptions();
 
     api.api().cache('/passports');
 
@@ -59,31 +66,61 @@ function LoginBox(props: Props): JSX.Element {
         return r.body!.map(v => ({ type: 'item', value: v.id, label: v.desc }));
     });
 
-    return <Page title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
-        <div class={styles.form}>
-            <div class={styles.title}>
-                <p>{l.t('_p.current.login')}</p>
-                <Choice accessor={passport} options={!passports.loading ? passports()! : []}/>
+    return <Page backtop={false} title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
+        <Appbar class={styles.toolbar} title={opt.title} logo={opt.logo} actionsClass={styles.actions} actions={
+            <>
+                <Actions />
+            </>
+        }
+        />
+
+        <ErrorBoundary fallback={errorHandler}>
+            <div class={styles.form}>
+                <div class={styles.title}>
+                    <p>{l.t('_p.current.login')}</p>
+                    <Choice accessor={passport} options={!passports.loading ? passports()! : []} />
+                </div>
+                <div>
+                    <Transition>
+                        {props.passports.get(passport.getValue())?.Login()}
+                    </Transition>
+                </div>
             </div>
-            <div>
-                <Transition>
-                    {props.passports.get(passport.getValue())?.Login()}
-                </Transition>
-            </div>
-        </div>
+        </ErrorBoundary>
 
         <Show when={props.footer && props.footer.length > 0}>
             <footer>
                 <For each={props.footer}>
-                    {item => (
+                    {item =>
                         <Switch fallback={<p innerHTML={item.title} />}>
                             <Match when={item.link}>
                                 <a href={item.link} innerHTML={item.title} />
                             </Match>
                         </Switch>
-                    )}
+                    }
                 </For>
             </footer>
         </Show>
     </Page>;
+}
+
+function Actions(): JSX.Element {
+    const l = useLocale();
+    const [accessor] = useOptions();
+
+    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
+    localeFA.onChange(v => accessor.setLocale(v));
+
+    const modeFA = fieldAccessor<Mode>('mode', accessor.getMode());
+    modeFA.onChange(m => accessor.setMode(m));
+
+    return <>
+        <Choice accessor={localeFA}
+            options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))}
+        />
+
+        <Choice accessor={modeFA}
+            options={modes.map(v => ({ type: 'item', value: v, label: l.t(`_c.settings.${v}`) }))}
+        />
+    </>;
 }

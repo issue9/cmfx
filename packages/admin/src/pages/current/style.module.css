@@ -8,7 +8,7 @@
 
 @layer components {
     .login {
-        @apply justify-center h-full items-center @container/login;
+        @apply justify-between h-full items-center @container/login;
 
         background-image:
             radial-gradient(circle at 85% 5%,
@@ -54,6 +54,14 @@
 
             a:active {
                 @apply text-palette-fg-high;
+            }
+        }
+
+        .toolbar {
+            @apply w-full py-0! bg-transparent!;
+
+            .actions {
+                @apply rounded-md bg-palette-bg-low p-1;
             }
         }
     }
