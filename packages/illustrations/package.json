@@ -39,7 +39,8 @@
 	},
 	"dependencies": {
 		"@cmfx/components": "workspace:*",
-		"solid-js": "catalog:"
+		"solid-js": "catalog:",
+		"tailwindcss": "catalog:"
 	},
 	"devDependencies": {
 		"@types/node": "catalog:",

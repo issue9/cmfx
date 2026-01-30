@@ -528,6 +528,9 @@ importers:
       solid-js:
         specifier: 'catalog:'
         version: 1.9.11
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.1.18
     devDependencies:
       '@types/node':
         specifier: 'catalog:'

@@ -4,20 +4,22 @@
 
 import { BaseProps, joinClass, RefProps } from '@cmfx/components';
 
+import styles from './style.module.css';
+
 export interface Ref {
-	/**
-	 * 组件的引用
-	 */
-	root(): SVGSVGElement;
+    /**
+     * 组件的引用
+     */
+    root(): SVGSVGElement;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
-	/**
-	 * 组件内的提示文字
-	 */
-	text?: string;
+    /**
+     * 组件内的提示文字
+     */
+    text?: string;
 }
 
 export function buildClass(props: Props): string | undefined {
-	return joinClass(props.palette, 'text-palette-fg', props.class);
+    return joinClass(props.palette, styles.illustrations, props.class);
 }

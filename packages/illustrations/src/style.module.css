@@ -1,0 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference './style.css';
+
+@layer components {
+    .illustrations {
+        @apply text-palette-fg;
+    }
+}
