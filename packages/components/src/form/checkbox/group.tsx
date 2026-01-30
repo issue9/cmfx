@@ -11,7 +11,7 @@ import {
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
 
-export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
+export interface Props<T extends AvailableEnumType = string> extends FieldBaseProps {
     /**
      * 是否显示为块
      *

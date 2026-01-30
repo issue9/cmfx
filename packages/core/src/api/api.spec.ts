@@ -8,6 +8,9 @@ import { sleep } from '@core/time';
 import { API, query2Search, REST } from './api';
 import { Token, writeToken } from './token';
 
+// 这是 YAML 格式的。如果下面的测试函数中的 API.build 修改了 accept 格式，也需要修改此字符串的格式。
+const resp401 = 'type: "40101"\ntitle: "40101"\nstatus: 401\n';
+
 describe('API', async () => {
     const id = 'cmfx-token-name';
     const s = window.localStorage;
@@ -46,28 +49,28 @@ function testREST(rest: REST) {
     });
 
     test('post', async () => {
-        fetchMock.mockResponseOnce('123', { status: 401 });
+        fetchMock.mockResponseOnce(resp401, { status: 401 });
 
         const data = await rest.post('/abc');
         expect(data.ok).toBeFalsy();
     });
 
     test('put', async () => {
-        fetchMock.mockResponseOnce('123', { status: 401 });
+        fetchMock.mockResponseOnce(resp401, { status: 401 });
 
         const data = await rest.put('/abc');
         expect(data.ok).toBeFalsy();
     });
 
     test('patch', async () => {
-        fetchMock.mockResponseOnce('123', { status: 401 });
+        fetchMock.mockResponseOnce(resp401, { status: 401 });
 
         const data = await rest.patch('/abc', 'body');
         expect(data.ok).toBeFalsy();
     });
 
     test('delete', async () => {
-        fetchMock.mockResponseOnce('123', { status: 401 });
+        fetchMock.mockResponseOnce(resp401, { status: 401 });
 
         const data = await rest.delete('/abc');
         expect(data.ok).toBeFalsy();
@@ -129,7 +132,7 @@ describe('API token', () => {
         let t = await api.getToken();
         expect(t).toEqual('access');
 
-        fetchMock.mockResponseOnce('123');
+        fetchMock.mockResponseOnce(resp401);
         await api.logout();
         t = await api.getToken();
         expect(t).toBeUndefined();

@@ -10,7 +10,7 @@ import { AvailableEnumType } from '@components/base';
 /**
  * 菜单项
  */
-export type MenuItem<T extends AvailableEnumType> = TypeDivider | TypeGroup<T> | TypeItem<T>;
+export type MenuItem<T extends AvailableEnumType = string> = TypeDivider | TypeGroup<T> | TypeItem<T>;
 
 // 分隔符
 export interface TypeDivider {
@@ -18,7 +18,7 @@ export interface TypeDivider {
 }
 
 // 分组
-export interface TypeGroup<T extends AvailableEnumType> {
+export interface TypeGroup<T extends AvailableEnumType = string> {
     type: 'group';
 
     label: JSX.Element;
@@ -29,7 +29,7 @@ export interface TypeGroup<T extends AvailableEnumType> {
     items: Array<MenuItem<T>>;
 }
 
-export interface TypeItem<T extends AvailableEnumType> {
+export interface TypeItem<T extends AvailableEnumType = string> {
     /**
      * 表示普通的菜单项，如果为 a 表示这是一个链接。
      */
@@ -78,19 +78,19 @@ export interface TypeItem<T extends AvailableEnumType> {
     hotkey?: Hotkey;
 }
 
-export type RenderTypeItem<T extends AvailableEnumType> = TypeItem<T> & {
+export type RenderTypeItem<T extends AvailableEnumType = string> = TypeItem<T> & {
     level: number;
     items?: Array<RenderMenuItem<T>>;
 };
 
-type RenderTypeGroup<T extends AvailableEnumType> = Omit<TypeGroup<T>, 'items'> & {
+type RenderTypeGroup<T extends AvailableEnumType = string> = Omit<TypeGroup<T>, 'items'> & {
     items: Array<RenderMenuItem<T>>;
 };
 
 /**
  * 经过处理后可直接用于渲染的菜单项
  */
-export type RenderMenuItem<T extends AvailableEnumType> = TypeDivider | RenderTypeGroup<T> | RenderTypeItem<T>;
+export type RenderMenuItem<T extends AvailableEnumType = string> = TypeDivider | RenderTypeGroup<T> | RenderTypeItem<T>;
 
 /**
  * 生成易于渲染的菜单项数据，主要是根据参数生成了 CSS 样式。
@@ -98,7 +98,7 @@ export type RenderMenuItem<T extends AvailableEnumType> = TypeDivider | RenderTy
  * @param items - 菜单项数据；
  * @param level - 当前菜单项的层级；
  */
-export function buildRenderItemType<T extends AvailableEnumType>(
+export function buildRenderItemType<T extends AvailableEnumType = string>(
     items: Array<MenuItem<T>>, level: number
 ): Array<RenderMenuItem<T>> {
     return items.map(item => {

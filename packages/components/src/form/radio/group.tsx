@@ -11,7 +11,7 @@ import {
 import { Radio } from './radio';
 import styles from './style.module.css';
 
-export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
+export interface Props<T extends AvailableEnumType = string> extends FieldBaseProps {
     /**
      * 是否显示为块
      *
@@ -44,7 +44,7 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
  *
  * @remarks 相同名称的单选框组，名称采用 {@link Accessor.name} 值。
  */
-export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.Element {
+export function RadioGroup<T extends AvailableEnumType = string> (props: Props<T>): JSX.Element {
     const form = useForm();
     props = mergeProps({ tabindex: 0 }, form, props);
 

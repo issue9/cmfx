@@ -8,7 +8,7 @@ import { AvailableEnumType, joinClass } from '@components/base';
 import { FieldBaseProps } from '@components/form/field';
 import styles from './style.module.css';
 
-export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
+export interface Props<T extends AvailableEnumType = string> extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
     /**
      * 是否显示为块
      *
@@ -42,14 +42,14 @@ export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
      */
     name?: string;
 
-    value?: AvailableEnumType;
+    value?: T;
 }
 
 /**
  * 带文本提示的单选框
  */
-export function Radio(props: Props): JSX.Element {
-    props = mergeProps({ tabindex: 0 } as Props, props);
+export function Radio<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
+    props = mergeProps({ tabindex: 0 } as Props<T>, props);
 
     const cls = createMemo(() => {
         return joinClass(props.palette,

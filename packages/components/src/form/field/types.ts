@@ -102,7 +102,7 @@ export type FieldBaseProps = Props & CommonProps & {
  *
  * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Option<K extends AvailableEnumType> = {
+export type Option<K extends AvailableEnumType = string> = {
     value: K;
     label: JSX.Element;
     disabled?: boolean;
@@ -113,4 +113,4 @@ export type Option<K extends AvailableEnumType> = {
  *
  * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Options<T extends AvailableEnumType> = Array<Option<T>>;
+export type Options<T extends AvailableEnumType = string> = Array<Option<T>>;
