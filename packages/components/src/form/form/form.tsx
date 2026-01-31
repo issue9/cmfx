@@ -117,19 +117,15 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             disabled={props.disabled} readonly={props.readonly}
             labelAlign={props.labelAlign} labelWidth={props.labelWidth}
         >
-            <Spin id={id} tag="form" spinning={api.spinning()} palette={props.palette}
-                class={joinClass(undefined, props.class)} style={props.style} ref={el => {
-                    const f = el.root() as HTMLFormElement;
-                    if (props.inDialog) { f.method = 'dialog'; }
-
-                    f.addEventListener('reset', e => {
-                        api.reset();
-                        e.preventDefault();
-                    });
-                    f.addEventListener('submit', e => {
-                        api.submit();
-                        e.preventDefault();
-                    });
+            <Spin id={id} tag="form" method={props.inDialog ? 'dialog' : undefined} spinning={api.spinning()}
+                palette={props.palette} class={joinClass(undefined, props.class)} style={props.style}
+                onsubmit={e => {
+                    api.submit();
+                    e.preventDefault();
+                }}
+                onreset={e => {
+                    api.reset();
+                    e.preventDefault();
                 }}
             >
                 {props.children}

@@ -374,7 +374,7 @@ export class API implements REST {
      * @param ret - 表示执行登录操作之后返回的对象；
      * @returns 如果返回 true，表示操作成功，否则表示错误信息；
      */
-    async login(ret: Return<Token, never>): Promise<Problem<never> | undefined | true> {
+    async login(ret: Return<Token>): Promise<Problem | undefined | true> {
         if (!ret.ok) {
             return ret.body;
         }

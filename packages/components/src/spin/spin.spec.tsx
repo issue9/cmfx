@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, expect, test } from 'vitest';
 import { createSignal } from 'solid-js';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Spin, Ref } from './spin';
+import { Ref, Spin } from './spin';
 import styles from './style.module.css';
 
 describe('Spin', async () => {
-    let ref: Ref;
+    let ref: Ref<'div'>;
     const [spin, setSpin] = createSignal(false);
     const ct = await ComponentTester.build(
         'Spin',

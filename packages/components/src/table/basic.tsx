@@ -16,7 +16,7 @@ export interface Ref {
     /**
      * 组件根元素
      */
-    root(): SpinRef;
+    root(): SpinRef<'div'>;
 
     /**
      * 组件中的表格元素
@@ -83,8 +83,8 @@ export function BasicTable<T extends object>(props: Props<T>) {
 
     const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
 
-    return <Spin spinning={props.loading} palette={props.palette} style={props.style}
-        class={joinClass(undefined, styles.table, props.class)} ref={(el: SpinRef) => {
+    return <Spin tag='div' spinning={props.loading} palette={props.palette} style={props.style}
+        class={joinClass(undefined, styles.table, props.class)} ref={el => {
             if (props.ref) {
                 props.ref({
                     root: () => el,
