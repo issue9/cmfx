@@ -11,7 +11,7 @@ import { Props, buildClass } from './props';
  */
 export default function BUG(props: Omit<Props, 'text'>): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
-        ref={el => props.ref?.({ root() { return el; }})}
+        role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
         <defs>
             <path id="illustrations-bug-1" d="M187.31,364.63c1.58.91,1.58,2.37,0,3.28L160,383.79a6.22,6.22,0,0,1-5.65,0l-27.5-15.87c-1.57-.9-1.58-2.37,0-3.27l27.32-15.89a6.27,6.27,0,0,1,5.66,0Z" />

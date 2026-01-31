@@ -13,7 +13,7 @@ const presetText = 'Internal Server Error';
  */
 export default function Error500(props: Props): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
-        ref={el => props.ref?.({ root() { return el; }})}
+        role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
         <defs>
             <polygon id="illustrations-500-1" points="146.37 316.88 205.12 350.8 259.12 319.62 200.37 285.7 146.37 316.88" />

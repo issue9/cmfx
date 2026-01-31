@@ -13,7 +13,7 @@ const presetText = 'Service Unavailable';
  */
 export default function Error503(props: Props): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
-        ref={el => props.ref?.({ root() { return el; }})}
+        role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
         <defs>
             <polygon id="illustrations-503-1" points="259.14 154.86 259.14 151.1 259.14 151.1 259.14 122.41 255.83 120.56 255.83 153.02 165.07 205.5 165.07 209.33 255.83 156.78 255.83 229.69 259.14 231.54 259.14 154.86 259.14 154.86" />

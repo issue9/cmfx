@@ -13,7 +13,7 @@ const presetText = 'Unauthorized';
  */
 export default function Error401(props: Props): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
-        ref={el => props.ref?.({ root() { return el; }})}
+        role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
         <defs>
             <path id="illustrations-401-1" d="M357.63,100.63a.9.9,0,0,1-.31-.67,1,1,0,0,1,.24-.71l3.07-3.37a1,1,0,0,1,1.38-.07l2.7,2.46A.91.91,0,0,1,365,99a.94.94,0,0,1-.24.7L361.71,103a1,1,0,0,1-1.38.07ZM343,87.38A1,1,0,0,1,343,86L346,82.63a1,1,0,0,1,1.38-.07L359,93a1,1,0,0,1,.06,1.38L356,97.79a1,1,0,0,1-.68.32,1,1,0,0,1-.7-.25Z" />

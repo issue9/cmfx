@@ -13,7 +13,7 @@ const presetText = 'Bad Request';
  */
 export default function Error400(props: Props): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
-        ref={el => props.ref?.({ root() { return el; }})}
+        role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
         <defs>
             <path id="illustrations-400-1" d="M129.93,192.64c-2.16-3.67-6.42-10.13-10.35-12.46a9.07,9.07,0,0,0-5.6-1.73v1.48s3.28.87,7,5a24.83,24.83,0,0,1,5,7.88Z" />

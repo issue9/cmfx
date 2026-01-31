@@ -13,7 +13,7 @@ const presetText = 'Too Many Requests';
  */
 export default function Error429(props: Props): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
-        ref={el => props.ref?.({ root() { return el; }})}
+        role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
         <defs>
             <path id="illustrations-429-1" d="M135.44,280.79,98,259.19l-.12,43.94,55.94,32.31.07-22.64Z" />

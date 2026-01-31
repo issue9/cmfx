@@ -13,7 +13,7 @@ const presetText = 'Forbidden';
  */
 export default function Error403(props: Props): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
-        ref={el => props.ref?.({ root() { return el; }})}
+        role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
         <defs>
             <polygon id="illustrations-403-1" points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" />

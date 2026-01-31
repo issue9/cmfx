@@ -13,7 +13,7 @@ const presetText = 'Page Not Found';
  */
 export default function Error404(props: Props): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" style={props.style} class={buildClass(props)}
-        ref={el => props.ref?.({ root() { return el; }})}
+        role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
         <defs>
             <path id="illustrations-404-1" d="M173.82,456.14v2.38a2.09,2.09,0,0,1-.88,2l-1.44.84-.06,0a2.09,2.09,0,0,0,.94-2V457a6.21,6.21,0,0,0-.89-3l1.44-.83A6.18,6.18,0,0,1,173.82,456.14Z" />
