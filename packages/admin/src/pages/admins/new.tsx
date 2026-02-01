@@ -33,10 +33,10 @@ export function New(props: Props): JSX.Element {
     const l = useLocale();
     const rest = useREST();
 
-    const [fapi, Form] = createForm({
-        initValue: adminSchema.parse({ sex: 'unknown' }),
+    const [fapi, Form] = createForm<z.infer<typeof adminSchema>>({
+        initValue: { sex: 'unknown', name: '', nickname: '', username: '', password: '', roles: [] },
         submit: async obj => { return await rest.post('/admins', obj); },
-        onProblem: async p => handleProblem(p),
+        onProblem: p => handleProblem(p),
         onSuccess: async () => {
             await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
             useNavigate()(-1);
@@ -50,7 +50,7 @@ export function New(props: Props): JSX.Element {
             <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
             <Password class='w-full' autocomplete='new-password' accessor={fapi.accessor<string>('password')} label={l.t('_p.current.password')} />
             <roles.Selector class="w-full" multiple accessor={fapi.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
-            <SexSelector class='w-full' accessor={fapi.accessor<Sex>('sex')} />
+            <SexSelector label={l.t('_p.sex')} class='w-full' accessor={fapi.accessor<Sex>('sex')} />
             <div class="w-full flex justify-between gap-5">
                 <Button type='a' href={props.backURL} palette='secondary'>
                     <IconArrowBack />{l.t('_c.cancel')}

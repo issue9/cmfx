@@ -11,12 +11,7 @@ import { APIError, Problem } from '@cmfx/core';
  * @param p - 如果该值空，则会抛出异常；
  * @typeParam P - {@link Problem} 的泛型参数 E；
  */
-export async function handleProblem<P>(p?: Problem<P>): Promise<void> {
-    if (!p) { throw new Error('发生了一个未知的错误，请联系管理员！'); }
-
-    if (p.status >= 500) {
-        throw APIError.fromProblem(p);
-    }
-
-    await notify(p.title, p.detail, 'error');
+export async function handleProblem<P>(p: Problem<P>): Promise<void> {
+    if (p.status >= 500) { throw APIError.fromProblem(p); }
+    notify(p.title, p.detail, 'error');
 }

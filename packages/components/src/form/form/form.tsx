@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { Flattenable } from '@cmfx/core';
-import { Component, createEffect, createUniqueId, JSX, mergeProps, ParentProps, Show, splitProps } from 'solid-js';
+import {
+    Component, createEffect, createSignal, createUniqueId, JSX, mergeProps, ParentProps, Show, splitProps
+} from 'solid-js';
 
 import { BaseProps, joinClass, Layout, Palette } from '@components/base';
 import { Button } from '@components/button';
@@ -102,7 +104,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 
     const id = createUniqueId();
 
-    const form = (props: Props) => {
+    const form = (props: Props): JSX.Element => {
         props = mergeProps(preset, props);
         const l = useLocale();
 
@@ -113,6 +115,10 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 
         if (options.load) { api.load(); }
 
+        // 用以将 onsubmit 的异步异常转换为可以由 ErrorBoundary 捕获的同步异常。
+        const [error, setError] = createSignal<Error>();
+        createEffect(() => { if (error()) throw error(); });
+
         return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}
             disabled={props.disabled} readonly={props.readonly}
             labelAlign={props.labelAlign} labelWidth={props.labelWidth}
@@ -120,7 +126,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             <Spin id={id} tag="form" method={props.inDialog ? 'dialog' : undefined} spinning={api.spinning()}
                 palette={props.palette} class={joinClass(undefined, props.class)} style={props.style}
                 onsubmit={e => {
-                    api.submit();
+                    api.submit().catch(setError);
                     e.preventDefault();
                 }}
                 onreset={e => {
