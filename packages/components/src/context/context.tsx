@@ -10,7 +10,6 @@ import { Mode, Scheme } from '@components/base';
 import { ContextNotFoundError } from './errors';
 import { LocaleProvider } from './locale';
 import { ReqOptions } from './options';
-import styles from './style.module.css';
 import { ThemeProvider } from './theme';
 
 const localeKey = 'locale';
@@ -57,7 +56,7 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
     // NOTE: 需要通过 messageResource.loading 等待 createResource 完成，才能真正加载组件。
 
     return <optionsContext.Provider value={{origin: opt, accessor: accessor}}>
-        <Switch fallback={<div class={styles.loading}>{props.loading({})}</div>}>
+        <Switch fallback={props.loading({})}>
             <Match when={!messageResource.loading}>
                 <ThemeProvider mode={accessor.getMode()} styleElement={document.documentElement}
                     scheme={accessor.getScheme()}

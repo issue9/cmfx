@@ -29,8 +29,6 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
      * - undefined 默认选项的 BackTop 组件；
      * - false 不显示 BackTop 组件；
      * - {@link BackTopProps} 自定义的 BackTop 组件属性；
-     *
-     * @defaultValue undefined
      */
     backtop?: false | Omit<BackTopProps, 'ref'>;
 
@@ -45,7 +43,8 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 /**
  * 页面组件
  *
- * @remarks 默认是 flex-col 布局。如果有需要，可自行指定 class 进行修改。
+ * @remarks
+ * 默认是 flex-col 布局。如果有需要，可自行指定 class 进行修改。
  */
 export function Page (props: Props): JSX.Element {
     const [act] = useOptions();

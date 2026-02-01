@@ -8,6 +8,7 @@ import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
 import { BaseProps, joinClass, RefProps } from '@components/base';
 import { Button, ButtonRef } from '@components/button';
+import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -16,7 +17,8 @@ export interface Ref {
     /**
      * 返回页面顶部
      *
-     * @remarks 该功能与直接点击按钮具有相同的效果。
+     * @remarks
+     * 该功能与直接点击按钮具有相同的效果。
      */
     backtop(): void;
 }
@@ -44,6 +46,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * 该组件会向上查找包含 overflow-y、overflow-block 或是 overflow 样式的组件，如果能找到，将功能用在此组件上。
  */
 export function BackTop(props: Props): JSX.Element {
+    const l = useLocale();
     props = mergeProps({ distance: 10 }, props);
 
     let ref: ButtonRef;
@@ -54,7 +57,7 @@ export function BackTop(props: Props): JSX.Element {
     };
 
     const backtop = () => {
-        scroller && scroller.scrollTo({ top: 0, behavior: 'smooth' });
+        if (scroller) { scroller.scrollTo({ top: 0, behavior: 'smooth' }); }
     };
 
     onMount(() => {
@@ -66,11 +69,12 @@ export function BackTop(props: Props): JSX.Element {
     });
 
     onCleanup(() => {
-        scroller && scroller.removeEventListener('scroll', calcVisible);
+        if (scroller) { scroller.removeEventListener('scroll', calcVisible); }
     });
 
     return <Button square rounded={props.rounded} palette={props.palette} ref={el => {
         ref = el;
+        ref.root().ariaLabel = l.t('_c.backtop');
 
         if (props.ref) {
             props.ref({
@@ -81,6 +85,6 @@ export function BackTop(props: Props): JSX.Element {
     }} class={joinClass(undefined, styles.backtop, props.class)} style={props.style}
     onclick={() => backtop()}
     >
-        {props.children ?? <IconVerticalAlignTop />}
+        {props.children ?? <IconVerticalAlignTop aria-hidden="true" />}
     </Button>;
 }

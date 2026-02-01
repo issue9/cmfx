@@ -80,9 +80,9 @@ export function useAdmin() {
 
     return {
         /**
-         * 是否已经登录
+         * 是否正在加载数据中
          */
-        isLogin() { return !info.loading && info(); },
+        loading() { return info.loading; },
 
         /**
          * 设置登录状态并刷新 user

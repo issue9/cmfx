@@ -3,11 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, BaseProps, Choice,
-    ChoiceOption, fieldAccessor, joinClass,
-    Mode,
-    modes,
-    Page, Transition, useLocale, useOptions
+    Appbar, BaseProps, Choice, ChoiceOption, fieldAccessor,
+    joinClass, Mode, modes, Page, Transition, useLocale, useOptions
 } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
@@ -39,10 +36,12 @@ interface Link {
 export function Login(props: Props): JSX.Element {
     const opt = useAdminOptions();
     const usr = useAdmin();
+    const [, xo] = useOptions();
 
     return <Switch>
-        <Match when={usr.isLogin()}><Navigate href={opt.routes.private.home} /></Match>
-        <Match when={!usr.isLogin()}><LoginBox {...props} /></Match>
+        <Match when={usr.loading()}>{xo.loading({})}</Match>
+        <Match when={usr.info()}><Navigate href={opt.routes.private.home} /></Match>
+        <Match when={!usr.info()}><LoginBox {...props} /></Match>
     </Switch>;
 }
 
@@ -60,7 +59,7 @@ function LoginBox(props: Props): JSX.Element {
     const [passports] = createResource<Array<ChoiceOption>>(async () => {
         const r = await api.get<Array<Passport>>('/passports');
         if (!r.ok) {
-            await handleProblem(r.body);
+            await handleProblem(r.body!);
             return [];
         }
         return r.body!.map(v => ({ type: 'item', value: v.id, label: v.desc }));

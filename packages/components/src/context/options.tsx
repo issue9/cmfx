@@ -7,6 +7,7 @@ import { Component } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 
 import { BaseProps, joinClass, Mode, readScheme, Scheme } from '@components/base';
+import styles from './style.module.css';
 
 /**
 * 组件库的全局配置项
@@ -152,7 +153,9 @@ export const presetOptions: PickOptional<Options> = {
         || navigator.language
         || (navigator.languages.length > 0 ? navigator.languages[0] : 'en'),
     loading: (props: BaseProps) =>
-        IconLoading({ style: props.style, class: joinClass(props.palette, props.class) }),
+        <div class={styles.loading} role="status" aria-live="polite">
+            <IconLoading style={props.style} class={joinClass(props.palette, props.class)} aria-hidden={true} />
+        </div>,
     displayStyle: 'short',
     scheme: '',
     schemes: new Map([]),

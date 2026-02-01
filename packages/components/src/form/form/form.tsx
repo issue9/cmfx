@@ -23,8 +23,6 @@ export interface Props extends BaseProps, FormContext, ParentProps {
      * @remarks
      * 如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，
      * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
-     *
-     * @reactive
      */
     inDialog?: boolean;
 }
@@ -123,15 +121,23 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             disabled={props.disabled} readonly={props.readonly}
             labelAlign={props.labelAlign} labelWidth={props.labelWidth}
         >
-            <Spin id={id} tag="form" method={props.inDialog ? 'dialog' : undefined} spinning={api.spinning()}
+            <Spin tag="form" spinning={api.spinning()}
                 palette={props.palette} class={joinClass(undefined, props.class)} style={props.style}
-                onsubmit={e => {
-                    api.submit().catch(setError);
-                    e.preventDefault();
-                }}
-                onreset={e => {
-                    api.reset();
-                    e.preventDefault();
+                ref={el => {
+                    const root = el.root();
+                    root.id = id;
+
+                    if (props.inDialog) { root.method = 'dialog'; }
+
+                    root.addEventListener('submit', e => {
+                        api.submit().catch(setError);
+                        e.preventDefault();
+                    });
+
+                    root.addEventListener('reset', e => {
+                        api.reset();
+                        e.preventDefault();
+                    });
                 }}
             >
                 {props.children}

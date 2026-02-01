@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { run } from '@cmfx/components';
+import { run, useOptions as useXOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, RouteDefinition, Router } from '@solidjs/router';
 import { ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
@@ -82,13 +82,11 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 function Private(props: ParentProps): JSX.Element {
     const usr = useAdmin();
     const opt = useOptions();
+    const [, xo] = useXOptions();
 
     return <Switch>
-        <Match when={!usr.isLogin()}>
-            <Navigate href={opt.routes.public.home} />
-        </Match>
-        <Match when={usr.isLogin()}>
-            <AppLayout>{props.children}</AppLayout>
-        </Match>
+        <Match when={usr.loading()}>{xo.loading({})}</Match>
+        <Match when={!usr.info()}><Navigate href={opt.routes.public.home} /></Match>
+        <Match when={usr.info()}><AppLayout>{props.children}</AppLayout></Match>
     </Switch>;
 }

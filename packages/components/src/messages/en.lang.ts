@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -21,6 +21,7 @@ const messages = {
         copied: 'Copied',
         copy: 'Copy',
         close: 'Close',
+        backtop: 'Back to top',
         date: {
             clear: 'Clear',
             today: 'Today',
