@@ -3,10 +3,16 @@
 # SPDX-License-Identifier: MIT
 
 ROOT = .
-APP = $(ROOT)/apps
+APPS = $(ROOT)/apps
 
-APP_SERVER = $(APP)/server
+APPS_SERVER = $(APPS)/server
 SERVER_BIN = server
+
+ifeq ($(OS),Windows_NT)
+	SERVER_BIN = server.exe
+else
+	SERVER_BIN = server
+endif
 
 ########################### mk-coverage ###################################
 
@@ -39,7 +45,7 @@ build-app: build-go build-ts-admin build-ts-docs
 build-ts-plugin: build-ts-plugin-about build-ts-plugin-api
 
 build-go: gen
-	go build -o=$(APP_SERVER)/$(SERVER_BIN) -v $(APP_SERVER)
+	go build -o=$(APPS_SERVER)/$(SERVER_BIN) -v $(APPS_SERVER)
 
 build-ts-docs: build-ts-admin-demo build-ts-plugin-api
 	pnpm --filter=./apps/docs run build
@@ -83,14 +89,14 @@ install: install-go install-ts
 
 # 安装基本数据，依赖 build 生成的测试项目
 init: build-app
-	cd $(APP_SERVER) && ./server -a=install
+	cd $(APPS_SERVER) && ./$(SERVER_BIN) -a=install
 
 ########################### watch ###################################
 
 .PHONY: watch-server watch-admin watch-docs watch
 
 watch-server:
-	web watch -app=-a=serve $(APP_SERVER)
+	web watch -app=-a=serve $(APPS_SERVER)
 
 watch-admin:
 	pnpm --filter=./apps/admin run dev
@@ -165,7 +171,8 @@ changelog:
 .PHONY: publish-npm
 
 publish-npm: build-ts
-	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./packages/illustrations \
+	pnpm publish --filter=./packages/core --filter=./packages/components \
+	--filter=./packages/admin --filter=./packages/illustrations \
 	--filter=./build/vite-plugin-about --filter=./build/vite-plugin-api \
 	--access=public --no-git-checks
 

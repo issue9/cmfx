@@ -423,9 +423,6 @@ messages:
     - key: passkey login for %s api
       message:
           msg: 完成 %s 登录
-    - key: passport
-      message:
-          msg: 验证方式
     - key: passport id
       message:
           msg: 登录适配器的 ID

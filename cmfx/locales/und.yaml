@@ -413,9 +413,6 @@ messages:
 - key: passkey login for %s api
   message:
     msg: passkey login for %s api
-- key: passport
-  message:
-    msg: passport
 - key: passport id
   message:
     msg: passport id
