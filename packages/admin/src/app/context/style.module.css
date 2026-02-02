@@ -30,7 +30,7 @@
             @apply flex flex-col;
 
             .content {
-                @apply h-full flex-1 overflow-y-auto;
+                @apply h-full flex-1 overflow-y-auto my-2;
             }
         }
     }

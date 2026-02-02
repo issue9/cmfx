@@ -181,7 +181,7 @@ function Vertical(props: ParentProps): JSX.Element {
             {drawerRef()?.ToggleButton({ square: true })}
         </Appbar>
 
-        <main class={styles.main}>
+        <main class={joinClass(undefined, styles.main, styles.content)}>
             <Drawer floating={opt.floatingMinWidth} ref={setDrawerRef}
                 asideClass={joinClass(bgPalette, styles.aside)}
                 mainClass={joinClass('surface')} main={
