@@ -172,7 +172,7 @@ function PalettePicker(props: { palette: Palette, schemes: ObjectAccessor<Expand
 
     return <Range min={0} max={360} step={0.01} fitHeight
         ref={el => rangeRef = el} layout='vertical' label={props.palette}
-        accessor={hueFA} value={v => `${v.toFixed(2)}%`}
+        accessor={hueFA} value={v => `${v.toFixed(2)}`}
     />;
 }
 

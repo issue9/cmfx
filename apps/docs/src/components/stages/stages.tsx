@@ -6,7 +6,7 @@ import { Nav, NavRef, Page, useLocale, useOptions } from '@cmfx/components';
 import { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
-import IconGithub from '~icons/icon-park-outline/github';
+import IconGithub from '~icons/lineicons/github';
 
 import { markdown, MarkdownFileObject } from '@docs/utils';
 import pkg from '../../../package.json';

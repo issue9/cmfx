@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -7,6 +7,8 @@
 /* 定义了主题变量 */
 
 :root {
+    text-autospace: normal;
+
     /**
      * 重定义了 tailwind 的默认变量
      *
