@@ -1,66 +1,82 @@
 [
 	{
-		"kind": "interface",
 		"name": "SpinProps",
-		"properties": [
+		"kind": "intersection",
+		"types": [
 			{
-				"name": "id",
-				"type": "string | undefined"
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "children",
+						"type": "JSX.Element"
+					}
+				]
 			},
 			{
-				"name": "tag",
-				"summary": "自定义标签\n\n",
-				"type": "ValidComponent | undefined",
-				"def": "'div'\n\n"
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					}
+				]
 			},
 			{
-				"name": "spinning",
-				"summary": "加载状态\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
 			},
 			{
-				"name": "indicator",
-				"summary": "在加载状态下的指示器\n\n",
-				"type": "JSX.Element",
-				"reactive": true
-			},
-			{
-				"name": "overlayClass",
-				"summary": "遮罩层的样式\n\n",
-				"remarks": "默认情况下，遮罩层是一个透明全覆盖的元素。此属性可以修改该元素的样式。\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "children",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "palette",
-				"summary": "指定当前组件采用的色盘\n\n",
-				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-				"reactive": true
-			},
-			{
-				"name": "class",
-				"summary": "为组件的根元素指定 CSS 类名\n\n",
-				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "style",
-				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
-				"type": "string | JSX.CSSProperties | undefined",
-				"reactive": true
-			},
-			{
-				"name": "ref",
-				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined"
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "tag",
+						"summary": "自定义标签\n\n",
+						"type": "T | undefined",
+						"def": "'div'\n\n"
+					},
+					{
+						"name": "spinning",
+						"summary": "加载状态\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "indicator",
+						"summary": "在加载状态下的指示器\n\n",
+						"type": "JSX.Element",
+						"reactive": true
+					},
+					{
+						"name": "overlayClass",
+						"summary": "遮罩层的样式\n\n",
+						"remarks": "默认情况下，遮罩层是一个透明全覆盖的元素。此属性可以修改该元素的样式。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					}
+				]
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -68,14 +84,20 @@
 	{
 		"kind": "interface",
 		"name": "SpinRef",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "keyof JSX.IntrinsicElements",
+				"init": "'div'"
+			}
+		],
 		"methods": [
 			{
 				"name": "root",
 				"summary": "组件根元素\n\n",
-				"remarks": "返回的具体类型，根据\n`tag`\n的不同，而有所不同，但都是派生自 HTMLElement。\n\n",
-				"type": "root(): HTMLElement",
+				"type": "root(): T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement",
 				"return": {
-					"type": "HTMLElement"
+					"type": "T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement"
 				}
 			}
 		],

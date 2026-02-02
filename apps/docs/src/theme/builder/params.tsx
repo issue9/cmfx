@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,7 +12,6 @@ import Color from 'colorjs.io';
 import { batch, createEffect, createMemo, JSX } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
-import IconOptions from '~icons/ion/options';
 import IconLoad from '~icons/material-symbols/arrow-upload-progress';
 import IconColors from '~icons/material-symbols/colors';
 import IconExport from '~icons/material-symbols/export-notes';
@@ -69,7 +68,6 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
         <div class={styles.ps}>
             {colorsParams(l, s)}
             {radiusParams(l, s)}
-            {otherParams(l, s)}
         </div>
 
         <Dialog movable class="h-1/2" ref={el => dlg = el}
@@ -105,8 +103,6 @@ export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
         s.accessor<number>('radius.md').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.lg').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-
-        s.accessor<number>('transitionDuration').setValue(rand(transitionValues.min, transitionValues.max, 0));
     });
 }
 
@@ -174,21 +170,11 @@ function PalettePicker(props: { palette: Palette, schemes: ObjectAccessor<Expand
         hueFA.setValue(c.h!);
     });
 
-    return <Range min={0} max={360} step={0.01} fitHeight ref={el => rangeRef = el} layout='vertical' label={props.palette}
-        accessor={hueFA} value={v => `${v.toFixed(2)}%`} />;
+    return <Range min={0} max={360} step={0.01} fitHeight
+        ref={el => rangeRef = el} layout='vertical' label={props.palette}
+        accessor={hueFA} value={v => `${v.toFixed(2)}%`}
+    />;
 }
-
-function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
-    return <div class={styles.param}>
-        <Divider><IconOptions class="me-1" />{l.t('_d.theme.otherParams')}</Divider>
-
-        <Range layout='vertical' label={l.t('_d.theme.transitionDuration')}
-            accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />
-    </div>;
-}
-
-// transition 可用的参数
-const transitionValues = { min: 100, max: 1000, step: 50 } as const;
 
 function fmtColor(l: Color['l'], c: Color['l'], h: Color['l']): string {
     return `oklch(${l} ${c} ${h})`;

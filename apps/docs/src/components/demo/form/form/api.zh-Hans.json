@@ -136,8 +136,7 @@
 				"name": "inDialog",
 				"summary": "表单位于对话框中\n\n",
 				"remarks": "如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，\n且 submit 按钮的 value 属性会传递给 dialog.returnValue。\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
+				"type": "boolean | undefined"
 			},
 			{
 				"name": "palette",

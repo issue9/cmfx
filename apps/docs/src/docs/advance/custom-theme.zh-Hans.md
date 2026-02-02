@@ -21,11 +21,6 @@ export type Scheme = {
      * 表示 tailwind 中 --radius-* 的数值
      */
     radius?: Radius;
-
-    /**
-     * 动画的时长，默认为 300，单位为 ms。
-     */
-    transitionDuration?: number;
 };
 
 /**

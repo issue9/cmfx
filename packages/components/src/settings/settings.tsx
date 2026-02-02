@@ -4,6 +4,7 @@
 
 import { DisplayStyle, formatDuration, I18n } from '@cmfx/core';
 import { createSignal, JSX, ParentProps, Show } from 'solid-js';
+import IconTransitionDuration from '~icons/material-symbols/animated-images-rounded';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconSystemNotify from '~icons/material-symbols/notification-settings';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
@@ -14,7 +15,7 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { BaseProps, joinClass, Mode, RefProps } from '@components/base';
+import { BaseProps, isReducedMotion, joinClass, Mode, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
@@ -84,10 +85,8 @@ export function Settings(props: Props) {
     const Item = (props: ItemProps) => {
         count++;
         return <>
-            <Show when={count > 1}>
-                <Divider padding='16px 8px' />
-            </Show>
-            <Description icon={props.icon} title={props.title}>{props.desc}</Description>
+            <Show when={count > 1}><Divider padding='16px 8px' /></Show>
+            <Description icon={props.icon} title={props.title}><div innerHTML={props.desc} /></Description>
             <br />
             {props.children}
         </>;
@@ -107,6 +106,9 @@ export function Settings(props: Props) {
 
     const staysFA = fieldAccessor<number>('stays', accessor.getStays());
     staysFA.onChange(v => accessor.setStays(v));
+
+    const transitionDurationFA = fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
+    transitionDurationFA.onChange(v => accessor.setTransitionDuration(v));
 
     const [sysNotifyDisabled, setSysNotifyDisabled] = createSignal(false);
     const requestSysNotify = async () => {
@@ -162,11 +164,21 @@ export function Settings(props: Props) {
         {/***************************** scheme *******************************/}
 
         <Show when={origin.schemes && accessor.getScheme()}>
-            <Item icon={<IconPalette />} title={l.t('_c.settings.color')} desc={l.t('_c.settings.colorDesc')}>
+            <Item icon={<IconPalette />} title={l.t('_c.settings.scheme')} desc={l.t('_c.settings.schemeDesc')}>
                 <SchemeSelector schemes={origin.schemes}
                     value={accessor.getScheme()} onChange={val => accessor.setScheme(val)} />
             </Item>
         </Show>
+
+        {/***************************** transition duration *******************************/}
+
+        <Item icon={<IconTransitionDuration />} title={l.t('_c.settings.transitionDuration')}
+            desc={l.t('_c.settings.transitionDurationDesc')}
+        >
+            <Range disabled={isReducedMotion()} class={styles.range} value={v => v + 'ms'}
+                min={100} max={3000} step={100} accessor={transitionDurationFA}
+            />
+        </Item>
 
         {/***************************** stays *******************************/}
 

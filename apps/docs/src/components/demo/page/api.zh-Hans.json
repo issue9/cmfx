@@ -7,8 +7,7 @@
 				"name": "backtop",
 				"summary": "配置\n`BackTop`\n组件\n\n",
 				"remarks": "可以有以下取值：\n- undefined 默认选项的 BackTop 组件；\n- false 不显示 BackTop 组件；\n-\n`BackTopProps`\n自定义的 BackTop 组件属性；\n\n",
-				"type": "false | Omit<BackTopProps, \"ref\"> | undefined",
-				"def": "undefined\n\n"
+				"type": "false | Omit<BackTopProps, \"ref\"> | undefined"
 			},
 			{
 				"name": "title",

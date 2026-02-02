@@ -13,7 +13,7 @@ import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
 import { AvailableEnumType, BaseProps, classList, joinClass, Layout, RefProps } from '@components/base';
-import { useTheme } from '@components/context';
+import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
 import { ChangeFunc } from '@components/form/field';
 import { IconSet, IconSetRef } from '@components/icon';
@@ -115,7 +115,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
     const [selected, setSelected] = createSignal<Array<T>>(props.value ?? []);
     createEffect(() => { setSelected(props.value ?? []); }); // 监视外部变化
     let ref: HTMLElement;
-    const t = useTheme();
+    const [opt] = useOptions();
 
     const handleKeydown = (event: KeyboardEvent) => {
         const active = document.activeElement as HTMLElement | null;
@@ -345,7 +345,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
             props.ref({
                 root: () => el,
                 scrollSelectedIntoView: () => {
-                    sleep(t.scheme.transitionDuration).then(() => {
+                    sleep(opt.getTransitionDuration()).then(() => {
                         const els = selectedElements(el, true);
                         if (els.length > 0) {
                             els[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });

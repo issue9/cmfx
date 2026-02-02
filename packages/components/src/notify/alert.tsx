@@ -4,8 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import { useLocale } from '@components/context';
-import { useTheme } from '@components/context/theme';
+import { useLocale, useOptions } from '@components/context';
 import { Message, Props as MessageProps, Ref as MessageRef } from './message';
 
 export type Props = Omit<MessageProps, 'transitionDuration' | 'closeAriaLabel'>;
@@ -16,7 +15,7 @@ export type Ref = MessageRef;
  * 警告框
  */
 export default function Alert(props: Props): JSX.Element {
-    const theme = useTheme();
     const l = useLocale();
-    return <Message {...props} transitionDuration={theme.scheme.transitionDuration} closeAriaLabel={l.t('_c.close')} />;
+    const [opt] = useOptions();
+    return <Message {...props} transitionDuration={opt.getTransitionDuration()} closeAriaLabel={l.t('_c.close')} />;
 }

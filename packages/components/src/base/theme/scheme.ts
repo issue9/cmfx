@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-const transitionDurationName = '--default-transition-duration';
-
 /**
  * 定义主题相关的各类变量
  */
@@ -29,11 +27,6 @@ export type Scheme = {
      * 各种不同大小的组件的圆角设置
      */
     radius: Radius;
-
-    /**
-     * 动画的时长，默认为 300，单位为 ms。
-     */
-    transitionDuration: number;
 };
 
 /**
@@ -79,8 +72,6 @@ export function readScheme(elem?: HTMLElement): Scheme {
         xl: xl ? parseFloat(xl.slice(0, -3)) : 0,
     };
 
-    const td = elem.style.getPropertyValue(transitionDurationName);
-
     return {
         primary: elem.style.getPropertyValue('--primary'),
         secondary: elem.style.getPropertyValue('--secondary'),
@@ -88,7 +79,6 @@ export function readScheme(elem?: HTMLElement): Scheme {
         error: elem.style.getPropertyValue('--error'),
         surface: elem.style.getPropertyValue('--surface'),
         radius,
-        transitionDuration: td ? parseInt(td.slice(0, -2), 10) : 0,
     };
 }
 
@@ -102,10 +92,6 @@ export function writeScheme(elem: HTMLElement, s?: Scheme) {
         Object.entries(s.radius).forEach(([k2, v2]) => {
             if (v2 !== undefined) { elem.style.setProperty(`--radius-${k2}`, `${v2}rem`); }
         });
-    }
-
-    if (s.transitionDuration) {
-        elem.style.setProperty(transitionDurationName, `${s.transitionDuration}ms`);
     }
 
     elem.style.setProperty('--primary', s.primary);

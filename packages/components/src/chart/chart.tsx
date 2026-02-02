@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps, isReducedMotion, joinClass, RefProps } from '@components/base';
-import { useLocale, useTheme } from '@components/context';
+import { useLocale, useOptions } from '@components/context';
 import { matchLocale } from './locale';
 
 export type ChartOption = echarts.EChartsOption;
@@ -72,8 +72,8 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export function Chart(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
+    const [opt] = useOptions();
     const l = useLocale();
-    const t = useTheme();
 
     let ref: HTMLDivElement;
     let inst: echarts.ECharts;
@@ -102,7 +102,7 @@ export function Chart(props: Props): JSX.Element {
         // 初始数据
         inst.setOption({
             animation: !isReducedMotion(),
-            animationDuration: t.scheme.transitionDuration,
+            animationDuration: opt.getTransitionDuration(),
             ...props.initValue,
         });
 

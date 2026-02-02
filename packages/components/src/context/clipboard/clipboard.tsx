@@ -8,7 +8,7 @@ import { render } from 'solid-js/web';
 import IconOK from '~icons/material-symbols/check';
 import IconError from '~icons/material-symbols/error';
 
-import { useOptions, useTheme } from '@components/context';
+import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 let copy2ClipboardInst: typeof copy2Clipboard;
@@ -20,7 +20,6 @@ const positions: Array<string> = ['absolute', 'relative', 'fixed'] as const;
  */
 export default function Clipboard(props: ParentProps): JSX.Element {
     const [opt] = useOptions();
-    const t = useTheme();
 
     copy2ClipboardInst = async (target: HTMLElement, text: string): Promise<void> => {
         await write2Clipboard(text, async (ok?: boolean) => {
@@ -48,7 +47,7 @@ export default function Clipboard(props: ParentProps): JSX.Element {
 
             await sleep(opt.getStays());
             overlay.style.opacity = '0';
-            await sleep(t.scheme.transitionDuration); // 等待动画完成
+            await sleep(opt.getTransitionDuration()); // 等待动画完成
             overlay.remove();
         });
     };

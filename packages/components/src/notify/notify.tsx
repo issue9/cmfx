@@ -64,7 +64,7 @@ function initNotify(p: Props): JSX.Element {
             icon: false,
 
             // 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
-            transitionDuration: accessor.getScheme().transitionDuration,
+            transitionDuration: accessor.getTransitionDuration(),
             closeAriaLabel: l.t('_c.close'),
         };
         render(() => <Message {...props} />, ref);

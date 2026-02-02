@@ -2,6 +2,13 @@
 	{
 		"kind": "interface",
 		"name": "RadioProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "AvailableEnumType",
+				"init": "string"
+			}
+		],
 		"properties": [
 			{
 				"name": "block",
@@ -34,7 +41,7 @@
 			},
 			{
 				"name": "value",
-				"type": "AvailableEnumType | undefined"
+				"type": "T | undefined"
 			},
 			{
 				"name": "style",
@@ -110,7 +117,8 @@
 		"typeParams": [
 			{
 				"name": "T",
-				"type": "AvailableEnumType"
+				"type": "AvailableEnumType",
+				"init": "string"
 			}
 		],
 		"properties": [

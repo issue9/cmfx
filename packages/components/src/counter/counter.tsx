@@ -6,7 +6,7 @@ import { sleep } from '@cmfx/core';
 import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
 import { BaseProps, joinClass, RefProps } from '@components/base';
-import { useTheme } from '@components/context';
+import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -68,8 +68,8 @@ const presetProps: Readonly<Partial<Props>> = {
  */
 export default function Counter(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const t = useTheme();
-    let dur = t.scheme.transitionDuration;
+    const [opt] = useOptions();
+    let dur = opt.getTransitionDuration();
 
     const [value, setValue] = createSignal<string>(props.formatter!(props.value));
 

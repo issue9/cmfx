@@ -20,6 +20,7 @@ const tzKey = 'timezone';
 const staysKey = 'stays';
 const systemNotifyKey = 'system-notify';
 const fontSizeKey = 'font-size';
+const transitionDurationKey = 'transition-duration';
 
 /**
  * 提供了对全局配置的存取功能
@@ -97,6 +98,7 @@ export function buildAccessor(o: ReqOptions) {
         stays: o.stays,
         systemNotify: o.systemNotify,
         fontSize: o.fontSize,
+        transitionDuration: o.transitionDuration,
     });
 
     const read = () => { // 从配置内容中读取
@@ -109,6 +111,7 @@ export function buildAccessor(o: ReqOptions) {
             stays: conf.get(staysKey) ?? val.stays,
             systemNotify: conf.get(systemNotifyKey) ?? val.systemNotify,
             fontSize: conf.get(fontSizeKey) ?? val.fontSize,
+            transitionDuration: conf.get(transitionDurationKey) ?? val.transitionDuration,
         });
 
         if (val.fontSize !== document.documentElement.style.fontSize) {
@@ -144,6 +147,7 @@ export function buildAccessor(o: ReqOptions) {
             this.setStays(o.stays);
             this.setSystemNotify(o.systemNotify);
             this.setFontSize(o.fontSize);
+            this.setTransitionDuration(o.transitionDuration);
         },
 
         /**
@@ -166,6 +170,17 @@ export function buildAccessor(o: ReqOptions) {
         },
 
         getFontSize(): string { return val.fontSize; },
+
+        /**
+         * 设置动画时长
+         */
+        setTransitionDuration(duration: number): void {
+            set({ transitionDuration: duration });
+            conf.set(transitionDurationKey, duration);
+            document.documentElement.style.setProperty('--default-transition-duration', `${duration}ms`);
+        },
+
+        getTransitionDuration(): number { return val.transitionDuration; },
 
         /**
          * 设置当前配置的全局语言

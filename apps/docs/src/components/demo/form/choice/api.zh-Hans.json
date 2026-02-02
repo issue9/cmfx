@@ -154,7 +154,8 @@
 				"typeParams": [
 					{
 						"name": "T",
-						"type": "AvailableEnumType"
+						"type": "AvailableEnumType",
+						"init": "string"
 					}
 				],
 				"properties": [
@@ -179,7 +180,8 @@
 				"typeParams": [
 					{
 						"name": "T",
-						"type": "AvailableEnumType"
+						"type": "AvailableEnumType",
+						"init": "string"
 					}
 				],
 				"properties": [

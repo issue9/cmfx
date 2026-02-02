@@ -95,7 +95,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
      */
     onClose?: () => Promise<boolean | void>;
 
-    // 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，无法使用 useTheme 获取动画时长。
+    // 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，可能无法使用 useOptions 获取动画时长。
     transitionDuration: number;
 
     /**

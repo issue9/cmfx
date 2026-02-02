@@ -173,9 +173,9 @@
 			{
 				"name": "root",
 				"summary": "组件根元素\n\n",
-				"type": "root(): SpinRef",
+				"type": "root(): SpinRef<'div'>",
 				"return": {
-					"type": "SpinRef"
+					"type": "SpinRef<\"div\">"
 				}
 			},
 			{
@@ -305,9 +305,9 @@
 			{
 				"name": "root",
 				"summary": "组件根元素\n\n",
-				"type": "root(): SpinRef",
+				"type": "root(): SpinRef<'div'>",
 				"return": {
-					"type": "SpinRef"
+					"type": "SpinRef<\"div\">"
 				}
 			},
 			{
@@ -524,9 +524,9 @@
 			{
 				"name": "root",
 				"summary": "组件根元素\n\n",
-				"type": "root(): SpinRef",
+				"type": "root(): SpinRef<'div'>",
 				"return": {
-					"type": "SpinRef"
+					"type": "SpinRef<\"div\">"
 				}
 			},
 			{

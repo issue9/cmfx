@@ -18,6 +18,5 @@ export default {
         'md': 0,
         'lg': 0,
         'xl': 0.5,
-    },
-    'transitionDuration': 300
+    }
 } as Scheme;
