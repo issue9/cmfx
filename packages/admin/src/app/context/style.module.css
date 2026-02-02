@@ -30,7 +30,7 @@
             @apply flex flex-col;
 
             .content {
-                @apply h-full flex-1 overflow-y-auto my-2;
+                @apply h-full flex-1 overflow-y-auto rounded-ss-md w-full bg-palette-bg;
             }
         }
     }
@@ -40,6 +40,10 @@
 
         .main {
             @apply relative h-full flex-1 overflow-y-hidden;
+
+            .content {
+                @apply h-full flex-1 overflow-y-auto rounded-ss-md;
+            }
         }
     }
 

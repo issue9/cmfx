@@ -126,9 +126,15 @@ function Horizontal(props: ParentProps): JSX.Element {
         } as JSX.CSSProperties;
     });
 
-    return <Drawer class={joinClass(undefined, styles.app, styles.horizontal, layout.float()[0]() ? styles.float : undefined)}
+    const cls = createMemo(() => {
+        const f = layout.float()[0]();
+        return joinClass( 'surface', styles.app, styles.horizontal, f ? styles.float : undefined);
+    });
+
+    return <Drawer class={cls()}
         floating={opt.floatingMinWidth} ref={setDrawerRef} style={style()}
-        asideClass={joinClass(bgPalette, styles.aside)} mainClass={joinClass('surface', styles.main)} main={
+        asideClass={joinClass(bgPalette, styles.aside)}
+        mainClass={joinClass(layout.float()[0]() ? 'surface' : bgPalette, styles.main)} main={
             <ErrorBoundary fallback={errorHandler}>
                 <div class='contents'>
                     <Appbar ref={el => toolbar = el} class={styles.toolbar} palette={bgPalette} actions={
@@ -139,7 +145,7 @@ function Horizontal(props: ParentProps): JSX.Element {
                     }>
                         {drawerRef()?.ToggleButton({ square: true })}
                     </Appbar>
-                    <main class={styles.content}>{props.children}</main>
+                    <main class={joinClass('surface', styles.content)}>{props.children}</main>
                 </div>
             </ErrorBoundary>
         }
@@ -170,7 +176,12 @@ function Vertical(props: ParentProps): JSX.Element {
         } as JSX.CSSProperties;
     });
 
-    return <div class={joinClass('surface', styles.app, styles.vertical, layout.float()[0]() ? styles.float : undefined)} style={style()}>
+    const cls = createMemo(() => {
+        const f = layout.float()[0]();
+        return joinClass(f ? 'surface' : bgPalette, styles.app, styles.vertical, f ? styles.float : undefined);
+    });
+
+    return <div class={cls()} style={style()}>
         <Appbar logo={opt.logo} title={opt.title}
             class={styles.toolbar} palette={bgPalette} actions={
                 <>
@@ -181,10 +192,10 @@ function Vertical(props: ParentProps): JSX.Element {
             {drawerRef()?.ToggleButton({ square: true })}
         </Appbar>
 
-        <main class={joinClass(undefined, styles.main, styles.content)}>
+        <main class={styles.main}>
             <Drawer floating={opt.floatingMinWidth} ref={setDrawerRef}
                 asideClass={joinClass(bgPalette, styles.aside)}
-                mainClass={joinClass('surface')} main={
+                mainClass={joinClass('surface', styles.content)} main={
                     <ErrorBoundary fallback={errorHandler}>{props.children}</ErrorBoundary>
                 }>
                 <Menu ref={el => menuRef = el} layout='inline' items={buildItems(l, opt.menus)} />
