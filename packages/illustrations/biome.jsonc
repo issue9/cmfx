@@ -1,0 +1,11 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
+	"extends": "//",
+	"root": false,
+	"files": {
+		"includes": [
+			"src/*.{ts,tsx,css}",
+			"!src/{400,401,403,404,429,500,503,504,bug,building,login}.tsx"
+		]
+	}
+}

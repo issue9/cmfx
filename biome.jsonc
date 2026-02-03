@@ -1,5 +1,6 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
+	"root": true,
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -10,8 +11,7 @@
 		"includes": [
 			"packages/**/*.{ts,tsx,css}",
 			"build/**/*.{ts,tsx,css}",
-			"apps/**/*.{ts,tsx,css}",
-			"!packages/illustrations/*.{ts,tsx,css}"
+			"apps/**/*.{ts,tsx,css}"
 		]
 	},
 	"formatter": {

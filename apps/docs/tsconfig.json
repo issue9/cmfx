@@ -1,34 +1,34 @@
 {
-    "extends": "../../build/tsconfig.base.json",
-    "compilerOptions": {
-        "baseUrl": ".",
-        "types": [
-            "vite/client",
-            "unplugin-icons/types/solid"
-        ],
-        "jsx": "preserve",
-        "jsxImportSource": "solid-js",
-        "paths": {
-            "@docs/*": [
-                "src/*"
-            ]
-        },
-        "outDir": "../../docs"
-    },
-    "include": [
-        "src/**/api.*.json",
-        "src/**/*.ts",
-        "src/**/*.mts",
-        "src/**/*.mjs",
-        "src/**/*.js",
-        "src/**/*.tsx",
-        "../../pakcages/**/*.tsx",
-        "../../pakcages/**/*.ts",
-        "./package.json",
-    ],
-    "references": [
-        {
-            "path": "./tsconfig.node.json"
-        }
-    ]
+	"extends": "../../build/tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"types": [
+			"vite/client",
+			"unplugin-icons/types/solid"
+		],
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"paths": {
+			"@docs/*": [
+				"src/*"
+			]
+		},
+		"outDir": "../../docs"
+	},
+	"include": [
+		"src/**/api.*.json",
+		"src/**/*.ts",
+		"src/**/*.mts",
+		"src/**/*.mjs",
+		"src/**/*.js",
+		"src/**/*.tsx",
+		"../../pakcages/**/*.tsx",
+		"../../pakcages/**/*.ts",
+		"./package.json",
+	],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
 }

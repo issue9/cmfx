@@ -1,6 +1,6 @@
 {
-    "extends": "../../build/tsconfig.node.json",
-    "include": [
-        "vite.config.ts"
-    ]
+	"extends": "../../build/tsconfig.node.json",
+	"include": [
+		"vite.config.ts"
+	]
 }
