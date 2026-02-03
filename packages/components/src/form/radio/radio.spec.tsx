@@ -8,10 +8,7 @@ import { ComponentTester } from '@components/context/context.spec';
 import { Radio } from './radio';
 
 describe('Radio', async () => {
-    const ct = await ComponentTester.build(
-        'Radio',
-        props => <Radio {...props}>abc</Radio>
-    );
+	const ct = await ComponentTester.build('Radio', props => <Radio {...props}>abc</Radio>);
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

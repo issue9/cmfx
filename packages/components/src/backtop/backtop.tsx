@@ -12,31 +12,31 @@ import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref {
-    root(): ButtonRef;
+	root(): ButtonRef;
 
-    /**
-     * 返回页面顶部
-     *
-     * @remarks
-     * 该功能与直接点击按钮具有相同的效果。
-     */
-    backtop(): void;
+	/**
+	 * 返回页面顶部
+	 *
+	 * @remarks
+	 * 该功能与直接点击按钮具有相同的效果。
+	 */
+	backtop(): void;
 }
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
-    /**
-     * 当容器顶部不可见区域达到此值时才会显示按钮，默认为 10。
-     *
-     * @defaultValue 10
-     */
-    distance?: number;
+	/**
+	 * 当容器顶部不可见区域达到此值时才会显示按钮，默认为 10。
+	 *
+	 * @defaultValue 10
+	 */
+	distance?: number;
 
-    /**
-     * 是否为圆形
-     *
-     * @reactive
-     */
-    rounded?: boolean;
+	/**
+	 * 是否为圆形
+	 *
+	 * @reactive
+	 */
+	rounded?: boolean;
 }
 
 /**
@@ -46,45 +46,64 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * 该组件会向上查找包含 overflow-y、overflow-block 或是 overflow 样式的组件，如果能找到，将功能用在此组件上。
  */
 export function BackTop(props: Props): JSX.Element {
-    const l = useLocale();
-    props = mergeProps({ distance: 10 }, props);
+	const l = useLocale();
+	props = mergeProps({ distance: 10 }, props);
 
-    let ref: ButtonRef;
-    let scroller: HTMLElement | undefined;
+	let ref: ButtonRef;
+	let scroller: HTMLElement | undefined;
 
-    const calcVisible = () => { // 计算按钮的可见性
-        ref.root().style.visibility = scroller!.scrollTop > props.distance! ? 'visible' : 'hidden';
-    };
+	const calcVisible = () => {
+		// 计算按钮的可见性
+		ref.root().style.visibility = scroller!.scrollTop > props.distance! ? 'visible' : 'hidden';
+	};
 
-    const backtop = () => {
-        if (scroller) { scroller.scrollTo({ top: 0, behavior: 'smooth' }); }
-    };
+	const backtop = () => {
+		if (scroller) {
+			scroller.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+	};
 
-    onMount(() => {
-        scroller = getScrollableParent('y', ref.root());
-        if (!scroller) { return; }
+	onMount(() => {
+		scroller = getScrollableParent('y', ref.root());
+		if (!scroller) {
+			return;
+		}
 
-        calcVisible(); // 初始化状态
-        scroller!.addEventListener('scroll', calcVisible);
-    });
+		calcVisible(); // 初始化状态
+		scroller!.addEventListener('scroll', calcVisible);
+	});
 
-    onCleanup(() => {
-        if (scroller) { scroller.removeEventListener('scroll', calcVisible); }
-    });
+	onCleanup(() => {
+		if (scroller) {
+			scroller.removeEventListener('scroll', calcVisible);
+		}
+	});
 
-    return <Button square rounded={props.rounded} palette={props.palette} ref={el => {
-        ref = el;
-        ref.root().ariaLabel = l.t('_c.backtop');
+	return (
+		<Button
+			square
+			rounded={props.rounded}
+			palette={props.palette}
+			ref={el => {
+				ref = el;
+				ref.root().ariaLabel = l.t('_c.backtop');
 
-        if (props.ref) {
-            props.ref({
-                root() { return ref; },
-                backtop() { backtop(); }
-            });
-        }
-    }} class={joinClass(undefined, styles.backtop, props.class)} style={props.style}
-    onclick={() => backtop()}
-    >
-        {props.children ?? <IconVerticalAlignTop aria-hidden="true" />}
-    </Button>;
+				if (props.ref) {
+					props.ref({
+						root() {
+							return ref;
+						},
+						backtop() {
+							backtop();
+						},
+					});
+				}
+			}}
+			class={joinClass(undefined, styles.backtop, props.class)}
+			style={props.style}
+			onclick={() => backtop()}
+		>
+			{props.children ?? <IconVerticalAlignTop aria-hidden="true" />}
+		</Button>
+	);
 }

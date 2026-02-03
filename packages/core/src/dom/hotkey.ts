@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -15,27 +15,33 @@ export type Modifier = 'meta' | 'alt' | 'control' | 'shift';
 export type Modifiers = [Modifier, ...Modifier[]];
 
 export const modifierCodes: ReadonlyMap<Modifier, number> = new Map<Modifier, number>([
-    ['meta', 1], // window / command
-    ['alt', 2], // alt / option
-    ['control', 4], // ctrl / control
-    ['shift', 8],
+	['meta', 1], // window / command
+	['alt', 2], // alt / option
+	['control', 4], // ctrl / control
+	['shift', 8],
 ]);
 
 const osName = Browser.parse(window.navigator.userAgent).os.name?.toLowerCase();
 
 const modifierSymbols: ReadonlyMap<string, ReadonlyMap<Modifier, string>> = new Map([
-    ['windows', new Map([
-        ['meta', 'Win'],
-        ['alt', 'Alt'],
-        ['control', 'Ctrl'],
-        ['shift', 'Shift']
-    ])],
-    ['macos', new Map([
-        ['meta', '⌘'],
-        ['alt', '⌥'],
-        ['control', '⌃'],
-        ['shift', '⇧']
-    ])],
+	[
+		'windows',
+		new Map([
+			['meta', 'Win'],
+			['alt', 'Alt'],
+			['control', 'Ctrl'],
+			['shift', 'Shift'],
+		]),
+	],
+	[
+		'macos',
+		new Map([
+			['meta', '⌘'],
+			['alt', '⌥'],
+			['control', '⌃'],
+			['shift', '⇧'],
+		]),
+	],
 ]);
 
 const modifierSymbolsByOS = osName ? modifierSymbols.get(osName) : undefined;
@@ -49,173 +55,189 @@ const eventName = 'keyup';
  * 定义快捷键
  */
 export class Hotkey {
-    static #handlers: Map<Hotkey, Handler> = new Map();
-    static #inited = false;
+	static #handlers: Map<Hotkey, Handler> = new Map();
+	static #inited = false;
 
-    static #onkeyup = (e: KeyboardEvent) => {
-        for (const [hk, h] of Hotkey.#handlers) {
-            if (hk.match(e)) {
-                h(e);
-            }
-        }
-    };
+	static #onkeyup = (e: KeyboardEvent) => {
+		for (const [hk, h] of Hotkey.#handlers) {
+			if (hk.match(e)) {
+				h(e);
+			}
+		}
+	};
 
-    /**
-     * 初始化环境
-     */
-    static init(): void {
-        if (Hotkey.#inited) {
-            return;
-        }
+	/**
+	 * 初始化环境
+	 */
+	static init(): void {
+		if (Hotkey.#inited) {
+			return;
+		}
 
-        document.addEventListener(eventName, Hotkey.#onkeyup);
-        Hotkey.#inited = true;
-    }
+		document.addEventListener(eventName, Hotkey.#onkeyup);
+		Hotkey.#inited = true;
+	}
 
-    /**
-     * 注销环境
-     */
-    static destroy(): void {
-        if (!Hotkey.#inited) {
-            return;
-        }
+	/**
+	 * 注销环境
+	 */
+	static destroy(): void {
+		if (!Hotkey.#inited) {
+			return;
+		}
 
-        document.removeEventListener(eventName, Hotkey.#onkeyup);
-        Hotkey.#handlers.clear();
-        Hotkey.#inited = false;
-    }
+		document.removeEventListener(eventName, Hotkey.#onkeyup);
+		Hotkey.#handlers.clear();
+		Hotkey.#inited = false;
+	}
 
-    /**
-     * 是否存在指定的快捷键
-     */
-    static hasKeys(key: string, ...modifiers: Modifiers): boolean {
-        return Hotkey.has(new Hotkey(key, ...modifiers));
-    }
+	/**
+	 * 是否存在指定的快捷键
+	 */
+	static hasKeys(key: string, ...modifiers: Modifiers): boolean {
+		return Hotkey.has(new Hotkey(key, ...modifiers));
+	}
 
-    /**
-     * 是否存在指定的快捷键
-     */
-    static has(hotkey: Hotkey): boolean {
-        for (const [hk] of Hotkey.#handlers) {
-            if (hk.equal(hotkey)) { return true; }
-        }
-        return false;
-    }
+	/**
+	 * 是否存在指定的快捷键
+	 */
+	static has(hotkey: Hotkey): boolean {
+		for (const [hk] of Hotkey.#handlers) {
+			if (hk.equal(hotkey)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * 绑定快捷键
-     *
-     * @param handler - 处理函数；
-     * @param key - 快捷键；
-     * @param modifiers - 修饰符；
-     */
-    static bindKeys(handler: Handler, key: string, ...modifiers: Modifiers): void {
-        Hotkey.bind(new Hotkey(key, ...modifiers), handler);
-    }
+	/**
+	 * 绑定快捷键
+	 *
+	 * @param handler - 处理函数；
+	 * @param key - 快捷键；
+	 * @param modifiers - 修饰符；
+	 */
+	static bindKeys(handler: Handler, key: string, ...modifiers: Modifiers): void {
+		Hotkey.bind(new Hotkey(key, ...modifiers), handler);
+	}
 
-    /**
-     * 绑定快捷键
-     *
-     * @param hotkey - 快捷键；
-     * @param handler - 快捷键处理函数；
-     */
-    static bind(hotkey: Hotkey, handler: Handler): void {
-        for (const [hk] of Hotkey.#handlers) {
-            if (hk.equal(hotkey)) {
-                throw new Error(`快捷键 ${hotkey.toString()} 已经存在`);
-            }
-        }
+	/**
+	 * 绑定快捷键
+	 *
+	 * @param hotkey - 快捷键；
+	 * @param handler - 快捷键处理函数；
+	 */
+	static bind(hotkey: Hotkey, handler: Handler): void {
+		for (const [hk] of Hotkey.#handlers) {
+			if (hk.equal(hotkey)) {
+				throw new Error(`快捷键 ${hotkey.toString()} 已经存在`);
+			}
+		}
 
-        Hotkey.#handlers.set(hotkey, handler);
-    }
+		Hotkey.#handlers.set(hotkey, handler);
+	}
 
-    /**
-     * 解绑快捷键
-     *
-     * @param hotkey - 快捷键；
-     */
-    static unbind(hotkey: Hotkey): void {
-        for (const [hk] of Hotkey.#handlers) {
-            if (hk.equal(hotkey)) {
-                Hotkey.#handlers.delete(hk);
-                break;
-            }
-        }
-    }
+	/**
+	 * 解绑快捷键
+	 *
+	 * @param hotkey - 快捷键；
+	 */
+	static unbind(hotkey: Hotkey): void {
+		for (const [hk] of Hotkey.#handlers) {
+			if (hk.equal(hotkey)) {
+				Hotkey.#handlers.delete(hk);
+				break;
+			}
+		}
+	}
 
-    /********************* 以下为实例方法 ***********************/
+	/********************* 以下为实例方法 ***********************/
 
-    readonly key: string;
-    readonly #keyCode: string;
-    readonly modifiers: number;
-    readonly #keys: Array<string>;
+	readonly key: string;
+	readonly #keyCode: string;
+	readonly modifiers: number;
+	readonly #keys: Array<string>;
 
-    constructor(key: string, ...modifiers: Modifiers) {
-        modifiers = modifiers.sort();
-        for (let i = 0;i<modifiers.length; i++) {
-            if (modifiers[i] === modifiers[i+1]) {
-                throw `重复的修饰符 ${modifiers[i]}`;
-            }
-        }
+	constructor(key: string, ...modifiers: Modifiers) {
+		modifiers = modifiers.sort();
+		for (let i = 0; i < modifiers.length; i++) {
+			if (modifiers[i] === modifiers[i + 1]) {
+				throw `重复的修饰符 ${modifiers[i]}`;
+			}
+		}
 
-        let code = 0;
-        for(const m of modifiers) {
-            code += modifierCodes.get(m)!;
-        }
-        this.key = key;
-        this.#keyCode = 'Key' + key.toUpperCase();
-        this.modifiers = code;
-        this.#keys = this.#buildKeys();
-    }
+		let code = 0;
+		for (const m of modifiers) {
+			code += modifierCodes.get(m)!;
+		}
+		this.key = key;
+		this.#keyCode = `Key${key.toUpperCase()}`;
+		this.modifiers = code;
+		this.#keys = this.#buildKeys();
+	}
 
-    /**
-     * 获取当前快捷键的按键字符串
-     */
-    #buildKeys(): string[] {
-        const keys: string[] = [];
-        for (const [k, v] of modifierCodes) {
-            if ((this.modifiers & v) === v) {
-                keys.push(k);
-            }
-        }
-        keys.push(this.key);
+	/**
+	 * 获取当前快捷键的按键字符串
+	 */
+	#buildKeys(): string[] {
+		const keys: string[] = [];
+		for (const [k, v] of modifierCodes) {
+			if ((this.modifiers & v) === v) {
+				keys.push(k);
+			}
+		}
+		keys.push(this.key);
 
-        return keys;
-    }
+		return keys;
+	}
 
-    /**
-     * 判断 e 是否与当前实例相等
-     */
-    equal(e: Hotkey): boolean { return e.#keyCode == this.#keyCode && e.modifiers == this.modifiers; }
+	/**
+	 * 判断 e 是否与当前实例相等
+	 */
+	equal(e: Hotkey): boolean {
+		return e.#keyCode === this.#keyCode && e.modifiers === this.modifiers;
+	}
 
-    /**
-     * 判断事件 e 的按键是否与当前匹配
-     */
-    match(e: KeyboardEvent): boolean {
-        if (e.code !== this.#keyCode) { return false; }
+	/**
+	 * 判断事件 e 的按键是否与当前匹配
+	 */
+	match(e: KeyboardEvent): boolean {
+		if (e.code !== this.#keyCode) {
+			return false;
+		}
 
-        let count = 0;
-        if (e.metaKey) {count +=1;}
-        if (e.altKey) {count +=2;}
-        if (e.ctrlKey) {count +=4;}
-        if (e.shiftKey) {count +=8;}
-        return count === this.modifiers;
-    }
+		let count = 0;
+		if (e.metaKey) {
+			count += 1;
+		}
+		if (e.altKey) {
+			count += 2;
+		}
+		if (e.ctrlKey) {
+			count += 4;
+		}
+		if (e.shiftKey) {
+			count += 8;
+		}
+		return count === this.modifiers;
+	}
 
-    /**
-     * 获取当前快捷键的按键字符串
-     */
-    keys(): string[] { return this.#keys; }
+	/**
+	 * 获取当前快捷键的按键字符串
+	 */
+	keys(): string[] {
+		return this.#keys;
+	}
 
-    /**
-     * 将快捷键转换为一个可读的字符串
-     *
-     * @param os - 是否输出与当前系统相符的快捷键符号；
-     */
-    toString(os?: boolean): string {
-        if (os && modifierSymbolsByOS) {
-            return this.#keys.map(k => modifierSymbolsByOS.get(k as any) ?? k).join('+');
-        }
-        return this.#keys.join('+');
-    }
+	/**
+	 * 将快捷键转换为一个可读的字符串
+	 *
+	 * @param os - 是否输出与当前系统相符的快捷键符号；
+	 */
+	toString(os?: boolean): string {
+		if (os && modifierSymbolsByOS) {
+			return this.#keys.map((k) => modifierSymbolsByOS.get(k as any) ?? k).join('+');
+		}
+		return this.#keys.join('+');
+	}
 }

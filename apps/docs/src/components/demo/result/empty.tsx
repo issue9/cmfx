@@ -8,14 +8,16 @@ import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';
 
-export default function(props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector();
+export default function (props: MountProps): JSX.Element {
+	const [Palette, palette] = paletteSelector();
 
-    return <>
-        <Portal mount={props.mount}>
-            <Palette />
-        </Portal>
+	return (
+		<>
+			<Portal mount={props.mount}>
+				<Palette />
+			</Portal>
 
-        <Empty palette={palette()} />
-    </>;
+			<Empty palette={palette()} />
+		</>
+	);
 }

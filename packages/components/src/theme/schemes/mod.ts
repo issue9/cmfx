@@ -4,4 +4,3 @@
 
 export { default as green } from './green';
 export { default as purple } from './purple';
-

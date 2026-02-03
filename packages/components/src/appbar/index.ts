@@ -2,6 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as Appbar } from './appbar';
 export type { Props as AppbarProps, Ref as AppbarRef } from './appbar';
-
+export { default as Appbar } from './appbar';

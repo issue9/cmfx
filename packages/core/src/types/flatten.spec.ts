@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,32 +8,33 @@ import { Flatten, flatten, Keys } from './flatten';
 import { Expand } from './types';
 
 test('flatten', () => {
-    const o1 = { x: '1' };
-    expect(flatten(o1)).toEqual({ 'x': '1' });
+	const o1 = { x: '1' };
+	expect(flatten(o1)).toEqual({ x: '1' });
 
-    const o2 = { x: '1', y: { z: '2' } };
-    expect(flatten(o2)).toEqual({ 'x': '1', 'y.z': '2' });
+	const o2 = { x: '1', y: { z: '2' } };
+	expect(flatten(o2)).toEqual({ x: '1', 'y.z': '2' });
 
-    const o3 = {
-        x: '1',
-        y: { z: '2' },
-        yy: {
-            z: '3', zz: { z: 4 }
-        },
-        zz: '4',
-        zzz: '5'
-    };
-    expect(flatten(o3)).toEqual({ 'x': '1', 'y.z': '2', 'yy.z': '3', 'yy.zz.z': 4, 'zz': '4', zzz: '5' });
+	const o3 = {
+		x: '1',
+		y: { z: '2' },
+		yy: {
+			z: '3',
+			zz: { z: 4 },
+		},
+		zz: '4',
+		zzz: '5',
+	};
+	expect(flatten(o3)).toEqual({ x: '1', 'y.z': '2', 'yy.z': '3', 'yy.zz.z': 4, zz: '4', zzz: '5' });
 
-    const o4 = { x: 1, y: { z: '2' } };
-    expect(flatten(o4)).toEqual({ 'x': 1, 'y.z': '2' });
+	const o4 = { x: 1, y: { z: '2' } };
+	expect(flatten(o4)).toEqual({ x: 1, 'y.z': '2' });
 });
 
 // type xx = {}
 
 type Type = {
-    a?: string;
-    b: { c: number; d: { e: boolean } };
+	a?: string;
+	b: { c: number; d: { e: boolean } };
 };
 
 type TExpectedKeys = 'a' | 'b.c' | 'b.d.e';
@@ -44,7 +45,7 @@ type TKey2 = TExpectedKeys extends TActualKeys ? true : false; // 应为 true
 assertType<TKey1>(true);
 assertType<TKey2>(true);
 
-type TExpectedTypes = { a: string, 'b.c': number, 'b.d.e': boolean };
+type TExpectedTypes = { a: string; 'b.c': number; 'b.d.e': boolean };
 type TActualTypes = Flatten<Type>;
 
 type Type1 = TActualTypes extends TExpectedTypes ? true : false; // 应为 true
@@ -55,9 +56,9 @@ assertType<Type2>(true);
 // interface xx {[k:string]:unknown,...}
 
 interface Interface {
-    [k: string]: unknown;
-    a?: string;
-    b: { c: number; d: { e: boolean } };
+	[k: string]: unknown;
+	a?: string;
+	b: { c: number; d: { e: boolean } };
 }
 
 type IExpectedKeys = 'a' | 'b.c' | 'b.d.e';
@@ -68,7 +69,7 @@ type IKey2 = IExpectedKeys extends IActualKeys ? true : false; // 应为 true
 assertType<IKey1>(true);
 assertType<IKey2>(true);
 
-type IExpectedTypes = { a: string, 'b.c': number, 'b.d.e': boolean };
+type IExpectedTypes = { a: string; 'b.c': number; 'b.d.e': boolean };
 type IActualTypes = Flatten<Interface>;
 
 type IType1 = IActualTypes extends IExpectedTypes ? true : false; // 应为 true
@@ -79,8 +80,8 @@ assertType<IType2>(true);
 // interface xx {,...}
 
 interface Interface2 {
-    a?: string;
-    b: { c: number; d: { e: boolean } };
+	a?: string;
+	b: { c: number; d: { e: boolean } };
 }
 
 type I2ExpectedKeys = 'a' | 'b.c' | 'b.d.e';
@@ -91,7 +92,7 @@ type I2Key2 = I2ExpectedKeys extends I2ActualKeys ? true : false; // 应为 true
 assertType<I2Key1>(true);
 assertType<I2Key2>(true);
 
-type I2ExpectedTypes = { a: string, 'b.c': number, 'b.d.e': boolean };
+type I2ExpectedTypes = { a: string; 'b.c': number; 'b.d.e': boolean };
 type I2ActualTypes = Flatten<Expand<Interface2>>;
 
 type I2Type1 = I2ActualTypes extends I2ExpectedTypes ? true : false; // 应为 true
@@ -102,11 +103,12 @@ assertType<I2Type2>(true);
 // interface xx {b:yy}, interface yy{...}
 
 interface Interface3 {
-    a?: string;
-    b: InterfaceB;
+	a?: string;
+	b: InterfaceB;
 }
 interface InterfaceB {
-    c: number; d: { e: boolean }
+	c: number;
+	d: { e: boolean };
 }
 
 type I3ExpectedKeys = 'a' | 'b.c' | 'b.d.e';
@@ -117,14 +119,14 @@ type I3Key2 = I3ExpectedKeys extends I3ActualKeys ? true : false; // 应为 true
 assertType<I3Key1>(true);
 assertType<I3Key2>(true);
 
-
 // interface xx {...}, interface yy extends xx{...}
 
 interface Interface4_1 {
-    a?: string;
+	a?: string;
 }
 interface Interface4 extends Interface4_1 {
-    c: number; d: { e: boolean }
+	c: number;
+	d: { e: boolean };
 }
 
 type I4ExpectedKeys = 'a' | 'c' | 'd.e';

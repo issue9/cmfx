@@ -1,10 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export interface Cancel {
-    (): void;
-}
+export type Cancel = () => void;
 
 /**
  * 使一个容器成为一个可拖拽移动的对象
@@ -14,36 +12,39 @@ export interface Cancel {
  * @returns 销毁所有注册的事件；
  */
 export function movable(toolbar: HTMLElement, container: HTMLElement): Cancel {
-    let moving = false;
-    let x = 0, y = 0;
-    const w = container.offsetWidth;
+	let moving = false;
+	let x = 0,
+		y = 0;
+	const w = container.offsetWidth;
 
-    const mouseDown = (e: MouseEvent) => {
-        moving = true;
-        x = e.clientX - container.offsetLeft;
-        y = e.clientY - container.offsetTop;
-    };
+	const mouseDown = (e: MouseEvent) => {
+		moving = true;
+		x = e.clientX - container.offsetLeft;
+		y = e.clientY - container.offsetTop;
+	};
 
-    const mouseMove = (e: MouseEvent) => {
-        if (!moving) return;
-        container.style.left = `${e.clientX - x}px`;
-        container.style.top = `${e.clientY - y}px`;
-        container.style.width = `${w}px`;
-    };
+	const mouseMove = (e: MouseEvent) => {
+		if (!moving) return;
+		container.style.left = `${e.clientX - x}px`;
+		container.style.top = `${e.clientY - y}px`;
+		container.style.width = `${w}px`;
+	};
 
-    const mouseFree = () => { moving = false; };
+	const mouseFree = () => {
+		moving = false;
+	};
 
-    toolbar.addEventListener('mousedown', mouseDown);
-    toolbar.addEventListener('mousemove', mouseMove);
-    toolbar.addEventListener('mouseup', mouseFree);
-    toolbar.addEventListener('mouseout', mouseFree);
-    toolbar.style.cursor = 'move';
+	toolbar.addEventListener('mousedown', mouseDown);
+	toolbar.addEventListener('mousemove', mouseMove);
+	toolbar.addEventListener('mouseup', mouseFree);
+	toolbar.addEventListener('mouseout', mouseFree);
+	toolbar.style.cursor = 'move';
 
-    return () => {
-        toolbar.removeEventListener('mousedown', mouseDown);
-        toolbar.removeEventListener('mousemove', mouseMove);
-        toolbar.removeEventListener('mouseup', mouseFree);
-        toolbar.removeEventListener('mouseout', mouseFree);
-        toolbar.style.cursor = 'pointer';
-    };
+	return () => {
+		toolbar.removeEventListener('mousedown', mouseDown);
+		toolbar.removeEventListener('mousemove', mouseMove);
+		toolbar.removeEventListener('mouseup', mouseFree);
+		toolbar.removeEventListener('mouseout', mouseFree);
+		toolbar.style.cursor = 'pointer';
+	};
 }

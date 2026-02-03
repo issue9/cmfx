@@ -15,7 +15,7 @@ export type Ref = MessageRef;
  * 警告框
  */
 export default function Alert(props: Props): JSX.Element {
-    const l = useLocale();
-    const [opt] = useOptions();
-    return <Message {...props} transitionDuration={opt.getTransitionDuration()} closeAriaLabel={l.t('_c.close')} />;
+	const l = useLocale();
+	const [opt] = useOptions();
+	return <Message {...props} transitionDuration={opt.getTransitionDuration()} closeAriaLabel={l.t('_c.close')} />;
 }

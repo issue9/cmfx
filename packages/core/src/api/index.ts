@@ -2,14 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { API, query2Search } from './api';
 export type { REST } from './api';
-
-export { mimetypes } from './serializer';
-export type { Mimetype } from './serializer';
-
-export type { Method, Page, Params, Problem, Query, Return } from './types';
-
-export type { Token } from './token';
-
+export { API, query2Search } from './api';
 export { APIError } from './errors';
+export type { Mimetype } from './serializer';
+export { mimetypes } from './serializer';
+export type { Token } from './token';
+export type { Method, Page, Params, Problem, Query, Return } from './types';

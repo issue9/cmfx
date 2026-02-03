@@ -8,40 +8,48 @@ import { Portal } from 'solid-js/web';
 
 import { arraySelector, paletteSelector } from '@docs/components/base';
 
-const dotTypes = ['dots' , 'rounded' , 'classy' , 'classy-rounded' , 'square' , 'extra-rounded'] as const;
+const dotTypes = ['dots', 'rounded', 'classy', 'classy-rounded', 'square', 'extra-rounded'] as const;
 const cornerDotTypes = ['dot', 'square'] as const;
 const cornerSquareTypes = ['dot', 'square', 'extra-rounded'] as const;
 
 export function typeSelector(preset: QRCodeDotType = 'square') {
-    return arraySelector('type', dotTypes, preset);
+	return arraySelector('type', dotTypes, preset);
 }
 
 export function cornerTypeSelector(preset: QRCodeCornerDotType = 'square') {
-    const corners = new Map(cornerDotTypes.map(v => [v, v]));
-    corners.set('' as any, 'undefined' as any);
-    return arraySelector('corner type', corners, preset);
+	const corners = new Map(cornerDotTypes.map(v => [v, v]));
+	corners.set('' as any, 'undefined' as any);
+	return arraySelector('corner type', corners, preset);
 }
 
 export function cornerSquareTypeSelector(preset: QRCodeCornerSquareType = 'square') {
-    const corners = new Map(cornerSquareTypes.map(v => [v, v]));
-    corners.set('' as any, 'undefined' as any);
-    return arraySelector('corner square type', corners, preset);
+	const corners = new Map(cornerSquareTypes.map(v => [v, v]));
+	corners.set('' as any, 'undefined' as any);
+	return arraySelector('corner square type', corners, preset);
 }
 
-export default function(props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector();
-    const [Type, t] = typeSelector();
-    const [Ctype, ctype] = cornerTypeSelector();
-    const [Cstype, cstype] = cornerSquareTypeSelector();
+export default function (props: MountProps): JSX.Element {
+	const [Palette, palette] = paletteSelector();
+	const [Type, t] = typeSelector();
+	const [Ctype, ctype] = cornerTypeSelector();
+	const [Cstype, cstype] = cornerSquareTypeSelector();
 
-    return <>
-        <Portal mount={props.mount}>
-            <Palette />
-            <Type />
-            <Ctype />
-            <Cstype />
-        </Portal>
+	return (
+		<>
+			<Portal mount={props.mount}>
+				<Palette />
+				<Type />
+				<Ctype />
+				<Cstype />
+			</Portal>
 
-        <QRCode type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />
-    </>;
+			<QRCode
+				type={t()}
+				cornerDotType={ctype()}
+				cornerSquareType={cstype()}
+				palette={palette()}
+				value="https://example.com"
+			/>
+		</>
+	);
 }

@@ -9,12 +9,10 @@ import { MenuItemItem } from '@components/menu';
 import Search from './search';
 
 describe('Search', async () => {
-    const search =
-        async (_: string): Promise<Array<MenuItemItem<string>>> => [{ type: 'item', value: 'v', label: 'label' }];
-    const ct = await ComponentTester.build(
-        'Search',
-        props => <Search onSearch={search} {...props} />
-    );
+	const search = async (_: string): Promise<Array<MenuItemItem<string>>> => [
+		{ type: 'item', value: 'v', label: 'label' },
+	];
+	const ct = await ComponentTester.build('Search', props => <Search onSearch={search} {...props} />);
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

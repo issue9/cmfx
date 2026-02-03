@@ -8,29 +8,44 @@ import { ComponentTester } from '@components/context/context.spec';
 import { Page, Ref } from './page';
 
 describe('Page backtop=undefined', async () => {
-    let ref: Ref;
-    const ct = await ComponentTester.build(
-        'Page',
-        props => <Page {...props} title='title' ref={el => ref = el}>abc</Page>
-    );
+	let ref: Ref;
+	const ct = await ComponentTester.build('Page', props => (
+		<Page
+			{...props}
+			title="title"
+			ref={el => {
+				ref = el;
+			}}
+		>
+			abc
+		</Page>
+	));
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 
-    test('backtop=undefined', () => {
-        expect(ref!.root()).not.toBeUndefined();
-        expect(ref!.backtop()).not.toBeUndefined();
-    });
+	test('backtop=undefined', () => {
+		expect(ref!.root()).not.toBeUndefined();
+		expect(ref!.backtop()).not.toBeUndefined();
+	});
 });
 
 describe('Page', async () => {
-    let ref: Ref;
-    await ComponentTester.build(
-        'Page',
-        props => <Page backtop={false} {...props} title='title' ref={el => ref = el}>abc</Page>
-    );
+	let ref: Ref;
+	await ComponentTester.build('Page', props => (
+		<Page
+			backtop={false}
+			{...props}
+			title="title"
+			ref={el => {
+				ref = el;
+			}}
+		>
+			abc
+		</Page>
+	));
 
-    test('backtop=false', async () => {
-        expect(ref!.root()).not.toBeUndefined();
-        expect(ref!.backtop()).toBeUndefined();
-    });
+	test('backtop=false', async () => {
+		expect(ref!.root()).not.toBeUndefined();
+		expect(ref!.backtop()).toBeUndefined();
+	});
 });

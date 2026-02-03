@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -20,48 +20,55 @@ export type Params<T extends Query> = Record<keyof T, string>;
  * @param searchParamsGetter - {@link useSearchParams} 返回值的第一个元素；
  * @returns 结合 preset 和从地址中获取的参数合并的参数对象
  */
-export function fromSearch<Q extends Query>(preset: Q, searchParamsGetter: ReturnType<typeof useSearchParams<Params<Q>>>[0]): Q {
-    // 需要将 useSearchParams 返回的参数转换为 Q 类型，
-    // 即将 {[x:string]:string} 转换为 Query
+export function fromSearch<Q extends Query>(
+	preset: Q,
+	searchParamsGetter: ReturnType<typeof useSearchParams<Params<Q>>>[0],
+): Q {
+	// 需要将 useSearchParams 返回的参数转换为 Q 类型，
+	// 即将 {[x:string]:string} 转换为 Query
 
-    for (const key in searchParamsGetter) {
-        if (searchParamsGetter[key] && preset[key] !== searchParamsGetter[key]) {
-            const pv = preset[key];
-            const val = searchParamsGetter[key];
+	for (const key in searchParamsGetter) {
+		if (searchParamsGetter[key] && preset[key] !== searchParamsGetter[key]) {
+			const pv = preset[key];
+			const val = searchParamsGetter[key];
 
-            if (Array.isArray(pv)) {
-                switch (typeof pv[0]) {
-                case 'string':
-                    preset[key] = (val as string).split(',') as any;
-                    break;
-                case 'number':
-                    preset[key] = (val as string).split(',').map((v) => { return parseInt(v); }) as any;
-                    break;
-                case 'boolean':
-                    preset[key] = (val as string).split(',').map((v) => { return v !== 'false'; }) as any;
-                    break;
-                default:
-                    preset[key] = (val as string).split(',') as any;
-                }
-            } else {
-                switch (typeof pv) {
-                case 'string':
-                    preset[key] = val as any;
-                    break;
-                case 'number':
-                    preset[key] = parseInt(val) as any;
-                    break;
-                case 'boolean':
-                    preset[key] = (val !== 'false') as any;
-                    break;
-                default:
-                    preset[key] = val as any;
-                }
-            }
-        }
-    }
+			if (Array.isArray(pv)) {
+				switch (typeof pv[0]) {
+					case 'string':
+						preset[key] = (val as string).split(',') as any;
+						break;
+					case 'number':
+						preset[key] = (val as string).split(',').map(v => {
+							return parseInt(v);
+						}) as any;
+						break;
+					case 'boolean':
+						preset[key] = (val as string).split(',').map(v => {
+							return v !== 'false';
+						}) as any;
+						break;
+					default:
+						preset[key] = (val as string).split(',') as any;
+				}
+			} else {
+				switch (typeof pv) {
+					case 'string':
+						preset[key] = val as any;
+						break;
+					case 'number':
+						preset[key] = parseInt(val, 10) as any;
+						break;
+					case 'boolean':
+						preset[key] = (val !== 'false') as any;
+						break;
+					default:
+						preset[key] = val as any;
+				}
+			}
+		}
+	}
 
-    return preset;
+	return preset;
 }
 
 /**
@@ -71,14 +78,17 @@ export function fromSearch<Q extends Query>(preset: Q, searchParamsGetter: Retur
  * @param q - 查询参数；
  * @param searchSetter - {@link useSearchParams} 返回值的第二个元素；
  */
-export function saveSearch<Q extends Query>(q: Q, searchSetter: ReturnType<typeof useSearchParams<Params<Q>>>[1]): void {
-    const s: SetParams = {};
-    Object.entries(q).forEach((v) => {
-        if (Array.isArray(v[1])) {
-            s[v[0]] = v[1].join(',');
-        } else {
-            s[v[0]] = v[1];
-        }
-    });
-    searchSetter(s, {replace: true});
+export function saveSearch<Q extends Query>(
+	q: Q,
+	searchSetter: ReturnType<typeof useSearchParams<Params<Q>>>[1],
+): void {
+	const s: SetParams = {};
+	Object.entries(q).forEach(v => {
+		if (Array.isArray(v[1])) {
+			s[v[0]] = v[1].join(',');
+		} else {
+			s[v[0]] = v[1];
+		}
+	});
+	searchSetter(s, { replace: true });
 }

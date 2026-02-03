@@ -5,28 +5,45 @@
 import IconTable from '~icons/lets-icons/table';
 
 import type { Info } from '@docs/components/base';
-
+import { default as C2 } from './basic';
+import { default as s2 } from './basic.tsx?raw';
+import { default as C3 } from './loader';
+import { default as s3 } from './loader.tsx?raw';
+import { default as C4 } from './paging';
+import { default as s4 } from './paging.tsx?raw';
 import { default as C1 } from './table';
 import { default as s1 } from './table.tsx?raw';
 
-import { default as C2 } from './basic';
-import { default as s2 } from './basic.tsx?raw';
-
-import { default as C3 } from './loader';
-import { default as s3 } from './loader.tsx?raw';
-
-import { default as C4 } from './paging';
-import { default as s4 } from './paging.tsx?raw';
-
-export default function(): Info {
-    return {
-        kind: 'data-display', title: '_d.demo.table', icon: IconTable, path: 'table',
-        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-        stages: [
-            { component: C1, source: s1, layout: 'vertical', title: '表格', desc: '基本的表格功能，与 HTML 的 table 相同，加上了部分控制功能。' },
-            { component: C2, source: s2, layout: 'vertical', title: '数据表格', desc: '用于展示数据，但是不支持分页。' },
-            { component: C3, source: s3, layout: 'vertical', title: '数据表格', desc: '用于展示数据，可通过方法加载数据内容，支持分页。' },
-            { component: C4, source: s4, layout: 'vertical', title: '数据表格', desc: '用于展示数据，可通过方法加载数据内容，支持分页。' },
-        ]
-    };
+export default function (): Info {
+	return {
+		kind: 'data-display',
+		title: '_d.demo.table',
+		icon: IconTable,
+		path: 'table',
+		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		stages: [
+			{
+				component: C1,
+				source: s1,
+				layout: 'vertical',
+				title: '表格',
+				desc: '基本的表格功能，与 HTML 的 table 相同，加上了部分控制功能。',
+			},
+			{ component: C2, source: s2, layout: 'vertical', title: '数据表格', desc: '用于展示数据，但是不支持分页。' },
+			{
+				component: C3,
+				source: s3,
+				layout: 'vertical',
+				title: '数据表格',
+				desc: '用于展示数据，可通过方法加载数据内容，支持分页。',
+			},
+			{
+				component: C4,
+				source: s4,
+				layout: 'vertical',
+				title: '数据表格',
+				desc: '用于展示数据，可通过方法加载数据内容，支持分页。',
+			},
+		],
+	};
 }

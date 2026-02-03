@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { adjustPopoverPosition } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, For, JSX, untrack } from 'solid-js';
 
-import { adjustPopoverPosition } from '@cmfx/core';
 import { BaseProps, joinClass, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
@@ -13,121 +13,160 @@ import styles from './style.module.css';
 import { default as YearPanel, Ref as YearPanelRef } from './yearpanel';
 
 export interface Ref {
-    root(): HTMLFieldSetElement;
+	root(): HTMLFieldSetElement;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
-    /**
-     * 禁用状态
-     *
-     * @reactive
-     */
-    disabled?: boolean;
+	/**
+	 * 禁用状态
+	 *
+	 * @reactive
+	 */
+	disabled?: boolean;
 
-    /**
-     * 只读状态
-     *
-     * @reactive
-     */
-    readonly?: boolean;
+	/**
+	 * 只读状态
+	 *
+	 * @reactive
+	 */
+	readonly?: boolean;
 
-    popover?: boolean | 'manual' | 'auto';
+	popover?: boolean | 'manual' | 'auto';
 
-    /**
-     * 最小值
-     *
-     * @reactive
-     */
-    min?: Date;
+	/**
+	 * 最小值
+	 *
+	 * @reactive
+	 */
+	min?: Date;
 
-    /**
-     * 最大值
-     *
-     * @reactive
-     */
-    max?: Date;
+	/**
+	 * 最大值
+	 *
+	 * @reactive
+	 */
+	max?: Date;
 
-    /**
-     * 关联的值
-     *
-     * @reactive
-     */
-    value?: Date;
+	/**
+	 * 关联的值
+	 *
+	 * @reactive
+	 */
+	value?: Date;
 
-    /**
-     * 值发生改变时触发的事件
-     */
-    onChange?: { (val?: Date, old?: Date): void; };
+	/**
+	 * 值发生改变时触发的事件
+	 */
+	onChange?: (val?: Date, old?: Date) => void;
 }
 
 /**
  * 月份选择面板
  */
 export default function MonthPanel(props: Props): JSX.Element {
-    const [value, setValue] = createSignal<Date | undefined>(props.value);
-    const [year, setYear] = createSignal<number>(props.value?.getFullYear() ?? new Date().getFullYear());
+	const [value, setValue] = createSignal<Date | undefined>(props.value);
+	const [year, setYear] = createSignal<number>(props.value?.getFullYear() ?? new Date().getFullYear());
 
-    // 监视 props.value 变化
-    createEffect(() => {
-        const old = untrack(value);
-        setValue(props.value);
-        setYear(props.value?.getFullYear() ?? new Date().getFullYear());
-        if (props.onChange) { props.onChange(props.value, old); }
-    });
+	// 监视 props.value 变化
+	createEffect(() => {
+		const old = untrack(value);
+		setValue(props.value);
+		setYear(props.value?.getFullYear() ?? new Date().getFullYear());
+		if (props.onChange) {
+			props.onChange(props.value, old);
+		}
+	});
 
-    const change = (v?: Date) => {
-        if (props.disabled || props.readonly) { return; }
+	const change = (v?: Date) => {
+		if (props.disabled || props.readonly) {
+			return;
+		}
 
-        const old = untrack(value);
-        if (old === v) { return; }
+		const old = untrack(value);
+		if (old === v) {
+			return;
+		}
 
-        setValue(v);
-        if (props.onChange) { props.onChange(v, old); }
-    };
+		setValue(v);
+		if (props.onChange) {
+			props.onChange(v, old);
+		}
+	};
 
-    const l = useLocale();
+	const l = useLocale();
 
-    const monthFomatter = createMemo(() => {
-        const s = l.displayStyle === 'full' ? 'long' : (l.displayStyle === 'short' ? 'short' : 'narrow');
-        return (new Intl.DateTimeFormat(l.locale.toString(), { month: s })).format;
-    });
+	const monthFomatter = createMemo(() => {
+		const s = l.displayStyle === 'full' ? 'long' : l.displayStyle === 'short' ? 'short' : 'narrow';
+		return new Intl.DateTimeFormat(l.locale.toString(), { month: s }).format;
+	});
 
-    let yearRef: YearPanelRef | undefined;
+	let yearRef: YearPanelRef | undefined;
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({root: () => el}); } }}
-        disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)} style={props.style}
-    >
-        <header class={styles.month}>
-            <span class={styles.title} onClick={e => {
-                yearRef!.root().togglePopover();
-                adjustPopoverPosition(yearRef!.root(), e.currentTarget.getBoundingClientRect());
-            }}>{year()}</span>
+	return (
+		<fieldset
+			popover={props.popover}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+			disabled={props.disabled}
+			class={joinClass(props.palette, styles.panel, props.class)}
+			style={props.style}
+		>
+			<header class={styles.month}>
+				<span
+					class={styles.title}
+					onclick={e => {
+						yearRef!.root().togglePopover();
+						adjustPopoverPosition(yearRef!.root(), e.currentTarget.getBoundingClientRect());
+					}}
+				>
+					{year()}
+				</span>
 
-            <YearPanel popover='auto' ref={el => yearRef = el} palette={props.palette} value={value()?.getFullYear()}
-                min={props.min ? props.min.getFullYear() : undefined}
-                max={props.max ? props.max.getFullYear() : undefined}
-                onChange={v => {
-                    if (!v) { return; }
+				<YearPanel
+					popover="auto"
+					ref={el => {
+						yearRef = el;
+					}}
+					palette={props.palette}
+					value={value()?.getFullYear()}
+					min={props.min ? props.min.getFullYear() : undefined}
+					max={props.max ? props.max.getFullYear() : undefined}
+					onChange={v => {
+						if (!v) {
+							return;
+						}
 
-                    setYear(v);
-                    yearRef!.root().hidePopover();
-                }} />
-        </header>
+						setYear(v);
+						yearRef!.root().hidePopover();
+					}}
+				/>
+			</header>
 
-        <div class={styles.grid}>
-            <For each={months}>
-                {month => {
-                    return <Button kind='flat' checked={value()?.getMonth() === month && year() === value()?.getFullYear()}
-                        disabled={value()
-                            && ((props.min && (new Date(year(), month, 1)) < props.min)
-                            || (props.max && (new Date(year(), month, 1)) > props.max))
-                        }
-                        onclick={() => { change(new Date(year(), month)); }}
-                    >
-                        {monthFomatter()(new Date(2000, month, 1))}
-                    </Button>;
-                }}
-            </For>
-        </div>
-    </fieldset>;
+			<div class={styles.grid}>
+				<For each={months}>
+					{month => {
+						return (
+							<Button
+								kind="flat"
+								checked={value()?.getMonth() === month && year() === value()?.getFullYear()}
+								disabled={
+									value() &&
+									((props.min && new Date(year(), month, 1) < props.min) ||
+										(props.max && new Date(year(), month, 1) > props.max))
+								}
+								onclick={() => {
+									change(new Date(year(), month));
+								}}
+							>
+								{monthFomatter()(new Date(2000, month, 1))}
+							</Button>
+						);
+					}}
+				</For>
+			</div>
+		</fieldset>
+	);
 }

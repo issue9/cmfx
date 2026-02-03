@@ -10,25 +10,37 @@ import IconFace from '~icons/material-symbols/face';
 import { boolSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-    const [Spinning, spinning] = boolSelector('spinning', false);
-    const [Palette, palette] = paletteSelector('primary');
+	const [Spinning, spinning] = boolSelector('spinning', false);
+	const [Palette, palette] = paletteSelector('primary');
 
-    return <div>
-        <Portal mount={props.mount}>
-            <Palette />
-            <Spinning />
-        </Portal>
+	return (
+		<div>
+			<Portal mount={props.mount}>
+				<Palette />
+				<Spinning />
+			</Portal>
 
-        <Spin palette={palette()} indicator={<IconFace />} spinning={spinning()} class="border border-palette-border flex gap-2 p-2">
-            <Button>btn1</Button>
-            <p>indicator</p>
-            <Button>btn2</Button>
-        </Spin>
+			<Spin
+				palette={palette()}
+				indicator={<IconFace />}
+				spinning={spinning()}
+				class="border border-palette-border flex gap-2 p-2"
+			>
+				<Button>btn1</Button>
+				<p>indicator</p>
+				<Button>btn2</Button>
+			</Spin>
 
-        <Spin palette={palette()} indicator={<IconFace class="animate-spin" />} spinning={spinning()} class="border border-palette-border flex gap-2 p-2">
-            <Button>btn1</Button>
-            <p>animate-spin indicator</p>
-            <Button>btn2</Button>
-        </Spin>
-    </div>;
+			<Spin
+				palette={palette()}
+				indicator={<IconFace class="animate-spin" />}
+				spinning={spinning()}
+				class="border border-palette-border flex gap-2 p-2"
+			>
+				<Button>btn1</Button>
+				<p>animate-spin indicator</p>
+				<Button>btn2</Button>
+			</Spin>
+		</div>
+	);
 }

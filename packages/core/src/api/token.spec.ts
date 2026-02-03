@@ -5,52 +5,52 @@
 import { expect, test } from 'vitest';
 
 import { sleep } from '@core/time';
-import { Token, delToken, getToken, state, writeToken } from './token';
+import { delToken, getToken, state, Token, writeToken } from './token';
 
 test('token', () => {
-    const id = 'cmfx-token-name';
-    const s = window.sessionStorage;
-    expect(getToken(id, s)).toBeUndefined();
-    expect(delToken(id, s));
+	const id = 'cmfx-token-name';
+	const s = window.sessionStorage;
+	expect(getToken(id, s)).toBeUndefined();
+	expect(delToken(id, s));
 
-    const t: Token = {
-        access_token: 'access',
-        access_exp: 1,
-        refresh_token: 'refresh',
-        refresh_exp: 3
-    };
+	const t: Token = {
+		access_token: 'access',
+		access_exp: 1,
+		refresh_token: 'refresh',
+		refresh_exp: 3,
+	};
 
-    const tk = writeToken(t, id, s);
-    expect(tk.access_token).toEqual('access');
+	const tk = writeToken(t, id, s);
+	expect(tk.access_token).toEqual('access');
 
-    const now = Date.now().valueOf();
-    const rt = getToken(id, s)!;
+	const now = Date.now().valueOf();
+	const rt = getToken(id, s)!;
 
-    expect(rt.access_token).toEqual('access');
-    expect(rt.refresh_token).toEqual('refresh');
-    expect(rt.access_exp).toBeGreaterThan(now);
-    expect(rt.refresh_exp).toBeGreaterThan(rt.access_exp);
+	expect(rt.access_token).toEqual('access');
+	expect(rt.refresh_token).toEqual('refresh');
+	expect(rt.access_exp).toBeGreaterThan(now);
+	expect(rt.refresh_exp).toBeGreaterThan(rt.access_exp);
 
-    expect(delToken(id, s));
-    expect(getToken(id, s)).toBeUndefined();
+	expect(delToken(id, s));
+	expect(getToken(id, s)).toBeUndefined();
 });
 
 test('state', async () => {
-    const id = 'cmfx-token-name';
-    const s = window.sessionStorage;
+	const id = 'cmfx-token-name';
+	const s = window.sessionStorage;
 
-    const t: Token = {
-        access_token: 'access',
-        access_exp: 1,
-        refresh_token: 'refresh',
-        refresh_exp: 2
-    };
-    expect(writeToken(t, id, s));
-    const rt = getToken(id, s)!;
+	const t: Token = {
+		access_token: 'access',
+		access_exp: 1,
+		refresh_token: 'refresh',
+		refresh_exp: 2,
+	};
+	expect(writeToken(t, id, s));
+	const rt = getToken(id, s)!;
 
-    expect(state(rt)).toEqual('normal');
-    await sleep(1000);
-    expect(state(rt)).toEqual('accessExpired');
-    await sleep(2 * 1000);
-    expect(state(rt)).toEqual('refreshExpired');
+	expect(state(rt)).toEqual('normal');
+	await sleep(1000);
+	expect(state(rt)).toEqual('accessExpired');
+	await sleep(2 * 1000);
+	expect(state(rt)).toEqual('refreshExpired');
 });

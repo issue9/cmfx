@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,10 +9,12 @@
  * @param decimals - 小数位数，如果小于等于 0，则返回整数；
  */
 export function rand(min: number, max: number, decimals: number): number {
-    const r = Math.random() * (max - min) + min;
+	const r = Math.random() * (max - min) + min;
 
-    if (decimals <= 0) { return Math.floor(r); }
-    return round(r, decimals);
+	if (decimals <= 0) {
+		return Math.floor(r);
+	}
+	return round(r, decimals);
 }
 
 /**
@@ -21,6 +23,6 @@ export function rand(min: number, max: number, decimals: number): number {
  * @param decimals - 小数位数；
  */
 export function round(num: number, decimals: number): number {
-    const factor = Math.pow(10, decimals);
-    return Math.round(num * factor) / factor;
+	const factor = 10 ** decimals;
+	return Math.round(num * factor) / factor;
 }

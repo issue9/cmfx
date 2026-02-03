@@ -7,8 +7,8 @@ import { RouteDefinition } from '@solidjs/router';
 import { Contribute } from './contribute';
 
 export function buildRoute(path: string): RouteDefinition {
-    return {
-        path: path,
-        component: () => <Contribute />,
-    };
+	return {
+		path: path,
+		component: () => <Contribute />,
+	};
 }

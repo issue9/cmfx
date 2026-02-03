@@ -8,16 +8,21 @@ import { ComponentTester } from '@components/context/context.spec';
 import { Input, Ref } from './input';
 
 describe('Input', async () => {
-    let ref: Ref;
-    const ct = await ComponentTester.build(
-        'Input',
-        props => <Input {...props} onChange={() => { }} ref={el => ref = el} />
-    );
+	let ref: Ref;
+	const ct = await ComponentTester.build('Input', props => (
+		<Input
+			{...props}
+			onChange={() => {}}
+			ref={el => {
+				ref = el;
+			}}
+		/>
+	));
 
-    test('ref', () => {
-        expect(ref!.root()).not.toBeUndefined();
-        expect(ref!.input()).not.toBeUndefined();
-    });
+	test('ref', () => {
+		expect(ref!.root()).not.toBeUndefined();
+		expect(ref!.input()).not.toBeUndefined();
+	});
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

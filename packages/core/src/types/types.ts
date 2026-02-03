@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -37,11 +37,8 @@
  *
  * NOTE: 该行为可能让编译时长变长，甚至可能因内在不足导致编译失败。
  */
-export type Expand<T> = T extends object
-    ? T extends Function
-        ? T
-        : { [K in keyof T]: Expand<T[K]> }
-    : T;
+
+export  type Expand<T> = T extends object ? (T extends Function ? T : { [K in keyof T]: Expand<T[K]> }) : T;
 
 // 以下代码无法对子元素进行展开
 //export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
@@ -59,21 +56,17 @@ export type Expand<T> = T extends object
  * ```
  */
 export type RemoveIndexSignature<T> = {
-    [K in keyof T as string extends K
-        ? never
-        : number extends K
-            ? never
-            : symbol extends K
-                ? never
-                : K]: T[K];
+	[K in keyof T as string extends K ? never : number extends K ? never : symbol extends K ? never : K]: T[K];
 };
 
 /**
  * 提取所有字段为可选类型的名称组成联合类型
  */
-export type OptionalKeys<T> = NonNullable<{
-    [K in keyof T]: undefined extends T[K] ? K : never;
-}[keyof T]>;
+export type OptionalKeys<T> = NonNullable<
+	{
+		[K in keyof T]: undefined extends T[K] ? K : never;
+	}[keyof T]
+>;
 
 /**
  * 排除 T 中所有的可选字段组成一个新的对象

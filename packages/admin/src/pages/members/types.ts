@@ -6,14 +6,14 @@ import { Admin } from '@admin/app';
 import { Sex, State } from '@admin/schemas';
 
 export type Member = {
-    id: number;
-    nickname: string;
-    no: string;
-    sex: Sex;
-    state: State;
+	id: number;
+	nickname: string;
+	no: string;
+	sex: Sex;
+	state: State;
 
-    avatar?: string;
-    birthday?: string;
-    created?: string;
-    passports?: Admin['passports'];
+	avatar?: string;
+	birthday?: string;
+	created?: string;
+	passports?: Admin['passports'];
 };

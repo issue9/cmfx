@@ -5,15 +5,15 @@
 import IconTransition from '~icons/material-symbols/masked-transitions';
 
 import type { Info } from '@docs/components/base';
-
 import { default as Transition } from './transition';
 import { default as transition } from './transition.tsx?raw';
 
-export default function(): Info {
-    return {
-        kind: 'general', title: '_d.demo.transition', icon: IconTransition, path: 'transition',
-        stages: [
-            { component: Transition, source: transition, title: 'transition' },
-        ]
-    };
+export default function (): Info {
+	return {
+		kind: 'general',
+		title: '_d.demo.transition',
+		icon: IconTransition,
+		path: 'transition',
+		stages: [{ component: Transition, source: transition, title: 'transition' }],
+	};
 }

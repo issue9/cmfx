@@ -23,9 +23,13 @@ let notifyInst: typeof notify;
  * @param duration - 如果大于 0，超过此毫秒数时将自动关闭提示框；
  */
 export async function notify(
-    title: string, body?: string, type?: Type, lang?: string, duration?: number
+	title: string,
+	body?: string,
+	type?: Type,
+	lang?: string,
+	duration?: number,
 ): Promise<void> {
-    return await notifyInst(title, body, type, lang, duration);
+	return await notifyInst(title, body, type, lang, duration);
 }
 
 export type Props = BaseProps & ParentProps & MountProps;
@@ -38,39 +42,53 @@ export type Props = BaseProps & ParentProps & MountProps;
  * NOTE: 不可多次调用，仅用于初始化通知组件。
  */
 export function Notify(props: Props): JSX.Element {
-    props = mergeProps({palette: 'error' as Palette}, props);
-    return <>
-        <Portal mount={props.mount}>{initNotify(props)}</Portal>
-        {props.children}
-    </>;
+	props = mergeProps({ palette: 'error' as Palette }, props);
+	return (
+		<>
+			<Portal mount={props.mount}>{initNotify(props)}</Portal>
+			{props.children}
+		</>
+	);
 }
 
 function initNotify(p: Props): JSX.Element {
-    const [accessor, opt] = useOptions();
-    const l = useLocale();
-    let ref: HTMLDivElement;
+	const [accessor, opt] = useOptions();
+	const l = useLocale();
+	let ref: HTMLDivElement;
 
-    notifyInst = async (title: string, body?: string, type?: Type, lang?: string, duration?: number) => {
-        duration = duration ?? accessor.getStays();
+	notifyInst = async (title: string, body?: string, type?: Type, lang?: string, duration?: number) => {
+		duration = duration ?? accessor.getStays();
 
-        if (accessor.getSystemNotify() && await systemNotify(title, body, opt.logo, lang ?? accessor.getLocale(), duration)) { return; }
+		if (
+			accessor.getSystemNotify() &&
+			(await systemNotify(title, body, opt.logo, lang ?? accessor.getLocale(), duration))
+		) {
+			return;
+		}
 
-        const props: MessageProps = {
-            title,
-            body,
-            type,
-            duration,
-            closable: true,
-            icon: false,
+		const props: MessageProps = {
+			title,
+			body,
+			type,
+			duration,
+			closable: true,
+			icon: false,
 
-            // 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
-            transitionDuration: accessor.getTransitionDuration(),
-            closeAriaLabel: l.t('_c.close'),
-        };
-        render(() => <Message {...props} />, ref);
-    };
+			// 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
+			transitionDuration: accessor.getTransitionDuration(),
+			closeAriaLabel: l.t('_c.close'),
+		};
+		render(() => <Message {...props} />, ref);
+	};
 
-    return <div ref={el => ref = el} class={joinClass(p.palette, styles.notify, p.class)} />;
+	return (
+		<div
+			ref={el => {
+				ref = el;
+			}}
+			class={joinClass(p.palette, styles.notify, p.class)}
+		/>
+	);
 }
 
 /**
@@ -79,28 +97,35 @@ function initNotify(p: Props): JSX.Element {
  * @returns 如果发送成功返回 true，否则返回 false。
  */
 async function systemNotify(
-    title: string, body?: string, icon?: string, lang?: string, timeout?: number
+	title: string,
+	body?: string,
+	icon?: string,
+	lang?: string,
+	timeout?: number,
 ): Promise<boolean> {
-    if (!('Notification' in window)) { // 不支持
-        return false;
-    } else if (Notification.permission == 'denied') { // 明确拒绝
-        return false;
-    } else if (Notification.permission !== 'granted') { // 未明确的权限
-        if (await Notification.requestPermission()=='denied') {
-            return false;
-        }
-    }
+	if (!('Notification' in window)) {
+		// 不支持
+		return false;
+	} else if (Notification.permission === 'denied') {
+		// 明确拒绝
+		return false;
+	} else if (Notification.permission !== 'granted') {
+		// 未明确的权限
+		if ((await Notification.requestPermission()) === 'denied') {
+			return false;
+		}
+	}
 
-    const n = new Notification(title, {
-        icon: icon,
-        lang: lang,
-        body: body,
-    });
+	const n = new Notification(title, {
+		icon: icon,
+		lang: lang,
+		body: body,
+	});
 
-    if (timeout && timeout > 0) {
-        await sleep(timeout);
-        n.close();
-    }
+	if (timeout && timeout > 0) {
+		await sleep(timeout);
+		n.close();
+	}
 
-    return true;
+	return true;
 }

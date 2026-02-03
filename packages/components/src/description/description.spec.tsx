@@ -8,10 +8,7 @@ import { ComponentTester } from '@components/context/context.spec';
 import { Description } from './description';
 
 describe('Description', async () => {
-    const ct = await ComponentTester.build(
-        'Description',
-        props => <Description {...props} />
-    );
+	const ct = await ComponentTester.build('Description', props => <Description {...props} />);
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

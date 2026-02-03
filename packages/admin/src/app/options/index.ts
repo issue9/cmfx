@@ -2,11 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { build } from './options';
-
-export { presetConfigName } from './options';
 export type { Options } from './options';
-
-export { buildItems } from './route';
+export { build, presetConfigName } from './options';
 export type { MenuItem } from './route';
-
+export { buildItems } from './route';

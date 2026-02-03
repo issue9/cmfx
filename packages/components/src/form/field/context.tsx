@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -20,13 +20,13 @@ const formContext = createContext<FormContext>({} as FormContext);
  * 表单的实现者需要调用此组件用于给表单的组件提供上下文环境。
  */
 export function FormProvider(props: ParentProps<FormContext>): JSX.Element {
-    const [, val] = splitProps(props, ['children']);
-    return <formContext.Provider value={val}>{props.children}</formContext.Provider>;
+	const [, val] = splitProps(props, ['children']);
+	return <formContext.Provider value={val}>{props.children}</formContext.Provider>;
 }
 
 /**
  * 获取最近一个表单的上下文环境
  */
 export function useForm(): FormContext {
-    return useContext(formContext);
+	return useContext(formContext);
 }

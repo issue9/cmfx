@@ -9,28 +9,39 @@ import { Portal } from 'solid-js/web';
 import { arraySelector, boolSelector, paletteSelector } from '@docs/components/base';
 
 export function typeSelector() {
-    return arraySelector('types', notifyTypes, 'error');
+	return arraySelector('types', notifyTypes, 'error');
 }
 
 export default function (props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector();
-    const [Type, typ] = typeSelector();
-    const [Closable, closable] = boolSelector('closable');
+	const [Palette, palette] = paletteSelector();
+	const [Type, typ] = typeSelector();
+	const [Closable, closable] = boolSelector('closable');
 
-    return <div class="flex flex-col gap-3 w-full">
-        <Portal mount={props.mount}>
-            <Palette />
-            <Type />
-            <Closable />
-        </Portal>
-        <Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" body="Alert Message" />
+	return (
+		<div class="flex flex-col gap-3 w-full">
+			<Portal mount={props.mount}>
+				<Palette />
+				<Type />
+				<Closable />
+			</Portal>
+			<Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" body="Alert Message" />
 
-        <Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title"
-            body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \ n 换行"
-        />
+			<Alert
+				closable={closable()}
+				palette={palette()}
+				type={typ()}
+				title="Alert Title"
+				body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \ n 换行"
+			/>
 
-        <Alert closable={closable()} palette={palette()} type={typ()} icon={false} title="Alert Title"
-            body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \ n 换行"
-        />
-    </div>;
+			<Alert
+				closable={closable()}
+				palette={palette()}
+				type={typ()}
+				icon={false}
+				title="Alert Title"
+				body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \ n 换行"
+			/>
+		</div>
+	);
 }

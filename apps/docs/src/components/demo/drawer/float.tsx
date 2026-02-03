@@ -9,43 +9,68 @@ import { Portal } from 'solid-js/web';
 import { arraySelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-    const [Breakpoint, breakpoint]
-        = arraySelector('breakpoint', ['3xs','xs', 'sm', 'md', 'lg', '2xl', '4xl', '6xl', '8xl', 'true', 'false'], 'lg');
-    const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
+	const [Breakpoint, breakpoint] = arraySelector(
+		'breakpoint',
+		['3xs', 'xs', 'sm', 'md', 'lg', '2xl', '4xl', '6xl', '8xl', 'true', 'false'],
+		'lg',
+	);
+	const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
 
-    const bp = createMemo(() => {
-        const v = breakpoint();
-        switch (v) {
-        case 'true':
-            return true;
-        case 'false':
-            return false;
-        default:
-            return v;
-        }
-    });
+	const bp = createMemo(() => {
+		const v = breakpoint();
+		switch (v) {
+			case 'true':
+				return true;
+			case 'false':
+				return false;
+			default:
+				return v;
+		}
+	});
 
-    const [ref, setRef] = createSignal<DrawerRef>();
+	const [ref, setRef] = createSignal<DrawerRef>();
 
-    return <>
-        <Portal mount={props.mount}>
-            <Breakpoint />
-            <Pos />
-        </Portal>
+	return (
+		<>
+			<Portal mount={props.mount}>
+				<Breakpoint />
+				<Pos />
+			</Portal>
 
+			<Button
+				onclick={() => {
+					ref()?.toggle();
+				}}
+			>
+				ref.toggle
+			</Button>
 
-        <Button onclick={() => { ref()?.toggle(); }}>ref.toggle</Button>
+			<Show when={ref()}>{ref()!.ToggleButton()}</Show>
 
-        <Show when={ref()}>
-            {ref()!.ToggleButton()}
-        </Show>
-
-        <Drawer ref={setRef} pos={pos()} palette='primary' visible={true} floating={bp()} main={
-            <main class="h-full bg-secondary-bg">abc<br /><br /><br />
-                <br /><br /><br />hij
-            </main>
-        }>
-            <div class="h-full border-palette-border min-w-20">aside<br /></div>
-        </Drawer>
-    </>;
+			<Drawer
+				ref={setRef}
+				pos={pos()}
+				palette="primary"
+				visible={true}
+				floating={bp()}
+				main={
+					<main class="h-full bg-secondary-bg">
+						abc
+						<br />
+						<br />
+						<br />
+						<br />
+						<br />
+						<br />
+						hij
+					</main>
+				}
+			>
+				<div class="h-full border-palette-border min-w-20">
+					aside
+					<br />
+				</div>
+			</Drawer>
+		</>
+	);
 }

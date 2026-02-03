@@ -8,14 +8,11 @@ import { ComponentTester } from '@components/context/context.spec';
 import { Tab } from './tab';
 
 describe('Tab', async () => {
-    const ct = await ComponentTester.build(
-        'Tab',
-        props => <Tab items={[{ id: 'id' }]} {...props} />
-    );
+	const ct = await ComponentTester.build('Tab', props => <Tab items={[{ id: 'id' }]} {...props} />);
 
-    test('props', () => {
-        ct.testProps();
-        const root = ct.result.container.firstElementChild as HTMLElement;
-        expect(root).toHaveProperty('role', 'tablist');
-    });
+	test('props', () => {
+		ct.testProps();
+		const root = ct.result.container.firstElementChild as HTMLElement;
+		expect(root).toHaveProperty('role', 'tablist');
+	});
 });

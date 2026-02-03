@@ -12,6 +12,8 @@ import { APIError, Problem } from '@cmfx/core';
  * @typeParam P - {@link Problem} 的泛型参数 E；
  */
 export async function handleProblem<P>(p: Problem<P>): Promise<void> {
-    if (p.status >= 500) { throw APIError.fromProblem(p); }
-    notify(p.title, p.detail, 'error');
+	if (p.status >= 500) {
+		throw APIError.fromProblem(p);
+	}
+	notify(p.title, p.detail, 'error');
 }

@@ -8,16 +8,21 @@ import { ComponentTester } from '@components/context/context.spec';
 import { Ref, default as Timer } from './timer';
 
 describe('Timer', async () => {
-    let ref: Ref;
-    const ct = await ComponentTester.build(
-        'Timer',
-        props => <Timer ref={el => ref = el} duration='10s' {...props} />
-    );
+	let ref: Ref;
+	const ct = await ComponentTester.build('Timer', props => (
+		<Timer
+			ref={el => {
+				ref = el;
+			}}
+			duration="10s"
+			{...props}
+		/>
+	));
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 
-    test('ref', () => {
-        expect(ref).toBeDefined();
-        expect(ref.root()).toBeInstanceOf(HTMLDivElement);
-    });
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+	});
 });

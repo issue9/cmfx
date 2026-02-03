@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, createSignal, mergeProps } from 'solid-js';
+import { createSignal, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps, joinClass } from '@components/base';
 import { DateView, DateViewRef } from '@components/datetime/dateview';
@@ -14,88 +14,105 @@ import styles from './style.module.css';
  * 日历 {@link Calendar} 的属性值
  */
 export interface Props extends BaseProps {
-    /**
-     * 允许的最小日期
-     *
-     * @reactive
-     */
-    min?: Date;
+	/**
+	 * 允许的最小日期
+	 *
+	 * @reactive
+	 */
+	min?: Date;
 
-    /**
-     * 允许的最大日期
-     *
-     * @reactive
-     */
-    max?: Date;
+	/**
+	 * 允许的最大日期
+	 *
+	 * @reactive
+	 */
+	max?: Date;
 
-    /**
-     * 一周的开始，默认为 0，即周日。
-     *
-     * @reactive
-     */
-    weekBase?: Week;
+	/**
+	 * 一周的开始，默认为 0，即周日。
+	 *
+	 * @reactive
+	 */
+	weekBase?: Week;
 
-    /**
-     * 当前显示的月份
-     *
-     * @reactive
-     */
-    current?: Date;
+	/**
+	 * 当前显示的月份
+	 *
+	 * @reactive
+	 */
+	current?: Date;
 
-    /**
-     * 选中项
-     *
-     * @reactive
-     */
-    selected?: Date;
+	/**
+	 * 选中项
+	 *
+	 * @reactive
+	 */
+	selected?: Date;
 
-    /**
-     * 用户改变选中项时触发的事件
-     */
-    onSelected?: { (val: Date, old?: Date): void; };
+	/**
+	 * 用户改变选中项时触发的事件
+	 */
+	onSelected?: (val: Date, old?: Date) => void;
 
-    /**
-     * 插件列表
-     *
-     * NOTE: 这是一个非响应式的属性。
-     */
-    plugins?: Array<DatetimePlugin>;
+	/**
+	 * 插件列表
+	 *
+	 * NOTE: 这是一个非响应式的属性。
+	 */
+	plugins?: Array<DatetimePlugin>;
 
-    /**
-     * 是否高亮周末的列
-     *
-     * @reactive
-     */
-    weekend?: boolean;
+	/**
+	 * 是否高亮周末的列
+	 *
+	 * @reactive
+	 */
+	weekend?: boolean;
 }
 
 const presetProps: Props = {
-    weekBase: 0,
+	weekBase: 0,
 } as const;
 
 /**
  * 日历组件
  */
 export default function Calendar(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+	props = mergeProps(presetProps, props);
 
-    const [ref, setRef] = createSignal<DateViewRef>();
-    const [selected, setSelected] = createSignal<Date>();
+	const [ref, setRef] = createSignal<DateViewRef>();
+	const [selected, setSelected] = createSignal<Date>();
 
-    return <DateView ref={el => setRef(el)} initValue={props.current ?? new Date()} min={props.min} max={props.max}
-        plugins={props.plugins} class={joinClass(undefined, styles.calendar, props.class)} style={props.style}
-        weekend={props.weekend} weekBase={props.weekBase} weekName='long' palette={props.palette}
-        todayClass={styles.today} selectedClass={styles.selected}
-        coveredClass={styles.covered} disabledClass={styles.disabled}
-        onClick={(d, disabled) => {
-            if (disabled) return;
+	return (
+		<DateView
+			ref={el => setRef(el)}
+			initValue={props.current ?? new Date()}
+			min={props.min}
+			max={props.max}
+			plugins={props.plugins}
+			class={joinClass(undefined, styles.calendar, props.class)}
+			style={props.style}
+			weekend={props.weekend}
+			weekBase={props.weekBase}
+			weekName="long"
+			palette={props.palette}
+			todayClass={styles.today}
+			selectedClass={styles.selected}
+			coveredClass={styles.covered}
+			disabledClass={styles.disabled}
+			onClick={(d, disabled) => {
+				if (disabled) return;
 
-            const old = selected();
-            if (old) { ref()?.unselect(old); }
-            ref()?.select(d);
-            setSelected(d);
+				const old = selected();
+				if (old) {
+					ref()?.unselect(old);
+				}
+				ref()?.select(d);
+				setSelected(d);
 
-            if (props.onSelected) { props.onSelected(d, old); }
-        }}
-    />;
+				if (props.onSelected) {
+					props.onSelected(d, old);
+				}
+			}}
+		/>
+	);
 }

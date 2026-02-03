@@ -8,9 +8,9 @@ import { ComponentTester } from '@components/context/context.spec';
 import { default as TimePanel } from './timepanel';
 
 describe('TimePanel', async () => {
-    const ct = await ComponentTester.build('TimePanel', props => <TimePanel {...props} />);
+	const ct = await ComponentTester.build('TimePanel', props => <TimePanel {...props} />);
 
-    test('props', async () => {
-        ct.testProps();
-    });
+	test('props', async () => {
+		ct.testProps();
+	});
 });

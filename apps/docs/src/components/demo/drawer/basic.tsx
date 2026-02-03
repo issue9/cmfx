@@ -9,25 +9,52 @@ import { Portal } from 'solid-js/web';
 import { arraySelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector('secondary');
-    const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
-    let ref: DrawerRef;
+	const [Palette, palette] = paletteSelector('secondary');
+	const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
+	let ref: DrawerRef;
 
-    return <>
-        <Portal mount={props.mount}>
-            <Palette />
-            <Pos />
-        </Portal>
+	return (
+		<>
+			<Portal mount={props.mount}>
+				<Palette />
+				<Pos />
+			</Portal>
 
-        <Drawer ref={el => ref = el} pos={pos()} palette={palette()} visible={true} floating main={
-            <main class="h-full bg-primary-bg">abc<br /><br /><br />
-                <br /><br /><br />hij
-            </main>
-        }>
-            <div class="h-full border-palette-border min-w-20">aside<br /></div>
-        </Drawer>
+			<Drawer
+				ref={el => {
+					ref = el;
+				}}
+				pos={pos()}
+				palette={palette()}
+				visible={true}
+				floating
+				main={
+					<main class="h-full bg-primary-bg">
+						abc
+						<br />
+						<br />
+						<br />
+						<br />
+						<br />
+						<br />
+						hij
+					</main>
+				}
+			>
+				<div class="h-full border-palette-border min-w-20">
+					aside
+					<br />
+				</div>
+			</Drawer>
 
-        {ref!.ToggleButton({ square: true, class: 'grow-0' })}
-        <Button onclick={() => { ref.toggle(); }}>ref.toggle</Button>
-    </>;
+			{ref!.ToggleButton({ square: true, class: 'grow-0' })}
+			<Button
+				onclick={() => {
+					ref.toggle();
+				}}
+			>
+				ref.toggle
+			</Button>
+		</>
+	);
 }

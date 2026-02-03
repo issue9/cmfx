@@ -10,20 +10,20 @@ export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
  * @typeParam E - 表示 {@link extension} 字段的类型，如果该字段空值，不需要指定。
  */
 export interface Problem<E = never> {
-    type: string;
-    title: string;
-    status: number;
-    detail?: string;
-    instance?: string;
-    extension?: E;
-    headers?: Headers;
+	type: string;
+	title: string;
+	status: number;
+	detail?: string;
+	instance?: string;
+	extension?: E;
+	headers?: Headers;
 
-    /**
-     * 具体的错误字段
-     *
-     * 根据 {@link status} 的不同，可能表示提交对象、查询参数或是报头的错误。
-     */
-    params?: Params;
+	/**
+	 * 具体的错误字段
+	 *
+	 * 根据 {@link status} 的不同，可能表示提交对象、查询参数或是报头的错误。
+	 */
+	params?: Params;
 }
 
 /**
@@ -35,15 +35,15 @@ export interface Problem<E = never> {
  * @typeParam K - 表示字段名的类型，默认为 string，但是在前端的数据验证中，可以收紧为某个对象的 keyof。
  */
 export type Params<K extends string = string> = Array<{
-    /**
-     * 表示出错的字段名
-     */
-    name: K;
+	/**
+	 * 表示出错的字段名
+	 */
+	name: K;
 
-    /**
-     * 错误信息
-     */
-    reason: string;
+	/**
+	 * 错误信息
+	 */
+	reason: string;
 }>;
 
 /**
@@ -52,47 +52,49 @@ export type Params<K extends string = string> = Array<{
  * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果为空表示 never；
  * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，表示为 never；
  */
-export type Return<R = never, PE = never> = {
-    /**
-     * 返回的报头
-     */
-    headers?: Headers;
+export type Return<R = never, PE = never> =
+	| {
+			/**
+			 * 返回的报头
+			 */
+			headers?: Headers;
 
-    /**
-     * 服务端返回的类型
-     */
-    body?: Problem<PE>;
+			/**
+			 * 服务端返回的类型
+			 */
+			body?: Problem<PE>;
 
-    /**
-     * 状态码
-     */
-    status: number;
+			/**
+			 * 状态码
+			 */
+			status: number;
 
-    /**
-     * 是否出错了
-     */
-    ok: false;
-} | {
-    /**
-     * 返回的报头
-     */
-    headers?: Headers;
+			/**
+			 * 是否出错了
+			 */
+			ok: false;
+	  }
+	| {
+			/**
+			 * 返回的报头
+			 */
+			headers?: Headers;
 
-    /**
-     * 服务端返回的类型
-     */
-    body?: R;
+			/**
+			 * 服务端返回的类型
+			 */
+			body?: R;
 
-    /**
-     * 状态码
-     */
-    status: number;
+			/**
+			 * 状态码
+			 */
+			status: number;
 
-    /**
-     * 是否出错了
-     */
-    ok: true;
-};
+			/**
+			 * 是否出错了
+			 */
+			ok: true;
+	  };
 
 /**
  * 分页接口返回的对象
@@ -100,9 +102,9 @@ export type Return<R = never, PE = never> = {
  * @typeParam T - 表示当前页的类型
  */
 export interface Page<T> {
-    count: number;
-    current: Array<T>;
-    more?: boolean;
+	count: number;
+	current: Array<T>;
+	more?: boolean;
 }
 
 /**
@@ -114,7 +116,7 @@ type QueryValue = string | number | boolean | null | undefined;
  * 查询参数的类型
  */
 export interface Query {
-    [k: string]: QueryValue | Array<QueryValue>;
-    page?: number;
-    size?: number;
+	[k: string]: QueryValue | Array<QueryValue>;
+	page?: number;
+	size?: number;
 }

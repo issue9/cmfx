@@ -1,7 +1,6 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export { Choice } from './choice';
 export type { Option as ChoiceOption, Props as ChoiceProps } from './choice';
-
+export { Choice } from './choice';

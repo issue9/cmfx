@@ -5,15 +5,12 @@
 import { describe, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { DatePicker } from './date';
 import { fieldAccessor } from '@components/form/field';
+import { DatePicker } from './date';
 
 describe('DatePicker', async () => {
-    const fa = fieldAccessor<Date, 'number'>('chk', new Date());
-    const ct = await ComponentTester.build(
-        'DatePicker',
-        props => <DatePicker accessor={fa} {...props} />
-    );
+	const fa = fieldAccessor<Date, 'number'>('chk', new Date());
+	const ct = await ComponentTester.build('DatePicker', (props) => <DatePicker accessor={fa} {...props} />);
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

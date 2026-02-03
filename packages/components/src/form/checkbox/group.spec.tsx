@@ -9,11 +9,10 @@ import { fieldAccessor } from '@components/form/field';
 import { CheckboxGroup } from './group';
 
 describe('CheckboxGroup', async () => {
-    const fa = fieldAccessor('chk', ['1']);
-    const ct = await ComponentTester.build(
-        'CheckboxGroup',
-        props => <CheckboxGroup options={[]} accessor={fa} {...props} />
-    );
+	const fa = fieldAccessor('chk', ['1']);
+	const ct = await ComponentTester.build('CheckboxGroup', props => (
+		<CheckboxGroup options={[]} accessor={fa} {...props} />
+	));
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

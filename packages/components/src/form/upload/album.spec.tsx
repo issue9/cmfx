@@ -9,11 +9,10 @@ import { fieldAccessor } from '@components/form/field';
 import { Album } from './album';
 
 describe('Album', async () => {
-    const fa = fieldAccessor('tf', ['url']);
-    const ct = await ComponentTester.build(
-        'Album',
-        props => <Album fieldName='file' upload={async () => []} accessor={fa} {...props} />
-    );
+	const fa = fieldAccessor('tf', ['url']);
+	const ct = await ComponentTester.build('Album', props => (
+		<Album fieldName="file" upload={async () => []} accessor={fa} {...props} />
+	));
 
-    test('prorps', () => ct.testProps());
+	test('prorps', () => ct.testProps());
 });

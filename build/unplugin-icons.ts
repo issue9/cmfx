@@ -17,7 +17,7 @@ import path from 'node:path';
  * NOTE: 记得将文件加入到 tsconfig.node.json 的 include 字段中。
  */
 export default {
-    cmfx: {
-        'loading': () => fs.readFile(path.resolve(__dirname, '../assets/brand-animate.svg'), 'utf-8'),
-    },
+	cmfx: {
+		loading: () => fs.readFile(path.resolve(__dirname, '../assets/brand-animate.svg'), 'utf-8'),
+	},
 };

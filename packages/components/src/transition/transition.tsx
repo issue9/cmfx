@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,16 +8,16 @@ import { Transition as Trans, TransitionProps } from 'solid-transition-group';
 import styles from './style.module.css';
 
 const transition: TransitionProps = {
-    // NOTE: mode === outin 时，在嵌套 Transition 时会出现子元素无法显示的问题。
-    // inout 模式则切换动画看起来比较乱，所以采用默认值，表示两者同时进行。
+	// NOTE: mode === outin 时，在嵌套 Transition 时会出现子元素无法显示的问题。
+	// inout 模式则切换动画看起来比较乱，所以采用默认值，表示两者同时进行。
 
-    enterActiveClass: styles['enter-active'],
-    enterClass: styles['enter'],
-    enterToClass: styles['enter-to'],
+	enterActiveClass: styles['enter-active'],
+	enterClass: styles.enter,
+	enterToClass: styles['enter-to'],
 
-    exitActiveClass: styles['exit-active'],
-    exitClass: styles['exit'],
-    exitToClass: styles['exit-to'],
+	exitActiveClass: styles['exit-active'],
+	exitClass: styles.exit,
+	exitToClass: styles['exit-to'],
 };
 
 /**
@@ -31,5 +31,5 @@ const transition: TransitionProps = {
  * 需要将 Transition 放在一个单独的 div 中。
  */
 export function Transition(props: ParentProps): JSX.Element {
-    return <Trans {...transition}>{props.children}</Trans>;
+	return <Trans {...transition}>{props.children}</Trans>;
 }

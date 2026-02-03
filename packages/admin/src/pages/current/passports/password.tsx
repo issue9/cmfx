@@ -19,109 +19,135 @@ import styles from './style.module.css';
 const passwordSchema = z.string().min(2).max(32);
 
 const accountSchema = z.object({
-    username: usernameSchema,
-    password: passwordSchema,
+	username: usernameSchema,
+	password: passwordSchema,
 });
 
 /**
  * 密码登录方式
  */
 export class Pwd implements PassportComponents {
-    #id: string;
+	#id: string;
 
-    /**
-     * 构造函数
-     *
-     * @param id - 组件的 ID；
-     */
-    constructor(id: string) {
-        this.#id = id;
-    }
+	/**
+	 * 构造函数
+	 *
+	 * @param id - 组件的 ID；
+	 */
+	constructor(id: string) {
+		this.#id = id;
+	}
 
-    Login(): JSX.Element {
-        const l = useLocale();
-        const api = useREST();
-        const opt = useOptions();
-        const usr = useAdmin();
-        const nav = useNavigate();
+	Login(): JSX.Element {
+		const l = useLocale();
+		const api = useREST();
+		const opt = useOptions();
+		const usr = useAdmin();
+		const nav = useNavigate();
 
-        const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>, Token>({
-            initValue: {username: '', password: ''},
-            validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
-            validOnChange: true,
-            submit: async obj => {
-                const ret = await api.post<Token>(`/passports/${this.#id}/login`, obj);
-                await usr.login(ret);
-                return ret;
-            },
-            onProblem: async p => {
-                if (p.status === 401) {
-                    fapi.setError(p.title);
-                    return;
-                }
+		const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+			initValue: { username: '', password: '' },
+			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
+			validOnChange: true,
+			submit: async obj => {
+				const ret = await api.post<Token>(`/passports/${this.#id}/login`, obj);
+				await usr.login(ret);
+				return ret;
+			},
+			onProblem: async p => {
+				if (p.status === 401) {
+					fapi.setError(p.title);
+					return;
+				}
 
-                await handleProblem(p);
-            },
-            onSuccess: async () => nav(opt.routes.private.home),
-        });
+				await handleProblem(p);
+			},
+			onSuccess: async () => nav(opt.routes.private.home),
+		});
 
-        return <Form class={styles.password}>
-            <actions.Message closable />
+		return (
+			<Form class={styles.password}>
+				<actions.Message closable />
 
-            <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
-                placeholder={l.t('_p.current.username')} accessor={fapi.accessor<string>('username')} />
-            <Password hasHelp prefix={<IconPassword class={styles['text-field']} />} autocomplete='current-password'
-                placeholder={l.t('_p.current.password')} accessor={fapi.accessor<string>('password')} />
+				<TextField
+					hasHelp
+					prefix={<IconPerson class={styles['text-field']} />}
+					autocomplete="username"
+					placeholder={l.t('_p.current.username')}
+					accessor={fapi.accessor<string>('username')}
+				/>
+				<Password
+					hasHelp
+					prefix={<IconPassword class={styles['text-field']} />}
+					autocomplete="current-password"
+					placeholder={l.t('_p.current.password')}
+					accessor={fapi.accessor<string>('password')}
+				/>
 
-            <actions.Submit palette='primary' disabled={fapi.accessor<string>('username').getValue() == ''}>
-                {l.t('_c.ok')}
-            </actions.Submit>
-            <actions.Reset palette='secondary'> {l.t('_c.reset')} </actions.Reset>
-        </Form>;
-    }
+				<actions.Submit palette="primary" disabled={fapi.accessor<string>('username').getValue() === ''}>
+					{l.t('_c.ok')}
+				</actions.Submit>
+				<actions.Reset palette="secondary"> {l.t('_c.reset')} </actions.Reset>
+			</Form>
+		);
+	}
 
-    Actions(_: RefreshFunc): JSX.Element {
-        let dialogRef: DialogRef;
-        const l = useLocale();
-        const api = useREST();
-        const usr = useAdmin();
+	Actions(_: RefreshFunc): JSX.Element {
+		let dialogRef: DialogRef;
+		const l = useLocale();
+		const api = useREST();
+		const usr = useAdmin();
 
-        const valueSchema = z.object({
-            old: passwordSchema,
-            new: passwordSchema,
-        }).refine(
-            data => data.old !== data.new,
-            {
-                error: () => l.t('_p.current.passwordsMustBeDifferent'),
-                abort: true,
-                path: ['new']
-            },
-        );
+		const valueSchema = z
+			.object({
+				old: passwordSchema,
+				new: passwordSchema,
+			})
+			.refine(data => data.old !== data.new, {
+				error: () => l.t('_p.current.passwordsMustBeDifferent'),
+				abort: true,
+				path: ['new'],
+			});
 
-        const [fapi , Form, actions] = createForm<z.infer<typeof valueSchema>>({
-            initValue: {old: '', new: ''},
-            validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
-            validOnChange: true,
-            submit: async obj => {
-                const r = await api.put(`/passports/${this.#id}`, obj);
-                await usr.refetch();
-                return r;
-            },
-            onProblem: handleProblem,
-        });
+		const [fapi, Form, actions] = createForm<z.infer<typeof valueSchema>>({
+			initValue: { old: '', new: '' },
+			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
+			validOnChange: true,
+			submit: async obj => {
+				const r = await api.put(`/passports/${this.#id}`, obj);
+				await usr.refetch();
+				return r;
+			},
+			onProblem: handleProblem,
+		});
 
-        return <>
-            <Button square rounded title={l.t('_p.current.changePassword')} onclick={() => {
-                dialogRef.root().showModal();
-            }}><IconPasskey /></Button>
+		return (
+			<>
+				<Button
+					square
+					rounded
+					title={l.t('_p.current.changePassword')}
+					onclick={() => {
+						dialogRef.root().showModal();
+					}}
+				>
+					<IconPasskey />
+				</Button>
 
-            <Dialog movable ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}>
-                <Form class={styles['action-form']} inDialog>
-                    <TextField placeholder={l.t('_p.current.oldPassword')} accessor={fapi.accessor<string>('old')} />
-                    <TextField placeholder={l.t('_p.current.newPassword')} accessor={fapi.accessor<string>('new')} />
-                    <actions.Submit class="ms-auto">{ l.t('_c.ok') }</actions.Submit>
-                </Form>
-            </Dialog>
-        </>;
-    }
+				<Dialog
+					movable
+					ref={el => {
+						dialogRef = el;
+					}}
+					header={l.t('_p.current.changePassword')}
+				>
+					<Form class={styles['action-form']} inDialog>
+						<TextField placeholder={l.t('_p.current.oldPassword')} accessor={fapi.accessor<string>('old')} />
+						<TextField placeholder={l.t('_p.current.newPassword')} accessor={fapi.accessor<string>('new')} />
+						<actions.Submit class="ms-auto">{l.t('_c.ok')}</actions.Submit>
+					</Form>
+				</Dialog>
+			</>
+		);
+	}
 }

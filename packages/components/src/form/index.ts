@@ -1,18 +1,22 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
-
-// field 部分内容仅内部使用
-export { fieldAccessor, labelAlignments, FormProvider, useForm } from './field';
-export type {
-    Accessor, FieldBaseProps, Option as FieldOption, Options as FieldOptions, FormContext, LabelAlignment
-} from './field';
 
 export * from './checkbox';
 export * from './choice';
 export * from './color';
 export * from './date';
 export * from './editor';
+export type {
+	Accessor,
+	FieldBaseProps,
+	FormContext,
+	LabelAlignment,
+	Option as FieldOption,
+	Options as FieldOptions,
+} from './field';
+// field 部分内容仅内部使用
+export { FormProvider, fieldAccessor, labelAlignments, useForm } from './field';
 export * from './form';
 export * from './radio';
 export * from './range';

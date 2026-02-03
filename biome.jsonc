@@ -1,0 +1,70 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": [
+			"packages/**/*.{ts,tsx}",
+			"build/**/*.{ts,tsx}",
+			"apps/**/*.{ts,tsx}",
+			"!packages/illustrations/*.{ts,tsx}"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineEnding": "lf",
+		"lineWidth": 120
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"useImportType": "off",
+				"noNonNullAssertion": "off"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"arrowParentheses": "asNeeded",
+			"quoteStyle": "single",
+			"semicolons": "always"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							[
+								":NODE:",
+								":URL:",
+								":PACKAGE:",
+								"@cmfx/**",
+								"~*/**", // 虚拟文件系统，
+								"!@core/**",
+								"!@components/**",
+								"!@admin/**",
+								"!@illustrations/**",
+								"!@docs/**"
+							],
+							":BLANK_LINE:",
+							[
+								"**"
+							]
+						]
+					}
+				}
+			}
+		}
+	}
+}

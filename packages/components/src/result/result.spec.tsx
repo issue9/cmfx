@@ -9,16 +9,17 @@ import Result from './result';
 import styles from './style.module.css';
 
 describe('Result', async () => {
-    const ct = await ComponentTester.build(
-        'Result',
-        props => <Result title='title' {...props}>abc</Result>
-    );
+	const ct = await ComponentTester.build('Result', props => (
+		<Result title="title" {...props}>
+			abc
+		</Result>
+	));
 
-    test('title', async () => {
-        const c = ct.result.container.firstElementChild!;
-        expect(c).toHaveClass(styles.result);
-        expect(c).toHaveTextContent('abc');
-    });
+	test('title', async () => {
+		const c = ct.result.container.firstElementChild!;
+		expect(c).toHaveClass(styles.result);
+		expect(c).toHaveTextContent('abc');
+	});
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });
