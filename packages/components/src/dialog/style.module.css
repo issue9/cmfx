@@ -1,52 +1,52 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 dialog {
-    @apply start-1/2 -translate-1/2 fixed pop z-dialog;
-    inset-block-start: 50%;
-    @apply rtl:translate-x-1/2;
+	@apply start-1/2 -translate-1/2 fixed pop z-dialog;
+	inset-block-start: 50%;
+	@apply rtl:translate-x-1/2;
 }
 
 dialog[open] {
-    @apply popopen shadow-lg;
+	@apply popopen shadow-lg;
 }
 
 dialog::backdrop {
-    background: oklch(0 0 0 / 0.5);
-    transition: opacity var(--default-transition-duration) linear;
+	background: oklch(0 0 0 / 0.5);
+	transition: opacity var(--default-transition-duration) linear;
 }
 
 @layer components {
-    dialog.dialog {
-        @apply flex flex-col bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-border;
-        @apply shadow-md;
+	dialog.dialog {
+		@apply flex flex-col bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-border;
+		@apply shadow-md;
 
-        >header {
-            @apply flex items-center justify-between p-2 border-b border-b-palette-border grow-0 shrink-0;
+		> header {
+			@apply flex items-center justify-between p-2 border-b border-b-palette-border grow-0 shrink-0;
 
-            .close {
-                @apply p-px cursor-pointer hover:bg-palette-bg-focused hover:text-palette-fg-focused rounded-xs;
-                @apply transition;
-            }
-        }
+			.close {
+				@apply p-px cursor-pointer hover:bg-palette-bg-focused hover:text-palette-fg-focused rounded-xs;
+				@apply transition;
+			}
+		}
 
-        >main {
-            @apply p-2 flex-1 min-h-0;
-        }
+		> main {
+			@apply p-2 flex-1 min-h-0;
+		}
 
-        >footer {
-            @apply flex justify-end p-2 gap-2 border-t border-t-palette-border grow-0 shrink-0;
-        }
-    }
+		> footer {
+			@apply flex justify-end p-2 gap-2 border-t border-t-palette-border grow-0 shrink-0;
+		}
+	}
 
-    dialog.dialog[open] {
-        .scrollable {
-            @apply overflow-auto;
-        }
-    }
+	dialog.dialog[open] {
+		.scrollable {
+			@apply overflow-auto;
+		}
+	}
 }

@@ -1,34 +1,34 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .drawer {
-        @apply h-full w-full flex overflow-hidden relative bg-palette-bg text-palette-fg;
-        @apply @container/drawer;
+	.drawer {
+		@apply h-full w-full flex overflow-hidden relative bg-palette-bg text-palette-fg;
+		@apply @container/drawer;
 
-        >aside {
-            @apply h-full bg-palette-bg text-palette-fg z-affix overflow-y-auto overflow-x-hidden;
-            transform-origin: left;
-            transform: scaleX(1);
-            flex-basis: content;
-            @apply transition-transform ease-in-out;
-        }
+		> aside {
+			@apply h-full bg-palette-bg text-palette-fg z-affix overflow-y-auto overflow-x-hidden;
+			transform-origin: left;
+			transform: scaleX(1);
+			flex-basis: content;
+			@apply transition-transform ease-in-out;
+		}
 
-        >main {
-            @apply overflow-y-auto h-full flex-1 text-palette-fg bg-palette-bg;
-        }
-    }
+		> main {
+			@apply overflow-y-auto h-full flex-1 text-palette-fg bg-palette-bg;
+		}
+	}
 
-    .drawer.end {
-        @apply flex-row-reverse;
+	.drawer.end {
+		@apply flex-row-reverse;
 
-        >aside {
-            transform-origin: right;
-        }
-    }
+		> aside {
+			transform-origin: right;
+		}
+	}
 }

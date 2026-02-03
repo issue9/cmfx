@@ -59,6 +59,12 @@
 				"def": "'system'\n\n"
 			},
 			{
+				"name": "transitionDuration",
+				"summary": "动画效果的时长，单位为 ms。当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "number | undefined",
+				"def": "300\n\n"
+			},
+			{
 				"name": "locale",
 				"summary": "初始的本地化语言 ID，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
 				"type": "string | undefined",
@@ -121,7 +127,7 @@
 		"type": "function useOptions(): [accessor: OptionsAccessor, origin: ReqOptions]",
 		"return": {
 			"summary": "返回一个元组，包含以下属性：\n- 0: 提供对组件库选项的存取功能；\n- 1: 组件库选项的原始值；\n\n",
-			"type": "[accessor: { switchConfig(id: string): void; reset(): void; setTitle(v: string): void; setFontSize(size: string): void; getFontSize(): string; setLocale(id: string): void; getLocale(): string; setDisplayStyle(style: DisplayStyle): void; getDisplayStyle(): DisplayStyle; setTimezone(tz: string): void; getTimezone(): string; setScheme(scheme: string | Scheme): void; getScheme(): Scheme; setMode(mode: Mode): void; getMode(): Mode; setStays(stay: number): void; getStays(): number; setSystemNotify(v: boolean): void; getSystemNotify(): boolean; clearStorage(): void; }, origin: Required<Omit<Options, \"scheme\"> & { scheme: Scheme; }>]"
+			"type": "[accessor: { switchConfig(id: string): void; reset(): void; setTitle(v: string): void; setFontSize(size: string): void; getFontSize(): string; setTransitionDuration(duration: number): void; getTransitionDuration(): number; setLocale(id: string): void; getLocale(): string; setDisplayStyle(style: DisplayStyle): void; getDisplayStyle(): DisplayStyle; setTimezone(tz: string): void; getTimezone(): string; setScheme(scheme: string | Scheme): void; getScheme(): Scheme; setMode(mode: Mode): void; getMode(): Mode; setStays(stay: number): void; getStays(): number; setSystemNotify(v: boolean): void; getSystemNotify(): boolean; clearStorage(): void; }, origin: Required<Omit<Options, \"scheme\"> & { scheme: Scheme; }>]"
 		},
 		"pkg": "@cmfx/components"
 	},

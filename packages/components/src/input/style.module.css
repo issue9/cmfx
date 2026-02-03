@@ -1,57 +1,57 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-.input {
-        @apply rounded-md border border-palette-border flex justify-between text-center w-full h-full;
+	.input {
+		@apply rounded-md border border-palette-border flex justify-between text-center w-full h-full;
 
-        @apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
-        @apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;
-        @apply has-[:active:enabled]:border-palette-border-actived has-[:active:enabled]:bg-palette-bg-actived;
-        @apply transition;
+		@apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
+		@apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;
+		@apply has-[:active:enabled]:border-palette-border-actived has-[:active:enabled]:bg-palette-bg-actived;
+		@apply transition;
 
-        >:first-child {
-            @apply rounded-s-md!;
-        }
+		> :first-child {
+			@apply rounded-s-md!;
+		}
 
-        >:last-child {
-            @apply rounded-e-md!;
-        }
+		> :last-child {
+			@apply rounded-e-md!;
+		}
 
-        >input {
-            @apply p-1 outline-none bg-transparent flex-1 w-full text-left;
-            @apply disabled:cursor-not-allowed;
+		> input {
+			@apply p-1 outline-none bg-transparent flex-1 w-full text-left;
+			@apply disabled:cursor-not-allowed;
 
-            -webkit-appearance: textfield;
-            -moz-appearance: textfield;
-            appearance: textfield;
-        }
+			-webkit-appearance: textfield;
+			-moz-appearance: textfield;
+			appearance: textfield;
+		}
 
-        >input::-webkit-outer-spin-button,
-        >input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-    }
+		> input::-webkit-outer-spin-button,
+		> input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+	}
 
-    .input:has(:disabled) {
-        @apply border-palette-border-disabled text-palette-fg-disabled cursor-not-allowed;
-    }
+	.input:has(:disabled) {
+		@apply border-palette-border-disabled text-palette-fg-disabled cursor-not-allowed;
+	}
 
-    .input.rounded {
-        @apply rounded-full;
+	.input.rounded {
+		@apply rounded-full;
 
-        >:first-child {
-            @apply rounded-s-full!;
-        }
+		> :first-child {
+			@apply rounded-s-full!;
+		}
 
-        >:last-child {
-            @apply rounded-e-full!;
-        }
-    }
+		> :last-child {
+			@apply rounded-e-full!;
+		}
+	}
 }

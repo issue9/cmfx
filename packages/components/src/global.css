@@ -1,41 +1,43 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 /* 重定义 windows 下的 edge 滚动条 */
 * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--palette-bg-low) var(--palette-bg-high);
+	scrollbar-width: thin;
+	scrollbar-color: var(--palette-bg-low) var(--palette-bg-high);
 }
 
 ::placeholder {
-    color: var(--palette-bg-low);
+	color: var(--palette-bg-low);
 }
 
 kbd {
-    @apply border border-palette-border rounded-sm bg-palette-bg-low px-1 py-px;
+	@apply border border-palette-border rounded-sm bg-palette-bg-low px-1 py-px;
 }
 
 /*********************************** 减少动画 *******************************/
 
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        transition-property: none !important;
-        animation: none !important;
-    }
+	*,
+	*::before,
+	*::after {
+		/* biome-ignore lint/complexity/noImportantStyles: important */
+		transition-property: none !important;
+		/* biome-ignore lint/complexity/noImportantStyles: important */
+		animation: none !important;
+	}
 }
 
 /********************* 为所有的 popover 添加动画效果 *******************/
 
 /* 调用者需要指定非 none 的 display 属性 */
 [popover] {
-    @apply pop;
+	@apply pop;
 }
 
 [popover]:popover-open {
-    @apply popopen shadow-md;
+	@apply popopen shadow-md;
 }

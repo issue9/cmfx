@@ -41,7 +41,7 @@
 		"kind": "function",
 		"name": "createBytesFormatter",
 		"summary": "创建用于格式化字节大小的函数\n\n",
-		"type": "function createBytesFormatter(l: Locale): {\r\n    (byte: number): string;\r\n}",
+		"type": "function createBytesFormatter(l: Locale): (byte: number) => string",
 		"params": [
 			{
 				"name": "l",

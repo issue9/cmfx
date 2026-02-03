@@ -1,58 +1,58 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .activator {
-        .activator-container {
-            @apply rounded-md border border-palette-border flex items-center px-2 py-1 cursor-pointer outline-none w-full;
+	.activator {
+		.activator-container {
+			@apply rounded-md border border-palette-border flex items-center px-2 py-1 cursor-pointer outline-none w-full;
 
-            @apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
-            @apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;
-            @apply has-[:active:enabled]:border-palette-border-actived has-[:active:enabled]:bg-palette-bg-actived;
-            @apply transition;
+			@apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
+			@apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;
+			@apply has-[:active:enabled]:border-palette-border-actived has-[:active:enabled]:bg-palette-bg-actived;
+			@apply transition;
 
-            .input {
-                @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer outline-none;
-                @apply disabled:cursor-not-allowed read-only:cursor-default focus:outline-none focus-within:outline-none focus-visible:outline-none;
-            }
+			.input {
+				@apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer outline-none;
+				@apply disabled:cursor-not-allowed read-only:cursor-default focus:outline-none focus-within:outline-none focus-visible:outline-none;
+			}
 
-            .input.range {
-                @apply focus-within:text-palette-fg-focused;
-            }
-        }
+			.input.range {
+				@apply focus-within:text-palette-fg-focused;
+			}
+		}
 
-        .activator-container.rounded {
-            @apply rounded-full!;
-        }
-    }
+		.activator-container.rounded {
+			@apply rounded-full!;
+		}
+	}
 
-    /********************************** panel ********************************/
+	/********************************** panel ********************************/
 
-    .panel {
-        @apply border border-palette-border rounded-lg;
-        @apply text-center bg-palette-bg text-palette-fg box-border flex flex-col gap-1;
-        @apply overflow-hidden;
+	.panel {
+		@apply border border-palette-border rounded-lg;
+		@apply text-center bg-palette-bg text-palette-fg box-border flex flex-col gap-1;
+		@apply overflow-hidden;
 
-        .dt-panel {
-            @apply rounded-none! border-none!;
-        }
+		.dt-panel {
+			@apply rounded-none! border-none!;
+		}
 
-        .actions {
-            @apply flex justify-between items-center border-t-palette-border border-t;
-            @apply pt-1 px-1 pb-2;
+		.actions {
+			@apply flex justify-between items-center border-t-palette-border border-t;
+			@apply pt-1 px-1 pb-2;
 
-            .left {
-                @apply flex justify-start items-center gap-1;
-            }
+			.left {
+				@apply flex justify-start items-center gap-1;
+			}
 
-            .right {
-                @apply flex justify-end items-center gap-1;
-            }
-        }
-    }
+			.right {
+				@apply flex justify-end items-center gap-1;
+			}
+		}
+	}
 }

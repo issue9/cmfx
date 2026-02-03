@@ -1,40 +1,40 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .overview {
-        @apply flex flex-col gap-6 p-4 @container/overview;
+	.overview {
+		@apply flex flex-col gap-6 p-4 @container/overview;
 
-        fieldset.group {
-            @apply grid gap-4;
-            @apply grid-cols-2 @3xl/overview:grid-cols-3 @5xl/overview:grid-cols-4 @7xl/overview:grid-cols-6;
+		fieldset.group {
+			@apply grid gap-4;
+			@apply grid-cols-2 @3xl/overview:grid-cols-3 @5xl/overview:grid-cols-4 @7xl/overview:grid-cols-6;
 
-            legend {
-                @apply text-2xl font-bold my-2;
-                @apply flex items-center gap-2;
+			legend {
+				@apply text-2xl font-bold my-2;
+				@apply flex items-center gap-2;
 
-                >span {
-                    @apply text-xl font-normal;
-                }
-            }
+				> span {
+					@apply text-xl font-normal;
+				}
+			}
 
-            .card {
-                @apply hover:border-palette-border-focused;
-                @apply transition;
+			.card {
+				@apply hover:border-palette-border-focused;
+				@apply transition;
 
-                .icon {
-                    @apply text-7xl flex items-center justify-center;
-                }
-            }
-        }
-    }
+				.icon {
+					@apply text-7xl flex items-center justify-center;
+				}
+			}
+		}
+	}
 
-    .main {
-        @apply overflow-x-hidden;
-    }
+	.main {
+		@apply overflow-x-hidden;
+	}
 }

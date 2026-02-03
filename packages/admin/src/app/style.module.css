@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .search {
-        @apply w-60 self-center;
-    }
+	.search {
+		@apply w-60 self-center;
+	}
 }

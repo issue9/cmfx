@@ -1,46 +1,46 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .panel {
-        @apply border border-palette-border rounded-md text-palette-fg bg-palette-bg;
-        @apply flex flex-col flex-wrap justify-center overflow-hidden;
+	.panel {
+		@apply border border-palette-border rounded-md text-palette-fg bg-palette-bg;
+		@apply flex flex-col flex-wrap justify-center overflow-hidden;
 
-        header {
-            @apply flex gap-1 items-center p-2;
+		header {
+			@apply flex gap-1 items-center p-2;
 
-            .actions {
-                button {
-                    @apply p-1!;
-                }
-            }
-        }
+			.actions {
+				button {
+					@apply p-1!;
+				}
+			}
+		}
 
-        header.month {
-            @apply justify-center;
+		header.month {
+			@apply justify-center;
 
-            .title:hover {
-                @apply text-palette-fg-focused cursor-pointer;
-            }
-        }
+			.title:hover {
+				@apply text-palette-fg-focused cursor-pointer;
+			}
+		}
 
-        /* 保证顶栏为空时的高度不变 */
-        header.month::before {
-            content: "\200B";
-        }
+		/* 保证顶栏为空时的高度不变 */
+		header.month::before {
+			content: "\200B";
+		}
 
-        header.year {
-            @apply justify-between;
-        }
+		header.year {
+			@apply justify-between;
+		}
 
-        .grid {
-            @apply grid grid-cols-3 gap-1 p-2 grow shrink;
-            @apply border-t border-t-palette-border;
-        }
-    }
+		.grid {
+			@apply grid grid-cols-3 gap-1 p-2 grow shrink;
+			@apply border-t border-t-palette-border;
+		}
+	}
 }

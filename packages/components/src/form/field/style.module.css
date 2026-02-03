@@ -4,26 +4,27 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .field {
-        display: grid;
-        grid-template-rows: minmax(0, auto) 1fr minmax(0, auto);
-        grid-template-columns: minmax(0, auto) 1fr minmax(0, auto);
-        column-gap: var(--spacing);
-        grid-template-areas: 'top-start top-center top-end'
-            'middle-start middle-center middle-end'
-            'bottom-start bottom-center bottom-end';
-        align-items: center;
-        justify-items: start;
+	.field {
+		display: grid;
+		grid-template-rows: minmax(0, auto) 1fr minmax(0, auto);
+		grid-template-columns: minmax(0, auto) 1fr minmax(0, auto);
+		column-gap: var(--spacing);
+		grid-template-areas:
+			"top-start top-center top-end"
+			"middle-start middle-center middle-end"
+			"bottom-start bottom-center bottom-end";
+		align-items: center;
+		justify-items: start;
 
-        .help {
-            @apply text-palette-fg-low min-h-5;
-        }
+		.help {
+			@apply text-palette-fg-low min-h-5;
+		}
 
-        .help.error {
-            @apply text-error-fg;
-        }
-    }
+		.help.error {
+			@apply text-error-fg;
+		}
+	}
 }

@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .overlay {
-        @apply absolute flex justify-center items-center bg-palette-bg/50;
-        @apply transition-opacity;
-    }
+	.overlay {
+		@apply absolute flex justify-center items-center bg-palette-bg/50;
+		@apply transition-opacity;
+	}
 }

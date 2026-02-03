@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .description {
-        @apply rounded-md flex flex-col text-palette-fg bg-palette-bg gap-2;
+	.description {
+		@apply rounded-md flex flex-col text-palette-fg bg-palette-bg gap-2;
 
-        .desc {
-            @apply text-sm;
-        }
-    }
+		.desc {
+			@apply text-sm;
+		}
+	}
 }

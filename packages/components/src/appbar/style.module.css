@@ -4,33 +4,33 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .appbar {
-        @apply bg-palette-bg text-palette-fg px-2;
-        @apply w-full py-4 flex flex-wrap gap-4 justify-between items-center;
+	.appbar {
+		@apply bg-palette-bg text-palette-fg px-2;
+		@apply w-full py-4 flex flex-wrap gap-4 justify-between items-center;
 
-        .title {
-            @apply flex items-center justify-start gap-2 shrink-0 whitespace-nowrap;
+		.title {
+			@apply flex items-center justify-start gap-2 shrink-0 whitespace-nowrap;
 
-            .logo {
-                @apply block;
-                @apply w-auto min-w-6;
-                @apply h-full min-h-6;
-            }
+			.logo {
+				@apply block;
+				@apply w-auto min-w-6;
+				@apply h-full min-h-6;
+			}
 
-            .name {
-                @apply block text-lg font-bold;
-            }
-        }
+			.name {
+				@apply block text-lg font-bold;
+			}
+		}
 
-        .main {
-            @apply flex flex-1 justify-start items-center;
-        }
+		.main {
+			@apply flex flex-1 justify-start items-center;
+		}
 
-        .actions {
-            @apply flex gap-2 items-center justify-between justify-self-end;
-        }
-    }
+		.actions {
+			@apply flex gap-2 items-center justify-between justify-self-end;
+		}
+	}
 }

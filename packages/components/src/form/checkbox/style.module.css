@@ -4,119 +4,119 @@
  * SPDX-License-Identifier: MIT
 */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    input[type="checkbox"] {
-        @apply appearance-none relative inline-block p-0 w-4 h-4 cursor-pointer outline-none;
-        @apply border-2 border-palette-fg rounded-xs!;
-        @apply active:border-palette-fg-actived;
-        @apply hover:border-palette-fg-focused;
-        @apply focus:border-palette-fg-focused;
-        @apply active:border-palette-fg-actived;
-        @apply disabled:cursor-not-allowed disabled:border-palette-fg-disabled;
-        @apply transition;
-    }
+	input[type="checkbox"] {
+		@apply appearance-none relative inline-block p-0 w-4 h-4 cursor-pointer outline-none;
+		@apply border-2 border-palette-fg rounded-xs!;
+		@apply active:border-palette-fg-actived;
+		@apply hover:border-palette-fg-focused;
+		@apply focus:border-palette-fg-focused;
+		@apply active:border-palette-fg-actived;
+		@apply disabled:cursor-not-allowed disabled:border-palette-fg-disabled;
+		@apply transition;
+	}
 
-    input[type="checkbox"].rounded {
-        @apply rounded-full!;
-    }
+	input[type="checkbox"].rounded {
+		@apply rounded-full!;
+	}
 
-    input[type="checkbox"]:disabled {
-        @apply cursor-not-allowed border-palette-fg-disabled;
-    }
+	input[type="checkbox"]:disabled {
+		@apply cursor-not-allowed border-palette-fg-disabled;
+	}
 
-    input[type="checkbox"]:not(:indeterminate):after {
-        @apply block absolute opacity-0 w-1/3 h-2/3 left-13/40 top-1/12;
-        @apply border-r-2 border-r-palette-fg;
-        @apply border-b-2 border-b-palette-fg;
-        @apply transition;
-        content: '';
-        transform: rotate(45deg);
-        transform-origin: center center;
-    }
+	input[type="checkbox"]:not(:indeterminate):after {
+		@apply block absolute opacity-0 w-1/3 h-2/3 left-13/40 top-1/12;
+		@apply border-r-2 border-r-palette-fg;
+		@apply border-b-2 border-b-palette-fg;
+		@apply transition;
+		content: "";
+		transform: rotate(45deg);
+		transform-origin: center center;
+	}
 
-    input[type="checkbox"]:indeterminate:after {
-        @apply block absolute h-[2px] left-1/5 right-1/5 top-[calc(50%-1px)];
-        @apply bg-palette-fg;
-        @apply transition;
-        content: '';
-        transform-origin: center center;
-    }
+	input[type="checkbox"]:indeterminate:after {
+		@apply block absolute h-[2px] left-1/5 right-1/5 top-[calc(50%-1px)];
+		@apply bg-palette-fg;
+		@apply transition;
+		content: "";
+		transform-origin: center center;
+	}
 
-    input[type="checkbox"]:disabled:after {
-        @apply cursor-not-allowed border-palette-fg-disabled;
-    }
+	input[type="checkbox"]:disabled:after {
+		@apply cursor-not-allowed border-palette-fg-disabled;
+	}
 
-    input[type="checkbox"]:checked:after {
-        opacity: 1;
-    }
+	input[type="checkbox"]:checked:after {
+		opacity: 1;
+	}
 
-    /* 以上重新定义了 checkbox 的样式 */
+	/* 以上重新定义了 checkbox 的样式 */
 
-    .checkbox {
-        @apply border border-transparent text-palette-fg;
-        @apply flex items-center justify-center gap-1;
-        @apply outline-none cursor-pointer;
+	.checkbox {
+		@apply border border-transparent text-palette-fg;
+		@apply flex items-center justify-center gap-1;
+		@apply outline-none cursor-pointer;
 
-        @apply has-indeterminate:line-through;
-    }
+		@apply has-indeterminate:line-through;
+	}
 
-    .checkbox.block {
-        @apply min-w-4 min-h-4;
-        @apply border-palette-border rounded-sm;
-        @apply transition;
+	.checkbox.block {
+		@apply min-w-4 min-h-4;
+		@apply border-palette-border rounded-sm;
+		@apply transition;
 
-        input {
-            @apply hidden!;
-        }
-    }
+		input {
+			@apply hidden!;
+		}
+	}
 
-    .checkbox.block.rounded {
-        @apply rounded-full;
-    }
+	.checkbox.block.rounded {
+		@apply rounded-full;
+	}
 
-    .checkbox:not(.block):has(:enabled):not([aria-readonly="true"]):focus-visible {
-        @apply text-palette-fg-focused;
-    }
+	.checkbox:not(.block):has(:enabled):not([aria-readonly="true"]):focus-visible {
+		@apply text-palette-fg-focused;
+	}
 
-    .checkbox.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
-        @apply text-palette-fg-focused border-palette-border-focused;
-    }
+	.checkbox.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
+		@apply text-palette-fg-focused border-palette-border-focused;
+	}
 
-    .checkbox.block:has(:checked) {
-        @apply text-palette-fg-selected;
-        @apply border-palette-border-selected;
-        @apply bg-palette-bg-selected;
-    }
+	.checkbox.block:has(:checked) {
+		@apply text-palette-fg-selected;
+		@apply border-palette-border-selected;
+		@apply bg-palette-bg-selected;
+	}
 
-    .checkbox[aria-readonly="true"]:has(:enabled):hover {
-        @apply cursor-default;
-    }
+	.checkbox[aria-readonly="true"]:has(:enabled):hover {
+		@apply cursor-default;
+	}
 
-    .checkbox.block:has(:enabled):not([aria-readonly="true"]):hover {
-        @apply text-palette-fg-focused;
-        @apply border-palette-border-focused;
-        @apply bg-palette-bg-focused;
-    }
+	.checkbox.block:has(:enabled):not([aria-readonly="true"]):hover {
+		@apply text-palette-fg-focused;
+		@apply border-palette-border-focused;
+		@apply bg-palette-bg-focused;
+	}
 
-    /* NOTE: active 要在 hover 之后，否则 hover 始终覆盖 active 的效果。 */
+	/* NOTE: active 要在 hover 之后，否则 hover 始终覆盖 active 的效果。 */
 
-    .checkbox.block:has(:enabled):not([aria-readonly="true"]):active {
-        @apply text-palette-fg-actived;
-        @apply border-palette-border-actived;
-        @apply bg-palette-bg-actived;
-    }
+	.checkbox.block:has(:enabled):not([aria-readonly="true"]):active {
+		@apply text-palette-fg-actived;
+		@apply border-palette-border-actived;
+		@apply bg-palette-bg-actived;
+	}
 
-    .checkbox:not(.block):has(:enabled):not([aria-readonly="true"]):active {
-        @apply text-palette-fg-actived;
-    }
+	.checkbox:not(.block):has(:enabled):not([aria-readonly="true"]):active {
+		@apply text-palette-fg-actived;
+	}
 
-    .checkbox:has(:disabled) {
-        @apply cursor-not-allowed text-palette-fg-disabled;
-    }
+	.checkbox:has(:disabled) {
+		@apply cursor-not-allowed text-palette-fg-disabled;
+	}
 
-    .group-content {
-        @apply flex flex-wrap gap-3 justify-between w-full;
-    }
+	.group-content {
+		@apply flex flex-wrap gap-3 justify-between w-full;
+	}
 }

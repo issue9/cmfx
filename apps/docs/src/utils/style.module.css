@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .simple-code {
-        /* 背景需要透明，否则显示在表格中，在 hover 会很难看 */
-        @apply border-none! px-0 bg-transparent!;
-    }
+	.simple-code {
+		/* 背景需要透明，否则显示在表格中，在 hover 会很难看 */
+		@apply border-none! px-0 bg-transparent!;
+	}
 }

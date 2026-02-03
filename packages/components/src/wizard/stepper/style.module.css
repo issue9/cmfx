@@ -1,86 +1,86 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .stepper {
-        --stepper-icon-size: --spacing(3);
+	.stepper {
+		--stepper-icon-size: --spacing(3);
 
-        @apply flex flex-col;
+		@apply flex flex-col;
 
-        >header {
-            @apply flex gap-1 items-start flex-1;
+		> header {
+			@apply flex gap-1 items-start flex-1;
 
-            .step {
-                @apply flex gap-1 flex-1 items-center justify-end text-palette-fg-low;
+			.step {
+				@apply flex gap-1 flex-1 items-center justify-end text-palette-fg-low;
 
-                .icon {
-                    @apply aspect-square shrink-0 rounded-md bg-palette-bg-low text-palette-fg-low flex items-center justify-center;
-                    @apply has-[.dot]:bg-transparent;
-                    width: calc(2 * var(--stepper-icon-size));
+				.icon {
+					@apply aspect-square shrink-0 rounded-md bg-palette-bg-low text-palette-fg-low flex items-center justify-center;
+					@apply has-[.dot]:bg-transparent;
+					width: calc(2 * var(--stepper-icon-size));
 
-                    .dot {
-                        @apply w-2 h-2 shrink-0 rounded-full bg-palette-bg-low;
-                    }
-                }
+					.dot {
+						@apply w-2 h-2 shrink-0 rounded-full bg-palette-bg-low;
+					}
+				}
 
-                .title {
-                    @apply shrink-0 grow-0 whitespace-nowrap;
-                }
-            }
+				.title {
+					@apply shrink-0 grow-0 whitespace-nowrap;
+				}
+			}
 
-            .step:first-child {
-                @apply grow-0 shrink-0;
-            }
+			.step:first-child {
+				@apply grow-0 shrink-0;
+			}
 
-            /* 横线 */
-            .step:not(:first-child)::before {
-                content: '';
-                @apply h-1! w-full grow bg-palette-bg-low block;
-            }
+			/* 横线 */
+			.step:not(:first-child)::before {
+				content: "";
+				@apply h-1! w-full grow bg-palette-bg-low block;
+			}
 
-            .step.completed {
-                @apply text-palette-fg-high;
+			.step.completed {
+				@apply text-palette-fg-high;
 
-                .icon {
-                    @apply text-palette-fg-high;
+				.icon {
+					@apply text-palette-fg-high;
 
-                    .dot {
-                        @apply bg-palette-bg-high;
-                    }
-                }
-            }
+					.dot {
+						@apply bg-palette-bg-high;
+					}
+				}
+			}
 
-            .step.completed::before {
-                @apply bg-palette-bg-high;
-            }
-        }
+			.step.completed::before {
+				@apply bg-palette-bg-high;
+			}
+		}
 
-        >.content {
-            @apply mt-2 flex-1;
-        }
-    }
+		> .content {
+			@apply mt-2 flex-1;
+		}
+	}
 
-    .stepper.vertical {
-        @apply flex-row;
+	.stepper.vertical {
+		@apply flex-row;
 
-        >header {
-            @apply flex-col! w-20 max-w-50;
+		> header {
+			@apply flex-col! w-20 max-w-50;
 
-            .step {
-                @apply flex-col items-start;
-            }
+			.step {
+				@apply flex-col items-start;
+			}
 
-            /* 横线 */
-            .step:not(:first-child)::before {
-                content: '';
-                margin-left: calc(var(--stepper-icon-size) - --spacing(0.5));
-                @apply h-5! w-1 grow block;
-            }
-        }
-    }
+			/* 横线 */
+			.step:not(:first-child)::before {
+				content: "";
+				margin-left: calc(var(--stepper-icon-size) - --spacing(0.5));
+				@apply h-5! w-1 grow block;
+			}
+		}
+	}
 }

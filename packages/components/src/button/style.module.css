@@ -1,217 +1,216 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    /************************* button ******************************/
+	/************************* button ******************************/
 
-    .button {
-        @apply cursor-pointer py-1 px-3 text-nowrap text-palette-fg;
-        @apply border border-transparent outline-none rounded-md;
-        @apply flex items-center justify-center text-center;
-        @apply cursor-pointer;
-        @apply transition;
-    }
+	.button {
+		@apply cursor-pointer py-1 px-3 text-nowrap text-palette-fg;
+		@apply border border-transparent outline-none rounded-md;
+		@apply flex items-center justify-center text-center;
+		@apply cursor-pointer;
+		@apply transition;
+	}
 
-    .button.rounded {
-        @apply rounded-full;
-    }
+	.button.rounded {
+		@apply rounded-full;
+	}
 
-    .button.square {
-        @apply aspect-square p-2;
-    }
+	.button.square {
+		@apply aspect-square p-2;
+	}
 
-    .button.fill {
-        @apply text-palette-fg bg-palette-bg border-palette-border;
-    }
+	.button.fill {
+		@apply text-palette-fg bg-palette-bg border-palette-border;
+	}
 
-    .button.fill:enabled:hover,
-    .button.fill.link-enabled:hover,
-    .button.fill:focus-visible {
-        @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
-    }
+	.button.fill:enabled:hover,
+	.button.fill.link-enabled:hover,
+	.button.fill:focus-visible {
+		@apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+	}
 
-    .button.fill.checked {
-        @apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
-    }
+	.button.fill.checked {
+		@apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
+	}
 
-    .button.fill:enabled:active,
-    .button.fill.link-enabled:active {
-        @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
-    }
+	.button.fill:enabled:active,
+	.button.fill.link-enabled:active {
+		@apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
+	}
 
-    .button.border {
-        @apply text-palette-fg bg-transparent border-palette-border;
-    }
+	.button.border {
+		@apply text-palette-fg bg-transparent border-palette-border;
+	}
 
-    .button.border:enabled:hover,
-    .button.border.link-enabled:hover,
-    .button.border:focus-visible {
-        @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
-    }
+	.button.border:enabled:hover,
+	.button.border.link-enabled:hover,
+	.button.border:focus-visible {
+		@apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+	}
 
-    .button.border.checked {
-        @apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
-    }
+	.button.border.checked {
+		@apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
+	}
 
-    .button.border:enabled:active,
-    .button.border.link-enabled:active {
-        @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
-    }
+	.button.border:enabled:active,
+	.button.border.link-enabled:active {
+		@apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
+	}
 
-    .button.flat {
-        @apply bg-transparent;
-    }
+	.button.flat {
+		@apply bg-transparent;
+	}
 
-    .button.flat:enabled:hover,
-    .button.flat.link-enabled:hover,
-    .button.flat:focus-visible {
-        @apply bg-palette-bg-focused text-palette-fg-focused;
-    }
+	.button.flat:enabled:hover,
+	.button.flat.link-enabled:hover,
+	.button.flat:focus-visible {
+		@apply bg-palette-bg-focused text-palette-fg-focused;
+	}
 
-    .button.flat.checked {
-        @apply bg-palette-bg-selected text-palette-fg-selected;
-    }
+	.button.flat.checked {
+		@apply bg-palette-bg-selected text-palette-fg-selected;
+	}
 
-    .button.flat:enabled:active,
-    .button.flat.link-enabled:active {
-        @apply bg-palette-bg-actived text-palette-fg-actived;
-    }
+	.button.flat:enabled:active,
+	.button.flat.link-enabled:active {
+		@apply bg-palette-bg-actived text-palette-fg-actived;
+	}
 
-    .button.link-disabled,
-    .button:disabled {
-        @apply cursor-not-allowed;
-        @apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
-    }
+	.button.link-disabled,
+	.button:disabled {
+		@apply cursor-not-allowed;
+		@apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
+	}
 
-    .button.flat.link-disabled,
-    .button.flat:disabled {
-        @apply border-transparent;
-    }
+	.button.flat.link-disabled,
+	.button.flat:disabled {
+		@apply border-transparent;
+	}
 
-    /************************* group ******************************/
+	/************************* group ******************************/
 
-    .group {
-        @apply text-palette-fg flex border-solid border border-transparent rounded-l-md rounded-r-md;
-        @apply overflow-clip;
-        @apply transition;
+	.group {
+		@apply text-palette-fg flex border-solid border border-transparent rounded-l-md rounded-r-md;
+		@apply overflow-clip;
+		@apply transition;
 
-        .button {
-            @apply rounded-none border-none flex-1 py-1 px-3 outline-none bg-transparent;
-        }
+		.button {
+			@apply rounded-none border-none flex-1 py-1 px-3 outline-none bg-transparent;
+		}
 
-        .button.square {
-            @apply aspect-square p-2;
-        }
+		.button.square {
+			@apply aspect-square p-2;
+		}
 
-        .button.split {
-            @apply border-s! border-s-palette-border! box-content;
-        }
-    }
+		.button.split {
+			@apply border-s! border-s-palette-border! box-content;
+		}
+	}
 
-    .group.vertical {
-        @apply flex-col;
-    }
+	.group.vertical {
+		@apply flex-col;
+	}
 
-    .group.rounded {
-        @apply rounded-full;
-    }
+	.group.rounded {
+		@apply rounded-full;
+	}
 
-    .group.fill {
-        @apply border-palette-border bg-palette-bg;
+	.group.fill {
+		@apply border-palette-border bg-palette-bg;
 
-        .button:enabled:hover,
-        .button.link-enabled:hover,
-        .button:focus-visible {
-            @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
-        }
+		.button:enabled:hover,
+		.button.link-enabled:hover,
+		.button:focus-visible {
+			@apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+		}
 
-        .button:enabled:active,
-        .button.link-enabled:active {
-            @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
-        }
-    }
+		.button:enabled:active,
+		.button.link-enabled:active {
+			@apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
+		}
+	}
 
-    .group.border {
-        @apply border-palette-border bg-transparent;
+	.group.border {
+		@apply border-palette-border bg-transparent;
 
-        .button {
-            @apply bg-transparent border-transparent;
-        }
+		.button {
+			@apply bg-transparent border-transparent;
+		}
 
-        .button:enabled:hover,
-        .button.link-enabled:hover,
-        .button:focus-visible {
-            @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
-        }
+		.button:enabled:hover,
+		.button.link-enabled:hover,
+		.button:focus-visible {
+			@apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+		}
 
-        .button:enabled:active,
-        .button.link-enabled:active {
-            @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
-        }
+		.button:enabled:active,
+		.button.link-enabled:active {
+			@apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
+		}
 
-        .button.split:enabled {
-            @apply border-s-palette-border!;
-        }
-    }
+		.button.split:enabled {
+			@apply border-s-palette-border!;
+		}
+	}
 
-    .group.flat {
-        @apply bg-transparent text-palette-bg pointer-events-none;
+	.group.flat {
+		@apply bg-transparent text-palette-bg pointer-events-none;
 
-        .button {
-            @apply border-transparent pointer-events-auto;
-        }
+		.button {
+			@apply border-transparent pointer-events-auto;
+		}
 
-        .button:enabled:hover,
-        .button.link-enabled:hover,
-        .button:focus-visible {
-            @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
-        }
+		.button:enabled:hover,
+		.button.link-enabled:hover,
+		.button:focus-visible {
+			@apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+		}
 
-        .button:enabled:active,
-        .button.link-enabled:active {
-            @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
-        }
+		.button:enabled:active,
+		.button.link-enabled:active {
+			@apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
+		}
 
-        .button.split:enabled {
-            @apply border-s-transparent!;
-        }
-    }
+		.button.split:enabled {
+			@apply border-s-transparent!;
+		}
+	}
 
-    .group.flat:enabled:hover {
-        @apply bg-palette-bg-focused text-palette-fg-focused;
-    }
+	.group.flat:enabled:hover {
+		@apply bg-palette-bg-focused text-palette-fg-focused;
+	}
 
-    .button.link-disabled,
-    .group:disabled {
-        @apply cursor-not-allowed;
-        @apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
-    }
+	.button.link-disabled,
+	.group:disabled {
+		@apply cursor-not-allowed;
+		@apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
+	}
 
-    /************************* confirm ******************************/
+	/************************* confirm ******************************/
 
-    .confirm-panel {
-        @apply p-4 gap-2 bg-palette-bg text-palette-fg mt-1 rounded-md m-0;
+	.confirm-panel {
+		@apply p-4 gap-2 bg-palette-bg text-palette-fg mt-1 rounded-md m-0;
+	}
 
-    }
+	.confirm-actions {
+		@apply flex justify-end gap-2 mt-4;
+	}
 
-    .confirm-actions {
-        @apply flex justify-end gap-2 mt-4;
-    }
+	.confirm-panel:popover-open {
+		@apply flex flex-col;
+	}
 
-    .confirm-panel:popover-open {
-        @apply flex flex-col;
-    }
+	/********************* fit-screen **********************/
 
-    /********************* fit-screen **********************/
-
-    .fit-screen {
-        @apply fixed! top-0! start-0! overflow-y-scroll z-popover;
-        @apply w-full! h-full! max-w-full! max-h-full! p-4;
-        @apply bg-palette-bg text-palette-fg;
-    }
+	.fit-screen {
+		@apply fixed! top-0! start-0! overflow-y-scroll z-popover;
+		@apply w-full! h-full! max-w-full! max-h-full! p-4;
+		@apply bg-palette-bg text-palette-fg;
+	}
 }

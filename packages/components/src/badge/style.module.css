@@ -1,36 +1,36 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .badge {
-        @apply relative;
+	.badge {
+		@apply relative;
 
-        --badge-size: calc(-1 * 1rem / 2 + 2px);
+		--badge-size: calc(-1 * 1rem / 2 + 2px);
 
-        .point {
-            @apply bg-palette-bg text-palette-fg absolute rounded-xs text-xs min-w-4 min-h-4;
-            @apply inline-flex items-center justify-center;
-        }
+		.point {
+			@apply bg-palette-bg text-palette-fg absolute rounded-xs text-xs min-w-4 min-h-4;
+			@apply inline-flex items-center justify-center;
+		}
 
-        .topleft {
-            @apply top-[var(--badge-size)] left-[var(--badge-size)];
-        }
+		.topleft {
+			@apply top-(--badge-size) left-(--badge-size);
+		}
 
-        .topright {
-            @apply top-[var(--badge-size)] right-[var(--badge-size)];
-        }
+		.topright {
+			@apply top-(--badge-size) right-(--badge-size);
+		}
 
-        .bottomleft {
-            @apply bottom-[var(--badge-size)] left-[var(--badge-size)];
-        }
+		.bottomleft {
+			@apply bottom-(--badge-size) left-(--badge-size);
+		}
 
-        .bottomright {
-            @apply bottom-[var(--badge-size)] right-[var(--badge-size)];
-        }
-    }
+		.bottomright {
+			@apply bottom-(--badge-size) right-(--badge-size);
+		}
+	}
 }

@@ -1,38 +1,38 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    fieldset.time {
-        @apply h-40 border border-palette-border rounded-md p-1;
-        @apply flex overflow-auto;
-        @apply bg-palette-bg text-palette-fg;
+	fieldset.time {
+		@apply h-40 border border-palette-border rounded-md p-1;
+		@apply flex overflow-auto;
+		@apply bg-palette-bg text-palette-fg;
 
-        ul.item {
-            @apply overflow-y-hidden h-full w-10;
+		ul.item {
+			@apply overflow-y-hidden h-full w-10;
 
-            >li {
-                @apply rounded-sm m-px text-center cursor-default;
-                @apply transition;
-            }
+			> li {
+				@apply rounded-sm m-px text-center cursor-default;
+				@apply transition;
+			}
 
-            >li.selected {
-                @apply bg-palette-bg-selected;
-            }
-        }
-    }
+			> li.selected {
+				@apply bg-palette-bg-selected;
+			}
+		}
+	}
 
-    fieldset.time:enabled {
-        ul.item {
-            @apply overflow-y-scroll;
+	fieldset.time:enabled {
+		ul.item {
+			@apply overflow-y-scroll;
 
-            >li:hover {
-                @apply bg-palette-bg-focused cursor-pointer;
-            }
-        }
-    }
+			> li:hover {
+				@apply bg-palette-bg-focused cursor-pointer;
+			}
+		}
+	}
 }

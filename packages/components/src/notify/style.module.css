@@ -4,46 +4,45 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .notify {
-        @apply absolute top-4 end-4 start-4 flex flex-col z-notify gap-2;
-        @apply @2xl/root:w-80 @2xl/root:start-auto;
-    }
+	.notify {
+		@apply absolute top-4 end-4 start-4 flex flex-col z-notify gap-2;
+		@apply @2xl/root:w-80 @2xl/root:start-auto;
+	}
 
-    .message {
-        @apply bg-palette-bg text-palette-fg rounded-md w-full h-auto overflow-y-hidden;
-        @apply flex p-3 gap-2 items-start;
-        @apply transition-[height];
+	.message {
+		@apply bg-palette-bg text-palette-fg rounded-md w-full h-auto overflow-y-hidden;
+		@apply flex p-3 gap-2 items-start;
+		@apply transition-[height];
 
-        .left {
-            @apply text-2xl flex justify-center items-center;
-        }
+		.left {
+			@apply text-2xl flex justify-center items-center;
+		}
 
-        .right {
-            @apply flex flex-col items-start gap-1 flex-1;
+		.right {
+			@apply flex flex-col items-start gap-1 flex-1;
 
-            .label {
-                @apply flex justify-between items-center w-full;
+			.label {
+				@apply flex justify-between items-center w-full;
 
-                /* 比 close 大一圈，用以显示进度 */
-                .close-wrap {
-                    @apply flex items-center justify-center p-0.5 rounded-xs bg-palette-bg;
+				/* 比 close 大一圈，用以显示进度 */
+				.close-wrap {
+					@apply flex items-center justify-center p-0.5 rounded-xs bg-palette-bg;
 
-                    .close {
-                        @apply bg-palette-bg text-palette-fg p-0.5 rounded-xs;
-                        @apply hover:cursor-pointer hover:text-palette-fg-focused hover:bg-palette-bg-focused;
-                        @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-                        @apply transition;
-                    }
-                }
-            }
+					.close {
+						@apply bg-palette-bg text-palette-fg p-0.5 rounded-xs;
+						@apply hover:cursor-pointer hover:text-palette-fg-focused hover:bg-palette-bg-focused;
+						@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+						@apply transition;
+					}
+				}
+			}
 
-            .body {
-                @apply wrap-normal whitespace-pre-wrap;
-            }
-
-        }
-    }
+			.body {
+				@apply wrap-normal whitespace-pre-wrap;
+			}
+		}
+	}
 }

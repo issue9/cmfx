@@ -1,109 +1,106 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .tab {
-        @apply flex flex-col border border-palette-border rounded-lg overflow-clip text-palette-fg bg-palette-bg;
+	.tab {
+		@apply flex flex-col border border-palette-border rounded-lg overflow-clip text-palette-fg bg-palette-bg;
 
-        >.tabs {
-            @apply flex flex-row;
+		> .tabs {
+			@apply flex flex-row;
 
-            .item {
-                @apply px-4 py-2 text-center;
-                @apply transition;
-            }
+			.item {
+				@apply px-4 py-2 text-center;
+				@apply transition;
+			}
 
-            .item:disabled {
-                @apply cursor-not-allowed;
-                @apply text-palette-fg-low;
-            }
+			.item:disabled {
+				@apply cursor-not-allowed;
+				@apply text-palette-fg-low;
+			}
 
-            .item:enabled {
-                @apply cursor-pointer;
-                @apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
-                @apply focus:bg-palette-bg-focused focus:text-palette-fg-focused;
-                @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-            }
+			.item:enabled {
+				@apply cursor-pointer;
+				@apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+				@apply focus:bg-palette-bg-focused focus:text-palette-fg-focused;
+				@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+			}
 
-            .item.select {
-                @apply bg-palette-bg-high text-palette-fg-high;
-            }
+			.item.select {
+				@apply bg-palette-bg-high text-palette-fg-high;
+			}
 
-            >button.prev,
-            >button.next {
-                @apply w-12 cursor-pointer flex justify-center items-center;
-                @apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
-                @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-            }
+			> button.prev,
+			> button.next {
+				@apply w-12 cursor-pointer flex justify-center items-center;
+				@apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+				@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+			}
 
-            >.scroller {
-                @apply flex flex-row overflow-hidden;
-            }
-        }
+			> .scroller {
+				@apply flex flex-row overflow-hidden;
+			}
+		}
 
-        >.tabs.has-panel {
-            @apply border-b border-b-palette-border;
-        }
+		> .tabs.has-panel {
+			@apply border-b border-b-palette-border;
+		}
+	}
 
-        >.tabpanel {}
-    }
+	.tab.horizontal {
+		> .tabs {
+			> button.prev {
+				@apply border-e border-e-palette-border;
+			}
 
-    .tab.horizontal {
-        >.tabs {
-            >button.prev {
-                @apply border-e border-e-palette-border;
-            }
+			> button.next {
+				@apply border-s border-s-palette-border;
+			}
 
-            >button.next {
-                @apply border-s border-s-palette-border;
-            }
+			.item:not(:last-child) {
+				@apply border-e border-e-palette-border;
+			}
+		}
+	}
 
-            .item:not(:last-child) {
-                @apply border-e border-e-palette-border;
-            }
-        }
-    }
+	.tab.vertical {
+		@apply flex-row w-fit;
 
-    .tab.vertical {
-        @apply flex-row w-fit;
+		> .tabs {
+			@apply flex flex-col w-fit;
 
-        >.tabs {
-            @apply flex flex-col w-fit;
+			> button.prev,
+			> button.next {
+				@apply w-full flex justify-center items-center h-12;
+			}
 
-            >button.prev,
-            >button.next {
-                @apply w-full flex justify-center items-center h-12;
-            }
+			> button.prev {
+				@apply border-b border-b-palette-border;
+			}
 
-            >button.prev {
-                @apply border-b border-b-palette-border;
-            }
+			> button.next {
+				@apply border-t border-t-palette-border;
+			}
 
-            >button.next {
-                @apply border-t border-t-palette-border;
-            }
+			.item {
+				@apply text-start;
+			}
 
-            .item {
-                @apply text-start;
-            }
+			.item:not(:last-child) {
+				@apply border-b border-b-palette-border;
+			}
 
-            .item:not(:last-child) {
-                @apply border-b border-b-palette-border;
-            }
+			> .scroller {
+				@apply flex-col;
+			}
+		}
 
-            >.scroller {
-                @apply flex-col;
-            }
-        }
-
-        >.tabs.has-panel {
-            @apply border-e border-e-palette-border;
-        }
-
-    }
+		> .tabs.has-panel {
+			@apply border-e border-e-palette-border;
+		}
+	}
 }

@@ -1,153 +1,152 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .table {
-        @apply bg-palette-bg text-palette-fg w-full rounded-md;
+	.table {
+		@apply bg-palette-bg text-palette-fg w-full rounded-md;
 
-        >table.fixed-layout {
-            table-layout: fixed;
-        }
+		> table.fixed-layout {
+			table-layout: fixed;
+		}
 
-        .header {
-            @apply flex flex-col mb-2 print:hidden;
+		.header {
+			@apply flex flex-col mb-2 print:hidden;
 
-            .search {
-                @apply flex flex-wrap items-center gap-2;
+			.search {
+				@apply flex flex-wrap items-center gap-2;
 
-                .actions {
-                    @apply ms-auto flex gap-2;
-                }
-            }
+				.actions {
+					@apply ms-auto flex gap-2;
+				}
+			}
 
-            .toolbar {
-                @apply flex justify-start items-center;
+			.toolbar {
+				@apply flex justify-start items-center;
 
-                .system-toolbar {
-                    @apply ms-auto flex gap-1;
-                }
-            }
-        }
+				.system-toolbar {
+					@apply ms-auto flex gap-1;
+				}
+			}
+		}
 
-        .footer {
-            @apply mt-2 print:hidden;
-        }
-    }
+		.footer {
+			@apply mt-2 print:hidden;
+		}
+	}
 
-    table.cmfx-table {
-        @apply w-full border-t border-b border-palette-border;
-        @apply bg-palette-bg text-palette-fg;
+	table.cmfx-table {
+		@apply w-full border-t border-b border-palette-border;
+		@apply bg-palette-bg text-palette-fg;
 
-        tr {
-            @apply border-b border-palette-border;
-            @apply transition;
-        }
+		tr {
+			@apply border-b border-palette-border;
+			@apply transition;
+		}
 
-        th,
-        td {
-            @apply px-2 py-1 text-left;
-        }
+		th,
+		td {
+			@apply px-2 py-1 text-left;
+		}
 
-        tbody tr:last-of-type {
-            @apply border-0;
-        }
+		tbody tr:last-of-type {
+			@apply border-0;
+		}
 
-        thead th {
-            @apply py-2 bg-palette-bg-high;
-        }
-    }
+		thead th {
+			@apply py-2 bg-palette-bg-high;
+		}
+	}
 
-    table.cmfx-table.hoverable {
-        tbody {
-            tr:hover {
-                @apply bg-palette-bg-focused;
-            }
-        }
-    }
+	table.cmfx-table.hoverable {
+		tbody {
+			tr:hover {
+				@apply bg-palette-bg-focused;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-1 {
-        tbody {
-            tr:nth-child(1n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-1 {
+		tbody {
+			tr:nth-child(1n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-2 {
-        tbody {
-            tr:nth-child(2n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-2 {
+		tbody {
+			tr:nth-child(2n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-3 {
-        tbody {
-            tr:nth-child(3n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-3 {
+		tbody {
+			tr:nth-child(3n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-4 {
-        tbody {
-            tr:nth-child(4n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-4 {
+		tbody {
+			tr:nth-child(4n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-5 {
-        tbody {
-            tr:nth-child(5n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-5 {
+		tbody {
+			tr:nth-child(5n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-6 {
-        tbody {
-            tr:nth-child(6n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-6 {
+		tbody {
+			tr:nth-child(6n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-7 {
-        tbody {
-            tr:nth-child(7n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-7 {
+		tbody {
+			tr:nth-child(7n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-8 {
-        tbody {
-            tr:nth-child(8n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-8 {
+		tbody {
+			tr:nth-child(8n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-9 {
-        tbody {
-            tr:nth-child(9n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
+	table.cmfx-table.striped-9 {
+		tbody {
+			tr:nth-child(9n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 
-    table.cmfx-table.striped-10 {
-        tbody {
-            tr:nth-child(10n) {
-                @apply bg-palette-bg-low;
-            }
-        }
-    }
-
+	table.cmfx-table.striped-10 {
+		tbody {
+			tr:nth-child(10n) {
+				@apply bg-palette-bg-low;
+			}
+		}
+	}
 }

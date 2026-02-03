@@ -4,42 +4,42 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .selector {
-        @apply flex flex-wrap gap-2 bg-palette-bg text-palette-fg border-palette-border rounded-md;
+	.selector {
+		@apply flex flex-wrap gap-2 bg-palette-bg text-palette-fg border-palette-border rounded-md;
 
-        button.option {
-            @apply flex justify-start items-center gap-4 p-1 cursor-pointer w-35;
-            @apply border border-transparent;
-            @apply hover:border-palette-border rounded-md;
-            @apply transition;
+		button.option {
+			@apply flex justify-start items-center gap-4 p-1 cursor-pointer w-35;
+			@apply border border-transparent;
+			@apply hover:border-palette-border rounded-md;
+			@apply transition;
 
-            .blocks {
-                @apply flex flex-wrap w-10 h-10;
+			.blocks {
+				@apply flex flex-wrap w-10 h-10;
 
-                .block {
-                    @apply w-1/2 aspect-square;
-                }
-            }
+				.block {
+					@apply w-1/2 aspect-square;
+				}
+			}
 
-            .info {
-                @apply flex flex-col justify-between items-start;
-            }
-        }
+			.info {
+				@apply flex flex-col justify-between items-start;
+			}
+		}
 
-        button.option:enabled:focus-visible,
-        button.option:enabled:hover {
-            @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
-        }
+		button.option:enabled:focus-visible,
+		button.option:enabled:hover {
+			@apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+		}
 
-        button.option.selected {
-            @apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
-        }
+		button.option.selected {
+			@apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
+		}
 
-        button.option:enabled:active {
-            @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
-        }
-    }
+		button.option:enabled:active {
+			@apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
+		}
+	}
 }

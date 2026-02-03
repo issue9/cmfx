@@ -1,48 +1,48 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .editor {
-        .editor-wrap {
-            @apply w-full h-full flex flex-col justify-stretch;
-        }
+	.editor {
+		.editor-wrap {
+			@apply w-full h-full flex flex-col justify-stretch;
+		}
 
-        :global(.ql-toolbar) {
-            @apply border-palette-border!;
-            @apply rounded-t-md;
-            @apply transition;
-        }
+		:global(.ql-toolbar) {
+			@apply border-palette-border!;
+			@apply rounded-t-md;
+			@apply transition;
+		}
 
-        :global(.ql-container) {
-            @apply border-palette-border! border;
-            @apply rounded-b-md;
-            @apply transition;
-        }
-    }
+		:global(.ql-container) {
+			@apply border-palette-border! border;
+			@apply rounded-b-md;
+			@apply transition;
+		}
+	}
 
-    .editor:has([contenteditable=true]):hover,
-    .editor:focus-within {
-        :global(.ql-toolbar) {
-            @apply border-palette-border-focused!;
-        }
+	.editor:has([contenteditable="true"]):hover,
+	.editor:focus-within {
+		:global(.ql-toolbar) {
+			@apply border-palette-border-focused!;
+		}
 
-        :global(.ql-container) {
-            @apply border-palette-border-focused!;
-        }
-    }
+		:global(.ql-container) {
+			@apply border-palette-border-focused!;
+		}
+	}
 
-    .editor[aria-disabled=true] {
-        :global(.ql-toolbar) {
-            @apply cursor-not-allowed !border-palette-border-disabled;
-        }
+	.editor[aria-disabled="true"] {
+		:global(.ql-toolbar) {
+			@apply cursor-not-allowed !border-palette-border-disabled;
+		}
 
-        :global(.ql-container) {
-            @apply cursor-not-allowed !border-palette-border-disabled;
-        }
-    }
+		:global(.ql-container) {
+			@apply cursor-not-allowed !border-palette-border-disabled;
+		}
+	}
 }

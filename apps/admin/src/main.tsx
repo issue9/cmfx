@@ -46,7 +46,7 @@ const currentPage = current.build('/current', () => {
 				<Card class="basis-1/3" header={<Label icon={<IconDashboard />}>dashboard</Label>}>
 					1/3
 				</Card>
-				<div class="basis-2/3 flex flex-col gap-4">
+				<div class="flex basis-2/3 flex-col gap-4">
 					<Card header={<Label icon={<IconDashboard />}>dashboard</Label>}>line 1</Card>
 					<Card>line 2</Card>
 				</div>
