@@ -2,20 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Button,
-	Choice,
-	fieldAccessor,
-	MountProps,
-	NotifyType,
-	Number,
-	notify,
-	notifyTypes,
-	TextArea,
-	TextField,
-	useLocale,
-	useOptions,
-} from '@cmfx/components';
+import { Button, Choice, fieldAccessor, Numeric, notify, notifyTypes } from '@cmfx/components';
+import { TextArea, TextField, useLocale, useOptions } from '@cmfx/components';
+import type { MountProps, NotifyType } from '@cmfx/components';
 import { createEffect, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -40,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 	});
 
 	return (
-		<div class="flex flex-col gap-2 w-40">
+		<div class="flex w-40 flex-col gap-2">
 			<Portal mount={props.mount}>
 				<System />
 			</Portal>
@@ -52,7 +41,7 @@ export default function (props: MountProps): JSX.Element {
 					return { type: 'item', value: v, label: v };
 				})}
 			/>
-			<Number step={500} label="timeout" accessor={timeout} />
+			<Numeric step={500} label="timeout" accessor={timeout} />
 			<TextField label="title" accessor={title} />
 			<TextArea label="body" accessor={body} />
 			<Button palette="primary" onclick={click}>

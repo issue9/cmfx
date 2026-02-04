@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createForm, DatePicker, MountProps, Number, TextArea, TextField } from '@cmfx/components';
+import { createForm, DatePicker, MountProps, Numeric, TextArea, TextField } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -51,7 +51,7 @@ export default function (props: MountProps): JSX.Element {
 				labelAlign={labelAlign()}
 			>
 				<TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
-				<Number label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
+				<Numeric label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
 				<DatePicker label="date" accessor={api.accessor('date')} help="这是一个帮助文本" />
 				<TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
 				<div class="col-span-full flex justify-between">

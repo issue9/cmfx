@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Calendar, fieldAccessor, MountProps, Number, notify, Week } from '@cmfx/components';
+import { Calendar, fieldAccessor, MountProps, Numeric, notify, Week } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Weekend />
 				<Minmax />
-				<Number min={0} max={6} class="w-20" placeholder="每周起始于" accessor={week} />
+				<Numeric min={0} max={6} class="w-20" placeholder="每周起始于" accessor={week} />
 			</Portal>
 
 			<div class="w-full h-[600px]">

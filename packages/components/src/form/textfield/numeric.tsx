@@ -8,15 +8,8 @@ import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
 import { BaseProps, PropsError, RefProps, style2String } from '@components/base';
 import { Button } from '@components/button';
-import {
-	Accessor,
-	calcLayoutFieldAreas,
-	Field,
-	FieldBaseProps,
-	FieldHelpArea,
-	fieldArea2Style,
-	useForm,
-} from '@components/form/field';
+import type { Accessor, FieldBaseProps } from '@components/form/field';
+import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Input, NumberProps, Ref } from '@components/input/input';
 import styles from './style.module.css';
 
@@ -71,8 +64,8 @@ const presetProps: Partial<Props> = {
 /**
  * 数字输入组件
  */
-export function Number(props: Props): JSX.Element {
-	const form = useForm(); // Number 在 textfield 的外层，所以得保证 useForm 是可用的。
+export default function Numeric(props: Props): JSX.Element {
+	const form = useForm(); // Numeric 在 textfield 的外层，所以得保证 useForm 是可用的。
 	props = mergeProps(presetProps, form, props);
 
 	if (props.step === 0) {
@@ -115,7 +108,9 @@ export function Number(props: Props): JSX.Element {
 				class={styles['number-spin']}
 				disabled={props.disabled || props.readonly}
 				onclick={() => step(props.step!)}
-				ref={el => (el.root().tabIndex = -1)}
+				ref={el => {
+					el.root().tabIndex = -1;
+				}}
 			>
 				<IconArrowUp />
 			</Button>
@@ -124,7 +119,9 @@ export function Number(props: Props): JSX.Element {
 				class={styles['number-spin']}
 				disabled={props.disabled || props.readonly}
 				onclick={() => step(-props.step!)}
-				ref={el => (el.root().tabIndex = -1)}
+				ref={el => {
+					el.root().tabIndex = -1;
+				}}
 			>
 				<IconArrowDown />
 			</Button>
@@ -184,7 +181,9 @@ export function Number(props: Props): JSX.Element {
 	return (
 		<Field
 			title={props.title}
-			ref={el => (rootRef = el)}
+			ref={el => {
+				rootRef = el;
+			}}
 			palette={props.palette}
 			class={props.class}
 			style={props.style}

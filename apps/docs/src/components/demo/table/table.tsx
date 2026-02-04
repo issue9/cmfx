@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, MountProps, Number, Table, TableProps } from '@cmfx/components';
+import { fieldAccessor, MountProps, Numeric, Table, TableProps } from '@cmfx/components';
 import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -35,7 +35,7 @@ export default function (props: MountProps) {
 				<Palette />
 				<FixedLayout />
 				<Hoverable />
-				<Number class="w-20" accessor={striped} min={0} max={10} />
+				<Numeric class="w-20" accessor={striped} min={0} max={10} />
 			</Portal>
 
 			<Table striped={striped.getValue()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>

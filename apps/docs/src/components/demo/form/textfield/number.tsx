@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, fieldAccessor, MountProps, Number } from '@cmfx/components';
+import { Button, fieldAccessor, MountProps, Numeric } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -37,7 +37,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-col gap-2 w-80">
-				<Number
+				<Numeric
 					hasHelp
 					layout={layout()}
 					placeholder="placeholder"
@@ -47,7 +47,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={num}
 				/>
-				<Number
+				<Numeric
 					hasHelp
 					layout={layout()}
 					placeholder="placeholder"
@@ -59,7 +59,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={num}
 				/>
-				<Number
+				<Numeric
 					hasHelp
 					layout={layout()}
 					placeholder="placeholder"

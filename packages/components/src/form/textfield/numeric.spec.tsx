@@ -6,13 +6,21 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { fieldAccessor } from '@components/form/field';
-import { Number } from './number';
+import { default as Numeric } from './numeric';
 import { Ref } from './textfield';
 
-describe('Number', async () => {
+describe('Numeric', async () => {
 	let ref: Ref;
 	const fa = fieldAccessor('tf', 5);
-	const ct = await ComponentTester.build('Number', props => <Number accessor={fa} {...props} ref={el => (ref = el)} />);
+	const ct = await ComponentTester.build('Numeric', props => (
+		<Numeric
+			accessor={fa}
+			{...props}
+			ref={el => {
+				ref = el;
+			}}
+		/>
+	));
 
 	test('prorps', () => ct.testProps());
 

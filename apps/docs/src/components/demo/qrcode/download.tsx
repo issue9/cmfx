@@ -64,7 +64,7 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				value="https://example.com"
 			/>
-			<div class="w-full flex justify-between mt-5">
+			<div class="mt-5 flex w-full justify-between">
 				<Button onclick={() => ref.download()}>png</Button>
 				<Button onclick={() => ref.download('f1', 'jpeg')}>jpeg</Button>
 				<Button onclick={() => ref.download('f1', 'svg')}>svg</Button>

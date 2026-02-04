@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, MountProps, Number, Pagination } from '@cmfx/components';
+import { fieldAccessor, MountProps, Numeric, Pagination } from '@cmfx/components';
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 		<div>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Number class="w-20" accessor={span} />
+				<Numeric class="w-20" accessor={span} />
 			</Portal>
 
 			<Pagination

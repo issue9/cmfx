@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as NumberProps } from './number';
-export { Number } from './number';
+export type { Props as NumericProps } from './numeric';
+export { default as Numeric } from './numeric';
 export type { Props as PasswordProps } from './password';
 export { Password } from './password';
 export type { Props as TextFieldProps, Ref as TextFieldRef } from './textfield';

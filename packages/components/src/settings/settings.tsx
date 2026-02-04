@@ -21,7 +21,7 @@ import { useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Checkbox, Choice, fieldAccessor, Number, RadioGroup, Range } from '@components/form';
+import { Checkbox, Choice, fieldAccessor, Numeric, RadioGroup, Range } from '@components/form';
 import { createBytesFormatter } from '@components/kit';
 import { SchemeSelector } from '@components/theme';
 import styles from './style.module.css';
@@ -212,7 +212,7 @@ export function Settings(props: Props) {
 			{/***************************** stays *******************************/}
 
 			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
-				<Number accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
+				<Numeric accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
 			</Item>
 
 			{/***************************** notify *******************************/}

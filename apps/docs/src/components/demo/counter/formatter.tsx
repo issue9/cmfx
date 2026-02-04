@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Counter, CounterRef, fieldAccessor, MountProps, Number } from '@cmfx/components';
+import { Button, Counter, CounterRef, fieldAccessor, MountProps, Numeric } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 		<div>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Number class="w-20" accessor={fa} />
+				<Numeric class="w-20" accessor={fa} />
 			</Portal>
 			<Counter
 				start={999}

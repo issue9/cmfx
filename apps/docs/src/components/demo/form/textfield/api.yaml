@@ -8,5 +8,5 @@
         types:
             - TextFieldProps
             - TextFieldRef
-            - NumberProps
+            - NumericProps
             - PasswordProps

@@ -51,7 +51,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	lang?: BundledLanguage;
 
 	/**
-	 * 是否显示行号如果为 Number 类型则表示起始行号。
+	 * 是否显示行号如果为 number 类型则表示起始行号。
 	 *
 	 * @reactive
 	 */
