@@ -46,7 +46,7 @@ export class ObjectAccessor<T extends Flattenable> {
 		[this.#valGetter, this.#valSetter] = createStore<T>(structuredClone(preset)); // 复制对象，防止与默认对象冲突。
 		this.#accessors = new Map<FlattenKeys<T>, Accessor<unknown, string>>();
 
-		[this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as any);
+		[this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as Err<T>);
 		this.#error = createSignal('');
 
 		this.#validator = validator;
@@ -238,7 +238,7 @@ export class ObjectAccessor<T extends Flattenable> {
 	 */
 	setError(errs?: Params<FlattenKeys<T>> | string) {
 		if (!errs) {
-			this.#errSetter({} as any);
+			this.#errSetter({} as Err<T>);
 			this.#error[1]('');
 			return;
 		}

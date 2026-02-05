@@ -35,20 +35,20 @@ export function fromSearch<Q extends Query>(
 			if (Array.isArray(pv)) {
 				switch (typeof pv[0]) {
 					case 'string':
-						preset[key] = (val as string).split(',') as any;
+						preset[key] = val.split(',') as any;
 						break;
 					case 'number':
-						preset[key] = (val as string).split(',').map(v => {
-							return parseInt(v);
+						preset[key] = val.split(',').map(v => {
+							return parseInt(v, 10);
 						}) as any;
 						break;
 					case 'boolean':
-						preset[key] = (val as string).split(',').map(v => {
+						preset[key] = val.split(',').map(v => {
 							return v !== 'false';
 						}) as any;
 						break;
 					default:
-						preset[key] = (val as string).split(',') as any;
+						preset[key] = val.split(',') as any;
 				}
 			} else {
 				switch (typeof pv) {

@@ -19,10 +19,7 @@ export interface Column<T extends object> {
 	label?: string;
 
 	/**
-	 * 渲染单元格的方法
-	 *
-	 * @remarks
-	 * 如果导出列的内容需要进行转换，可以指定此方法。
+	 * 如果导出列的内容需要进行转换可以使用此方法进行转换
 	 */
 	content?: CellRenderFunc<T>;
 
@@ -33,13 +30,32 @@ export interface Column<T extends object> {
 }
 
 /**
- * 渲染单元格的方法
+ * 导出数据每个单元格允许的类型
  */
-interface CellRenderFunc<T extends object> {
-	/**
-	 * @param id - 同 {@link Column#id}；
-	 * @param val - 如果该 id 存在于 T 中，那返回其在 T 中当前行的值，如果不存在则是 undefined；
-	 * @param obj - 表示是当前行的对象，其类型为 T；
-	 */
-	<K extends keyof T>(id: string | K, val?: K extends keyof T ? T[K] : unknown, obj?: T): string | number | undefined;
+export type CellType = string | number | boolean | Date | null | undefined;
+
+/**
+ * 判断参数 val 的类型是否为 {@link CellType}
+ */
+export function isCellType(val: unknown): val is CellType {
+	return (
+		typeof val === 'string' ||
+		typeof val === 'number' ||
+		typeof val === 'boolean' ||
+		val instanceof Date ||
+		val === null ||
+		val === undefined
+	);
 }
+
+/**
+ * 渲染单元格的方法
+ * @param id - 同 {@link Column#id}；
+ * @param val - 如果该 id 存在于 T 中，那返回其在 T 中当前行的值，如果不存在则是 undefined；
+ * @param obj - 表示是当前行的对象，其类型为 T；
+ */
+export type CellRenderFunc<T extends object> = <K extends keyof T>(
+	id: string | K,
+	val?: K extends keyof T ? T[K] : unknown,
+	obj?: T,
+) => CellType;

@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+export const methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as const;
+
+export type Method = (typeof methods)[number];
 
 /**
  * 接口错误返回的对象

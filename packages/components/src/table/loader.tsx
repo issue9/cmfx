@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Exporter, Page, printElement, Query } from '@cmfx/core';
+import { Exporter, FlattenKeys, Page, printElement, Query } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconExcel from '~icons/icon-park-twotone/excel';
@@ -218,8 +218,8 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 	let footer: JSX.Element | undefined;
 
 	if (props.paging) {
-		const page = queries.accessor<number>('page' as any); // Q 是泛型对象，无法展开获取 accessor 的参数类型。
-		const size = queries.accessor<number>('size' as any);
+		const page = queries.accessor<number>('page' as FlattenKeys<Q>);
+		const size = queries.accessor<number>('size' as FlattenKeys<Q>);
 		if (size.getValue() === 0) {
 			size.setValue(props.pageSize!);
 		}

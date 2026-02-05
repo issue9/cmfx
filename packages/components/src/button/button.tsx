@@ -133,6 +133,8 @@ export function Button(props: Props) {
 			'href',
 		]);
 
+		const aref = props.ref;
+
 		// A.href 无法设置为 javascript:void(0)
 		return (
 			<A
@@ -141,14 +143,11 @@ export function Button(props: Props) {
 				onClick={!props.disabled ? undefined : e => e.preventDefault()}
 				ref={el => {
 					ref = el;
-					if (!props.ref) {
+
+					if (!aref) {
 						return;
 					}
-					props.ref({
-						root() {
-							return el;
-						},
-					} as any);
+					aref({ root: () => el });
 				}}
 				class={classList(
 					props.palette,

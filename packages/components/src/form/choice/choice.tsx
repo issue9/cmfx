@@ -168,7 +168,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
 						<input
 							id={id}
 							tabIndex={props.tabindex}
-							class="hidden peer"
+							class="peer hidden"
 							disabled={props.disabled}
 							readOnly={props.readonly}
 						/>
@@ -190,7 +190,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
 
 																if (props.multiple) {
 																	const v = props.accessor.getValue() as Array<T>;
-																	const vals = v.filter(vv => vv != item.value);
+																	const vals = v.filter(vv => vv !== item.value);
 																	props.accessor.setValue(vals as any);
 																} else {
 																	props.accessor.setValue(undefined);

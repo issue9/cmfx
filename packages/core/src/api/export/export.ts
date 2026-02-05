@@ -5,7 +5,7 @@
 import xlsx from 'xlsx';
 
 import { Page, Query } from '@core/api';
-import { Column } from './column';
+import { type CellRenderFunc, type CellType, type Column, isCellType } from './column';
 
 /**
  * 从服务器获取数据的函数签名
@@ -22,6 +22,11 @@ export type FetchFunc<T extends object, Q extends Query> = (q: Q) => Promise<Pag
  * @typeParam Q - 查询参数的类型；
  */
 export class Exporter<T extends object, Q extends Query> {
+	/**
+	 * 支持可导出的文件扩展名
+	 */
+	static exts = ['.csv', '.xlsx', '.numbers', '.ods'];
+
 	readonly #sheet: xlsx.WorkSheet;
 	readonly #columns: Array<Column<T>>;
 
@@ -47,14 +52,14 @@ export class Exporter<T extends object, Q extends Query> {
 	 */
 	#append(...rows: Array<T>): void {
 		for (const row of rows) {
-			const data: Array<string> = [];
+			const data: Array<CellType> = [];
 			for (const c of this.#columns) {
 				if (c.isUnexported) {
 					continue;
 				}
-
-				const val = (row as any)[c.id];
-				data.push(c.content ? c.content(c.id, val, row) : val);
+				const val = (row[c.id as keyof T] ?? undefined) as Parameters<CellRenderFunc<T>>[1];
+				const item = c.content ? c.content(c.id, val, row) : isCellType(val) ? val : val ? val.toString() : undefined;
+				data.push(item);
 			}
 
 			xlsx.utils.sheet_add_aoa(this.#sheet, [data], { origin: -1 });
@@ -89,7 +94,13 @@ export class Exporter<T extends object, Q extends Query> {
 	 *
 	 * NOTE: 这将通过浏览器创建一个自动下载的功能。
 	 */
-	export(filename: string, ext: '.csv' | '.xlsx' | '.ods', lang?: string, appName?: string, appVersion?: string): void {
+	export(
+		filename: string,
+		ext: (typeof Exporter.exts)[number],
+		lang?: string,
+		appName?: string,
+		appVersion?: string,
+	): void {
 		const book = xlsx.utils.book_new(this.#sheet, filename);
 		const d = new Date();
 		book.Props = {

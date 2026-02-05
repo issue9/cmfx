@@ -2,5 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Column } from './column';
+export type { CellType, Column } from './column';
+export { isCellType } from './column';
 export { Exporter } from './export';

@@ -158,7 +158,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 					class={joinClass(undefined, styles.input, styles.range)}
 					value={formater()(getValue()?.[0])}
 				/>
-				<div class="px-1 shrink-0">{props.arrowIcon}</div>
+				<div class="shrink-0 px-1">{props.arrowIcon}</div>
 				<input
 					readOnly
 					disabled={props.disabled}
@@ -192,7 +192,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 				<div class={joinClass(undefined, styles.actions, 'justify-end!')}>
 					<Button
 						kind="flat"
-						class="py-0 px-1"
+						class="px-1 py-0"
 						onclick={() => {
 							props.accessor.setValue([undefined, undefined]);
 							panelRef.hidePopover();
@@ -203,7 +203,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 
 					<Button
 						kind="flat"
-						class="py-0 px-1"
+						class="px-1 py-0"
 						onclick={() => {
 							props.accessor.reset();
 							panelRef.hidePopover();

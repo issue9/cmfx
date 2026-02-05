@@ -96,7 +96,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 			aria-haspopup
 		>
 			<Show when={areas().labelArea}>
-				{(area) => (
+				{area => (
 					<label
 						style={{
 							...fieldArea2Style(area()),
@@ -112,7 +112,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 
 			<div
 				style={fieldArea2Style(areas().inputArea)}
-				ref={(el) => (anchorRef = el)}
+				ref={el => (anchorRef = el)}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef)}
@@ -140,17 +140,19 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 			<fieldset
 				popover="auto"
 				disabled={props.disabled}
-				ref={(el) => (panelRef = el)}
+				ref={el => {
+					panelRef = el;
+				}}
 				class={styles.panel}
 				aria-haspopup
 			>
-				<DatePanel class={styles['dt-panel']} {...panelProps} value={getValue()} onChange={(val) => setValue(val)} />
+				<DatePanel class={styles['dt-panel']} {...panelProps} value={getValue()} onChange={val => setValue(val)} />
 
 				<div class={styles.actions}>
 					<div class={styles.left}>
 						<Button
 							kind="flat"
-							class="py-0 px-1"
+							class="px-1 py-0"
 							onclick={() => {
 								const now = new Date();
 								if ((props.min && props.min > now) || (props.max && props.max < now)) {
@@ -167,7 +169,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 					<div class={styles.right}>
 						<Button
 							kind="flat"
-							class="py-0 px-1"
+							class="px-1 py-0"
 							onclick={() => {
 								props.accessor.setValue(undefined);
 								panelRef.hidePopover();
@@ -178,7 +180,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 
 						<Button
 							kind="flat"
-							class="py-0 px-1"
+							class="px-1 py-0"
 							onclick={() => {
 								props.accessor.reset();
 								panelRef.hidePopover();
@@ -191,7 +193,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 			</fieldset>
 
 			<Show when={areas().helpArea}>
-				{(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
 		</Field>
 	);

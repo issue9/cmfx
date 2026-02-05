@@ -61,7 +61,9 @@ export function RemoteTable<T extends Row, Q extends Query>(props: Props<T, Q>) 
 	const l = useLocale();
 
 	const [_, tableProps] = splitProps(props, ['path', 'ref']);
-	const load = props.paging
+
+	// biome-ignore lint/suspicious/noExplicitAny: any
+	const load: any = props.paging
 		? buildPagingLoadFunc(props.rest, props.path, props.onProblem)
 		: buildNoPagingLoadFunc(props.rest, props.path, props.onProblem);
 	let ref: LoaderRef<T>;
@@ -129,7 +131,7 @@ export function RemoteTable<T extends Row, Q extends Query>(props: Props<T, Q>) 
 				ref = el;
 			}}
 			{...tableProps}
-			load={load as any}
+			load={load}
 		/>
 	);
 }

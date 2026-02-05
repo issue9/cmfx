@@ -2,18 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ButtonKind, ChoiceOption, LabelAlignment, Layout, Palette } from '@cmfx/components';
 import {
-	ButtonKind,
 	buttonKinds,
 	Checkbox,
 	Choice,
-	ChoiceOption,
 	fieldAccessor,
-	LabelAlignment,
-	Layout,
 	labelAlignments,
 	layouts,
-	Palette,
 	palettes,
 	useLocale,
 } from '@cmfx/components';
@@ -96,11 +92,13 @@ export function buttonKindSelector(v?: ButtonKind) {
  * @param label - 标题的翻译 ID；
  * @param array - 数组或是 Map，如果是数组，数组的元素值将作为选项值和选项名称展示，如果是 map，键名为选项值，键值为选项名称；
  * @param preset - 默认值；
+ * @param appendUndefined - 是否添加 undefined 选项；
  */
 export function arraySelector<T extends string | number>(
 	label: string,
 	array: ReadonlyArray<T> | ReadonlyMap<T, string>,
 	preset?: T,
+	appendUndefined = false,
 ): [Component, Accessor<T | undefined>, Setter<T | undefined>] {
 	const signal = createSignal<T | undefined>(preset);
 
@@ -124,6 +122,15 @@ export function arraySelector<T extends string | number>(
 			};
 		});
 	}
+
+	if (appendUndefined) {
+		options.push({
+			type: 'item',
+			value: undefined,
+			label: 'undefined',
+		});
+	}
+
 	const name = createUniqueId(); // 保证一组 radio 一个独立的名称
 
 	const elem = () => {

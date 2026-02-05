@@ -9,19 +9,11 @@ import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
 import { IconSet } from '@components/icon';
-import { Props as BaseProps, Button } from './button';
+import { BProps, Button } from './button';
 import styles from './style.module.css';
 import { presetProps } from './types';
 
-export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> {
-	/**
-	 * 按钮的类型
-	 *
-	 * @reactive
-	 * @defaultValue 'button'
-	 */
-	type?: Exclude<BaseProps['type'], 'a'>;
-
+export interface Props extends Omit<BProps, 'onclick' | 'children'> {
 	/**
 	 * 指定按钮的状态
 	 *
@@ -63,13 +55,13 @@ export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> 
  * 除非像全屏这种直接在应用上体现出来的。
  */
 export function ToggleButton(props: Props): JSX.Element {
-	props = mergeProps(presetProps, { type: 'button' as Props['type'] }, props);
-	const [_, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value']);
+	props = mergeProps(presetProps, props);
+	const [, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value']);
 	const [val, setVal] = createSignal(props.value);
 
 	return (
 		<Button
-			{...(btnProps as any)}
+			{...btnProps}
 			onclick={async () => {
 				setVal(await props.toggle());
 			}}

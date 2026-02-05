@@ -19,6 +19,12 @@ interface Props {
 	description?: VoidComponent;
 }
 
+declare global {
+	interface Window {
+		[aboutName]: AboutData;
+	}
+}
+
 /**
  * 关于页面
  *
@@ -26,26 +32,26 @@ interface Props {
  */
 export function About(props: Props): JSX.Element {
 	const l = useLocale();
-	const f = (globalThis as any)[aboutName] as AboutData;
+	const data = window[aboutName];
 
 	return (
 		<Page title="_p.system.about" class={styles.about}>
 			{props.description?.({})}
 
-			<Show when={f.serverDependencies}>
-				{(c) => {
+			<Show when={data.serverDependencies}>
+				{c => {
 					return renderPackage(l.t('_p.system.srvDeps'), c(), <IconHost />);
 				}}
 			</Show>
 
-			<Show when={f.dependencies}>
-				{(c) => {
+			<Show when={data.dependencies}>
+				{c => {
 					return renderPackage(l.t('_p.system.prodDeps'), c(), <IconAutomation />);
 				}}
 			</Show>
 
-			<Show when={f.devDependencies}>
-				{(c) => {
+			<Show when={data.devDependencies}>
+				{c => {
 					return renderPackage(l.t('_p.system.devDeps'), c(), <IconFolderCode />);
 				}}
 			</Show>

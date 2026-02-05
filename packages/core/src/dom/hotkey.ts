@@ -4,10 +4,12 @@
 
 import Browser from 'bowser';
 
+export const modifiers = ['meta', 'alt', 'control', 'shift'] as const;
+
 /**
  * 支持的修饰符
  */
-export type Modifier = 'meta' | 'alt' | 'control' | 'shift';
+export type Modifier = (typeof modifiers)[number];
 
 /**
  * 至少一个修饰符
@@ -236,7 +238,7 @@ export class Hotkey {
 	 */
 	toString(os?: boolean): string {
 		if (os && modifierSymbolsByOS) {
-			return this.#keys.map((k) => modifierSymbolsByOS.get(k as any) ?? k).join('+');
+			return this.#keys.map(k => modifierSymbolsByOS.get(k as Modifier) ?? k).join('+');
 		}
 		return this.#keys.join('+');
 	}

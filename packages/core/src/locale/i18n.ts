@@ -307,6 +307,8 @@ export class I18n implements Locale {
 			o.style = this.#durationStyle;
 		}
 
+		// TODO: DurationFormat 上线之后可删除。
+		// https://github.com/microsoft/TypeScript/issues/60608
 		return new (Intl as any).DurationFormat(this.locale, o);
 	}
 

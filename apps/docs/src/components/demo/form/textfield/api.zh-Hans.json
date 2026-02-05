@@ -189,7 +189,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "NumberProps",
+		"name": "NumericProps",
 		"properties": [
 			{
 				"name": "min",

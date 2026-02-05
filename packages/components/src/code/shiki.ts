@@ -18,8 +18,8 @@ import styles from './style.module.css';
 window.copyShikiCode2Clipboard = copy2Clipboard;
 
 declare global {
-	namespace globalThis {
-		var copyShikiCode2Clipboard: typeof copy2Clipboard;
+	interface Window {
+		copyShikiCode2Clipboard: typeof copy2Clipboard;
 	}
 }
 

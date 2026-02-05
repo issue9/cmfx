@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 export type { Handler as HotkeyHandler, Modifier as ModifierKey, Modifiers as ModifierKeys } from './hotkey';
-export { Hotkey } from './hotkey';
+export { Hotkey, modifiers } from './hotkey';
 export type { Cancel as CancelMovable } from './movable';
 export { movable } from './movable';
 export type { PopoverAlign, PopoverPosition } from './popover';

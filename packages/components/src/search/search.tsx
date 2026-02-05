@@ -111,7 +111,7 @@ export default function Search(props: Props): JSX.Element {
 			}}
 			onPopover={visible => {
 				if (visible) {
-					dropdownRef.menu().root().style.width = dropdownRef.root().getBoundingClientRect().width + 'px';
+					dropdownRef.menu().root().style.width = `${dropdownRef.root().getBoundingClientRect().width}px`;
 				}
 				return false;
 			}}
@@ -119,7 +119,7 @@ export default function Search(props: Props): JSX.Element {
 				if (props.onSelect) {
 					props.onSelect(val, old);
 				}
-				(document.activeElement as any).blur();
+				(document.activeElement as HTMLElement).blur();
 			}}
 		>
 			<Input

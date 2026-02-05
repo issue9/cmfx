@@ -2,18 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	ChartAxis,
-	ChartAxisRef,
-	ConfirmButton,
-	createBytesFormatter,
-	Divider,
-	joinClass,
-	Label,
-	Page,
-	Tab,
-	useLocale,
-} from '@cmfx/components';
+import type {ChartAxisRef} from '@cmfx/components';
+import { ChartAxis, ConfirmButton, Divider, Label, Page, Tab } from '@cmfx/components';
+import { createBytesFormatter, joinClass, useLocale } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
 import IconDatabase from '~icons/material-symbols/database';
@@ -220,9 +211,9 @@ export function Info(): JSX.Element {
 					<dd
 						title={l.t('_p.system.connectionsHelp', {
 							maxOpenConnections: allowedMaxConnections(),
-							openConnections: db()!.openConnections!,
-							idle: db()!.idle!,
-							inUse: db()!.inUse!,
+							openConnections: db()?.openConnections,
+							idle: db()?.idle,
+							inUse: db()?.inUse,
 						})}
 					>
 						{allowedMaxConnections()} / {db()?.openConnections} / {db()?.idle} / {db()?.inUse}
@@ -246,7 +237,7 @@ export function Info(): JSX.Element {
 				</Label>
 				<ConfirmButton
 					palette="secondary"
-					disabled={backup()?.cron === ''}
+					disabled={backup.loading || backup()?.cron === ''}
 					onclick={async () => {
 						const ret = await rest.post('/system/backup');
 						if (!ret.ok) {
@@ -259,7 +250,7 @@ export function Info(): JSX.Element {
 					<IconBackup class="me-1" />
 					{l.t('_p.system.backupDB')}
 				</ConfirmButton>
-				<span class="mt-1">{l.t('_p.system.backupDBHelp', { cron: backup()!.cron! })}</span>
+				<span class="mt-1">{l.t('_p.system.backupDBHelp', { cron: backup()?.cron })}</span>
 				<ul class={styles.backup_list}>
 					<For each={backup()?.list}>
 						{item => (

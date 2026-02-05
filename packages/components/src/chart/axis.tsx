@@ -24,7 +24,9 @@ export interface Ref<T extends object> {
 	clear(): void;
 }
 
-export interface Props<T extends object> extends Omit<BaseProps, 'initValue' | 'ref'>, RefProps<Ref<T>> {
+type OBP = Omit<BaseProps, 'initValue' | 'ref'>;
+
+export interface Props<T extends object> extends OBP, RefProps<Ref<T>> {
 	/**
 	 * X 轴的设置
 	 */
@@ -124,7 +126,7 @@ export interface Series<T extends object> {
  * @typeParam T - 每一条数据的类型
  */
 export function ChartAxis<T extends object>(props: Props<T>): JSX.Element {
-	props = mergeProps(presetProps as any, props);
+	props = mergeProps(presetProps as OBP, props);
 	const [_, charsProps] = splitProps(props, ['xAxis', 'initValue', 'size', 'tooltip', 'legend', 'series', 'ref']);
 
 	const [data, setData] = createSignal<Array<T>>(props.initValue);

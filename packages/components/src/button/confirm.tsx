@@ -37,7 +37,7 @@ export function ConfirmButton(props: Props) {
 	props = mergeProps(presetProps, props) as Props;
 	const l = useLocale();
 	let popElem: HTMLDivElement;
-	let ref: ButtonRef;
+	let ref: ButtonRef<true> | ButtonRef<false>;
 
 	const [_, btnProps] = splitProps(props, ['children', 'onclick', 'prompt', 'palette', 'ok', 'cancel', 'ref']);
 
@@ -70,10 +70,10 @@ export function ConfirmButton(props: Props) {
 	return (
 		<>
 			<Button
-				ref={el => {
+				ref={(el: ButtonRef<true> | ButtonRef<false>) => {
 					ref = el;
 				}}
-				{...(btnProps as any)}
+				{...btnProps}
 				palette={props.palette}
 				onclick={e => {
 					e.preventDefault(); // 取消默认动作，比如 type='a' 时的跳转

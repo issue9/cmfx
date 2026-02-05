@@ -75,39 +75,24 @@ export function Chart(props: Props): JSX.Element {
 	const [opt] = useOptions();
 	const l = useLocale();
 
-	let ref: HTMLDivElement;
 	let inst: echarts.ECharts;
+
+	const theme = {
+		// TODO: https://github.com/apache/echarts/issues/20757
+		// TODO: https://github.com/apache/echarts/issues/19976
+		/*
+		color: [
+		'var(--palette-2-bg)', 'var(--palette-2-fg)', 'var(--palette-3-bg)', 'var(--palette-3-fg)',
+		'var(--palette-4-bg)', 'var(--palette-4-fg)', 'var(--palette-5-bg)', 'var(--palette-5-fg)',
+		],
+		*/
+	};
 
 	const resize = () => {
 		inst.resize();
 	};
 
 	onMount(() => {
-		const theme = {
-			// TODO: https://github.com/apache/echarts/issues/20757
-			// TODO: https://github.com/apache/echarts/issues/19976
-			/*
-            color: [
-                'var(--palette-2-bg)', 'var(--palette-2-fg)', 'var(--palette-3-bg)', 'var(--palette-3-fg)',
-                'var(--palette-4-bg)', 'var(--palette-4-fg)', 'var(--palette-5-bg)', 'var(--palette-5-fg)',
-            ],
-            */
-		};
-
-		inst = echarts.init(ref, theme, {
-			locale: matchLocale(l.locale.toString()),
-			height: props.height,
-			width: props.width,
-			renderer: 'svg',
-		});
-
-		// 初始数据
-		inst.setOption({
-			animation: !isReducedMotion(),
-			animationDuration: opt.getTransitionDuration(),
-			...props.initValue,
-		});
-
 		window.addEventListener('resize', resize);
 	});
 
@@ -119,15 +104,30 @@ export function Chart(props: Props): JSX.Element {
 	createEffect(
 		on(isReducedMotion, () => {
 			inst.setOption({ animation: !isReducedMotion() });
-		}),
+		})
 	);
+
+	// TODO: 动态切换语言 https://github.com/apache/echarts/issues/18540
 
 	return (
 		<div
 			class={joinClass(props.palette, props.class)}
 			style={props.style}
 			ref={el => {
-				ref = el;
+				inst = echarts.init(el, theme, {
+					locale: matchLocale(l.locale.toString()),
+					height: props.height,
+					width: props.width,
+					renderer: 'svg',
+				});
+
+				// 初始数据
+				inst.setOption({
+					animation: !isReducedMotion(),
+					animationDuration: opt.getTransitionDuration(),
+					...props.initValue,
+				});
+
 				if (props.ref) {
 					props.ref({
 						root() {
