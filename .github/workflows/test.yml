@@ -29,6 +29,14 @@ jobs:
       - name: Install Deps
         run: make install-ts
 
+      - name: run biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
+      - name: install biome
+        run: biome ci .
+
       - name: test
         run: make test-ts
 
