@@ -1,39 +1,39 @@
 name: Publish
 
 on:
-    push:
-        tags:
-            - "v*"
-            - "!v*-alpha"
-            - "!v*-beta"
+  push:
+    tags:
+      - "v*"
+      - "!v*-alpha"
+      - "!v*-beta"
 
 jobs:
-    publish-npm:
-        name: publish-npm
-        runs-on: ubuntu-latest
+  publish-npm:
+    name: publish-npm
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v6
+    steps:
+      - uses: actions/checkout@v6
 
-            - uses: actions/setup-node@v6
-              with:
-                  node-version: 24
-                  registry-url: https://registry.npmjs.org/
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org/
 
-            - name: Install pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: latest
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
 
-            - name: Install Deps
-              run: make install-ts
+      - name: Install Deps
+        run: make install-ts
 
-            - name: build
-              run: make build-ts
+      - name: build
+        run: make build-ts
 
-            # publish to npm
+      # publish to npm
 
-            - name: 发布到 npm
-              run: make publish-npm
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
+      - name: 发布到 npm
+        run: make publish-npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
