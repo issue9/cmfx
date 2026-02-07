@@ -121,7 +121,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 
 						<Dropdown
 							trigger="hover"
-							value={[l.match(Array.from(languageIcons.keys()), act.getLocale())]}
+							value={l.match(Array.from(languageIcons.keys()), act.getLocale())}
 							onChange={e => act.setLocale(e)}
 							items={l.locales.map(locale => ({
 								type: 'item',
@@ -172,7 +172,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 
 						<Dropdown
 							trigger="hover"
-							value={[dir()]}
+							value={dir()}
 							onChange={e => {
 								setDir(e);
 								document.documentElement.setAttribute('dir', dir());

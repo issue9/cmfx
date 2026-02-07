@@ -2,9 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type {ChartAxisRef} from '@cmfx/components';
-import { ChartAxis, ConfirmButton, Divider, Label, Page, Tab } from '@cmfx/components';
-import { createBytesFormatter, joinClass, useLocale } from '@cmfx/components';
+import type { ChartAxisRef } from '@cmfx/components';
+import {
+	ChartAxis,
+	ConfirmButton,
+	createBytesFormatter,
+	Divider,
+	joinClass,
+	Label,
+	Page,
+	Tab,
+	useLocale,
+} from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
 import IconDatabase from '~icons/material-symbols/database';
@@ -282,10 +291,10 @@ export function Info(): JSX.Element {
 				</Label>
 				<Tab
 					onChange={changeTab}
-					class="grow-0 m-auto mb-4"
+					class="m-auto mb-4 grow-0"
 					items={[
-						{ id: 'cpu', label: l.t('_c.cpu') + ' (%)' },
-						{ id: 'memory', label: l.t('_c.memory') + ' (MB)' },
+						{ id: 'cpu', label: `${l.t('_c.cpu')} (%)` },
+						{ id: 'memory', label: `${l.t('_c.memory')} (MB)` },
 						{ id: 'connections', label: l.t('_p.system.connections') },
 						{ id: 'goroutines', label: l.t('_p.system.goroutines') },
 					]}

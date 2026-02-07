@@ -27,7 +27,7 @@ export default function (props: MountProps): JSX.Element {
 				<Button onclick={() => setValue(getISOWeek(new Date()))}>now</Button>
 			</Portal>
 
-			<div title="panel" class="flex items-start flex-col">
+			<div title="panel" class="flex flex-col items-start">
 				<WeekPanel
 					palette={palette()}
 					readonly={readonly()}
@@ -41,7 +41,7 @@ export default function (props: MountProps): JSX.Element {
 				<p>{valShow()}</p>
 			</div>
 
-			<div title="panel 2" class="flex items-start flex-col">
+			<div title="panel 2" class="flex flex-col items-start">
 				<WeekPanel
 					palette={palette()}
 					readonly={readonly()}

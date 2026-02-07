@@ -8,7 +8,7 @@ export default function () {
 	return (
 		<div>
 			<Dropdown items={[]}>
-				<div class="bg-primary-bg text-primary-fg w-full h-full">click</div>
+				<div class="h-full w-full bg-primary-bg text-primary-fg">click</div>
 			</Dropdown>
 		</div>
 	);

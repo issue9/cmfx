@@ -99,7 +99,7 @@ export default function (props: MountProps): JSX.Element {
 					return false;
 				}}
 			>
-				<div class="bg-primary-bg text-primary-fg w-10 h-10">right click</div>
+				<div class="h-10 w-10 bg-primary-bg text-primary-fg">right click</div>
 			</Dropdown>
 		</div>
 	);

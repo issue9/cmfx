@@ -44,8 +44,8 @@ export class admins implements Pages {
 	routes(): ReturnType<Pages['routes']> {
 		return [
 			{ path: this.#prefix, component: () => Admins({ routePrefix: this.#prefix }) },
-			{ path: this.#prefix + '/0', component: () => New({ backURL: this.#prefix }) },
-			{ path: this.#prefix + '/:id', component: () => Edit({ backURL: this.#prefix }) },
+			{ path: `${this.#prefix}/0`, component: () => New({ backURL: this.#prefix }) },
+			{ path: `${this.#prefix}/:id`, component: () => Edit({ backURL: this.#prefix }) },
 		];
 	}
 

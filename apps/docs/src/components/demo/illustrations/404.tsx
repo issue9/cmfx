@@ -21,7 +21,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<illustrations.Error404
-				class="bg-palette-bg aspect-square w-full"
+				class="aspect-square w-full bg-palette-bg"
 				palette={palette()}
 				text={custom() ? '页面未找到' : undefined}
 			/>

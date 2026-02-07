@@ -26,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 				<Button onclick={() => setValue(new Date())}>now</Button>
 			</Portal>
 
-			<div class="flex items-start flex-col">
+			<div class="flex flex-col items-start">
 				<TimePanel
 					palette={palette()}
 					readonly={readonly()}

@@ -19,7 +19,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Closable, closable] = boolSelector('closable');
 
 	return (
-		<div class="w-full flex flex-col gap-2">
+		<div class="flex w-full flex-col gap-2">
 			<Portal mount={props.mount}>
 				<Palette />
 				<Type />

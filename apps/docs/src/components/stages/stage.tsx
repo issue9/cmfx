@@ -74,7 +74,7 @@ export default function Stage(props: Props): JSX.Element {
 
 	onMount(() => {
 		const ro = new ResizeObserver(entries => {
-			setCodeHeight(entries[0]!.borderBoxSize[0].blockSize.toString() + 'px');
+			setCodeHeight(`${entries[0]!.borderBoxSize[0].blockSize.toString()}px`);
 		});
 		ro.observe(demoRef()!);
 

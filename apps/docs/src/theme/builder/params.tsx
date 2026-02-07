@@ -2,26 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Accessor, DialogRef, MenuItemItem, Palette, RangeRef, Scheme } from '@cmfx/components';
 import {
-	Accessor,
 	Button,
 	ButtonGroup,
 	Code,
 	Dialog,
-	DialogRef,
 	Divider,
 	Dropdown,
 	fieldAccessor,
 	joinClass,
 	Label,
-	MenuItemItem,
 	notify,
 	ObjectAccessor,
-	Palette,
 	RadioGroup,
 	Range,
-	RangeRef,
-	Scheme,
 	useLocale,
 	useOptions,
 } from '@cmfx/components';
@@ -47,7 +42,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 	const [act, opt] = useOptions();
 	let dlg: DialogRef;
 
-	const schemes = Array.from(opt.schemes).map((s) => {
+	const schemes = Array.from(opt.schemes).map(s => {
 		return { type: 'item', value: s[0], label: s[0] };
 	}) as Array<MenuItemItem<string>>;
 
@@ -62,7 +57,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 							trigger="click"
 							selectedClass=""
 							items={schemes}
-							onChange={(e) => {
+							onChange={e => {
 								const obj = opt.schemes.get(e);
 								if (!obj) {
 									notify(l.t('_d.theme.predefinedSchemesNotFound', { name: e }));
@@ -99,7 +94,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 			<Dialog
 				movable
 				class="h-1/2"
-				ref={(el) => {
+				ref={el => {
 					dlg = el;
 				}}
 				header={<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>}
@@ -176,7 +171,7 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
 				accessor={a}
 				block
 				label={<span class={styles.title}>{title}</span>}
-				options={radiusValues.map((v) => ({ value: v, label: radiusLabel(v) }))}
+				options={radiusValues.map(v => ({ value: v, label: radiusLabel(v) }))}
 			/>
 		</div>
 	);
@@ -205,7 +200,7 @@ function PalettePicker(props: { palette: Palette; schemes: ObjectAccessor<Expand
 
 	const c = new Color(props.schemes.getValue()[props.palette]);
 	const hueFA = fieldAccessor<number>('hue', c.h!);
-	hueFA.onChange((v) => {
+	hueFA.onChange(v => {
 		const c = new Color(schemesFA.getValue());
 		schemesFA.setValue(fmtColor(c.l, c.c, v));
 	});
@@ -230,13 +225,13 @@ function PalettePicker(props: { palette: Palette; schemes: ObjectAccessor<Expand
 			max={360}
 			step={0.01}
 			fitHeight
-			ref={(el) => {
+			ref={el => {
 				rangeRef = el;
 			}}
 			layout="vertical"
 			label={props.palette}
 			accessor={hueFA}
-			value={(v) => `${v.toFixed(2)}`}
+			value={v => `${v.toFixed(2)}`}
 		/>
 	);
 }

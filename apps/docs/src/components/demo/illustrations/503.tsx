@@ -21,7 +21,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<illustrations.Error503
-				class="bg-palette-bg aspect-square w-full"
+				class="aspect-square w-full bg-palette-bg"
 				palette={palette()}
 				text={custom() ? '服 务 暂 不 可 用' : undefined}
 			/>

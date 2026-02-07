@@ -21,7 +21,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<illustrations.Error400
-				class="bg-palette-bg aspect-square w-full"
+				class="aspect-square w-full bg-palette-bg"
 				palette={palette()}
 				text={custom() ? '自定义错误信息' : undefined}
 			/>

@@ -119,7 +119,7 @@ export function Admins(props: Props): JSX.Element {
 											square
 											rounded
 											palette="tertiary"
-											href={`${props.routePrefix}/${obj!['id']}`}
+											href={`${props.routePrefix}/${obj!.id}`}
 											title={l.t('_p.editItem')}
 										>
 											<IconEdit />
@@ -133,7 +133,7 @@ export function Admins(props: Props): JSX.Element {
 											palette="error"
 											title={l.t('_p.admin.lockUser')}
 											onclick={async () => {
-												const r = await rest.post(`/admins/${obj!['id']}/locked`);
+												const r = await rest.post(`/admins/${obj!.id}/locked`);
 												if (!r.ok) {
 													await handleProblem(r.body!);
 													return;
@@ -152,7 +152,7 @@ export function Admins(props: Props): JSX.Element {
 											palette="tertiary"
 											title={l.t('_p.admin.unlockUser')}
 											onclick={async () => {
-												const r = await rest.delete(`/admins/${obj!['id']}/locked`);
+												const r = await rest.delete(`/admins/${obj!.id}/locked`);
 												if (!r.ok) {
 													await handleProblem(r.body!);
 													return;

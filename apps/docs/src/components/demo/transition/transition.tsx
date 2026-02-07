@@ -21,10 +21,10 @@ export default function () {
 			<div>
 				<Transition>
 					<Show when={curr() === 'red'}>
-						<div class="w-40 h-40 bg-red-500" />
+						<div class="h-40 w-40 bg-red-500" />
 					</Show>
 					<Show when={curr() === 'blue'}>
-						<div class="w-40 h-40 bg-blue-500" />
+						<div class="h-40 w-40 bg-blue-500" />
 					</Show>
 				</Transition>
 			</div>

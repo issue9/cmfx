@@ -22,7 +22,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<div class="overflow-y-scroll w-1/3 h-[200px] border border-palette-fg mt-10">
+			<div class="mt-10 h-[200px] w-1/3 overflow-y-scroll border border-palette-fg">
 				<For each={len}>
 					{i => (
 						<>
@@ -30,7 +30,7 @@ export default function (props: MountProps): JSX.Element {
 						</>
 					)}
 				</For>
-				<BackTop palette={palette()} class="mb-10 start-[300px] bottom-4! end-[unset]" />
+				<BackTop palette={palette()} class="start-[300px] end-[unset] bottom-4! mb-10" />
 			</div>
 		</>
 	);

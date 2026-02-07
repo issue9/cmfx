@@ -15,11 +15,11 @@ export default function (): JSX.Element {
 				其中 mode 和 scheme 继承自上一层
 				<pre>{`${JSON.stringify(useTheme(), null, 4)}`}</pre>
 				<ThemeProvider mode="light" scheme={s()}>
-					<div class="p-2 bg-palette-2-bg text-palette-2-fg">
+					<div class="bg-palette-2-bg p-2 text-palette-2-fg">
 						<Button onclick={() => setS(s() === s1 ? s2 : s1)}>change scheme</Button>
 						mode 设置为 light, scheme 为自定义
 						<pre>{`${JSON.stringify(useTheme(), null, 4)}`}</pre>
-						<div class="p-2 bg-palette-3-bg text-palette-3-fg">
+						<div class="bg-palette-3-bg p-2 text-palette-3-fg">
 							<ThemeProvider>
 								其中 mode 和 scheme 继承自上一层
 								<pre>{`${JSON.stringify(useTheme(), null, 4)}`}</pre>

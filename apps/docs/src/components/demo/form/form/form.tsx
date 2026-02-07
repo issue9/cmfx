@@ -52,7 +52,7 @@ export default function (props: MountProps): JSX.Element {
 				hasHelp={help()}
 				disabled={disabled()}
 				readonly={readonly()}
-				class="flex gap-4 flex-col"
+				class="flex flex-col gap-4"
 			>
 				<actions.Message />
 				<TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
@@ -60,7 +60,7 @@ export default function (props: MountProps): JSX.Element {
 				<DatePicker label="date" accessor={api.accessor('date')} help="这是一个帮助文本" />
 				<TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
 			</Form>
-			<div class="w-full flex justify-between">
+			<div class="flex w-full justify-between">
 				<actions.Reset>reset</actions.Reset>
 				<actions.Submit>submit</actions.Submit>
 			</div>

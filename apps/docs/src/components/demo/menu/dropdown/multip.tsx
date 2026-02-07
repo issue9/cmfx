@@ -90,7 +90,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<Dropdown align="start" selectedClass={selectedCls()} palette={palette()} items={items} multiple>
-				<div class="bg-primary-bg text-primary-fg w-full h-full">click</div>
+				<div class="h-full w-full bg-primary-bg text-primary-fg">click</div>
 			</Dropdown>
 		</>
 	);

@@ -22,7 +22,7 @@ export default function (props: MountProps) {
 				<Palette />
 			</Portal>
 
-			<div class="flex justify-between h-30 overflow-y-scroll">
+			<div class="flex h-30 justify-between overflow-y-scroll">
 				<article
 					ref={el => {
 						ref = el;

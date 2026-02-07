@@ -14,8 +14,8 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Palette, palette] = paletteSelector();
 
-	const prefix = <div class="bg-red-500 flex items-center">prefix</div>;
-	const suffix = <div class="bg-red-500 flex items-center">suffix</div>;
+	const prefix = <div class="flex items-center bg-red-500">prefix</div>;
+	const suffix = <div class="flex items-center bg-red-500">suffix</div>;
 
 	const [val, setVal] = createSignal('');
 
@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 			</Portal>
 
-			<div class="flex flex-col gap-2 w-80">
+			<div class="flex w-80 flex-col gap-2">
 				<Input
 					placeholder="placeholder"
 					palette={palette()}

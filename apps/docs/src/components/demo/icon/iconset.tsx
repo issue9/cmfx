@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 
 	return (
-		<div class="gap-2 flex flex-col">
+		<div class="flex flex-col gap-2">
 			<Portal mount={props.mount}>
 				<Rotation />
 				<Palette />
@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<Button palette={palette()}>
 				<IconSet
-					class="w-8! aspect-square"
+					class="aspect-square w-8!"
 					ref={el => {
 						aref = el;
 					}}

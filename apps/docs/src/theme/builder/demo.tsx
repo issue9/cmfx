@@ -2,24 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Column, Mode, Palette, Scheme } from '@cmfx/components';
 import {
 	Appbar,
 	BasicTable,
 	Button,
 	ButtonGroup,
 	Card,
-	Column,
 	createForm,
 	DatePanel,
 	fieldAccessor,
 	joinClass,
 	Menu,
-	Mode,
 	ObjectAccessor,
-	Palette,
 	Password,
 	palettes,
-	Scheme,
 	TextField,
 	ThemeProvider,
 	useLocale,
@@ -325,7 +322,7 @@ function Components(): JSX.Element {
 			</Card>
 
 			<Menu
-				class="min-w-50 border border-palette-fg-low rounded-md transition-all"
+				class="min-w-50 rounded-md border border-palette-fg-low transition-all"
 				layout="inline"
 				items={[
 					{ type: 'item', label: 'Item 1', value: '1' },

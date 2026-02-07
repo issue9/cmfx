@@ -27,7 +27,7 @@ export default function (props: MountProps): JSX.Element {
 				<Numeric min={0} max={6} class="w-20" placeholder="每周起始于" accessor={week} />
 			</Portal>
 
-			<div class="w-full h-[600px]">
+			<div class="h-[600px] w-full">
 				<Calendar
 					weekend={weekend()}
 					weekBase={week.getValue()}

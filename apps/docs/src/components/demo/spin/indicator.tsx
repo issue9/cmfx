@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				indicator={<IconFace />}
 				spinning={spinning()}
-				class="border border-palette-border flex gap-2 p-2"
+				class="flex gap-2 border border-palette-border p-2"
 			>
 				<Button>btn1</Button>
 				<p>indicator</p>
@@ -35,7 +35,7 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				indicator={<IconFace class="animate-spin" />}
 				spinning={spinning()}
-				class="border border-palette-border flex gap-2 p-2"
+				class="flex gap-2 border border-palette-border p-2"
 			>
 				<Button>btn1</Button>
 				<p>animate-spin indicator</p>

@@ -78,7 +78,7 @@ export function Edit(props: Props): JSX.Element {
 					label={l.t('_p.roles.roles')}
 				/>
 				<SexSelector class="w-full" accessor={fapi.accessor<Sex>('sex')} label={l.t('_p.sex')} />
-				<div class="w-full flex justify-between gap-5">
+				<div class="flex w-full justify-between gap-5">
 					<Button type="a" href={props.backURL} palette="secondary">
 						<IconArrowBack />
 						{l.t('_p.back')}

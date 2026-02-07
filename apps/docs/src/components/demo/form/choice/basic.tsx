@@ -55,7 +55,7 @@ export default function (props: MountProps): JSX.Element {
 				</Button>
 			</Portal>
 
-			<div class="flex gap-5 justify-start items-start">
+			<div class="flex items-start justify-start gap-5">
 				<Choice
 					closable={closable()}
 					hasHelp

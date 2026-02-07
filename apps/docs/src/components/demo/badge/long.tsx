@@ -17,7 +17,7 @@ export default function (props: MountProps) {
 				<Palette />
 			</Portal>
 
-			<div class="flex flex-wrap gap-3 justify-start">
+			<div class="flex flex-wrap justify-start gap-3">
 				<For each={badgeCorners}>
 					{pos => (
 						<Badge pos={pos} palette={palette()} content="这是一段很长的文字内容">

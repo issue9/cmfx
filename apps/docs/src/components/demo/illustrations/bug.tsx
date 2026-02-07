@@ -18,7 +18,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<illustrations.BUG class="bg-palette-bg aspect-square w-full" palette={palette()} />
+			<illustrations.BUG class="aspect-square w-full bg-palette-bg" palette={palette()} />
 		</>
 	);
 }

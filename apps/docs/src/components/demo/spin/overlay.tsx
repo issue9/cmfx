@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				indicator={<IconFace />}
 				spinning={spinning()}
-				class="border border-palette-border flex gap-2 p-2"
+				class="flex gap-2 border border-palette-border p-2"
 				overlayClass="bg-palette-bg/50 text-2xl"
 			>
 				<Button>btn1</Button>

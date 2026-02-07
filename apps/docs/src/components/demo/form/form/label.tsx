@@ -53,7 +53,7 @@ export default function (props: MountProps): JSX.Element {
 				<Numeric label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
 				<DatePicker label="date" accessor={api.accessor('date')} help="这是一个帮助文本" />
 				<TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
-				<div class="w-full flex justify-between">
+				<div class="flex w-full justify-between">
 					<Button type="reset">reset</Button>
 					<Button type="submit">submit</Button>
 				</div>

@@ -19,8 +19,8 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 	const [Count, count] = boolSelector('_d.demo.charCount', false);
 
-	const prefix = <div class="bg-red-500 flex items-center">prefix</div>;
-	const suffix = <div class="bg-red-500 flex items-center">suffix</div>;
+	const prefix = <div class="flex items-center bg-red-500">prefix</div>;
+	const suffix = <div class="flex items-center bg-red-500">suffix</div>;
 
 	return (
 		<>
@@ -41,7 +41,7 @@ export default function (props: MountProps): JSX.Element {
 				</Button>
 			</Portal>
 
-			<div class="flex flex-col gap-2 w-80">
+			<div class="flex w-80 flex-col gap-2">
 				<TextField
 					count={count() ? (v, m) => `${v}-${m}` : undefined}
 					hasHelp

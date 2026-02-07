@@ -20,7 +20,7 @@ export default function (props: MountProps) {
 				<Rounded />
 			</Portal>
 
-			<div class="flex flex-wrap gap-3 justify-start">
+			<div class="flex flex-wrap justify-start gap-3">
 				<For each={badgeCorners}>
 					{pos => (
 						<Badge pos={pos} rounded={rounded()} palette={palette()} content={<IconFace />}>

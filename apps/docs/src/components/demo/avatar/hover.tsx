@@ -24,7 +24,7 @@ export default function (props: MountProps) {
 				value="./not-found.svg"
 				fallback="?"
 				palette={palette()}
-				hover={<IconCamera class="w-8 h-8" />}
+				hover={<IconCamera class="h-8 w-8" />}
 				class="h-16"
 			/>
 
@@ -33,7 +33,7 @@ export default function (props: MountProps) {
 					rounded={rounded()}
 					value="./brand-static.svg"
 					palette={palette()}
-					hover={<IconCamera class="w-8 h-8" />}
+					hover={<IconCamera class="h-8 w-8" />}
 					class="h-16"
 					onclick={() => notify('click')}
 				/>

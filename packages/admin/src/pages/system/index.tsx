@@ -58,12 +58,12 @@ export class system implements Pages {
 
 	routes(): ReturnType<Pages['routes']> {
 		const routes = [
-			{ path: this.#prefix + '/routes', component: Routes },
-			{ path: this.#prefix + '/services', component: Services },
-			{ path: this.#prefix + '/info', component: Info },
+			{ path: `${this.#prefix}/routes`, component: Routes },
+			{ path: `${this.#prefix}/services`, component: Services },
+			{ path: `${this.#prefix}/info`, component: Info },
 		];
 		if (this.#about) {
-			routes.push({ path: this.#prefix + '/about', component: () => About({ description: this.#about }) });
+			routes.push({ path: `${this.#prefix}/about`, component: () => About({ description: this.#about }) });
 		}
 
 		return routes;
@@ -71,12 +71,12 @@ export class system implements Pages {
 
 	menus(): ReturnType<Pages['menus']> {
 		const menus: ReturnType<Pages['menus']> = [
-			{ type: 'item', icon: <IconRoutes />, label: '_p.system.routes', path: this.#prefix + '/routes' },
-			{ type: 'item', icon: <IconServices />, label: '_p.system.services', path: this.#prefix + '/services' },
-			{ type: 'item', icon: <IconHelp />, label: '_p.system.serverInfo', path: this.#prefix + '/info' },
+			{ type: 'item', icon: <IconRoutes />, label: '_p.system.routes', path: `${this.#prefix}/routes` },
+			{ type: 'item', icon: <IconServices />, label: '_p.system.services', path: `${this.#prefix}/services` },
+			{ type: 'item', icon: <IconHelp />, label: '_p.system.serverInfo', path: `${this.#prefix}/info` },
 		];
 		if (this.#about) {
-			menus.push({ type: 'item', icon: <IconInfo />, label: '_p.system.about', path: this.#prefix + '/about' });
+			menus.push({ type: 'item', icon: <IconInfo />, label: '_p.system.about', path: `${this.#prefix}/about` });
 		}
 
 		return menus;

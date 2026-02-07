@@ -14,7 +14,7 @@ import styles from './style.module.css';
 
 const demos = import.meta.glob<{ default: () => Info }>('./demo/**/index.tsx', { eager: true });
 
-export const routes: Array<RouteDefinition> = Object.values(demos).map((d) => {
+export const routes: Array<RouteDefinition> = Object.values(demos).map(d => {
 	const r = d.default();
 
 	const route: RouteDefinition = {
@@ -39,14 +39,14 @@ export default function Overview(prefix: string): JSX.Element {
 
 	return (
 		<Page class={styles.overview} title={l.t('_d.demo.overview')}>
-			<For each={items.filter((item) => item.type === 'group')}>
-				{(group) => (
+			<For each={items.filter(item => item.type === 'group')}>
+				{group => (
 					<fieldset class={styles.group}>
 						<legend>
 							{group.label} <span>{group.items.length}</span>
 						</legend>
 						<For each={group.items}>
-							{(item) => (
+							{item => (
 								<A href={(item as MenuItemItem<string>).value!}>
 									<Card header={(item as MenuItemItem<string>).label} class={styles.card}>
 										<div class={styles.icon}>{(item as MenuItemItem<string>).prefix}</div>
@@ -64,7 +64,7 @@ export default function Overview(prefix: string): JSX.Element {
 // 生成 Drawer 组件的侧边栏菜单
 export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
 	const menus: Array<MenuItem<string>> = [
-		{ type: 'a', label: l.t('_d.demo.overview'), value: prefix + '/', suffix: routes.length }, // 指向 overview
+		{ type: 'a', label: l.t('_d.demo.overview'), value: `${prefix}/`, suffix: routes.length }, // 指向 overview
 		{ type: 'group', label: l.t('_d.demo.general'), items: [] },
 		{ type: 'group', label: l.t('_d.demo.layout'), items: [] },
 		{ type: 'group', label: l.t('_d.demo.navigation'), items: [] },
@@ -85,7 +85,7 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
 		});
 	};
 
-	routes.forEach((r) => {
+	routes.forEach(r => {
 		switch (r.info?.kind) {
 			case 'general':
 				append(menus[1], r);

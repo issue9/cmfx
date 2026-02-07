@@ -107,7 +107,7 @@ export default function (props: MountProps): JSX.Element {
 					return false;
 				}}
 			>
-				<div class="bg-primary-bg text-primary-fg w-full h-full">custom</div>
+				<div class="h-full w-full bg-primary-bg text-primary-fg">custom</div>
 			</Dropdown>
 		</div>
 	);

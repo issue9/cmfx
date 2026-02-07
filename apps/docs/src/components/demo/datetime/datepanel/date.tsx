@@ -67,7 +67,7 @@ export default function (props: MountProps): JSX.Element {
 				</Button>
 			</Portal>
 
-			<div class="flex items-start flex-col">
+			<div class="flex flex-col items-start">
 				<DatePanel
 					time={time()}
 					min={minmax() ? min : undefined}
@@ -87,7 +87,7 @@ export default function (props: MountProps): JSX.Element {
 				<p>{valShow()}</p>
 			</div>
 
-			<div class="flex items-start flex-col">
+			<div class="flex flex-col items-start">
 				<DatePanel
 					min={minmax() ? min : undefined}
 					max={minmax() ? max : undefined}

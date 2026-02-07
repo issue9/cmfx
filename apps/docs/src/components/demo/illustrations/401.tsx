@@ -21,7 +21,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<illustrations.Error401
-				class="bg-palette-bg aspect-square w-full"
+				class="aspect-square w-full bg-palette-bg"
 				palette={palette()}
 				text={custom() ? '未验证的登录信息' : undefined}
 			/>

@@ -66,7 +66,7 @@ export default function (props: MountProps): JSX.Element {
 					</main>
 				}
 			>
-				<div class="h-full border-palette-border min-w-20">
+				<div class="h-full min-w-20 border-palette-border">
 					aside
 					<br />
 				</div>

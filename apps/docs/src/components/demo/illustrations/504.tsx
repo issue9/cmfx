@@ -21,7 +21,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<illustrations.Error504
-				class="bg-palette-bg aspect-square w-full"
+				class="aspect-square w-full bg-palette-bg"
 				palette={palette()}
 				text={custom() ? '网 关 超 时' : undefined}
 			/>

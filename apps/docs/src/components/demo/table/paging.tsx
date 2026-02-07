@@ -85,11 +85,7 @@ export default function (props: MountProps): JSX.Element {
 				inSearch
 				fixedLayout={fixedLayout()}
 				palette={palette()}
-				toolbar={
-					<>
-						<Button palette="primary">+ New</Button>
-					</>
-				}
+				toolbar={<Button palette="primary">+ New</Button>}
 				columns={columns}
 				queries={{ txt: 'abc', page: 1, size: 10 }}
 				queryForm={oa => (

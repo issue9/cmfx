@@ -36,7 +36,7 @@ export default function (props: MountProps): JSX.Element {
 				</Button>
 			</Portal>
 
-			<div class="flex flex-col gap-2 w-80">
+			<div class="flex w-80 flex-col gap-2">
 				<Numeric
 					hasHelp
 					layout={layout()}

@@ -22,21 +22,21 @@ export default function (props: MountProps): JSX.Element {
 				<Pos />
 			</Portal>
 
-			<div class="w-56 h-56">
+			<div class="h-56 w-56">
 				<Divider layout={layout()} palette={palette()} pos={pos()}>
 					<IconFace />
 					起始位置
 				</Divider>
 			</div>
 
-			<div class="w-56 h-56">
+			<div class="h-56 w-56">
 				<Divider layout={layout()} palette={palette()} pos={pos()}>
 					<IconFace />
 					english
 				</Divider>
 			</div>
 
-			<div class="w-56 h-56">
+			<div class="h-56 w-56">
 				<Divider layout={layout()} palette={palette()} pos={pos()}>
 					<span style={{ 'writing-mode': 'vertical-rl', 'text-orientation': 'upright' }}>
 						起始位置<span>111</span>
@@ -44,7 +44,7 @@ export default function (props: MountProps): JSX.Element {
 				</Divider>
 			</div>
 
-			<div class="w-56 h-56">
+			<div class="h-56 w-56">
 				<Divider layout={layout()} palette={palette()} pos={pos()}>
 					<span
 						style={{
@@ -60,7 +60,7 @@ export default function (props: MountProps): JSX.Element {
 				</Divider>
 			</div>
 
-			<div class="w-56 h-56">
+			<div class="h-56 w-56">
 				<Divider layout={layout()} palette={palette()} pos={pos()}></Divider>
 			</div>
 		</div>

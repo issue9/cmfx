@@ -2,9 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Choice, fieldAccessor, Numeric, notify, notifyTypes } from '@cmfx/components';
-import { TextArea, TextField, useLocale, useOptions } from '@cmfx/components';
 import type { MountProps, NotifyType } from '@cmfx/components';
+import {
+	Button,
+	Choice,
+	fieldAccessor,
+	Numeric,
+	notify,
+	notifyTypes,
+	TextArea,
+	TextField,
+	useLocale,
+	useOptions,
+} from '@cmfx/components';
 import { createEffect, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

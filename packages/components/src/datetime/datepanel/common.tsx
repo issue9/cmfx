@@ -161,7 +161,7 @@ export function CommonPanel(props: Props): JSX.Element {
 		resizeObserver = new ResizeObserver(entries => {
 			const ref = timeRef();
 			if (ref) {
-				ref.root().style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
+				ref.root().style.height = `${entries[0]!.borderBoxSize[0].blockSize.toString()}px`;
 			}
 		});
 

@@ -99,7 +99,7 @@ export default function (props: MountProps): JSX.Element {
 					return false;
 				}}
 			>
-				<div class="bg-primary-bg text-primary-fg w-full h-full">hover</div>
+				<div class="h-full w-full bg-primary-bg text-primary-fg">hover</div>
 			</Dropdown>
 		</div>
 	);
