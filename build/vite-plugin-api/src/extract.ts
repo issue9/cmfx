@@ -14,6 +14,7 @@ import {
 	MethodDeclaration,
 	MethodSignature,
 	ModuledNode,
+	Symbol as MSymbol,
 	Node,
 	ParameterDeclaration,
 	Project,
@@ -22,7 +23,6 @@ import {
 	Scope,
 	SetAccessorDeclaration,
 	Signature,
-	Symbol,
 	TypeAliasDeclaration,
 	TypeChecker,
 	TypeNode,
@@ -213,7 +213,7 @@ export class Extractor {
 
 				// 依次查询每个属性是否为区分联合类型
 				for (const prop of ut.getProperties()) {
-					const name = prop.getName();
+					const propName = prop.getName();
 
 					// 检测 unionTypes 中每个类型中字段名为 name 的属性值，
 					// 不存在或是不符合要求，则返回 undefined。
@@ -225,7 +225,7 @@ export class Extractor {
 							break;
 						}
 
-						const p = t.getProperty(name);
+						const p = t.getProperty(propName);
 						if (!p) {
 							values.push(undefined);
 							break;
@@ -234,7 +234,7 @@ export class Extractor {
 						if (t.isIntersection()) {
 							// 处理嵌套的 intersection 类型
 							for (const it of t.getIntersectionTypes()) {
-								const ip = it.getProperty(name);
+								const ip = it.getProperty(propName);
 								if (!ip) {
 									values.push(undefined);
 									break;
@@ -253,7 +253,7 @@ export class Extractor {
 								values.push(ret.getText());
 							}
 						} else {
-							const ret = p.getTypeAtLocation(p.getValueDeclarationOrThrow());
+							const ret = p.getTypeAtLocation(p.getDeclarations()[0]);
 							if (!ret || !unionIsLiteral(ret)) {
 								values.push(undefined);
 								break;
@@ -264,7 +264,7 @@ export class Extractor {
 
 					// 有值，不能包含 undefined，且值不能相同。
 					if (values.length > 0 && values.every(v => v !== undefined) && new Set(values).size === values.length) {
-						unions.discriminant = name;
+						unions.discriminant = propName;
 						break;
 					}
 				}
@@ -276,12 +276,12 @@ export class Extractor {
 						name: '',
 						kind: 'intersection',
 						types: t.getIntersectionTypes().map(t => {
-							return this.conv(t.getSymbol()?.getDeclarations()[0]!, chk);
+							return this.conv(t.getSymbol()!.getDeclarations()[0], chk);
 						}),
 					};
 					unions.types.push(inter);
 				} else {
-					unions.types.push(this.conv(t.getSymbol()?.getDeclarations()[0]!, chk));
+					unions.types.push(this.conv(t.getSymbol()!.getDeclarations()[0], chk));
 				}
 			}
 
@@ -324,7 +324,7 @@ export class Extractor {
 	/**
 	 * 从 getProperties() 方法返回的列表中构建一个 {@link Class} 或是 {@link Interface} 对象
 	 */
-	private fromSymbols(symbols: Array<Symbol>, kind: 'class' | 'interface'): Interface | Class {
+	private fromSymbols(symbols: Array<MSymbol>, kind: 'class' | 'interface'): Interface | Class {
 		switch (kind) {
 			case 'class': {
 				const cp: Array<ClassProperty> = [];
