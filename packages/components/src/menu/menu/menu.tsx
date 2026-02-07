@@ -44,11 +44,7 @@ export interface Ref {
 	scrollSelectedIntoView(): void;
 }
 
-type CF<M extends boolean = false, T extends AvailableEnumType = string, V = M extends true ? T[] : T> = ChangeFunc<V>;
-
-export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
-	extends BaseProps,
-		RefProps<Ref> {
+interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
 	/**
 	 * 组件布局方式
 	 *
@@ -57,16 +53,10 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 	 *  - horizontal 横向菜单，子菜单以弹出形式展示；
 	 *  - vertical 纵向菜单，子菜单以弹出形式展示；
 	 *  - inline 内联菜单，纵向菜单的变体，子菜单内嵌在组件之内；
+	 *
+	 *  @defaultValue 'inline'
 	 */
 	layout?: Layout | 'inline';
-
-	/**
-	 * 多选模式
-	 *
-	 * @remarks
-	 * 在该模式下，点击并不会主动关闭弹出的菜单。如果子项的 type 为 a，那么多选对该项无效。
-	 */
-	multiple?: M;
 
 	/**
 	 * 菜单项
@@ -74,18 +64,6 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 	 * @reactive
 	 */
 	items: Array<MenuItem<T>>;
-
-	/**
-	 * 当选择项发生变化时触发的事件
-	 */
-	onChange?: CF<M, T>;
-
-	/**
-	 * 默认的选中项
-	 *
-	 * @reactive
-	 */
-	value?: Array<T>;
 
 	/**
 	 * 根元素的标签类型
@@ -96,27 +74,73 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 
 	/**
 	 * 选中项的样式
+	 *
+	 * @reactive
+	 * @defaultValue styles.selectedClass
 	 */
 	selectedClass?: string;
 
 	/**
 	 * 禁用项的样式
+	 *
+	 * @reactive
+	 * @defaultValue styles.disabledClass
 	 */
 	disabledClass?: string;
 }
 
+interface MProps<T extends AvailableEnumType = string> extends Base<T> {
+	/**
+	 * 是否多选
+	 *
+	 * @remarks
+	 * 在该模式下，点击并不会主动关闭弹出的菜单。如果子项的 type 为 a，那么多选对该项无效。
+	 */
+	multiple: true;
+
+	/**
+	 * 默认的选中项
+	 *
+	 * @reactive
+	 */
+	value?: Array<T>;
+
+	/**
+	 * 当选择项发生变化时触发的事件
+	 */
+	onChange?: ChangeFunc<Array<T>>;
+}
+
+interface SProps<T extends AvailableEnumType = string> extends Base<T> {
+	/**
+	 * 是否多选
+	 */
+	multiple?: false;
+
+	/**
+	 * 默认的选中项
+	 *
+	 * @reactive
+	 */
+	value?: T;
+
+	/**
+	 * 当选择项发生变化时触发的事件
+	 */
+	onChange?: ChangeFunc<T>;
+}
+
+export type Props<T extends AvailableEnumType = string> = SProps<T> | MProps<T>;
+
 /**
  * 菜单组件
  *
- * @typeParam M - 是否多选；
  * @typeParam T - 选项类型；
  */
-export default function Menu<M extends boolean = false, T extends AvailableEnumType = string>(
-	props: Props<M, T>,
-): JSX.Element {
+export default function Menu<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
 	props = mergeProps(
 		{
-			tag: 'nav' as Props['tag'],
+			tag: 'nav' as Props<T>['tag'],
 			selectedClass: styles.selected,
 			disabledClass: styles.disabled,
 			layout: 'inline' as Layout,
@@ -125,10 +149,11 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 	);
 
 	const layout = props.layout;
-	const isMultiple = props.multiple ?? false;
-	const [selected, setSelected] = createSignal<Array<T>>(props.value ?? []);
+	const [selected, setSelected] = createSignal<Array<T>>(
+		props.multiple ? (props.value ?? []) : props.value ? [props.value] : [],
+	);
 	createEffect(() => {
-		setSelected(props.value ?? []);
+		setSelected(props.multiple ? (props.value ?? []) : props.value ? [props.value] : []);
 	}); // 监视外部变化
 	let ref: HTMLElement;
 	const [opt] = useOptions();
@@ -264,9 +289,9 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 												)
 											: calcPopoverPosition(ul, curr.getBoundingClientRect(), 'right', 'start', 0, rtl);
 
-									ul.style.top = p.y + 'px';
+									ul.style.top = `${p.y}px`;
 									ul.style.bottom = 'unset';
-									ul.style.left = p.x + 'px';
+									ul.style.left = `${p.x}px`;
 									ul.style.right = 'unset';
 									e.preventDefault();
 								}}
@@ -292,8 +317,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 									e.stopPropagation();
 
 									if (!hasItems) {
-										if (isMultiple) {
-											// 多选
+										if (props.multiple) {
 											const old = selected();
 											setSelected(prev => {
 												if (prev.includes(val!)) {
@@ -303,14 +327,13 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 												}
 											});
 											if (props.onChange) {
-												(props.onChange as CF<true, T>)(selected(), old);
+												props.onChange(selected(), old);
 											}
 										} else {
-											// 单选
 											const old = selected();
 											setSelected([val!]);
 											if (props.onChange) {
-												(props.onChange as CF<false, T>)(val!, old[0]);
+												props.onChange(val!, old[0]);
 											}
 
 											if (layout !== 'inline') {
@@ -348,7 +371,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 													break;
 												}
 
-												ul.style.height = ul.scrollHeight - h + 'px';
+												ul.style.height = `${ul.scrollHeight - h}px`;
 
 												if (ul.dataset.menuRoot) {
 													break;
@@ -357,7 +380,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 										} else {
 											// 展开
 											const h = ul.scrollHeight;
-											ul.style.height = h + 'px'; // 触发动画到内容高度
+											ul.style.height = `${h}px`; // 触发动画到内容高度
 
 											while (true) {
 												// 为外层元素增加当前元素的高度
@@ -366,7 +389,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 													break;
 												}
 
-												ul.style.height = ul.scrollHeight + h + 'px';
+												ul.style.height = `${ul.scrollHeight + h}px`;
 
 												if (ul.dataset.menuRoot) {
 													break;

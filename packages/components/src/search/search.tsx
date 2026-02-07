@@ -57,7 +57,7 @@ export interface Props extends BaseProps {
 	/**
 	 * 选择弹出项时触发的事件
 	 */
-	onSelect?: DropdownProps['onChange'];
+	onSelect?: Extract<DropdownProps, { multiple?: false }>['onChange'];
 }
 
 /**

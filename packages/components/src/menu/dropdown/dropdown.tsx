@@ -6,7 +6,7 @@ import { adjustPopoverPosition, Hotkey, PopoverAlign, pointInElement } from '@cm
 import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass, RefProps } from '@components/base';
-import { Menu, MenuProps, MenuRef } from '@components/menu';
+import { Menu, type MenuProps, MenuRef } from '@components/menu/menu';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -36,10 +36,7 @@ export interface Ref {
 	menu(): MenuRef;
 }
 
-export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
-	extends ParentProps,
-		Omit<MenuProps<M, T>, 'layout' | 'tag' | 'ref'>,
-		RefProps<Ref> {
+interface Base extends ParentProps, RefProps<Ref> {
 	/**
 	 * 触发方式
 	 *
@@ -75,6 +72,16 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 	align?: PopoverAlign;
 }
 
+interface MProps<T extends AvailableEnumType = string>
+	extends Omit<Extract<MenuProps<T>, { multiple: true }>, 'layout' | 'tag' | 'ref'>,
+		Base {}
+
+interface SProps<T extends AvailableEnumType = string>
+	extends Omit<Extract<MenuProps<T>, { multiple?: false }>, 'layout' | 'tag' | 'ref'>,
+		Base {}
+
+export type Props<T extends AvailableEnumType = string> = SProps<T> | MProps<T>;
+
 const presetProps = {
 	align: 'end',
 	trigger: 'click',
@@ -83,24 +90,21 @@ const presetProps = {
 /**
  * 下拉菜单
  *
- * @typeParam M - 是否多选；
  * @typeParam T - 选项类型；
  */
-export default function Dropdown<M extends boolean = false, T extends AvailableEnumType = string>(
-	props: Props<M, T>,
-): JSX.Element {
+export default function Dropdown<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
 	props = mergeProps(presetProps, props);
-
 	const [_, menuProps] = splitProps(props, [
 		'trigger',
 		'children',
-		'items',
 		'ref',
-		'onChange',
 		'class',
 		'style',
 		'align',
+		'hotkey',
+		'onChange',
 	]);
+
 	const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
 	let menuRef: MenuRef;
 	let rootRef: HTMLDivElement;
@@ -171,6 +175,15 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
 		});
 	}
 
+	const onChange = props.multiple
+		? props.onChange
+		: (v: T, old?: T) => {
+				if (props.onChange) {
+					props.onChange(v, old);
+				}
+				hide();
+			};
+
 	return (
 		<div
 			class={joinClass(props.palette, props.class)}
@@ -218,14 +231,14 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
 			>
 				{props.children}
 			</div>
-
 			<Menu
+				// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
+				onChange={onChange as any}
+				{...menuProps}
 				layout="vertical"
 				tag="menu"
-				{...menuProps}
-				items={props.items}
 				class={joinClass(undefined, styles.dropdown)}
-				ref={el => {
+				ref={(el: MenuRef) => {
 					el.root().tabIndex = -1;
 					el.root().popover = isManual ? 'manual' : 'auto';
 					menuRef = el;
@@ -255,14 +268,6 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
 							root: () => rootRef,
 							menu: () => el,
 						});
-					}
-				}}
-				onChange={(val, old) => {
-					if (props.onChange) {
-						props.onChange(val, old);
-					}
-					if (!props.multiple) {
-						hide();
 					}
 				}}
 			/>

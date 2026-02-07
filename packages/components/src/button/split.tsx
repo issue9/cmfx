@@ -19,26 +19,29 @@ export interface Ref extends DropdownRef {
 	group(): ButtonGroupRef;
 }
 
-export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
-	extends Omit<DropdownProps<M, T>, 'trigger' | 'ref'>,
-		RefProps<Ref>,
-		ParentProps,
-		Omit<BaseProps, 'hotkey'> {
+// BUG: 目前在 vite-plugin-api 中无法处理 type = Omit<...> 的内容
+interface SProps<T extends AvailableEnumType = string>
+	extends Omit<Extract<DropdownProps<T>, { multiple?: false }>, 'trigger' | 'ref'> {}
+
+interface MProps<T extends AvailableEnumType = string>
+	extends Omit<Extract<DropdownProps<T>, { multiple: true }>, 'trigger' | 'ref'> {}
+
+interface Base extends ParentProps, Omit<BaseProps, 'hotkey'>, RefProps<Ref> {
 	/**
 	 * 按钮的布局
 	 */
 	layout?: Layout;
 }
 
+export type Props<T extends AvailableEnumType = string> = (Base & SProps<T>) | (Base & MProps<T>);
+
 export const presetProps: Readonly<Partial<Props>> = {
 	...presetBaseProps,
 	layout: 'horizontal',
 } as const;
 
-export default function Split<M extends boolean = false, T extends AvailableEnumType = string>(
-	props: Props<M, T>,
-): JSX.Element {
-	props = mergeProps(presetProps, props) as Props<M, T>;
+export default function Split<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
+	props = mergeProps(presetProps, props) as Props<T>;
 
 	let dropdownRef: DropdownRef;
 	let arrowRef: ButtonRef;
@@ -46,7 +49,7 @@ export default function Split<M extends boolean = false, T extends AvailableEnum
 
 	// 保证弹出菜单的宽度不小于 ButtonGroup
 	onMount(() => {
-		dropdownRef.menu().root().style.minWidth = groupRef.root().getBoundingClientRect().width + 'px';
+		dropdownRef.menu().root().style.minWidth = `${groupRef.root().getBoundingClientRect().width}px`;
 	});
 
 	const click = (e: MouseEvent) => {
@@ -65,10 +68,11 @@ export default function Split<M extends boolean = false, T extends AvailableEnum
 	const [, dropProps] = splitProps(props, ['children', 'ref', 'kind', 'rounded', 'disabled', 'layout']);
 	return (
 		<Dropdown
+			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
+			{...(dropProps as any)}
 			ref={el => {
 				dropdownRef = el;
 			}}
-			{...dropProps}
 			trigger="custom"
 		>
 			<ButtonGroup
