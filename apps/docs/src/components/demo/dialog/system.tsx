@@ -14,7 +14,7 @@ export default function (): JSX.Element {
 					console.log('alert');
 				}}
 			>
-				alert
+				xalert
 			</Button>
 
 			<Button
@@ -27,7 +27,7 @@ export default function (): JSX.Element {
 					);
 				}}
 			>
-				confirm
+				xconfirm
 			</Button>
 
 			<Button
@@ -35,7 +35,7 @@ export default function (): JSX.Element {
 					console.log('prompt:', await xprompt('msg', 'def'));
 				}}
 			>
-				prompt
+				xprompt
 			</Button>
 
 			<Button

@@ -50,7 +50,6 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 		logo: opt.logo,
 		loading: opt.loading,
 		systemNotify: opt.systemNotify,
-		systemDialog: opt.systemDialog,
 
 		scheme: opt.scheme,
 		schemes: opt.schemes,

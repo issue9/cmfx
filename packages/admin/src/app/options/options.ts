@@ -102,13 +102,6 @@ export interface Options {
 	systemNotify?: boolean;
 
 	/**
-	 * 替换浏览器的 alert、confirm 和 prompt 对话框
-	 *
-	 * @defaultValue false
-	 */
-	systemDialog?: boolean;
-
-	/**
 	 * 后台需要用到的 API 地址
 	 */
 	api: API;
@@ -198,8 +191,7 @@ const presetOptions: Readonly<PickOptional<Options>> = {
 	float: false,
 	width: 0,
 	loading: xpo.loading,
-	systemDialog: xpo.systemDialog,
-	systemNotify: xpo.systemDialog,
+	systemNotify: xpo.systemNotify,
 	titleSeparator: xpo.titleSeparator,
 	floatingMinWidth: 'lg',
 	mode: xpo.mode,

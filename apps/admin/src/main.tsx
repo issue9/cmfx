@@ -122,7 +122,6 @@ const o: Options = {
 
 	routes,
 
-	systemDialog: true,
 	systemNotify: true,
 
 	mode: 'system',

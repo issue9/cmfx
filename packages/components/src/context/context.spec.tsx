@@ -17,7 +17,6 @@ import { Options, requiredOptions } from './options';
 const options: Options = {
 	config: new Config('admin', '', sessionStorage),
 	logo: '../../../../apps/admin/public/brand-static.svg',
-	systemDialog: false,
 	systemNotify: false,
 	scheme: 'green',
 	schemes: new Map([
