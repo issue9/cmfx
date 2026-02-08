@@ -58,8 +58,6 @@ export function Divider(props: Props): JSX.Element {
 
 	return (
 		<div
-			role="separator"
-			aria-orientation={props.layout}
 			style={style()}
 			class={classList(
 				props.palette,

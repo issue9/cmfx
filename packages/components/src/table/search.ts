@@ -35,29 +35,37 @@ export function fromSearch<Q extends Query>(
 			if (Array.isArray(pv)) {
 				switch (typeof pv[0]) {
 					case 'string':
+						// biome-ignore lint/suspicious/noExplicitAny: any
 						preset[key] = val.split(',') as any;
 						break;
 					case 'number':
+						// biome-ignore lint/suspicious/noExplicitAny: any
 						preset[key] = val.split(',').map(v => parseInt(v, 10)) as any;
 						break;
 					case 'boolean':
+						// biome-ignore lint/suspicious/noExplicitAny: any
 						preset[key] = val.split(',').map(v => v !== 'false') as any;
 						break;
 					default:
+						// biome-ignore lint/suspicious/noExplicitAny: any
 						preset[key] = val.split(',') as any;
 				}
 			} else {
 				switch (typeof pv) {
 					case 'string':
+						// biome-ignore lint/suspicious/noExplicitAny: any
 						preset[key] = val as any;
 						break;
 					case 'number':
+						// biome-ignore lint/suspicious/noExplicitAny: any
 						preset[key] = parseInt(val, 10) as any;
 						break;
 					case 'boolean':
+						// biome-ignore lint/suspicious/noExplicitAny: any
 						preset[key] = (val !== 'false') as any;
 						break;
 					default:
+						// biome-ignore lint/suspicious/noExplicitAny: any
 						preset[key] = val as any;
 				}
 			}

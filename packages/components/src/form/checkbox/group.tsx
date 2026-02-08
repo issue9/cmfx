@@ -58,7 +58,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
 		<Field class={props.class} title={props.title} palette={props.palette} style={props.style}>
 			<Show when={areas().labelArea}>
 				{area => (
-					<label
+					<div
 						style={{
 							...fieldArea2Style(area()),
 							width: props.labelWidth,
@@ -66,7 +66,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
 						}}
 					>
 						{props.label}
-					</label>
+					</div>
 				)}
 			</Show>
 

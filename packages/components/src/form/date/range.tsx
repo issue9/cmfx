@@ -92,6 +92,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 
 	const change = (val?: DateRangeValueType) => {
 		if (val === undefined || equal(val, [undefined, undefined])) {
+			// biome-ignore lint/suspicious/noExplicitAny: any
 			props.accessor.setValue(val as any);
 			return;
 		}
@@ -99,17 +100,18 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 		switch (props.accessor.kind()) {
 			case 'string':
 				props.accessor.setValue([
-					val[0] === undefined ? undefined : (val[0].toISOString() as any),
-					val[1] === undefined ? undefined : (val[1].toISOString() as any),
+					val[0] === undefined ? undefined : (val[0].toISOString() as T),
+					val[1] === undefined ? undefined : (val[1].toISOString() as T),
 				]);
 				return;
 			case 'number':
 				props.accessor.setValue([
-					val[0] === undefined ? undefined : (val[0].getTime() as any),
-					val[1] === undefined ? undefined : (val[1].getTime() as any),
+					val[0] === undefined ? undefined : (val[0].getTime() as T),
+					val[1] === undefined ? undefined : (val[1].getTime() as T),
 				]);
 				return;
 			default:
+				// biome-ignore lint/suspicious/noExplicitAny: any
 				props.accessor.setValue(val as any);
 				return;
 		}
@@ -140,6 +142,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 				)}
 			</Show>
 
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: 正常需求 */}
 			<div
 				style={fieldArea2Style(areas().inputArea)}
 				ref={el => {

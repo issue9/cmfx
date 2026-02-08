@@ -65,9 +65,12 @@ export function WeekPicker<T extends DateType>(props: Props<T>): JSX.Element {
 				)}
 			</Show>
 
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: 正常需求 */}
 			<div
 				style={fieldArea2Style(areas().inputArea)}
-				ref={el => (anchorRef = el)}
+				ref={el => {
+					anchorRef = el;
+				}}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef)}

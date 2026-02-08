@@ -72,20 +72,18 @@ export function Checkbox(props: Props): JSX.Element {
 
 	createEffect(() => {
 		// 监视 props.checked
-		inputRef.checked = props.checked ? true : false;
+		inputRef.checked = !!props.checked;
 	});
 
 	return (
 		<label
-			role="checkbox"
 			title={props.title}
 			class={cls()}
 			style={props.style}
 			tabindex={props.block ? props.tabindex : -1}
-			ref={el => (rootRef = el)}
-			aria-checked={props.checked}
-			aria-readonly={props.readonly}
-			aria-disabled={props.disabled}
+			ref={el => {
+				rootRef = el;
+			}}
 		>
 			<input
 				type="checkbox"

@@ -74,13 +74,13 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 	const setValue = (value?: Date) => {
 		switch (props.accessor.kind()) {
 			case 'string':
-				props.accessor.setValue(value?.toISOString() as any);
+				props.accessor.setValue(value?.toISOString() as T);
 				break;
 			case 'number':
-				props.accessor.setValue(value?.getTime() as any);
+				props.accessor.setValue(value?.getTime() as T);
 				break;
 			default:
-				props.accessor.setValue(value as any);
+				props.accessor.setValue(value as T);
 				break;
 		}
 	};
@@ -110,9 +110,12 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 				)}
 			</Show>
 
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: 正常需要 */}
 			<div
 				style={fieldArea2Style(areas().inputArea)}
-				ref={el => (anchorRef = el)}
+				ref={el => {
+					anchorRef = el;
+				}}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef)}
@@ -158,7 +161,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 								if ((props.min && props.min > now) || (props.max && props.max < now)) {
 									return;
 								}
-								props.accessor.setValue(now as any);
+								props.accessor.setValue(now as T);
 								panelRef.hidePopover();
 							}}
 						>

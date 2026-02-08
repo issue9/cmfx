@@ -28,6 +28,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, ref: Ref, props: P
 		<header>
 			<p>
 				<span
+					// biome-ignore lint/a11y/noNoninteractiveTabindex: tabIndex
 					tabIndex={0}
 					onclick={e => {
 						monthVisible = month.root().togglePopover();

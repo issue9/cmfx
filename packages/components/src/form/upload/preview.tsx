@@ -46,7 +46,7 @@ export function PreviewFile(props: FileProps): JSX.Element {
 
 	createEffect(async () => {
 		if (props.file.type.startsWith('image/')) {
-			setBG((('url("' + (await file2Base64(props.file))) as string) + '")');
+			setBG(`url("${await file2Base64(props.file)}")`);
 		} else {
 			setBG('');
 		}
