@@ -108,7 +108,7 @@ export interface Source extends Named, Pakcage {
 /**
  * 定义函数
  */
-export interface Function extends InterfaceMethod, Pakcage {
+export interface Func extends InterfaceMethod, Pakcage {
 	kind: 'function';
 }
 
@@ -135,4 +135,4 @@ export interface Intersection extends Named, Pakcage {
 	types: Array<Type>;
 }
 
-export type Type = Class | Interface | Function | Literal | Union | Intersection | Source;
+export type Type = Class | Interface | Func | Literal | Union | Intersection | Source;

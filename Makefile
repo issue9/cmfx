@@ -112,9 +112,12 @@ watch: watch-server watch-admin
 
 ########################### test ###################################
 
-.PHONY: test test-go test-ts
+.PHONY: test test-go test-ts lint-ts
 .PHONY: test-ts-core test-ts-components test-ts-admin
 .PHONY: test-ts-plugin-about test-ts-plugin-api
+
+lint-ts:
+	pnpm run lint
 
 # 执行 Go 测试
 test-go: mk-coverage

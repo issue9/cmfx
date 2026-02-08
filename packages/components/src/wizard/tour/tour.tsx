@@ -101,9 +101,9 @@ export default function Tour(props: Props): JSX.Element {
 	const [open, setOpen] = createSignal(false);
 
 	const header = createMemo(() => {
-		const s = (index() + 1).toString() + '/' + props.steps.length.toString();
+		const s = `${(index() + 1).toString()}/${props.steps.length.toString()}`;
 		if (curr().title) {
-			return curr().title + '(' + s + ')';
+			return `${curr().title}(${s})`;
 		}
 		return s;
 	});

@@ -93,7 +93,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 在将当前组件从 DOM 中移除之前执行的操作，返回 true 将阻止后续的移除操作。
 	 */
-	onClose?: () => Promise<boolean | void>;
+	onClose?: () => Promise<boolean | undefined>;
 
 	// 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，可能无法使用 useOptions 获取动画时长。
 	transitionDuration: number;
@@ -167,7 +167,7 @@ export function Message(props: Props): JSX.Element {
 		if (!leftRef) {
 			return;
 		} // props.icon === false
-		leftRef.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
+		leftRef.style.height = `${entries[0]!.borderBoxSize[0].blockSize.toString()}px`;
 	});
 	onMount(() => {
 		ob.observe(labelRef);

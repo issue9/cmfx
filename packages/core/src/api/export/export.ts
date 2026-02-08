@@ -5,7 +5,7 @@
 import xlsx from 'xlsx';
 
 import { Page, Query } from '@core/api';
-import { type CellRenderFunc, type CellType, type Column, isCellType } from './column';
+import { type CellRenderFunc, type CellType, type Column, presetCellRenderFunc } from './column';
 
 /**
  * 从服务器获取数据的函数签名
@@ -28,7 +28,7 @@ export class Exporter<T extends object, Q extends Query> {
 	static exts = ['.csv', '.xlsx', '.numbers', '.ods'];
 
 	readonly #sheet: xlsx.WorkSheet;
-	readonly #columns: Array<Column<T>>;
+	readonly #columns: Array<Omit<Column<T>, 'content'> & { content: CellRenderFunc<T> }>;
 
 	/**
 	 * 构造函数
@@ -36,7 +36,12 @@ export class Exporter<T extends object, Q extends Query> {
 	 * @param cols - 对列的定义
 	 */
 	constructor(cols: Array<Column<T>>) {
-		this.#columns = cols;
+		this.#columns = cols.map(col => {
+			return {
+				...col,
+				content: col.content || presetCellRenderFunc,
+			};
+		});
 
 		const row: Array<string> = [];
 		for (const c of cols) {
@@ -58,8 +63,7 @@ export class Exporter<T extends object, Q extends Query> {
 					continue;
 				}
 				const val = (row[c.id as keyof T] ?? undefined) as Parameters<CellRenderFunc<T>>[1];
-				const item = c.content ? c.content(c.id, val, row) : isCellType(val) ? val : val ? val.toString() : undefined;
-				data.push(item);
+				data.push(c.content(c.id, val, row));
 			}
 
 			xlsx.utils.sheet_add_aoa(this.#sheet, [data], { origin: -1 });

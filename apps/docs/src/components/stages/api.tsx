@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { Dropdown, Table, useLocale } from '@cmfx/components';
-import {
+import type {
 	Class,
 	ClassMethod,
 	ClassProperty,
-	Function,
+	Func,
 	Interface,
 	InterfaceMethod,
 	InterfaceProperty,
@@ -157,8 +157,8 @@ function InterfaceBody(props: { intf: Interface }): JSX.Element {
 	return <Intf intf={props.intf} />;
 }
 
-function FunctionBody(props: { func: Function }): JSX.Element {
-	return <Func func={props.func} />;
+function FunctionBody(props: { func: Func }): JSX.Element {
+	return <Fun func={props.func} />;
 }
 
 /**
@@ -212,7 +212,7 @@ function Methods(props: { methods: Interface['methods'] | Class['methods'] }): J
 	return (
 		<Show when={props.methods && props.methods.length > 0}>
 			<h5>{l.t('_d.stages.methods')}</h5>
-			<For each={props.methods}>{f => <Func func={f} isMethod />}</For>
+			<For each={props.methods}>{f => <Fun func={f} isMethod />}</For>
 		</Show>
 	);
 }
@@ -282,7 +282,7 @@ function Properties(props: PropertiesProps): JSX.Element {
 /**
  * 单个函数或方法的展示
  */
-function Func(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element {
+function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element {
 	const l = useLocale();
 
 	return (
@@ -348,5 +348,5 @@ function Chips(props: { reactive?: boolean; readonly?: boolean; getter?: boolean
 }
 
 function tscode(code?: string): string {
-	return code ? markdown('```ts\n' + code.trim() + '\n```') : '';
+	return code ? markdown(`\`\`\`ts\n${code.trim()}\n\`\`\``) : '';
 }

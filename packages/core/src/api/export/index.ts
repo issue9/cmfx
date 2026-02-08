@@ -3,5 +3,5 @@
 // SPDX-License-Identifier: MIT
 
 export type { CellType, Column } from './column';
-export { isCellType } from './column';
+export { isCellType, presetCellRenderFunc } from './column';
 export { Exporter } from './export';

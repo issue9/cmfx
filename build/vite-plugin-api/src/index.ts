@@ -8,7 +8,7 @@ export type {
 	Class,
 	ClassMethod,
 	ClassProperty,
-	Function,
+	Func,
 	Interface,
 	InterfaceMethod,
 	InterfaceProperty,

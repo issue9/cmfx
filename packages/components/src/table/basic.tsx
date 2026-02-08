@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { presetCellRenderFunc } from '@cmfx/core';
 import { For, JSX, Show } from 'solid-js';
 
 import { joinClass, RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { Empty } from '@components/result';
 import { Spin, SpinRef } from '@components/spin';
-import { Column } from './column';
+import { CellRenderFunc, Column } from './column';
 import styles from './style.module.css';
 import { Table, Props as TableProps, Ref as TableRef } from './table';
 
@@ -34,8 +35,6 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'>, RefPro
 
 	/**
 	 * 列的定义
-	 *
-	 * @reactive
 	 */
 	columns: Array<Column<T>>;
 
@@ -79,9 +78,29 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'>, RefPro
  */
 export function BasicTable<T extends object>(props: Props<T>) {
 	const l = useLocale();
+	const df = l.datetimeFormat();
 	let tableRef: TableRef;
 
 	const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
+
+	const cols: Array<Omit<Column<T>, 'renderContent'> & { renderContent: CellRenderFunc<T> }> = props.columns.map(
+		col => {
+			const content = col.content || presetCellRenderFunc;
+
+			const render: CellRenderFunc<T> = (id, val, obj) => {
+				const ret = content(id, val, obj);
+				if (ret instanceof Date) {
+					return <time>{df.format(ret)}</time>;
+				}
+				return ret;
+			};
+			return {
+				...col,
+				content: content,
+				renderContent: col.renderContent || render,
+			};
+		},
+	);
 
 	return (
 		<Spin
@@ -115,7 +134,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
 			>
 				<Show when={hasCol}>
 					<colgroup>
-						<For each={props.columns}>{item => <col class={item.colClass} />}</For>
+						<For each={cols}>{item => <col class={item.colClass} />}</For>
 					</colgroup>
 				</Show>
 
@@ -126,7 +145,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
 					}}
 				>
 					<tr>
-						<For each={props.columns}>
+						<For each={cols}>
 							{item => (
 								<th class={item.headClass ?? item.cellClass}>{item.renderLabel ?? item.label ?? item.id.toString()}</th>
 							)}
@@ -137,14 +156,14 @@ export function BasicTable<T extends object>(props: Props<T>) {
 				<tbody>
 					<Show when={props.items && props.items.length > 0}>
 						<For each={props.items}>
-							{item => (
+							{row => (
 								<tr>
-									<For each={props.columns}>
+									<For each={cols}>
 										{h => {
-											const i = h.id in item ? (item as any)[h.id] : undefined;
+											const cell = h.id in row ? row[h.id as keyof T] : undefined;
 											return (
 												<td class={h.cellClass}>
-													{h.renderContent ? h.renderContent(h.id, i, item) : h.content ? h.content(h.id, i, item) : i}
+													{h.renderContent(h.id, cell as Parameters<CellRenderFunc<T>>[1], row)}
 												</td>
 											);
 										}}

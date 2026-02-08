@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
+import { createEffect, createSignal, JSX, splitProps, untrack } from 'solid-js';
+
 import { DateViewRef, WeekValueType } from '@components/datetime/dateview';
 import { ChangeFunc } from '@components/form/field';
-import { createEffect, createSignal, JSX, splitProps, untrack } from 'solid-js';
 import { CommonPanel, Props as CommonProps } from './common';
 
 export type Props = Omit<
@@ -43,7 +44,9 @@ export function WeekPanel(props: Props): JSX.Element {
 			props.onChange(week, old);
 		}
 
-		oldRange.forEach((item) => ref.unselect(item));
+		oldRange.forEach(item => {
+			ref.unselect(item);
+		});
 		oldRange = [];
 
 		for (let i = 0; i < 7; i++) {
@@ -57,7 +60,9 @@ export function WeekPanel(props: Props): JSX.Element {
 
 	createEffect(() => {
 		if (!props.value) {
-			oldRange.forEach((item) => ref.unselect(item));
+			oldRange.forEach(item => {
+				ref.unselect(item);
+			});
 			oldRange = [];
 			return;
 		}
@@ -70,16 +75,18 @@ export function WeekPanel(props: Props): JSX.Element {
 	let ref: DateViewRef;
 	return (
 		<CommonPanel
-			viewRef={(el) => (ref = el)}
+			viewRef={el => {
+				ref = el;
+			}}
 			{...panelProps}
 			weeks
 			onLeave={() => {
 				ref.uncover();
 			}}
-			onEnter={(d) => {
+			onEnter={d => {
 				ref.cover(getISOWeekRange(d));
 			}}
-			onChange={(day) => {
+			onChange={day => {
 				if (!day) {
 					return;
 				}

@@ -19,7 +19,7 @@ class CBORImpl implements Serializer {
 	parse<T = unknown>(s: Uint8Array): T {
 		return decode<T>(s);
 	}
-	stringify(o: any): Uint8Array {
+	stringify(o: unknown): Uint8Array {
 		return encode(o);
 	}
 }
@@ -28,7 +28,7 @@ class JSONImpl implements Serializer {
 	parse<T = unknown>(s: Uint8Array): T {
 		return JSON.parse(textDecoder.decode(s));
 	}
-	stringify(o: any): Uint8Array {
+	stringify(o: unknown): Uint8Array {
 		return textEncoder.encode(JSON.stringify(o));
 	}
 }
@@ -37,7 +37,7 @@ class YAMLImpl implements Serializer {
 	parse<T = unknown>(s: Uint8Array): T {
 		return YAML.parse(textDecoder.decode(s));
 	}
-	stringify(o: any): Uint8Array {
+	stringify(o: unknown): Uint8Array {
 		return textEncoder.encode(YAML.stringify(o));
 	}
 }
@@ -53,5 +53,5 @@ export const serializers: ReadonlyMap<Mimetype, Serializer> = new Map<Mimetype, 
  */
 export interface Serializer {
 	parse<T = unknown>(_: Uint8Array): T;
-	stringify(_: any): Uint8Array;
+	stringify(_: unknown): Uint8Array;
 }

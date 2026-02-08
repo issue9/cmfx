@@ -38,14 +38,10 @@ export function fromSearch<Q extends Query>(
 						preset[key] = val.split(',') as any;
 						break;
 					case 'number':
-						preset[key] = val.split(',').map(v => {
-							return parseInt(v, 10);
-						}) as any;
+						preset[key] = val.split(',').map(v => parseInt(v, 10)) as any;
 						break;
 					case 'boolean':
-						preset[key] = val.split(',').map(v => {
-							return v !== 'false';
-						}) as any;
+						preset[key] = val.split(',').map(v => v !== 'false') as any;
 						break;
 					default:
 						preset[key] = val.split(',') as any;

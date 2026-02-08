@@ -14,6 +14,7 @@ export interface Column<T extends object> extends ExportColumn<T> {
 	/**
 	 * 列标题
 	 *
+	 * @remarks
 	 * 如果该值为空，则采用以下几种路径获取值：
 	 *  - label
 	 *  - id
@@ -36,6 +37,7 @@ export interface Column<T extends object> extends ExportColumn<T> {
 	/**
 	 * 为每个单元格指定类型。包括表头和普通的数据单元。
 	 *
+	 * @remarks
 	 * NOTE: 如果存在 {@link Column#headClass}，那么 cellClass 将不会对表头中的单元格起作用；
 	 * NOTE: 不需要打印的列，可用 no-print 样式；
 	 */
@@ -44,6 +46,7 @@ export interface Column<T extends object> extends ExportColumn<T> {
 	/**
 	 * 单元格内容的渲染
 	 *
+	 * @remarks
 	 * 如果该值为空，则采用以下几种路径获取值：
 	 *  - content
 	 *  - T[id]
@@ -61,4 +64,8 @@ export interface Column<T extends object> extends ExportColumn<T> {
  * @param val - 如果该 id 存在于 T 中，那返回其在 T 中的值，如果不存在则是 undefined；
  * @param obj - 表示是当前行的对象，其类型为 T；
  */
-export type CellRenderFunc<T extends object> = <K extends keyof T>(id: string | K, val?: T[K], obj?: T) => JSX.Element;
+export type CellRenderFunc<T extends object> = <K extends keyof T>(
+	id: string | K,
+	val?: K extends keyof T ? T[K] : unknown,
+	obj?: T,
+) => JSX.Element;

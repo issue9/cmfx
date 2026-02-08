@@ -121,5 +121,5 @@ test('buildAccessor', () => {
 	expect(accessor).not.toBeUndefined();
 
 	accessor.setTitle('t');
-	expect(document.title, 't' + options.titleSeparator + options.title);
+	expect(document.title, `t${options.titleSeparator}${options.title}`);
 });

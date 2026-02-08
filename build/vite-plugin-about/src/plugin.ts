@@ -5,7 +5,6 @@
 import { readFileSync } from 'node:fs';
 import type { About, Package } from '@cmfx/admin/plugin';
 import { aboutName } from '@cmfx/admin/plugin';
-import { ConfigPluginContext, Plugin, UserConfig } from 'vite';
 
 import pkg from '../package.json';
 import { initPnpmVersionSearch, parseGomods } from './files';
@@ -35,7 +34,7 @@ interface PackageJSON {
 /**
  * 用于生成关于页面的数据
  */
-export function about(options: Options): Plugin<Options> {
+export function about(options: Options) {
 	const about: About = {
 		version: '',
 		dependencies: [],
@@ -51,13 +50,13 @@ export function about(options: Options): Plugin<Options> {
 		}
 
 		if (file.dependencies) {
-			Object.entries(file.dependencies).forEach((item) => {
+			Object.entries(file.dependencies).forEach(item => {
 				about.dependencies.push({ name: item[0], version: item[1] });
 			});
 		}
 
 		if (file.devDependencies) {
-			Object.entries(file.devDependencies).forEach((item) => {
+			Object.entries(file.devDependencies).forEach(item => {
 				about.devDependencies.push({ name: item[0], version: item[1] });
 			});
 		}
@@ -66,7 +65,7 @@ export function about(options: Options): Plugin<Options> {
 	return {
 		name: 'vite-plugin-cmfx-about',
 
-		async config(this: ConfigPluginContext, _: UserConfig) {
+		async config() {
 			const search = await initPnpmVersionSearch();
 
 			// 替换依赖项的 catalog 和 workspace 为真实的版本号

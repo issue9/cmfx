@@ -21,12 +21,18 @@ export function localeStates(l: Locale) {
 	]);
 }
 
-export type StateSelectorProps<M extends boolean> = Omit<ChoiceProps<State, M>, 'options'>;
+type P = ChoiceProps<State>;
+
+interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
+
+interface MProps extends Omit<Extract<P, { multiple: true }>, 'options'> {}
+
+export type StateSelectorProps = SProps | MProps;
 
 /**
  * 用户状态选择框
  */
-export function StateSelector<M extends boolean>(props: StateSelectorProps<M>): JSX.Element {
+export function StateSelector(props: StateSelectorProps): JSX.Element {
 	const l = useLocale();
 	const states = createMemo(() => localeStates(l));
 	return <Choice options={states()} {...props} />;

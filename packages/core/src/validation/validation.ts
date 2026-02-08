@@ -33,5 +33,5 @@ export interface Validator<T extends Flattenable> {
 	 * @param obj - 需要验证的数据；
 	 * @param path - 如果不为空表示采用规则 path 验证 obj；
 	 */
-	valid(obj: any, path?: FlattenKeys<T>): Promise<ValidResult<T>>;
+	valid(obj: unknown, path?: FlattenKeys<T>): Promise<ValidResult<T>>;
 }

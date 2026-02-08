@@ -188,7 +188,10 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 							title={err()}
 							class={props.class}
 							style={props.style}
-							onClose={async () => api.setError()}
+							onClose={async () => {
+								api.setError();
+								return undefined;
+							}}
 						/>
 					)}
 				</Show>

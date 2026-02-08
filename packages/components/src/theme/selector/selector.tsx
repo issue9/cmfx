@@ -38,15 +38,14 @@ export function Selector(props: Props): JSX.Element {
 		if (typeof props.value === 'string') {
 			setValue(props.value);
 		} else {
-			const v = props.schemes.entries().some(s => {
-				if (equal(s[1], props.value)) {
-					setValue(s[0]);
-					return true;
+			for (const e of props.schemes.entries()) {
+				if (equal(e[1], props.value)) {
+					setValue(e[0]);
+					return;
 				}
-			});
-			if (!v) {
-				setValue(undefined);
 			}
+
+			setValue(undefined);
 		}
 	});
 

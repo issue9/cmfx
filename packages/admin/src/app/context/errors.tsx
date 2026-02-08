@@ -49,7 +49,7 @@ export function NotFound(): JSX.Element {
  * 尽可能地抛出 {@link APIError} 对象，可以显示更明确的错误页面。
  * 这是 {@link ErrorBoundary} 的 fallback 类型。
  */
-export function errorHandler(err: any, reset: () => void): JSX.Element {
+export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// NOTE: APIError 错误，需要重新刷新整个页面才有效果，而其它错误，可能仅仅是 UI 问题，使用 reset 就可以了。
 
 	const opt = useOptions();
@@ -237,7 +237,7 @@ export function errorHandler(err: any, reset: () => void): JSX.Element {
 	}
 
 	console.error(err);
-	return unknown(l.t('_p.error.unknownError'), err.toString());
+	return unknown(l.t('_p.error.unknownError'), `${err}`);
 }
 
 /**

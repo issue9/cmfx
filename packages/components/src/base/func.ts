@@ -16,7 +16,7 @@ export function cloneElement(e: JSX.Element): JSX.Element {
 	if (e instanceof Node) {
 		return e.cloneNode(true);
 	} else if (Array.isArray(e)) {
-		return e.map((e) => cloneElement(e));
+		return e.map(e => cloneElement(e));
 	} else {
 		// 其它的均为普通类型，直接返回。
 		return e;
@@ -65,7 +65,7 @@ export function classList(
 		return joinClass(palette, ...cls);
 	}
 
-	return joinClass(palette, ...entries.map((item) => (item[1] ? item[0] : undefined)), ...cls);
+	return joinClass(palette, ...entries.map(item => (item[1] ? item[0] : undefined)), ...cls);
 }
 
 /**
@@ -77,7 +77,7 @@ export function classList(
  */
 export function joinClass(palette?: Palette, ...cls: Array<string | undefined | null>): string | undefined {
 	if (cls) {
-		cls = cls.filter((v) => v !== undefined && v !== '' && v !== null);
+		cls = cls.filter(v => v !== undefined && v !== '' && v !== null);
 	}
 
 	return cls && cls.length > 0
@@ -110,7 +110,7 @@ export function style2String(...style: Array<Props['style']>): string {
 					return;
 				}
 
-				const cssKey = key.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase()); // 驼峰转连字符
+				const cssKey = key.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`); // 驼峰转连字符
 				if (typeof value === 'number') {
 					ret += `${cssKey}:${value}px;`;
 				} else {
@@ -118,7 +118,7 @@ export function style2String(...style: Array<Props['style']>): string {
 				}
 			});
 		} else {
-			ret += s + ';';
+			ret += `${s};`;
 		}
 	}
 

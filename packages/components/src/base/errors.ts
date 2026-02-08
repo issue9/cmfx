@@ -14,7 +14,7 @@ export class PropsError extends Error {
 	 * @param prop - 组件属性名称；
 	 * @param msg - 错误信息；
 	 */
-	constructor(prop: string, msg: any) {
+	constructor(prop: string, msg: string) {
 		super(msg);
 		super.name = 'PropsError';
 

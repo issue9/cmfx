@@ -33,7 +33,7 @@ export interface Ref<T extends Row> extends LoaderRef<T> {
 	DeleteAction(id: T['id']): JSX.Element;
 }
 
-export interface Props<T extends Row, Q extends Query>
+export interface Props<T extends Row, Q extends Query = Query>
 	extends Omit<LoaderProps<T, Q>, 'load' | 'ref'>,
 		RefProps<Ref<T>> {
 	/**
@@ -57,7 +57,7 @@ export interface Props<T extends Row, Q extends Query>
  * 相对于 {@link LoaderTable}，限制了加载的数据方式只能是特定的远程地址。
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
-export function RemoteTable<T extends Row, Q extends Query>(props: Props<T, Q>) {
+export function RemoteTable<T extends Row, Q extends Query = Query>(props: Props<T, Q>) {
 	const l = useLocale();
 
 	const [_, tableProps] = splitProps(props, ['path', 'ref']);

@@ -15,7 +15,7 @@ import styles from './style.module.css';
 
 declare global {
 	interface Window {
-		// TODO: https://caniuse.com/?search=EyeDropper
+		// biome-ignore lint/suspicious/noExplicitAny: TODO: https://caniuse.com/?search=EyeDropper
 		EyeDropper: any;
 	}
 }

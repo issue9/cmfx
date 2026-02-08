@@ -68,7 +68,7 @@ export class current implements Pages {
 	static SecurityLogs = SecurityLogs;
 
 	readonly #prefix: string;
-	readonly #dashboardChildren?: Component<{}>;
+	readonly #dashboardChildren?: Component;
 
 	/**
 	 * 初始化登录方式的组件
@@ -91,11 +91,11 @@ export class current implements Pages {
 	 * @param prefix - 路由前缀
 	 * @param dashboardChildren - 仪表盘内的组件
 	 */
-	static build(prefix: string, dashboardChildren?: Component<{}>) {
+	static build(prefix: string, dashboardChildren?: Component) {
 		return new current(prefix, dashboardChildren);
 	}
 
-	private constructor(prefix: string, dashboardChild?: Component<{}>) {
+	private constructor(prefix: string, dashboardChild?: Component) {
 		this.#prefix = prefix;
 		this.#dashboardChildren = dashboardChild;
 	}

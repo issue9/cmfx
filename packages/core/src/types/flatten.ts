@@ -7,7 +7,7 @@ import { RemoveIndexSignature } from './types';
 /**
  * 联合类型转换为交叉类型
  */
-type UnionToIntersection<T> = (T extends any ? (k: T) => void : never) extends (k: infer I) => void ? I : never;
+type UnionToIntersection<T> = (T extends unknown ? (k: T) => void : never) extends (k: infer I) => void ? I : never;
 
 // 将可选字段转为必须字段，只对当前对象的字段有效果，子字段不会转换。
 type Requiredify<T> = {
@@ -26,14 +26,18 @@ type JoinPath<P, B> = P extends string ? (B extends string ? `${P}.${B}` : P) : 
 /**
  * 将对象转换为扁平的格式
  *
+ * @remarks
  * 作为 {@link flatten} 的返回值，具体说明也可参考 {@link flatten} 函数。
+ *
+ * @typeParam T - 对象类型；
+ * @typeParam F - 对象字段的类型；
  */
 export type Flatten<T extends Object<F>, F = unknown> = FlattenT<T, F>;
 
 type FlattenT<
 	T extends Object<F>,
 	F = unknown,
-	P = {},
+	P extends string | null = null,
 	TT = RemoveIndexSignature<Requiredify<T>>,
 > = UnionToIntersection<
 	{

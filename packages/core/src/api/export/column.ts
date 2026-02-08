@@ -59,3 +59,14 @@ export type CellRenderFunc<T extends object> = <K extends keyof T>(
 	val?: K extends keyof T ? T[K] : unknown,
 	obj?: T,
 ) => CellType;
+
+/**
+ * 这是 {@link CellRenderFunc} 的默认实现
+ */
+export function presetCellRenderFunc<T extends object, K extends keyof T>(
+	_: string | K,
+	val?: K extends keyof T ? T[K] : unknown,
+	__?: T,
+): CellType {
+	return isCellType(val) ? val : val ? val.toString() : undefined;
+}

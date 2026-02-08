@@ -140,8 +140,8 @@ export default function Timer(props: Props): JSX.Element {
 		return s.length < 2 ? s.padStart(2, '0') : s;
 	};
 
-	const getFieldIndex = (f: string) => {
-		return fields.findIndex(num => num === f);
+	const getFieldIndex = (f: Field) => {
+		return fields.indexOf(f);
 	};
 
 	const startField = createMemo(() => {

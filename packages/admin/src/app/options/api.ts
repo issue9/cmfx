@@ -99,7 +99,7 @@ function checkAPIPath(path: string, key: string): string {
 	}
 
 	if (path.charAt(0) !== '/') {
-		path = '/' + path;
+		path = `/${path}`;
 	}
 
 	return path;

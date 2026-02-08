@@ -21,13 +21,19 @@ export function localeSexes(l: Locale) {
 	]);
 }
 
-export type SexSelectorProps<M extends boolean> = Omit<ChoiceProps<Sex, M>, 'options'>;
+type P = ChoiceProps<Sex>;
+
+interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
+
+interface MProps extends Omit<Extract<P, { multiple: true }>, 'options'> {}
+
+export type SexSelectorProps = SProps | MProps;
 
 /**
  * 性别选择框
  */
-export function SexSelector<M extends boolean>(props: SexSelectorProps<M>): JSX.Element {
+export function SexSelector(props: SexSelectorProps): JSX.Element {
 	const l = useLocale();
 	const sexes = createMemo(() => localeSexes(l));
-	return <Choice options={sexes()} {...props} />;
+	return <Choice {...props} options={sexes()} />;
 }

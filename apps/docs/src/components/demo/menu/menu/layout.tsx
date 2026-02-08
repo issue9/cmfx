@@ -84,7 +84,7 @@ export default function (props: MountProps): JSX.Element {
 	const [val, setValue] = createSignal<string>('');
 
 	return (
-		<div class="flex gap-4 flex-col">
+		<div class="flex flex-col gap-4">
 			<Portal mount={props.mount}>
 				<Palette />
 				<SelectedCls />

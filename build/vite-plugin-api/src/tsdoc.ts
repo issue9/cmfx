@@ -42,7 +42,7 @@ export function getTsdoc(parser: TSDocParser, decl: JSDocableNode): DocComment |
 }
 
 export function getCustomDoc(tag: string, doc?: DocComment): string | undefined {
-	const blk = doc?.customBlocks.find((blk) => blk.blockTag.tagNameWithUpperCase === tag.toUpperCase());
+	const blk = doc?.customBlocks.find(blk => blk.blockTag.tagNameWithUpperCase === tag.toUpperCase());
 	return comment2String(blk);
 }
 
@@ -76,17 +76,17 @@ export function comment2String(node?: DocNode): string | undefined {
 		const nodes = node
 			.getChildNodes()
 			.map(comment2String)
-			.filter((v) => !!v);
-		return nodes.length > 0 ? '`' + nodes.join('').trim() + '`' : undefined;
+			.filter(v => !!v);
+		return nodes.length > 0 ? `\`${nodes.join('').trim()}\`` : undefined;
 	}
 
 	const nodes = node
 		.getChildNodes()
 		.map(comment2String)
-		.filter((v) => !!v);
+		.filter(v => !!v);
 	if (nodes.length <= 0) {
 		return undefined;
 	}
 	const s = nodes.join('\n');
-	return s.endsWith('\n\n') ? s : s + '\n\n'; // 防止过多的换行符
+	return s.endsWith('\n\n') ? s : `${s}\n\n`; // 防止过多的换行符
 }

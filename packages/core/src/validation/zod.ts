@@ -9,7 +9,7 @@ import { Dict, DictLoader, I18n, Locale } from '@core/locale';
 import { Flattenable, FlattenKeys } from '@core/types';
 import { Validator, ValidResult } from './validation';
 
-const objects = I18n.createObject<any>();
+const objects = I18n.createObject<z.core.$ZodConfig>();
 
 /**
  * 创建一个用于加载 zod 本地化语言的函数
@@ -17,7 +17,7 @@ const objects = I18n.createObject<any>();
  * @param f - 加载 zod 本地化语言内容，比如 `(await import('../../node_modules/zod/v4/locales/en.js')).default`；
  * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；
  */
-export function createZodLocaleLoader(f: () => any): DictLoader {
+export function createZodLocaleLoader(f: () => z.core.$ZodConfig): DictLoader {
 	return async (locale: string): Promise<Dict | undefined> => {
 		objects.set(locale, f());
 		return undefined;
@@ -32,7 +32,7 @@ export function createZodLocaleLoader(f: () => any): DictLoader {
  * @typeParam T - 被验证对象的类型；
  */
 export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Validator<T> {
-	let params: any;
+	let params: z.core.ParseContext<z.core.$ZodIssue>;
 	if (l) {
 		const obj = objects.get(l.locale.toString());
 		if (obj) {
@@ -42,10 +42,10 @@ export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Va
 
 	return {
 		changeLocale(id: Locale): void {
-			params = id ? { error: objects.get(id.locale.toString()).localeError } : undefined;
+			params = { error: objects.get(id.locale.toString())!.localeError };
 		},
 
-		async valid(obj: any, path?: FlattenKeys<T>): Promise<ValidResult<T>> {
+		async valid(obj: unknown, path?: FlattenKeys<T>): Promise<ValidResult<T>> {
 			if (path) {
 				let schema = s; // 参数 s 会重复使用，所以需要一个新的变量来保存 path 对应的值。
 				const items = path.split('.');

@@ -2,14 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { BaseProps, ChoiceOption, Mode } from '@cmfx/components';
 import {
 	Appbar,
-	BaseProps,
 	Choice,
-	ChoiceOption,
 	fieldAccessor,
 	joinClass,
-	Mode,
 	modes,
 	Page,
 	Transition,
@@ -109,7 +107,7 @@ function LoginBox(props: Props): JSX.Element {
 						{item => (
 							<Switch fallback={<p innerHTML={item.title} />}>
 								<Match when={item.link}>
-									<a href={item.link} innerHTML={item.title} />
+									<a href={item.link}>{item.title}</a>
 								</Match>
 							</Switch>
 						)}
