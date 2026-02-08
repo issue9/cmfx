@@ -69,7 +69,7 @@ export function parseDuration(val?: Duration): number {
 						throw `无法解析的单位名称 ${val.slice(start, i)}`;
 					}
 
-					nano += Math.round(nameValues.find((item) => item[0] === name)![1] * v); // 防止 .99999 之类的小数位
+					nano += Math.round(nameValues.find(item => item[0] === name)![1] * v); // 防止 .99999 之类的小数位
 					start = i;
 					isNum = true;
 					v = 0;
@@ -86,7 +86,7 @@ export function parseDuration(val?: Duration): number {
 					if (name === undefined) {
 						throw `无法解析的单位名称 ${last}`;
 					}
-					nano += Math.round(nameValues.find((item) => item[0] === name)![1] * v); // 防止 .99999 之类的小数位
+					nano += Math.round(nameValues.find(item => item[0] === name)![1] * v); // 防止 .99999 之类的小数位
 				}
 
 				break;

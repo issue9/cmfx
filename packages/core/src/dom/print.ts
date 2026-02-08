@@ -19,7 +19,7 @@ const css = '.no-print { display: none; }';
  */
 export function printElement(container: HTMLElement, cssText?: string): void {
 	const d = new Printd();
-	d.print(container, cssText ? [cssText, css] : [css], undefined, (arg) => {
+	d.print(container, cssText ? [cssText, css] : [css], undefined, arg => {
 		arg.launchPrint();
 		arg.iframe.remove();
 	});

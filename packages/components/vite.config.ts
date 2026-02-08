@@ -63,7 +63,7 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			output: {
-				banner: (chunk) => {
+				banner: chunk => {
 					if (chunk.isEntry) {
 						return `/*!
  * ${pkg.name} v${pkg.version}

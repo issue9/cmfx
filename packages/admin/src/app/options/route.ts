@@ -86,7 +86,7 @@ export type MenuItem =
 
 export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem<string>> {
 	const items: Array<XMenuItem<string>> = [];
-	menus.forEach((mi) => {
+	menus.forEach(mi => {
 		switch (mi.type) {
 			case 'divider':
 				items.push({ type: 'divider' });

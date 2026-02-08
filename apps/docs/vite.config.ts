@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
 			outDir: '../../docs',
 			rollupOptions: {
 				output: {
-					banner: (chunk) => {
+					banner: chunk => {
 						if (chunk.isEntry) {
 							return `/*!
  * ${pkg.name} v${pkg.version}

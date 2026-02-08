@@ -2,16 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Button,
-	Dropdown,
-	MenuItem,
-	MenuItemItem,
-	Search,
-	ToggleFullScreenButton,
-	useLocale,
-	useOptions,
-} from '@cmfx/components';
+import type { MenuItem, MenuItemItem } from '@cmfx/components';
+import { Button, Dropdown, Search, ToggleFullScreenButton, useLocale, useOptions } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { Component } from 'solid-js';
@@ -58,7 +50,7 @@ export function createClear(hk?: Hotkey): Component {
 					{ type: 'divider' },
 					{ type: 'item', value: 'clear-all', label: l.t('_p.system.clearAllCache') },
 				]}
-				onChange={async (val) => {
+				onChange={async val => {
 					switch (val) {
 						case 'clear-all':
 							await api.clearCache();
@@ -111,8 +103,6 @@ export function createSearch(hk?: Hotkey): Component {
 		const opt = useAdminOptions();
 		const l = useLocale();
 
-		return (
-			<Search class={styles.search} icon clear hotkey={hk} onSearch={(v) => search(v, buildItems(l, opt.menus))} />
-		);
+		return <Search class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, buildItems(l, opt.menus))} />;
 	};
 }

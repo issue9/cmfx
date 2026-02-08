@@ -92,7 +92,7 @@ export async function initPnpmVersionSearch(): Promise<Search> {
 	}
 
 	return (s: string) => {
-		const item = Object.entries(workspace.catalog).find((item) => item[0] === s);
+		const item = Object.entries(workspace.catalog).find(item => item[0] === s);
 		return item ? item[1] : '';
 	};
 }

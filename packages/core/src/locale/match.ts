@@ -23,7 +23,7 @@ export function match(
 	preset: string,
 	options: Options = { localeMatcher: 'lookup' },
 ): string {
-	const ret = available.find((v) => Intl.getCanonicalLocales(v)[0] === Intl.getCanonicalLocales(requested)[0]);
+	const ret = available.find(v => Intl.getCanonicalLocales(v)[0] === Intl.getCanonicalLocales(requested)[0]);
 	if (ret) {
 		return ret;
 	}

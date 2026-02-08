@@ -244,7 +244,7 @@ export function TextField(props: Props): JSX.Element {
 							}}
 							onPopover={visible => {
 								if (visible) {
-									dropdownRef.menu().root().style.width = dropdownRef.root().getBoundingClientRect().width + 'px';
+									dropdownRef.menu().root().style.width = `${dropdownRef.root().getBoundingClientRect().width}px`;
 								}
 								return false;
 							}}

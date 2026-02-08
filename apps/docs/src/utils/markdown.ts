@@ -52,7 +52,7 @@ function markdownCode(types?: Array<Source>) {
 						if (txt) {
 							txt += '\n\n';
 						}
-						txt += types.find((typ) => typ.name === obj)?.source;
+						txt += types.find(typ => typ.name === obj)?.source;
 					}
 				}
 				Object.assign(token, {
