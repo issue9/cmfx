@@ -9,16 +9,22 @@ import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '@docs/components/base';
 
-export default function(props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector();
-    const [Custom, custom] = boolSelector('自定义文字内容', false);
+export default function (props: MountProps): JSX.Element {
+	const [Palette, palette] = paletteSelector();
+	const [Custom, custom] = boolSelector('自定义文字内容', false);
 
-    return <>
-        <Portal mount={props.mount}>
-            <Palette />
-            <Custom />
-        </Portal>
+	return (
+		<>
+			<Portal mount={props.mount}>
+				<Palette />
+				<Custom />
+			</Portal>
 
-        <illustrations.Error400 class='bg-palette-bg aspect-square w-full' palette={palette()} text={custom() ? '自定义错误信息' : undefined} />
-    </>;
+			<illustrations.Error400
+				class="aspect-square w-full bg-palette-bg"
+				palette={palette()}
+				text={custom() ? '自定义错误信息' : undefined}
+			/>
+		</>
+	);
 }

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,13 +7,11 @@ import { RemoveIndexSignature } from './types';
 /**
  * 联合类型转换为交叉类型
  */
-type UnionToIntersection<T> = (
-    T extends any ? (k: T) => void : never
-) extends (k: infer I) => void ? I : never;
+type UnionToIntersection<T> = (T extends unknown ? (k: T) => void : never) extends (k: infer I) => void ? I : never;
 
 // 将可选字段转为必须字段，只对当前对象的字段有效果，子字段不会转换。
 type Requiredify<T> = {
-    [K in keyof T]-?: T[K];
+	[K in keyof T]-?: T[K];
 };
 
 /**
@@ -21,30 +19,34 @@ type Requiredify<T> = {
  *
  * @typeParam T - 对象字段的类型；
  */
-export type Object<T extends unknown = unknown> = { [k: string]: T | Object<T>; };
+export type Object<T = unknown> = { [k: string]: T | Object<T> };
 
-type JoinPath<P, B> = P extends string
-    ? (B extends string ? `${P}.${B}` : P)
-    : B extends string ? B : '';
+type JoinPath<P, B> = P extends string ? (B extends string ? `${P}.${B}` : P) : B extends string ? B : '';
 
 /**
  * 将对象转换为扁平的格式
  *
+ * @remarks
  * 作为 {@link flatten} 的返回值，具体说明也可参考 {@link flatten} 函数。
+ *
+ * @typeParam T - 对象类型；
+ * @typeParam F - 对象字段的类型；
  */
-export type Flatten<T extends Object<F>, F extends unknown = unknown> = FlattenT<T, F>;
+export type Flatten<T extends Object<F>, F = unknown> = FlattenT<T, F>;
 
-type FlattenT<T extends Object<F>, F extends unknown = unknown, P = {}, TT = RemoveIndexSignature<Requiredify<T>>> =
-    UnionToIntersection<
-        {
-            [K in keyof TT]: TT[K] extends Object<F>
-                ? FlattenT<TT[K], F, JoinPath<P, K>> : never
-        }[keyof TT]
-    >
-    & {
-        // Exclude 表示去除对象类型 Object<F>，Object<F> 类型已经在上面处理了。
-        readonly [K in keyof TT as (TT[K] extends Object<F> ? never : JoinPath<P, K>)]: Exclude<TT[K], Object<F>>;
-    };
+type FlattenT<
+	T extends Object<F>,
+	F = unknown,
+	P extends string | null = null,
+	TT = RemoveIndexSignature<Requiredify<T>>,
+> = UnionToIntersection<
+	{
+		[K in keyof TT]: TT[K] extends Object<F> ? FlattenT<TT[K], F, JoinPath<P, K>> : never;
+	}[keyof TT]
+> & {
+	// Exclude 表示去除对象类型 Object<F>，Object<F> 类型已经在上面处理了。
+	readonly [K in keyof TT as TT[K] extends Object<F> ? never : JoinPath<P, K>]: Exclude<TT[K], Object<F>>;
+};
 
 /**
  * 扁平化之后的所有字段名联合类型
@@ -54,22 +56,22 @@ type FlattenT<T extends Object<F>, F extends unknown = unknown, P = {}, TT = Rem
  *
  * NOTE: 该类型不等价于 keyof Flatten，只包含字符串类型的字段名。
  */
-export type Keys<T extends Object<FT>, FT extends unknown = unknown> = keyof Flatten<T, FT> & string;;
+export type Keys<T extends Object<FT>, FT = unknown> = keyof Flatten<T, FT> & string;
 
-function isObj<T extends unknown = unknown>(value: unknown): value is Object<T> {
-    return value != null && typeof value === 'object' && !Array.isArray(value);
+function isObj<T = unknown>(value: unknown): value is Object<T> {
+	return value != null && typeof value === 'object' && !Array.isArray(value);
 }
 
-function visitObj<T extends Object<F>, F extends unknown = unknown>(flat: Record<string, F>, obj: T, path: string): void {
-    for (const [key, value] of Object.entries(obj)) {
-        const key_path = path ? `${path}.${key}` : key;
+function visitObj<T extends Object<F>, F = unknown>(flat: Record<string, F>, obj: T, path: string): void {
+	for (const [key, value] of Object.entries(obj)) {
+		const key_path = path ? `${path}.${key}` : key;
 
-        if (isObj<F>(value)) {
-            visitObj(flat, value, key_path);
-        } else {
-            flat[key_path] = value;
-        }
-    }
+		if (isObj<F>(value)) {
+			visitObj(flat, value, key_path);
+		} else {
+			flat[key_path] = value;
+		}
+	}
 }
 
 /**
@@ -100,8 +102,8 @@ function visitObj<T extends Object<F>, F extends unknown = unknown>(flat: Record
  *
  * NOTE: 不支持数组形式的字段。
  */
-export function flatten<T extends Object<F>, F extends unknown = unknown>(obj: T): Flatten<T, F> {
-    const flat: Record<string, F> = {};
-    visitObj(flat, obj, '');
-    return flat as Flatten<T, F>;
+export function flatten<T extends Object<F>, F = unknown>(obj: T): Flatten<T, F> {
+	const flat: Record<string, F> = {};
+	visitObj(flat, obj, '');
+	return flat as Flatten<T, F>;
 }

@@ -1,136 +1,133 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    /********************************* panel *************************************/
+	/********************************* panel *************************************/
 
-    fieldset.panel {
-        @apply flex flex-row rounded-lg overflow-clip flex-1;
-        @apply border border-palette-border;
+	fieldset.panel {
+		@apply flex flex-row rounded-lg overflow-clip flex-1;
+		@apply border border-palette-border;
 
-        >fieldset.dateview {
-            @apply border-none rounded-none min-w-78 flex-1;
+		> fieldset.dateview {
+			@apply border-none rounded-none min-w-78 flex-1;
 
-            table {
-                @apply w-full px-2 pb-2;
+			table {
+				@apply w-full px-2 pb-2;
 
-                tr>th,
-                tbody>tr>td {
-                    @apply aspect-square p-1 min-w-6;
+				tr > th,
+				tbody > tr > td {
+					@apply aspect-square p-1 min-w-6;
 
-                    @apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
-                    @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-                    @apply transition;
-                }
+					@apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+					@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+					@apply transition;
+				}
 
-                tr>th {
-                    @apply cursor-default;
-                }
+				tr > th {
+					@apply cursor-default;
+				}
 
-                tbody tr {
+				tbody tr {
+					td > time {
+						@apply px-1 rounded-sm text-center inline-block;
+					}
 
-                    td>time {
-                        @apply px-1 rounded-sm text-center inline-block;
-                    }
+					td > span {
+						@apply inline-block text-center w-full;
+					}
 
-                    td>span {
-                        @apply inline-block text-center w-full;
-                    }
+					td {
+						@apply border border-transparent rounded-sm cursor-pointer py-1;
+					}
 
-                    td {
-                        @apply border border-transparent rounded-sm cursor-pointer py-1;
-                    }
+					td.today {
+						time {
+							@apply text-palette-bg-low;
+						}
+					}
 
+					td.selected,
+					td.covered {
+						@apply bg-palette-bg-selected text-palette-fg-selected;
 
-                    td.today {
-                        time {
-                            @apply text-palette-bg-low;
-                        }
-                    }
+						time {
+							@apply text-palette-fg-high;
+						}
+					}
 
-                    td.selected,
-                    td.covered {
-                        @apply bg-palette-bg-selected text-palette-fg-selected;
+					td.disabled {
+						@apply text-palette-fg-disabled;
+					}
 
-                        time {
-                            @apply text-palette-fg-high;
-                        }
-                    }
+					td.disabled.selected,
+					td.disabled.covered {
+						@apply bg-palette-bg-selected text-palette-fg-selected;
 
-                    td.disabled {
-                        @apply text-palette-fg-disabled;
-                    }
+						time {
+							@apply text-palette-fg-low;
+						}
+					}
+				}
+			}
+		}
 
-                    td.disabled.selected,
-                    td.disabled.covered {
-                        @apply bg-palette-bg-selected text-palette-fg-selected;
+		> fieldset.timer {
+			@apply rounded-none border-t-0 border-b-0 border-e-0 py-2 pe-2;
+		}
+	}
 
-                        time {
-                            @apply text-palette-fg-low;
-                        }
-                    }
-                }
-            }
-        }
+	fieldset.panel:enabled {
+		table tbody tr {
+			td:not(.disabled):hover {
+				@apply bg-palette-fg-low cursor-pointer;
+			}
+		}
+	}
 
-        >fieldset.timer {
-            @apply rounded-none border-t-0 border-b-0 border-e-0 py-2 pe-2;
-        }
-    }
+	fieldset.panel:disabled {
+		@apply cursor-not-allowed text-palette-fg-disabled bg-palette-bg-disabled;
+	}
 
-    fieldset.panel:enabled {
+	/********************************* range-panel *************************************/
 
-        table tbody tr {
-            td:not(.disabled):hover {
-                @apply bg-palette-fg-low cursor-pointer;
-            }
-        }
-    }
+	.range {
+		@apply flex rounded-lg overflow-clip;
+		@apply border border-palette-border;
+		@apply bg-palette-bg text-palette-fg;
 
-    fieldset.panel:disabled {
-        @apply cursor-not-allowed text-palette-fg-disabled bg-palette-bg-disabled;
-    }
+		> main {
+			@apply flex flex-col;
 
-    /********************************* range-panel *************************************/
+			.panels {
+				@apply flex flex-wrap;
 
-    .range {
-        @apply flex rounded-lg overflow-clip;
-        @apply border border-palette-border;
-        @apply bg-palette-bg text-palette-fg;
+				> fieldset.panel {
+					@apply rounded-none! border-transparent;
+				}
 
-        >main {
-            @apply flex flex-col;
+				> fieldset.panel:last-child {
+					@apply border-s-palette-border;
+				}
+			}
 
-            .panels {
-                @apply flex flex-wrap;
+			.value {
+				@apply py-1 px-2 border-t border-palette-border text-left;
+			}
 
-                >fieldset.panel {
-                    @apply rounded-none! border-transparent;
-                }
+			/* 保证内容为空时的高度不变 */
+			.value::before {
+				content: "\200B";
+			}
+		}
 
-                >fieldset.panel:last-child {
-                    @apply border-s-palette-border;
-                }
-            }
-
-            .value {
-                @apply py-1 px-2 border-t border-palette-border text-left;
-            }
-
-            /* 保证内容为空时的高度不变 */
-            .value::before {
-                content: "\200B";
-            }
-        }
-
-        .shortcuts {
-            @apply flex flex-col shrink-0 p-2 items-stretch;
-            @apply border-s border-s-palette-border;
-        }
-    }
+		.shortcuts {
+			@apply flex flex-col shrink-0 p-2 items-stretch;
+			@apply border-s border-s-palette-border;
+		}
+	}
 }

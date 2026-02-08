@@ -103,11 +103,6 @@
 				"name": "radius",
 				"summary": "各种不同大小的组件的圆角设置\n\n",
 				"type": "Radius"
-			},
-			{
-				"name": "transitionDuration",
-				"summary": "动画的时长，默认为 300，单位为 ms。\n\n",
-				"type": "number"
 			}
 		],
 		"name": "Scheme",

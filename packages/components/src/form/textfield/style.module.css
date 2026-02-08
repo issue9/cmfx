@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .number-spin {
-        @apply px-px! py-0! rounded-none;
-    }
+	.number-spin {
+		@apply px-px! py-0! rounded-none;
+	}
 
-    .count {
-        @apply flex items-center justify-end pe-px;
-    }
+	.count {
+		@apply flex items-center justify-end pe-px;
+	}
 }

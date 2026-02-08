@@ -9,11 +9,8 @@ import { fieldAccessor } from '@components/form/field';
 import { Password } from './password';
 
 describe('Password', async () => {
-    const fa = fieldAccessor('tf', 'tf');
-    const ct = await ComponentTester.build(
-        'Password',
-        props => <Password accessor={fa} {...props} />
-    );
+	const fa = fieldAccessor('tf', 'tf');
+	const ct = await ComponentTester.build('Password', props => <Password accessor={fa} {...props} />);
 
-    test('prorps', () => ct.testProps());
+	test('prorps', () => ct.testProps());
 });

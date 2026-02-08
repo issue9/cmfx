@@ -1,64 +1,64 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    fieldset.dateview {
-        @apply border border-palette-border rounded-lg overflow-clip;
-        @apply text-center bg-palette-bg text-palette-fg box-border;
-        @apply flex flex-col;
+	fieldset.dateview {
+		@apply border border-palette-border rounded-lg overflow-clip;
+		@apply text-center bg-palette-bg text-palette-fg box-border;
+		@apply flex flex-col;
 
-        >header {
-            @apply flex gap-1 justify-between items-center text-lg;
-            @apply border-b border-b-palette-border;
-            @apply px-2 pb-1 pt-2;
+		> header {
+			@apply flex gap-1 justify-between items-center text-lg;
+			@apply border-b border-b-palette-border;
+			@apply px-2 pb-1 pt-2;
 
-            >p {
-                @apply flex;
+			> p {
+				@apply flex;
 
-                >span {
-                    @apply cursor-pointer;
-                }
+				> span {
+					@apply cursor-pointer;
+				}
 
-                >span:hover {
-                    @apply text-palette-fg-high;
-                }
-            }
+				> span:hover {
+					@apply text-palette-fg-high;
+				}
+			}
 
-            .actions {
-                button {
-                    @apply p-1!;
-                }
-            }
-        }
+			.actions {
+				button {
+					@apply p-1!;
+				}
+			}
+		}
 
-        >table {
-            @apply border-spacing-0 border-separate;
+		> table {
+			@apply border-spacing-0 border-separate;
 
-            colgroup {
-                .weekend {
-                    @apply bg-palette-bg-low;
-                }
-            }
+			colgroup {
+				.weekend {
+					@apply bg-palette-bg-low;
+				}
+			}
 
-            thead>tr {
-                @apply font-bold;
-            }
-        }
-    }
+			thead > tr {
+				@apply font-bold;
+			}
+		}
+	}
 
-    fieldset.dateview:disabled {
-        @apply text-palette-fg-disabled bg-palette-bg-disabled border-palette-bg-disabled cursor-not-allowed;
+	fieldset.dateview:disabled {
+		@apply text-palette-fg-disabled bg-palette-bg-disabled border-palette-bg-disabled cursor-not-allowed;
 
-        >table {
-            tbody td,
-            tbody * {
-                @apply cursor-not-allowed;
-            }
-        }
-    }
+		> table {
+			tbody td,
+			tbody * {
+				@apply cursor-not-allowed;
+			}
+		}
+	}
 }

@@ -9,11 +9,8 @@ import { fieldAccessor } from '@components/form/field';
 import { Editor } from './editor';
 
 describe('Editor', async () => {
-    const fa = fieldAccessor('chk', 'string');
-    const ct = await ComponentTester.build(
-        'Editor',
-        props => <Editor accessor={fa} {...props} />
-    );
+	const fa = fieldAccessor('chk', 'string');
+	const ct = await ComponentTester.build('Editor', props => <Editor accessor={fa} {...props} />);
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

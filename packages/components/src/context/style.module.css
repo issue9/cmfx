@@ -1,17 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .root {
-        @apply @container/root;
+	.root {
+		@apply @container/root;
 
-        .loading {
-            @apply w-full h-full flex justify-center items-center text-7xl;
-        }
-    }
+		.loading {
+			@apply w-full h-full flex justify-center items-center text-7xl;
+		}
+	}
 }

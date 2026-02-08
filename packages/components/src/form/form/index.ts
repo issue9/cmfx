@@ -1,11 +1,9 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 export { ObjectAccessor } from './access';
-
-export { FormAPI } from './api';
 export type { Options as FormAPIOptions } from './api';
-
+export { FormAPI } from './api';
+export type { Actions as FormActions, Props as FormProps } from './form';
 export { createForm } from './form';
-export type { Props as FormProps, Actions as FormActions } from './form';

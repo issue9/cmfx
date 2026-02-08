@@ -9,25 +9,29 @@ import IconEye from '~icons/material-symbols/table-eye';
 
 import { paletteSelector } from '@docs/components/base';
 
-export default function(props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector();
+export default function (props: MountProps): JSX.Element {
+	const [Palette, palette] = paletteSelector();
 
-    return <div>
-        <Portal mount={props.mount}>
-            <Palette />
-        </Portal>
+	return (
+		<div>
+			<Portal mount={props.mount}>
+				<Palette />
+			</Portal>
 
-        <Description palette={palette()} icon={<IconEye />} title='title'>
-            description<br />
-            description
-        </Description>
+			<Description palette={palette()} icon={<IconEye />} title="title">
+				description
+				<br />
+				description
+			</Description>
 
-        <br />
-        <br />
+			<br />
+			<br />
 
-        <Description palette={palette()}>
-            无标题<br />
-            description
-        </Description>
-    </div>;
+			<Description palette={palette()}>
+				无标题
+				<br />
+				description
+			</Description>
+		</div>
+	);
 }

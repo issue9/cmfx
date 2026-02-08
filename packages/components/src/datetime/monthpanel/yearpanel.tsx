@@ -12,115 +12,148 @@ import { Button, ButtonGroup } from '@components/button';
 import styles from './style.module.css';
 
 export interface Ref {
-    root(): HTMLFieldSetElement;
+	root(): HTMLFieldSetElement;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
-    /**
-     * 禁用状态
-     *
-     * @reactive
-     */
-    disabled?: boolean;
+	/**
+	 * 禁用状态
+	 *
+	 * @reactive
+	 */
+	disabled?: boolean;
 
-    /**
-     * 只读状态
-     *
-     * @reactive
-     */
-    readonly?: boolean;
+	/**
+	 * 只读状态
+	 *
+	 * @reactive
+	 */
+	readonly?: boolean;
 
-    popover?: boolean | 'manual' | 'auto';
+	popover?: boolean | 'manual' | 'auto';
 
-    /**
-     * 关联的值
-     *
-     * @reactive
-     */
-    value?: number;
+	/**
+	 * 关联的值
+	 *
+	 * @reactive
+	 */
+	value?: number;
 
-    /**
-     * 最小值
-     *
-     * @reactive
-     */
-    min?: number;
+	/**
+	 * 最小值
+	 *
+	 * @reactive
+	 */
+	min?: number;
 
-    /**
-     * 最大值
-     *
-     * @reactive
-     */
-    max?: number;
+	/**
+	 * 最大值
+	 *
+	 * @reactive
+	 */
+	max?: number;
 
-    /**
-     * 值发生改变时触发的事件
-     */
-    onChange?: { (val?: number, old?: number): void; };
+	/**
+	 * 值发生改变时触发的事件
+	 */
+	onChange?: (val?: number, old?: number) => void;
 }
 
 /**
  * 年份选择面板
  */
 export default function YearPanel(props: Props): JSX.Element {
-    const now = new Date();
-    const [panelValue, setPanelValue] = createSignal(props.value ?? now.getFullYear());
-    const [value, setValue] = createSignal(props.value ?? now.getFullYear());
+	const now = new Date();
+	const [panelValue, setPanelValue] = createSignal(props.value ?? now.getFullYear());
+	const [value, setValue] = createSignal(props.value ?? now.getFullYear());
 
-    createEffect(() => {
-        const now = new Date(); // 不复用上一层作用域的 now，可能存在正好跨年的情况。
-        setPanelValue(props.value ?? now.getFullYear());
-        setValue(props.value ?? now.getFullYear());
-    });
-    const years = createMemo(() => { return genYears(panelValue()); });
+	createEffect(() => {
+		const now = new Date(); // 不复用上一层作用域的 now，可能存在正好跨年的情况。
+		setPanelValue(props.value ?? now.getFullYear());
+		setValue(props.value ?? now.getFullYear());
+	});
+	const years = createMemo(() => {
+		return genYears(panelValue());
+	});
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({ root() { return el; }}); }}}
-        disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)} style={props.style}
-    >
-        <header class={styles.year}>
-            {years()[0]}-{years()[years().length - 1]}
-            <ButtonGroup kind='flat' class={styles.actions}>
-                <Button square onclick={() => { setPanelValue(panelValue() - 12); }}
-                    disabled={value() !== undefined && ((props.min !== undefined) && (years()[0] - 12) < props.min)}
-                >
-                    <IconPrevYear />
-                </Button>
+	return (
+		<fieldset
+			popover={props.popover}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root() {
+							return el;
+						},
+					});
+				}
+			}}
+			disabled={props.disabled}
+			class={joinClass(props.palette, styles.panel, props.class)}
+			style={props.style}
+		>
+			<header class={styles.year}>
+				{years()[0]}-{years()[years().length - 1]}
+				<ButtonGroup kind="flat" class={styles.actions}>
+					<Button
+						square
+						onclick={() => {
+							setPanelValue(panelValue() - 12);
+						}}
+						disabled={value() !== undefined && props.min !== undefined && years()[0] - 12 < props.min}
+					>
+						<IconPrevYear />
+					</Button>
 
-                <Button square onclick={() => { setPanelValue(new Date().getFullYear()); }}><IconToday /></Button>
+					<Button
+						square
+						onclick={() => {
+							setPanelValue(new Date().getFullYear());
+						}}
+					>
+						<IconToday />
+					</Button>
 
-                <Button square onclick={() => { setPanelValue(panelValue() - 12); }}
-                    disabled={value() !== undefined
-                        && ((props.max !== undefined) && (years()[years().length - 1] + 12) > props.max)
-                    }
-                >
-                    <IconNextYear />
-                </Button>
-            </ButtonGroup>
-        </header>
+					<Button
+						square
+						onclick={() => {
+							setPanelValue(panelValue() - 12);
+						}}
+						disabled={value() !== undefined && props.max !== undefined && years()[years().length - 1] + 12 > props.max}
+					>
+						<IconNextYear />
+					</Button>
+				</ButtonGroup>
+			</header>
 
-        <div class={styles.grid}>
-            <For each={years()}>
-                {year => (
-                    <Button kind='flat' checked={value() === year}
-                        disabled={(value() !== undefined)
-                            && (((props.min !== undefined) && year < props.min)
-                            || ((props.max !== undefined) && year > props.max))
-                        }
-                        onclick={() => {
-                            const old = untrack(value);
-                            setValue(year);
-                            if (props.onChange) { props.onChange(year, old); }
-                        }}
-                    >
-                        {year}
-                    </Button>
-                )}
-            </For>
-        </div>
-    </fieldset>;
+			<div class={styles.grid}>
+				<For each={years()}>
+					{year => (
+						<Button
+							kind="flat"
+							checked={value() === year}
+							disabled={
+								value() !== undefined &&
+								((props.min !== undefined && year < props.min) || (props.max !== undefined && year > props.max))
+							}
+							onclick={() => {
+								const old = untrack(value);
+								setValue(year);
+								if (props.onChange) {
+									props.onChange(year, old);
+								}
+							}}
+						>
+							{year}
+						</Button>
+					)}
+				</For>
+			</div>
+		</fieldset>
+	);
 }
 
 export function genYears(curr: number): Array<number> {
-    const start = curr - 4;
-    return Array.from({ length: 12 }, (_, i) => start + i);
+	const start = curr - 4;
+	return Array.from({ length: 12 }, (_, i) => start + i);
 }

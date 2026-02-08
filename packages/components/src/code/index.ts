@@ -1,8 +1,7 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export { default as Code } from './code';
 export type { Props as CodeProps, Ref as CodeRef } from './code';
-
-export { highlight, Highlighter } from './shiki';
+export { default as Code } from './code';
+export { Highlighter, highlight } from './shiki';

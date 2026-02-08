@@ -9,49 +9,41 @@ import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
 import { IconSet } from '@components/icon';
-import { Props as BaseProps, Button } from './button';
+import { BProps, Button } from './button';
 import styles from './style.module.css';
 import { presetProps } from './types';
 
-export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> {
-    /**
-     * 按钮的类型
-     *
-     * @reactive
-     * @defaultValue 'button'
-     */
-    type?: Exclude<BaseProps['type'], 'a'>;
+export interface Props extends Omit<BProps, 'onclick' | 'children'> {
+	/**
+	 * 指定按钮的状态
+	 *
+	 * @remarks
+	 * 有些条件下可能会通过外部状态修改按钮的状态，此时可以使用此属性。
+	 */
+	value?: boolean;
 
-    /**
-     * 指定按钮的状态
-     *
-     * @remarks
-     * 有些条件下可能会通过外部状态修改按钮的状态，此时可以使用此属性。
-     */
-    value?: boolean;
+	/**
+	 * 执行切换状态的方法
+	 *
+	 * @remarks
+	 * 该方法应该返回一个 `Promise<boolean>`，用于异步执行切换操作。
+	 * 当 Promise 解决时，根据返回的值决定显示 {@link on} 或是 {@link off}。
+	 */
+	toggle: () => Promise<boolean>;
 
-    /**
-     * 执行切换状态的方法
-     *
-     * @remarks
-     * 该方法应该返回一个 `Promise<boolean>`，用于异步执行切换操作。
-     * 当 Promise 解决时，根据返回的值决定显示 {@link on} 或是 {@link off}。
-     */
-    toggle: { (): Promise<boolean>; };
+	/**
+	 * 状态 1 的图标
+	 *
+	 * @reactive
+	 */
+	on: JSX.Element;
 
-    /**
-     * 状态 1 的图标
-     *
-     * @reactive
-     */
-    on: JSX.Element;
-
-    /**
-     * 状态 2 的图标
-     *
-     * @reactive
-     */
-    off: JSX.Element;
+	/**
+	 * 状态 2 的图标
+	 *
+	 * @reactive
+	 */
+	off: JSX.Element;
 }
 
 /**
@@ -63,13 +55,20 @@ export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> 
  * 除非像全屏这种直接在应用上体现出来的。
  */
 export function ToggleButton(props: Props): JSX.Element {
-    props = mergeProps(presetProps, { type: 'button' as Props['type'] }, props);
-    const [_, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value']);
-    const [val, setVal] = createSignal(props.value);
+	props = mergeProps(presetProps, props);
+	const [, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value']);
+	const [val, setVal] = createSignal(props.value);
 
-    return <Button {...btnProps as any} onclick={async () => { setVal(await props.toggle()); }}>
-        <IconSet icons={{on: props.on, off: props.off}} value={val() ? 'on' : 'off'} />
-    </Button>;
+	return (
+		<Button
+			{...btnProps}
+			onclick={async () => {
+				setVal(await props.toggle());
+			}}
+		>
+			<IconSet icons={{ on: props.on, off: props.off }} value={val() ? 'on' : 'off'} />
+		</Button>
+	);
 }
 
 export type ToggleFullScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 'value'>;
@@ -81,33 +80,38 @@ export type ToggleFullScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 
  * 并不是所有的浏览器都支持全屏功能，比如 iOS 系统，在不支持的系统上默认会处于禁用状态。
  */
 export function ToggleFullScreenButton(props: ToggleFullScreenButtonProps): JSX.Element {
-    props = mergeProps({ disabled: !document.fullscreenEnabled }, props);
-    const [fs, setFS] = createSignal(!document.fullscreenElement);
+	props = mergeProps({ disabled: !document.fullscreenEnabled }, props);
+	const [fs, setFS] = createSignal(!document.fullscreenElement);
 
-    // 有可能浏览器通过其它方式控制全屏功能
-    const change = () => { setFS(!document.fullscreenElement); };
-    onMount(() => { document.addEventListener('fullscreenchange', change); });
-    onCleanup(() => { document.removeEventListener('fullscreenchange', change); });
+	// 有可能浏览器通过其它方式控制全屏功能
+	const change = () => {
+		setFS(!document.fullscreenElement);
+	};
+	onMount(() => {
+		document.addEventListener('fullscreenchange', change);
+	});
+	onCleanup(() => {
+		document.removeEventListener('fullscreenchange', change);
+	});
 
-    const toggle = async () => {
-        if (document.fullscreenElement) {
-            await document.exitFullscreen();
-            return true;
-        } else {
-            await document.body.requestFullscreen();
-            return false;
-        }
-    };
+	const toggle = async () => {
+		if (document.fullscreenElement) {
+			await document.exitFullscreen();
+			return true;
+		} else {
+			await document.body.requestFullscreen();
+			return false;
+		}
+	};
 
-    return <ToggleButton {...props} value={fs()}
-        toggle={toggle} on={<IconFullScreen />} off={<IconFullScreenExit />} />;
+	return <ToggleButton {...props} value={fs()} toggle={toggle} on={<IconFullScreen />} off={<IconFullScreenExit />} />;
 }
 
 export type ToggleFitScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 'value'> & {
-    /**
-     * 指定需要扩展的容器
-     */
-    container: HTMLElement;
+	/**
+	 * 指定需要扩展的容器
+	 */
+	container: HTMLElement;
 };
 
 /**
@@ -116,10 +120,10 @@ export type ToggleFitScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | '
  * NOTE: 需要保证当前组件必须在 {@link ToggleFitScreenButtonProps#container} 之内，否则可能会无法退回原来状态的可能。
  */
 export function ToggleFitScreenButton(props: ToggleFitScreenButtonProps): JSX.Element {
-    const [_, btnProps] = splitProps(props, ['container']);
-    const toggle = async () => {
-        return props.container.classList.toggle(styles['fit-screen']);
-    };
+	const [_, btnProps] = splitProps(props, ['container']);
+	const toggle = async () => {
+		return props.container.classList.toggle(styles['fit-screen']);
+	};
 
-    return <ToggleButton {...btnProps} toggle={toggle} on={<IconCollapse />} off={<IconExpand />} />;
+	return <ToggleButton {...btnProps} toggle={toggle} on={<IconCollapse />} off={<IconExpand />} />;
 }

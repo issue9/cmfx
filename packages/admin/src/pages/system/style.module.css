@@ -1,63 +1,63 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .info {
-        @apply flex flex-wrap flex-row! gap-5 justify-between content-center box-border @container/info;
-        @apply max-w-4xl!;
+	.info {
+		@apply flex flex-wrap flex-row! gap-5 justify-between content-center box-border @container/info;
+		@apply max-w-4xl!;
 
-        .panel {
-            @apply flex flex-col border border-palette-border p-2 rounded-md grow;
+		.panel {
+			@apply flex flex-col border border-palette-border p-2 rounded-md grow;
 
-            dl {
-                @apply flex flex-wrap hover:bg-palette-bg-focused px-2 rounded-sm cursor-pointer;
-                @apply transition;
+			dl {
+				@apply flex flex-wrap hover:bg-palette-bg-focused px-2 rounded-sm cursor-pointer;
+				@apply transition;
 
-                dt {
-                    @apply w-48;
-                }
+				dt {
+					@apply w-48;
+				}
 
-                dd {
-                    @apply text-right m-auto grow;
-                }
-            }
+				dd {
+					@apply text-right m-auto grow;
+				}
+			}
 
-            ul.backup_list {
-                @apply mt-1;
+			ul.backup_list {
+				@apply mt-1;
 
-                li {
-                    @apply flex flex-wrap justify-between items-center px-2 p-1 rounded-sm hover:bg-palette-bg-focused cursor-default;
-                    @apply transition;
-                }
-            }
-        }
-    }
+				li {
+					@apply flex flex-wrap justify-between items-center px-2 p-1 rounded-sm hover:bg-palette-bg-focused cursor-default;
+					@apply transition;
+				}
+			}
+		}
+	}
 
-    .about {
-        @apply @container/about;
+	.about {
+		@apply @container/about;
 
-        >fieldset {
-            @apply grid grid-cols-1 border border-palette-border rounded-md px-4 py-3 bg-palette-bg;
-            @apply @2xl/about:grid-cols-2 @3xl/about:grid-cols-3 @5xl/about:grid-cols-4;
+		> fieldset {
+			@apply grid grid-cols-1 border border-palette-border rounded-md px-4 py-3 bg-palette-bg;
+			@apply @2xl/about:grid-cols-2 @3xl/about:grid-cols-3 @5xl/about:grid-cols-4;
 
-            .item {
-                @apply flex flex-col p-2 text-palette-fg bg-palette-bg;
-                @apply hover:bg-palette-bg-focused hover:cursor-pointer hover:text-palette-fg-focused;
-                @apply transition;
+			.item {
+				@apply flex flex-col p-2 text-palette-fg bg-palette-bg;
+				@apply hover:bg-palette-bg-focused hover:cursor-pointer hover:text-palette-fg-focused;
+				@apply transition;
 
-                .version {
-                    @apply text-palette-fg-low;
-                }
-            }
-        }
-    }
+				.version {
+					@apply text-palette-fg-low;
+				}
+			}
+		}
+	}
 
-    .services {
-        @apply max-w-4xl!;
-    }
+	.services {
+		@apply max-w-4xl!;
+	}
 }

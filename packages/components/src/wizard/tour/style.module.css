@@ -1,17 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .tour {
-        @apply min-w-48;
-    }
+	.tour {
+		@apply min-w-48;
+	}
 
-    .focus {
-        @apply outline-palette-fg-high outline-double;
-    }
+	.focus {
+		@apply outline-palette-fg-high outline-double;
+	}
 }

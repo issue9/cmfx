@@ -1,12 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@source '.';
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@import './tailwind.css';
-@import './global.css';
-@import './drawer/utility.css';
+@import "./tailwind.css";
+@import "./global.css";
+@import "./drawer/utility.css";
+
+@source ".";

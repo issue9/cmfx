@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { matchLocales, DictLoader, Dict } from '@cmfx/core';
+import { Dict, DictLoader, matchLocales } from '@cmfx/core';
 import * as echarts from 'echarts';
 
 /**
@@ -11,50 +11,52 @@ import * as echarts from 'echarts';
  * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；
  */
 export function createChartLocaleLoader(obj: Parameters<typeof echarts.registerLocale>[1]): DictLoader {
-    return async (locale: string): Promise<Dict | undefined> => {
-        const id = matchLocale(locale);
-        if (!locales.includes(id)) { return; }// echarts 未提供的语言则直接忽略加载。
+	return async (locale: string): Promise<Dict | undefined> => {
+		const id = matchLocale(locale);
+		if (!locales.includes(id)) {
+			return;
+		} // echarts 未提供的语言则直接忽略加载。
 
-        echarts.registerLocale(id, obj);
-        return undefined;
-    };
+		echarts.registerLocale(id, obj);
+		return undefined;
+	};
 }
 
 /**
  * 从当前组件支持的语言中查找与 l 最匹配的语言
  */
 export function matchLocale(l: string): LocaleID {
-    return matchLocales(l, locales, l, {localeMatcher: 'best fit'}) as LocaleID;
+	return matchLocales(l, locales, l, { localeMatcher: 'best fit' }) as LocaleID;
 }
 
 // 当前组件支持的语言
 //
 // https://github.com/apache/echarts/tree/release/src/i18n
 const locales = [
-    'AR',
-    'CS',
-    'DE',
-    'EN', // echarts 已经默认导入，但是还需要作语言匹配，所以不能省略。
-    'ES',
-    'FA',
-    'FI',
-    'FR',
-    'HU',
-    'IT',
-    'JA',
-    'KO',
-    'NL',
-    'PL',
-    'PT-br',
-    'RO',
-    'RU',
-    'SI',
-    'SV',
-    'TH',
-    'TR',
-    'UK',
-    'VI',
-    'ZH',
+	'AR',
+	'CS',
+	'DE',
+	'EN', // echarts 已经默认导入，但是还需要作语言匹配，所以不能省略。
+	'ES',
+	'FA',
+	'FI',
+	'FR',
+	'HU',
+	'IT',
+	'JA',
+	'KO',
+	'NL',
+	'PL',
+	'PT-br',
+	'RO',
+	'RU',
+	'SI',
+	'SV',
+	'TH',
+	'TR',
+	'UK',
+	'VI',
+	'ZH',
 ] as const;
 
-type LocaleID = typeof locales[number];
+type LocaleID = (typeof locales)[number];

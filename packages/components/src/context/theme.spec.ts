@@ -5,19 +5,19 @@
 import { expect, test } from 'vitest';
 
 import { schemes } from '@components/theme';
-import { Theme, applyTheme, hasTheme } from './theme';
+import { applyTheme, hasTheme, Theme } from './theme';
 
 test('theme', () => {
-    let t: Theme = { scheme: schemes.green, mode: 'light' };
+	let t: Theme = { scheme: schemes.green, mode: 'light' };
 
-    let div = document.createElement('div');
-    applyTheme(div, t);
-    expect(hasTheme(div)).toBeTruthy();
+	let div = document.createElement('div');
+	applyTheme(div, t);
+	expect(hasTheme(div)).toBeTruthy();
 
-    t = { scheme: schemes.green, mode: 'dark' };
-    expect(t.mode).toEqual('dark');
+	t = { scheme: schemes.green, mode: 'dark' };
+	expect(t.mode).toEqual('dark');
 
-    div = document.createElement('div');
-    applyTheme(div, t);
-    expect(hasTheme(div)).toBeTruthy();
+	div = document.createElement('div');
+	applyTheme(div, t);
+	expect(hasTheme(div)).toBeTruthy();
 });

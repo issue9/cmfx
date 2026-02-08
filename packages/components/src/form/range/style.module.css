@@ -1,89 +1,89 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
-input[type=range] {
-    @apply appearance-none w-full my-2 bg-palette-bg-low text-palette-fg h-2 rounded-md cursor-pointer;
-    @apply border-2 border-palette-border outline-none;
+input[type="range"] {
+	@apply appearance-none w-full my-2 bg-palette-bg-low text-palette-fg h-2 rounded-md cursor-pointer;
+	@apply border-2 border-palette-border outline-none;
 
-    @apply active:border-palette-border-actived;
-    @apply hover:border-palette-border-focused;
-    @apply focus:border-palette-border-focused;
-    @apply active:border-palette-border-actived;
-    @apply disabled:cursor-not-allowed disabled:border-palette-border-disabled;
+	@apply active:border-palette-border-actived;
+	@apply hover:border-palette-border-focused;
+	@apply focus:border-palette-border-focused;
+	@apply active:border-palette-border-actived;
+	@apply disabled:cursor-not-allowed disabled:border-palette-border-disabled;
 
-    @apply transition;
+	@apply transition;
 }
 
-input[type=range].rounded {
-    @apply rounded-full;
+input[type="range"].rounded {
+	@apply rounded-full;
 }
 
 /* 与 NOTE: ::moz-range-thumb 内容相同，但是无法与之合并，否则不启作用。 */
-input[type=range]::-webkit-slider-thumb {
-    @apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
-    @apply rounded-md border-2 border-palette-border;
+input[type="range"]::-webkit-slider-thumb {
+	@apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
+	@apply rounded-md border-2 border-palette-border;
 }
 
-input[type=range]::-moz-range-thumb {
-    @apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
-    @apply rounded-md border-2 border-palette-border;
+input[type="range"]::-moz-range-thumb {
+	@apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
+	@apply rounded-md border-2 border-palette-border;
 }
 
-input[type=range].rounded::-webkit-slider-thumb {
-    @apply rounded-full;
+input[type="range"].rounded::-webkit-slider-thumb {
+	@apply rounded-full;
 }
 
-input[type=range].rounded::-moz-range-thumb {
-    @apply rounded-full;
+input[type="range"].rounded::-moz-range-thumb {
+	@apply rounded-full;
 }
 
 @layer components {
-    .range {
-        @apply flex flex-col w-full h-full;
+	.range {
+		@apply flex flex-col w-full h-full;
 
-        --range-marks-item-top: 5px;
+		--range-marks-item-top: 5px;
 
-        input.fit-height {
-            @apply h-5!;
-        }
-    }
+		input.fit-height {
+			@apply h-5!;
+		}
+	}
 
-    .range[aria-readonly=true] {
-        input {
-            pointer-events: none;
-            touch-action: none;
-        }
-    }
+	.range[aria-readonly="true"] {
+		input {
+			pointer-events: none;
+			touch-action: none;
+		}
+	}
 
-    .value {
-        @apply h-full flex justify-center items-center px-1 rounded-sm text-palette-fg-low;
-    }
+	.value {
+		@apply h-full flex justify-center items-center px-1 rounded-sm text-palette-fg-low;
+	}
 
-    .marks {
-        @apply flex relative box-border;
+	.marks {
+		@apply flex relative box-border;
 
-        /* 根据 thumb 计算标记栏的长度和起始位置 */
-        left: --spacing(2.5);
-        width: calc(100% - (--spacing(5)));
+		/* 根据 thumb 计算标记栏的长度和起始位置 */
+		left: --spacing(2.5);
+		width: calc(100% - (--spacing(5)));
 
-        .item {
-            @apply flex justify-end relative;
+		.item {
+			@apply flex justify-end relative;
 
-            >span {
-                /* 让文字居中 */
-                @apply translate-x-1/2 inline-block;
-            }
-        }
+			> span {
+				/* 让文字居中 */
+				@apply translate-x-1/2 inline-block;
+			}
+		}
 
-        .item::before {
-            top: var(--range-marks-item-top);
-            content: '';
-            @apply translate-x-1/2 absolute block w-1 h-1 rounded-xs bg-palette-fg-high;
-        }
-    }
+		.item::before {
+			top: var(--range-marks-item-top);
+			content: "";
+			@apply translate-x-1/2 absolute block w-1 h-1 rounded-xs bg-palette-fg-high;
+		}
+	}
 }

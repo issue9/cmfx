@@ -30,21 +30,26 @@ import styles from './style.module.css';
  * @param router - 指定路由类型，默认为 {@link HashRouter}；
  */
 export function run(
-    app: Component<RouteSectionProps>, mountedElement: HTMLElement, o: Options,
-    routes: Array<RouteDefinition>, router: typeof Router = HashRouter
+	app: Component<RouteSectionProps>,
+	mountedElement: HTMLElement,
+	o: Options,
+	routes: Array<RouteDefinition>,
+	router: typeof Router = HashRouter,
 ): void {
-    mountedElement.classList.add(styles.root);
-    const opt = requiredOptions(o);
+	mountedElement.classList.add(styles.root);
+	const opt = requiredOptions(o);
 
-    const Root = (props: RouteSectionProps) => {
-        return <OptionsProvider {...opt}>
-            <SystemDialog mount={mountedElement} palette='primary'>
-                <Notify mount={mountedElement} palette='error'>
-                    <Clipboard>{app(props)}</Clipboard>
-                </Notify>
-            </SystemDialog>
-        </OptionsProvider>;
-    };
+	const Root = (props: RouteSectionProps) => {
+		return (
+			<OptionsProvider {...opt}>
+				<SystemDialog mount={mountedElement} palette="primary">
+					<Notify mount={mountedElement} palette="error">
+						<Clipboard>{app(props)}</Clipboard>
+					</Notify>
+				</SystemDialog>
+			</OptionsProvider>
+		);
+	};
 
-    render(() => router({ root: Root, children: routes }), mountedElement);
+	render(() => router({ root: Root, children: routes }), mountedElement);
 }

@@ -9,16 +9,18 @@ import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';
 
-export default function(props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector('primary');
+export default function (props: MountProps): JSX.Element {
+	const [Palette, palette] = paletteSelector('primary');
 
-    return <>
-        <Portal mount={props.mount}>
-            <Palette />
-        </Portal>
+	return (
+		<>
+			<Portal mount={props.mount}>
+				<Palette />
+			</Portal>
 
-        <Result title='网站更新中' layout='auto' palette={palette()} illustration={<Error404 />}>
-            <div>网站更新中......</div>
-        </Result>
-    </>;
+			<Result title="网站更新中" layout="auto" palette={palette()} illustration={<Error404 />}>
+				<div>网站更新中......</div>
+			</Result>
+		</>
+	);
 }

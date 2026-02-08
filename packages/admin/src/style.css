@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@source '.';
-@import 'tailwindcss';
-@import '@cmfx/components/tailwind.css';
+@import "tailwindcss";
+@import "@cmfx/components/tailwind.css";
+@source ".";
 
 .view-full {
-    width: 100dvw;
-    height: 100dvh;
+	width: 100dvw;
+	height: 100dvh;
 }

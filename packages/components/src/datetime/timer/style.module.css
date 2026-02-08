@@ -1,32 +1,32 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .timer {
-        font-family: monospace;
-        font-variant-numeric: tabular-nums;
+	.timer {
+		font-family: monospace;
+		font-variant-numeric: tabular-nums;
 
-        @apply flex items-center text-palette-bg gap-1;
+		@apply flex items-center text-palette-bg gap-1;
 
-        .item {
-            @apply flex flex-col items-center;
+		.item {
+			@apply flex flex-col items-center;
 
-            .text {
-                @apply text-palette-fg text-xl;
-            }
+			.text {
+				@apply text-palette-fg text-xl;
+			}
 
-            .unit {
-                @apply text-palette-fg/50 text-sm;
-            }
-        }
+			.unit {
+				@apply text-palette-fg/50 text-sm;
+			}
+		}
 
-        .sep {
-            @apply text-palette-fg/50;
-        }
-    }
+		.sep {
+			@apply text-palette-fg/50;
+		}
+	}
 }

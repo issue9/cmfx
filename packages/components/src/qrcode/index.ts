@@ -2,9 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { QRCode } from './qrcode';
-export type {
-    QRCodeCornerDotType, QRCodeCornerSquareType, QRCodeDotType, Props as QRCodeProps, Ref as QRCodeRef
-} from './qrcode';
-
 export type { default as QRCodeStyling } from 'qr-code-styling';
+
+export type {
+	Props as QRCodeProps,
+	QRCodeCornerDotType,
+	QRCodeCornerSquareType,
+	QRCodeDotType,
+	Ref as QRCodeRef,
+} from './qrcode';
+export { QRCode } from './qrcode';

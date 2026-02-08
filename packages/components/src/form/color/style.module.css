@@ -1,30 +1,30 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .color-panel-activator {
-        @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-border;
-        @apply flex justify-center items-center font-bold;
+	.color-panel-activator {
+		@apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-border;
+		@apply flex justify-center items-center font-bold;
 
-        @apply transition;
-        @apply hover:border-palette-border-focused;
-        @apply active:border-palette-border-actived;
-    }
+		@apply transition;
+		@apply hover:border-palette-border-focused;
+		@apply active:border-palette-border-actived;
+	}
 
-    .color-panel-activator.readonly {
-        @apply cursor-default;
-    }
+	.color-panel-activator.readonly {
+		@apply cursor-default;
+	}
 
-    .color-panel-activator.rounded {
-        @apply rounded-full;
-    }
+	.color-panel-activator.rounded {
+		@apply rounded-full;
+	}
 
-    .color-panel-activator.disabled {
-        @apply cursor-not-allowed;
-    }
+	.color-panel-activator.disabled {
+		@apply cursor-not-allowed;
+	}
 }

@@ -10,142 +10,165 @@ import { FieldBaseProps, useForm } from '@components/form/field';
  * 上传组件的外放接口
  */
 export interface Ref {
-    /**
-     * 显示文件选取对话框，如果有选择文件的话，还自动添加至 {@link Ref#files} 中。
-     */
-    pick(): void;
+	/**
+	 * 显示文件选取对话框，如果有选择文件的话，还自动添加至 {@link Ref#files} 中。
+	 */
+	pick(): void;
 
-    /**
-     * 返回所有未上传的文件
-     */
-    files(): Array<File>;
+	/**
+	 * 返回所有未上传的文件
+	 */
+	files(): Array<File>;
 
-    /**
-     * 删除 {@link Ref#files} 中的第 index 对象
-     */
-    delete(index: number): void;
+	/**
+	 * 删除 {@link Ref#files} 中的第 index 对象
+	 */
+	delete(index: number): void;
 
-    /**
-     * 清除所有未上传的内容
-     */
-    clear(): void;
+	/**
+	 * 清除所有未上传的内容
+	 */
+	clear(): void;
 
-    /**
-     * 上传 {@link Ref#files} 中的文件
-     */
-    upload(): Promise<Array<string>|undefined>;
+	/**
+	 * 上传 {@link Ref#files} 中的文件
+	 */
+	upload(): Promise<Array<string> | undefined>;
 
-    root(): HTMLInputElement;
+	root(): HTMLInputElement;
 }
 
 export interface Props extends Omit<FieldBaseProps, 'rounded'> {
-    /**
-     * 上传文件在表单中的名称
-     */
-    fieldName: string;
+	/**
+	 * 上传文件在表单中的名称
+	 */
+	fieldName: string;
 
-    /**
-     * 是否多选
-     */
-    multiple?: boolean;
+	/**
+	 * 是否多选
+	 */
+	multiple?: boolean;
 
-    /**
-     * 支持的文件列表，同 https://developer.mozilla.org/zh-CN/docs/Web/HTML/Attributes/accept，但改为数组类型。
-     */
-    accept?: Array<string>;
+	/**
+	 * 支持的文件列表，同 https://developer.mozilla.org/zh-CN/docs/Web/HTML/Attributes/accept，但改为数组类型。
+	 */
+	accept?: Array<string>;
 
-    ref: { (el: Ref): void; }
+	ref: (el: Ref) => void;
 
-    /**
-     * 指定一个接受拖拖拽文件的区域
-     */
-    dropzone?: HTMLElement;
+	/**
+	 * 指定一个接受拖拖拽文件的区域
+	 */
+	dropzone?: HTMLElement;
 
-    /**
-     * 执行上传操作
-     *
-     * @param obj - FormData 对象，包含所有待上传的文件；
-     * @returns 上传成功后返回的文件列表，失败则返回 undefined。
-     */
-    upload: { (obj: FormData): Promise<Array<string> | undefined>; };
+	/**
+	 * 执行上传操作
+	 *
+	 * @param obj - FormData 对象，包含所有待上传的文件；
+	 * @returns 上传成功后返回的文件列表，失败则返回 undefined。
+	 */
+	upload: (obj: FormData) => Promise<Array<string> | undefined>;
 }
 
 /**
  * 提供了文件上传组件的基本功能，但是并未提供对应的 UI 功能。
  */
 export function Upload(props: Props): JSX.Element {
-    const form = useForm();
-    props = mergeProps(form, props);
+	const form = useForm();
+	props = mergeProps(form, props);
 
-    const [files, setFiles] = createSignal<Array<File>>([]);
+	const [files, setFiles] = createSignal<Array<File>>([]);
 
-    const add = (fs: FileList | null) => {
-        if (!fs || fs.length === 0) { return; }
+	const add = (fs: FileList | null) => {
+		if (!fs || fs.length === 0) {
+			return;
+		}
 
-        if (!props.multiple) {
-            setFiles([fs.item(0)!]);
-            return;
-        }
+		if (!props.multiple) {
+			setFiles([fs.item(0)!]);
+			return;
+		}
 
-        const newFiles: Array<File> = [];
-        for (let i = 0; i < fs.length; i++) {
-            newFiles.push(fs.item(i)!);
-        }
-        setFiles((prev) => { return [...prev, ...newFiles]; });
-    };
+		const newFiles: Array<File> = [];
+		for (let i = 0; i < fs.length; i++) {
+			newFiles.push(fs.item(i)!);
+		}
+		setFiles(prev => {
+			return [...prev, ...newFiles];
+		});
+	};
 
-    onMount(() => {
-        if (props.dropzone) {
-            props.dropzone.addEventListener('dragover', (e) => {
-                e.dataTransfer!.dropEffect = 'copy';
-                e.preventDefault();
-            });
+	onMount(() => {
+		if (props.dropzone) {
+			props.dropzone.addEventListener('dragover', e => {
+				e.dataTransfer!.dropEffect = 'copy';
+				e.preventDefault();
+			});
 
-            props.dropzone.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-            });
+			props.dropzone.addEventListener('dragleave', e => {
+				e.preventDefault();
+			});
 
-            props.dropzone.addEventListener('drop', (e) => {
-                e.preventDefault();
+			props.dropzone.addEventListener('drop', e => {
+				e.preventDefault();
 
-                if (e.dataTransfer) { add(e.dataTransfer.files); }
-            });
-        }
-    });
+				if (e.dataTransfer) {
+					add(e.dataTransfer.files);
+				}
+			});
+		}
+	});
 
-    return <input type="file" class="hidden" name={props.fieldName} multiple={props.multiple} ref={el => {
-        props.ref({
-            pick(): void { el.click(); },
+	return (
+		<input
+			type="file"
+			class="hidden"
+			name={props.fieldName}
+			multiple={props.multiple}
+			ref={el => {
+				props.ref({
+					pick(): void {
+						el.click();
+					},
 
-            files(): Array<File> { return files(); },
+					files(): Array<File> {
+						return files();
+					},
 
-            delete(index: number): void {
-                setFiles((prev) => {
-                    prev.splice(index, 1);
-                    return [...prev];
-                });
-            },
+					delete(index: number): void {
+						setFiles(prev => {
+							prev.splice(index, 1);
+							return [...prev];
+						});
+					},
 
-            clear(): void { setFiles([]); },
+					clear(): void {
+						setFiles([]);
+					},
 
-            async upload(): Promise<Array<string> | undefined> {
-                const data = new FormData();
-                for (const item of files()) {
-                    data.append(props.fieldName, item);
-                }
+					async upload(): Promise<Array<string> | undefined> {
+						const data = new FormData();
+						for (const item of files()) {
+							data.append(props.fieldName, item);
+						}
 
-                const ret = await props.upload(data);
-                if (ret) {
-                    setFiles([]);
-                    return ret;
-                }
-                return undefined;
-            },
+						const ret = await props.upload(data);
+						if (ret) {
+							setFiles([]);
+							return ret;
+						}
+						return undefined;
+					},
 
-            root(): HTMLInputElement { return el; },
-        });
-    }} onchange={e => {
-        const target = e.target as HTMLInputElement;
-        add(target.files);
-    }} />;
+					root(): HTMLInputElement {
+						return el;
+					},
+				});
+			}}
+			onchange={e => {
+				const target = e.target as HTMLInputElement;
+				add(target.files);
+			}}
+		/>
+	);
 }

@@ -8,9 +8,9 @@ import { ComponentTester } from '@components/context/context.spec';
 import { default as Calendar } from './calendar';
 
 describe('Calendar', async () => {
-    const ct = await ComponentTester.build('Calendar', props => <Calendar {...props} />);
+	const ct = await ComponentTester.build('Calendar', props => <Calendar {...props} />);
 
-    test('props', async () => {
-        ct.testProps();
-    });
+	test('props', async () => {
+		ct.testProps();
+	});
 });

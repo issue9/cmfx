@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,10 +9,14 @@ import { JSX } from 'solid-js';
 import { Message } from '../locales';
 
 export default function Test(): JSX.Element {
-    const ps = useParams();
-    const l = useLocale();
-    l.t<Message>('home');
-    console.log(ps.id);
+	const ps = useParams();
+	const l = useLocale();
+	l.t<Message>('home');
+	console.log(ps.id);
 
-    return <div>{l.t<Message>('nest.abc') as string},{ ps.id}</div>;
+	return (
+		<div>
+			{l.t<Message>('nest.abc') as string},{ps.id}
+		</div>
+	);
 }

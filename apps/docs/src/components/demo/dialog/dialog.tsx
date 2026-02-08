@@ -2,54 +2,110 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, MountProps, createForm, notify } from '@cmfx/components';
+import { Button, createForm, Dialog, DialogRef, MountProps, notify } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';
 
-export default function(props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector('primary');
+export default function (props: MountProps): JSX.Element {
+	const [Palette, palette] = paletteSelector('primary');
 
-    let dlg2: DialogRef;
-    let dlg3: DialogRef;
+	let dlg2: DialogRef;
+	let dlg3: DialogRef;
 
-    const [, Form] = createForm({
-        initValue: {},
-        submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
-        onProblem: async p => await notify(p.title)
-    });
+	const [, Form] = createForm({
+		initValue: {},
+		submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
+		onProblem: async p => await notify(p.title),
+	});
 
-    return <div>
-        <Portal mount={props.mount}>
-            <Palette />
-        </Portal>
+	return (
+		<div>
+			<Portal mount={props.mount}>
+				<Palette />
+			</Portal>
 
-        <Button onclick={() => dlg2.root().showModal()} palette={palette()}>showModal</Button>
-        <Dialog movable palette={palette()} ref={el => dlg2 = el} header="header">
-            <div>
-                <Form inDialog>
-                    <div class="flex flex-col">
-                        <div class="py-3">form</div>
-                        <div class="flex">
-                            <Button onclick={() => dlg3.root().showModal()}>show modal</Button>
-                            <Button ref={el => el.root().value = 'submit'} type="submit" class="me-8">submit</Button>
-                            <Button ref={el => el.root().value = 'reset'} type="reset" class="me-8">reset</Button>
-                            <Button ref={el => el.root().value = 'button'} type="button" onclick={() => {
-                                dlg2.move({ x: 8, y: 8 });
-                            }}>move(8,8)</Button>
-                            <Button ref={el => el.root().value = 'button'} type="button" onclick={() => {
-                                dlg2.move();
-                            }}>move to center</Button>
-                            <Button ref={el => el.root().value = 'button'} type="button">button</Button>
-                        </div>
-                    </div>
-                </Form>
-            </div>
-        </Dialog>
+			<Button onclick={() => dlg2.root().showModal()} palette={palette()}>
+				showModal
+			</Button>
+			<Dialog
+				movable
+				palette={palette()}
+				ref={el => {
+					dlg2 = el;
+				}}
+				header="header"
+			>
+				<div>
+					<Form inDialog>
+						<div class="flex flex-col">
+							<div class="py-3">form</div>
+							<div class="flex">
+								<Button onclick={() => dlg3.root().showModal()}>show modal</Button>
+								<Button
+									ref={el => {
+										el.root().value = 'submit';
+									}}
+									type="submit"
+									class="me-8"
+								>
+									submit
+								</Button>
+								<Button
+									ref={el => {
+										el.root().value = 'reset';
+									}}
+									type="reset"
+									class="me-8"
+								>
+									reset
+								</Button>
+								<Button
+									ref={el => {
+										el.root().value = 'button';
+									}}
+									type="button"
+									onclick={() => {
+										dlg2.move({ x: 8, y: 8 });
+									}}
+								>
+									move(8,8)
+								</Button>
+								<Button
+									ref={el => {
+										el.root().value = 'button';
+									}}
+									type="button"
+									onclick={() => {
+										dlg2.move();
+									}}
+								>
+									move to center
+								</Button>
+								<Button
+									ref={el => {
+										el.root().value = 'button';
+									}}
+									type="button"
+								>
+									button
+								</Button>
+							</div>
+						</div>
+					</Form>
+				</div>
+			</Dialog>
 
-        <Dialog movable ref={(el) => dlg3 = el} header="header">
-            <div>dialog 3</div>
-        </Dialog>
-    </div>;
+			<Dialog
+				movable
+				ref={el => {
+					dlg3 = el;
+				}}
+				header="header"
+			>
+				<div>dialog 3</div>
+			</Dialog>
+		</div>
+	);
 }

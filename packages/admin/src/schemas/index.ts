@@ -1,7 +1,6 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export { sexSchema, stateSchema, usernameSchema } from './user';
 export type { Sex, State } from './user';
-
+export { sexSchema, stateSchema, usernameSchema } from './user';

@@ -22,4 +22,4 @@ export type DictKeys<T extends Dict> = FlattenKeys<T>;
  * 对于一些第三方库，可能并不需要返回其对象，而直接执行其对应的加载操作，
  * 那么可以返回一个 undefined。
  */
-export type Loader = { (locale: string): Promise<Dict | undefined> };
+export type Loader = (locale: string) => Promise<Dict | undefined>;

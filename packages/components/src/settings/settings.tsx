@@ -21,7 +21,7 @@ import { useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Checkbox, Choice, fieldAccessor, Number, RadioGroup, Range } from '@components/form';
+import { Checkbox, Choice, fieldAccessor, Numeric, RadioGroup, Range } from '@components/form';
 import { createBytesFormatter } from '@components/kit';
 import { SchemeSelector } from '@components/theme';
 import styles from './style.module.css';
@@ -30,45 +30,45 @@ import styles from './style.module.css';
  * 设置项的属性
  */
 export interface ItemProps extends ParentProps {
-    /**
-     * 图标
-     *
-     * @reactive
-     */
-    icon: JSX.Element;
+	/**
+	 * 图标
+	 *
+	 * @reactive
+	 */
+	icon: JSX.Element;
 
-    /**
-     * 标题
-     *
-     * @reactive
-     */
-    title: string;
+	/**
+	 * 标题
+	 *
+	 * @reactive
+	 */
+	title: string;
 
-    /**
-     * 设置内容的详细描述
-     *
-     * @reactive
-     */
-    desc?: string;
+	/**
+	 * 设置内容的详细描述
+	 *
+	 * @reactive
+	 */
+	desc?: string;
 }
 
 export interface Ref {
-    /**
-     * 组件根元素
-     */
-    root(): HTMLDivElement;
+	/**
+	 * 组件根元素
+	 */
+	root(): HTMLDivElement;
 
-    /**
-     * 声明一个设置项的组件
-     */
-    Item(props: ItemProps): JSX.Element;
+	/**
+	 * 声明一个设置项的组件
+	 */
+	Item(props: ItemProps): JSX.Element;
 }
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
-    /**
-     * 重置事件
-     */
-    onReset?: { (): void; };
+	/**
+	 * 重置事件
+	 */
+	onReset?: () => void;
 }
 
 /**
@@ -78,179 +78,240 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * 这是对 {@link useOptions} 中部分选项的设置。
  */
 export function Settings(props: Props) {
-    const [accessor, origin] = useOptions();
-    const l = useLocale();
-    let count = 0;
+	const [accessor, origin] = useOptions();
+	const l = useLocale();
+	let count = 0;
 
-    const Item = (props: ItemProps) => {
-        count++;
-        return <>
-            <Show when={count > 1}><Divider padding='16px 8px' /></Show>
-            <Description icon={props.icon} title={props.title}><div innerHTML={props.desc} /></Description>
-            <br />
-            {props.children}
-        </>;
-    };
+	const Item = (props: ItemProps) => {
+		count++;
+		return (
+			<>
+				<Show when={count > 1}>
+					<Divider padding="16px 8px" />
+				</Show>
+				<Description icon={props.icon} title={props.title}>
+					<div innerHTML={props.desc} />
+				</Description>
+				<br />
+				{props.children}
+			</>
+		);
+	};
 
-    const fontSizeFA = fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2)));
-    fontSizeFA.onChange(v => accessor.setFontSize(v + 'px'));
+	const fontSizeFA = fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2), 10));
+	fontSizeFA.onChange(v => accessor.setFontSize(`${v}px`));
 
-    const modeFA = fieldAccessor<Mode>('mode', accessor.getMode());
-    modeFA.onChange(m => accessor.setMode(m));
+	const modeFA = fieldAccessor<Mode>('mode', accessor.getMode());
+	modeFA.onChange(m => accessor.setMode(m));
 
-    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
-    localeFA.onChange(v => accessor.setLocale(v));
+	const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
+	localeFA.onChange(v => accessor.setLocale(v));
 
-    const unitFA = fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
-    unitFA.onChange(v => accessor.setDisplayStyle(v));
+	const unitFA = fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
+	unitFA.onChange(v => accessor.setDisplayStyle(v));
 
-    const staysFA = fieldAccessor<number>('stays', accessor.getStays());
-    staysFA.onChange(v => accessor.setStays(v));
+	const staysFA = fieldAccessor<number>('stays', accessor.getStays());
+	staysFA.onChange(v => accessor.setStays(v));
 
-    const transitionDurationFA = fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
-    transitionDurationFA.onChange(v => accessor.setTransitionDuration(v));
+	const transitionDurationFA = fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
+	transitionDurationFA.onChange(v => accessor.setTransitionDuration(v));
 
-    const [sysNotifyDisabled, setSysNotifyDisabled] = createSignal(false);
-    const requestSysNotify = async () => {
-        if (!('Notification' in window)) { return; }
+	const [sysNotifyDisabled, setSysNotifyDisabled] = createSignal(false);
+	const requestSysNotify = async () => {
+		if (!('Notification' in window)) {
+			return;
+		}
 
-        switch (Notification.permission) {
-        case 'denied':
-            setSysNotifyDisabled(true);
-            return;
-        case 'granted':
-            setSysNotifyDisabled(false);
-            return;
-        case 'default':
-            const p = await Notification.requestPermission();
-            if (p === 'granted') {
-                setSysNotifyDisabled(false);
-            } else {
-                setSysNotifyDisabled(true);
-            }
-        }
-    };
+		switch (Notification.permission) {
+			case 'denied':
+				setSysNotifyDisabled(true);
+				return;
+			case 'granted':
+				setSysNotifyDisabled(false);
+				return;
+			case 'default': {
+				const p = await Notification.requestPermission();
+				if (p === 'granted') {
+					setSysNotifyDisabled(false);
+				} else {
+					setSysNotifyDisabled(true);
+				}
+			}
+		}
+	};
 
-    return <div class={joinClass(props.palette, styles.settings, props.class)} style={props.style} ref={el=>{
-        if (props.ref) {
-            props.ref({
-                root: () => el,
-                Item: Item,
-            });
-        }
-    }}>
-        {props.children}
+	return (
+		<div
+			class={joinClass(props.palette, styles.settings, props.class)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+						Item: Item,
+					});
+				}
+			}}
+		>
+			{props.children}
 
-        {/***************************** font *******************************/}
+			{/***************************** font *******************************/}
 
-        <Item icon={<IconFontSize />} title={l.t('_c.settings.fontSize')} desc={l.t('_c.settings.fontSizeDesc')}>
-            <Range class={styles.range} value={v=>v+'px'}
-                min={12} max={32} step={1} accessor={fontSizeFA}
-            />
-        </Item>
+			<Item icon={<IconFontSize />} title={l.t('_c.settings.fontSize')} desc={l.t('_c.settings.fontSizeDesc')}>
+				<Range class={styles.range} value={v => `${v}px`} min={12} max={32} step={1} accessor={fontSizeFA} />
+			</Item>
 
-        {/***************************** mode *******************************/}
+			{/***************************** mode *******************************/}
 
-        <Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
-            <RadioGroup itemLayout='horizontal' accessor={modeFA} block={/*@once*/false} class={styles.radios}
-                options={/*@once*/[
-                    { value: 'system', label: l.t('_c.settings.system') },
-                    { value: 'dark', label: l.t('_c.settings.dark') },
-                    { value: 'light', label: l.t('_c.settings.light') }
-                ]}
-            />
-        </Item>
+			<Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
+				<RadioGroup
+					itemLayout="horizontal"
+					accessor={modeFA}
+					block={/*@once*/ false}
+					class={styles.radios}
+					options={
+						/*@once*/ [
+							{ value: 'system', label: l.t('_c.settings.system') },
+							{ value: 'dark', label: l.t('_c.settings.dark') },
+							{ value: 'light', label: l.t('_c.settings.light') },
+						]
+					}
+				/>
+			</Item>
 
-        {/***************************** scheme *******************************/}
+			{/***************************** scheme *******************************/}
 
-        <Show when={origin.schemes && accessor.getScheme()}>
-            <Item icon={<IconPalette />} title={l.t('_c.settings.scheme')} desc={l.t('_c.settings.schemeDesc')}>
-                <SchemeSelector schemes={origin.schemes}
-                    value={accessor.getScheme()} onChange={val => accessor.setScheme(val)} />
-            </Item>
-        </Show>
+			<Show when={origin.schemes && accessor.getScheme()}>
+				<Item icon={<IconPalette />} title={l.t('_c.settings.scheme')} desc={l.t('_c.settings.schemeDesc')}>
+					<SchemeSelector
+						schemes={origin.schemes}
+						value={accessor.getScheme()}
+						onChange={val => accessor.setScheme(val)}
+					/>
+				</Item>
+			</Show>
 
-        {/***************************** transition duration *******************************/}
+			{/***************************** transition duration *******************************/}
 
-        <Item icon={<IconTransitionDuration />} title={l.t('_c.settings.transitionDuration')}
-            desc={l.t('_c.settings.transitionDurationDesc')}
-        >
-            <Range disabled={isReducedMotion()} class={styles.range} value={v => v + 'ms'}
-                min={100} max={3000} step={100} accessor={transitionDurationFA}
-            />
-        </Item>
+			<Item
+				icon={<IconTransitionDuration />}
+				title={l.t('_c.settings.transitionDuration')}
+				desc={l.t('_c.settings.transitionDurationDesc')}
+			>
+				<Range
+					disabled={isReducedMotion()}
+					class={styles.range}
+					value={v => `${v}ms`}
+					min={100}
+					max={3000}
+					step={100}
+					accessor={transitionDurationFA}
+				/>
+			</Item>
 
-        {/***************************** stays *******************************/}
+			{/***************************** stays *******************************/}
 
-        <Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
-            <Number accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
-        </Item>
+			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
+				<Numeric accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
+			</Item>
 
-        {/***************************** notify *******************************/}
+			{/***************************** notify *******************************/}
 
-        <Show when={'Notification' in window}>
-            <Item icon={/*@once*/<IconSystemNotify />} title={l.t('_c.settings.systemNotify')}
-                desc={l.t('_c.settings.systemNotifyDesc',{request: l.t('_c.settings.requestNotifyPermission')})}
-            >
-                <div class={styles.notify}>
-                    <Checkbox label={l.t('_c.settings.enabled')} class={styles.checkbox} disabled={sysNotifyDisabled()}
-                        checked={accessor.getSystemNotify()} onChange={async v => {
-                            accessor.setSystemNotify(!!v);
-                        }}
-                    />
-                    <Button kind='flat' onclick={requestSysNotify}>
-                        {l.t('_c.settings.requestNotifyPermission')}
-                    </Button>
-                </div>
-            </Item>
-        </Show>
+			<Show when={'Notification' in window}>
+				<Item
+					icon={/*@once*/ <IconSystemNotify />}
+					title={l.t('_c.settings.systemNotify')}
+					desc={l.t('_c.settings.systemNotifyDesc', { request: l.t('_c.settings.requestNotifyPermission') })}
+				>
+					<div class={styles.notify}>
+						<Checkbox
+							label={l.t('_c.settings.enabled')}
+							class={styles.checkbox}
+							disabled={sysNotifyDisabled()}
+							checked={accessor.getSystemNotify()}
+							onChange={async v => {
+								accessor.setSystemNotify(!!v);
+							}}
+						/>
+						<Button kind="flat" onclick={requestSysNotify}>
+							{l.t('_c.settings.requestNotifyPermission')}
+						</Button>
+					</div>
+				</Item>
+			</Show>
 
-        {/***************************** locale *******************************/}
+			{/***************************** locale *******************************/}
 
-        <Item icon={/*@once*/<IconTranslate />} title={l.t('_c.settings.locale')} desc={l.t('_c.settings.localeDesc')}>
-            <Choice accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
-        </Item>
+			<Item icon={/*@once*/ <IconTranslate />} title={l.t('_c.settings.locale')} desc={l.t('_c.settings.localeDesc')}>
+				<Choice accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
+			</Item>
 
-        {/***************************** displayStyle *******************************/}
+			{/***************************** displayStyle *******************************/}
 
-        <Item icon={/*@once*/<IconFormat />}
-            title={l.t('_c.settings.displayStyle')} desc={l.t('_c.settings.displayStyleDesc')}
-        >
-            <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false} class={styles.radios}
-                options={/*@once*/[
-                    { value: 'narrow', label: l.t('_c.settings.narrow') },
-                    { value: 'short', label: l.t('_c.settings.short') },
-                    { value: 'full', label: l.t('_c.settings.long') },
-                ]}
-            />
-            <div class={styles['ds-demo']}>
-                <p>{l.datetimeFormat().format(new Date())}</p>
-                <p>{formatDuration(l.durationFormat(), 1111111223245)}</p>
-                <p>{createBytesFormatter(l)(1111223245)}</p>
-            </div>
-        </Item>
+			<Item
+				icon={/*@once*/ <IconFormat />}
+				title={l.t('_c.settings.displayStyle')}
+				desc={l.t('_c.settings.displayStyleDesc')}
+			>
+				<RadioGroup
+					itemLayout="horizontal"
+					accessor={unitFA}
+					block={/*@once*/ false}
+					class={styles.radios}
+					options={
+						/*@once*/ [
+							{ value: 'narrow', label: l.t('_c.settings.narrow') },
+							{ value: 'short', label: l.t('_c.settings.short') },
+							{ value: 'full', label: l.t('_c.settings.long') },
+						]
+					}
+				/>
+				<div class={styles['ds-demo']}>
+					<p>{l.datetimeFormat().format(new Date())}</p>
+					<p>{formatDuration(l.durationFormat(), 1111111223245)}</p>
+					<p>{createBytesFormatter(l)(1111223245)}</p>
+				</div>
+			</Item>
 
-        {/***************************** timezone *******************************/}
+			{/***************************** timezone *******************************/}
 
-        <Item icon={/*@once*/<IconTimezone />}
-            title={l.t('_c.settings.timezone')} desc={l.t('_c.settings.timezoneDesc')}
-        >
-            <div><Timezone value={accessor.getTimezone()} onChange={v => { accessor.setTimezone(v); }} /></div>
-        </Item>
+			<Item
+				icon={/*@once*/ <IconTimezone />}
+				title={l.t('_c.settings.timezone')}
+				desc={l.t('_c.settings.timezoneDesc')}
+			>
+				<div>
+					<Timezone
+						value={accessor.getTimezone()}
+						onChange={v => {
+							accessor.setTimezone(v);
+						}}
+					/>
+				</div>
+			</Item>
 
-        {/***************************** reset *******************************/}
+			{/***************************** reset *******************************/}
 
-        <Item icon={/*@once*/<IconReset />} title={l.t('_c.settings.resetOptions')}>
-            <Button kind='fill' palette='error' onclick={() => {
-                accessor.reset();
-                fontSizeFA.setValue(parseInt(accessor.getFontSize().slice(0, -2)));
-                modeFA.setValue(accessor.getMode());
-                localeFA.setValue(accessor.getLocale());
-                unitFA.setValue(accessor.getDisplayStyle());
-                staysFA.setValue(accessor.getStays());
+			<Item icon={/*@once*/ <IconReset />} title={l.t('_c.settings.resetOptions')}>
+				<Button
+					kind="fill"
+					palette="error"
+					onclick={() => {
+						accessor.reset();
+						fontSizeFA.setValue(parseInt(accessor.getFontSize().slice(0, -2), 10));
+						modeFA.setValue(accessor.getMode());
+						localeFA.setValue(accessor.getLocale());
+						unitFA.setValue(accessor.getDisplayStyle());
+						staysFA.setValue(accessor.getStays());
 
-                if (props.onReset) { props.onReset(); }
-            }}>{ l.t('_c.reset') }</Button>
-        </Item>
-    </div>;
+						if (props.onReset) {
+							props.onReset();
+						}
+					}}
+				>
+					{l.t('_c.reset')}
+				</Button>
+			</Item>
+		</div>
+	);
 }

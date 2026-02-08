@@ -14,77 +14,77 @@ export type MenuItem<T extends AvailableEnumType = string> = TypeDivider | TypeG
 
 // 分隔符
 export interface TypeDivider {
-    type: 'divider';
+	type: 'divider';
 }
 
 // 分组
 export interface TypeGroup<T extends AvailableEnumType = string> {
-    type: 'group';
+	type: 'group';
 
-    label: JSX.Element;
+	label: JSX.Element;
 
-    /**
-     * 分组的子项
-     */
-    items: Array<MenuItem<T>>;
+	/**
+	 * 分组的子项
+	 */
+	items: Array<MenuItem<T>>;
 }
 
 export interface TypeItem<T extends AvailableEnumType = string> {
-    /**
-     * 表示普通的菜单项，如果为 a 表示这是一个链接。
-     */
-    type: 'item' | 'a';
+	/**
+	 * 表示普通的菜单项，如果为 a 表示这是一个链接。
+	 */
+	type: 'item' | 'a';
 
-    /**
-     * 表示当前项的唯一值
-     *
-     * @remarks 该值为空时，{@link MenuItem#items} 不能为空，
-     * 如果 {@link "type"} 为 a 时，当前值表示链接的地址。
-     */
-    value?: T;
+	/**
+	 * 表示当前项的唯一值
+	 *
+	 * @remarks 该值为空时，{@link MenuItem#items} 不能为空，
+	 * 如果 {@link "type"} 为 a 时，当前值表示链接的地址。
+	 */
+	value?: T;
 
-    /**
-     * 子项
-     *
-     * @remarks 该值为空时，{@link MenuItem#value} 不能为空。
-     */
-    items?: Array<MenuItem<T>>;
+	/**
+	 * 子项
+	 *
+	 * @remarks 该值为空时，{@link MenuItem#value} 不能为空。
+	 */
+	items?: Array<MenuItem<T>>;
 
-    /**
-     * 菜单项的内容
-     */
-    label: JSX.Element;
+	/**
+	 * 菜单项的内容
+	 */
+	label: JSX.Element;
 
-    /**
-     * 菜单项前置的内容
-     */
-    prefix?: JSX.Element;
+	/**
+	 * 菜单项前置的内容
+	 */
+	prefix?: JSX.Element;
 
-    /**
-     * 菜单项尾部的内容
-     *
-     * @remarks 当 {@link MenuItem#items} 不为空时，该值无效。
-     */
-    suffix?: JSX.Element
+	/**
+	 * 菜单项尾部的内容
+	 *
+	 * @remarks 当 {@link MenuItem#items} 不为空时，该值无效。
+	 */
+	suffix?: JSX.Element;
 
-    /**
-     * 是否禁用该项
-     */
-    disabled?: boolean;
+	/**
+	 * 是否禁用该项
+	 */
+	disabled?: boolean;
 
-    /**
-     * 快捷键
-     */
-    hotkey?: Hotkey;
+	/**
+	 * 快捷键
+	 */
+	hotkey?: Hotkey;
 }
 
 export type RenderTypeItem<T extends AvailableEnumType = string> = TypeItem<T> & {
-    level: number;
-    items?: Array<RenderMenuItem<T>>;
+	level: number;
+	items?: Array<RenderMenuItem<T>>;
 };
 
 type RenderTypeGroup<T extends AvailableEnumType = string> = Omit<TypeGroup<T>, 'items'> & {
-    items: Array<RenderMenuItem<T>>;
+	items: Array<RenderMenuItem<T>>;
 };
 
 /**
@@ -99,21 +99,21 @@ export type RenderMenuItem<T extends AvailableEnumType = string> = TypeDivider |
  * @param level - 当前菜单项的层级；
  */
 export function buildRenderItemType<T extends AvailableEnumType = string>(
-    items: Array<MenuItem<T>>, level: number
+	items: Array<MenuItem<T>>,
+	level: number,
 ): Array<RenderMenuItem<T>> {
-    return items.map(item => {
-        switch (item.type) {
-        case 'divider':
-            return item;
-        case 'group':
-            return { ...item, items: buildRenderItemType<T>(item.items, level) };
-        case 'item':
-        case 'a':
-            return {
-                ...item,
-                level,
-                items: item.items ? buildRenderItemType<T>(item.items, level + 1) : undefined,
-            };
-        }
-    });
+	return items.map(item => {
+		switch (item.type) {
+			case 'divider':
+				return item;
+			case 'group':
+				return { ...item, items: buildRenderItemType<T>(item.items, level) };
+			default: // a,item
+				return {
+					...item,
+					level,
+					items: item.items ? buildRenderItemType<T>(item.items, level + 1) : undefined,
+				};
+		}
+	});
 }

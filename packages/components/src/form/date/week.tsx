@@ -9,74 +9,108 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass } from '@components/base';
 import { Week, WeekPanel } from '@components/datetime';
 import { WeekValueType } from '@components/datetime/dateview';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@components/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style } from '@components/form/field';
 import { DateType, Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
 export interface Props<T extends DateType> extends Omit<PickerProps<T>, 'accessor' | 'accentPalette' | 'time'> {
-    accessor: Accessor<WeekValueType | undefined>;
+	accessor: Accessor<WeekValueType | undefined>;
 }
 
 /**
  * 周数选择组件
  */
 export function WeekPicker<T extends DateType>(props: Props<T>): JSX.Element {
-    props = mergeProps({weekBase: 0 as Week}, props);
+	props = mergeProps({ weekBase: 0 as Week }, props);
 
-    const [panelProps, _] = splitProps(props,
-        ['weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
+	const [panelProps, _] = splitProps(props, ['weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
 
-    let panelRef: HTMLElement;
-    let anchorRef: HTMLElement;
+	let panelRef: HTMLElement;
+	let anchorRef: HTMLElement;
 
-    const [hover, setHover] = createSignal(false);
+	const [hover, setHover] = createSignal(false);
 
-    const change = (val?: WeekValueType) => {
-        props.accessor.setValue(val);
-        panelRef.hidePopover();
-    };
+	const change = (val?: WeekValueType) => {
+		props.accessor.setValue(val);
+		panelRef.hidePopover();
+	};
 
-    const format = (val: WeekValueType) => { return val ? `${val[0]}-${val[1]}` : ''; };
+	const format = (val: WeekValueType) => {
+		return val ? `${val[0]}-${val[1]}` : '';
+	};
 
-    const id = createUniqueId();
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-    return <Field class={joinClass(undefined, styles.activator, props.class)}
-        style={props.style} title={props.title} palette={props.palette} aria-haspopup
-    >
-        <Show when={areas().labelArea}>
-            {area => <label style={{
-                ...fieldArea2Style(area()),
-                'width': props.labelWidth,
-                'text-align': props.labelAlign,
-            }} for={id}>{props.label}</label>}
-        </Show>
+	const id = createUniqueId();
+	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	return (
+		<Field
+			class={joinClass(undefined, styles.activator, props.class)}
+			style={props.style}
+			title={props.title}
+			palette={props.palette}
+			aria-haspopup
+		>
+			<Show when={areas().labelArea}>
+				{area => (
+					<label
+						style={{
+							...fieldArea2Style(area()),
+							width: props.labelWidth,
+							'text-align': props.labelAlign,
+						}}
+						for={id}
+					>
+						{props.label}
+					</label>
+				)}
+			</Show>
 
-        <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
-            onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-            onClick={() => togglePop(anchorRef, panelRef)}
-            class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : undefined)}
-        >
-            <input id={id} readOnly disabled={props.disabled} placeholder={props.placeholder}
-                class={joinClass(undefined, styles.input, styles.range)}
-                value={format(props.accessor.getValue()!)}
-            />
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: 正常需求 */}
+			<div
+				style={fieldArea2Style(areas().inputArea)}
+				ref={el => {
+					anchorRef = el;
+				}}
+				onMouseEnter={() => setHover(true)}
+				onMouseLeave={() => setHover(false)}
+				onclick={() => togglePop(anchorRef, panelRef)}
+				class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : undefined)}
+			>
+				<input
+					id={id}
+					readOnly
+					disabled={props.disabled}
+					placeholder={props.placeholder}
+					class={joinClass(undefined, styles.input, styles.range)}
+					value={format(props.accessor.getValue()!)}
+				/>
 
-            <Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
-                <IconClose class="shrink-0" onClick={(e: MouseEvent) => {
-                    e.stopPropagation();
-                    props.accessor.setValue(undefined);
-                }} />
-            </Show>
-        </div>
+				<Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
+					<IconClose
+						class="shrink-0"
+						onClick={(e: MouseEvent) => {
+							e.stopPropagation();
+							props.accessor.setValue(undefined);
+						}}
+					/>
+				</Show>
+			</div>
 
-        <WeekPanel {...panelProps} ref={el => panelRef = el}
-            popover="auto" disabled={props.disabled} aria-haspopup
-            value={untrack(props.accessor.getValue)} onChange={change}
-        />
+			<WeekPanel
+				{...panelProps}
+				ref={el => {
+					panelRef = el;
+				}}
+				popover="auto"
+				disabled={props.disabled}
+				aria-haspopup
+				value={untrack(props.accessor.getValue)}
+				onChange={change}
+			/>
 
-        <Show when={areas().helpArea}>
-            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
-        </Show>
-    </Field>;
+			<Show when={areas().helpArea}>
+				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+			</Show>
+		</Field>
+	);
 }

@@ -8,9 +8,9 @@ import { ComponentTester } from '@components/context/context.spec';
 import { DateRangePanel } from './range';
 
 describe('DateRangePanel', async () => {
-    const ct = await ComponentTester.build('DateRangePanel', props => <DateRangePanel {...props} />);
+	const ct = await ComponentTester.build('DateRangePanel', props => <DateRangePanel {...props} />);
 
-    test('props', async () => {
-        ct.testProps();
-    });
+	test('props', async () => {
+		ct.testProps();
+	});
 });

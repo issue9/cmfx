@@ -1,78 +1,78 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .shiki {
-        @apply font-mono leading-5 overflow-clip relative;
-        @apply rounded-lg border border-palette-border/50 p-1;
-        @apply text-palette-fg bg-palette-bg;
+	.shiki {
+		@apply font-mono leading-5 overflow-clip relative;
+		@apply rounded-lg border border-palette-border/50 p-1;
+		@apply text-palette-fg bg-palette-bg;
 
-        >code {
-            @apply block overflow-auto w-full h-full;
-        }
+		> code {
+			@apply block overflow-auto w-full h-full;
+		}
 
-        >.lang,
-        >.action {
-            @apply absolute top-0 py-1! px-2! start-auto end-0 text-sm;
-            @apply transition;
-        }
+		> .lang,
+		> .action {
+			@apply absolute top-0 py-1! px-2! start-auto end-0 text-sm;
+			@apply transition;
+		}
 
-        >.action {
-            @apply opacity-0 hover:text-palette-fg-focused active:text-palette-fg-actived;
-        }
-    }
+		> .action {
+			@apply opacity-0 hover:text-palette-fg-focused active:text-palette-fg-actived;
+		}
+	}
 
-    .shiki:hover {
-        >.lang {
-            @apply opacity-0;
-        }
+	.shiki:hover {
+		> .lang {
+			@apply opacity-0;
+		}
 
-        >.action {
-            @apply block cursor-pointer opacity-100;
-        }
-    }
+		> .action {
+			@apply block cursor-pointer opacity-100;
+		}
+	}
 
-    .shiki.ln {
-        @apply ps-0!;
+	.shiki.ln {
+		@apply ps-0!;
 
-        --line-number-start: 0;
-        --line-number-width: 2ch;
+		--line-number-start: 0;
+		--line-number-width: 2ch;
 
-        /* 3 表示的是 ::before 的 px-1 和 me-1 */
-        --line-number-margin: calc(var(--line-number-width) + --spacing(3));
+		/* 3 表示的是 ::before 的 px-1 和 me-1 */
+		--line-number-margin: calc(var(--line-number-width) + --spacing(3));
 
-        >code {
-            counter-reset: line var(--line-number-start);
-        }
+		> code {
+			counter-reset: line var(--line-number-start);
+		}
 
-        >code>span {
-            /* inline-block 可以保证换行不会侵占行号的空间 */
-            display: inline-block;
+		> code > span {
+			/* inline-block 可以保证换行不会侵占行号的空间 */
+			display: inline-block;
 
-            /* width 可以保证行号的 sticky 属性是可用的 */
-            width: calc(100% - var(--line-number-margin));
+			/* width 可以保证行号的 sticky 属性是可用的 */
+			width: calc(100% - var(--line-number-margin));
 
-            counter-increment: line;
-            margin-inline-start: var(--line-number-margin);
-        }
+			counter-increment: line;
+			margin-inline-start: var(--line-number-margin);
+		}
 
-        >code>span::before {
-            margin-inline-start: calc(-1 * var(--line-number-margin));
-            @apply font-mono w-(--line-number-width) px-1 me-1 box-content;
-            @apply inline-block bg-palette-bg-low text-palette-fg-low start-0 top-0 sticky;
-            content: counter(line);
-        }
-    }
+		> code > span::before {
+			margin-inline-start: calc(-1 * var(--line-number-margin));
+			@apply font-mono w-(--line-number-width) px-1 me-1 box-content;
+			@apply inline-block bg-palette-bg-low text-palette-fg-low start-0 top-0 sticky;
+			content: counter(line);
+		}
+	}
 
-    .shiki.wrap>code {
-        width: 100%;
-        word-wrap: break-word;
-        word-break: break-word;
-        white-space: pre-wrap;
-    }
+	.shiki.wrap > code {
+		width: 100%;
+		word-wrap: break-word;
+		word-break: break-word;
+		white-space: pre-wrap;
+	}
 }

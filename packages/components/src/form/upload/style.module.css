@@ -1,54 +1,54 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .upload-content {
-        @apply w-fit h-fit border rounded-md border-palette-border;
-        @apply flex flex-wrap gap-2 p-2 items-center justify-start content-start;
-        @apply transition;
+	.upload-content {
+		@apply w-fit h-fit border rounded-md border-palette-border;
+		@apply flex flex-wrap gap-2 p-2 items-center justify-start content-start;
+		@apply transition;
 
-        .preview {
-            @apply relative border border-palette-border p-1 rounded-sm order-10;
-            @apply transition;
+		.preview {
+			@apply relative border border-palette-border p-1 rounded-sm order-10;
+			@apply transition;
 
-            .close {
-                @apply absolute end-1 top-1 text-palette-fg;
-                @apply hover:text-palette-fg-focused hover:cursor-pointer;
-            }
-        }
+			.close {
+				@apply absolute end-1 top-1 text-palette-fg;
+				@apply hover:text-palette-fg-focused hover:cursor-pointer;
+			}
+		}
 
-        .action {
-            @apply relative border border-palette-border p-1 rounded-sm order-11 flex items-center justify-center;
-            @apply text-2xl text-palette-fg-low;
-            @apply hover:enabled:border-palette-border-focused;
-            @apply transition;
-        }
+		.action {
+			@apply relative border border-palette-border p-1 rounded-sm order-11 flex items-center justify-center;
+			@apply text-2xl text-palette-fg-low;
+			@apply hover:enabled:border-palette-border-focused;
+			@apply transition;
+		}
 
-        .action.start {
-            @apply order-1!;
-        }
-    }
+		.action.start {
+			@apply order-1!;
+		}
+	}
 
-    .upload-content[aria-disabled=false] {
-        .preview:hover {
-            @apply border-palette-border-focused;
-        }
-    }
+	.upload-content[aria-disabled="false"] {
+		.preview:hover {
+			@apply border-palette-border-focused;
+		}
+	}
 
-    .upload-content[aria-disabled=true] {
-        @apply cursor-not-allowed text-palette-fg-disabled border-palette-border-disabled;
+	.upload-content[aria-disabled="true"] {
+		@apply cursor-not-allowed text-palette-fg-disabled border-palette-border-disabled;
 
-        .preview {
-            @apply cursor-not-allowed;
-        }
+		.preview {
+			@apply cursor-not-allowed;
+		}
 
-        .action {
-            @apply cursor-not-allowed;
-        }
-    }
+		.action {
+			@apply cursor-not-allowed;
+		}
+	}
 }

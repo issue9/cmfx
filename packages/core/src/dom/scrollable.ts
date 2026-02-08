@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,41 +9,43 @@
  * @param el - 从 el 开始向上查找；
  */
 export function getScrollableParent(direction?: 'x' | 'y' | 'any', el?: HTMLElement | null): HTMLElement | undefined {
-    if (!el) { return; }
+	if (!el) {
+		return;
+	}
 
-    switch (direction) {
-    case undefined:
-    case 'any':
-        if (isScrollable(el, 'overflow', 'overflow-x', 'overflow-y', 'overflow-block', 'overflow-inline')) {
-            return el;
-        }
-        break;
-    case 'x':
-        if (isScrollable(el, 'overflow', 'overflow-inline', 'overflow-x')) {
-            return el;
-        }
-        break;
-    case 'y':
-        if (isScrollable(el, 'overflow', 'overflow-block', 'overflow-y')) {
-            return el;
-        }
-        break;
-    }
+	switch (direction) {
+		case undefined:
+		case 'any':
+			if (isScrollable(el, 'overflow', 'overflow-x', 'overflow-y', 'overflow-block', 'overflow-inline')) {
+				return el;
+			}
+			break;
+		case 'x':
+			if (isScrollable(el, 'overflow', 'overflow-inline', 'overflow-x')) {
+				return el;
+			}
+			break;
+		case 'y':
+			if (isScrollable(el, 'overflow', 'overflow-block', 'overflow-y')) {
+				return el;
+			}
+			break;
+	}
 
-    return getScrollableParent(direction, el.parentElement);
+	return getScrollableParent(direction, el.parentElement);
 }
 
 type Overflow = 'overflow' | 'overflow-x' | 'overflow-y' | 'overflow-block' | 'overflow-inline';
 
 function isScrollable(el: HTMLElement, ...prop: Array<Overflow>): boolean {
-    const style = window.getComputedStyle(el);
+	const style = window.getComputedStyle(el);
 
-    for(const p of prop) {
-        const overflow = style.getPropertyValue(p);
-        if (overflow.indexOf('scroll') > -1 || overflow.indexOf('auto') > - 1) {
-            return true;
-        }
-    }
+	for (const p of prop) {
+		const overflow = style.getPropertyValue(p);
+		if (overflow.indexOf('scroll') > -1 || overflow.indexOf('auto') > -1) {
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }

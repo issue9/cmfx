@@ -8,10 +8,7 @@ import { ComponentTester } from '@components/context/context.spec';
 import { PaginationBar } from './bar';
 
 describe('PaginationBar', async () => {
-    const ct = await ComponentTester.build(
-        'PaginationBar',
-        props => <PaginationBar total={20} page={1} {...props} />
-    );
+	const ct = await ComponentTester.build('PaginationBar', props => <PaginationBar total={20} page={1} {...props} />);
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

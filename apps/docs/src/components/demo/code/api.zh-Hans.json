@@ -36,7 +36,7 @@
 			},
 			{
 				"name": "ln",
-				"summary": "是否显示行号如果为 Number 类型则表示起始行号。\n\n",
+				"summary": "是否显示行号如果为 number 类型则表示起始行号。\n\n",
 				"type": "number | undefined",
 				"reactive": true
 			},

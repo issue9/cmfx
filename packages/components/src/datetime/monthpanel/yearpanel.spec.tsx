@@ -8,9 +8,9 @@ import { ComponentTester } from '@components/context/context.spec';
 import { default as Year } from './yearpanel';
 
 describe('YearPanel', async () => {
-    const ct = await ComponentTester.build('YearPanel', props => <Year {...props} />);
+	const ct = await ComponentTester.build('YearPanel', props => <Year {...props} />);
 
-    test('props', async () => {
-        ct.testProps();
-    });
+	test('props', async () => {
+		ct.testProps();
+	});
 });

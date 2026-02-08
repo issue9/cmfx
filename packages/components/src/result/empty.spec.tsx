@@ -8,10 +8,7 @@ import { ComponentTester } from '@components/context/context.spec';
 import Empty from './empty';
 
 describe('Empty', async () => {
-    const ct = await ComponentTester.build(
-        'Empty',
-        props => <Empty {...props} />
-    );
+	const ct = await ComponentTester.build('Empty', props => <Empty {...props} />);
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

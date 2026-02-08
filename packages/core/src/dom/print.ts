@@ -18,9 +18,9 @@ const css = '.no-print { display: none; }';
  * @param cssText - 打印时额外的CSS样式；
  */
 export function printElement(container: HTMLElement, cssText?: string): void {
-    const d = new Printd();
-    d.print(container, cssText ? [cssText, css] : [css], undefined, arg => {
-        arg.launchPrint();
-        arg.iframe.remove();
-    });
+	const d = new Printd();
+	d.print(container, cssText ? [cssText, css] : [css], undefined, (arg) => {
+		arg.launchPrint();
+		arg.iframe.remove();
+	});
 }

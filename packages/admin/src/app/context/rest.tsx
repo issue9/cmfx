@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -14,18 +14,20 @@ const apiContext = createContext<API>();
  * @remarks
  * 依赖 {@link OptionsProvider} 组件，必须在其之内使用。
  */
-export function APIProvider(props: ParentProps<{api: API}>): JSX.Element {
-    return <apiContext.Provider value={props.api}>{props.children}</apiContext.Provider>;
+export function APIProvider(props: ParentProps<{ api: API }>): JSX.Element {
+	return <apiContext.Provider value={props.api}>{props.children}</apiContext.Provider>;
 }
 
 /**
  * 返回 {@link API} 对象
  */
 export function useAPI(): API {
-    const ctx = useContext(apiContext);
-    if (!ctx) { throw new ContextNotFoundError('apiContext'); }
+	const ctx = useContext(apiContext);
+	if (!ctx) {
+		throw new ContextNotFoundError('apiContext');
+	}
 
-    return ctx;
+	return ctx;
 }
 
 /**
@@ -35,7 +37,7 @@ export function useAPI(): API {
  * 与 {@link useAPI} 的不同点在于只提供了基本的功能，但是会添加一个基于当前环境的 Accept-Language 报头信息。
  */
 export function useREST(): REST {
-    const api = useAPI();
-    const l = useLocale();
-    return api.rest(new Headers({ 'Accept-Language': l.locale.toString() }));
+	const api = useAPI();
+	const l = useLocale();
+	return api.rest(new Headers({ 'Accept-Language': l.locale.toString() }));
 }

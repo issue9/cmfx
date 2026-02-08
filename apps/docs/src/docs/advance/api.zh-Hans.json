@@ -3,7 +3,7 @@
 		"kind": "source",
 		"name": "Scheme",
 		"summary": "定义主题相关的各类变量\n\n",
-		"source": "/**\r\n * 定义主题相关的各类变量\r\n */\r\nexport declare type Scheme = {\r\n    primary: string;\r\n    secondary: string;\r\n    tertiary: string;\r\n    /**\r\n     * 表示错误信息\r\n     */\r\n    error: string;\r\n    /**\r\n     * 一般用于大面积的背景色\r\n     */\r\n    surface: string;\r\n    /**\r\n     * 各种不同大小的组件的圆角设置\r\n     */\r\n    radius: Radius;\r\n    /**\r\n     * 动画的时长，默认为 300，单位为 ms。\r\n     */\r\n    transitionDuration: number;\r\n}",
+		"source": "/**\r\n * 定义主题相关的各类变量\r\n */\r\nexport declare type Scheme = {\r\n    primary: string;\r\n    secondary: string;\r\n    tertiary: string;\r\n    /**\r\n     * 表示错误信息\r\n     */\r\n    error: string;\r\n    /**\r\n     * 一般用于大面积的背景色\r\n     */\r\n    surface: string;\r\n    /**\r\n     * 各种不同大小的组件的圆角设置\r\n     */\r\n    radius: Radius;\r\n}",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -67,7 +67,7 @@
 		"kind": "source",
 		"name": "handleProblem",
 		"summary": "将\n`Problem`\n作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\n\n",
-		"source": "/**\r\n * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\r\n *\r\n * @param p - 如果该值空，则会抛出异常；\r\n * @typeParam P - {@link Problem} 的泛型参数 E；\r\n */\r\nexport declare function handleProblem<P>(p?: Problem<P>): Promise<void>",
+		"source": "/**\r\n * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\r\n *\r\n * @param p - 如果该值空，则会抛出异常；\r\n * @typeParam P - {@link Problem} 的泛型参数 E；\r\n */\r\nexport declare function handleProblem<P>(p: Problem<P>): Promise<void>",
 		"pkg": "@cmfx/admin"
 	}
 ]

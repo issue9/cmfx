@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -10,7 +10,7 @@ import { Webauthn } from './webauthn';
 export type { PassportComponents, RefreshFunc } from './passports';
 
 export const components = new Map<string, PassportComponents>([
-    ['password', new Pwd('password')],
-    ['totp', new TOTP('totp')],
-    ['webauthn', new Webauthn('webauthn')],
+	['password', new Pwd('password')],
+	['totp', new TOTP('totp')],
+	['webauthn', new Webauthn('webauthn')],
 ]);

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .label {
-        @apply flex items-center text-palette-fg gap-0.5;
-    }
+	.label {
+		@apply flex items-center text-palette-fg gap-0.5;
+	}
 }

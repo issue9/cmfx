@@ -12,17 +12,17 @@ type OptionsContext = ReturnType<typeof build>;
 const optionsContext = createContext<OptionsContext>();
 
 export function OptionsProvider(props: ParentProps<OptionsContext>): JSX.Element {
-    const [, opt] = splitProps(props, ['children']);
-    return <optionsContext.Provider value={opt}>
-        {props.children}
-    </optionsContext.Provider>;
+	const [, opt] = splitProps(props, ['children']);
+	return <optionsContext.Provider value={opt}>{props.children}</optionsContext.Provider>;
 }
 
 /**
  * 返回当前项目的配置项
  */
 export function useOptions(): OptionsContext {
-    const ctx = useContext(optionsContext);
-    if (!ctx) { throw new ContextNotFoundError('optionsContext'); }
-    return ctx;
+	const ctx = useContext(optionsContext);
+	if (!ctx) {
+		throw new ContextNotFoundError('optionsContext');
+	}
+	return ctx;
 }

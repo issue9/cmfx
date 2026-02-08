@@ -8,10 +8,7 @@ import { ComponentTester } from '@components/context/context.spec';
 import { Label } from './label';
 
 describe('Label', async () => {
-    const ct = await ComponentTester.build(
-        'Label',
-        props => <Label {...props} />
-    );
+	const ct = await ComponentTester.build('Label', props => <Label {...props} />);
 
-    test('props', () => ct.testProps());
+	test('props', () => ct.testProps());
 });

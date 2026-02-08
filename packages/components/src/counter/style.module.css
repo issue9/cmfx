@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .counter {
-        @apply font-mono text-palette-fg;
-    }
+	.counter {
+		@apply font-mono text-palette-fg;
+	}
 }

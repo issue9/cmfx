@@ -3,4 +3,3 @@
 // SPDX-License-Identifier: MIT
 
 export { rand, round } from './math';
-

@@ -8,14 +8,23 @@ import { ComponentTester } from '@components/context/context.spec';
 import { BackTop, Ref } from './backtop';
 
 describe('BackTop', async () => {
-    let ref: Ref;
-    const ct = await ComponentTester.build('BackTop', props => <BackTop {...props} ref={el => ref = el}>abc</BackTop>);
+	let ref: Ref;
+	const ct = await ComponentTester.build('BackTop', props => (
+		<BackTop
+			{...props}
+			ref={el => {
+				ref = el;
+			}}
+		>
+			abc
+		</BackTop>
+	));
 
-    test('ref', async () => {
-        expect(ref!.root()).not.toBeUndefined();
-    });
+	test('ref', async () => {
+		expect(ref!.root()).not.toBeUndefined();
+	});
 
-    test('props', async () => {
-        ct.testProps();
-    });
+	test('props', async () => {
+		ct.testProps();
+	});
 });

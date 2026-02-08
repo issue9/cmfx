@@ -1,61 +1,61 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .calendar {
-        @apply rounded-lg overflow-hidden border border-palette-border w-full h-full;
+	.calendar {
+		@apply rounded-lg overflow-hidden border border-palette-border w-full h-full;
 
-        >table {
-            @apply w-full! h-full!;
+		> table {
+			@apply w-full! h-full!;
 
-            thead tr>th {
-                @apply py-[--spacing(.5)];
-            }
+			thead tr > th {
+				@apply py-0.5;
+			}
 
-            th,
-            tr:not(:last-child) td {
-                @apply border-b border-b-palette-border;
+			th,
+			tr:not(:last-child) td {
+				@apply border-b border-b-palette-border;
 
-                @apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
-                @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-                @apply transition;
-            }
+				@apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+				@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+				@apply transition;
+			}
 
-            th:not(:last-child),
-            td:not(:last-child) {
-                @apply border-e border-e-palette-border;
-            }
+			th:not(:last-child),
+			td:not(:last-child) {
+				@apply border-e border-e-palette-border;
+			}
 
-            td {
-                @apply min-w-[50px] min-h-[50px] w-1/7 px-1 py-[7px] cursor-pointer align-top text-left;
+			td {
+				@apply min-w-[50px] min-h-[50px] w-1/7 px-1 py-[7px] cursor-pointer align-top text-left;
 
-                >time {
-                    @apply me-1 aspect-square w-8 text-center inline-flex items-center justify-center;
-                }
-            }
+				> time {
+					@apply me-1 aspect-square w-8 text-center inline-flex items-center justify-center;
+				}
+			}
 
-            td.today {
-                >time {
-                    @apply rounded-full bg-palette-bg-low;
-                }
-            }
+			td.today {
+				> time {
+					@apply rounded-full bg-palette-bg-low;
+				}
+			}
 
-            td:not(.disabled):hover {
-                @apply bg-palette-bg-focused;
-            }
+			td:not(.disabled):hover {
+				@apply bg-palette-bg-focused;
+			}
 
-            td.selected {
-                @apply bg-palette-bg-selected;
-            }
+			td.selected {
+				@apply bg-palette-bg-selected;
+			}
 
-            td.disabled {
-                @apply text-palette-bg-disabled;
-            }
-        }
-    }
+			td.disabled {
+				@apply text-palette-bg-disabled;
+			}
+		}
+	}
 }

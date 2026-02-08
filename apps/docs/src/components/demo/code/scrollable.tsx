@@ -8,19 +8,20 @@ import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '@docs/components/base';
 
-export default function(props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector();
-    const [Editable, editable] = boolSelector('_d.demo.editable');
-    const [Wrap, wrap] = boolSelector('_d.demo.wrap');
+export default function (props: MountProps): JSX.Element {
+	const [Palette, palette] = paletteSelector();
+	const [Editable, editable] = boolSelector('_d.demo.editable');
+	const [Wrap, wrap] = boolSelector('_d.demo.wrap');
 
-    return <div>
-        <Portal mount={props.mount}>
-            <Palette />
-            <Editable />
-            <Wrap />
-        </Portal>
-        <Code editable={editable()} ln={0} wrap={wrap()} palette={palette()} class="h-50" lang="css">
-            {`/*
+	return (
+		<div>
+			<Portal mount={props.mount}>
+				<Palette />
+				<Editable />
+				<Wrap />
+			</Portal>
+			<Code editable={editable()} ln={0} wrap={wrap()} palette={palette()} class="h-50" lang="css">
+				{`/*
  * SPDX-FileCopyrightText: 2025 caixw
  *
  * SPDX-License-Identifier: MIT
@@ -39,6 +40,7 @@ export default function(props: MountProps): JSX.Element {
     }
 }
 `}
-        </Code>
-    </div>;
+			</Code>
+		</div>
+	);
 }

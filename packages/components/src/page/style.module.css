@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .page {
-        @apply p-4 pt-6 flex flex-col gap-4 mx-auto w-full bg-palette-bg text-palette-fg;
-    }
+	.page {
+		@apply p-4 pt-6 flex flex-col gap-4 mx-auto w-full bg-palette-bg text-palette-fg;
+	}
 }

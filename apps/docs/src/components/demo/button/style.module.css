@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../../style.css';
+@reference "../../../style.css";
 
 @layer components {
-    .selected {
-        @apply bg-amber-300 text-red-600;
-    }
+	.selected {
+		@apply bg-amber-300 text-red-600;
+	}
 }

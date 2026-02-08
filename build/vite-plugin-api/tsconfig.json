@@ -1,18 +1,18 @@
 {
-    "extends": "../tsconfig.node.json",
-    "compilerOptions": {
-        "declaration": true,
-        "allowImportingTsExtensions": true,
-        "noEmit": true,
-        "isolatedModules": true,
-        "rootDir": "./src",
-        "outDir": "./lib"
-    },
-    "include": [
-        "./src/**/*.ts"
-    ],
-    "exclude": [
-        "lib",
-        "node_modules"
-    ],
+	"extends": "../tsconfig.node.json",
+	"compilerOptions": {
+		"declaration": true,
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+		"isolatedModules": true,
+		"rootDir": "./src",
+		"outDir": "./lib"
+	},
+	"include": [
+		"./src/**/*.ts"
+	],
+	"exclude": [
+		"lib",
+		"node_modules"
+	],
 }

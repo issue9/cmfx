@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as SettingsProps, Ref as SettingsRef, ItemProps as SettingsItemProps } from './settings';
+export type { ItemProps as SettingsItemProps, Props as SettingsProps, Ref as SettingsRef } from './settings';
 export { Settings } from './settings';

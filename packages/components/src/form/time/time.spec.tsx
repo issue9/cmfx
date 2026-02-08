@@ -9,11 +9,8 @@ import { fieldAccessor } from '@components/form/field';
 import { default as Time } from './time';
 
 describe('Time', async () => {
-    const fa = fieldAccessor('tf', new Date());
-    const ct = await ComponentTester.build(
-        'Time',
-        props => <Time accessor={fa} {...props} />
-    );
+	const fa = fieldAccessor('tf', new Date());
+	const ct = await ComponentTester.build('Time', props => <Time accessor={fa} {...props} />);
 
-    test('prorps', () => ct.testProps());
+	test('prorps', () => ct.testProps());
 });

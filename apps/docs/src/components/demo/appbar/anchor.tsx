@@ -8,22 +8,34 @@ import IconEye from '~icons/material-symbols/eyeglasses';
 
 import { paletteSelector } from '@docs/components/base';
 
-export default function(props: MountProps) {
-    const [, opt] = useOptions();
-    const [Palette, palette] = paletteSelector();
+export default function (props: MountProps) {
+	const [, opt] = useOptions();
+	const [Palette, palette] = paletteSelector();
 
-    return <>
-        <Portal mount={props.mount}>
-            <Palette />
-        </Portal>
+	return (
+		<>
+			<Portal mount={props.mount}>
+				<Palette />
+			</Portal>
 
-        <Appbar href="/" palette={palette()} title={opt.title} logo={opt.logo} actions={
-            <>
-                <Button square><IconEye /></Button>
-                <Button square><IconEye /></Button>
-            </>
-        }>
-            <IconEye />
-        </Appbar>
-    </>;
+			<Appbar
+				href="/"
+				palette={palette()}
+				title={opt.title}
+				logo={opt.logo}
+				actions={
+					<>
+						<Button square>
+							<IconEye />
+						</Button>
+						<Button square>
+							<IconEye />
+						</Button>
+					</>
+				}
+			>
+				<IconEye />
+			</Appbar>
+		</>
+	);
 }

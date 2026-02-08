@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -13,13 +13,14 @@ import { Props } from './types';
  * NOTE: 仅复制元素，对于响应方式可能并不会有效果。
  */
 export function cloneElement(e: JSX.Element): JSX.Element {
-    if (e instanceof Node) {
-        return e.cloneNode(true);
-    } else if (Array.isArray(e)) {
-        return e.map(e => cloneElement(e));
-    } else { // 其它的均为普通类型，直接返回。
-        return e;
-    }
+	if (e instanceof Node) {
+		return e.cloneNode(true);
+	} else if (Array.isArray(e)) {
+		return e.map(e => cloneElement(e));
+	} else {
+		// 其它的均为普通类型，直接返回。
+		return e;
+	}
 }
 
 /**
@@ -31,12 +32,15 @@ export function cloneElement(e: JSX.Element): JSX.Element {
  * NOTE: 并不是所有的事件都是 {@link JSX#EventHandlerUnion} 类型的，
  * 但是都大同小异，其它的类型可根据此方法自行处理。
  */
-export function handleEvent<T, E extends Event>(h: JSX.EventHandlerUnion<T, E>, e: Parameters<JSX.EventHandler<T,E>>[0]) {
-    if (typeof h === 'function') {
-        h(e);
-    } else {
-        h[0](h[1], e);
-    }
+export function handleEvent<T, E extends Event>(
+	h: JSX.EventHandlerUnion<T, E>,
+	e: Parameters<JSX.EventHandler<T, E>>[0],
+) {
+	if (typeof h === 'function') {
+		h(e);
+	} else {
+		h[0](h[1], e);
+	}
 }
 
 /**
@@ -48,16 +52,20 @@ export function handleEvent<T, E extends Event>(h: JSX.EventHandlerUnion<T, E>, 
  * @returns 由参数组合的 class 属性值；
  */
 export function classList(
-    palette?: Palette,
-    list?: JSX.CustomAttributes<HTMLElement>['classList'],
-    ...cls: Array<string|undefined|null>
+	palette?: Palette,
+	list?: JSX.CustomAttributes<HTMLElement>['classList'],
+	...cls: Array<string | undefined | null>
 ): string | undefined {
-    if (!list) { return joinClass(palette, ...cls); }
+	if (!list) {
+		return joinClass(palette, ...cls);
+	}
 
-    const entries = Object.entries(list);
-    if (entries.length === 0) { return joinClass(palette, ...cls); }
+	const entries = Object.entries(list);
+	if (entries.length === 0) {
+		return joinClass(palette, ...cls);
+	}
 
-    return joinClass(palette, ...entries.map(item => item[1] ? item[0] : undefined), ...cls);
+	return joinClass(palette, ...entries.map(item => (item[1] ? item[0] : undefined)), ...cls);
 }
 
 /**
@@ -67,14 +75,16 @@ export function classList(
  * @param cls - CSS 类名列表；
  * @returns 由参数组合的 class 属性值；
  */
-export function joinClass(palette?: Palette, ...cls: Array<string|undefined|null>): string | undefined {
-    if (cls) {
-        cls = cls.filter(v => v !== undefined && v !== '' && v !== null);
-    }
+export function joinClass(palette?: Palette, ...cls: Array<string | undefined | null>): string | undefined {
+	if (cls) {
+		cls = cls.filter(v => v !== undefined && v !== '' && v !== null);
+	}
 
-    return cls && cls.length > 0
-        ? ((palette ? `palette--${palette} ` : '') + cls.join(' '))
-        : (palette ? `palette--${palette}` : undefined);
+	return cls && cls.length > 0
+		? (palette ? `palette--${palette} ` : '') + cls.join(' ')
+		: palette
+			? `palette--${palette}`
+			: undefined;
 }
 
 /**
@@ -83,29 +93,34 @@ export function joinClass(palette?: Palette, ...cls: Array<string|undefined|null
  * @param style - 符合 solidjs 中的 style 属性的值列表；
  */
 export function style2String(...style: Array<Props['style']>): string {
-    if (style.length === 0) { return ''; }
+	if (style.length === 0) {
+		return '';
+	}
 
-    let ret = '';
+	let ret = '';
 
-    for (let s of style) {
-        if (!s) { continue; }
+	for (const s of style) {
+		if (!s) {
+			continue;
+		}
 
-        if (typeof s !== 'string') {
-            Object.entries(s)
-                .forEach(([key, value]) => {
-                    if (value === undefined || value === null) { return; }
+		if (typeof s !== 'string') {
+			Object.entries(s).forEach(([key, value]) => {
+				if (value === undefined || value === null) {
+					return;
+				}
 
-                    const cssKey = key.replace(/[A-Z]/g, m => '-' + m.toLowerCase()); // 驼峰转连字符
-                    if (typeof value === 'number') {
-                        ret += `${cssKey}:${value}px;`;
-                    } else {
-                        ret += `${cssKey}:${value};`;
-                    }
-                });
-        } else {
-            ret += s + ';';
-        }
-    }
+				const cssKey = key.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`); // 驼峰转连字符
+				if (typeof value === 'number') {
+					ret += `${cssKey}:${value}px;`;
+				} else {
+					ret += `${cssKey}:${value};`;
+				}
+			});
+		} else {
+			ret += `${s};`;
+		}
+	}
 
-    return ret;
+	return ret;
 }

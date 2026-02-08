@@ -9,14 +9,16 @@ import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';
 
-export default function(props: MountProps): JSX.Element {
-    const [Palette, palette] = paletteSelector('primary');
+export default function (props: MountProps): JSX.Element {
+	const [Palette, palette] = paletteSelector('primary');
 
-    return <>
-        <Portal mount={props.mount}>
-            <Palette />
-        </Portal>
+	return (
+		<>
+			<Portal mount={props.mount}>
+				<Palette />
+			</Portal>
 
-        <Result layout='vertical' title='page not found' palette={palette()} illustration={<Error404 />} />
-    </>;
+			<Result layout="vertical" title="page not found" palette={palette()} illustration={<Error404 />} />
+		</>
+	);
 }

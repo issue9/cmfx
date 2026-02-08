@@ -5,20 +5,21 @@
 import IconChoice from '~icons/tdesign/component-dropdown-filled';
 
 import type { Info } from '@docs/components/base';
-
 import { default as Basic } from './basic';
 import { default as basic } from './basic.tsx?raw';
-
 import { default as Multiple } from './multiple';
 import { default as multiple } from './multiple.tsx?raw';
 
-export default function(): Info {
-    return {
-        kind: 'data-input', title: '_d.demo.choice', icon: IconChoice, path: 'form/choice',
-        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-        stages: [
-            { component: Basic, source: basic, title: 'basic' },
-            { component: Multiple, source: multiple, title: 'multiple' },
-        ]
-    };
+export default function (): Info {
+	return {
+		kind: 'data-input',
+		title: '_d.demo.choice',
+		icon: IconChoice,
+		path: 'form/choice',
+		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		stages: [
+			{ component: Basic, source: basic, title: 'basic' },
+			{ component: Multiple, source: multiple, title: 'multiple' },
+		],
+	};
 }

@@ -8,10 +8,10 @@ import { ComponentTester } from '@components/context/context.spec';
 import { Card } from './card';
 
 describe('Card', async () => {
-    const ct = await ComponentTester.build('Card', props => <Card {...props}>abc</Card>);
+	const ct = await ComponentTester.build('Card', props => <Card {...props}>abc</Card>);
 
-    // 根元素的基本属性检测
-    test('props', async () => {
-        ct.testProps();
-    });
+	// 根元素的基本属性检测
+	test('props', async () => {
+		ct.testProps();
+	});
 });

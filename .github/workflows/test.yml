@@ -2,67 +2,75 @@ name: test
 on: [push, pull_request]
 
 jobs:
-    # 测试 typescript
-    test-ts:
-        name: test-ts
-        runs-on: ubuntu-latest
+  # 测试 typescript
+  test-ts:
+    name: test-ts
+    runs-on: ubuntu-latest
 
-        permissions:
-            # Required to checkout the code
-            contents: read
-            # Required to put a comment into the pull-request
-            pull-requests: write
+    permissions:
+      # Required to checkout the code
+      contents: read
+      # Required to put a comment into the pull-request
+      pull-requests: write
 
-        steps:
-            - uses: actions/checkout@v6
+    steps:
+      - uses: actions/checkout@v6
 
-            - name: Install Node
-              uses: actions/setup-node@v6
-              with:
-                  node-version: 24
+      - name: Install Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
 
-            - name: Install pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: latest
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
 
-            - name: Install Deps
-              run: make install-ts
+      - name: Install Deps
+        run: make install-ts
 
-            - name: test
-              run: make test-ts
+      - name: run biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
 
-            - name: Upload Coverage report
-              uses: codecov/codecov-action@v5
-              with:
-                  token: ${{secrets.CODECOV_TOKEN}}
-                  files: ./coverage/ts.json
+      - name: install biome
+        run: biome ci .
 
-    # 测试 Go
-    test-go:
-        name: test-go
-        runs-on: ${{ matrix.os }}
+      - name: test
+        run: make test-ts
 
-        strategy:
-            matrix:
-                os: [ubuntu-latest, macOS-latest, windows-latest]
-                go: ["1.25.x"]
+      - name: Upload Coverage report
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          files: ./coverage/ts.json
 
-        steps:
-            - name: Check out code into the Go module directory
-              uses: actions/checkout@v6
+  # 测试 Go
+  test-go:
+    name: test-go
+    runs-on: ${{ matrix.os }}
 
-            - name: Set up Go ${{ matrix.go }}
-              uses: actions/setup-go@v6
-              with:
-                  go-version: ${{ matrix.go }}
-              id: go
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        go: ["1.25.x"]
 
-            - name: test
-              run: make test-go
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v6
 
-            - name: Upload Coverage report
-              uses: codecov/codecov-action@v5
-              with:
-                  token: ${{secrets.CODECOV_TOKEN}}
-                  files: ./coverage/go.txt
+      - name: Set up Go ${{ matrix.go }}
+        uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go }}
+        id: go
+
+      - name: test
+        run: make test-go
+
+      - name: Upload Coverage report
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          files: ./coverage/go.txt

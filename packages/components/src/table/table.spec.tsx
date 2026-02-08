@@ -11,53 +11,83 @@ import { LoaderTable, Ref as LoaderTableRef } from './loader';
 import { RemoteTable, Ref as RemoteTableRef } from './remote';
 
 describe('BsicTable', async () => {
-    let ref: BasicTableRef;
-    const ct = await ComponentTester.build(
-        'BsicTable',
-        props => <BasicTable {...props} columns={[]} ref={el => ref = el} />
-    );
-    test('props', async () => {
-        expect(ref!.root()).not.toBeUndefined();
-        expect(ref!.table()).not.toBeUndefined();
-        ct.testProps();
-    });
+	let ref: BasicTableRef;
+	const ct = await ComponentTester.build('BsicTable', props => (
+		<BasicTable
+			{...props}
+			columns={[]}
+			ref={el => {
+				ref = el;
+			}}
+		/>
+	));
+	test('props', async () => {
+		expect(ref!.root()).not.toBeUndefined();
+		expect(ref!.table()).not.toBeUndefined();
+		ct.testProps();
+	});
 });
 
 describe('LoaderTable', async () => {
-    let ref: LoaderTableRef<object>;
-    const ct = await ComponentTester.build(
-        'LoaderTable',
-        props => <LoaderTable<object, Query> {...props} load={async (_: Query): Promise<object[]> => { return []; }} columns={[]} queries={{}} ref={el => ref = el} />
-    );
-    test('props', async () => {
-        expect(ref!.root()).not.toBeUndefined();
-        expect(ref!.table()).not.toBeUndefined();
-        ct.testProps();
-    });
+	let ref: LoaderTableRef<object>;
+	const ct = await ComponentTester.build('LoaderTable', props => (
+		<LoaderTable<object, Query>
+			{...props}
+			load={async (_: Query): Promise<object[]> => {
+				return [];
+			}}
+			columns={[]}
+			queries={{}}
+			ref={el => {
+				ref = el;
+			}}
+		/>
+	));
+	test('props', async () => {
+		expect(ref!.root()).not.toBeUndefined();
+		expect(ref!.table()).not.toBeUndefined();
+		ct.testProps();
+	});
 });
 
 describe('RemoteTable', async () => {
-    type Obj = {
-        name: string;
-    };
+	type Obj = {
+		name: string;
+	};
 
-    beforeEach(() => {
-        fetchMock.resetMocks();
-    });
+	beforeEach(() => {
+		fetchMock.resetMocks();
+	});
 
-    fetchMock.mockResponseOnce('123');
+	fetchMock.mockResponseOnce('123');
 
-    const api = await API.build('id', sessionStorage, 'http://localhost/base', '/token', 'application/json', 'application/json', 'zh-CN');
+	const api = await API.build(
+		'id',
+		sessionStorage,
+		'http://localhost/base',
+		'/token',
+		'application/json',
+		'application/json',
+		'zh-CN',
+	);
 
-    let ref: RemoteTableRef<Obj>;
-    const ct = await ComponentTester.build(
-        'RemoteTable',
-        props => <RemoteTable<Obj, Query> {...props} path='/' columns={[]} queries={{}} ref={el => ref = el} rest={api} />
-    );
+	let ref: RemoteTableRef<Obj>;
+	const ct = await ComponentTester.build('RemoteTable', props => (
+		<RemoteTable<Obj, Query>
+			{...props}
+			path="/"
+			columns={[]}
+			queries={{}}
+			ref={el => {
+				ref = el;
+			}}
+			rest={api}
+		/>
+	));
 
-    test('props', async () => {
-        expect(ref!.root()).not.toBeUndefined();
-        expect(ref!.table()).not.toBeUndefined();
-        ct.testProps();
-    });
+	test('props', async () => {
+		expect(ref!.root()).not.toBeUndefined();
+		expect(ref!.table()).not.toBeUndefined();
+		ct.testProps();
+	});
 });

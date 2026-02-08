@@ -1,34 +1,34 @@
 {
-    "extends": "../../build/tsconfig.base.json",
-    "compilerOptions": {
-        "baseUrl": ".",
-        "jsx": "preserve",
-        "jsxImportSource": "solid-js",
-        "types": [
-            "vite/client",
-            "@testing-library/jest-dom",
-            "unplugin-icons/types/solid"
-        ],
-        "paths": {
-            "@components/*": [
-                "src/*"
-            ]
-        },
-        "outDir": "./lib"
-    },
-    "include": [
-        "src/**/*.ts",
-        "src/**/*.mts",
-        "src/**/*.mjs",
-        "src/**/*.js",
-        "src/**/*.tsx"
-    ],
-    "exclude": [
-        "lib"
-    ],
-    "references": [
-        {
-            "path": "./tsconfig.node.json"
-        }
-    ]
+	"extends": "../../build/tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"types": [
+			"vite/client",
+			"@testing-library/jest-dom",
+			"unplugin-icons/types/solid"
+		],
+		"paths": {
+			"@components/*": [
+				"src/*"
+			]
+		},
+		"outDir": "./lib"
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.mts",
+		"src/**/*.mjs",
+		"src/**/*.js",
+		"src/**/*.tsx"
+	],
+	"exclude": [
+		"lib"
+	],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
 }

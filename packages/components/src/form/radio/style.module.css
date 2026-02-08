@@ -4,112 +4,111 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    input[type="radio"] {
-        @apply flex justify-center items-center appearance-none w-4 h-4 rounded-xs! cursor-pointer;
-        @apply p-0 border-2 border-palette-fg outline-none;
-        @apply hover:border-palette-fg-focused;
-        @apply checked:border-palette-fg-selected;
-        @apply focus:border-palette-fg-focused;
-        @apply active:border-palette-fg-actived;
-        @apply disabled:cursor-not-allowed disabled:border-palette-fg-disabled;
-        @apply transition;
+	input[type="radio"] {
+		@apply flex justify-center items-center appearance-none w-4 h-4 rounded-xs! cursor-pointer;
+		@apply p-0 border-2 border-palette-fg outline-none;
+		@apply hover:border-palette-fg-focused;
+		@apply checked:border-palette-fg-selected;
+		@apply focus:border-palette-fg-focused;
+		@apply active:border-palette-fg-actived;
+		@apply disabled:cursor-not-allowed disabled:border-palette-fg-disabled;
+		@apply transition;
 
-        vertical-align: middle;
-    }
+		vertical-align: middle;
+	}
 
-    input[type="radio"].rounded {
-        @apply rounded-full!;
-    }
+	input[type="radio"].rounded {
+		@apply rounded-full!;
+	}
 
-    /* 内部实心圆 */
-    input[type="radio"]:after {
-        @apply transition rounded-xs;
-        @apply bg-palette-fg rounded-xs w-1/2 h-1/2 opacity-0;
-        content: '';
-        transform-origin: center center;
-        pointer-events: none;
-    }
+	/* 内部实心圆 */
+	input[type="radio"]:after {
+		@apply transition rounded-xs;
+		@apply bg-palette-fg rounded-xs w-1/2 h-1/2 opacity-0;
+		content: "";
+		transform-origin: center center;
+		pointer-events: none;
+	}
 
-    input[type="radio"].rounded:after {
-        @apply rounded-full!;
-    }
+	input[type="radio"].rounded:after {
+		@apply rounded-full!;
+	}
 
-    input[type="radio"]:checked:after {
-        opacity: 1;
-    }
+	input[type="radio"]:checked:after {
+		opacity: 1;
+	}
 
-    input[type="radio"]:disabled:after {
-        @apply cursor-not-allowed bg-palette-fg-disabled;
-    }
+	input[type="radio"]:disabled:after {
+		@apply cursor-not-allowed bg-palette-fg-disabled;
+	}
 
-    /* 以上代码重定义了默认的 radio 样式 */
+	/* 以上代码重定义了默认的 radio 样式 */
 
+	.radio {
+		@apply border border-transparent text-palette-fg box-border;
+		@apply overflow-hidden cursor-pointer outline-none;
+		@apply flex items-center justify-center gap-1;
+	}
 
-    .radio {
-        @apply border border-transparent text-palette-fg box-border;
-        @apply overflow-hidden cursor-pointer outline-none;
-        @apply flex items-center justify-center gap-1;
-    }
+	.radio.block {
+		@apply min-w-4 min-h-4;
+		@apply border-palette-border rounded-sm;
+		@apply transition;
 
-    .radio.block {
-        @apply min-w-4 min-h-4;
-        @apply border-palette-border rounded-sm;
-        @apply transition;
+		input {
+			@apply hidden;
+		}
+	}
 
-        input {
-            @apply hidden;
-        }
-    }
+	.radio.block.rounded {
+		@apply rounded-full;
+	}
 
-    .radio.block.rounded {
-        @apply rounded-full;
-    }
+	.radio.block:has(:checked) {
+		@apply text-palette-fg-selected;
+		@apply border-palette-border-selected;
+		@apply bg-palette-bg-selected;
+	}
 
-    .radio.block:has(:checked) {
-        @apply text-palette-fg-selected;
-        @apply border-palette-border-selected;
-        @apply bg-palette-bg-selected;
-    }
+	.radio.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
+		/* 需要在 checked 之后，否则可能无效？ */
+		@apply text-palette-fg-focused;
+		@apply border-palette-border-focused;
+	}
 
-    .radio.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
-        /* 需要在 checked 之后，否则可能无效？ */
-        @apply text-palette-fg-focused;
-        @apply border-palette-border-focused;
-    }
+	.radio:not(.block):has(:enabled):not([aria-readonly="true"]):focus-visible {
+		@apply text-palette-fg-focused;
+	}
 
-    .radio:not(.block):has(:enabled):not([aria-readonly="true"]):focus-visible {
-        @apply text-palette-fg-focused;
-    }
+	.radio.block:has(:enabled):not([aria-readonly="true"]):hover {
+		@apply text-palette-fg-focused;
+		@apply border-palette-border-focused;
+		@apply bg-palette-bg-focused;
+	}
 
-    .radio.block:has(:enabled):not([aria-readonly="true"]):hover {
-        @apply text-palette-fg-focused;
-        @apply border-palette-border-focused;
-        @apply bg-palette-bg-focused;
-    }
+	.radio:not(.block):has(:enabled):not([aria-readonly="true"]):hover {
+		@apply text-palette-fg-focused;
+	}
 
-    .radio:not(.block):has(:enabled):not([aria-readonly="true"]):hover {
-        @apply text-palette-fg-focused;
-    }
+	.radio.block:has(:enabled):not([aria-readonly="true"]):active {
+		@apply text-palette-fg-actived;
+		@apply border-palette-border-actived;
+		@apply bg-palette-bg-actived;
+	}
 
-    .radio.block:has(:enabled):not([aria-readonly="true"]):active {
-        @apply text-palette-fg-actived;
-        @apply border-palette-border-actived;
-        @apply bg-palette-bg-actived;
-    }
+	.radio:not(.block):has(:enabled):not([aria-readonly="true"]):active {
+		@apply text-palette-fg-actived;
+	}
 
-    .radio:not(.block):has(:enabled):not([aria-readonly="true"]):active {
-        @apply text-palette-fg-actived;
-    }
+	.radio:has(:disabled),
+	.radio.block:has(:disabled) {
+		@apply cursor-not-allowed text-palette-fg-disabled;
+	}
 
-    .radio:has(:disabled),
-    .radio.block:has(:disabled) {
-        @apply cursor-not-allowed text-palette-fg-disabled;
-    }
-
-    .group-content {
-        @apply flex flex-wrap gap-3 justify-between items-start w-full;
-    }
+	.group-content {
+		@apply flex flex-wrap gap-3 justify-between items-start w-full;
+	}
 }

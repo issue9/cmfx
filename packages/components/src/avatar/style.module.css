@@ -1,43 +1,45 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    .avatar {
-        @apply rounded-sm border-none text-palette-fg bg-palette-bg aspect-square min-w-4 min-h-4;
-        @apply flex items-center justify-center overflow-clip;
-        @apply relative;
+	.avatar {
+		@apply rounded-sm border-none text-palette-fg bg-palette-bg aspect-square min-w-4 min-h-4;
+		@apply flex items-center justify-center overflow-clip;
+		@apply relative;
 
-        img {
-            @apply w-full h-full object-cover cursor-pointer;
-        }
+		img {
+			@apply w-full h-full object-cover cursor-pointer;
+		}
 
-        .fallback {
-            @apply w-full h-full flex items-center text-center justify-center overflow-hidden;
-        }
+		.fallback {
+			@apply w-full h-full flex items-center text-center justify-center overflow-hidden;
+		}
 
-        .hover {
-            @apply cursor-pointer flex items-center justify-center bg-palette-bg/20;
-            @apply absolute top-0 left-0 w-full h-full;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s var(--default-transition-duration), opacity var(--default-transition-duration) ease-in;
-        }
-    }
+		.hover {
+			@apply cursor-pointer flex items-center justify-center bg-palette-bg/20;
+			@apply absolute top-0 left-0 w-full h-full;
+			visibility: hidden;
+			opacity: 0;
+			transition:
+				visibility 0s var(--default-transition-duration),
+				opacity var(--default-transition-duration) ease-in;
+		}
+	}
 
-    .avatar:hover {
-        .hover {
-            visibility: visible;
-            opacity: 1;
-            transition: opacity var(--default-transition-duration) ease-in;
-        }
-    }
+	.avatar:hover {
+		.hover {
+			visibility: visible;
+			opacity: 1;
+			transition: opacity var(--default-transition-duration) ease-in;
+		}
+	}
 
-    .avatar.rounded {
-        @apply rounded-full;
-    }
+	.avatar.rounded {
+		@apply rounded-full;
+	}
 }

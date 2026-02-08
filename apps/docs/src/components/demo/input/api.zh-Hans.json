@@ -109,7 +109,7 @@
 			},
 			{
 				"kind": "interface",
-				"name": "NumberProps_2",
+				"name": "NumberProps",
 				"properties": [
 					{
 						"name": "type",

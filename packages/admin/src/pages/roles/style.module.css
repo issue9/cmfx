@@ -1,33 +1,33 @@
 /*
- * SPDX-FileCopyrightText: 2024-2025 caixw
+ * SPDX-FileCopyrightText: 2024-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
-    .permissions {
-        @apply flex flex-col gap-4;
+	.permissions {
+		@apply flex flex-col gap-4;
 
-        details {
-            @apply border border-palette-border rounded-md;
+		details {
+			@apply border border-palette-border rounded-md;
 
-            summary {
-                @apply px-4 py-2 cursor-pointer;
-            }
+			summary {
+				@apply px-4 py-2 cursor-pointer;
+			}
 
-            .content {
-                @apply flex flex-wrap gap-4 p-2;
-            }
-        }
-    }
+			.content {
+				@apply flex flex-wrap gap-4 p-2;
+			}
+		}
+	}
 
-    .roles {
-        @apply max-w-4xl!;
+	.roles {
+		@apply max-w-4xl!;
 
-        .form {
-            @apply flex flex-col gap-2;
-        }
-    }
+		.form {
+			@apply flex flex-col gap-2;
+		}
+	}
 }

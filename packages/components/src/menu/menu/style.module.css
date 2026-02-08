@@ -1,147 +1,146 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../../style.css';
+@reference "../../style.css";
 
 @layer components {
+	nav.menu,
+	menu.menu {
+		@apply flex bg-palette-bg text-palette-fg;
 
-    nav.menu,
-    menu.menu {
-        @apply flex bg-palette-bg text-palette-fg;
+		/* 显示下一级菜单的箭头 */
+		.more-arrow {
+			@apply rtl:rotate-180;
+			@apply ltr:rotate-0;
+		}
 
-        /* 显示下一级菜单的箭头 */
-        .more-arrow {
-            @apply rtl:rotate-180;
-            @apply ltr:rotate-0;
-        }
+		li {
+			@apply flex flex-col relative;
 
-        li {
-            @apply flex flex-col relative;
+			> .title {
+				@apply m-1 py-1.5 px-3 cursor-pointer rounded-md;
+				@apply flex flex-row items-center gap-1;
 
-            >.title {
-                @apply m-1 py-1.5 px-3 cursor-pointer rounded-md;
-                @apply flex flex-row items-center gap-1;
+				@apply focus-within:bg-palette-bg-focused focus-within:text-palette-fg-focused;
+				@apply focus-within:border-none focus-within:outline-none;
+				@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+				@apply transition;
 
-                @apply focus-within:bg-palette-bg-focused focus-within:text-palette-fg-focused;
-                @apply focus-within:border-none focus-within:outline-none;
-                @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-                @apply transition;
+				.icon {
+					@apply aspect-square w-4;
+				}
 
-                .icon {
-                    @apply aspect-square w-4;
-                }
+				.suffix {
+					@apply ms-auto;
+				}
+			}
 
-                .suffix {
-                    @apply ms-auto;
-                }
-            }
+			> ul {
+				@apply flex;
+			}
 
-            >ul {
-                @apply flex;
-            }
+			> ul.pop {
+				@apply pop;
+			}
 
-            >ul.pop {
-                @apply pop;
-            }
+			> ul.popopen {
+				@apply popopen;
+			}
+		}
 
-            >ul.popopen {
-                @apply popopen;
-            }
-        }
+		li.group > .title {
+			@apply text-palette-fg-low cursor-default ps-1!;
+		}
 
-        li.group>.title {
-            @apply text-palette-fg-low cursor-default ps-1!;
-        }
+		li.item.disabled > .title {
+			@apply bg-palette-bg-disabled text-palette-fg-disabled;
+			@apply cursor-not-allowed;
+		}
 
-        li.item.disabled>.title {
-            @apply bg-palette-bg-disabled text-palette-fg-disabled;
-            @apply cursor-not-allowed;
-        }
+		li.item.selected > .title {
+			@apply bg-palette-bg-selected text-palette-fg-selected;
+		}
 
-        li.item.selected>.title {
-            @apply bg-palette-bg-selected text-palette-fg-selected;
-        }
+		li.item:not(.disabled):hover {
+			> .title {
+				@apply bg-palette-bg-focused text-palette-fg-focused;
+			}
 
-        li.item:not(.disabled):hover {
-            >.title {
-                @apply bg-palette-bg-focused text-palette-fg-focused;
-            }
+			> .title:active {
+				@apply text-palette-fg-actived;
+			}
+		}
+	}
 
-            >.title:active {
-                @apply text-palette-fg-actived;
-            }
-        }
-    }
+	/******************************* horizontal **********************************/
 
-    /******************************* horizontal **********************************/
+	nav.horizontal,
+	menu.horizontal {
+		@apply flex-row gap-2;
 
-    nav.horizontal,
-    menu.horizontal {
-        @apply flex-row gap-2;
+		> li.divider {
+			@apply px-0!;
+		}
 
-        >li.divider {
-            @apply px-0!;
-        }
+		* li.divider {
+			@apply py-0!;
+		}
 
-        * li.divider {
-            @apply py-0!;
-        }
+		> li > .title {
+			@apply mx-0! text-nowrap;
+		}
 
-        >li>.title {
-            @apply mx-0! text-nowrap;
-        }
+		li > ul {
+			@apply min-w-max z-popover fixed rounded-md shadow-md pop flex-col;
+			@apply bg-palette-bg text-palette-fg;
+			@apply border border-palette-border;
+		}
+	}
 
-        li>ul {
-            @apply min-w-max z-popover fixed rounded-md shadow-md pop flex-col;
-            @apply bg-palette-bg text-palette-fg;
-            @apply border border-palette-border;
-        }
-    }
+	/******************************* vertical **********************************/
 
-    /******************************* vertical **********************************/
+	nav.vertical,
+	menu.vertical {
+		@apply flex-col;
 
-    nav.vertical,
-    menu.vertical {
-        @apply flex-col;
+		li.divider {
+			@apply py-0!;
+		}
 
-        li.divider {
-            @apply py-0!;
-        }
+		li > ul {
+			@apply min-w-max z-popover fixed rounded-md shadow-md pop flex-col;
+			@apply bg-palette-bg text-palette-fg;
+			@apply border border-palette-border;
+		}
+	}
 
-        li>ul {
-            @apply min-w-max z-popover fixed rounded-md shadow-md pop flex-col;
-            @apply bg-palette-bg text-palette-fg;
-            @apply border border-palette-border;
-        }
-    }
+	/******************************* inline **********************************/
 
-    /******************************* inline **********************************/
+	nav.inline,
+	menu.inline {
+		@apply flex-col;
+		transition: height var(--default-transition-duration) ease;
 
-    nav.inline,
-    menu.inline {
-        @apply flex-col;
-        transition: height var(--default-transition-duration) ease;
+		> li > ul {
+			@apply bg-palette-bg-low/50;
+		}
 
-        >li>ul {
-            @apply bg-palette-bg-low/50;
-        }
+		li {
+			> ul {
+				@apply flex flex-col rounded-none! overflow-hidden h-0;
+				transition: height var(--default-transition-duration) ease;
+			}
+		}
 
-        li {
-            >ul {
-                @apply flex flex-col rounded-none! overflow-hidden h-0;
-                transition: height var(--default-transition-duration) ease;
-            }
-        }
+		> li.divider {
+			@apply py-0!;
+		}
 
-        >li.divider {
-            @apply py-0!;
-        }
-
-        * li.divider {
-            @apply px-0!;
-        }
-    }
+		* li.divider {
+			@apply px-0!;
+		}
+	}
 }

@@ -5,24 +5,24 @@
 import IconChart from '~icons/tdesign/chart-pie-filled';
 
 import type { Info } from '@docs/components/base';
-
+import { default as Axis } from './axis';
+import { default as axis } from './axis.tsx?raw';
 import { default as Chart } from './chart';
 import { default as chart } from './chart.tsx?raw';
-
 import { default as Pie } from './pie';
 import { default as pie } from './pie.tsx?raw';
 
-import { default as Axis } from './axis';
-import { default as axis } from './axis.tsx?raw';
-
-export default function(): Info {
-    return {
-        kind: 'data-display', title: '_d.demo.chart', icon: IconChart, path: 'chart',
-        api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-        stages: [
-            { component: Chart, source: chart, title: 'chart' },
-            { component: Pie, source: pie, title: 'pie' },
-            { component: Axis, source: axis, title: 'axis' },
-        ],
-    };
+export default function (): Info {
+	return {
+		kind: 'data-display',
+		title: '_d.demo.chart',
+		icon: IconChart,
+		path: 'chart',
+		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		stages: [
+			{ component: Chart, source: chart, title: 'chart' },
+			{ component: Pie, source: pie, title: 'pie' },
+			{ component: Axis, source: axis, title: 'axis' },
+		],
+	};
 }

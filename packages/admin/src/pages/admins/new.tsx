@@ -14,49 +14,66 @@ import { roles } from '@admin/pages/roles';
 import { Sex, sexSchema } from '@admin/schemas';
 
 interface Props {
-    /**
-     * 返回上一页的地址
-     */
-    backURL: string;
+	/**
+	 * 返回上一页的地址
+	 */
+	backURL: string;
 }
 
 const adminSchema = z.object({
-    sex: sexSchema,
-    name: z.string().min(1),
-    nickname: z.string().min(1),
-    roles: z.array(z.string().min(1)),
-    username: z.string().min(1),
-    password: z.string().min(1),
+	sex: sexSchema,
+	name: z.string().min(1),
+	nickname: z.string().min(1),
+	roles: z.array(z.string().min(1)),
+	username: z.string().min(1),
+	password: z.string().min(1),
 });
 
 export function New(props: Props): JSX.Element {
-    const l = useLocale();
-    const rest = useREST();
+	const l = useLocale();
+	const rest = useREST();
 
-    const [fapi, Form] = createForm<z.infer<typeof adminSchema>>({
-        initValue: { sex: 'unknown', name: '', nickname: '', username: '', password: '', roles: [] },
-        submit: async obj => { return await rest.post('/admins', obj); },
-        onProblem: p => handleProblem(p),
-        onSuccess: async () => {
-            await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
-            useNavigate()(-1);
-        }
-    });
+	const [fapi, Form] = createForm<z.infer<typeof adminSchema>>({
+		initValue: { sex: 'unknown', name: '', nickname: '', username: '', password: '', roles: [] },
+		submit: async obj => {
+			return await rest.post('/admins', obj);
+		},
+		onProblem: p => handleProblem(p),
+		onSuccess: async () => {
+			await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
+			useNavigate()(-1);
+		},
+	});
 
-    return <Page title="_p.admin.admin" class="max-w-2xl">
-        <Form class="flex flex-col">
-            <TextField class='w-full' accessor={fapi.accessor<string>('username')} label={l.t('_p.current.username')} />
-            <TextField class='w-full' accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
-            <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
-            <Password class='w-full' autocomplete='new-password' accessor={fapi.accessor<string>('password')} label={l.t('_p.current.password')} />
-            <roles.Selector class="w-full" multiple accessor={fapi.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
-            <SexSelector label={l.t('_p.sex')} class='w-full' accessor={fapi.accessor<Sex>('sex')} />
-            <div class="w-full flex justify-between gap-5">
-                <Button type='a' href={props.backURL} palette='secondary'>
-                    <IconArrowBack />{l.t('_c.cancel')}
-                </Button>
-                <Button type="submit" palette='primary'>{l.t('_c.ok')}</Button>
-            </div>
-        </Form>
-    </Page>;
+	return (
+		<Page title="_p.admin.admin" class="max-w-2xl">
+			<Form class="flex flex-col">
+				<TextField class="w-full" accessor={fapi.accessor<string>('username')} label={l.t('_p.current.username')} />
+				<TextField class="w-full" accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
+				<TextField class="w-full" accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+				<Password
+					class="w-full"
+					autocomplete="new-password"
+					accessor={fapi.accessor<string>('password')}
+					label={l.t('_p.current.password')}
+				/>
+				<roles.Selector
+					class="w-full"
+					multiple
+					accessor={fapi.accessor<Array<string>>('roles')}
+					label={l.t('_p.roles.roles')}
+				/>
+				<SexSelector label={l.t('_p.sex')} class="w-full" accessor={fapi.accessor<Sex>('sex')} />
+				<div class="flex w-full justify-between gap-5">
+					<Button type="a" href={props.backURL} palette="secondary">
+						<IconArrowBack />
+						{l.t('_c.cancel')}
+					</Button>
+					<Button type="submit" palette="primary">
+						{l.t('_c.ok')}
+					</Button>
+				</div>
+			</Form>
+		</Page>
+	);
 }

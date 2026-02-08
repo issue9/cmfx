@@ -1,7 +1,6 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export { default as Calendar } from './calendar';
 export type { Props as CalendarProps } from './calendar';
-
+export { default as Calendar } from './calendar';

@@ -1,0 +1,74 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
+	"root": true,
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": ["packages/**/*.{ts,tsx,css}", "build/**/*.{ts,tsx,css}", "apps/**/*.{ts,tsx,css}"]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineEnding": "lf",
+		"lineWidth": 120
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"useImportType": "off",
+				"noNonNullAssertion": "off"
+			},
+			"nursery": {
+				"useSortedClasses": "error"
+			}
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							[
+								":NODE:",
+								":URL:",
+								":PACKAGE:",
+								"@cmfx/**",
+								"~*/**", // 虚拟文件系统，
+								"!@core/**",
+								"!@components/**",
+								"!@admin/**",
+								"!@illustrations/**",
+								"!@docs/**"
+							],
+							":BLANK_LINE:",
+							["**"]
+						]
+					}
+				}
+			}
+		}
+	},
+	// 自定义语言相关的项
+	"javascript": {
+		"formatter": {
+			"arrowParentheses": "asNeeded",
+			"quoteStyle": "single",
+			"semicolons": "always"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true,
+			"cssModules": true
+		}
+	}
+}

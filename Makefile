@@ -112,7 +112,7 @@ watch: watch-server watch-admin
 
 ########################### test ###################################
 
-.PHONY: lint-ts test test-go test-ts
+.PHONY: test test-go test-ts lint-ts
 .PHONY: test-ts-core test-ts-components test-ts-admin
 .PHONY: test-ts-plugin-about test-ts-plugin-api
 
@@ -140,7 +140,7 @@ test-ts-admin: mk-coverage build-ts-components
 	pnpm run test --project=@cmfx/admin
 
 # 执行 TypeScript 测试
-test-ts: lint-ts build-ts mk-coverage
+test-ts: build-ts mk-coverage
 	pnpm run test-nowatch
 
 # 执行测试内容

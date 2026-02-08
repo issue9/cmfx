@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -7,9 +7,9 @@
 /* NOTE: @utility 直接写在 style.module.css 中无效？ */
 
 @utility cmfx-drawer-floating-aside {
-    position: absolute;
+	position: absolute;
 }
 
 @utility cmfx-drawer-hidden-aside {
-    transform: scaleX(0);
+	transform: scaleX(0);
 }

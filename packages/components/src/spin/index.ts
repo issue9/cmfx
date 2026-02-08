@@ -1,6 +1,6 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export { Spin } from './spin';
 export type { Props as SpinProps, Ref as SpinRef } from './spin';
+export { Spin } from './spin';

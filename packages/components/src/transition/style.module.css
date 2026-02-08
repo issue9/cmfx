@@ -1,46 +1,50 @@
 /*
- * SPDX-FileCopyrightText: 2025 caixw
+ * SPDX-FileCopyrightText: 2025-2026 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference "../style.css";
 
 @layer components {
-    /* Transition 动画 */
+	/* Transition 动画 */
 
-    .enter-active,
-    .exit-active {
-        @apply transition-opacity;
-        @apply motion-reduce:transition-opacity!;
-    }
+	.enter-active,
+	.exit-active {
+		@apply transition-opacity;
+		@apply motion-reduce:transition-opacity!;
+	}
 
-    /* 准备入场 */
-    .enter {
-        visibility: hidden;
-        opacity: 0;
-        @apply motion-reduce:transition-opacity!;
-    }
+	/* 准备入场 */
+	.enter {
+		visibility: hidden;
+		opacity: 0;
+		@apply motion-reduce:transition-opacity!;
+	}
 
-    /* 已经退出 */
-    .exit-to {
-        visibility: hidden;
-        opacity: 0;
-        height: 0 !important;
-        @apply motion-reduce:transition-opacity!;
-    }
+	/* 已经退出 */
+	.exit-to {
+		visibility: hidden;
+		opacity: 0;
+		@apply motion-reduce:transition-opacity!;
 
-    /* 准备退出 */
-    .exit {
-        height: 0 !important;
-        visibility: hidden;
-        @apply motion-reduce:transition-opacity!;
-    }
+		/* biome-ignore lint/complexity/noImportantStyles: important */
+		height: 0 !important;
+	}
 
-    /* 已经入场 */
-    .enter-to {
-        visibility: visible;
-        opacity: 1;
-        @apply motion-reduce:transition-opacity!;
-    }
+	/* 准备退出 */
+	.exit {
+		visibility: hidden;
+		@apply motion-reduce:transition-opacity!;
+
+		/* biome-ignore lint/complexity/noImportantStyles: important */
+		height: 0 !important;
+	}
+
+	/* 已经入场 */
+	.enter-to {
+		visibility: visible;
+		opacity: 1;
+		@apply motion-reduce:transition-opacity!;
+	}
 }
