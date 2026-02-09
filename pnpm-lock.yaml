@@ -140,6 +140,9 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@cmfx/illustrations':
+        specifier: workspace:*
+        version: link:../../packages/illustrations
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.437

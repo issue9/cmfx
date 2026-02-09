@@ -32,7 +32,8 @@
 		".": {
 			"types": "./lib/index.d.ts",
 			"import": "./lib/index.js"
-		}
+		},
+		"./style.css": "./lib/style.css"
 	},
 	"scripts": {
 		"build": "vite build"
