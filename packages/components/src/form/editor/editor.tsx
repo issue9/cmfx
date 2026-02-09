@@ -142,16 +142,19 @@ export function Editor(props: Props): JSX.Element {
 		>
 			<Show when={areas().labelArea}>
 				{area => (
-					<label
+					// biome-ignore lint/a11y/useKeyWithClickEvents: 无须键盘事件
+					// biome-ignore lint/a11y/noStaticElementInteractions: 需要点击事件
+					<span
 						style={{
 							...fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
+							cursor: 'default',
 						}}
 						onClick={() => editor.focus()}
 					>
 						{props.label}
-					</label>
+					</span>
 				)}
 			</Show>
 

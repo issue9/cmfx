@@ -62,16 +62,7 @@ export function Radio<T extends AvailableEnumType = string>(props: Props<T>): JS
 	});
 
 	return (
-		<label
-			role="radio"
-			title={props.title}
-			class={cls()}
-			style={props.style}
-			tabindex={props.block ? props.tabindex : -1}
-			aria-checked={props.checked}
-			aria-readonly={props.readonly}
-			aria-disabled={props.disabled}
-		>
+		<label title={props.title} class={cls()} style={props.style} tabindex={props.block ? props.tabindex : -1}>
 			<input
 				type="radio"
 				checked={props.checked}

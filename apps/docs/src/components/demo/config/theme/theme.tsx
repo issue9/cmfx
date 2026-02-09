@@ -38,7 +38,7 @@ export default function () {
 				<Button onclick={() => setMode('system')}>跟随系统</Button>
 				<Button onclick={() => ref.next()} class="w-16">
 					<IconSet
-						ref={(el) => {
+						ref={el => {
 							ref = el;
 						}}
 						icons={{

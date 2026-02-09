@@ -66,7 +66,7 @@ function renderPackage(title: string, pkgs: Array<Package>, icon?: JSX.Element):
 				{title}
 			</Label>
 			<For each={pkgs}>
-				{(item) => (
+				{item => (
 					<div class={styles.item}>
 						<span>{item.name}</span>
 						<span class={styles.version}>{item.version}</span>

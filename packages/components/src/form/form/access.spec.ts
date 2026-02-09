@@ -39,11 +39,11 @@ describe('validation', async () => {
 		const validator = {
 			changeLocale(_: Locale): void {},
 
-			async valid(v: any, name?: string): Promise<ValidResult<Object>> {
+			async valid(v: number, name?: string): Promise<ValidResult<Object>> {
 				if (v < 18 && name === 'age') {
 					return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
 				}
-				return [{ [name!]: v } as any, undefined];
+				return [{ age: v, name: '' }, undefined];
 			},
 		};
 
@@ -115,6 +115,7 @@ describe('ObjectAccessor', async () => {
 	});
 
 	test('children', () => {
+		// biome-ignore lint/suspicious/noExplicitAny: any
 		const a = oa.accessor<number>('not.exists' as any);
 		expect(a.getValue()).toEqual('');
 

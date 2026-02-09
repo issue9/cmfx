@@ -257,11 +257,11 @@ export default function Menu<T extends AvailableEnumType = string>(props: Props<
 						);
 
 						return (
+							// biome-ignore lint/a11y/useKeyWithClickEvents: mouse
 							<li
 								ref={el => {
 									liRef = el;
 								}}
-								aria-selected={isSelected()}
 								class={cls()}
 								onMouseEnter={e => {
 									if (layout === 'inline') {
@@ -401,8 +401,10 @@ export default function Menu<T extends AvailableEnumType = string>(props: Props<
 							>
 								<Dynamic
 									class={styles.title}
+									role={props.multiple ? 'menuitemcheckbox' : 'menuitemradio'}
+									aria-checked={isSelected()}
 									tabindex={0}
-									component={isAnchor && !hasItems ? A : 'p'}
+									component={isAnchor && !hasItems ? A : 'button'}
 									href={isAnchor && !i().disabled ? (val?.toString() ?? '') : ''}
 									style={{
 										'padding-inline-start':
@@ -502,9 +504,13 @@ export default function Menu<T extends AvailableEnumType = string>(props: Props<
 	);
 }
 
+const allQuery = ':scope li>a[aria-checked="true"],:scope li>button[aria-checked="true"]';
+const rootQuery =
+	':scope>li>a[aria-checked="true"],:scope>li>button[aria-checked="true"],:scope>li:has(li[aria-checked="true"])';
+
 export function selectedElements(menu: HTMLElement, root?: boolean) {
 	if (root) {
-		return menu.querySelectorAll(':scope>li[aria-selected="true"],:scope>li:has(li[aria-selected="true"])');
+		return menu.querySelectorAll(rootQuery);
 	}
-	return menu.querySelectorAll(':scope li[aria-selected="true"]');
+	return menu.querySelectorAll(allQuery);
 }

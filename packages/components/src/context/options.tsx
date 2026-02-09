@@ -153,7 +153,7 @@ export const presetOptions: PickOptional<Options> = {
 		navigator.language ||
 		(navigator.languages.length > 0 ? navigator.languages[0] : 'en'),
 	loading: (props: BaseProps) => (
-		<div class={styles.loading} role="status" aria-live="polite">
+		<div class={styles.loading} role="progressbar">
 			<IconLoading style={props.style} class={joinClass(props.palette, props.class)} aria-hidden={true} />
 		</div>
 	),

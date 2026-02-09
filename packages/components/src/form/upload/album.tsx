@@ -96,15 +96,16 @@ export function Album(props: Props): JSX.Element {
 		>
 			<Show when={areas().labelArea}>
 				{area => (
-					<label
+					<div
 						style={{
 							...fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
+							cursor: 'default',
 						}}
 					>
 						{props.label}
-					</label>
+					</div>
 				)}
 			</Show>
 

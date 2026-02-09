@@ -32,8 +32,6 @@ export function ButtonGroup(props: Props): JSX.Element {
 
 	return (
 		<fieldset
-			role="group"
-			aria-orientation={props.layout}
 			disabled={props.disabled}
 			class={classList(
 				props.palette,

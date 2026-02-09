@@ -18,7 +18,7 @@ export default function () {
 
 	return (
 		<div>
-			<Tab layout="vertical" palette="primary" items={structuredClone(items)} onChange={(e) => setTab(e)} class="h-40">
+			<Tab layout="vertical" palette="primary" items={structuredClone(items)} onChange={e => setTab(e)} class="h-40">
 				<p>TabPanel:{tab()}</p>
 			</Tab>
 		</div>

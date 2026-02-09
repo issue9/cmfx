@@ -132,6 +132,7 @@ export class ObjectAccessor<T extends Flattenable> {
 			},
 
 			setError(err?: string): void {
+				// biome-ignore lint/suspicious/noExplicitAny: any
 				parent.#errSetter(name as any, err as any);
 			},
 
@@ -160,7 +161,8 @@ export class ObjectAccessor<T extends Flattenable> {
 
 					parent.#valSetter(
 						produce(draft => {
-							let target = draft as any; // as any 去掉只读属性！
+							// biome-ignore lint/suspicious/noExplicitAny: any
+							let target = draft as any;
 							for (let i = 0; i < path.length - 1; i++) {
 								target[path[i]] ??= {};
 								target = target[path[i]];

@@ -73,33 +73,33 @@
 		@apply bg-palette-bg-selected;
 	}
 
-	.radio.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
+	.radio.block:has(:enabled):not(:has(:read-only)):focus-visible {
 		/* 需要在 checked 之后，否则可能无效？ */
 		@apply text-palette-fg-focused;
 		@apply border-palette-border-focused;
 	}
 
-	.radio:not(.block):has(:enabled):not([aria-readonly="true"]):focus-visible {
+	.radio:not(.block):has(:enabled):not(:has(:read-only)):focus-visible {
 		@apply text-palette-fg-focused;
 	}
 
-	.radio.block:has(:enabled):not([aria-readonly="true"]):hover {
+	.radio.block:has(:enabled):not(:has(:read-only)):hover {
 		@apply text-palette-fg-focused;
 		@apply border-palette-border-focused;
 		@apply bg-palette-bg-focused;
 	}
 
-	.radio:not(.block):has(:enabled):not([aria-readonly="true"]):hover {
+	.radio:not(.block):has(:enabled):not(:has(:read-only)):hover {
 		@apply text-palette-fg-focused;
 	}
 
-	.radio.block:has(:enabled):not([aria-readonly="true"]):active {
+	.radio.block:has(:enabled):not(:has(:read-only)):active {
 		@apply text-palette-fg-actived;
 		@apply border-palette-border-actived;
 		@apply bg-palette-bg-actived;
 	}
 
-	.radio:not(.block):has(:enabled):not([aria-readonly="true"]):active {
+	.radio:not(.block):has(:enabled):not(:has(:read-only)):active {
 		@apply text-palette-fg-actived;
 	}
 

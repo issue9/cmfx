@@ -65,18 +65,20 @@ export function RadioGroup<T extends AvailableEnumType = string>(props: Props<T>
 		>
 			<Show when={areas().labelArea}>
 				{area => (
-					<label
+					<span
 						style={{
 							...fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
+							cursor: 'default',
 						}}
 					>
 						{props.label}
-					</label>
+					</span>
 				)}
 			</Show>
 
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: 不需要鼠标事件 */}
 			<div
 				style={fieldArea2Style(areas().inputArea)}
 				class={inputCls()}

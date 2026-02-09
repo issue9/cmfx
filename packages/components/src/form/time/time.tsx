@@ -76,9 +76,12 @@ export default function Time(props: Props): JSX.Element {
 				)}
 			</Show>
 
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: Mouse 事件上是为了达到 label 效果 */}
 			<div
 				style={fieldArea2Style(areas().inputArea)}
-				ref={el => (anchorRef = el)}
+				ref={el => {
+					anchorRef = el;
+				}}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef.root())}

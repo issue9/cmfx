@@ -171,8 +171,6 @@ export default function Range(props: Props): JSX.Element {
 				}}
 				style={fieldArea2Style(areas().inputArea)}
 				class={styles.range}
-				aria-readonly={props.readonly}
-				aria-disabled={props.disabled}
 			>
 				<input
 					type="range"

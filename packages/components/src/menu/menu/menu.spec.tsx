@@ -63,36 +63,44 @@ describe('Menu', async () => {
 
 describe('selectedElements', async () => {
 	const els = (
-		<ul id="root">
-			<li aria-selected="true">v1-label</li>
+		<menu id="root">
+			<li>
+				<button type="button" role="menuitemcheckbox" aria-checked="true">
+					v1-label
+				</button>
+			</li>
 			<li>
 				v2-label
 				<ul>
 					<li>
 						v23-label
 						<ul>
-							<li aria-selected="true">v231-label</li>
+							<li>
+								<button type="button" role="menuitemcheckbox" aria-checked="true">
+									v231-label
+								</button>
+							</li>
 							<li>v232-label</li>
 						</ul>
 					</li>
 					<li>v24-label</li>
 				</ul>
 			</li>
-		</ul>
+		</menu>
 	);
 
 	// 需要加载到 DOM，否则测试失败！
 	const { unmount } = render(() => els);
 
 	test('!root', () => {
-		const el = selectedElements(els as any);
+		const el = selectedElements(els as HTMLElement);
 		expect(el).toHaveLength(2);
 		expect(el[0]).toHaveTextContent('v1-label');
 		expect(el[1]).toHaveTextContent('v231-label');
 	});
 
 	test('root', () => {
-		const el = selectedElements(els as any, true);
+		const el = selectedElements(els as HTMLElement, true);
 		expect(el).toHaveLength(2);
 		expect(el[0]).toHaveTextContent('v1-label');
 		// 包含了所有子节点的文本，根节点在最前，group 类型不参与计算。

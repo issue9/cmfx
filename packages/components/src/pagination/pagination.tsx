@@ -98,10 +98,7 @@ export function Pagination(props: Props): JSX.Element {
 	});
 
 	return (
-		<nav
-			class={joinClass(props.palette, styles.pagination, props.class)}
-			style={props.style}
-		>
+		<nav class={joinClass(props.palette, styles.pagination, props.class)} style={props.style}>
 			<Button square onclick={() => change(1)} aria-label={l.t('_c.pagination.firstPage')} disabled={current() === 1}>
 				<IconFirst />
 			</Button>
