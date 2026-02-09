@@ -2,7 +2,7 @@
 
 import { JSX } from 'solid-js';
 
-import { Props, buildClass } from './props';
+import { Props, buildClass, mergeText } from './props';
 
 const presetText = 'Service Unavailable';
 
@@ -12,9 +12,12 @@ const presetText = 'Service Unavailable';
  * https://storyset.com/illustration/503-error-service-unavailable/amico
  */
 export default function Error503(props: Props): JSX.Element {
+	props = mergeText(props, presetText);
+
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
         role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
+	   	<title>{props.text}</title>
         <defs>
             <polygon id="illustrations-503-1" points="259.14 154.86 259.14 151.1 259.14 151.1 259.14 122.41 255.83 120.56 255.83 153.02 165.07 205.5 165.07 209.33 255.83 156.78 255.83 229.69 259.14 231.54 259.14 154.86 259.14 154.86" />
             <path id="illustrations-503-2" d="M161.76,175v3.76h0V287.92l3.32-2V213l94.06-54.47v73l3.32-1.85V116.8Zm97.38-20.17-94.06,54.47V183.78l94.06-54.17Z" />
@@ -201,7 +204,7 @@ export default function Error503(props: Props): JSX.Element {
                     <g id="freepik--Text--inject-109">
                         <text x="355" y="-75" text-anchor="middle" transform='skewY(30)' style="font-size:2.6rem;font-weight:bold;fill:currentColor">503</text>
                         <text x="355" y="-53" text-anchor="middle" transform='skewY(30)' style="font-size:1rem;font-weight:bold;fill:#455a64">ERROR</text>
-                        <text x="355" y="-34" text-anchor="middle" transform='skewY(30)' style="font-size:.6rem;fill:#455a64">{ props.text ?? presetText }</text>
+                        <text x="355" y="-34" text-anchor="middle" transform='skewY(30)' style="font-size:.6rem;fill:#455a64">{ props.text }</text>
                     </g>
                 </g>
                 <g id="freepik--Mouse--inject-109">

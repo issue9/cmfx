@@ -2,7 +2,7 @@
 
 import { JSX } from 'solid-js';
 
-import { Props, buildClass } from './props';
+import { Props, buildClass, mergeText } from './props';
 
 const presetText = 'Forbidden';
 
@@ -12,9 +12,12 @@ const presetText = 'Forbidden';
  * https://storyset.com/illustration/403-error-forbidden/amico
  */
 export default function Error403(props: Props): JSX.Element {
+	props = mergeText(props, presetText);
+
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
         role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
+    	<title>{props.text}</title>
         <defs>
             <polygon id="illustrations-403-1" points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" />
             <polygon id="illustrations-403-2" points="112.53 366.54 108.35 364.1 108.36 376.55 112.53 378.99 112.53 366.54" />
@@ -213,7 +216,7 @@ export default function Error403(props: Props): JSX.Element {
             <path d="M390.07,55.14a8.93,8.93,0,0,0-4-7l-3.28-1.89a8.88,8.88,0,0,0-8.06,0L297.61,90.86a8.9,8.9,0,0,0-4,7V128.6a8.93,8.93,0,0,0,4,7l3.28,1.89a8.88,8.88,0,0,0,8.06,0l34.84-20,5.77,12.17a.86.86,0,0,0,1.55-.15l6.1-19.77L386,92.88a8.91,8.91,0,0,0,4-7Z" fill="currentColor" />
             <path d="M293.58,128.6a8.93,8.93,0,0,0,4,7l3.28,1.89a9,9,0,0,0,7.37.33c-1.89.71-3.34-.36-3.34-2.65V104.38a8.2,8.2,0,0,1,1.18-4l-11.34-6.55a8.26,8.26,0,0,0-1.18,4Z" style="opacity:.2" />
             <path d="M389.94,54c-.47-1.71-2-2.25-3.89-1.18L309,97.41a7.84,7.84,0,0,0-2.84,3l-11.33-6.54a8,8,0,0,1,2.83-3l77.08-44.6a9,9,0,0,1,8.07,0l3.29,1.9A8.93,8.93,0,0,1,389.94,54Z" style="fill:#fff;opacity:.5" />
-            <text x="347.5" y="203" text-anchor="middle" transform='skewY(-30) scale(1,1.5)' style="font-size:.8rem;font-weight:bold;fill:var(--palette-bg)">{props.text ?? presetText}</text>
+            <text x="347.5" y="203" text-anchor="middle" transform='skewY(-30) scale(1,1.5)' style="font-size:.8rem;font-weight:bold;fill:var(--palette-bg)">{props.text}</text>
         </g>
         <g id="freepik--Plant--inject-121">
             <path d="M124.7,425.24c8.41-8.69,13.36-44,5.15-50.91H88.08c-8.2,6.88-3.27,42.21,5.15,50.9l.23.24.29.28a8.57,8.57,0,0,0,.76.69l.2.16.63.48a10,10,0,0,0,1.09.7c6.92,4.05,18.15,4.05,25.07,0h0a10,10,0,0,0,1.09-.7c.21-.15.4-.3.6-.46l.24-.19c.27-.22.51-.44.74-.66l.33-.33Z" fill="#455a64" />

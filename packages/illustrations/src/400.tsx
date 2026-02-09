@@ -2,7 +2,7 @@
 
 import { JSX } from 'solid-js';
 
-import { Props, buildClass } from './props';
+import { Props, buildClass, mergeText } from './props';
 
 const presetText = 'Bad Request';
 
@@ -12,9 +12,12 @@ const presetText = 'Bad Request';
  * https://storyset.com/illustration/400-error-bad-request/amico
  */
 export default function Error400(props: Props): JSX.Element {
+	props = mergeText(props, presetText)
+
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
         role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
+		<title>{props.text}</title>
         <defs>
             <path id="illustrations-400-1" d="M129.93,192.64c-2.16-3.67-6.42-10.13-10.35-12.46a9.07,9.07,0,0,0-5.6-1.73v1.48s3.28.87,7,5a24.83,24.83,0,0,1,5,7.88Z" />
             <path id="illustrations-400-2" d="M100.18,180.48c-.44.51-.61,2.72-.29,6.11s.91,10.19.91,10.19l-4.4,1.3s-.26-6.38,0-12,1.71-7.09,3.75-7.65Z" />
@@ -305,7 +308,7 @@ export default function Error400(props: Props): JSX.Element {
         </g>
 
         <g id="freepik--error-400--inject-112">
-            <text x="250" y="108" text-anchor="middle" style="font-size:1.2rem;font-weight:bold;fill:var(--palette-fg-low)">{ props.text ?? presetText }</text>
+            <text x="250" y="108" text-anchor="middle" style="font-size:1.2rem;font-weight:bold;fill:var(--palette-fg-low)">{props.text}</text>
             <text x="253" y="80.5" text-anchor="middle" style="font-size:2.2rem;font-weight:bold;fill:var(--palette-fg-high)">ERROR 400</text>
         </g>
     </svg>;

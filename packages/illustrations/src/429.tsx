@@ -2,7 +2,7 @@
 
 import { JSX } from 'solid-js';
 
-import { Props, buildClass } from './props';
+import { Props, buildClass, mergeText } from './props';
 
 const presetText = 'Too Many Requests';
 
@@ -12,9 +12,12 @@ const presetText = 'Too Many Requests';
  * https://storyset.com/illustration/error-429/amico
  */
 export default function Error429(props: Props): JSX.Element {
+	props = mergeText(props, presetText);
+
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={buildClass(props)} style={props.style}
         role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
+	   	<title>{props.text}</title>
         <defs>
             <path id="illustrations-429-1" d="M135.44,280.79,98,259.19l-.12,43.94,55.94,32.31.07-22.64Z" />
             <path id="illustrations-429-2" d="M153.92,312.8l107.35-62.39-18.47-32L135.44,280.79Z" />
@@ -75,7 +78,7 @@ export default function Error429(props: Props): JSX.Element {
                 <polygon points="155.66 174.52 158.31 176.03 152.17 186.66 158.34 190.18 155.72 194.72 149.54 191.21 143.41 201.83 140.76 200.33 146.9 189.7 140.72 186.18 143.35 181.63 149.53 185.14 155.66 174.52" fill="#fff" />
                 <polygon points="203.22 147.06 205.86 148.57 199.73 159.2 205.9 162.72 203.27 167.27 197.1 163.75 190.97 174.37 188.32 172.87 194.45 162.25 188.28 158.73 190.91 154.17 197.08 157.69 203.22 147.06" fill="#fff" />
             </g>
-            <text x="167" y="235.5" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#fafafa">{ props.text ?? presetText }</text>
+            <text x="167" y="235.5" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#fafafa">{ props.text }</text>
             <use href="#illustrations-429-8" fill="currentColor" /><use href="#illustrations-429-8" style="fill:#fff;opacity:.1" />
             <use href="#illustrations-429-9" fill="#455a64" /><use href="#illustrations-429-9" style="fill:#fff;opacity:.1" />
             <use href="#illustrations-429-10" fill="currentColor" /><use href="#illustrations-429-10" style="fill:#fff;opacity:.1" />

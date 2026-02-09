@@ -2,7 +2,7 @@
 
 import { JSX } from 'solid-js';
 
-import { Props, buildClass } from './props';
+import { Props, buildClass, mergeText } from './props';
 
 const presetText = 'Page Not Found';
 
@@ -12,9 +12,12 @@ const presetText = 'Page Not Found';
  * https://storyset.com/illustration/404-error/amico
  */
 export default function Error404(props: Props): JSX.Element {
+	props = mergeText(props, presetText);
+
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" style={props.style} class={buildClass(props)}
         role='presentation' aria-hidden={true} ref={el => props.ref?.({ root() { return el; }})}
     >
+   		<title>{props.text}</title>
         <defs>
             <path id="illustrations-404-1" d="M173.82,456.14v2.38a2.09,2.09,0,0,1-.88,2l-1.44.84-.06,0a2.09,2.09,0,0,0,.94-2V457a6.21,6.21,0,0,0-.89-3l1.44-.83A6.18,6.18,0,0,1,173.82,456.14Z" />
             <path id="illustrations-404-2" d="M167.77,453.74a2.4,2.4,0,0,1,.07-.57h0c-.87-.24-1.51.31-1.51,1.4a4.49,4.49,0,0,0,2,3.52c.94.55,1.74.26,2-.62a1.72,1.72,0,0,1-.52-.21A4.49,4.49,0,0,1,167.77,453.74Z" />
@@ -160,7 +163,7 @@ export default function Error404(props: Props): JSX.Element {
                 <path d="M291.42,135.38a1.14,1.14,0,0,0-1.13.11L279,142a5.34,5.34,0,0,0-1.53,1.28l-8.12-4.69a5.29,5.29,0,0,1,1.52-1.28l11.28-6.51a1.1,1.1,0,0,1,1.19-.07Z" style="fill:#fff;opacity:.4" />
                 <path d="M280.51,221.64a1.08,1.08,0,0,1-1.42-.1,2.47,2.47,0,0,1-.59-1.84V208L255,221.55a1.07,1.07,0,0,1-1.42-.1,2.44,2.44,0,0,1-.6-1.84V207.42a15.06,15.06,0,0,1,1-5.5l22.33-56.25a10.24,10.24,0,0,1,1.24-2.38A5.08,5.08,0,0,1,279,142l11.28-6.51a1.09,1.09,0,0,1,1.42.1,2.49,2.49,0,0,1,.59,1.84v44.16l6.43-3.71a1.09,1.09,0,0,1,1.42.1,2.51,2.51,0,0,1,.59,1.84V192a6,6,0,0,1-.59,2.53,3.78,3.78,0,0,1-1.42,1.74L292.31,200v11.73a6,6,0,0,1-.59,2.53A3.89,3.89,0,0,1,290.3,216Zm-1.64-32.29V168.19L268,195.65Z" fill="currentColor" />
             </g>
-            <text x="232" y="420" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#e0e0e0">{props.text ?? presetText}</text>
+            <text x="232" y="420" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#e0e0e0">{props.text}</text>
         </g>
         <g id="freepik--speech-bubble--inject-79">
             <g id="freepik--speech-bubble--inject-79">
