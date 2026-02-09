@@ -8,8 +8,8 @@
 	"root": false,
 	"files": {
 		"includes": [
-			"src/*.{ts,tsx,css}",
-			"!src/{400,401,403,404,429,500,503,504,bug,building,login}.tsx"
+			"src/*.{ts,tsx,css,json}",
+			"!src/{domponents,docs}/**/*.json" // 自动生成的文档，不需要格式化。
 		]
 	}
 }

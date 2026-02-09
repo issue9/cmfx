@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 caixw
+//
+// SPDX-License-Identifier: MIT
+
 {
 	"$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
 	"root": true,
@@ -55,9 +59,7 @@
 								"!@docs/**"
 							],
 							":BLANK_LINE:",
-							[
-								"**"
-							]
+							["**"]
 						]
 					}
 				}
