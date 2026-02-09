@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference './style.css';
+@reference "./style.css";
 
 @layer components {
-    .illustrations {
-        @apply text-palette-fg;
-    }
+	.illustration {
+		@apply text-palette-fg;
+	}
 }

@@ -26,5 +26,5 @@ export function mergeText(props: Props, text?: string): Props {
 }
 
 export function buildClass(props: Props): string | undefined {
-    return joinClass(props.palette, styles.illustrations, props.class);
+    return joinClass(props.palette, styles.illustration, props.class);
 }

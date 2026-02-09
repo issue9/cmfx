@@ -44,6 +44,7 @@
 		"tailwindcss": "catalog:"
 	},
 	"devDependencies": {
+		"@tailwindcss/vite": "catalog:",
 		"@types/node": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
