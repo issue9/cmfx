@@ -1,11 +1,9 @@
 {
 	"extends": "../../build/tsconfig.base.json",
 	"compilerOptions": {
-		"types": [
-			"unplugin-icons/types/solid"
-		],
+		"types": ["unplugin-icons/types/solid"],
 		"jsx": "preserve",
-		"jsxImportSource": "solid-js",
+		"jsxImportSource": "solid-js"
 	},
 	"include": [
 		"src/**/*.ts",
@@ -14,7 +12,7 @@
 		"src/**/*.js",
 		"src/**/*.tsx",
 		"../../pakcages/**/*.tsx",
-		"../../pakcages/**/*.ts",
+		"../../pakcages/**/*.ts"
 	],
 	"references": [
 		{

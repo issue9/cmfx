@@ -2,26 +2,14 @@
 	"extends": "../../build/tsconfig.base.json",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"types": [
-			"vite/client"
-		],
+		"types": ["vite/client"],
 		"paths": {
-			"@core/*": [
-				"src/*"
-			]
+			"@core/*": ["src/*"]
 		},
 		"outDir": "./lib"
 	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.mts",
-		"src/**/*.mjs",
-		"src/**/*.js",
-		"src/**/*.tsx",
-	],
-	"exclude": [
-		"lib",
-	],
+	"include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.mjs", "src/**/*.js", "src/**/*.tsx"],
+	"exclude": ["lib"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"

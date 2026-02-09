@@ -4,27 +4,14 @@
 		"baseUrl": ".",
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
-		"types": [
-			"vite/client",
-			"@testing-library/jest-dom",
-		],
+		"types": ["vite/client", "@testing-library/jest-dom"],
 		"paths": {
-			"@illustrations/*": [
-				"src/*"
-			]
+			"@illustrations/*": ["src/*"]
 		},
 		"outDir": "./lib"
 	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.mts",
-		"src/**/*.mjs",
-		"src/**/*.js",
-		"src/**/*.tsx",
-	],
-	"exclude": [
-		"lib",
-	],
+	"include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.mjs", "src/**/*.js", "src/**/*.tsx"],
+	"exclude": ["lib"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"
