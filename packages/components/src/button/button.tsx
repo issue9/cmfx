@@ -47,7 +47,7 @@ interface Base extends BaseProps, ParentProps {
  */
 export interface BProps extends Base, RefProps<Ref<false>> {
 	/**
-	 * 按钮的类型了
+	 * 按钮的类型
 	 *
 	 * @defaultValue 'button'
 	 */

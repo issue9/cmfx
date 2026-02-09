@@ -506,7 +506,7 @@ export default function Menu<T extends AvailableEnumType = string>(props: Props<
 
 const allQuery = ':scope li>a[aria-checked="true"],:scope li>button[aria-checked="true"]';
 const rootQuery =
-	':scope>li>a[aria-checked="true"],:scope>li>button[aria-checked="true"],:scope>li:has(li[aria-checked="true"])';
+	':scope>li>a[aria-checked="true"],:scope>li>button[aria-checked="true"],:scope>li:has(li>a[aria-checked="true"]),:scope>li:has(li>button[aria-checked="true"])';
 
 export function selectedElements(menu: HTMLElement, root?: boolean) {
 	if (root) {

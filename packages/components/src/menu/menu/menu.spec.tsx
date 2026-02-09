@@ -63,7 +63,7 @@ describe('Menu', async () => {
 
 describe('selectedElements', async () => {
 	const els = (
-		<menu id="root">
+		<ul id="root">
 			<li>
 				<button type="button" role="menuitemcheckbox" aria-checked="true">
 					v1-label
@@ -86,7 +86,7 @@ describe('selectedElements', async () => {
 					<li>v24-label</li>
 				</ul>
 			</li>
-		</menu>
+		</ul>
 	);
 
 	// 需要加载到 DOM，否则测试失败！

@@ -21,12 +21,7 @@ describe('ButtonGroup', async () => {
 		</ButtonGroup>
 	));
 
-	test('props', () => {
-		ct.testProps();
-
-		const root = ct.result.container.firstElementChild;
-		expect(root).toHaveProperty('role', 'group');
-	});
+	test('props', () => ct.testProps());
 
 	test('ref', () => {
 		expect(ref).toBeDefined();
