@@ -9,10 +9,10 @@ import { Portal } from 'solid-js/web';
 import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const dateFA = fieldAccessor<[Date, Date], 'date'>('range', [
+	const dateFA = fieldAccessor<[Date, Date] | undefined, 'date'>('range', [
 		new Date('2024-01-02T15:34'),
 		new Date('2025-01-02T15:34'),
-	]);
+	], 'date');
 	const numberFA = fieldAccessor<[number | undefined, number | undefined], 'number'>(
 		'range',
 		[undefined, 1765000000000],
@@ -65,7 +65,7 @@ export default function (props: MountProps): JSX.Element {
 				weekBase={week()}
 				time={time()}
 			/>
-			<p>{dateFA.getValue().join('-') ?? ''}</p>
+			<p>{dateFA?.getValue()?.join('-') ?? ''}</p>
 
 			<DateRangePicker
 				class="w-[200px]"

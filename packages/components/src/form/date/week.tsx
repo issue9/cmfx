@@ -10,18 +10,18 @@ import { joinClass } from '@components/base';
 import { Week, WeekPanel } from '@components/datetime';
 import { WeekValueType } from '@components/datetime/dateview';
 import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style } from '@components/form/field';
-import { DateType, Props as PickerProps } from './date';
+import { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-export interface Props<T extends DateType> extends Omit<PickerProps<T>, 'accessor' | 'accentPalette' | 'time'> {
+export interface Props extends Omit<PickerProps, 'accessor' | 'accentPalette' | 'time'> {
 	accessor: Accessor<WeekValueType | undefined>;
 }
 
 /**
  * 周数选择组件
  */
-export function WeekPicker<T extends DateType>(props: Props<T>): JSX.Element {
+export function WeekPicker(props: Props): JSX.Element {
 	props = mergeProps({ weekBase: 0 as Week }, props);
 
 	const [panelProps, _] = splitProps(props, ['weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);

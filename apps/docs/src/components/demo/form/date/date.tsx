@@ -9,7 +9,7 @@ import { Portal } from 'solid-js/web';
 import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const dateFA = fieldAccessor<Date, 'date'>('dp', new Date('2024-01-02T15:34'));
+	const dateFA = fieldAccessor<Date | undefined, 'date'>('dp', new Date('2024-01-02T15:34'), 'date');
 	const numberFA = fieldAccessor<number | undefined, 'number'>('dp', undefined, 'number');
 
 	const min = new Date('2023-12-02T15:34');
@@ -54,7 +54,7 @@ export default function (props: MountProps): JSX.Element {
 				weekBase={week()}
 				time={time()}
 			/>
-			<p>{dateFA.getValue().toString() ?? 'undefined'}</p>
+			<p>{dateFA?.getValue()?.toString() ?? 'undefined'}</p>
 
 			<DatePicker
 				class="w-[200px]"
@@ -72,7 +72,7 @@ export default function (props: MountProps): JSX.Element {
 				weekBase={week()}
 				time={time()}
 			/>
-			<p>{numberFA.getValue() ?? 'undefined'}</p>
+			<p>{numberFA?.getValue() ?? 'undefined'}</p>
 		</div>
 	);
 }

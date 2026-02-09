@@ -50,6 +50,8 @@ export function isCellType(val: unknown): val is CellType {
 
 /**
  * 渲染单元格的方法
+ *
+ * @typeParam T - 导出数据中每行数据的类型；
  * @param id - 同 {@link Column#id}；
  * @param val - 如果该 id 存在于 T 中，那返回其在 T 中当前行的值，如果不存在则是 undefined；
  * @param obj - 表示是当前行的对象，其类型为 T；

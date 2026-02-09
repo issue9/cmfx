@@ -11,25 +11,69 @@ import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { DatePanel, DatePanelProps, Week } from '@components/datetime';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import {
+	calcLayoutFieldAreas,
+	Field,
+	FieldHelpArea,
+	fieldAccessor,
+	fieldArea2Style,
+	useForm,
+} from '@components/form/field';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
 // 允许的日期类型
 export type DateType = Date | string | number;
 
-export interface Props<T extends DateType>
-	extends FieldBaseProps,
-		Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
+interface Base extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
 	placeholder?: string;
-
-	/**
-	 * NOTE: 非响应式属性
-	 */
-	accessor: Accessor<T | undefined, 'number' | 'string' | 'date'>;
 }
 
-export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
+interface DateProps extends Base {
+	accessor: Accessor<Date | undefined, 'date'>;
+}
+
+interface NumberProps extends Base {
+	accessor: Accessor<number | undefined, 'number'>;
+}
+
+interface StringProps extends Base {
+	accessor: Accessor<string | undefined, 'string'>;
+}
+
+export type Props = DateProps | NumberProps | StringProps;
+
+function isDateProps(props: Props): props is DateProps {
+	return props.accessor.kind() === 'date';
+}
+
+function isStringProps(props: Props): props is StringProps {
+	return props.accessor.kind() === 'string';
+}
+
+function isNumberProps(props: Props): props is NumberProps {
+	return props.accessor.kind() === 'number';
+}
+
+export default function Picker(props: Props): JSX.Element {
+	if (isDateProps(props)) {
+		return <DatePicker {...props} />;
+	} else if (isNumberProps(props)) {
+		const val = props.accessor.getValue();
+		const accessor = fieldAccessor('accessor', val ? new Date(val) : undefined, 'date');
+		accessor.onChange(v => props.accessor.setValue(v?.getTime()));
+		const [_, p] = splitProps(props, ['accessor']);
+		return <DatePicker {...p} accessor={accessor} />;
+	} else if (isStringProps(props)) {
+		const val = props.accessor.getValue();
+		const accessor = fieldAccessor('accessor', val ? new Date(val) : undefined, 'date');
+		accessor.onChange(v => props.accessor.setValue(v?.toISOString()));
+		const [_, p] = splitProps(props, ['accessor']);
+		return <DatePicker {...p} accessor={accessor} />;
+	}
+}
+
+function DatePicker(props: DateProps): JSX.Element {
 	const form = useForm();
 	props = mergeProps({ weekBase: 0 as Week }, form, props);
 
@@ -55,35 +99,6 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 	const formater = createMemo(() => {
 		return props.time ? l.datetimeFormat().format : l.dateFormat().format;
 	});
-
-	const getValue = (): Date | undefined => {
-		const v = props.accessor.getValue();
-		if (v === undefined) {
-			return v;
-		}
-
-		switch (props.accessor.kind()) {
-			case 'string':
-			case 'number':
-				return new Date(v);
-			default:
-				return v as Date;
-		}
-	};
-
-	const setValue = (value?: Date) => {
-		switch (props.accessor.kind()) {
-			case 'string':
-				props.accessor.setValue(value?.toISOString() as T);
-				break;
-			case 'number':
-				props.accessor.setValue(value?.getTime() as T);
-				break;
-			default:
-				props.accessor.setValue(value as T);
-				break;
-		}
-	};
 
 	const id = createUniqueId();
 	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
@@ -128,7 +143,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 					disabled={props.disabled}
 					readOnly
 					placeholder={props.placeholder}
-					value={props.accessor.getValue() ? formater()(getValue()) : ''}
+					value={formater()(props.accessor.getValue())}
 				/>
 				<Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll />}>
 					<IconClose
@@ -149,7 +164,12 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 				class={styles.panel}
 				aria-haspopup
 			>
-				<DatePanel class={styles['dt-panel']} {...panelProps} value={getValue()} onChange={val => setValue(val)} />
+				<DatePanel
+					class={styles['dt-panel']}
+					{...panelProps}
+					value={props.accessor.getValue()}
+					onChange={val => props.accessor.setValue(val)}
+				/>
 
 				<div class={styles.actions}>
 					<div class={styles.left}>
@@ -161,7 +181,7 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
 								if ((props.min && props.min > now) || (props.max && props.max < now)) {
 									return;
 								}
-								props.accessor.setValue(now as T);
+								props.accessor.setValue(now);
 								panelRef.hidePopover();
 							}}
 						>

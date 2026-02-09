@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import equal from 'fast-deep-equal';
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps, untrack } from 'solid-js';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
@@ -12,24 +11,26 @@ import { joinClass } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { DateRangePanel, DateRangeValueType, Week } from '@components/datetime';
-import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
-import { DateType, Props as PickerProps } from './date';
+import type { Accessor } from '@components/form/field';
+import {
+	calcLayoutFieldAreas,
+	Field,
+	FieldHelpArea,
+	fieldAccessor,
+	fieldArea2Style,
+	useForm,
+} from '@components/form/field';
+import { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-export interface Props<T extends DateType> extends Omit<PickerProps<T>, 'accessor'> {
+interface Base extends Omit<PickerProps, 'accessor'> {
 	/**
 	 * 中间的箭头
 	 *
 	 * @reactive
 	 */
 	arrowIcon?: JSX.Element;
-
-	// 类型约束在泛型 T 上，而不是 accessor 属性，可以保证 Accessor 的 start 和 end 是同一类型的。
-	/**
-	 * NOTE: 非响应式属性
-	 */
-	accessor: Accessor<[start: T | undefined, end: T | undefined] | undefined, 'number' | 'string' | 'date'>;
 
 	/**
 	 * 是否显示右侧快捷选择栏
@@ -39,7 +40,57 @@ export interface Props<T extends DateType> extends Omit<PickerProps<T>, 'accesso
 	shortcuts?: boolean;
 }
 
-export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Element {
+interface DateProps extends Base {
+	accessor: Accessor<DateRangeValueType | undefined, 'date'>;
+}
+
+interface NumberProps extends Base {
+	accessor: Accessor<[start: number | undefined, end: number | undefined] | undefined, 'number'>;
+}
+
+interface StringProps extends Base {
+	accessor: Accessor<[start: string | undefined, end: string | undefined] | undefined, 'string'>;
+}
+
+export type Props = DateProps | NumberProps | StringProps;
+
+function isDateProps(props: Props): props is DateProps {
+	return props.accessor.kind() === 'date';
+}
+
+function isStringProps(props: Props): props is StringProps {
+	return props.accessor.kind() === 'string';
+}
+
+function isNumberProps(props: Props): props is NumberProps {
+	return props.accessor.kind() === 'number';
+}
+
+export default function Picker(props: Props): JSX.Element {
+	if (isDateProps(props)) {
+		return <DateRangePicker {...props} />;
+	} else if (isNumberProps(props)) {
+		const val = props.accessor.getValue();
+		const rng: DateRangeValueType | undefined = val
+			? [val[0] ? new Date(val[0]) : undefined, val[1] ? new Date(val[1]) : undefined]
+			: undefined;
+		const accessor = fieldAccessor('accessor', rng, 'date');
+		accessor.onChange(v => props.accessor.setValue(v ? [v[0]?.getTime(), v[1]?.getTime()] : undefined));
+		const [_, p] = splitProps(props, ['accessor']);
+		return <DateRangePicker {...p} accessor={accessor} />;
+	} else if (isStringProps(props)) {
+		const val = props.accessor.getValue();
+		const rng: DateRangeValueType | undefined = val
+			? [val[0] ? new Date(val[0]) : undefined, val[1] ? new Date(val[1]) : undefined]
+			: undefined;
+		const accessor = fieldAccessor('accessor', rng, 'date');
+		accessor.onChange(v => props.accessor.setValue(v ? [v[0]?.toISOString(), v[1]?.toISOString()] : undefined));
+		const [_, p] = splitProps(props, ['accessor']);
+		return <DateRangePicker {...p} accessor={accessor} />;
+	}
+}
+
+function DateRangePicker(props: DateProps): JSX.Element {
 	const form = useForm();
 	props = mergeProps(
 		{
@@ -71,51 +122,6 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 	const formater = createMemo(() => {
 		return props.time ? l.datetimeFormat().format : l.dateFormat().format;
 	});
-
-	const getValue = (): DateRangeValueType | undefined => {
-		const v = props.accessor.getValue();
-		if (v === undefined) {
-			return undefined;
-		}
-		if (equal(v, [undefined, undefined])) {
-			return [undefined, undefined];
-		}
-
-		switch (props.accessor.kind()) {
-			case 'string':
-			case 'number':
-				return [v[0] === undefined ? undefined : new Date(v[0]), v[1] === undefined ? undefined : new Date(v[1])];
-			default:
-				return v as DateRangeValueType;
-		}
-	};
-
-	const change = (val?: DateRangeValueType) => {
-		if (val === undefined || equal(val, [undefined, undefined])) {
-			// biome-ignore lint/suspicious/noExplicitAny: any
-			props.accessor.setValue(val as any);
-			return;
-		}
-
-		switch (props.accessor.kind()) {
-			case 'string':
-				props.accessor.setValue([
-					val[0] === undefined ? undefined : (val[0].toISOString() as T),
-					val[1] === undefined ? undefined : (val[1].toISOString() as T),
-				]);
-				return;
-			case 'number':
-				props.accessor.setValue([
-					val[0] === undefined ? undefined : (val[0].getTime() as T),
-					val[1] === undefined ? undefined : (val[1].getTime() as T),
-				]);
-				return;
-			default:
-				// biome-ignore lint/suspicious/noExplicitAny: any
-				props.accessor.setValue(val as any);
-				return;
-		}
-	};
 
 	const id = createUniqueId();
 	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
@@ -159,7 +165,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 					disabled={props.disabled}
 					placeholder={props.placeholder}
 					class={joinClass(undefined, styles.input, styles.range)}
-					value={formater()(getValue()?.[0])}
+					value={formater()(props.accessor.getValue()?.[0])}
 				/>
 				<div class="shrink-0 px-1">{props.arrowIcon}</div>
 				<input
@@ -167,7 +173,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 					disabled={props.disabled}
 					placeholder={props.placeholder}
 					class={joinClass(undefined, styles.input, styles.range)}
-					value={formater()(getValue()?.[1])}
+					value={formater()(props.accessor.getValue()?.[1])}
 				/>
 
 				<Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
@@ -190,7 +196,14 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 				class={styles.panel}
 				aria-haspopup
 			>
-				<DateRangePanel class={styles['dt-panel']} {...panelProps} value={getValue()} onChange={change} />
+				<DateRangePanel
+					class={styles['dt-panel']}
+					{...panelProps}
+					value={untrack(props.accessor.getValue)}
+					onChange={v => {
+						props.accessor.setValue(v);
+					}}
+				/>
 
 				<div class={joinClass(undefined, styles.actions, 'justify-end!')}>
 					<Button

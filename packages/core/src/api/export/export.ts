@@ -93,8 +93,8 @@ export class Exporter<T extends object, Q extends Query> {
 	 * @param filename - 文件名，如果是 excel，也作为工作表的名称；
 	 * @param lang - 语言；
 	 * @param ext - 后缀名，根据此值生成不同类型的文件；
-	 * @param appName - 应用名称；
-	 * @param appVersion - 应用版本；
+	 * @param appName - 部分格式的元数据中会标注的应用名称；
+	 * @param appVersion - 部分格式的元数据中会标注的应用版本；
 	 *
 	 * NOTE: 这将通过浏览器创建一个自动下载的功能。
 	 */

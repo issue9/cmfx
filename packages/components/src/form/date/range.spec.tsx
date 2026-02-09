@@ -6,10 +6,10 @@ import { describe, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { fieldAccessor } from '@components/form/field';
-import { DateRangePicker } from './range';
+import { default as DateRangePicker } from './range';
 
 describe('DateRangePicker', async () => {
-	const fa = fieldAccessor<[Date, Date], 'number'>('chk', [new Date(), new Date()]);
+	const fa = fieldAccessor<[Date, Date], 'date'>('chk', [new Date(), new Date()], 'date');
 	const ct = await ComponentTester.build('DateRangePicker', props => <DateRangePicker accessor={fa} {...props} />);
 
 	test('props', () => ct.testProps());
