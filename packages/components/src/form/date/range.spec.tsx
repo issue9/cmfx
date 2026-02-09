@@ -10,7 +10,7 @@ import { DateRangePicker } from './range';
 
 describe('DateRangePicker', async () => {
 	const fa = fieldAccessor<[Date, Date], 'number'>('chk', [new Date(), new Date()]);
-	const ct = await ComponentTester.build('DateRangePicker', (props) => <DateRangePicker accessor={fa} {...props} />);
+	const ct = await ComponentTester.build('DateRangePicker', props => <DateRangePicker accessor={fa} {...props} />);
 
 	test('props', () => ct.testProps());
 });

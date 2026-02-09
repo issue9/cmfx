@@ -104,7 +104,7 @@ export function Chart(props: Props): JSX.Element {
 	createEffect(
 		on(isReducedMotion, () => {
 			inst.setOption({ animation: !isReducedMotion() });
-		})
+		}),
 	);
 
 	// TODO: 动态切换语言 https://github.com/apache/echarts/issues/18540

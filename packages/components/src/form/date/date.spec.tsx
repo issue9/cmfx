@@ -10,7 +10,7 @@ import { DatePicker } from './date';
 
 describe('DatePicker', async () => {
 	const fa = fieldAccessor<Date, 'number'>('chk', new Date());
-	const ct = await ComponentTester.build('DatePicker', (props) => <DatePicker accessor={fa} {...props} />);
+	const ct = await ComponentTester.build('DatePicker', props => <DatePicker accessor={fa} {...props} />);
 
 	test('props', () => ct.testProps());
 });
