@@ -8,7 +8,12 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"includes": ["packages/**/*.{ts,tsx,css}", "build/**/*.{ts,tsx,css}", "apps/**/*.{ts,tsx,css}"]
+		"includes": [
+			"packages/**/*.{ts,tsx,css,json}",
+			"build/**/*.{ts,tsx,css,json}",
+			"apps/**/*.{ts,tsx,css,json}",
+			"./*.{ts,tsx,css,json}"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -50,7 +55,9 @@
 								"!@docs/**"
 							],
 							":BLANK_LINE:",
-							["**"]
+							[
+								"**"
+							]
 						]
 					}
 				}

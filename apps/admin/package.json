@@ -1,47 +1,47 @@
 {
-    "name": "@cmfx/admin-demo",
-    "version": "0.14.0",
-    "type": "module",
-    "author": {
-        "name": "caixw",
-        "url": "https://caixw.io"
-    },
-    "homepage": "https://github.com/issue9/cmfx",
-    "bugs": {
-        "url": "https://github.com/issue9/cmfx/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/issue9/cmfx",
-        "directory": "apps/admin"
-    },
-    "license": "MIT",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview"
-    },
-    "dependencies": {
-        "@cmfx/admin": "workspace:*",
-        "@cmfx/components": "workspace:*",
-        "@cmfx/core": "workspace:*",
-        "@iconify/json": "catalog:",
-        "@solidjs/router": "catalog:",
-        "echarts": "catalog:",
-        "tailwindcss": "catalog:",
-        "solid-js": "catalog:",
-        "zod": "catalog:"
-    },
-    "devDependencies": {
-        "unplugin-icons": "catalog:",
-        "@types/node": "catalog:",
-        "@vitejs/plugin-basic-ssl": "^2.1.4",
-        "autoprefixer": "catalog:",
-        "@cmfx/vite-plugin-about": "workspace:*",
-        "@tailwindcss/vite": "catalog:",
-        "typescript": "catalog:",
-        "vite": "catalog:",
-        "vite-plugin-solid": "catalog:",
-        "vite-plugin-static-copy": "catalog:"
-    }
+	"name": "@cmfx/admin-demo",
+	"version": "0.14.0",
+	"type": "module",
+	"author": {
+		"name": "caixw",
+		"url": "https://caixw.io"
+	},
+	"homepage": "https://github.com/issue9/cmfx",
+	"bugs": {
+		"url": "https://github.com/issue9/cmfx/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/issue9/cmfx",
+		"directory": "apps/admin"
+	},
+	"license": "MIT",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@cmfx/admin": "workspace:*",
+		"@cmfx/components": "workspace:*",
+		"@cmfx/core": "workspace:*",
+		"@iconify/json": "catalog:",
+		"@solidjs/router": "catalog:",
+		"echarts": "catalog:",
+		"tailwindcss": "catalog:",
+		"solid-js": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"unplugin-icons": "catalog:",
+		"@types/node": "catalog:",
+		"@vitejs/plugin-basic-ssl": "^2.1.4",
+		"autoprefixer": "catalog:",
+		"@cmfx/vite-plugin-about": "workspace:*",
+		"@tailwindcss/vite": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-solid": "catalog:",
+		"vite-plugin-static-copy": "catalog:"
+	}
 }

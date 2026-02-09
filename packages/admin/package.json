@@ -1,76 +1,76 @@
 {
-    "name": "@cmfx/admin",
-    "version": "0.14.0",
-    "type": "module",
-    "description": "适用于 cmfx 的后台管理框架",
-    "author": {
-        "name": "caixw",
-        "url": "https://caixw.io"
-    },
-    "homepage": "https://github.com/issue9/cmfx",
-    "bugs": {
-        "url": "https://github.com/issue9/cmfx/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/issue9/cmfx",
-        "directory": "packages/admin"
-    },
-    "keywords": [
-        "cmfx",
-        "admin",
-        "dashboard",
-        "ui"
-    ],
-    "license": "MIT",
-    "files": [
-        "lib/",
-        "README.md",
-        "LICENSE"
-    ],
-    "types": "./lib/index.d.ts",
-    "module": "./lib/index.js",
-    "exports": {
-        ".": {
-            "types": "./lib/index.d.ts",
-            "import": "./lib/index.js"
-        },
-        "./plugin": {
-            "types": "./lib/plugin.d.ts",
-            "import": "./lib/plugin.js"
-        },
-        "./style.css": "./lib/style.css",
-        "./messages/": {
-            "require": "./lib/messages/",
-            "import": "./lib/messages/"
-        }
-    },
-    "scripts": {
-        "build": "vite build"
-    },
-    "dependencies": {
-        "@cmfx/core": "workspace:*",
-        "@cmfx/components": "workspace:*",
-        "@cmfx/illustrations": "workspace:*",
-        "@iconify/json": "catalog:",
-        "@scure/base": "^2.0.0",
-        "@solidjs/router": "catalog:",
-        "bowser": "catalog:",
-        "solid-js": "catalog:",
-        "tailwindcss": "catalog:",
-        "zod": "catalog:"
-    },
-    "devDependencies": {
-        "unplugin-icons": "catalog:",
-        "@tailwindcss/vite": "catalog:",
-        "@types/node": "catalog:",
-        "autoprefixer": "catalog:",
-        "typescript": "catalog:",
-        "vite": "catalog:",
-        "vite-plugin-dts": "catalog:",
-        "vite-plugin-solid": "catalog:",
-        "vite-plugin-static-copy": "catalog:",
-        "vite-tsconfig-paths": "catalog:",
-        "vitest": "catalog:"
-    }
+	"name": "@cmfx/admin",
+	"version": "0.14.0",
+	"type": "module",
+	"description": "适用于 cmfx 的后台管理框架",
+	"author": {
+		"name": "caixw",
+		"url": "https://caixw.io"
+	},
+	"homepage": "https://github.com/issue9/cmfx",
+	"bugs": {
+		"url": "https://github.com/issue9/cmfx/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/issue9/cmfx",
+		"directory": "packages/admin"
+	},
+	"keywords": [
+		"cmfx",
+		"admin",
+		"dashboard",
+		"ui"
+	],
+	"license": "MIT",
+	"files": [
+		"lib/",
+		"README.md",
+		"LICENSE"
+	],
+	"types": "./lib/index.d.ts",
+	"module": "./lib/index.js",
+	"exports": {
+		".": {
+			"types": "./lib/index.d.ts",
+			"import": "./lib/index.js"
+		},
+		"./plugin": {
+			"types": "./lib/plugin.d.ts",
+			"import": "./lib/plugin.js"
+		},
+		"./style.css": "./lib/style.css",
+		"./messages/": {
+			"require": "./lib/messages/",
+			"import": "./lib/messages/"
+		}
+	},
+	"scripts": {
+		"build": "vite build"
+	},
+	"dependencies": {
+		"@cmfx/core": "workspace:*",
+		"@cmfx/components": "workspace:*",
+		"@cmfx/illustrations": "workspace:*",
+		"@iconify/json": "catalog:",
+		"@scure/base": "^2.0.0",
+		"@solidjs/router": "catalog:",
+		"bowser": "catalog:",
+		"solid-js": "catalog:",
+		"tailwindcss": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"unplugin-icons": "catalog:",
+		"@tailwindcss/vite": "catalog:",
+		"@types/node": "catalog:",
+		"autoprefixer": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-dts": "catalog:",
+		"vite-plugin-solid": "catalog:",
+		"vite-plugin-static-copy": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest": "catalog:"
+	}
 }

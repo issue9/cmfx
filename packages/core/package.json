@@ -1,60 +1,60 @@
 {
-    "name": "@cmfx/core",
-    "version": "0.14.0",
-    "type": "module",
-    "description": "提供 cmfx 的前端核心功能",
-    "author": {
-        "name": "caixw",
-        "url": "https://caixw.io"
-    },
-    "homepage": "https://github.com/issue9/cmfx",
-    "bugs": {
-        "url": "https://github.com/issue9/cmfx/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/issue9/cmfx",
-        "directory": "packages/core"
-    },
-    "keywords": [
-        "cmfx",
-        "core"
-    ],
-    "license": "MIT",
-    "files": [
-        "lib/",
-        "README.md",
-        "LICENSE"
-    ],
-    "types": "./lib/index.d.ts",
-    "module": "./lib/index.js",
-    "exports": {
-        ".": {
-            "types": "./lib/index.d.ts",
-            "import": "./lib/index.js"
-        }
-    },
-    "scripts": {
-        "build": "vite build"
-    },
-    "dependencies": {
-        "@formatjs/intl-durationformat": "catalog:",
-        "bowser": "catalog:",
-        "cbor2": "^2.2.1",
-        "intl-messageformat": "catalog:",
-        "printd": "^1.6.0",
-        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
-        "yaml": "catalog:",
-        "zod": "catalog:"
-    },
-    "devDependencies": {
-        "@types/node": "catalog:",
-        "typescript": "catalog:",
-        "vite": "catalog:",
-        "vite-plugin-dts": "catalog:",
-        "vite-plugin-static-copy": "catalog:",
-        "vite-tsconfig-paths": "catalog:",
-        "vitest-fetch-mock": "catalog:",
-        "vitest": "catalog:"
-    }
+	"name": "@cmfx/core",
+	"version": "0.14.0",
+	"type": "module",
+	"description": "提供 cmfx 的前端核心功能",
+	"author": {
+		"name": "caixw",
+		"url": "https://caixw.io"
+	},
+	"homepage": "https://github.com/issue9/cmfx",
+	"bugs": {
+		"url": "https://github.com/issue9/cmfx/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/issue9/cmfx",
+		"directory": "packages/core"
+	},
+	"keywords": [
+		"cmfx",
+		"core"
+	],
+	"license": "MIT",
+	"files": [
+		"lib/",
+		"README.md",
+		"LICENSE"
+	],
+	"types": "./lib/index.d.ts",
+	"module": "./lib/index.js",
+	"exports": {
+		".": {
+			"types": "./lib/index.d.ts",
+			"import": "./lib/index.js"
+		}
+	},
+	"scripts": {
+		"build": "vite build"
+	},
+	"dependencies": {
+		"@formatjs/intl-durationformat": "catalog:",
+		"bowser": "catalog:",
+		"cbor2": "^2.2.1",
+		"intl-messageformat": "catalog:",
+		"printd": "^1.6.0",
+		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+		"yaml": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-dts": "catalog:",
+		"vite-plugin-static-copy": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest-fetch-mock": "catalog:",
+		"vitest": "catalog:"
+	}
 }

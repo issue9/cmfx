@@ -1,77 +1,77 @@
 {
-    "name": "@cmfx/components",
-    "version": "0.14.0",
-    "type": "module",
-    "description": "适用于 cmfx 的组件库",
-    "author": {
-        "name": "caixw",
-        "url": "https://caixw.io"
-    },
-    "homepage": "https://github.com/issue9/cmfx",
-    "bugs": {
-        "url": "https://github.com/issue9/cmfx/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/issue9/cmfx",
-        "directory": "packages/components"
-    },
-    "keywords": [
-        "cmfx",
-        "components",
-        "ui"
-    ],
-    "license": "MIT",
-    "files": [
-        "lib/",
-        "README.md",
-        "LICENSE"
-    ],
-    "types": "./lib/index.d.ts",
-    "module": "./lib/index.js",
-    "exports": {
-        ".": {
-            "types": "./lib/index.d.ts",
-            "import": "./lib/index.js"
-        },
-        "./style.css": "./lib/style.css",
-        "./tailwind.css": "./lib/tailwind.css",
-        "./messages/": {
-            "require": "./lib/messages/",
-            "import": "./lib/messages/"
-        }
-    },
-    "scripts": {
-        "build": "vite build"
-    },
-    "dependencies": {
-        "@cmfx/core": "workspace:*",
-        "@formatjs/intl-durationformat": "catalog:",
-        "@iconify/json": "catalog:",
-        "@iconsets/svg-morpheus-ts": "^1.4.12",
-        "@solidjs/router": "catalog:",
-        "colorjs.io": "catalog:",
-        "echarts": "catalog:",
-        "fast-deep-equal": "^3.1.3",
-        "qr-code-styling": "^1.9.2",
-        "quill": "^2.0.3",
-        "shiki": "catalog:",
-        "solid-js": "catalog:",
-        "solid-transition-group": "^0.3.0",
-        "tailwindcss": "catalog:"
-    },
-    "devDependencies": {
-        "@tailwindcss/vite": "catalog:",
-        "@types/node": "catalog:",
-        "autoprefixer": "catalog:",
-        "typescript": "catalog:",
-        "unplugin-icons": "catalog:",
-        "vite": "catalog:",
-        "vite-plugin-dts": "catalog:",
-        "vite-plugin-solid": "catalog:",
-        "vite-plugin-static-copy": "catalog:",
-        "vite-tsconfig-paths": "catalog:",
-        "vitest-fetch-mock": "catalog:",
-        "vitest": "catalog:"
-    }
+	"name": "@cmfx/components",
+	"version": "0.14.0",
+	"type": "module",
+	"description": "适用于 cmfx 的组件库",
+	"author": {
+		"name": "caixw",
+		"url": "https://caixw.io"
+	},
+	"homepage": "https://github.com/issue9/cmfx",
+	"bugs": {
+		"url": "https://github.com/issue9/cmfx/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/issue9/cmfx",
+		"directory": "packages/components"
+	},
+	"keywords": [
+		"cmfx",
+		"components",
+		"ui"
+	],
+	"license": "MIT",
+	"files": [
+		"lib/",
+		"README.md",
+		"LICENSE"
+	],
+	"types": "./lib/index.d.ts",
+	"module": "./lib/index.js",
+	"exports": {
+		".": {
+			"types": "./lib/index.d.ts",
+			"import": "./lib/index.js"
+		},
+		"./style.css": "./lib/style.css",
+		"./tailwind.css": "./lib/tailwind.css",
+		"./messages/": {
+			"require": "./lib/messages/",
+			"import": "./lib/messages/"
+		}
+	},
+	"scripts": {
+		"build": "vite build"
+	},
+	"dependencies": {
+		"@cmfx/core": "workspace:*",
+		"@formatjs/intl-durationformat": "catalog:",
+		"@iconify/json": "catalog:",
+		"@iconsets/svg-morpheus-ts": "^1.4.12",
+		"@solidjs/router": "catalog:",
+		"colorjs.io": "catalog:",
+		"echarts": "catalog:",
+		"fast-deep-equal": "^3.1.3",
+		"qr-code-styling": "^1.9.2",
+		"quill": "^2.0.3",
+		"shiki": "catalog:",
+		"solid-js": "catalog:",
+		"solid-transition-group": "^0.3.0",
+		"tailwindcss": "catalog:"
+	},
+	"devDependencies": {
+		"@tailwindcss/vite": "catalog:",
+		"@types/node": "catalog:",
+		"autoprefixer": "catalog:",
+		"typescript": "catalog:",
+		"unplugin-icons": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-dts": "catalog:",
+		"vite-plugin-solid": "catalog:",
+		"vite-plugin-static-copy": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest-fetch-mock": "catalog:",
+		"vitest": "catalog:"
+	}
 }

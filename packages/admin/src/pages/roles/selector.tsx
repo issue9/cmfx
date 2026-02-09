@@ -8,9 +8,15 @@ import { createSignal, JSX, onMount } from 'solid-js';
 import { handleProblem, useREST } from '@admin/app';
 import { Role } from './roles';
 
-export type Props<M extends boolean> = Omit<ChoiceProps<string, M>, 'options'>;
+type P = ChoiceProps<string>;
 
-export function Selector<M extends boolean>(props: Props<M>): JSX.Element {
+interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
+
+interface MProps extends Omit<Extract<P, { multiple: true }>, 'options'> {}
+
+export type Props = SProps | MProps;
+
+export function Selector(props: Props): JSX.Element {
 	const [roles, setRoles] = createSignal<Array<ChoiceOption<string>>>([]);
 	const api = useREST();
 

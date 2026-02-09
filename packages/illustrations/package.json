@@ -1,53 +1,53 @@
 {
-    "name": "@cmfx/illustrations",
-    "version": "0.14.0",
-    "type": "module",
-    "description": "提供 cmfx 前端的插图",
-    "author": {
-        "name": "caixw",
-        "url": "https://caixw.io"
-    },
-    "homepage": "https://github.com/issue9/cmfx",
-    "bugs": {
-        "url": "https://github.com/issue9/cmfx/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/issue9/cmfx",
-        "directory": "packages/illustrations"
-    },
-    "keywords": [
-        "cmfx",
-        "illustrations"
-    ],
-    "license": "MIT",
-    "files": [
-        "lib/",
-        "README.md",
-        "LICENSE"
-    ],
-    "types": "./lib/index.d.ts",
-    "module": "./lib/index.js",
-    "exports": {
-        ".": {
-            "types": "./lib/index.d.ts",
-            "import": "./lib/index.js"
-        }
-    },
-    "scripts": {
-        "build": "vite build"
-    },
-    "dependencies": {
-        "@cmfx/components": "workspace:*",
-        "solid-js": "catalog:"
-    },
-    "devDependencies": {
-        "@types/node": "catalog:",
-        "typescript": "catalog:",
-        "vite": "catalog:",
-        "vite-plugin-dts": "catalog:",
-        "vite-plugin-static-copy": "catalog:",
-        "vite-tsconfig-paths": "catalog:",
-        "vitest": "catalog:"
-    }
+	"name": "@cmfx/illustrations",
+	"version": "0.14.0",
+	"type": "module",
+	"description": "提供 cmfx 前端的插图",
+	"author": {
+		"name": "caixw",
+		"url": "https://caixw.io"
+	},
+	"homepage": "https://github.com/issue9/cmfx",
+	"bugs": {
+		"url": "https://github.com/issue9/cmfx/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/issue9/cmfx",
+		"directory": "packages/illustrations"
+	},
+	"keywords": [
+		"cmfx",
+		"illustrations"
+	],
+	"license": "MIT",
+	"files": [
+		"lib/",
+		"README.md",
+		"LICENSE"
+	],
+	"types": "./lib/index.d.ts",
+	"module": "./lib/index.js",
+	"exports": {
+		".": {
+			"types": "./lib/index.d.ts",
+			"import": "./lib/index.js"
+		}
+	},
+	"scripts": {
+		"build": "vite build"
+	},
+	"dependencies": {
+		"@cmfx/components": "workspace:*",
+		"solid-js": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-dts": "catalog:",
+		"vite-plugin-static-copy": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest": "catalog:"
+	}
 }

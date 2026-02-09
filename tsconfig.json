@@ -1,29 +1,29 @@
 {
-    "files": [],
-    "references": [
-        {
-            "path": "./packages/core/tsconfig.json"
-        },
-        {
-            "path": "./packages/components/tsconfig.json"
-        },
-        {
-            "path": "./packages/illustrations/tsconfig.json"
-        },
-        {
-            "path": "./packages/admin/tsconfig.json"
-        },
-        {
-            "path": "./build/vite-plugin-about/tsconfig.json"
-        },
-        {
-            "path": "./build/vite-plugin-api/tsconfig.json"
-        },
-        {
-            "path": "./apps/docs/tsconfig.json"
-        },
-        {
-            "path": "./apps/admin/tsconfig.json"
-        }
-    ]
+	"files": [],
+	"references": [
+		{
+			"path": "./packages/core/tsconfig.json"
+		},
+		{
+			"path": "./packages/components/tsconfig.json"
+		},
+		{
+			"path": "./packages/illustrations/tsconfig.json"
+		},
+		{
+			"path": "./packages/admin/tsconfig.json"
+		},
+		{
+			"path": "./build/vite-plugin-about/tsconfig.json"
+		},
+		{
+			"path": "./build/vite-plugin-api/tsconfig.json"
+		},
+		{
+			"path": "./apps/docs/tsconfig.json"
+		},
+		{
+			"path": "./apps/admin/tsconfig.json"
+		}
+	]
 }
