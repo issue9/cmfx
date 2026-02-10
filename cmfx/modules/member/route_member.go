@@ -22,20 +22,18 @@ import (
 )
 
 type memberInfoVO struct {
-	XMLName struct{} `xml:"info" json:"-" cbor:"-" yaml:"-"`
-
-	NO       string     `json:"no" yaml:"no" cbor:"no" xml:"no,attr"`
-	Created  time.Time  `json:"created" yaml:"created" cbor:"created" xml:"created"`
-	State    user.State `json:"state" yaml:"state" cbor:"state" xml:"state"`
-	Birthday time.Time  `json:"birthday,omitzero" cbor:"birthday,omitzero" xml:"birthday,omitempty" yaml:"birthday,omitempty"`
-	Sex      types.Sex  `json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex"`
-	Nickname string     `json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname"`
-	Avatar   string     `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
-	Level    int64      `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" cbor:"level,omitempty"`
-	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
+	NO       string     `json:"no" yaml:"no" cbor:"no"`
+	Created  time.Time  `json:"created" yaml:"created" cbor:"created"`
+	State    user.State `json:"state" yaml:"state" cbor:"state"`
+	Birthday time.Time  `json:"birthday,omitzero" cbor:"birthday,omitzero" yaml:"birthday,omitempty"`
+	Sex      types.Sex  `json:"sex" cbor:"sex" yaml:"sex"`
+	Nickname string     `json:"nickname" cbor:"nickname" yaml:"nickname"`
+	Avatar   string     `json:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
+	Level    int64      `json:"level,omitempty" yaml:"level,omitempty" cbor:"level,omitempty"`
+	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" cbor:"type,omitempty"`
 
 	// 当前用户已经开通的验证方式
-	Passports []*user.IdentityVO `json:"passports,omitempty" xml:"passports>passport,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
+	Passports []*user.IdentityVO `json:"passports,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
 }
 
 func (m *Module) memberGetInfo(ctx *web.Context) web.Responser {
@@ -69,11 +67,10 @@ func (m *Module) memberGetInfo(ctx *web.Context) web.Responser {
 type memberInfoPathTO struct {
 	m *Module
 
-	XMLName  struct{}  `xml:"info" json:"-" cbor:"-" yaml:"-"`
-	Birthday time.Time `json:"birthday,omitzero" cbor:"birthday,omitzero" xml:"birthday,omitempty" yaml:"birthday,omitempty"`
-	Sex      types.Sex `json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex"`
-	Nickname string    `json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname"`
-	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
+	Birthday time.Time `json:"birthday,omitzero" cbor:"birthday,omitzero" yaml:"birthday,omitempty"`
+	Sex      types.Sex `json:"sex" cbor:"sex" yaml:"sex"`
+	Nickname string    `json:"nickname" cbor:"nickname" yaml:"nickname"`
+	Avatar   string    `json:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
 }
 
 func (mem *memberInfoPathTO) Filter(v *web.FilterContext) {
@@ -109,9 +106,9 @@ func (m *Module) memberPatchInfo(ctx *web.Context) web.Responser {
 
 type memberInfoTO struct {
 	memberInfoPathTO `yaml:",inline"`
-	Username         string `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
-	Password         string `json:"password" yaml:"password" xml:"password" cbor:"password" comment:"password"`
-	Inviter          string `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
+	Username         string `json:"username" yaml:"username" cbor:"username" comment:"username"`
+	Password         string `json:"password" yaml:"password" cbor:"password" comment:"password"`
+	Inviter          string `json:"inviter,omitempty" yaml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
 	inviterID        int64
 }
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2025 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -25,9 +25,8 @@ type accountPO struct {
 func (p *accountPO) TableName() string { return `` }
 
 type accountTO struct {
-	XMLName  struct{} `xml:"account" json:"-" cbor:"-" yaml:"-"`
-	Username string   `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"`
-	Code     string   `json:"code" xml:"code" cbor:"code" yaml:"code" comment:"totp code"`
+	Username string `json:"username" cbor:"username" yaml:"username" comment:"username"`
+	Code     string `json:"code" cbor:"code" yaml:"code" comment:"totp code"`
 }
 
 func (t *accountTO) Filter(ctx *web.FilterContext) {
@@ -36,8 +35,7 @@ func (t *accountTO) Filter(ctx *web.FilterContext) {
 }
 
 type codeTO struct {
-	XMLName struct{} `xml:"code" json:"-" cbor:"-" yaml:"-"`
-	Code    string   `json:"code" xml:"code" cbor:"code" yaml:"code" comment:"totp code"`
+	Code string `json:"code" cbor:"code" yaml:"code" comment:"totp code"`
 }
 
 func (t *codeTO) Filter(ctx *web.FilterContext) {
@@ -45,8 +43,7 @@ func (t *codeTO) Filter(ctx *web.FilterContext) {
 }
 
 type secretVO struct {
-	XMLName  struct{} `xml:"secret" yaml:"-" json:"-" cbor:"-"`
-	Username string   `json:"username" yaml:"username" cbor:"username" xml:"username" comment:"username"`
-	Secret   string   `json:"secret" yaml:"secret" cbor:"secret" xml:"secret" comment:"totp secret"`
-	Expired  int      `json:"expired" yaml:"expired" cbor:"expired" xml:"expired" comment:"expired in seconds"`
+	Username string `json:"username" yaml:"username" cbor:"username" comment:"username"`
+	Secret   string `json:"secret" yaml:"secret" cbor:"secret" comment:"totp secret"`
+	Expired  int    `json:"expired" yaml:"expired" cbor:"expired" comment:"expired in seconds"`
 }

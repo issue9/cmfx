@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -14,16 +14,14 @@ import (
 )
 
 type OverviewVO struct {
-	XMLName struct{} `orm:"-" json:"-" yaml:"-" cbor:"-" xml:"product"`
-
-	ID       int64         `orm:"name(id)" json:"id,omitempty" yaml:"id,omitempty" cbor:"id,omitempty" xml:"id,attr,omitempty"`
-	NO       string        `orm:"name(no)" json:"no" yaml:"no" cbor:"no" xml:"no,attr"`
-	Order    int           `orm:"name(order)" json:"order" yaml:"order" cbor:"order" xml:"order,attr"`
-	Title    string        `orm:"name(title)" json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Images   types.Strings `orm:"name(images)" json:"images" yaml:"images" cbor:"images" xml:"images>image"`
-	Created  time.Time     `orm:"name(created)" json:"created" yaml:"created" cbor:"created" xml:"created"`
-	Modified time.Time     `orm:"name(modified)" json:"modified" yaml:"modified" cbor:"modified" xml:"modified"`
-	Merchant int64         `orm:"name(merchant)" json:"merchant,omitempty" yaml:"merchant,omitempty" cbor:"merchant,omitempty" xml:"merchant,attr,omitempty"`
+	ID       int64         `orm:"name(id)" json:"id,omitempty" yaml:"id,omitempty" cbor:"id,omitempty"`
+	NO       string        `orm:"name(no)" json:"no" yaml:"no" cbor:"no"`
+	Order    int           `orm:"name(order)" json:"order" yaml:"order" cbor:"order"`
+	Title    string        `orm:"name(title)" json:"title" yaml:"title" cbor:"title"`
+	Images   types.Strings `orm:"name(images)" json:"images" yaml:"images" cbor:"images"`
+	Created  time.Time     `orm:"name(created)" json:"created" yaml:"created" cbor:"created"`
+	Modified time.Time     `orm:"name(modified)" json:"modified" yaml:"modified" cbor:"modified"`
+	Merchant int64         `orm:"name(merchant)" json:"merchant,omitempty" yaml:"merchant,omitempty" cbor:"merchant,omitempty"`
 }
 
 type OverviewQuery struct {
@@ -50,17 +48,15 @@ func (m *Products) HandleGetProductsByMerchant(ctx *web.Context, merchant int64)
 }
 
 type ProductVO struct {
-	XMLName struct{} `orm:"-" json:"-" yaml:"-" cbor:"-" xml:"product"`
-
-	ID       int64         `orm:"name(id)" json:"id,omitempty" yaml:"id,omitempty" cbor:"id,omitempty" xml:"id,attr,omitempty"`
-	NO       string        `orm:"name(no)" json:"no" yaml:"no" cbor:"no" xml:"no,attr"`
-	Merchant int64         `orm:"name(merchant)" json:"merchant,omitempty" yaml:"merchant,omitempty" cbor:"merchant,omitempty" xml:"merchant,attr,omitempty"`
-	Order    int           `orm:"name(order)" json:"order" yaml:"order" cbor:"order" xml:"order,attr"`
-	Title    string        `orm:"name(title)" json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Images   types.Strings `orm:"name(images)" json:"images" yaml:"images" cbor:"images" xml:"images>image"`
-	Content  string        `orm:"name(content)" json:"content" yaml:"content" cbor:"content" xml:"content"`
-	Created  time.Time     `orm:"name(created)" json:"created" yaml:"created" cbor:"created" xml:"created"`
-	Modified time.Time     `orm:"name(modified)" json:"modified" yaml:"modified" cbor:"modified" xml:"modified"`
+	ID       int64         `orm:"name(id)" json:"id,omitempty" yaml:"id,omitempty" cbor:"id,omitempty"`
+	NO       string        `orm:"name(no)" json:"no" yaml:"no" cbor:"no"`
+	Merchant int64         `orm:"name(merchant)" json:"merchant,omitempty" yaml:"merchant,omitempty" cbor:"merchant,omitempty"`
+	Order    int           `orm:"name(order)" json:"order" yaml:"order" cbor:"order"`
+	Title    string        `orm:"name(title)" json:"title" yaml:"title" cbor:"title"`
+	Images   types.Strings `orm:"name(images)" json:"images" yaml:"images" cbor:"images"`
+	Content  string        `orm:"name(content)" json:"content" yaml:"content" cbor:"content"`
+	Created  time.Time     `orm:"name(created)" json:"created" yaml:"created" cbor:"created"`
+	Modified time.Time     `orm:"name(modified)" json:"modified" yaml:"modified" cbor:"modified"`
 }
 
 func (m *Products) HandleGetProduct(ctx *web.Context, id int64) web.Responser {

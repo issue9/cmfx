@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -54,15 +54,15 @@ func (Type) PrimitiveType() core.PrimitiveType { return core.String }
 
 // LogPO 货币花费明细
 type LogPO struct {
-	ID  int64 `orm:"name(id);ai" json:"-" yaml:"-" xml:"-" cbor:"-"`
-	UID int64 `orm:"name(uid)" json:"-" yaml:"-" xml:"-" cbor:"-"`
+	ID  int64 `orm:"name(id);ai" json:"-" yaml:"-" cbor:"-"`
+	UID int64 `orm:"name(uid)" json:"-" yaml:"-" cbor:"-"`
 
-	Created time.Time `orm:"name(created)" json:"created" yaml:"created" xml:"created" cbor:"created"`
-	Before  int64     `orm:"name(before)" json:"before" yaml:"before" xml:"before" cbor:"before" comment:"currency value before action"`
-	After   int64     `orm:"name(after)" json:"after" yaml:"after" xml:"after" cbor:"after" comment:"currency value after action"`
-	Value   int64     `orm:"name(value)" json:"value" yaml:"value" xml:"value" cbor:"value" comment:"add currency value"`
-	Memo    string    `orm:"name(memo);len(1000)" json:"memo" yaml:"memo" xml:"memo" cbor:"memo" comment:"memo of action"`
-	Type    Type      `orm:"name(type);len(10)" json:"type" yaml:"type" xml:"type" cbor:"type" comment:"type of action"`
+	Created time.Time `orm:"name(created)" json:"created" yaml:"created" cbor:"created"`
+	Before  int64     `orm:"name(before)" json:"before" yaml:"before" cbor:"before" comment:"currency value before action"`
+	After   int64     `orm:"name(after)" json:"after" yaml:"after" cbor:"after" comment:"currency value after action"`
+	Value   int64     `orm:"name(value)" json:"value" yaml:"value" cbor:"value" comment:"add currency value"`
+	Memo    string    `orm:"name(memo);len(1000)" json:"memo" yaml:"memo" cbor:"memo" comment:"memo of action"`
+	Type    Type      `orm:"name(type);len(10)" json:"type" yaml:"type" cbor:"type" comment:"type of action"`
 }
 
 func (p *LogPO) TableName() string { return "_logs" }

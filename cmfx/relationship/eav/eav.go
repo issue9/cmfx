@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -89,9 +89,8 @@ func (m *EAVs) GetAttribute(id int64) (string, error) {
 }
 
 type AttributeVO struct {
-	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"attribute"`
-	ID      int64    `json:"id" yaml:"id" xml:"id" cbor:"id" orm:"name(id)"`
-	Name    string   `json:"name" yaml:"name" xml:"name" cbor:"name" orm:"name(name)"`
+	ID   int64  `json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
+	Name string `json:"name" yaml:"name" cbor:"name" orm:"name(name)"`
 }
 
 func (m *EAVs) GetAttributes() ([]*AttributeVO, error) {
@@ -135,9 +134,8 @@ func DelValue[T ValueType](m *EAVs, id int64) error {
 }
 
 type ValueVO[T ValueType] struct {
-	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"value"`
-	ID      int64    `json:"id" yaml:"id" xml:"id" cbor:"id" orm:"name(id)"`
-	Value   T        `json:"value" yaml:"value" xml:"value" cbor:"value" orm:"name(value)"`
+	ID    int64 `json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
+	Value T     `json:"value" yaml:"value" cbor:"value" orm:"name(value)"`
 }
 
 // GetValue 获得 id 对应的值

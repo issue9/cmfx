@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2025 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -25,7 +25,7 @@ type adminInfoVO struct {
 	infoWithRoleStateVO `yaml:",inline"`
 
 	// 当前用户已经开通的验证方式
-	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
+	Passports []*user.IdentityVO `json:"passports" cbor:"passports" yaml:"passports"`
 }
 
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {

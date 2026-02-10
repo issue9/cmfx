@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -22,15 +22,13 @@ type Currency struct {
 }
 
 type OverviewsVO struct {
-	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"overview"`
+	UID      int64  `json:"uid" yaml:"uid" cbor:"uid"`
+	NO       string `json:"no" yaml:"no" cbor:"no"`
+	Username string `json:"username" yaml:"username" cbor:"username"`
 
-	UID      int64  `json:"uid" yaml:"uid" cbor:"uid" xml:"uid"`
-	NO       string `json:"no" yaml:"no" cbor:"no" xml:"no"`
-	Username string `json:"username" yaml:"username" cbor:"username" xml:"username"`
-
-	Available int64 `json:"available" yaml:"available" cbor:"available" xml:"available"`
-	Freeze    int64 `json:"freeze" yaml:"freeze" cbor:"freeze" xml:"freeze"`
-	Used      int64 `json:"used" yaml:"used" cbor:"used" xml:"used"`
+	Available int64 `json:"available" yaml:"available" cbor:"available"`
+	Freeze    int64 `json:"freeze" yaml:"freeze" cbor:"freeze"`
+	Used      int64 `json:"used" yaml:"used" cbor:"used"`
 }
 
 type overviewsPO struct {
@@ -96,16 +94,15 @@ func (m *Currency) GetOverviews(q *query.Text) (*query.Page[OverviewsVO], error)
 }
 
 type OverviewVO struct {
-	XMLName   struct{}            `json:"-" yaml:"-" cbor:"-" xml:"overview"`
-	Available int64               `json:"available" yaml:"available" cbor:"available" xml:"available"`
-	Freeze    int64               `json:"freeze" yaml:"freeze" cbor:"freeze" xml:"freeze"`
-	Used      int64               `json:"used" yaml:"used" cbor:"used" xml:"used"`
-	Expire    []*OverviewExpireVO `json:"expire,omitempty" yaml:"expire,omitempty" cbor:"expire,omitempty" xml:"expire,omitempty"`
+	Available int64               `json:"available" yaml:"available" cbor:"available"`
+	Freeze    int64               `json:"freeze" yaml:"freeze" cbor:"freeze"`
+	Used      int64               `json:"used" yaml:"used" cbor:"used"`
+	Expire    []*OverviewExpireVO `json:"expire,omitempty" yaml:"expire,omitempty" cbor:"expire,omitempty"`
 }
 
 type OverviewExpireVO struct {
-	Value int64     `json:"value" yaml:"value" cbor:"value" xml:"value"`
-	Date  time.Time `json:"date" yaml:"date" cbor:"date" xml:"date"`
+	Value int64     `json:"value" yaml:"value" cbor:"value"`
+	Date  time.Time `json:"date" yaml:"date" cbor:"date"`
 }
 
 // GetOverview 获取用户 u 的摘要信息

@@ -12,8 +12,6 @@ mimetypes = [
     { type = "application/yaml", target = "yaml", problem = "application/problem+yaml", accept = "request,response" },
     { type = "application/cbor", target = "cbor", problem = "application/problem+cbor", accept = "request,response" },
 
-    { type = "application/xml", target = "xml", problem = "application/problem+xml", accept = "request,response" },
-    { type = "text/xml", target = "xml", problem = "text/problem+xml", accept = "request,response" },
     { type = "text/html", target = "html", problem = "text/html", accept = "response" },
     { type = "text/event-stream", target = "nop" },
     { type = "multipart/form-data", target = "nop" },

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2025 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -18,7 +18,7 @@ import (
 
 type infoWithPassportVO struct {
 	info      `yaml:",inline"`
-	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
+	Passports []*user.IdentityVO `json:"passports" cbor:"passports" yaml:"passports"`
 }
 
 func (m *Module) postSSE(ctx *web.Context) web.Responser {

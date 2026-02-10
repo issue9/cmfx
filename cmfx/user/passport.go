@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -42,9 +42,8 @@ func (m *Users) AddPassport(adp Passport) {
 }
 
 type passportVO struct {
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"passports"`
-	ID      string   `json:"id" cbor:"id" xml:"id" yaml:"id" comment:"The ID of passport"`
-	Desc    string   `json:"desc" cbor:"desc" xml:"desc" yaml:"desc" comment:"The description of passport"`
+	ID   string `json:"id" cbor:"id" yaml:"id" comment:"The ID of passport"`
+	Desc string `json:"desc" cbor:"desc" yaml:"desc" comment:"The description of passport"`
 }
 
 func (m *Users) getPassports(ctx *web.Context) web.Responser {
@@ -62,11 +61,9 @@ func (m *Users) getPassports(ctx *web.Context) web.Responser {
 }
 
 type IdentityVO struct {
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"identity"`
-
-	ID       string `json:"id" xml:"id" cbor:"id" yaml:"id" comment:"passport id"`
-	Identity string `json:"identity" xml:"identity" cbor:"identity" yaml:"identity" comment:"user identity for current passport"`
-	State    int8   `json:"state" xml:"state,attr" cbor:"state" yaml:"state" comment:"the state for passport and identity"`
+	ID       string `json:"id" cbor:"id" yaml:"id" comment:"passport id"`
+	Identity string `json:"identity" cbor:"identity" yaml:"identity" comment:"user identity for current passport"`
+	State    int8   `json:"state" cbor:"state" yaml:"state" comment:"the state for passport and identity"`
 }
 
 // Identities 获取 uid 已经关联的适配器

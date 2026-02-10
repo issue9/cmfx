@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -44,9 +44,8 @@ type credentialPO struct {
 }
 
 type credentialVO struct {
-	XMLName struct{}  `xml:"credential" json:"-" yaml:"-" cbor:"-"`
-	Created time.Time `json:"created" yaml:"created" cbor:"created" xml:"created"`
-	Last    time.Time `json:"last" yaml:"last" cbor:"last" xml:"last"`
-	ID      []byte    `json:"id" yaml:"id" cbor:"id" xml:"id"`
-	UA      string    `json:"ua" yaml:"ua" cbor:"ua" xml:"ua"`
+	Created time.Time `json:"created" yaml:"created" cbor:"created"`
+	Last    time.Time `json:"last" yaml:"last" cbor:"last"`
+	ID      []byte    `json:"id" yaml:"id" cbor:"id"`
+	UA      string    `json:"ua" yaml:"ua" cbor:"ua"`
 }

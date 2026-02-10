@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -19,14 +19,12 @@ type linkagePO struct {
 func (l *linkagePO) TableName() string { return `` }
 
 type Linkage struct {
-	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"linkage"`
-
-	ID    int64      `json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
-	Title string     `json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Order int        `json:"order,omitempty" yaml:"order,omitempty" cbor:"order,omitempty" xml:"order,attr,omitempty"` // 在同级中的顺序
-	Icon  string     `json:"icon,omitempty" yaml:"icon,omitempty" cbor:"icon,omitempty" xml:"icon,omitempty"`
-	Items []*Linkage `json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" xml:"items>item,omitempty"`
-	Count int        `json:"count,omitempty" yaml:"count,omitempty" cbor:"count,omitempty" xml:"count,attr,omitempty"` // 关联内容的数量
+	ID    int64      `json:"id" yaml:"id" cbor:"id"`
+	Title string     `json:"title" yaml:"title" cbor:"title"`
+	Order int        `json:"order,omitempty" yaml:"order,omitempty" cbor:"order,omitempty"` // 在同级中的顺序
+	Icon  string     `json:"icon,omitempty" yaml:"icon,omitempty" cbor:"icon,omitempty"`
+	Items []*Linkage `json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty"`
+	Count int        `json:"count,omitempty" yaml:"count,omitempty" cbor:"count,omitempty"` // 关联内容的数量
 }
 
 func (vo *Linkage) toPO(parent int64) *linkagePO {

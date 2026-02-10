@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -20,16 +20,15 @@ import (
 )
 
 type CommentVO struct {
-	XMLName  struct{}  `xml:"comment" json:"-" yaml:"-" cbor:"-" orm:"-"`
-	ID       int64     `xml:"id" json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
-	Author   string    `xml:"author" json:"author" yaml:"author" cbor:"author" orm:"name(author)"`
-	Created  time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
-	Modified time.Time `xml:"modified" json:"modified" yaml:"modified" cbor:"modified" orm:"name(modified)"`
-	Content  string    `xml:"content" json:"content" yaml:"content" cbor:"content" orm:"name(content)"`
+	ID       int64     `json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
+	Author   string    `json:"author" yaml:"author" cbor:"author" orm:"name(author)"`
+	Created  time.Time `json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
+	Modified time.Time `json:"modified" yaml:"modified" cbor:"modified" orm:"name(modified)"`
+	Content  string    `json:"content" yaml:"content" cbor:"content" orm:"name(content)"`
 
-	Rate  int          `xml:"rate,omitempty" json:"rate,omitempty" yaml:"rate,omitempty" cbor:"rate,omitempty" orm:"name(rate)"`
-	State State        `xml:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty" cbor:"state,omitempty" orm:"name(state)"`
-	Items []*CommentVO `xml:"items>item,omitempty" json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" orm:"-"`
+	Rate  int          `json:"rate,omitempty" yaml:"rate,omitempty" cbor:"rate,omitempty" orm:"name(rate)"`
+	State State        `json:"state,omitempty" yaml:"state,omitempty" cbor:"state,omitempty" orm:"name(state)"`
+	Items []*CommentVO `json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" orm:"-"`
 }
 
 type CommentQuery struct {
@@ -146,11 +145,10 @@ func (m *Comments) HandleGetComment(ctx *web.Context, comment int64) web.Respons
 type CommentTO struct {
 	m *Comments
 
-	XMLName struct{} `xml:"comment" json:"-" yaml:"-" cbor:"-"`
-	Content string   `json:"content" yaml:"content" cbor:"content" xml:"content"`
-	Rate    int      `json:"rate" yaml:"rate" cbor:"rate" xml:"rate,attr"`
-	Author  string   `json:"author" yaml:"author" cbor:"author" xml:"author"` // 显示的作者信息
-	Parent  int64    `json:"parent" yaml:"parent" cbor:"parent" xml:"parent"` // 父评论
+	Content string `json:"content" yaml:"content" cbor:"content"`
+	Rate    int    `json:"rate" yaml:"rate" cbor:"rate"`
+	Author  string `json:"author" yaml:"author" cbor:"author"` // 显示的作者信息
+	Parent  int64  `json:"parent" yaml:"parent" cbor:"parent"` // 父评论
 }
 
 func (to *CommentTO) Filter(ctx *web.FilterContext) {
@@ -298,12 +296,11 @@ func (m *Comments) HandleDeleteComment(ctx *web.Context, creator, comment int64)
 
 // SnapshotVO 摘要信息
 type SnapshotVO struct {
-	XMLName struct{}  `xml:"comment" json:"-" yaml:"-" cbor:"-" orm:"-"`
-	Comment int64     `xml:"comment" json:"comment" yaml:"comment" cbor:"comment" orm:"name(comment)"` // 关联的评论
-	ID      int64     `xml:"id" json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
-	Created time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
-	Content string    `xml:"content" json:"content" yaml:"content" cbor:"content" orm:"name(content)"`
-	Rate    int64     `xml:"rate" json:"rate" yaml:"rate" cbor:"rate" orm:"name(rate)"`
+	Comment int64     `json:"comment" yaml:"comment" cbor:"comment" orm:"name(comment)"` // 关联的评论
+	ID      int64     `json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
+	Created time.Time `json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
+	Content string    `json:"content" yaml:"content" cbor:"content" orm:"name(content)"`
+	Rate    int64     `json:"rate" yaml:"rate" cbor:"rate" orm:"name(rate)"`
 }
 
 // HandleGetSnapshots 获取评论的快照列表

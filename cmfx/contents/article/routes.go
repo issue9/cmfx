@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -20,16 +20,14 @@ import (
 
 // OverviewVO 文章摘要信息
 type OverviewVO struct {
-	XMLName struct{} `xml:"overview" json:"-" yaml:"-" cbor:"-" orm:"-"`
-
-	ID       int64     `xml:"id" json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
-	Slug     string    `xml:"slug" json:"slug" yaml:"slug" cbor:"slug" orm:"name(slug)"`
-	Views    int       `xml:"views" json:"views" yaml:"views" cbor:"views" orm:"name(views)"`
-	Order    int       `xml:"order" json:"order" yaml:"order" cbor:"order" orm:"name(order)"`
-	Author   string    `xml:"author" json:"author" yaml:"author" cbor:"author" orm:"name(author)"`
-	Title    string    `xml:"title" json:"title" yaml:"title" cbor:"title" orm:"name(title)"`
-	Created  time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
-	Modified time.Time `xml:"modified" json:"modified" yaml:"modified" cbor:"modified" orm:"name(modified)"`
+	ID       int64     `json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
+	Slug     string    `json:"slug" yaml:"slug" cbor:"slug" orm:"name(slug)"`
+	Views    int       `json:"views" yaml:"views" cbor:"views" orm:"name(views)"`
+	Order    int       `json:"order" yaml:"order" cbor:"order" orm:"name(order)"`
+	Author   string    `json:"author" yaml:"author" cbor:"author" orm:"name(author)"`
+	Title    string    `json:"title" yaml:"title" cbor:"title" orm:"name(title)"`
+	Created  time.Time `json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
+	Modified time.Time `json:"modified" yaml:"modified" cbor:"modified" orm:"name(modified)"`
 }
 
 type OverviewQuery struct {
@@ -183,29 +181,27 @@ func (m *Articles) HandleGetArticlesByTag(ctx *web.Context, tag int64) web.Respo
 
 // ArticleVO 文章的详细内容
 type ArticleVO struct {
-	XMLName struct{} `xml:"article" json:"-" yaml:"-" cbor:"-" orm:"-"`
+	ID       int64         `orm:"name(id)" json:"id" yaml:"id" cbor:"id"`
+	Snapshot int64         `orm:"name(snapshot)" json:"snapshot" yaml:"snapshot" cbor:"snapshot"` // 此文章对应的快照 ID
+	Slug     string        `orm:"name(slug);len(100);unique(slug)" json:"slug" yaml:"slug" cbor:"slug"`
+	Views    int           `orm:"name(views)" json:"views" yaml:"views" cbor:"views"`
+	Order    int           `orm:"name(order)" json:"order" yaml:"order" cbor:"order"`
+	Author   string        `orm:"name(author);len(20)" json:"author" yaml:"author" cbor:"author"`
+	Title    string        `orm:"name(title);len(100)" json:"title" yaml:"title" cbor:"title"`
+	Images   types.Strings `orm:"name(images);len(1000)" json:"images" yaml:"images" cbor:"images"`
+	Keywords string        `orm:"name(keywords)" json:"keywords" yaml:"keywords" cbor:"keywords"`
+	Summary  string        `orm:"name(summary);len(2000)" json:"summary" yaml:"summary" cbor:"summary"`
+	Content  string        `orm:"name(content);len(-1)" json:"content" yaml:"content" cbor:"content"`
 
-	ID       int64         `orm:"name(id)" json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
-	Snapshot int64         `orm:"name(snapshot)" json:"snapshot" yaml:"snapshot" cbor:"snapshot" xml:"snapshot,attr"` // 此文章对应的快照 ID
-	Slug     string        `orm:"name(slug);len(100);unique(slug)" json:"slug" yaml:"slug" cbor:"slug" xml:"slug"`
-	Views    int           `orm:"name(views)" json:"views" yaml:"views" cbor:"views" xml:"views,attr"`
-	Order    int           `orm:"name(order)" json:"order" yaml:"order" cbor:"order" xml:"order,attr"`
-	Author   string        `orm:"name(author);len(20)" json:"author" yaml:"author" cbor:"author" xml:"author"`
-	Title    string        `orm:"name(title);len(100)" json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Images   types.Strings `orm:"name(images);len(1000)" json:"images" yaml:"images" cbor:"images" xml:"images>image"`
-	Keywords string        `orm:"name(keywords)" json:"keywords" yaml:"keywords" cbor:"keywords" xml:"keywords"`
-	Summary  string        `orm:"name(summary);len(2000)" json:"summary" yaml:"summary" cbor:"summary" xml:"summary,cdata"`
-	Content  string        `orm:"name(content);len(-1)" json:"content" yaml:"content" cbor:"content" xml:"content,cdata"`
-
-	Created  time.Time `orm:"name(created)" json:"created" yaml:"created" cbor:"created" xml:"created"`
-	Modified time.Time `orm:"name(modified)" json:"modified" yaml:"modified" cbor:"modified" xml:"modified"`
+	Created  time.Time `orm:"name(created)" json:"created" yaml:"created" cbor:"created"`
+	Modified time.Time `orm:"name(modified)" json:"modified" yaml:"modified" cbor:"modified"`
 
 	// 分类信息
-	Topics []int64 `orm:"-" json:"topics" yaml:"topics" cbor:"topics" xml:"topics>topic"`
-	Tags   []int64 `orm:"-" json:"tags" yaml:"tags" cbor:"tags" xml:"tags>tag"`
+	Topics []int64 `orm:"-" json:"topics" yaml:"topics" cbor:"topics"`
+	Tags   []int64 `orm:"-" json:"tags" yaml:"tags" cbor:"tags"`
 
 	// 用于保存最后一次的快照 ID
-	Last int64 `orm:"name(last)" json:"-" yaml:"-" cbor:"-" xml:"-"`
+	Last int64 `orm:"name(last)" json:"-" yaml:"-" cbor:"-"`
 }
 
 // HandleGetArticle 获取指定文章的详细信息
@@ -239,18 +235,17 @@ func (m *Articles) HandleGetArticle(ctx *web.Context, article int64) web.Respons
 type ArticleTO struct {
 	m *Articles
 
-	XMLName  struct{} `xml:"article" json:"-" yaml:"-" cbor:"-"`
-	Author   string   `json:"author" yaml:"author" cbor:"author" xml:"author"`
-	Title    string   `json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Images   []string `json:"images" yaml:"images" cbor:"images" xml:"images>image"`
-	Keywords string   `json:"keywords" yaml:"keywords" cbor:"keywords" xml:"keywords"`
-	Summary  string   `json:"summary" yaml:"summary" cbor:"summary" xml:"summary"`
-	Content  string   `json:"content" yaml:"content" cbor:"content" xml:"content"`
-	Topics   []int64  `json:"topics" yaml:"topics" cbor:"topics" xml:"topics>topic"`
-	Tags     []int64  `json:"tags" yaml:"tags" cbor:"tags" xml:"tags>tag"`
-	Slug     string   `json:"slug" yaml:"slug" cbor:"slug" xml:"slug"`
-	Views    int      `json:"views" yaml:"views" cbor:"views" xml:"views"`
-	Order    int      `json:"order" yaml:"order" cbor:"order" xml:"order"`
+	Author   string   `json:"author" yaml:"author" cbor:"author"`
+	Title    string   `json:"title" yaml:"title" cbor:"title"`
+	Images   []string `json:"images" yaml:"images" cbor:"images"`
+	Keywords string   `json:"keywords" yaml:"keywords" cbor:"keywords"`
+	Summary  string   `json:"summary" yaml:"summary" cbor:"summary"`
+	Content  string   `json:"content" yaml:"content" cbor:"content"`
+	Topics   []int64  `json:"topics" yaml:"topics" cbor:"topics"`
+	Tags     []int64  `json:"tags" yaml:"tags" cbor:"tags"`
+	Slug     string   `json:"slug" yaml:"slug" cbor:"slug"`
+	Views    int      `json:"views" yaml:"views" cbor:"views"`
+	Order    int      `json:"order" yaml:"order" cbor:"order"`
 }
 
 func (to *ArticleTO) Filter(ctx *web.FilterContext) {
@@ -331,15 +326,14 @@ func (m *Articles) HandlePostArticle(ctx *web.Context, creator int64) web.Respon
 type ArticlePatchTO struct {
 	m *Articles
 
-	XMLName  struct{} `xml:"article" json:"-" yaml:"-" cbor:"-"`
-	Author   string   `json:"author" yaml:"author" cbor:"author" xml:"author"`
-	Title    string   `json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Images   []string `json:"images" yaml:"images" cbor:"images" xml:"images>image"`
-	Keywords string   `json:"keywords" yaml:"keywords" cbor:"keywords" xml:"keywords"`
-	Summary  string   `json:"summary" yaml:"summary" cbor:"summary" xml:"summary"`
-	Content  string   `json:"content" yaml:"content" cbor:"content" xml:"content"`
-	Topics   []int64  `json:"topics" yaml:"topics" cbor:"topics" xml:"topics>topic"`
-	Tags     []int64  `json:"tags" yaml:"tags" cbor:"tags" xml:"tags>tag"`
+	Author   string   `json:"author" yaml:"author" cbor:"author"`
+	Title    string   `json:"title" yaml:"title" cbor:"title"`
+	Images   []string `json:"images" yaml:"images" cbor:"images"`
+	Keywords string   `json:"keywords" yaml:"keywords" cbor:"keywords"`
+	Summary  string   `json:"summary" yaml:"summary" cbor:"summary"`
+	Content  string   `json:"content" yaml:"content" cbor:"content"`
+	Topics   []int64  `json:"topics" yaml:"topics" cbor:"topics"`
+	Tags     []int64  `json:"tags" yaml:"tags" cbor:"tags"`
 }
 
 func (to *ArticlePatchTO) Filter(ctx *web.FilterContext) {
@@ -450,13 +444,11 @@ func (m *Articles) HandleDeleteArticle(ctx *web.Context, article, deleter int64)
 
 // SnapshotOverviewVO 文章快照的摘要信息
 type SnapshotOverviewVO struct {
-	XMLName struct{} `xml:"snapshot" json:"-" yaml:"-" cbor:"-" orm:"-"`
-
-	Article int64     `xml:"article" json:"article" yaml:"article" cbor:"article" orm:"name(article)"` // 关联的文章
-	ID      int64     `xml:"id" json:"id" yaml:"id" cbor:"id" orm:"name(id)"`                          // 快照 ID
-	Author  string    `xml:"author" json:"author" yaml:"author" cbor:"author" orm:"name(author)"`
-	Title   string    `xml:"title" json:"title" yaml:"title" cbor:"title" orm:"name(title)"`
-	Created time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
+	Article int64     `json:"article" yaml:"article" cbor:"article" orm:"name(article)"` // 关联的文章
+	ID      int64     `json:"id" yaml:"id" cbor:"id" orm:"name(id)"`                     // 快照 ID
+	Author  string    `json:"author" yaml:"author" cbor:"author" orm:"name(author)"`
+	Title   string    `json:"title" yaml:"title" cbor:"title" orm:"name(title)"`
+	Created time.Time `json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
 }
 
 // HandleGetSnapshots 获取文章的快照列表
@@ -485,18 +477,16 @@ func (m *Articles) HandleGetSnapshots(ctx *web.Context, article int64) web.Respo
 
 // SnapshotVO 文章快照详细内容
 type SnapshotVO struct {
-	XMLName struct{} `xml:"article" json:"-" yaml:"-" cbor:"-" orm:"-"`
-
-	ID       int64         `orm:"name(id)" json:"id" yaml:"id" cbor:"id" xml:"id,attr"`                          // 快照 ID
-	Article  int64         `orm:"name(article)" json:"article" yaml:"article" cbor:"article" xml:"article,attr"` // 快照关联的文章 ID
-	Slug     string        `orm:"name(slug);len(100);unique(slug)" json:"slug" yaml:"slug" cbor:"slug" xml:"slug"`
-	Author   string        `orm:"name(author);len(20)" json:"author" yaml:"author" cbor:"author" xml:"author"`
-	Title    string        `orm:"name(title);len(100)" json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Images   types.Strings `orm:"name(images);len(1000)" json:"images" yaml:"images" cbor:"images" xml:"images>image"`
-	Keywords string        `orm:"name(keywords)" json:"keywords" yaml:"keywords" cbor:"keywords" xml:"keywords"`
-	Summary  string        `orm:"name(summary);len(2000)" json:"summary" yaml:"summary" cbor:"summary" xml:"summary,cdata"`
-	Content  string        `orm:"name(content);len(-1)" json:"content" yaml:"content" cbor:"content" xml:"content,cdata"`
-	Created  time.Time     `orm:"name(created)" json:"created" yaml:"created" cbor:"created" xml:"created"`
+	ID       int64         `orm:"name(id)" json:"id" yaml:"id" cbor:"id"`                     // 快照 ID
+	Article  int64         `orm:"name(article)" json:"article" yaml:"article" cbor:"article"` // 快照关联的文章 ID
+	Slug     string        `orm:"name(slug);len(100);unique(slug)" json:"slug" yaml:"slug" cbor:"slug"`
+	Author   string        `orm:"name(author);len(20)" json:"author" yaml:"author" cbor:"author"`
+	Title    string        `orm:"name(title);len(100)" json:"title" yaml:"title" cbor:"title"`
+	Images   types.Strings `orm:"name(images);len(1000)" json:"images" yaml:"images" cbor:"images"`
+	Keywords string        `orm:"name(keywords)" json:"keywords" yaml:"keywords" cbor:"keywords"`
+	Summary  string        `orm:"name(summary);len(2000)" json:"summary" yaml:"summary" cbor:"summary"`
+	Content  string        `orm:"name(content);len(-1)" json:"content" yaml:"content" cbor:"content"`
+	Created  time.Time     `orm:"name(created)" json:"created" yaml:"created" cbor:"created"`
 }
 
 // HandleGetSnapshot 获取快照的详细信息

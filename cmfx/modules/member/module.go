@@ -276,18 +276,16 @@ func (m *Module) Invited(uid int64, q *invitedQuery) (*query.Page[InvitedMember]
 }
 
 type InvitedMember struct {
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"member"`
-
-	ID       int64     `json:"id,omitempty" yaml:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" comment:"id"`
-	NO       string    `json:"no" xml:"no" cbor:"no" yaml:"no" comment:"user no"`
-	Username string    `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
-	Inviter  int64     `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
-	Birthday time.Time `json:"birthday,omitzero" yaml:"birthday,omitempty" cbor:"birthday,omitzero" xml:"birthday,omitempty" comment:"birthday"`
-	Sex      types.Sex `json:"sex,omitempty" xml:"sex,attr,omitempty" cbor:"sex,omitempty" yaml:"sex,omitempty" comment:"sex"`
-	Nickname string    `json:"nickname,omitempty" xml:"nickname,omitempty" cbor:"nickname,omitempty" yaml:"nickname,omitempty" comment:"nickname"`
-	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
-	Level    int64     `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" cbor:"level,omitempty"`
-	Type     int64     `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
+	ID       int64     `json:"id,omitempty" yaml:"id,omitempty" cbor:"id,omitempty" comment:"id"`
+	NO       string    `json:"no" cbor:"no" yaml:"no" comment:"user no"`
+	Username string    `json:"username" yaml:"username" cbor:"username" comment:"username"`
+	Inviter  int64     `json:"inviter,omitempty" yaml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
+	Birthday time.Time `json:"birthday,omitzero" yaml:"birthday,omitempty" cbor:"birthday,omitzero" comment:"birthday"`
+	Sex      types.Sex `json:"sex,omitempty" cbor:"sex,omitempty" yaml:"sex,omitempty" comment:"sex"`
+	Nickname string    `json:"nickname,omitempty" cbor:"nickname,omitempty" yaml:"nickname,omitempty" comment:"nickname"`
+	Avatar   string    `json:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
+	Level    int64     `json:"level,omitempty" yaml:"level,omitempty" cbor:"level,omitempty"`
+	Type     int64     `json:"type,omitempty" yaml:"type,omitempty" cbor:"type,omitempty"`
 }
 
 // SetLevel 设置用户的等级

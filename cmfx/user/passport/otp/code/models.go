@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -37,9 +37,8 @@ type codePO struct {
 }
 
 type accountTO struct {
-	XMLName struct{} `xml:"account" json:"-" cbor:"-" yaml:"-"`
-	Target  string   `json:"target" xml:"target" cbor:"target" yaml:"target" comment:"target"`
-	Code    string   `json:"code" xml:"code" cbor:"code" yaml:"code" comment:"code"`
+	Target string `json:"target" cbor:"target" yaml:"target" comment:"target"`
+	Code   string `json:"code" cbor:"code" yaml:"code" comment:"code"`
 }
 
 func (a *accountTO) Filter(ctx *web.FilterContext) {
@@ -48,8 +47,7 @@ func (a *accountTO) Filter(ctx *web.FilterContext) {
 }
 
 type TargetTO struct {
-	XMLName struct{} `xml:"target" yaml:"-" json:"-" cbor:"-"`
-	Target  string   `json:"target" yaml:"target" cbor:"target" xml:"target" comment:"code receiver, ignore when binded"`
+	Target string `json:"target" yaml:"target" cbor:"target" comment:"code receiver, ignore when binded"`
 }
 
 func (a *TargetTO) Filter(ctx *web.FilterContext) {

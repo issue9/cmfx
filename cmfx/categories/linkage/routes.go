@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -15,10 +15,9 @@ import (
 )
 
 type LinkageTO struct {
-	XMLName struct{} `xml:"linkage" json:"-" cbor:"-" yaml:"-"`
-	Title   string   `json:"title" xml:"title" cbor:"title" yaml:"title"`
-	Icon    string   `json:"icon,omitempty" xml:"icon,omitempty" cbor:"icon,omitempty" yaml:"icon,omitempty"`
-	Order   int      `json:"order,omitempty" xml:"order,attr,omitempty" cbor:"order,omitempty" yaml:"order,omitempty"`
+	Title string `json:"title" cbor:"title" yaml:"title"`
+	Icon  string `json:"icon,omitempty" cbor:"icon,omitempty" yaml:"icon,omitempty"`
+	Order int    `json:"order,omitempty" cbor:"order,omitempty" yaml:"order,omitempty"`
 }
 
 func (l *LinkageTO) Filter(ctx *web.FilterContext) {

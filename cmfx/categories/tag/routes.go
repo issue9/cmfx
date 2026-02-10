@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,8 +12,7 @@ import (
 )
 
 type TagTO struct {
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"info"`
-	Title   string   `json:"title" cbor:"title" yaml:"title" xml:"title"`
+	Title string `json:"title" cbor:"title" yaml:"title"`
 }
 
 func (t *TagTO) Filter(ctx *web.FilterContext) {

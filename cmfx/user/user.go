@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2025 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -163,14 +163,12 @@ func (m *Users) OnDelete(f func(*User)) context.CancelFunc { return m.addEvent.S
 
 // Statistic 用户统计信息
 type Statistic struct {
-	XMLName struct{} `orm:"-" xml:"statistic" json:"-" yaml:"-" cbor:"-"`
-
-	Online int `orm:"name(online)" xml:"online" json:"online" yaml:"online" cbor:"online"` // 在线用户数，10 分钟之内登录的用户。
-	Active int `orm:"name(active)" xml:"active" json:"active" yaml:"active" cbor:"active"` // 活跃用户数，一月之内登录的用户。
-	All    int `orm:"name(all)" xml:"all" json:"all" yaml:"all" cbor:"all"`                // 所有用户数
-	Month  int `orm:"name(month)" xml:"month" json:"month" yaml:"month" cbor:"month"`      // 本月新增用户数
-	Week   int `orm:"name(week)" xml:"week" json:"week" yaml:"week" cbor:"week"`           // 本周新增用户数
-	Day    int `orm:"name(day)" xml:"day" json:"day" yaml:"day" cbor:"day"`                // 今日新增用户数
+	Online int `orm:"name(online)" json:"online" yaml:"online" cbor:"online"` // 在线用户数，10 分钟之内登录的用户。
+	Active int `orm:"name(active)" json:"active" yaml:"active" cbor:"active"` // 活跃用户数，一月之内登录的用户。
+	All    int `orm:"name(all)" json:"all" yaml:"all" cbor:"all"`             // 所有用户数
+	Month  int `orm:"name(month)" json:"month" yaml:"month" cbor:"month"`     // 本月新增用户数
+	Week   int `orm:"name(week)" json:"week" yaml:"week" cbor:"week"`         // 本周新增用户数
+	Day    int `orm:"name(day)" json:"day" yaml:"day" cbor:"day"`             // 今日新增用户数
 }
 
 // Statistic 统计用户信息

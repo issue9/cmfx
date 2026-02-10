@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -16,10 +16,9 @@ import (
 
 // RoleTO 角色信息
 type RoleTO struct {
-	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-"`
-	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" comment:"role name"`
-	Desc    string   `json:"description" xml:"description" cbor:"description" yaml:"description" comment:"role description"`
-	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" comment:"role parent"`
+	Name   string `json:"name" cbor:"name" yaml:"name" comment:"role name"`
+	Desc   string `json:"description" cbor:"description" yaml:"description" comment:"role description"`
+	Parent string `json:"parent,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" comment:"role parent"`
 }
 
 func (r *RoleTO) Filter(v *web.FilterContext) {
@@ -29,11 +28,10 @@ func (r *RoleTO) Filter(v *web.FilterContext) {
 
 // RoleVO 角色信息
 type RoleVO struct {
-	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-"`
-	ID      string   `json:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" yaml:"id,omitempty" comment:"role id"`
-	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" comment:"role name"`
-	Desc    string   `json:"description" xml:"description" cbor:"description" yaml:"description" comment:"role description"`
-	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" comment:"role parent"`
+	ID     string `json:"id,omitempty" cbor:"id,omitempty" yaml:"id,omitempty" comment:"role id"`
+	Name   string `json:"name" cbor:"name" yaml:"name" comment:"role name"`
+	Desc   string `json:"description" cbor:"description" yaml:"description" comment:"role description"`
+	Parent string `json:"parent,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" comment:"role parent"`
 }
 
 // GetRolesHandle 向客户端输出 g 中保存的所有角色列表
