@@ -2,16 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Drawer,
-	DrawerRef,
-	joinClass,
-	ObjectAccessor,
-	Scheme,
-	useLocale,
-	useOptions,
-	useTheme,
-} from '@cmfx/components';
+import { Drawer, joinClass, ObjectAccessor, useLocale, useOptions, useTheme } from '@cmfx/components';
+import type { Scheme, DrawerRef } from '@cmfx/components';
 import { RouteDefinition } from '@solidjs/router';
 import { createEffect, onCleanup, onMount, Setter } from 'solid-js';
 import { unwrap } from 'solid-js/store';

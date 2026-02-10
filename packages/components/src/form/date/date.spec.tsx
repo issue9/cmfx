@@ -9,7 +9,7 @@ import { fieldAccessor } from '@components/form/field';
 import { default as DatePicker } from './date';
 
 describe('DatePicker', async () => {
-	const fa = fieldAccessor<Date, 'date'>('chk', new Date());
+	const fa = fieldAccessor<Date, 'date'>('chk', new Date(), 'date');
 	const ct = await ComponentTester.build('DatePicker', props => <DatePicker accessor={fa} {...props} />);
 
 	test('props', () => ct.testProps());
