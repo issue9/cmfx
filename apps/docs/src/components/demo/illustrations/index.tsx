@@ -9,6 +9,8 @@ import { default as E400 } from './400';
 import { default as e400 } from './400.tsx?raw';
 import { default as E401 } from './401';
 import { default as e401 } from './401.tsx?raw';
+import { default as E402 } from './402';
+import { default as e402 } from './402.tsx?raw';
 import { default as E403 } from './403';
 import { default as e403 } from './403.tsx?raw';
 import { default as E404 } from './404';
@@ -38,6 +40,7 @@ export default function (): Info {
 		stages: [
 			{ component: E400, source: e400, title: '400' },
 			{ component: E401, source: e401, title: '401' },
+			{ component: E402, source: e402, title: '402' },
 			{ component: E403, source: e403, title: '403' },
 			{ component: E404, source: e404, title: '404' },
 			{ component: E429, source: e429, title: '429' },
