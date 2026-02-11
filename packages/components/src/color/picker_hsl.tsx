@@ -76,21 +76,25 @@ export class HSLPickerPanel implements PickerPanel {
                 ${fmtHSL(200, ss, ll, aa)}, ${fmtHSL(220, ss, ll, aa)}, ${fmtHSL(240, ss, ll, aa)},
                 ${fmtHSL(260, ss, ll, aa)}, ${fmtHSL(280, ss, ll, aa)}, ${fmtHSL(300, ss, ll, aa)},
                 ${fmtHSL(320, ss, ll, aa)}, ${fmtHSL(340, ss, ll, aa)}, ${fmtHSL(360, ss, ll, aa)})`;
+			hRef.input().style.backgroundClip = 'padding-box';
 
 			sRef.input().style.background = `linear-gradient(to right, ${fmtHSL(hh, 0, ll, aa)},
                 ${fmtHSL(hh, 10, ll, aa)},${fmtHSL(hh, 20, ll, aa)},${fmtHSL(hh, 30, ll, aa)},${fmtHSL(hh, 40, ll, aa)},
                 ${fmtHSL(hh, 50, ll, aa)},${fmtHSL(hh, 60, ll, aa)},${fmtHSL(hh, 70, ll, aa)},${fmtHSL(hh, 80, ll, aa)},
                 ${fmtHSL(hh, 90, ll, aa)},${fmtHSL(hh, 100, ll, aa)})`;
+			sRef.input().style.backgroundClip = 'padding-box';
 
 			lRef.input().style.background = `linear-gradient(to right, ${fmtHSL(hh, ss, 0, aa)},
                 ${fmtHSL(hh, ss, 10, aa)},${fmtHSL(hh, ss, 20, aa)},${fmtHSL(hh, ss, 30, aa)},${fmtHSL(hh, ss, 40, aa)},
                 ${fmtHSL(hh, ss, 50, aa)},${fmtHSL(hh, ss, 60, aa)},${fmtHSL(hh, ss, 70, aa)},${fmtHSL(hh, ss, 80, aa)},
                 ${fmtHSL(hh, ss, 90, aa)},${fmtHSL(hh, ss, 100, aa)})`;
+			lRef.input().style.backgroundClip = 'padding-box';
 
 			aRef.input().style.background = `linear-gradient(to right, ${fmtHSL(hh, ss, ll, 0)},
                 ${fmtHSL(hh, ss, ll, 0.1)},${fmtHSL(hh, ss, ll, 0.2)},${fmtHSL(hh, ss, ll, 0.3)},${fmtHSL(hh, ss, ll, 0.4)},
                 ${fmtHSL(hh, ss, ll, 0.5)},${fmtHSL(hh, ss, ll, 0.6)},${fmtHSL(hh, ss, ll, 0.7)},${fmtHSL(hh, ss, ll, 0.8)},
                 ${fmtHSL(hh, ss, ll, 0.9)}, ${fmtHSL(hh, ss, ll, 1)})`;
+			aRef.input().style.backgroundClip = 'padding-box';
 		});
 
 		const l = useLocale();

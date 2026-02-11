@@ -73,21 +73,25 @@ export class RGBPickerPanel implements PickerPanel {
                 ${fmtRGB(0.1, 0, 0, 1)},${fmtRGB(0.2, 0, 0, 1)},${fmtRGB(0.3, 0, 0, 1)},${fmtRGB(0.4, 0, 0, 1)},
                 ${fmtRGB(0.5, 0, 0, 1)},${fmtRGB(0.6, 0, 0, 1)},${fmtRGB(0.7, 0, 0, 1)},${fmtRGB(0.8, 0, 0, 1)},
                 ${fmtRGB(0.9, 0, 0, 1)},${fmtRGB(1, 0, 0, 1)})`;
+			rRef.input().style.backgroundClip = 'padding-box';
 
 			gRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, 0, 0, 1)},
                 ${fmtRGB(0, 0.1, 0, 1)},${fmtRGB(0, 0.2, 0, 1)},${fmtRGB(0, 0.3, 0, 1)},${fmtRGB(0, 0.4, 0, 1)},
                 ${fmtRGB(0, 0.5, 0, 1)},${fmtRGB(0, 0.6, 0, 1)},${fmtRGB(0, 0.7, 0, 1)},${fmtRGB(0, 0.8, 0, 1)},
                 ${fmtRGB(0, 0.9, 0, 1)},${fmtRGB(0, 1, 0, 1)})`;
+			gRef.input().style.backgroundClip = 'padding-box';
 
 			bRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, 0, 0, 1)},
                 ${fmtRGB(0, 0, 0.1, 1)},${fmtRGB(0, 0, 0.2, 1)},${fmtRGB(0, 0, 0.3, 1)},${fmtRGB(0, 0, 0.4, 1)},
                 ${fmtRGB(0, 0, 0.5, 1)},${fmtRGB(0, 0, 0.6, 1)},${fmtRGB(0, 0, 0.7, 1)},${fmtRGB(0, 0, 0.8, 1)},
                 ${fmtRGB(0, 0, 0.9, 1)},${fmtRGB(0, 0, 1, 1)})`;
+			bRef.input().style.backgroundClip = 'padding-box';
 
 			aRef.input().style.background = `linear-gradient(to right, ${fmtRGB(rr, gg, bb, 0)},
                 ${fmtRGB(rr, gg, bb, 0.1)},${fmtRGB(rr, gg, bb, 0.2)},${fmtRGB(rr, gg, bb, 0.3)},${fmtRGB(rr, gg, bb, 0.4)},
                 ${fmtRGB(rr, gg, bb, 0.5)},${fmtRGB(rr, gg, bb, 0.6)},${fmtRGB(rr, gg, bb, 0.7)},${fmtRGB(rr, gg, bb, 0.8)},
                 ${fmtRGB(rr, gg, bb, 0.9)}, ${fmtRGB(rr, gg, bb, 1)})`;
+			aRef.input().style.backgroundClip = 'padding-box';
 		});
 
 		const l = useLocale();
@@ -111,6 +115,7 @@ export class RGBPickerPanel implements PickerPanel {
 					accessor={this.#rgb.accessor('g')}
 					disabled={!!this.#g}
 					ref={el => {
+						el.input().classList.add(styles.bg);
 						gRef = el;
 					}}
 					min={0}
@@ -123,6 +128,7 @@ export class RGBPickerPanel implements PickerPanel {
 					accessor={this.#rgb.accessor('b')}
 					disabled={!!this.#b}
 					ref={el => {
+						el.input().classList.add(styles.bg);
 						bRef = el;
 					}}
 					min={0}
@@ -135,6 +141,7 @@ export class RGBPickerPanel implements PickerPanel {
 					accessor={this.#rgb.accessor('a')}
 					disabled={!!this.#a}
 					ref={el => {
+						el.input().classList.add(styles.bg);
 						aRef = el;
 					}}
 					min={0}

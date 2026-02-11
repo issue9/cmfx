@@ -75,11 +75,15 @@ export class OKLCHPickerPanel implements PickerPanel {
                         ${fmtOKLCH(0.4, cc, hh, aa)}, ${fmtOKLCH(0.5, cc, hh, aa)}, ${fmtOKLCH(0.6, cc, hh, aa)},
                         ${fmtOKLCH(0.7, cc, hh, aa)}, ${fmtOKLCH(0.8, cc, hh, aa)}, ${fmtOKLCH(0.9, cc, hh, aa)},
                         ${fmtOKLCH(1, cc, hh, aa)})`;
+			rl.input().style.backgroundClip = 'padding-box';
+
 			rc.input().style.background = `linear-gradient(to right, ${fmtOKLCH(ll, 0, hh, aa)},
                         ${fmtOKLCH(ll, 0.04, hh, aa)}, ${fmtOKLCH(ll, 0.08, hh, aa)}, ${fmtOKLCH(ll, 0.12, hh, aa)},
                         ${fmtOKLCH(ll, 0.16, hh, aa)}, ${fmtOKLCH(ll, 0.2, hh, aa)}, ${fmtOKLCH(ll, 0.24, hh, aa)},
                         ${fmtOKLCH(ll, 0.28, hh, aa)}, ${fmtOKLCH(ll, 0.32, hh, aa)}, ${fmtOKLCH(ll, 0.36, hh, aa)},
                         ${fmtOKLCH(ll, 0.4, hh, aa)})`;
+			rc.input().style.backgroundClip = 'padding-box';
+
 			rh.input().style.background = `linear-gradient(to right, ${fmtOKLCH(ll, cc, 0, aa)},
                         ${fmtOKLCH(ll, cc, 20, aa)}, ${fmtOKLCH(ll, cc, 40, aa)}, ${fmtOKLCH(ll, cc, 60, aa)},
                         ${fmtOKLCH(ll, cc, 80, aa)}, ${fmtOKLCH(ll, cc, 100, aa)}, ${fmtOKLCH(ll, cc, 120, aa)},
@@ -87,11 +91,14 @@ export class OKLCHPickerPanel implements PickerPanel {
                         ${fmtOKLCH(ll, cc, 200, aa)}, ${fmtOKLCH(ll, cc, 220, aa)}, ${fmtOKLCH(ll, cc, 240, aa)},
                         ${fmtOKLCH(ll, cc, 260, aa)}, ${fmtOKLCH(ll, cc, 280, aa)}, ${fmtOKLCH(ll, cc, 300, aa)},
                         ${fmtOKLCH(ll, cc, 320, aa)}, ${fmtOKLCH(ll, cc, 340, aa)}, ${fmtOKLCH(ll, cc, 360, aa)})`;
+			rh.input().style.backgroundClip = 'padding-box';
+
 			ra.input().style.background = `linear-gradient(to right, ${fmtOKLCH(ll, cc, hh, 0)},
                         ${fmtOKLCH(ll, cc, hh, 0.1)}, ${fmtOKLCH(ll, cc, hh, 0.2)}, ${fmtOKLCH(ll, cc, hh, 0.3)},
                         ${fmtOKLCH(ll, cc, hh, 0.4)}, ${fmtOKLCH(ll, cc, hh, 0.5)}, ${fmtOKLCH(ll, cc, hh, 0.6)},
                         ${fmtOKLCH(ll, cc, hh, 0.7)}, ${fmtOKLCH(ll, cc, hh, 0.8)}, ${fmtOKLCH(ll, cc, hh, 0.9)},
                         ${fmtOKLCH(ll, cc, hh, 1)})`;
+			ra.input().style.backgroundClip = 'padding-box';
 		});
 
 		const l = useLocale();

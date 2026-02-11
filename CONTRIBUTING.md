@@ -106,14 +106,15 @@ close #1
 - [pnpm](https://pnpm.io/zh/)
 - [Go](https://go.dev/)
 - Git
+- [web](https://github.com/issue9/web/releases)
 
 如果有 **GNU Make**，可以使用以下命令进行初始化：
 
 - `make install` 安装环境；
 - `make init` 初始化项目的数据库等信息；
-- `make watch-docs` 热编译前端组件库代码，之后可通过 `http://localhost:5173` 访问组件库的示例界面；
-- `make watch-server` 热编译后端代码，之后可通过 `http://localhost:8080` 作为后端接口的基地址；
-- `make watch-admin` 热编译前端代码，之后可通过 `http://localhost:5173` 访问后台界面；
+- `make watch-docs` 热编译前端组件库演示代码，之后可通过 `http://localhost:5173` 访问组件库的示例界面；
+- `make watch-server` 热编译后端 API 服务，之后可通过 `http://localhost:8080` 作为后端接口的基地址；
+- `make watch-admin` 热编译前端 admin 界面，之后可通过 `http://localhost:5173` 访问后台界面；
 - 如果需要同时执行前后端代码，则可采用 `make watch -j2`；
 
 在 windows 环境下，部分 `make` 命令需要 `bash` 环境，默认情况下，Git 自带了 `bash` 环境。
