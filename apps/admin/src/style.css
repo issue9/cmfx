@@ -7,6 +7,7 @@
 @import "tailwindcss";
 
 @import "@cmfx/components/style.css";
+@import "@cmfx/illustrations/style.css";
 @import "@cmfx/components/tailwind.css";
 @import "@cmfx/admin/style.css";
 

@@ -1,0 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@import "tailwindcss";
+@import "@cmfx/components/tailwind.css";
+
+@source ".";

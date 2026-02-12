@@ -32,16 +32,19 @@
 		".": {
 			"types": "./lib/index.d.ts",
 			"import": "./lib/index.js"
-		}
+		},
+		"./style.css": "./lib/style.css"
 	},
 	"scripts": {
 		"build": "vite build"
 	},
 	"dependencies": {
 		"@cmfx/components": "workspace:*",
-		"solid-js": "catalog:"
+		"solid-js": "catalog:",
+		"tailwindcss": "catalog:"
 	},
 	"devDependencies": {
+		"@tailwindcss/vite": "catalog:",
 		"@types/node": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",

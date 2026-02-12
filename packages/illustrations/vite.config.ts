@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
@@ -24,6 +25,7 @@ export default defineConfig({
 		viteStaticCopy({
 			targets: [{ src: '../../LICENSE', dest: '../' }],
 		}),
+		tailwindcss(),
 	],
 
 	define: { 'process.env': {} },
@@ -38,6 +40,7 @@ export default defineConfig({
 			},
 			formats: ['es'],
 			fileName: (_, name) => `${name}.js`,
+			cssFileName: 'style',
 		},
 		rollupOptions: {
 			output: {

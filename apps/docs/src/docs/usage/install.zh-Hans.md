@@ -39,6 +39,7 @@ cmfx 对 tailwind 的进行了部分自定义，**必须**在项目的样式文�
 @import 'tailwindcss';                    /* 导入 tailwind */
 @import '@cmfx/components/style.css';     /* 导入组件样式 */
 @import '@cmfx/components/tailwind.css';  /* 导入组件库中对 tailwind 样式的修改 */
+@import "@cmfx/illustrations/style.css";  /* 导入插图的相关样式 */
 @import '@cmfx/admin/style.css';          /* 如果使用有了 @cmfx/admin，还需要引用其使用的样式表 */
 @source '.';                              /* 指定 tailwind 扫描的根目录 */
 ```
