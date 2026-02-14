@@ -12,11 +12,24 @@ import { Week } from '@components/datetime/utils';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
+	/**
+	 * 禁用状态
+	 *
+	 * @reactive
+	 */
 	disabled?: boolean;
+
+	/**
+	 * 只读状态
+	 *
+	 * @reactive
+	 */
 	readonly?: boolean;
 
 	/**
 	 * 是否符带时间选择器
+	 *
+	 * @reactive
 	 */
 	time?: boolean;
 
@@ -32,11 +45,15 @@ export interface Props extends BaseProps {
 
 	/**
 	 * 是否高亮周末的列
+	 *
+	 * @reactive
 	 */
 	weekend?: boolean;
 
 	/**
 	 * 一周的开始，默认为 0，即周日。
+	 *
+	 * @reactive
 	 */
 	weekBase?: Week;
 
@@ -45,6 +62,8 @@ export interface Props extends BaseProps {
 	 *
 	 * NOTE: 周数是依据 ISO 8601 拿所在行的中间列计算所得。
 	 * 如果 {@link Props#weekBase} 不为 1，那么周数指向的可能并不是当前行。
+	 *
+	 * @reactive
 	 */
 	weeks?: boolean;
 

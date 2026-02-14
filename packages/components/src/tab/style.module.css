@@ -42,7 +42,7 @@
 			}
 
 			> .scroller {
-				@apply flex flex-row overflow-hidden;
+				@apply flex flex-1 basis-1 flex-row overflow-hidden;
 			}
 		}
 

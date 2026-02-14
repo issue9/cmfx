@@ -15,10 +15,8 @@ export default function () {
 	const [tab, setTab] = createSignal<string>('k1');
 
 	return (
-		<div>
-			<Tab palette="primary" items={structuredClone(items)} onChange={e => setTab(e)}>
-				<p>TabPanel:{tab()}</p>
-			</Tab>
-		</div>
+		<Tab palette="primary" items={structuredClone(items)} onChange={e => setTab(e)}>
+			<p>TabPanel:{tab()}</p>
+		</Tab>
 	);
 }

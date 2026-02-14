@@ -171,6 +171,27 @@ export function Tab(props: Props) {
 		}
 	};
 
+	const Tabs = (): JSX.Element => {
+		return (
+			<For each={props.items}>
+				{item => (
+					<button
+						type="button"
+						role="tab"
+						aria-selected={val() === item.id}
+						disabled={item.disabled}
+						class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
+						onClick={() => {
+							click(item.id);
+						}}
+					>
+						{item.label}
+					</button>
+				)}
+			</For>
+		);
+	};
+
 	return (
 		<div role="tablist" aria-orientation={layout} class={cls()} style={props.style}>
 			<div ref={setTabsRef} class={joinClass(undefined, styles.tabs, props.children ? styles['has-panel'] : '')}>
@@ -185,44 +206,14 @@ export function Tab(props: Props) {
 							scrollerRef = el;
 						}}
 					>
-						<For each={props.items}>
-							{item => (
-								<button
-									type="button"
-									role="tab"
-									aria-selected={val() === item.id}
-									disabled={item.disabled}
-									class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
-									onClick={() => {
-										click(item.id);
-									}}
-								>
-									{item.label}
-								</button>
-							)}
-						</For>
+						<Tabs />
 					</div>
 					<button type="button" class={styles.next} onclick={e => scroll(e, 40)}>
 						<IconNext class={layout === 'vertical' ? 'rotate-90' : ''} />
 					</button>
 				</Show>
 				<Show when={!isOverflow()}>
-					<For each={props.items}>
-						{item => (
-							<button
-								type="button"
-								role="tab"
-								aria-selected={val() === item.id}
-								disabled={item.disabled}
-								class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
-								onClick={() => {
-									click(item.id);
-								}}
-							>
-								{item.label}
-							</button>
-						)}
-					</For>
+					<Tabs />
 				</Show>
 			</div>
 
