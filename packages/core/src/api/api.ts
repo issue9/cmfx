@@ -6,7 +6,12 @@ import { newCache } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
 import { delToken, getToken, SSEToken, state, Token, writeToken } from './token';
-import { Method, Problem, Query, Return } from './types';
+import { Method, Problem, Return } from './types';
+
+/**
+ * API 请求时的额外参数
+ */
+export type ReqInit = Omit<RequestInit, 'method' | 'body'>;
 
 /**
  * RESTful 接口的基本操作方法
@@ -21,24 +26,24 @@ export interface REST {
 	 * DELETE 请求
 	 *
 	 * @param path - 相对于 {@link baseURL} 的请求地址；
-	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-	 * @param headers - 自定义请求头内容，区分大小写；
+	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
+	 * @param init - 请求的额外参数；
 	 */
-	delete<R = never, PE = never>(path: string, withToken?: boolean, headers?: Headers): Promise<Return<R, PE>>;
+	delete<R = never, PE = never>(path: string, withToken?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
 
 	/**
 	 * POST 请求
 	 *
 	 * @param path - 相对于 {@link baseURL} 的请求地址；
 	 * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
-	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-	 * @param headers - 自定义请求头内容，区分大小写；
+	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
+	 * @param init - 请求的额外参数；
 	 */
 	post<R = never, PE = never>(
 		path: string,
 		body?: unknown,
 		withToken?: boolean,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>>;
 
 	/**
@@ -47,14 +52,9 @@ export interface REST {
 	 * @param path - 相对于 {@link baseURL} 的请求地址；
 	 * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
 	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-	 * @param headers - 自定义请求头内容，区分大小写；
+	 * @param init - 请求的额外参数；
 	 */
-	put<R = never, PE = never>(
-		path: string,
-		body?: unknown,
-		withToken?: boolean,
-		headers?: Headers,
-	): Promise<Return<R, PE>>;
+	put<R = never, PE = never>(path: string, body?: unknown, withToken?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
 
 	/**
 	 * PATCH 请求
@@ -62,13 +62,13 @@ export interface REST {
 	 * @param path - 相对于 {@link baseURL} 的请求地址；
 	 * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
 	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-	 * @param headers - 自定义请求头内容，区分大小写；
+	 * @param init - 请求的额外参数；
 	 */
 	patch<R = never, PE = never>(
 		path: string,
 		body?: unknown,
 		withToken?: boolean,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>>;
 
 	/**
@@ -76,9 +76,9 @@ export interface REST {
 	 *
 	 * @param path - 相对于 {@link baseURL} 的请求地址；
 	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-	 * @param headers - 自定义请求头内容，区分大小写；
+	 * @param init - 请求的额外参数；
 	 */
-	get<R = never, PE = never>(path: string, withToken?: boolean, headers?: Headers): Promise<Return<R, PE>>;
+	get<R = never, PE = never>(path: string, withToken?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
 
 	/**
 	 * 执行普通的 API 请求
@@ -87,7 +87,7 @@ export interface REST {
 	 * @param method - 请求方法；
 	 * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
 	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-	 * @param headers - 自定义请求头内容，区分大小写；
+	 * @param init - 请求的额外参数；
 	 * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
 	 * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
 	 */
@@ -96,7 +96,7 @@ export interface REST {
 		method: Method,
 		obj?: unknown,
 		withToken?: boolean,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>>;
 
 	/**
@@ -106,14 +106,14 @@ export interface REST {
 	 * @param obj - 上传的对象；
 	 * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
 	 * @param method - 请求方法，默认为 POST；
-	 * @param headers - 自定义请求头内容，区分大小写；
+	 * @param init - 请求的额外参数；
 	 */
 	upload<R = never, PE = never>(
 		path: string,
 		obj: FormData,
 		method?: 'POST' | 'PATCH' | 'PUT',
 		withToken?: boolean,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>>;
 }
 
@@ -133,6 +133,7 @@ export class API implements REST {
 	 * @param accept - mimetype 返回内容的类型；
 	 * @param tokenPath - 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 两个请求，分别代表退出和刷新令牌；
 	 * @param locale - 请求报头 accept-language 的内容；
+	 * @param presetInit - 默认的 {@link RequestInit} 对象，所有请求都会传递该对象内容，除非被请求的参数覆盖；
 	 */
 	static async build(
 		id: string,
@@ -142,10 +143,13 @@ export class API implements REST {
 		contentType: Mimetype,
 		accept: Mimetype,
 		locale: string,
+		presetInit?: ReqInit,
 	): Promise<API> {
 		// NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
-		return new API(id, s, baseURL, tokenPath, contentType, accept, locale, await newCache(id));
+		return new API(id, s, baseURL, tokenPath, contentType, accept, locale, await newCache(id), presetInit);
 	}
+
+	readonly #init?: ReqInit;
 
 	readonly #id: string;
 	readonly #storage: Storage;
@@ -174,11 +178,14 @@ export class API implements REST {
 		contentType: Mimetype,
 		accept: Mimetype,
 		locale: string,
-		cache: Cache,
+		cache: Cache, // TODO 是否可合并到 init?
+		init?: ReqInit,
 	) {
 		if (!baseURL.includes('://')) {
 			throw new Error('参数 baseURL 必须是一个有效果的 URL');
 		}
+
+		this.#init = init;
 
 		this.#tokenPath = tokenPath;
 		this.#id = id;
@@ -201,74 +208,74 @@ export class API implements REST {
 	/**
 	 * 声明一个包含指定报头的 {@link REST} 实例
 	 *
-	 * @param headers - 自定义请求头内容，区分大小写；
+	 * @param init - 请求的额外参数；
 	 */
-	rest(headers?: Headers): REST {
+	rest(init?: ReqInit): REST {
 		const self = this;
 
-		const build = (h?: Headers) => {
-			if (!headers) {
-				return h;
+		const mergeInit = (r?: ReqInit): ReqInit | undefined => {
+			if (!init && !r) {
+				return undefined;
 			}
-			if (!h) {
-				return headers;
+			if (init && !r) {
+				return init;
 			}
+			if (r && !init) {
+				return r;
+			}
+			return Object.assign(init!, r);
+		};
 
-			const hh = new Headers(headers);
-			for (const [key, value] of h.entries()) {
-				hh.set(key, value);
-			}
-			return hh;
+		const request = async <R = never, PE = never>(
+			path: string,
+			method: Method,
+			obj?: unknown,
+			withToken = true,
+			init?: ReqInit,
+		): Promise<Return<R, PE>> => {
+			return await self.request<R, PE>(path, method, obj, withToken, mergeInit(init));
 		};
 
 		return {
+			request,
+
 			api(): API {
 				return self;
 			},
 
-			async get<R = never, PE = never>(path: string, withToken = true, headers?: Headers): Promise<Return<R, PE>> {
-				return await self.request<R, PE>(path, 'GET', undefined, withToken, headers);
+			async get<R = never, PE = never>(path: string, withToken = true, init?: ReqInit): Promise<Return<R, PE>> {
+				return await request<R, PE>(path, 'GET', undefined, withToken, init);
 			},
 
 			async post<R = never, PE = never>(
 				path: string,
 				body: BodyInit,
 				withToken = true,
-				headers?: Headers,
+				init?: ReqInit,
 			): Promise<Return<R, PE>> {
-				return await self.request<R, PE>(path, 'POST', body, withToken, headers);
+				return await request<R, PE>(path, 'POST', body, withToken, init);
 			},
 
 			async put<R = never, PE = never>(
 				path: string,
 				body: BodyInit,
 				withToken = true,
-				headers?: Headers,
+				init?: ReqInit,
 			): Promise<Return<R, PE>> {
-				return await self.request<R, PE>(path, 'PUT', body, withToken, headers);
+				return await request<R, PE>(path, 'PUT', body, withToken, init);
 			},
 
 			async patch<R = never, PE = never>(
 				path: string,
 				body: BodyInit,
 				withToken = true,
-				headers?: Headers,
+				init?: ReqInit,
 			): Promise<Return<R, PE>> {
-				return await self.request<R, PE>(path, 'PATCH', body, withToken, headers);
+				return await request<R, PE>(path, 'PATCH', body, withToken, init);
 			},
 
-			async delete<R = never, PE = never>(path: string, withToken = true, headers?: Headers): Promise<Return<R, PE>> {
-				return await self.request<R, PE>(path, 'DELETE', undefined, withToken, headers);
-			},
-
-			async request<R = never, PE = never>(
-				path: string,
-				method: Method,
-				obj?: unknown,
-				withToken = true,
-				headers?: Headers,
-			): Promise<Return<R, PE>> {
-				return await self.request<R, PE>(path, method, obj, withToken, build(headers));
+			async delete<R = never, PE = never>(path: string, withToken = true, init?: ReqInit): Promise<Return<R, PE>> {
+				return await request<R, PE>(path, 'DELETE', undefined, withToken, init);
 			},
 
 			async upload<R = never, PE = never>(
@@ -276,9 +283,9 @@ export class API implements REST {
 				obj: FormData,
 				m: 'POST' | 'PATCH' | 'PUT' = 'POST',
 				withToken = true,
-				h?: Headers,
+				init?: ReqInit,
 			): Promise<Return<R, PE>> {
-				return await self.upload<R, PE>(path, obj, m, withToken, build(h));
+				return await self.upload<R, PE>(path, obj, m, withToken, mergeInit(init));
 			},
 		};
 	}
@@ -365,39 +372,39 @@ export class API implements REST {
 		return this;
 	}
 
-	async delete<R = never, PE = never>(path: string, withToken = true, headers?: Headers): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'DELETE', undefined, withToken, headers);
+	async delete<R = never, PE = never>(path: string, withToken = true, init?: ReqInit): Promise<Return<R, PE>> {
+		return this.request<R, PE>(path, 'DELETE', undefined, withToken, init);
 	}
 
 	async post<R = never, PE = never>(
 		path: string,
 		body?: unknown,
 		withToken = true,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'POST', body, withToken, headers);
+		return this.request<R, PE>(path, 'POST', body, withToken, init);
 	}
 
 	async put<R = never, PE = never>(
 		path: string,
 		body?: unknown,
 		withToken = true,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'PUT', body, withToken, headers);
+		return this.request<R, PE>(path, 'PUT', body, withToken, init);
 	}
 
 	async patch<R = never, PE = never>(
 		path: string,
 		body?: unknown,
 		withToken = true,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'PATCH', body, withToken, headers);
+		return this.request<R, PE>(path, 'PATCH', body, withToken, init);
 	}
 
-	async get<R = never, PE = never>(path: string, withToken = true, headers?: Headers): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'GET', undefined, withToken, headers);
+	async get<R = never, PE = never>(path: string, withToken = true, init?: ReqInit): Promise<Return<R, PE>> {
+		return this.request<R, PE>(path, 'GET', undefined, withToken, init);
 	}
 
 	async request<R = never, PE = never>(
@@ -405,14 +412,11 @@ export class API implements REST {
 		method: Method,
 		obj?: unknown,
 		withToken = true,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
+		const body = obj === undefined ? undefined : (this.#contentSerializer.stringify(obj) as BufferSource);
 
-		if (!headers) {
-			headers = new Headers({});
-		}
-
+		const headers = new Headers(init?.headers);
 		if (withToken && !headers.has('Authorization')) {
 			headers.set('Authorization', `Bearer ${await this.getToken()}`);
 		}
@@ -420,7 +424,13 @@ export class API implements REST {
 			headers.set('Content-Type', `${this.#contentType}; charset=UTF-8`);
 		}
 
-		return this.#withArgument<R, PE>(path, method, headers, body as BufferSource);
+		if (init) {
+			init.headers = headers;
+		} else {
+			init = { headers };
+		}
+
+		return this.#fetchWithArgument<R, PE>(path, method, body, init);
 	}
 
 	async upload<R = never, PE = never>(
@@ -428,18 +438,30 @@ export class API implements REST {
 		obj: FormData,
 		method: 'POST' | 'PATCH' | 'PUT' = 'POST',
 		withToken = true,
-		headers?: Headers,
+		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		if (!headers) {
-			headers = new Headers({
-				Authorization: `Bearer ${await this.getToken()}`,
-			});
-		} else {
-			if (withToken && !headers.has('Authorization')) {
-				headers.set('Authorization', `Bearer ${await this.getToken()}`);
+		if (withToken) {
+			let headers: Headers;
+
+			if (!init?.headers) {
+				headers = new Headers({
+					Authorization: `Bearer ${await this.getToken()}`,
+				});
+			} else {
+				headers = new Headers(init.headers);
+				if (!headers.has('Authorization')) {
+					headers.set('Authorization', `Bearer ${await this.getToken()}`);
+				}
+			}
+
+			if (init) {
+				init.headers = headers;
+			} else {
+				init = { headers };
 			}
 		}
-		return this.#withArgument<R, PE>(path, method, headers, obj);
+
+		return this.#fetchWithArgument<R, PE>(path, method, obj, init);
 	}
 
 	/**
@@ -510,13 +532,11 @@ export class API implements REST {
 				return undefined;
 			case 'accessExpired': {
 				// 尝试刷新令牌
-				const ret = await this.#withArgument<Token>(
-					this.#tokenPath,
-					'PUT',
-					new Headers({
+				const ret = await this.#fetchWithArgument<Token>(this.#tokenPath, 'PUT', undefined, {
+					headers: new Headers({
 						Authorization: `Bearer ${this.#token.refresh_token}`,
 					}),
-				);
+				});
 				if (!ret.ok) {
 					return undefined;
 				}
@@ -528,34 +548,46 @@ export class API implements REST {
 	}
 
 	/**
-	 * 对 {@link API#fetch} 的二次包装，可以指定一些关键参数。
+	 * 对 {@link API#'#fetch'} 的二次包装，可以指定一些关键参数。
 	 *
 	 * @param path - 请求路径，相对于 baseURL 的路径；
 	 * @param method - 请求方法；
-	 * @param headers - 请求头；
-	 * @param body - 提交的内容，如果没有可以为空；
+	 * @param body - 请求体；
+	 * @param init - 其它的 RequestInit 参数；
 	 */
-	async #withArgument<R = never, PE = never>(
+	async #fetchWithArgument<R = never, PE = never>(
 		path: string,
 		method: Method,
-		headers: Headers,
-		body?: BodyInit,
+		body?: unknown,
+		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		if (!headers.has('Accept')) {
-			headers.set('Accept', `${this.#acceptType}; charset=UTF-8`);
-		}
-		if (!headers.has('Accept-Language')) {
-			headers.set('Accept-Language', this.#locale);
+		let h: Headers;
+		if (!init?.headers) {
+			h = new Headers({
+				Accept: `${this.#acceptType}; charset=UTF-8`,
+				'Accept-Language': this.#locale,
+			});
+		} else {
+			h = new Headers(init.headers);
+			if (!h.has('Accept')) {
+				h.set('Accept', `${this.#acceptType}; charset=UTF-8`);
+			}
+			if (!h.has('Accept-Language')) {
+				h.set('Accept-Language', this.#locale);
+			}
+
+			delete init.headers;
 		}
 
-		const r = new Request(this.buildURL(path), {
+		const headers = this.#init?.headers ? Object.assign(this.#init.headers, h) : h;
+
+		init = Object.assign(this.#init ? structuredClone(this.#init) : {}, init, {
+			headers,
 			method: method,
 			body: body,
-			mode: 'cors',
-			headers: headers,
 		});
 
-		return await this.#fetch(r);
+		return await this.#fetch(new Request(this.buildURL(path), init));
 	}
 
 	/**
@@ -625,11 +657,9 @@ export class API implements REST {
 
 	async parse<R>(resp: Response): Promise<R | undefined> {
 		const bs = await resp.bytes();
-		if (bs.length === 0) {
-			return;
+		if (bs.length > 0) {
+			return this.#acceptSerializer.parse<R>(bs);
 		}
-
-		return this.#acceptSerializer.parse<R>(bs);
 	}
 
 	/**
@@ -711,32 +741,4 @@ export class API implements REST {
 		await p;
 		return es;
 	}
-}
-
-/**
- * 将 Q 转换为查询参数
- *
- * 如果存在 q.page 属性，会自动将 page 的值减去 1，因为后端的 api 是从 0 页开始的。
- */
-export function query2Search<Q extends Query>(q: Q): string {
-	if (q.page) {
-		q = { ...q };
-		q.page! -= 1;
-	}
-
-	const s = new URLSearchParams();
-	Object.entries(q).forEach(v => {
-		if (Array.isArray(v[1])) {
-			s.append(v[0], v[1].join(','));
-		} else {
-			if (typeof v[1] === 'string') {
-				s.append(v[0], v[1]);
-			} else if (v[1] !== undefined) {
-				s.append(v[0], v[1]!.toString());
-			}
-		}
-	});
-
-	const qs = s.toString();
-	return qs ? `?${qs}` : '';
 }

@@ -108,17 +108,3 @@ export interface Page<T> {
 	current: Array<T>;
 	more?: boolean;
 }
-
-/**
- * 查询参数的单个字段的类型
- */
-type QueryValue = string | number | boolean | null | undefined;
-
-/**
- * 查询参数的类型
- */
-export interface Query {
-	[k: string]: QueryValue | Array<QueryValue>;
-	page?: number;
-	size?: number;
-}

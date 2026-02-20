@@ -5,7 +5,7 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { sleep } from '@core/time';
-import { API, query2Search, REST } from './api';
+import { API, REST } from './api';
 import { Token, writeToken } from './token';
 
 // 这是 YAML 格式的。如果下面的测试函数中的 API.build 修改了 accept 格式，也需要修改此字符串的格式。
@@ -139,12 +139,4 @@ describe('API token', () => {
 		t = await api.getToken();
 		expect(t).toBeUndefined();
 	});
-});
-
-test('query2Search', () => {
-	expect(query2Search({ str: 'str' })).toEqual('?str=str');
-	expect(query2Search({ str: 'str', page: 1 })).toEqual('?str=str&page=0');
-	expect(query2Search({ str: 'str', num: 0, bool: false })).toEqual('?str=str&num=0&bool=false');
-	expect(query2Search({ str: ['str'], num: [0, 1], bool: false })).toEqual('?str=str&num=0%2C1&bool=false');
-	expect(query2Search({})).toEqual('');
 });
