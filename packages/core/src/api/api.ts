@@ -133,7 +133,7 @@ export class API implements REST {
 	 * @param accept - mimetype 返回内容的类型；
 	 * @param tokenPath - 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 两个请求，分别代表退出和刷新令牌；
 	 * @param locale - 请求报头 accept-language 的内容；
-	 * @param presetInit - 默认的 {@link RequestInit} 对象，所有请求都会传递该对象内容，除非被请求的参数覆盖；
+	 * @param init - 默认的 {@link ReqInit} 对象，所有请求都会传递该对象内容，除非被请求的参数覆盖；
 	 */
 	static async build(
 		id: string,
@@ -143,10 +143,10 @@ export class API implements REST {
 		contentType: Mimetype,
 		accept: Mimetype,
 		locale: string,
-		presetInit?: ReqInit,
+		init?: ReqInit,
 	): Promise<API> {
 		// NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
-		return new API(id, s, baseURL, tokenPath, contentType, accept, locale, await newCache(id), presetInit);
+		return new API(id, s, baseURL, tokenPath, contentType, accept, locale, await newCache(id), init);
 	}
 
 	readonly #init?: ReqInit;
@@ -178,7 +178,7 @@ export class API implements REST {
 		contentType: Mimetype,
 		accept: Mimetype,
 		locale: string,
-		cache: Cache, // TODO 是否可合并到 init?
+		cache: Cache,
 		init?: ReqInit,
 	) {
 		if (!baseURL.includes('://')) {
@@ -206,7 +206,7 @@ export class API implements REST {
 	}
 
 	/**
-	 * 声明一个包含指定报头的 {@link REST} 实例
+	 * 基于当前实现和参数 init 创建一个新的 {@link REST} 实例
 	 *
 	 * @param init - 请求的额外参数；
 	 */
