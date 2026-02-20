@@ -39,5 +39,5 @@ export function useAPI(): API {
 export function useREST(): REST {
 	const api = useAPI();
 	const l = useLocale();
-	return api.rest(new Headers({ 'Accept-Language': l.locale.toString() }));
+	return api.rest({ headers: { 'Accept-Language': l.locale.toString() } });
 }
