@@ -21,7 +21,7 @@ function selectedClassSelector(preset?: string) {
 	);
 }
 
-export default function (props: MountProps): JSX.Element {
+export default function(props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
 
@@ -84,7 +84,7 @@ export default function (props: MountProps): JSX.Element {
 	const [val, setValue] = createSignal<string>('');
 
 	return (
-		<div class="flex flex-col gap-4">
+		<div class="flex flex-col items-start gap-4">
 			<Portal mount={props.mount}>
 				<Palette />
 				<SelectedCls />

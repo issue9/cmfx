@@ -144,7 +144,7 @@
 						.component {
 							/* 演示组件 */
 							@apply bg-palette-bg text-palette-fg p-2 border border-palette-border;
-							@apply min-w-fit min-h-fit grow;
+							@apply min-h-fit grow;
 							@apply flex flex-wrap gap-2;
 						}
 					}
