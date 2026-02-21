@@ -143,13 +143,13 @@ export class API implements REST {
 		contentType: Mimetype,
 		accept: Mimetype,
 		locale: string,
-		init?: ReqInit,
+		init?: Omit<ReqInit, 'signal'>,
 	): Promise<API> {
 		// NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
 		return new API(id, s, baseURL, tokenPath, contentType, accept, locale, await newCache(id), init);
 	}
 
-	readonly #init?: ReqInit;
+	readonly #init?: Omit<ReqInit, 'signal'>;
 
 	readonly #id: string;
 	readonly #storage: Storage;
@@ -179,7 +179,7 @@ export class API implements REST {
 		accept: Mimetype,
 		locale: string,
 		cache: Cache,
-		init?: ReqInit,
+		init?: Omit<ReqInit, 'signal'>,
 	) {
 		if (!baseURL.includes('://')) {
 			throw new Error('参数 baseURL 必须是一个有效果的 URL');
@@ -210,7 +210,7 @@ export class API implements REST {
 	 *
 	 * @param init - 请求的额外参数；
 	 */
-	rest(init?: ReqInit): REST {
+	rest(init?: Omit<ReqInit, 'signal'>): REST {
 		const self = this;
 
 		const mergeInit = (r?: ReqInit): ReqInit | undefined => {
@@ -558,7 +558,7 @@ export class API implements REST {
 	async #fetchWithArgument<R = never, PE = never>(
 		path: string,
 		method: Method,
-		body?: unknown,
+		body?: BodyInit | null,
 		init?: ReqInit,
 	): Promise<Return<R, PE>> {
 		let h: Headers;
@@ -579,10 +579,8 @@ export class API implements REST {
 			delete init.headers;
 		}
 
-		const headers = this.#init?.headers ? Object.assign(this.#init.headers, h) : h;
-
 		init = Object.assign(this.#init ? structuredClone(this.#init) : {}, init, {
-			headers,
+			headers: this.#init?.headers ? Object.assign(this.#init.headers, h) : h,
 			method: method,
 			body: body,
 		});
