@@ -10,7 +10,7 @@ import { BasicTable, Ref as BasicTableRef } from './basic';
 import { LoaderTable, Ref as LoaderTableRef } from './loader';
 import { RemoteTable, Ref as RemoteTableRef } from './remote';
 
-describe('BsicTable', async () => {
+describe('BasicTable', async () => {
 	let ref: BasicTableRef;
 	const ct = await ComponentTester.build('BsicTable', props => (
 		<BasicTable

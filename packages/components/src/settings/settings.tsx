@@ -23,6 +23,7 @@ import { Description } from '@components/description';
 import { Divider } from '@components/divider';
 import { Checkbox, Choice, fieldAccessor, Numeric, RadioGroup, Range } from '@components/form';
 import { createBytesFormatter } from '@components/kit';
+import { Label } from '@components/label';
 import { SchemeSelector } from '@components/theme';
 import styles from './style.module.css';
 
@@ -89,9 +90,16 @@ export function Settings(props: Props) {
 				<Show when={count > 1}>
 					<Divider padding="16px 8px" />
 				</Show>
-				<Description icon={props.icon} title={props.title}>
-					<div innerHTML={props.desc} />
-				</Description>
+
+				<Show when={props.desc}>
+					<Description icon={props.icon} title={props.title}>
+						<div innerHTML={props.desc} />
+					</Description>
+				</Show>
+				<Show when={!props.desc}>
+					<Label icon={props.icon}>{props.title}</Label>
+				</Show>
+
 				<br />
 				{props.children}
 			</>

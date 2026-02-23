@@ -19,12 +19,12 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 
 	return (
-		<div>
+		<>
 			<Portal mount={props.mount}>
 				<Palette />
 			</Portal>
 
-			<Tab class="w-fit!" palette={palette()} items={structuredClone(items)} />
-		</div>
+			<Tab class="w-full!" palette={palette()} items={items} />
+		</>
 	);
 }

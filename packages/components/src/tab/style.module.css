@@ -11,38 +11,38 @@
 		@apply flex flex-col border border-palette-border rounded-lg overflow-clip text-palette-fg bg-palette-bg;
 
 		> .tabs {
-			@apply flex flex-row;
-
-			.item {
-				@apply px-4 py-2 text-center;
-				@apply transition;
-			}
-
-			.item:disabled {
-				@apply cursor-not-allowed;
-				@apply text-palette-fg-low;
-			}
-
-			.item:enabled {
-				@apply cursor-pointer;
-				@apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
-				@apply focus:bg-palette-bg-focused focus:text-palette-fg-focused;
-				@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-			}
-
-			.item.select {
-				@apply bg-palette-bg-high text-palette-fg-high;
-			}
+			@apply flex gap-0;
 
 			> button.prev,
 			> button.next {
-				@apply w-12 cursor-pointer flex justify-center items-center;
+				@apply cursor-pointer flex justify-center items-center shrink-0;
 				@apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
 				@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
 			}
 
 			> .scroller {
-				@apply flex flex-1 basis-1 flex-row overflow-hidden;
+				> div {
+					.item {
+						@apply px-4 py-2 text-center min-w-0 min-h-0;
+						@apply transition;
+					}
+
+					.item:disabled {
+						@apply cursor-not-allowed;
+						@apply text-palette-fg-low;
+					}
+
+					.item:enabled {
+						@apply cursor-pointer;
+						@apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+						@apply focus:bg-palette-bg-focused focus:text-palette-fg-focused;
+						@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+					}
+
+					.item.select {
+						@apply bg-palette-bg-high text-palette-fg-high;
+					}
+				}
 			}
 		}
 
@@ -52,7 +52,16 @@
 	}
 
 	.tab.horizontal {
+		@apply max-w-fit;
+
 		> .tabs {
+			@apply max-w-fit w-full;
+
+			> button.prev,
+			> button.next {
+				@apply flex justify-center w-4;
+			}
+
 			> button.prev {
 				@apply border-e border-e-palette-border;
 			}
@@ -61,21 +70,31 @@
 				@apply border-s border-s-palette-border;
 			}
 
-			.item:not(:last-child) {
-				@apply border-e border-e-palette-border;
+			> .scroller {
+				@apply overflow-x-hidden;
+
+				>div{
+					@apply flex w-fit;
+
+					.item:not(:last-child) {
+						@apply border-e border-e-palette-border;
+					}
+				}
 			}
 		}
 	}
 
 	.tab.vertical {
-		@apply flex-row w-fit;
+		@apply max-h-fit;
+
+		@apply flex-row w-fit h-full;
 
 		> .tabs {
-			@apply flex flex-col w-fit;
+			@apply flex-col h-full max-h-fit;
 
 			> button.prev,
 			> button.next {
-				@apply w-full flex justify-center items-center h-12;
+				@apply flex justify-center h-4;
 			}
 
 			> button.prev {
@@ -86,16 +105,20 @@
 				@apply border-t border-t-palette-border;
 			}
 
-			.item {
-				@apply text-start;
-			}
-
-			.item:not(:last-child) {
-				@apply border-b border-b-palette-border;
-			}
-
 			> .scroller {
-				@apply flex-col;
+				@apply overflow-y-hidden;
+
+				>div {
+					@apply flex flex-col h-fit;
+
+					.item {
+						@apply text-start;
+					}
+
+					.item:not(:last-child) {
+						@apply border-b border-b-palette-border;
+					}
+				}
 			}
 		}
 

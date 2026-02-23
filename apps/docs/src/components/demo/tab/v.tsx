@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { Tab, TabItem, Transition } from '@cmfx/components';
-import { createSignal, Match, Switch } from 'solid-js';
+import { createSignal, JSX, Match, Switch } from 'solid-js';
 
-export default function () {
+export default function (): JSX.Element {
 	const items: Array<TabItem> = [
 		{ id: 'k1', label: 'K1' },
 		{ id: 'k2', label: 'K2222222' },
@@ -15,7 +15,7 @@ export default function () {
 	const [tab, setTab] = createSignal('k1');
 
 	return (
-		<Tab layout="vertical" palette="primary" items={structuredClone(items)} onChange={setTab}>
+		<Tab layout="vertical" palette="primary" items={items} onChange={setTab}>
 			<Transition>
 				<Switch>
 					<Match when={tab() === 'k1'}>

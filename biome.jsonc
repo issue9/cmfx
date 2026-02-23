@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 {
-	"$schema": "https://biomejs.dev/schemas/2.4.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
 	"root": true,
 	"vcs": {
 		"enabled": true,

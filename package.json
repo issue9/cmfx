@@ -35,7 +35,7 @@
 		"test-nowatch": "vitest run"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.3",
+		"@biomejs/biome": "2.4.4",
 		"@iconify/json": "catalog:",
 		"@solidjs/testing-library": "catalog:",
 		"@testing-library/jest-dom": "catalog:",

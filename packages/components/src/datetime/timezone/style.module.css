@@ -7,16 +7,20 @@
 @reference "../../style.css";
 
 @layer components {
-	.panel {
-		@apply mt-2 p-2 gap-1 h-50 overflow-y-auto;
-		@apply grid content-start;
-		grid-template-columns: repeat(auto-fill, minmax(--spacing(50), 1fr));
+	.timezone{
+		@apply w-full!;
 
-		.item {
-			@apply justify-start items-start flex-col;
+		.panel {
+			@apply mt-2 p-2 gap-1 h-50 overflow-y-auto;
+			@apply grid content-start;
+			grid-template-columns: repeat(auto-fill, minmax(--spacing(50), 1fr));
 
-			.line {
-				@apply w-full text-left text-ellipsis overflow-x-hidden;
+			.item {
+				@apply justify-start items-start flex-col;
+
+				.line {
+					@apply w-full text-left text-ellipsis overflow-x-hidden;
+				}
 			}
 		}
 	}

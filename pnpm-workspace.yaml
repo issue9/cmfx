@@ -7,7 +7,7 @@ packages:
 
 catalog:
   '@formatjs/intl-durationformat': ^0.10.1
-  '@iconify/json': ^2.2.441
+  '@iconify/json': ^2.2.442
   '@solidjs/router': ^0.15.4
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.2.0

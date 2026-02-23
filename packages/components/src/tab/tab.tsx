@@ -2,74 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	createEffect,
-	createMemo,
-	createSignal,
-	For,
-	JSX,
-	mergeProps,
-	onCleanup,
-	onMount,
-	ParentProps,
-	Show,
-	untrack,
-} from 'solid-js';
+import { createEffect, createMemo, createSignal, For, mergeProps, onCleanup, onMount, Show, untrack } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
 
-import { BaseProps, joinClass, Layout } from '@components/base';
-import { ChangeFunc } from '@components/form/field';
+import { joinClass, Layout } from '@components/base';
 import styles from './style.module.css';
-
-export interface Item {
-	/**
-	 * 该 Tab 的唯一 ID
-	 */
-	id: string;
-
-	/**
-	 * Tab 标签上的内容
-	 */
-	label?: JSX.Element;
-
-	/**
-	 * 该标签处于禁用状态
-	 */
-	disabled?: boolean;
-}
-
-export interface Props extends BaseProps, ParentProps {
-	/**
-	 * 所有的 tab 项
-	 *
-	 * @reactive
-	 */
-	items: Array<Item>;
-
-	/**
-	 * 布局
-	 *
-	 * @defaultValue 'horizontal'
-	 */
-	layout?: Layout;
-
-	/**
-	 * 默认选中的值，如果为空，则选中第一个项。
-	 *
-	 * @reactive
-	 */
-	value?: Item['id'];
-
-	/**
-	 * 应用在标签面板上的样式
-	 *
-	 * @reactive
-	 */
-	panelClass?: string;
-
-	onChange?: ChangeFunc<Item['id']>;
-}
+import { Item, Props } from './types';
 
 /**
  * Tab 组件
@@ -104,23 +43,26 @@ export function Tab(props: Props) {
 	});
 
 	const [isOverflow, setIsOverflow] = createSignal(false);
-	const [tabsRef, setTabsRef] = createSignal<HTMLDivElement>();
 
+	let rootRef: HTMLDivElement;
+	let tabsRef: HTMLDivElement;
+	let scrollerRef: HTMLDivElement;
+
+	// 确定是否需要显示溢出的情况
 	onMount(() => {
 		const observer = new ResizeObserver(() => {
-			const ref = tabsRef();
-			if (!ref) {
+			if (!tabsRef || !rootRef) {
 				return;
 			}
 
-			setIsOverflow(
-				layout === 'horizontal'
-					? Array.from(ref.children).reduce((acc, curr) => acc + curr.scrollWidth, 0) > ref.clientWidth
-					: Array.from(ref.children).reduce((acc, curr) => acc + curr.scrollHeight, 0) > ref.clientHeight,
-			);
+			if (layout === 'horizontal') {
+				setIsOverflow(scrollerRef.scrollWidth > rootRef.clientWidth);
+			} else {
+				setIsOverflow(scrollerRef.scrollHeight > rootRef.clientHeight);
+			}
 		});
-		observer.observe(tabsRef()!);
 
+		observer.observe(tabsRef);
 		onCleanup(() => {
 			observer.disconnect();
 		});
@@ -135,8 +77,6 @@ export function Tab(props: Props) {
 			props.class,
 		);
 	});
-
-	let scrollerRef: HTMLDivElement | undefined;
 
 	// 鼠标滚轮事件
 	const wheel = (e: WheelEvent) => {
@@ -171,49 +111,69 @@ export function Tab(props: Props) {
 		}
 	};
 
-	const Tabs = (): JSX.Element => {
-		return (
-			<For each={props.items}>
-				{item => (
-					<button
-						type="button"
-						role="tab"
-						aria-selected={val() === item.id}
-						disabled={item.disabled}
-						class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
-						onClick={() => {
-							click(item.id);
-						}}
-					>
-						{item.label}
-					</button>
-				)}
-			</For>
-		);
-	};
-
 	return (
-		<div role="tablist" aria-orientation={layout} class={cls()} style={props.style}>
-			<div ref={setTabsRef} class={joinClass(undefined, styles.tabs, props.children ? styles['has-panel'] : '')}>
+		<div
+			role="tablist"
+			aria-orientation={layout}
+			class={cls()}
+			style={props.style}
+			ref={el => {
+				rootRef = el;
+				if (props.ref) {
+					props.ref({
+						root() {
+							return el;
+						},
+						switch(id: Item['id']) {
+							click(id);
+						},
+						scroll(delta: number) {
+							scroll(new MouseEvent('click'), delta);
+						},
+					});
+				}
+			}}
+		>
+			<div
+				ref={el => (tabsRef = el)}
+				class={joinClass(undefined, styles.tabs, props.children ? styles['has-panel'] : '')}
+			>
 				<Show when={isOverflow()}>
 					<button type="button" class={styles.prev} onclick={e => scroll(e, -40)}>
-						<IconPrev class={layout === 'vertical' ? 'rotate-90' : ''} />
-					</button>
-					<div
-						class={styles.scroller}
-						onwheel={wheel}
-						ref={el => {
-							scrollerRef = el;
-						}}
-					>
-						<Tabs />
-					</div>
-					<button type="button" class={styles.next} onclick={e => scroll(e, 40)}>
-						<IconNext class={layout === 'vertical' ? 'rotate-90' : ''} />
+						<IconPrev class={layout === 'vertical' ? 'rotate-90' : undefined} />
 					</button>
 				</Show>
-				<Show when={!isOverflow()}>
-					<Tabs />
+
+				<div
+					ref={el => {
+						scrollerRef = el;
+					}}
+					class={styles.scroller}
+					onwheel={wheel}
+				>
+					<div>
+						<For each={props.items}>
+							{item => (
+								<button
+									type="button"
+									role="tab"
+									aria-selected={val() === item.id}
+									disabled={item.disabled}
+									class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
+									onClick={() => {
+										click(item.id);
+									}}
+								>
+									{item.label}
+								</button>
+							)}
+						</For>
+					</div>
+				</div>
+				<Show when={isOverflow()}>
+					<button type="button" class={styles.next} onclick={e => scroll(e, 40)}>
+						<IconNext class={layout === 'vertical' ? 'rotate-90' : undefined} />
+					</button>
 				</Show>
 			</div>
 

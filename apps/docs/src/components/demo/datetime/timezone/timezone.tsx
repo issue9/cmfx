@@ -13,7 +13,7 @@ export default function (props: MountProps): JSX.Element {
 	const [timezone, setTimezone] = createSignal<string>('Asia/Shanghai');
 
 	return (
-		<div>
+		<div class="w-full">
 			<Portal mount={props.mount}>
 				<Palette />
 			</Portal>

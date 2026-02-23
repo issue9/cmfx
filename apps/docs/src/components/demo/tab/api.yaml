@@ -8,3 +8,4 @@
         types:
             - TabProps
             - TabItem
+            - TabRef

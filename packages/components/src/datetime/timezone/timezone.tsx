@@ -5,7 +5,7 @@
 import { DisplayStyle } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show, untrack } from 'solid-js';
 
-import { BaseProps } from '@components/base';
+import { BaseProps, joinClass } from '@components/base';
 import { Button, ButtonRef } from '@components/button';
 import { useLocale } from '@components/context';
 import { ChangeFunc } from '@components/form/field';
@@ -134,7 +134,7 @@ export default function Timezone(props: Props): JSX.Element {
 
 	return (
 		<Tab
-			class={props.class}
+			class={joinClass(undefined, styles.timezone, props.class)}
 			style={props.style}
 			palette={props.palette}
 			value={tab()}
