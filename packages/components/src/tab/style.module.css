@@ -73,7 +73,7 @@
 			> .scroller {
 				@apply overflow-x-hidden;
 
-				>div{
+				> div {
 					@apply flex w-fit;
 
 					.item:not(:last-child) {
@@ -108,7 +108,7 @@
 			> .scroller {
 				@apply overflow-y-hidden;
 
-				>div {
+				> div {
 					@apply flex flex-col h-fit;
 
 					.item {

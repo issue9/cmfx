@@ -7,7 +7,7 @@
 @reference "../../style.css";
 
 @layer components {
-	.timezone{
+	.timezone {
 		@apply w-full!;
 
 		.panel {
