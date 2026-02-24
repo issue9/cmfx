@@ -25,68 +25,58 @@ export interface REST {
 	/**
 	 * DELETE 请求
 	 *
-	 * @param path - 相对于 {@link baseURL} 的请求地址；
-	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
+	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
+	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
 	 * @param init - 请求的额外参数；
 	 */
-	delete<R = never, PE = never>(path: string, withToken?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
+	delete<R = never, PE = never>(path: string, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
 
 	/**
 	 * POST 请求
 	 *
-	 * @param path - 相对于 {@link baseURL} 的请求地址；
-	 * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
-	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
+	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
+	 * @param body - 请求对象，会由 {@link Serializer} 进行转换，可以为空；
+	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
 	 * @param init - 请求的额外参数；
 	 */
-	post<R = never, PE = never>(
-		path: string,
-		body?: unknown,
-		withToken?: boolean,
-		init?: ReqInit,
-	): Promise<Return<R, PE>>;
+	post<R = never, PE = never>(path: string, body?: unknown, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
 
 	/**
 	 * PUT 请求
 	 *
-	 * @param path - 相对于 {@link baseURL} 的请求地址；
-	 * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
-	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
+	 * @param body - 请求对象，会由 {@link Serializer} 进行转换，可以为空；
+	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
 	 * @param init - 请求的额外参数；
 	 */
-	put<R = never, PE = never>(path: string, body?: unknown, withToken?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
+	put<R = never, PE = never>(path: string, body?: unknown, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
 
 	/**
 	 * PATCH 请求
 	 *
-	 * @param path - 相对于 {@link baseURL} 的请求地址；
+	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
 	 * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
-	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
 	 * @param init - 请求的额外参数；
 	 */
-	patch<R = never, PE = never>(
-		path: string,
-		body?: unknown,
-		withToken?: boolean,
-		init?: ReqInit,
-	): Promise<Return<R, PE>>;
+	patch<R = never, PE = never>(path: string, body?: unknown, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
 
 	/**
 	 * GET 请求
 	 *
-	 * @param path - 相对于 {@link baseURL} 的请求地址；
-	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
+	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
 	 * @param init - 请求的额外参数；
 	 */
-	get<R = never, PE = never>(path: string, withToken?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
+	get<R = never, PE = never>(path: string, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
 
 	/**
 	 * 执行普通的 API 请求
 	 *
-	 * @param path - 相对于 {@link baseURL} 的请求地址；
+	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
 	 * @param method - 请求方法；
 	 * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
-	 * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
 	 * @param init - 请求的额外参数；
 	 * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
 	 * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
@@ -95,24 +85,24 @@ export interface REST {
 		path: string,
 		method: Method,
 		obj?: unknown,
-		withToken?: boolean,
+		token?: boolean,
 		init?: ReqInit,
 	): Promise<Return<R, PE>>;
 
 	/**
 	 * 执行上传操作
 	 *
-	 * @param path - 相对于 {@link baseURL} 的上传地址；
+	 * @param path - 相对于 {@link API#baseURL} 的上传地址；
 	 * @param obj - 上传的对象；
-	 * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-	 * @param method - 请求方法，默认为 POST；
+	 * @param token - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
+	 * @param method - 请求方法，默认为 'POST'；
 	 * @param init - 请求的额外参数；
 	 */
 	upload<R = never, PE = never>(
 		path: string,
 		obj: FormData,
 		method?: 'POST' | 'PATCH' | 'PUT',
-		withToken?: boolean,
+		token?: boolean,
 		init?: ReqInit,
 	): Promise<Return<R, PE>>;
 }
@@ -230,10 +220,10 @@ export class API implements REST {
 			path: string,
 			method: Method,
 			obj?: unknown,
-			withToken = true,
+			token = true,
 			init?: ReqInit,
 		): Promise<Return<R, PE>> => {
-			return await self.request<R, PE>(path, method, obj, withToken, mergeInit(init));
+			return await self.request<R, PE>(path, method, obj, token, mergeInit(init));
 		};
 
 		return {
@@ -243,49 +233,49 @@ export class API implements REST {
 				return self;
 			},
 
-			async get<R = never, PE = never>(path: string, withToken = true, init?: ReqInit): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'GET', undefined, withToken, init);
+			async get<R = never, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
+				return await request<R, PE>(path, 'GET', undefined, token, init);
 			},
 
 			async post<R = never, PE = never>(
 				path: string,
 				body: BodyInit,
-				withToken = true,
+				token = true,
 				init?: ReqInit,
 			): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'POST', body, withToken, init);
+				return await request<R, PE>(path, 'POST', body, token, init);
 			},
 
 			async put<R = never, PE = never>(
 				path: string,
 				body: BodyInit,
-				withToken = true,
+				token = true,
 				init?: ReqInit,
 			): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'PUT', body, withToken, init);
+				return await request<R, PE>(path, 'PUT', body, token, init);
 			},
 
 			async patch<R = never, PE = never>(
 				path: string,
 				body: BodyInit,
-				withToken = true,
+				token = true,
 				init?: ReqInit,
 			): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'PATCH', body, withToken, init);
+				return await request<R, PE>(path, 'PATCH', body, token, init);
 			},
 
-			async delete<R = never, PE = never>(path: string, withToken = true, init?: ReqInit): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'DELETE', undefined, withToken, init);
+			async delete<R = never, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
+				return await request<R, PE>(path, 'DELETE', undefined, token, init);
 			},
 
 			async upload<R = never, PE = never>(
 				path: string,
 				obj: FormData,
 				m: 'POST' | 'PATCH' | 'PUT' = 'POST',
-				withToken = true,
+				token = true,
 				init?: ReqInit,
 			): Promise<Return<R, PE>> {
-				return await self.upload<R, PE>(path, obj, m, withToken, mergeInit(init));
+				return await self.upload<R, PE>(path, obj, m, token, mergeInit(init));
 			},
 		};
 	}
@@ -372,52 +362,47 @@ export class API implements REST {
 		return this;
 	}
 
-	async delete<R = never, PE = never>(path: string, withToken = true, init?: ReqInit): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'DELETE', undefined, withToken, init);
+	async delete<R = never, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
+		return this.request<R, PE>(path, 'DELETE', undefined, token, init);
 	}
 
 	async post<R = never, PE = never>(
 		path: string,
 		body?: unknown,
-		withToken = true,
+		token = true,
 		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'POST', body, withToken, init);
+		return this.request<R, PE>(path, 'POST', body, token, init);
 	}
 
-	async put<R = never, PE = never>(
-		path: string,
-		body?: unknown,
-		withToken = true,
-		init?: ReqInit,
-	): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'PUT', body, withToken, init);
+	async put<R = never, PE = never>(path: string, body?: unknown, token = true, init?: ReqInit): Promise<Return<R, PE>> {
+		return this.request<R, PE>(path, 'PUT', body, token, init);
 	}
 
 	async patch<R = never, PE = never>(
 		path: string,
 		body?: unknown,
-		withToken = true,
+		token = true,
 		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'PATCH', body, withToken, init);
+		return this.request<R, PE>(path, 'PATCH', body, token, init);
 	}
 
-	async get<R = never, PE = never>(path: string, withToken = true, init?: ReqInit): Promise<Return<R, PE>> {
-		return this.request<R, PE>(path, 'GET', undefined, withToken, init);
+	async get<R = never, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
+		return this.request<R, PE>(path, 'GET', undefined, token, init);
 	}
 
 	async request<R = never, PE = never>(
 		path: string,
 		method: Method,
 		obj?: unknown,
-		withToken = true,
+		token = true,
 		init?: ReqInit,
 	): Promise<Return<R, PE>> {
 		const body = obj === undefined ? undefined : (this.#contentSerializer.stringify(obj) as BufferSource);
 
 		const headers = new Headers(init?.headers);
-		if (withToken && !headers.has('Authorization')) {
+		if (token && !headers.has('Authorization')) {
 			headers.set('Authorization', `Bearer ${await this.getToken()}`);
 		}
 		if (body && !headers.has('Content-Type')) {
@@ -437,10 +422,10 @@ export class API implements REST {
 		path: string,
 		obj: FormData,
 		method: 'POST' | 'PATCH' | 'PUT' = 'POST',
-		withToken = true,
+		token = true,
 		init?: ReqInit,
 	): Promise<Return<R, PE>> {
-		if (withToken) {
+		if (token) {
 			let headers: Headers;
 
 			if (!init?.headers) {
@@ -500,8 +485,8 @@ export class API implements REST {
 			}
 		}
 
+		// 从 events 删除这些 EventSource 对象
 		for (const key of keys) {
-			// 从 events 删除这些 EventSource 对象
 			this.#events.delete(key);
 		}
 	}
@@ -664,7 +649,7 @@ export class API implements REST {
 	 * 获取用于订阅 SSE 的对象
 	 *
 	 * @param path - SSE 服务的地址；
-	 * @param needLogin - 是否需要登录状态才能访问。
+	 * @param needLogin - 是否需要登录状态才能访问；
 	 * 如果该值为 true，那么需要 path 参数提供的地址应该包含一 POST 请求，用于获取一个临时的访问令牌；
 	 */
 	async eventSource(

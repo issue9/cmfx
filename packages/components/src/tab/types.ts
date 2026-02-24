@@ -4,8 +4,7 @@
 
 import { JSX, ParentProps } from 'solid-js';
 
-import { BaseProps, Layout, RefProps } from '@components/base';
-import { ChangeFunc } from '@components/form/field';
+import { BaseProps, ChangeFunc, Layout, RefProps } from '@components/base';
 
 export interface Ref {
 	/**

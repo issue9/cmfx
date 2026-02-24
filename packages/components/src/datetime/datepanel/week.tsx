@@ -5,8 +5,8 @@
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
 import { createEffect, createSignal, JSX, splitProps, untrack } from 'solid-js';
 
+import { ChangeFunc } from '@components/base';
 import { DateViewRef, WeekValueType } from '@components/datetime/dateview';
-import { ChangeFunc } from '@components/form/field';
 import { CommonPanel, Props as CommonProps } from './common';
 
 export type Props = Omit<

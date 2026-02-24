@@ -14,6 +14,15 @@ export const layouts = ['horizontal', 'vertical'] as const;
 export type Layout = (typeof layouts)[number];
 
 /**
+ * 修改数据时触发的事件
+ *
+ * @param val - 新的值；
+ * @param old - 旧的值；
+ * @typeParam T - 值的类型；
+ */
+export type ChangeFunc<T> = (val: T, old?: T) => void;
+
+/**
  * 组件的基本属性
  *
  * @remarks

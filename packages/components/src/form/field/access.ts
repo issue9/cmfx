@@ -4,6 +4,8 @@
 
 import { createSignal, Signal, untrack } from 'solid-js';
 
+import { ChangeFunc } from '@components/base';
+
 /**
  * 每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制
  *
@@ -61,8 +63,6 @@ export interface Accessor<T, K extends string = string> {
 	 */
 	reset(): void;
 }
-
-export type ChangeFunc<T> = (val: T, old?: T) => void;
 
 /**
  * 为单个表单元素生成 {@link Accessor} 接口对象

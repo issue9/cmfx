@@ -5,10 +5,9 @@
 import { DisplayStyle } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show, untrack } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, ChangeFunc, joinClass } from '@components/base';
 import { Button, ButtonRef } from '@components/button';
 import { useLocale } from '@components/context';
-import { ChangeFunc } from '@components/form/field';
 import { Tab, TabItem } from '@components/tab';
 import styles from './style.module.css';
 

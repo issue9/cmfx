@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Accessor, ChangeFunc } from './access';
+export type { Accessor } from './access';
 export { fieldAccessor } from './access';
 export type { FormContext } from './context';
 export { FormProvider, useForm } from './context';

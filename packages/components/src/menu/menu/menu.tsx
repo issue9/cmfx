@@ -22,10 +22,9 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { AvailableEnumType, BaseProps, classList, joinClass, Layout, RefProps } from '@components/base';
+import { AvailableEnumType, BaseProps, ChangeFunc, classList, joinClass, Layout, RefProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
-import { ChangeFunc } from '@components/form/field';
 import { IconSet, IconSetRef } from '@components/icon';
 import { buildRenderItemType, MenuItem, RenderMenuItem } from './item';
 import styles from './style.module.css';
