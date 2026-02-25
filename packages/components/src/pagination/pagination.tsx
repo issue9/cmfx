@@ -8,10 +8,9 @@ import IconNext from '~icons/material-symbols/chevron-right';
 import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
-import { BaseProps, joinClass } from '@components/base';
-import { Button } from '@components/button';
+import { BaseProps } from '@components/base';
+import { Button, ButtonGroup } from '@components/button';
 import { useLocale } from '@components/context';
-import styles from './style.module.css';
 
 export interface Props extends BaseProps {
 	/**
@@ -98,7 +97,14 @@ export function Pagination(props: Props): JSX.Element {
 	});
 
 	return (
-		<nav class={joinClass(props.palette, styles.pagination, props.class)} style={props.style}>
+		<ButtonGroup
+			palette={props.palette}
+			class={props.class}
+			style={props.style}
+			ref={el => {
+				el.root().role = 'navigation';
+			}}
+		>
 			<Button square onclick={() => change(1)} aria-label={l.t('_c.pagination.firstPage')} disabled={current() === 1}>
 				<IconFirst />
 			</Button>
@@ -120,7 +126,7 @@ export function Pagination(props: Props): JSX.Element {
 				)}
 			</For>
 
-			<Button aria-label={current().toString()} class={styles.current}>
+			<Button aria-label={current().toString()} checked>
 				{current()}
 			</Button>
 
@@ -149,6 +155,6 @@ export function Pagination(props: Props): JSX.Element {
 			>
 				<IconLast />
 			</Button>
-		</nav>
+		</ButtonGroup>
 	);
 }

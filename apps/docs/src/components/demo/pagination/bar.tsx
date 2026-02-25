@@ -13,13 +13,13 @@ export default function (props: MountProps): JSX.Element {
 	const span = fieldAccessor('spans', 3);
 
 	return (
-		<div>
+		<>
 			<Portal mount={props.mount}>
 				<Palette />
 				<Numeric class="w-20" accessor={span} />
 			</Portal>
 
 			<PaginationBar spans={span.getValue()} palette={palette()} total={100} page={2} size={20} />
-		</div>
+		</>
 	);
 }

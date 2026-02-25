@@ -14,7 +14,7 @@ export default function (props: MountProps): JSX.Element {
 	const span = fieldAccessor('spans', 3);
 
 	return (
-		<div>
+		<>
 			<Portal mount={props.mount}>
 				<Palette />
 				<Numeric class="w-20" accessor={span} />
@@ -30,6 +30,6 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			/>
 			<pre>{page()}</pre>
-		</div>
+		</>
 	);
 }

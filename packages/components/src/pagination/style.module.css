@@ -7,19 +7,15 @@
 @reference "../style.css";
 
 @layer components {
-	.pagination {
-		@apply flex rounded-md bg-palette-bg overflow-clip;
-
-		.current {
-			@apply bg-palette-bg-high;
-		}
-	}
-
 	.bar {
-		@apply flex justify-between items-center;
+		@apply flex flex-wrap gap-2 justify-between items-center w-full;
 
-		.right {
-			@apply flex gap-2 items-center justify-stretch;
+		.start {
+			@apply flex flex-1 gap-2 items-center justify-between;
+		}
+
+		.end {
+			@apply flex-1;
 		}
 	}
 }

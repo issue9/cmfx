@@ -112,11 +112,11 @@ export function PaginationBar(props: Props): JSX.Element {
 
 	return (
 		<div class={joinClass(props.palette, styles.bar, props.class)} style={props.style}>
-			{l.t('_c.pagination.items', translateItems())}
-			<div class={styles.right}>
+			<div class={styles.start}>
+				{l.t('_c.pagination.items', translateItems())}
 				<Choice accessor={sizeAccessor} options={sizesOptions()} />
-				<Pagination spans={props.spans} onChange={pageChange} initValue={props.page} count={pages()} />
 			</div>
+			<Pagination class={styles.end} spans={props.spans} onChange={pageChange} initValue={props.page} count={pages()} />
 		</div>
 	);
 }
