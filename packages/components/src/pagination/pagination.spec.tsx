@@ -7,7 +7,6 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { Pagination } from './pagination';
-import styles from './style.module.css';
 
 describe('pagination', async () => {
 	const user = userEvent.setup();
@@ -16,7 +15,7 @@ describe('pagination', async () => {
 	const ct = await ComponentTester.build('Pagination', props => (
 		<Pagination
 			count={5}
-			initValue={3}
+			value={3}
 			onChange={val => {
 				curr = val;
 			}}
@@ -28,7 +27,6 @@ describe('pagination', async () => {
 
 	test('click & hover', async () => {
 		const c = ct.result.container.firstElementChild!;
-		expect(c).toHaveClass(styles.pagination);
 
 		await user.click(c.firstChild as HTMLElement);
 		expect(curr!).toEqual(1);

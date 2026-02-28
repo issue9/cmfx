@@ -23,7 +23,7 @@ export default function (props: MountProps): JSX.Element {
 			<Pagination
 				palette={palette()}
 				count={10}
-				initValue={5}
+				value={5}
 				spans={span.getValue()}
 				onChange={(val, old) => {
 					return setPage(`new:${val}, old:${old}`);

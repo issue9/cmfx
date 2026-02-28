@@ -4,7 +4,7 @@
 
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, joinClass, PropsError } from '@components/base';
+import { BaseProps, ChangeFunc, joinClass, PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Choice, ChoiceOption, fieldAccessor } from '@components/form';
 import { Pagination } from './pagination';
@@ -33,9 +33,9 @@ export interface Props extends BaseProps {
 	 */
 	sizes?: Array<number>;
 
-	onPageChange?: (current: number, old?: number) => void;
+	onPageChange?: ChangeFunc<number>;
 
-	onSizeChange?: (current: number, old?: number) => void;
+	onSizeChange?: ChangeFunc<number>;
 
 	/**
 	 * 按钮的数量
@@ -116,7 +116,7 @@ export function PaginationBar(props: Props): JSX.Element {
 				{l.t('_c.pagination.items', translateItems())}
 				<Choice accessor={sizeAccessor} options={sizesOptions()} />
 			</div>
-			<Pagination class={styles.end} spans={props.spans} onChange={pageChange} initValue={props.page} count={pages()} />
+			<Pagination class={styles.end} spans={props.spans} onChange={pageChange} value={props.page} count={pages()} />
 		</div>
 	);
 }

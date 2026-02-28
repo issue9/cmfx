@@ -8,7 +8,7 @@ import IconNext from '~icons/material-symbols/chevron-right';
 import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
-import { BaseProps } from '@components/base';
+import { BaseProps, ChangeFunc, PropsError } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import { useLocale } from '@components/context';
 
@@ -22,13 +22,16 @@ export interface Props extends BaseProps {
 
 	/**
 	 * 当前页的页码，取值范围为 [1, {@link Props#count}]。
+	 *
+	 * @reactive
+	 * @defaultValue 1
 	 */
-	initValue: number;
+	value?: number;
 
 	/**
 	 * 在页码改变的时候触发
 	 */
-	onChange?: (current: number, old?: number) => void;
+	onChange?: ChangeFunc<number>;
 
 	/**
 	 * 按钮的数量
@@ -39,6 +42,7 @@ export interface Props extends BaseProps {
 }
 
 const presetProps: Readonly<Partial<Props>> = {
+	value: 1,
 	spans: 3,
 } as const;
 
@@ -56,7 +60,7 @@ export function Pagination(props: Props): JSX.Element {
 
 	const [prevs, setPrevs] = createSignal<Array<number>>([]);
 	const [nexts, setNexts] = createSignal<Array<number>>([]);
-	const [current, setCurrent] = createSignal(props.initValue);
+	const [current, setCurrent] = createSignal(props.value!);
 
 	const change = (page: number) => {
 		const old = current();
@@ -65,6 +69,15 @@ export function Pagination(props: Props): JSX.Element {
 			props.onChange(page, old);
 		}
 	};
+
+	// 监视 props.value 的变化
+	createEffect(() => {
+		if (props.value === undefined) {
+			throw new PropsError('value', '无效的值，仅在初始化时允许为 undefined');
+		}
+
+		setCurrent(props.value);
+	});
 
 	createEffect(() => {
 		if (current() > props.count) {
