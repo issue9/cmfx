@@ -3,11 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import type {
-	BundledHighlighterOptions,
 	BundledLanguage,
 	BundledTheme,
 	CodeToHastOptions,
 	HighlighterGeneric,
+	SpecialTheme,
+	StringLiteralUnion,
+	ThemeInput,
 } from 'shiki/bundle/full';
 import { codeToHtml, createHighlighter } from 'shiki/bundle/full';
 
@@ -43,7 +45,8 @@ export class Highlighter {
 	 */
 	static async build(
 		langs: Array<BundledLanguage>,
-		themes?: BundledHighlighterOptions<BundledLanguage, BundledTheme>['themes'],
+		// BundledHighlighterOptions['themes'] 的类型不太对，暂时只能这样写了。
+		themes?: (ThemeInput | StringLiteralUnion<BundledTheme> | SpecialTheme)[],
 	): Promise<Highlighter> {
 		if (themes) {
 			themes.push(shikiTheme);
@@ -65,7 +68,7 @@ export class Highlighter {
 	 * 高亮代码
 	 * @param code - 代码；
 	 * @param lang - 语言 ID；
-	 * @param ln - 起始行号，unndefined 表示不显示行号；
+	 * @param ln - 起始行号，undefined 表示不显示行号；
 	 * @param wrap - 是否换行；
 	 * @param cls - 传递给 pre 标签的 CSS 类名；
 	 * @param style - 传递给 pre 标签的 CSS 样式；

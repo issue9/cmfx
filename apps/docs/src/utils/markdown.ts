@@ -8,7 +8,7 @@ import { parse, Token } from 'marked';
 
 import styles from './style.module.css';
 
-const higlighter = await Highlighter.build([
+const highlighter = await Highlighter.build([
 	'bash',
 	'css',
 	'git-commit',
@@ -58,7 +58,7 @@ function markdownCode(types?: Array<Source>) {
 				Object.assign(token, {
 					type: 'html',
 					block: true,
-					text: higlighter.html(txt, lang[0], undefined, true, styles['simple-code'], undefined, true),
+					text: highlighter.html(txt, lang[0], undefined, true, styles['simple-code'], undefined, true),
 				});
 				break;
 			}
@@ -70,7 +70,7 @@ function markdownCode(types?: Array<Source>) {
  * 解析 markdown 内容为普通的 html
  *
  * @remarks
- * 需要在初始化 higlighter 时指定的语言才会有高亮效果。
+ * 需要在初始化 highlighter 时指定的语言才会有高亮效果。
  */
 export function markdown(text?: string, types?: Array<Source>): string {
 	return text ? parse(text, { async: false, walkTokens: markdownCode(types) }) : '';
