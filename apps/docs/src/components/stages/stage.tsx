@@ -2,17 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Button,
-	ButtonGroup,
-	Code,
-	joinClass,
-	Layout,
-	MountProps,
-	ThemeProvider,
-	ToggleFitScreenButton,
-	useLocale,
-} from '@cmfx/components';
+import { Button, ButtonGroup, Code, joinClass, ThemeProvider, ToggleFitScreenButton, useLocale } from '@cmfx/components';
+import type { Layout, MountProps } from '@cmfx/components';
 import { Component, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';

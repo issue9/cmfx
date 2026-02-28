@@ -8,7 +8,7 @@ import { parse, Token } from 'marked';
 
 import styles from './style.module.css';
 
-const higlighter = await Highlighter.build(
+const higlighter = await Highlighter.build([
 	'bash',
 	'css',
 	'git-commit',
@@ -20,7 +20,7 @@ const higlighter = await Highlighter.build(
 	'ts',
 	'tsx',
 	'yaml',
-);
+]);
 
 /**
  * 表示 markdown 文件加载后的对象

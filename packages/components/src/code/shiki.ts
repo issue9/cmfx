@@ -2,18 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
+import type {
+	BundledHighlighterOptions,
 	BundledLanguage,
+	BundledTheme,
 	CodeToHastOptions,
-	codeToHtml,
-	createHighlighter,
 	HighlighterGeneric,
-	ThemeRegistrationRaw,
 } from 'shiki/bundle/full';
+import { codeToHtml, createHighlighter } from 'shiki/bundle/full';
 
 import { BaseProps, joinClass, style2String } from '@components/base';
 import { copy2Clipboard } from '@components/context';
 import styles from './style.module.css';
+import { shikiTheme } from './theme';
 
 window.copyShikiCode2Clipboard = copy2Clipboard;
 
@@ -31,26 +32,33 @@ declare global {
  *  - Highlighter 在不使用时需要手动清除对象；
  * 用户需要自己在 package.json 的 dependencies 中导入
  * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
- *
- * @typeParam L - 表示语言的 ID；
  */
-export class Highlighter<L extends BundledLanguage> {
+export class Highlighter {
 	/**
 	 * 构造可以高亮指定语言的对象
 	 *
 	 * @param langs - 语言 ID 列表；
-	 * @typeParam L - 表示语言的 ID，不能为空；
+	 * @param themes - 主题列表，可以为空，表示使用默认主题；
 	 * @returns 返回 {@link Highlighter} 对象；
 	 */
-	static async build<L extends BundledLanguage>(...langs: [L, ...Array<L>]): Promise<Highlighter<L>> {
-		const h = await createHighlighter({ themes: [shikiTheme], langs: langs });
-		return new Highlighter<L>(h);
+	static async build(
+		langs: Array<BundledLanguage>,
+		themes?: BundledHighlighterOptions<BundledLanguage, BundledTheme>['themes'],
+	): Promise<Highlighter> {
+		if (themes) {
+			themes.push(shikiTheme);
+		} else {
+			themes = [shikiTheme];
+		}
+
+		const h = await createHighlighter({ themes: themes, langs: langs });
+		return new Highlighter(h);
 	}
 
-	#h: HighlighterGeneric<L, never>;
+	#highlighter: HighlighterGeneric<BundledLanguage, BundledTheme>;
 
-	private constructor(h: HighlighterGeneric<L, never>) {
-		this.#h = h;
+	private constructor(h: HighlighterGeneric<BundledLanguage, BundledTheme>) {
+		this.#highlighter = h;
 	}
 
 	/**
@@ -62,25 +70,27 @@ export class Highlighter<L extends BundledLanguage> {
 	 * @param cls - 传递给 pre 标签的 CSS 类名；
 	 * @param style - 传递给 pre 标签的 CSS 样式；
 	 * @param simple - 简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；
+	 * @param theme - 主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；
 	 * @returns 高亮处理之后的 html 代码；
 	 */
 	html(
 		code: string,
-		lang: L,
+		lang: BundledLanguage,
 		ln?: number,
 		wrap?: boolean,
 		cls?: string,
 		style?: BaseProps['style'],
 		simple?: boolean,
+		theme?: BundledTheme,
 	): string {
-		return this.#h.codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, simple));
+		return this.#highlighter.codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, simple, theme));
 	}
 
 	/**
 	 * 释放当前对象
 	 */
 	dispose() {
-		this.#h.dispose();
+		this.#highlighter.dispose();
 	}
 }
 
@@ -94,6 +104,7 @@ export class Highlighter<L extends BundledLanguage> {
  * @param cls - 传递给 pre 标签的 CSS 类名；
  * @param style - 传递给 pre 标签的 CSS 样式；
  * @param simple - 简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；
+ * @param theme - 主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；
  * @returns 高亮后的 HTML 代码；
  *
  * @remarks 用户需要自己在 package.json 的 dependencies 中导入
@@ -107,211 +118,28 @@ export async function highlight(
 	cls?: string,
 	style?: BaseProps['style'],
 	simple?: boolean,
+	theme?: BundledTheme,
 ): Promise<string> {
-	return await codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, simple));
+	return await codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, simple, theme));
 }
 
-// 定义了 shiki 的主题
-const shikiTheme: ThemeRegistrationRaw = {
-	// 以下变量的定义来源于：
-	// https://github.com/shikijs/shiki/blob/9260f3fd109eca7bece80c92196f627ccae202d0/packages/core/src/theme-css-variables.ts
-	name: styles.shiki,
-	bg: 'var(--palette-bg)',
-	fg: 'var(--palette-fg)',
-	settings: [
-		{
-			scope: [
-				'keyword.operator.accessor',
-				'meta.group.braces.round.function.arguments',
-				'meta.template.expression',
-				'markup.fenced_code meta.embedded.block',
-			],
-			settings: {
-				foreground: 'var(--palette-fg)',
-			},
-		},
-		{
-			scope: 'emphasis',
-			settings: {
-				fontStyle: 'italic',
-			},
-		},
-		{
-			scope: ['strong', 'markup.heading.markdown', 'markup.bold.markdown'],
-			settings: {
-				fontStyle: 'bold',
-			},
-		},
-		{
-			scope: ['markup.italic.markdown'],
-			settings: {
-				fontStyle: 'italic',
-			},
-		},
-		{
-			scope: 'meta.link.inline.markdown',
-			settings: {
-				fontStyle: 'underline',
-				foreground: 'var(--palette-2-fg)',
-			},
-		},
-		{
-			scope: ['string', 'markup.fenced_code', 'markup.inline'],
-			settings: {
-				foreground: 'var(--palette-2-fg-low)',
-			},
-		},
-		{
-			scope: ['comment', 'string.quoted.docstring.multi'],
-			settings: {
-				foreground: 'var(--palette-2-fg-high)',
-			},
-		},
-		{
-			scope: [
-				'constant.numeric',
-				'constant.language',
-				'constant.other.placeholder',
-				'constant.character.format.placeholder',
-				'variable.language.this',
-				'variable.other.object',
-				'variable.other.class',
-				'variable.other.constant',
-				'meta.property-name',
-				'meta.property-value',
-				'support',
-			],
-			settings: {
-				foreground: 'var(--palette-3-fg)',
-			},
-		},
-		{
-			scope: [
-				'keyword',
-				'storage.modifier',
-				'storage.type',
-				'storage.control.clojure',
-				'entity.name.function.clojure',
-				'entity.name.tag.yaml',
-				'support.function.node',
-				'support.type.property-name.json',
-				'punctuation.separator.key-value',
-				'punctuation.definition.template-expression',
-			],
-			settings: {
-				foreground: 'var(--palette-3-fg-low)',
-			},
-		},
-		{
-			scope: 'variable.parameter.function',
-			settings: {
-				foreground: 'var(--palette-3-fg-high)',
-			},
-		},
-		{
-			scope: [
-				'support.function',
-				'entity.name.type',
-				'entity.other.inherited-class',
-				'meta.function-call',
-				'meta.instance.constructor',
-				'entity.other.attribute-name',
-				'entity.name.function',
-				'constant.keyword.clojure',
-			],
-			settings: {
-				foreground: 'var(--palette-4-fg)',
-			},
-		},
-		{
-			scope: [
-				'entity.name.tag',
-				'string.quoted',
-				'string.regexp',
-				'string.interpolated',
-				'string.template',
-				'string.unquoted.plain.out.yaml',
-				'keyword.other.template',
-			],
-			settings: {
-				foreground: 'var(--palette-4-fg-low)',
-			},
-		},
-		{
-			scope: [
-				'punctuation.definition.arguments',
-				'punctuation.definition.dict',
-				'punctuation.separator',
-				'meta.function-call.arguments',
-			],
-			settings: {
-				foreground: 'var(--palette-4-fg-high)',
-			},
-		},
-		{
-			// [Custom] Markdown links
-			scope: ['markup.underline.link', 'punctuation.definition.metadata.markdown'],
-			settings: {
-				foreground: 'var(--palette-5-fg)',
-			},
-		},
-		{
-			// [Custom] Markdown list
-			scope: ['beginning.punctuation.definition.list.markdown'],
-			settings: {
-				foreground: 'var(--palette-5-fg-low)',
-			},
-		},
-		{
-			// [Custom] Markdown punctuation definition brackets
-			scope: [
-				'punctuation.definition.string.begin.markdown',
-				'punctuation.definition.string.end.markdown',
-				'string.other.link.title.markdown',
-				'string.other.link.description.markdown',
-			],
-			settings: {
-				foreground: 'var(--palette-5-fg-high)',
-			},
-		},
-		{
-			// [Custom] Diff
-			scope: ['markup.inserted', 'meta.diff.header.to-file', 'punctuation.definition.inserted'],
-			settings: {
-				foreground: 'var(--palette-fg)',
-			},
-		},
-		{
-			scope: ['markup.deleted', 'meta.diff.header.from-file', 'punctuation.definition.deleted'],
-			settings: {
-				foreground: 'var(--palette-fg-low)',
-			},
-		},
-		{
-			scope: ['markup.changed', 'punctuation.definition.changed'],
-			settings: {
-				foreground: 'var(--palette-fg-high)',
-			},
-		},
-	],
-};
-
-function buildOptions<L extends BundledLanguage>(
+function buildOptions(
 	code: string,
-	lang?: L,
+	lang?: BundledLanguage,
 	ln?: number,
 	wrap?: boolean,
 	cls?: string,
 	style?: BaseProps['style'],
 	simple?: boolean,
-): CodeToHastOptions<L, never> {
+	theme?: BundledTheme,
+): CodeToHastOptions<BundledLanguage, BundledTheme> {
 	// 行号列的宽度，即使只有两行代码，但是从 9 开始计算行号，还是得有 2 位长度。
 	const w = ln === undefined ? '0ch' : `${(code.split('\n').length + ln).toString().length}ch`;
 	const s = style2String(`;--line-number-start: ${ln ?? 0};--line-number-width: ${w}`, style);
 
 	return {
 		lang: lang || 'text',
-		theme: shikiTheme,
+		theme: theme ?? shikiTheme,
 		transformers: [
 			{
 				pre(node) {

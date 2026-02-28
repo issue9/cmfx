@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BundledLanguage } from 'shiki/bundle/full';
+import { BundledLanguage, BundledTheme } from 'shiki/bundle/full';
 import { createEffect, createSignal, JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
@@ -56,6 +56,13 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @reactive
 	 */
 	ln?: number;
+
+	/**
+	 * 主题名
+	 *
+	 * @reactive
+	 */
+	theme?: BundledTheme;
 }
 
 /**
@@ -69,7 +76,7 @@ export default function Code(props: Props): JSX.Element {
 
 	createEffect(async () => {
 		const cls = joinClass(props.palette, props.class);
-		const pre = await highlight(props.children, props.lang, props.ln, props.wrap, cls, props.style);
+		const pre = await highlight(props.children, props.lang, props.ln, props.wrap, cls, props.style, false, props.theme);
 		setHTML(template(pre)() as HTMLElement);
 
 		if (props.ref) {

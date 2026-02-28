@@ -6,12 +6,13 @@ import { Code, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, paletteSelector } from '@docs/components/base';
+import { arraySelector, boolSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Editable, editable] = boolSelector('_d.demo.editable');
 	const [Wrap, wrap] = boolSelector('_d.demo.wrap');
+	const [Theme, theme] = arraySelector('themes', ['andromeeda', 'aurora-x', 'ayu-dark', 'ayu-light'])
 
 	return (
 		<div>
@@ -19,9 +20,11 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Editable />
 				<Wrap />
+				<Theme />
 			</Portal>
 
 			<Code
+			 	theme={theme()}
 				wrap={wrap()}
 				ln={21}
 				class="w-100"
