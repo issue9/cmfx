@@ -62,7 +62,7 @@ export class Webauthn implements PassportComponents {
 			account: usernameSchema.clone(),
 		});
 
-		const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		const [Form, ref, actions] = createForm<z.infer<typeof accountSchema>, Token>({
 			initValue: { account: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -104,7 +104,7 @@ export class Webauthn implements PassportComponents {
 			},
 			onProblem: async p => {
 				if (p.status === 401) {
-					fapi.setError(p.title);
+					ref.api().setError(p.title);
 					return;
 				}
 

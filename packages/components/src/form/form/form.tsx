@@ -26,6 +26,18 @@ export interface Props extends BaseProps, FormContext, ParentProps {
 	inDialog?: boolean;
 }
 
+export interface Ref<T extends Flattenable, R = never, P = never> {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLFormElement;
+
+	/**
+	 * 操作表单的 api
+	 */
+	api(): FormAPI<T, R, P>;
+}
+
 const preset: Props = {
 	layout: 'horizontal' as Layout,
 	hasHelp: true,
@@ -96,8 +108,9 @@ function ButtonAction(props: BProps): JSX.Element {
  */
 export function createForm<T extends Flattenable, R = never, P = never>(
 	options: Options<T, R, P>,
-): [api: FormAPI<T, R, P>, Form: Component<Props>, actions: Actions] {
+): [Form: Component<Props>, ref: Ref<T, R, P>, actions: Actions] {
 	const api = new FormAPI<T, R, P>(options);
+	let ref!: Ref<T, R, P>;
 
 	const id = createUniqueId();
 
@@ -140,6 +153,11 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 					class={joinClass(undefined, props.class)}
 					style={props.style}
 					ref={el => {
+						ref = {
+							api: () => api,
+							root: el.root,
+						};
+
 						const root = el.root();
 						root.id = id;
 
@@ -199,5 +217,5 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 		},
 	};
 
-	return [api, form, actions];
+	return [form, ref, actions];
 }

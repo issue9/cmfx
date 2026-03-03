@@ -40,7 +40,7 @@ export function Edit(props: Props): JSX.Element {
 	const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
 	const nav = useNavigate();
-	const [fapi, Form] = createForm<Admin>({
+	const [Form, ref] = createForm<Admin>({
 		initValue: { sex: 'unknown', name: '', nickname: '', roles: [], passports: [] },
 		submit: async obj => {
 			return await api.patch(`/admins/${ps.id}`, obj);
@@ -52,8 +52,8 @@ export function Edit(props: Props): JSX.Element {
 	onMount(async () => {
 		const r1 = await api.get<Admin>(`/admins/${ps.id}`);
 		if (r1.ok) {
-			fapi.setPreset(r1.body!);
-			fapi.setValue(r1.body!);
+			ref.api().setPreset(r1.body!);
+			ref.api().setValue(r1.body!);
 		} else {
 			await handleProblem(r1.body!);
 		}
@@ -69,24 +69,24 @@ export function Edit(props: Props): JSX.Element {
 	return (
 		<Page title="_p.admin.admin" class="max-w-2xl">
 			<Form class="flex flex-col">
-				<TextField class="w-full" accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<TextField class="w-full" accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+				<TextField class="w-full" accessor={ref.api().accessor<string>('name')} label={l.t('_p.admin.name')} />
+				<TextField class="w-full" accessor={ref.api().accessor<string>('nickname')} label={l.t('_p.nickname')} />
 				<roles.Selector
 					class="w-full"
 					multiple
-					accessor={fapi.accessor<Array<string>>('roles')}
+					accessor={ref.api().accessor<Array<string>>('roles')}
 					label={l.t('_p.roles.roles')}
 				/>
-				<SexSelector class="w-full" accessor={fapi.accessor<Sex>('sex')} label={l.t('_p.sex')} />
+				<SexSelector class="w-full" accessor={ref.api().accessor<Sex>('sex')} label={l.t('_p.sex')} />
 				<div class="flex w-full justify-between gap-5">
 					<Button type="a" href={props.backURL} palette="secondary">
 						<IconArrowBack />
 						{l.t('_p.back')}
 					</Button>
-					<Button disabled={fapi.isPreset()} type="reset" palette="secondary">
+					<Button disabled={ref.api().isPreset()} type="reset" palette="secondary">
 						{l.t('_c.reset')}
 					</Button>
-					<Button disabled={fapi.isPreset()} type="submit" palette="primary">
+					<Button disabled={ref.api().isPreset()} type="submit" palette="primary">
 						{l.t('_c.ok')}
 					</Button>
 				</div>
@@ -104,7 +104,8 @@ export function Edit(props: Props): JSX.Element {
 				<tbody>
 					<For each={passports()}>
 						{item => {
-							const uid = fapi
+							const uid = ref
+								.api()
 								.accessor<Admin['passports']>('passports')
 								.getValue()!
 								.find(v => v.id === item.id)?.id;

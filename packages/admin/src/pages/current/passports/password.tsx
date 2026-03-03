@@ -45,7 +45,7 @@ export class Pwd implements PassportComponents {
 		const usr = useAdmin();
 		const nav = useNavigate();
 
-		const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		const [Form, ref, actions] = createForm<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', password: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -56,7 +56,7 @@ export class Pwd implements PassportComponents {
 			},
 			onProblem: async p => {
 				if (p.status === 401) {
-					fapi.setError(p.title);
+					ref.api().setError(p.title);
 					return;
 				}
 
@@ -74,17 +74,17 @@ export class Pwd implements PassportComponents {
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
-					accessor={fapi.accessor<string>('username')}
+					accessor={ref.api().accessor<string>('username')}
 				/>
 				<Password
 					hasHelp
 					prefix={<IconPassword class={styles['text-field']} />}
 					autocomplete="current-password"
 					placeholder={l.t('_p.current.password')}
-					accessor={fapi.accessor<string>('password')}
+					accessor={ref.api().accessor<string>('password')}
 				/>
 
-				<actions.Submit palette="primary" disabled={fapi.accessor<string>('username').getValue() === ''}>
+				<actions.Submit palette="primary" disabled={ref.api().accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
 				</actions.Submit>
 				<actions.Reset palette="secondary"> {l.t('_c.reset')} </actions.Reset>
@@ -109,7 +109,7 @@ export class Pwd implements PassportComponents {
 				path: ['new'],
 			});
 
-		const [fapi, Form, actions] = createForm<z.infer<typeof valueSchema>>({
+		const [Form, ref, actions] = createForm<z.infer<typeof valueSchema>>({
 			initValue: { old: '', new: '' },
 			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
 			validOnChange: true,
@@ -142,8 +142,8 @@ export class Pwd implements PassportComponents {
 					header={l.t('_p.current.changePassword')}
 				>
 					<Form class={styles['action-form']} inDialog>
-						<TextField placeholder={l.t('_p.current.oldPassword')} accessor={fapi.accessor<string>('old')} />
-						<TextField placeholder={l.t('_p.current.newPassword')} accessor={fapi.accessor<string>('new')} />
+						<TextField placeholder={l.t('_p.current.oldPassword')} accessor={ref.api().accessor<string>('old')} />
+						<TextField placeholder={l.t('_p.current.newPassword')} accessor={ref.api().accessor<string>('new')} />
 						<actions.Submit class="ms-auto">{l.t('_c.ok')}</actions.Submit>
 					</Form>
 				</Dialog>

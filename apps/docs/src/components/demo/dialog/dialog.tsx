@@ -14,7 +14,7 @@ export default function (props: MountProps): JSX.Element {
 	let dlg2: DialogRef;
 	let dlg3: DialogRef;
 
-	const [, Form] = createForm({
+	const [Form] = createForm({
 		initValue: {},
 		submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
 		onProblem: async p => await notify(p.title),

@@ -8,7 +8,7 @@ import { ComponentTester } from '@components/context/context.spec';
 import { createForm } from './form';
 
 describe('Form', async () => {
-	const [_, Form] = createForm({
+	const [Form] = createForm({
 		initValue: {},
 		submit: async (v: object) => ({ ok: true, status: 200, body: v }),
 	});

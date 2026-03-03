@@ -16,7 +16,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 
-	const [api, Form, actions] = createForm({
+	const [Form, ref, actions] = createForm({
 		initValue: {
 			f1: 'f1',
 			f2: 5,
@@ -38,7 +38,7 @@ export default function (props: MountProps): JSX.Element {
 				<Readonly />
 				<Button
 					onclick={() => {
-						api.setError(api.getError() ? undefined : 'error');
+						ref.api().setError(ref.api().getError() ? undefined : 'error');
 					}}
 				>
 					Set Error
@@ -55,10 +55,10 @@ export default function (props: MountProps): JSX.Element {
 				class="flex flex-col gap-4"
 			>
 				<actions.Message />
-				<TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
-				<Numeric label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
-				<DatePicker label="date" accessor={api.accessor('date')} help="这是一个帮助文本" />
-				<TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
+				<TextField label="textField" accessor={ref.api().accessor<string>('f1')} help="这是一个帮助文本" />
+				<Numeric label="number" accessor={ref.api().accessor('f2')} help="这是一个帮助文本" />
+				<DatePicker label="date" accessor={ref.api().accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
+				<TextArea label="textarea" class="grow" accessor={ref.api().accessor<string>('textarea')} help="这是一个帮助文本" />
 			</Form>
 			<div class="flex w-full justify-between">
 				<actions.Reset>reset</actions.Reset>

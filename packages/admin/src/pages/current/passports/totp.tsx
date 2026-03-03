@@ -53,7 +53,7 @@ export class TOTP implements PassportComponents {
 		const nav = useNavigate();
 		const usr = useAdmin();
 
-		const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		const [Form, ref, actions] = createForm<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', code: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -64,7 +64,7 @@ export class TOTP implements PassportComponents {
 			},
 			onProblem: async p => {
 				if (p.status === 401) {
-					fapi.setError(p.title);
+					ref.api().setError(p.title);
 					return;
 				}
 
@@ -82,17 +82,17 @@ export class TOTP implements PassportComponents {
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
-					accessor={fapi.accessor<string>('username')}
+					accessor={ref.api().accessor<string>('username')}
 				/>
 				<TextField
 					hasHelp
 					prefix={<IconPin class={styles['text-field']} />}
 					autocomplete="one-time-code"
 					placeholder={l.t('_p.current.verifyCode')}
-					accessor={fapi.accessor<string>('code')}
+					accessor={ref.api().accessor<string>('code')}
 				/>
 
-				<actions.Submit palette="primary" disabled={fapi.accessor<string>('username').getValue() === ''}>
+				<actions.Submit palette="primary" disabled={ref.api().accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
 				</actions.Submit>
 				<actions.Reset palette="secondary"> {l.t('_c.reset')} </actions.Reset>
@@ -113,7 +113,7 @@ export class TOTP implements PassportComponents {
 			code: codeSchema.clone(),
 		});
 
-		const [fapi, Form, actions] = createForm<z.infer<typeof requestSchema>>({
+		const [Form, ref, actions] = createForm<z.infer<typeof requestSchema>>({
 			initValue: { code: '' },
 			validator: zodValidator<z.infer<typeof requestSchema>>(requestSchema.clone(), l),
 			validOnChange: true,
@@ -178,7 +178,7 @@ export class TOTP implements PassportComponents {
 								<QRCode type="rounded" value={qr()} />
 							</p>
 							<br />
-							<TextField hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={fapi.accessor('code')} />
+							<TextField hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={ref.api().accessor('code')} />
 							<actions.Submit class="ms-auto">{l.t('_c.ok')}</actions.Submit>
 						</Form>
 					</Dialog>

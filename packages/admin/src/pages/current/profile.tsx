@@ -44,7 +44,7 @@ export function Profile(props: Props): JSX.Element {
 	const l = useLocale();
 	let uploadRef: UploadRef;
 
-	const [fapi, Form, actions] = createForm({
+	const [Form, ref, actions] = createForm({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
 		onProblem: async p => handleProblem(p),
 		submit: async obj => {
@@ -66,11 +66,11 @@ export function Profile(props: Props): JSX.Element {
 			return;
 		}
 
-		fapi.setPreset(info);
+		ref.api().setPreset(info);
 
-		const nameA = fapi.accessor('name');
-		const nicknameA = fapi.accessor('nickname');
-		const sexA = fapi.accessor('sex');
+		const nameA = ref.api().accessor('name');
+		const nicknameA = ref.api().accessor('nickname');
+		const sexA = ref.api().accessor('sex');
 		const passportA = fieldAccessor('passports', info.passports);
 
 		nameA.setValue(info.name!);
@@ -164,15 +164,15 @@ export function Profile(props: Props): JSX.Element {
 			<Divider padding="4px" />
 
 			<Form class={styles.form}>
-				<TextField class="w-full" label={l.t('_p.current.name')} accessor={fapi.accessor('name')} />
-				<TextField class="w-full" label={l.t('_p.nickname')} accessor={fapi.accessor('nickname')} />
-				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={fapi.accessor<Sex>('sex')} />
+				<TextField class="w-full" label={l.t('_p.current.name')} accessor={ref.api().accessor('name')} />
+				<TextField class="w-full" label={l.t('_p.nickname')} accessor={ref.api().accessor('nickname')} />
+				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={ref.api().accessor<Sex>('sex')} />
 
 				<div class={styles.actions}>
-					<actions.Reset palette="secondary" disabled={fapi.isPreset()}>
+					<actions.Reset palette="secondary" disabled={ref.api().isPreset()}>
 						{l.t('_c.reset')}
 					</actions.Reset>
-					<actions.Submit palette="primary" disabled={fapi.isPreset()}>
+					<actions.Submit palette="primary" disabled={ref.api().isPreset()}>
 						{l.t('_p.save')}
 					</actions.Submit>
 				</div>
