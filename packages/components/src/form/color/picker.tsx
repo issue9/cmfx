@@ -4,14 +4,18 @@
 
 import { createMemo, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { classList } from '@components/base';
+import { classList, RefProps } from '@components/base';
 import { ColorPanel, ColorPanelProps } from '@components/color';
 import { Dialog, DialogRef } from '@components/dialog';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import styles from './style.module.css';
 
-export interface Props extends Omit<ColorPanelProps, 'value' | 'onChange'>, FieldBaseProps {
+export interface Ref {
+	root(): HTMLDivElement;
+}
+
+export interface Props extends Omit<ColorPanelProps, 'value' | 'onChange' | 'ref'>, FieldBaseProps, RefProps<Ref> {
 	accessor: Accessor<string>;
 }
 
@@ -25,7 +29,18 @@ export default function ColorPicker(props: Props): JSX.Element {
 	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 	const id = createUniqueId();
 	return (
-		<Field class={props.class} title={props.title} palette={props.palette} aria-haspopup style={props.style}>
+		<Field
+			class={props.class}
+			title={props.title}
+			palette={props.palette}
+			aria-haspopup
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+		>
 			<Show when={areas().labelArea}>
 				{area => (
 					<label

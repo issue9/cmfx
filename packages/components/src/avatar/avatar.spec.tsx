@@ -1,17 +1,26 @@
-// SPDX-FileCopyrightText: 2025-2026 caixw
+// SPDX-FileCopyrightText: 2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Description, Ref } from './description';
+import { default as Avatar, Ref } from './avatar';
 
-describe('Description', async () => {
+describe('Avatar', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('Description', props => <Description {...props} ref={el => (ref = el)} />);
+	const ct = await ComponentTester.build('Appbar', props => (
+		<Avatar
+			value="../../../assets/brand-static.svg"
+			{...props}
+			ref={r => {
+				ref = r;
+			}}
+		/>
+	));
 
 	test('props', () => ct.testProps());
+
 	test('ref', () => {
 		expect(ref).toBeDefined();
 		expect(ref.root()).toBeInstanceOf(HTMLDivElement);

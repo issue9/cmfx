@@ -17,11 +17,10 @@ import {
 	untrack,
 } from 'solid-js';
 
-import { joinClass } from '@components/base';
+import { joinClass, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
-import { DateViewRef } from '@components/datetime/dateview';
-import { CommonPanel, Props as CommonProps } from './common';
+import { CommonPanel, Props as CommonProps, Ref as CommonRef } from './common';
 import {
 	DateRangeValueType,
 	nextQuarter,
@@ -34,7 +33,13 @@ import {
 } from './shortcuts';
 import styles from './style.module.css';
 
-export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave'> {
+export interface Ref {
+	root(): HTMLFieldSetElement;
+}
+
+export interface Props
+	extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave' | 'ref'>,
+		RefProps<Ref> {
 	/**
 	 * 关联的值
 	 *
@@ -59,11 +64,18 @@ export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef
  * 日期范围选择组件
  */
 export function DateRangePanel(props: Props): JSX.Element {
-	const [_, panelProps] = splitProps(props, ['value', 'onChange', 'popover', 'ref', 'class', 'palette', 'style']);
+	const [_, panelProps] = splitProps(props, [
+		'value',
+		'onChange',
+		'popover',
+		'ref',
+		'class',
+		'palette',
+		'style',
+		'ref',
+	]);
 
 	const l = useLocale();
-	let viewRef1: DateViewRef;
-	let viewRef2: DateViewRef;
 
 	const [values, setValues] = createSignal<DateRangeValueType>(props.value ?? [undefined, undefined]);
 	let index = 0; // 当前设置的值属于 values 的哪个索引值
@@ -100,6 +112,9 @@ export function DateRangePanel(props: Props): JSX.Element {
 	// onchange 是否触发 onChange 事件；
 	const panelChange = (value?: Date, time?: boolean, start?: boolean, onchange?: boolean) => {
 		const old = [...untrack(values)] as DateRangeValueType;
+
+		const viewRef1 = panel1()?.dateview();
+		const viewRef2 = panel2?.dateview();
 
 		if (!value) {
 			// 只有在 Props.value === [undefined, undefined] 时才会有可能 !value 成立。
@@ -140,8 +155,8 @@ export function DateRangePanel(props: Props): JSX.Element {
 				});
 				const vals = untrack(values) as [Date, Date];
 				viewRef1?.cover(vals);
-				viewRef2?.cover(vals);
-				viewRef1.jump(vals[0]!);
+				viewRef2.cover(vals);
+				viewRef1?.jump(vals[0]!);
 				viewRef2.jump(vals[1]!);
 				break;
 			}
@@ -165,6 +180,9 @@ export function DateRangePanel(props: Props): JSX.Element {
 			return;
 		}
 
+		const viewRef1 = panel1()?.dateview();
+		const viewRef2 = panel2?.dateview();
+
 		viewRef1?.unselect(...old);
 		viewRef2?.unselect(...old);
 
@@ -187,13 +205,13 @@ export function DateRangePanel(props: Props): JSX.Element {
 		viewRef2?.cover(vals);
 
 		if (vals[0]) {
-			viewRef1.jump(vals[0]);
+			viewRef1?.jump(vals[0]);
 			viewRef1?.select(vals[0]);
 			changeTime(vals[0], true);
 		}
 		if (vals[1]) {
 			viewRef2.jump(vals[1]);
-			viewRef2?.select(vals[1]);
+			viewRef2.select(vals[1]);
 			changeTime(vals[1], false);
 		}
 
@@ -211,6 +229,7 @@ export function DateRangePanel(props: Props): JSX.Element {
 	onMount(() => {
 		const nextMonth = new Date();
 		nextMonth.setMonth(nextMonth.getMonth() + 1);
+		const viewRef2 = panel2?.dateview();
 
 		if (!props.value) {
 			viewRef2.jump(nextMonth);
@@ -229,34 +248,37 @@ export function DateRangePanel(props: Props): JSX.Element {
 		if (index === 1) {
 			const v = values();
 			const f = v[0] ?? v[1]!; // 由 index === 1 保证至少有一个值非 undefined 值
-			viewRef1.cover([f, e]);
-			viewRef2.cover([f, e]);
+			panel1()?.dateview().cover([f, e]);
+			panel2?.dateview().cover([f, e]);
 		}
 	};
 
 	const onLeave = () => {
 		if (index === 1) {
-			viewRef1.uncover();
-			viewRef2.uncover();
+			panel1()?.dateview().uncover();
+			panel2?.dateview().uncover();
 		}
 	};
 
 	const setShortcuts = (vals: DateRangeValueType) => {
 		setValues(vals);
 
+		const viewRef1 = panel1()?.dateview();
+		const viewRef2 = panel2?.dateview();
+
 		viewRef1?.cover(vals as [Date, Date]);
-		viewRef2?.cover(vals as [Date, Date]);
+		viewRef2.cover(vals as [Date, Date]);
 		viewRef1?.select(vals[0]!, vals[1]!);
-		viewRef2?.select(vals[0]!, vals[1]!);
-		viewRef1.jump(vals[0]!);
+		viewRef2.select(vals[0]!, vals[1]!);
+		viewRef1?.jump(vals[0]!);
 		viewRef2.jump(vals[1]!);
 	};
 
 	/* 保证 flex-wrap 换行之后，边框显示的正确性 */
 
 	let resizeObserver: ResizeObserver;
-	const [panel1, setPanel1] = createSignal<HTMLFieldSetElement>();
-	let panel2: HTMLFieldSetElement;
+	const [panel1, setPanel1] = createSignal<CommonRef>();
+	let panel2: CommonRef;
 	createEffect(() => {
 		if (resizeObserver) {
 			resizeObserver.disconnect();
@@ -267,18 +289,18 @@ export function DateRangePanel(props: Props): JSX.Element {
 			const ref = panel1();
 			if (ref) {
 				const p2Left = (entries[0].target as HTMLElement).getBoundingClientRect().left;
-				if (p2Left === ref.getBoundingClientRect().left) {
-					panel2.style.setProperty('border-top-color', 'var(--palette-fg-low)');
-					panel2.style.setProperty('border-inline-start-color', 'transparent');
+				if (p2Left === ref.root().getBoundingClientRect().left) {
+					panel2.root().style.setProperty('border-top-color', 'var(--palette-fg-low)');
+					panel2.root().style.setProperty('border-inline-start-color', 'transparent');
 				} else {
-					panel2.style.setProperty('border-inline-start-color', 'var(--palette-fg-low)');
-					panel2.style.setProperty('border-top-color', 'transparent');
+					panel2.root().style.setProperty('border-inline-start-color', 'var(--palette-fg-low)');
+					panel2.root().style.setProperty('border-top-color', 'transparent');
 				}
 			}
 		});
 
 		if (panel1()) {
-			resizeObserver.observe(panel2);
+			resizeObserver.observe(panel2.root());
 		}
 	});
 	onCleanup(() => {
@@ -295,7 +317,7 @@ export function DateRangePanel(props: Props): JSX.Element {
 			style={props.style}
 			ref={el => {
 				if (props.ref) {
-					props.ref(el);
+					props.ref({ root: () => el });
 				}
 			}}
 		>
@@ -305,9 +327,6 @@ export function DateRangePanel(props: Props): JSX.Element {
 						{...panelProps}
 						value={values()[0]}
 						class={styles.panel}
-						viewRef={el => {
-							viewRef1 = el;
-						}}
 						onEnter={onEnter}
 						onLeave={onLeave}
 						ref={el => setPanel1(el)}
@@ -322,7 +341,7 @@ export function DateRangePanel(props: Props): JSX.Element {
 							if (compareMonth(page2(), val) < 0) {
 								const v = new Date(val);
 								v.setMonth(v.getMonth() + 1);
-								viewRef2.jump(v);
+								panel2.dateview().jump(v);
 							}
 						}}
 					/>
@@ -330,9 +349,6 @@ export function DateRangePanel(props: Props): JSX.Element {
 						{...panelProps}
 						value={values()[1]}
 						class={styles.panel}
-						viewRef={el => {
-							viewRef2 = el;
-						}}
 						onEnter={onEnter}
 						onLeave={onLeave}
 						ref={el => {
@@ -349,7 +365,7 @@ export function DateRangePanel(props: Props): JSX.Element {
 							if (compareMonth(page1(), val) > 0) {
 								const v = new Date(val);
 								v.setMonth(v.getMonth() - 1);
-								viewRef1.jump(v);
+								panel1()?.dateview().jump(v);
 							}
 						}}
 					/>

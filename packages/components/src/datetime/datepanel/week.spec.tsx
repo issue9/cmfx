@@ -1,15 +1,15 @@
-// SPDX-FileCopyrightText: 2025-2026 caixw
+// SPDX-FileCopyrightText: 2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { default as Month, Ref } from './monthpanel';
+import { Ref, WeekPanel } from './week';
 
-describe('MonthPanel', async () => {
+describe('WeekPanel', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('MonthPanel', props => <Month ref={el => (ref = el)} {...props} />);
+	const ct = await ComponentTester.build('WeekPanel', props => <WeekPanel ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

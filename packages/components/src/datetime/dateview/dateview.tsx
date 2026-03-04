@@ -10,7 +10,7 @@ import { useLocale } from '@components/context';
 import { compareDate, equalDate, sunday, weekDay, weekDays, weeks } from '@components/datetime/utils';
 import { buildHeader } from './header';
 import styles from './style.module.css';
-import { Props, Ref } from './types';
+import { API, Props } from './types';
 
 const presetProps: Partial<Props> = {
 	weekBase: 0,
@@ -92,7 +92,7 @@ export default function DateView(props: Props): JSX.Element {
 		return inRange(date > value(), date, props.min, props.max);
 	};
 
-	const ref: Ref = {
+	const api: API = {
 		select(...d: Array<Date>) {
 			setSelected(prev => [...prev, ...d]);
 			setToday(new Date()); // 保持 today 的正确性
@@ -142,10 +142,17 @@ export default function DateView(props: Props): JSX.Element {
 		},
 	};
 
-	props.ref(ref);
-
 	const table = (
-		<table>
+		<table
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+						...api,
+					});
+				}
+			}}
+		>
 			<Show when={props.weekend}>
 				<colgroup>
 					<Show when={props.weeks}>
@@ -256,7 +263,7 @@ export default function DateView(props: Props): JSX.Element {
 			class={joinClass(props.palette, styles.dateview, props.class)}
 			style={props.style}
 		>
-			{buildHeader(l, value, ref, props)}
+			{buildHeader(l, value, api, props)}
 			{table}
 		</fieldset>
 	);

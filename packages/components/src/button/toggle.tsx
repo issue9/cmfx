@@ -8,12 +8,20 @@ import IconExpand from '~icons/material-symbols/expand-content';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
+import { RefProps } from '@components/base';
 import { IconSet } from '@components/icon';
-import { BProps, Button } from './button';
+import { BProps, Button, Ref as ButtonRef } from './button';
 import styles from './style.module.css';
 import { presetProps } from './types';
 
-export interface Props extends Omit<BProps, 'onclick' | 'children'> {
+export interface Ref extends ButtonRef<false> {
+	/**
+	 * 切换图标显示
+	 */
+	toggle(): Promise<boolean>;
+}
+
+export interface Props extends Omit<BProps, 'onclick' | 'children' | 'ref'>, RefProps<Ref> {
 	/**
 	 * 指定按钮的状态
 	 *
@@ -56,7 +64,7 @@ export interface Props extends Omit<BProps, 'onclick' | 'children'> {
  */
 export function ToggleButton(props: Props): JSX.Element {
 	props = mergeProps(presetProps, props);
-	const [, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value']);
+	const [, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value', 'ref']);
 	const [val, setVal] = createSignal(props.value);
 
 	return (
@@ -64,6 +72,14 @@ export function ToggleButton(props: Props): JSX.Element {
 			{...btnProps}
 			onclick={async () => {
 				setVal(await props.toggle());
+			}}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el.root(),
+						toggle: async () => setVal(await props.toggle()),
+					});
+				}
 			}}
 		>
 			<IconSet icons={{ on: props.on, off: props.off }} value={val() ? 'on' : 'off'} />

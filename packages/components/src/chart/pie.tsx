@@ -4,9 +4,11 @@
 
 import { createMemo, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { Props as BaseProps, Chart, ChartOption, presetProps as presetBaseProps } from './chart';
+import { Props as BaseProps, Chart, ChartOption, Ref as ChartRef, presetProps as presetBaseProps } from './chart';
 
-export interface Props extends Omit<BaseProps, 'initValue' | 'ref'> {
+export type Ref = ChartRef;
+
+export interface Props extends Omit<BaseProps, 'initValue'> {
 	/**
 	 * 是否显示提示信息
 	 */

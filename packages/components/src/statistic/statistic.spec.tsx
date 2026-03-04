@@ -2,13 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import Statistic from './statistic';
+import Statistic, { Ref } from './statistic';
 
 describe('Statistic', async () => {
-	const ct = await ComponentTester.build('Statistic', props => <Statistic label="Label" value={5} {...props} />);
+	let ref: Ref;
+	const ct = await ComponentTester.build('Statistic', props => (
+		<Statistic label="Label" value={5} {...props} ref={el => (ref = el)} />
+	));
 
 	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+	});
 });

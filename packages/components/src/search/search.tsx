@@ -7,14 +7,18 @@ import { createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from
 import IconClear from '~icons/material-symbols/close';
 import IconSearch from '~icons/material-symbols/search';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { Input, InputRef } from '@components/input';
 import { TextProps } from '@components/input/input';
 import { Dropdown, DropdownProps, DropdownRef, MenuItemItem } from '@components/menu';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): DropdownRef;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	hotkey?: Hotkey;
 
 	/**
@@ -108,6 +112,9 @@ export default function Search(props: Props): JSX.Element {
 				dropdownRef = el;
 				dropdownRef.menu().root().style.height = '240px';
 				dropdownRef.menu().root().style.overflowY = 'auto';
+				if (props.ref) {
+					props.ref({ root: () => dropdownRef });
+				}
 			}}
 			onPopover={visible => {
 				if (visible) {

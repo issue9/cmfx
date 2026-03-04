@@ -5,12 +5,13 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import Result from './result';
+import Result, { Ref } from './result';
 import styles from './style.module.css';
 
 describe('Result', async () => {
+	let ref: Ref;
 	const ct = await ComponentTester.build('Result', props => (
-		<Result title="title" {...props}>
+		<Result ref={el => (ref = el)} title="title" {...props}>
 			abc
 		</Result>
 	));
@@ -22,4 +23,9 @@ describe('Result', async () => {
 	});
 
 	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+	});
 });

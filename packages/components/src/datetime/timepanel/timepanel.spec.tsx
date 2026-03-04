@@ -2,15 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { default as TimePanel } from './timepanel';
+import { Ref, default as TimePanel } from './timepanel';
 
 describe('TimePanel', async () => {
-	const ct = await ComponentTester.build('TimePanel', props => <TimePanel {...props} />);
+	let ref: Ref;
+	const ct = await ComponentTester.build('TimePanel', props => <TimePanel ref={el => (ref = el)} {...props} />);
 
-	test('props', async () => {
-		ct.testProps();
+	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLFieldSetElement);
 	});
 });

@@ -22,8 +22,8 @@ describe('Range', async () => {
 	));
 
 	test('ref', async () => {
-		expect(ref!.root()).not.toBeUndefined();
-		expect(ref!.input()).not.toBeUndefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+		expect(ref.input()).toBeInstanceOf(HTMLInputElement);
 	});
 
 	test('props', () => ct.testProps());

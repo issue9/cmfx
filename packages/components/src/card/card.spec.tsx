@@ -2,16 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Card } from './card';
+import { Card, Ref } from './card';
 
 describe('Card', async () => {
-	const ct = await ComponentTester.build('Card', props => <Card {...props}>abc</Card>);
+	let ref: Ref;
+	const ct = await ComponentTester.build('Card', props => (
+		<Card ref={el => (ref = el)} {...props}>
+			abc
+		</Card>
+	));
 
-	// 根元素的基本属性检测
-	test('props', async () => {
-		ct.testProps();
+	test('props', () => ct.testProps());
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
 	});
 });

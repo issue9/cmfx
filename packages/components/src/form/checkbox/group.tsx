@@ -4,21 +4,20 @@
 
 import { createMemo, For, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { AvailableEnumType, joinClass, Layout } from '@components/base';
-import {
-	Accessor,
-	calcLayoutFieldAreas,
-	Field,
-	FieldBaseProps,
-	FieldHelpArea,
-	fieldArea2Style,
-	Options,
-	useForm,
-} from '@components/form/field';
+import { AvailableEnumType, joinClass, Layout, RefProps } from '@components/base';
+import type { Accessor, FieldBaseProps, Options } from '@components/form/field';
+import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
 
-export interface Props<T extends AvailableEnumType = string> extends FieldBaseProps {
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLDivElement;
+}
+
+export interface Props<T extends AvailableEnumType = string> extends FieldBaseProps, RefProps<Ref> {
 	/**
 	 * 是否显示为块
 	 *
@@ -55,7 +54,17 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
 
 	const access = props.accessor;
 	return (
-		<Field class={props.class} title={props.title} palette={props.palette} style={props.style}>
+		<Field
+			class={props.class}
+			title={props.title}
+			palette={props.palette}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+		>
 			<Show when={areas().labelArea}>
 				{area => (
 					<div

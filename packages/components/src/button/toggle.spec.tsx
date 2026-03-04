@@ -2,17 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { ToggleFitScreenButton, ToggleFullScreenButton } from './toggle';
+import { Ref, ToggleFitScreenButton, ToggleFullScreenButton } from './toggle';
 
 describe('ToggleFullScreenButton', async () => {
+	let ref: Ref;
 	const ct = await ComponentTester.build('ToggleFullScreenButton', props => (
-		<ToggleFullScreenButton {...props}>abc</ToggleFullScreenButton>
+		<ToggleFullScreenButton ref={el => (ref = el)} {...props} />
 	));
 
 	test('props', () => ct.testProps());
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeDefined();
+	});
 });
 
 describe('ToggleFitScreenButton', async () => {

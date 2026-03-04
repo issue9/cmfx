@@ -10,7 +10,5 @@ import { default as Counter } from './counter';
 describe('Counter', async () => {
 	const ct = await ComponentTester.build('Counter', props => <Counter value={10} {...props} />);
 
-	test('props', async () => {
-		ct.testProps();
-	});
+	test('props', () => ct.testProps());
 });

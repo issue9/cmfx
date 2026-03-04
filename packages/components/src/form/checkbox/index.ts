@@ -4,5 +4,5 @@
 
 export type { Props as CheckboxProps, Ref as CheckboxRef } from './checkbox';
 export { Checkbox } from './checkbox';
-export type { Props as CheckboxGroupProps } from './group';
+export type { Props as CheckboxGroupProps, Ref as CheckboxGroupRef } from './group';
 export { CheckboxGroup } from './group';

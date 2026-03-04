@@ -4,11 +4,15 @@
 
 import { JSX, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import { Counter, CounterProps } from '@components/counter';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): HTMLDivElement;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 显示的标题
 	 *
@@ -41,7 +45,15 @@ export interface Props extends BaseProps {
  */
 export default function Statistic(props: Props): JSX.Element {
 	return (
-		<div class={joinClass(props.palette, styles.statistic, props.class)} style={props.style}>
+		<div
+			class={joinClass(props.palette, styles.statistic, props.class)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+		>
 			<div class={styles.label}>{props.label}</div>
 			<div class={styles.content}>
 				<Show when={props.icon}>

@@ -6,20 +6,28 @@ import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch }
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { AvailableEnumType, cloneElement, joinClass } from '@components/base';
+import { AvailableEnumType, cloneElement, joinClass, RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Dropdown, DropdownRef, MenuItem, MenuItemItem } from '@components/menu';
 import styles from './style.module.css';
 
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLDivElement;
+}
+
 /**
  * 单个选择项的类型
  *
- * @remarks 直接采用了与 {@link MenuItem} 相同的类型，但是对为 type 为 a 的项是忽略处理的。
+ * @remarks
+ * 直接采用了与 {@link MenuItem} 相同的类型，但是对为 type 为 a 的项是忽略处理的。
  */
 export type Option<T extends AvailableEnumType = string> = MenuItem<T>;
 
-interface Base<T extends AvailableEnumType = string> extends FieldBaseProps {
+interface Base<T extends AvailableEnumType = string> extends FieldBaseProps, RefProps<Ref> {
 	placeholder?: string;
 
 	/**
@@ -166,6 +174,13 @@ export function Choice<T extends AvailableEnumType = string>(props: Props<T>): J
 			style={props.style}
 			title={props.title}
 			palette={props.palette}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+					});
+				}
+			}}
 		>
 			<Show when={areas().labelArea}>
 				{area => (

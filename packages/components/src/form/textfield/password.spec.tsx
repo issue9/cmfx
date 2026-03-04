@@ -2,15 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { fieldAccessor } from '@components/form/field';
-import { Password } from './password';
+import { Password, Ref } from './password';
 
 describe('Password', async () => {
+	let ref: Ref;
 	const fa = fieldAccessor('tf', 'tf');
-	const ct = await ComponentTester.build('Password', props => <Password accessor={fa} {...props} />);
+	const ct = await ComponentTester.build('Password', props => (
+		<Password accessor={fa} {...props} ref={el => (ref = el)} />
+	));
 
-	test('prorps', () => ct.testProps());
+	test('props', () => ct.testProps());
+
+	test('ref', async () => {
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+		expect(ref.input()).toBeInstanceOf(HTMLInputElement);
+	});
 });

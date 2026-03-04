@@ -6,7 +6,7 @@ import Color from 'colorjs.io';
 import { createEffect, createSignal, JSX, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 
-import { BaseProps, joinClass, PropsError, wcag } from '@components/base';
+import { BaseProps, joinClass, PropsError, RefProps, wcag } from '@components/base';
 import { Button } from '@components/button';
 import { copy2Clipboard, useLocale } from '@components/context';
 import { Choice, ChoiceOption, fieldAccessor } from '@components/form';
@@ -20,7 +20,18 @@ declare global {
 	}
 }
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): HTMLDivElement;
+
+	/**
+	 * 切换颜色拾取面板
+	 *
+	 * @param id - 拾取面板的 id；
+	 */
+	switchPicker(id: string): void;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 初始的颜色值
 	 *
@@ -73,16 +84,16 @@ export default function ColorPanel(props: Props): JSX.Element {
 
 	const signal = createSignal<string>('#000');
 
+	// 监视 signal 变化，用以触发 onchange
 	createEffect(() => {
-		// 监视 signal 变化，用以触发 onchange
 		const v = signal[0]();
 		if (props.onChange) {
 			props.onChange(v);
 		}
 	});
 
+	// 监视 props.value 变化
 	createEffect(() => {
-		// 监视 props.value 变化
 		const v = props.value;
 		if (!v) {
 			return;
@@ -100,7 +111,18 @@ export default function ColorPanel(props: Props): JSX.Element {
 	let contentRef: HTMLDivElement;
 
 	return (
-		<div class={joinClass(props.palette, styles['color-panel'], props.class)} style={props.style}>
+		<div
+			class={joinClass(props.palette, styles['color-panel'], props.class)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+						switchPicker: id => idFA.setValue(id),
+					});
+				}
+			}}
+		>
 			<header>
 				<Show when={'EyeDropper' in window}>
 					<Button

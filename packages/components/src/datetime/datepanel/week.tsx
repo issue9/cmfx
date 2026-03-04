@@ -5,29 +5,31 @@
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
 import { createEffect, createSignal, JSX, splitProps, untrack } from 'solid-js';
 
-import { ChangeFunc } from '@components/base';
-import { DateViewRef, WeekValueType } from '@components/datetime/dateview';
-import { CommonPanel, Props as CommonProps } from './common';
+import { ChangeFunc, RefProps } from '@components/base';
+import { WeekValueType } from '@components/datetime/dateview';
+import { CommonPanel, Props as CommonProps, Ref as CommonRef } from './common';
 
-export type Props = Omit<
-	CommonProps,
-	'viewRef' | 'onEnter' | 'onLeave' | 'weeks' | 'onWeekClick' | 'value' | 'onChange'
-> & {
-	/**
-	 * 关联的值
-	 *
-	 * @reactive
-	 */
-	value?: WeekValueType;
+export interface Ref {
+	root(): HTMLFieldSetElement;
+}
 
-	/**
-	 * 值发生改变时触发的事件
-	 *
-	 * val 表示修改的新值；
-	 * old 表示修改之前的值；
-	 */
-	onChange?: ChangeFunc<WeekValueType>;
-};
+export type Props = Omit<CommonProps, 'onEnter' | 'onLeave' | 'weeks' | 'onWeekClick' | 'value' | 'onChange' | 'ref'> &
+	RefProps<Ref> & {
+		/**
+		 * 关联的值
+		 *
+		 * @reactive
+		 */
+		value?: WeekValueType;
+
+		/**
+		 * 值发生改变时触发的事件
+		 *
+		 * val 表示修改的新值；
+		 * old 表示修改之前的值；
+		 */
+		onChange?: ChangeFunc<WeekValueType>;
+	};
 
 /**
  * 周选择的面板
@@ -37,6 +39,8 @@ export function WeekPanel(props: Props): JSX.Element {
 	const [value, setValue] = createSignal(props.value);
 	let oldRange: Array<Date> = [];
 
+	let ref: CommonRef;
+
 	const change = (week: WeekValueType, range: [Date, Date]) => {
 		const old = untrack(value);
 		setValue(week);
@@ -45,7 +49,7 @@ export function WeekPanel(props: Props): JSX.Element {
 		}
 
 		oldRange.forEach(item => {
-			ref.unselect(item);
+			ref.dateview().unselect(item);
 		});
 		oldRange = [];
 
@@ -53,7 +57,7 @@ export function WeekPanel(props: Props): JSX.Element {
 			const day = new Date(range[0]);
 			day.setDate(day.getDate() + i);
 
-			ref.select(day);
+			ref.dateview().select(day);
 			oldRange.push(day);
 		}
 	};
@@ -61,7 +65,7 @@ export function WeekPanel(props: Props): JSX.Element {
 	createEffect(() => {
 		if (!props.value) {
 			oldRange.forEach(item => {
-				ref.unselect(item);
+				ref.dateview().unselect(item);
 			});
 			oldRange = [];
 			return;
@@ -69,29 +73,34 @@ export function WeekPanel(props: Props): JSX.Element {
 
 		const range = getISOWeekRangeByWeek(props.value[0], props.value[1]);
 		change(props.value, range);
-		ref.jump(range[0]);
+		ref.dateview().jump(range[0]);
 	});
 
-	let ref: DateViewRef;
 	return (
 		<CommonPanel
-			viewRef={el => {
+			ref={el => {
 				ref = el;
+
+				if (props.ref) {
+					props.ref({
+						root: el.root,
+					});
+				}
 			}}
 			{...panelProps}
 			weeks
 			onLeave={() => {
-				ref.uncover();
+				ref.dateview().uncover();
 			}}
 			onEnter={d => {
-				ref.cover(getISOWeekRange(d));
+				ref.dateview().cover(getISOWeekRange(d));
 			}}
 			onChange={day => {
 				if (!day) {
 					return;
 				}
 
-				ref.unselect(day);
+				ref.dateview().unselect(day);
 				change(getISOWeek(day), getISOWeekRange(day));
 			}}
 			onWeekClick={change}

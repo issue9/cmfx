@@ -4,10 +4,14 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
+	root(): HTMLDivElement;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
 	 * 卡片的标题部分
 	 *
@@ -49,7 +53,17 @@ export interface Props extends BaseProps, ParentProps {
  */
 export function Card(props: Props): JSX.Element {
 	return (
-		<div class={joinClass(props.palette, styles.card, props.class)} style={props.style}>
+		<div
+			class={joinClass(props.palette, styles.card, props.class)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+					});
+				}
+			}}
+		>
 			<Show when={props.header}>
 				{c => <header class={joinClass(undefined, styles.header, props.headerClass)}>{c()}</header>}
 			</Show>

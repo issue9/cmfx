@@ -4,10 +4,14 @@
 
 import { createEffect, createSignal, JSX, Match, Show, Switch } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): HTMLDivElement;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 是否圆角
 	 *
@@ -66,6 +70,11 @@ export default function Avatar(props: Props): JSX.Element {
 			class={joinClass(props.palette, styles.avatar, props.rounded ? styles.rounded : '', props.class)}
 			style={props.style}
 			onclick={props.onclick}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
 		>
 			<Switch
 				fallback={

@@ -2,17 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { ConfirmButton } from './confirm';
+import { ConfirmButton, Ref } from './confirm';
 
 describe('ConfirmButton', async () => {
+	let ref: Ref<false>;
 	const ct = await ComponentTester.build('ConfirmButton', props => (
-		<ConfirmButton onclick={() => {}} {...props}>
+		<ConfirmButton type="button" ref={el => (ref = el)} onclick={() => {}} {...props}>
 			button
 		</ConfirmButton>
 	));
 
-	test('props', () => ct.testProps());
+	test('props', () => ct.testProps(ref.button().root()));
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.button()).toBeDefined();
+		expect(ref.popover()).toBeInstanceOf(HTMLDivElement);
+	});
 });

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as ColorPanelProps } from './color';
+export type { Props as ColorPanelProps, Ref as ColorPanelRef } from './color';
 export { default as ColorPanel } from './color';
 export type { PickerPanel as ColorPickerPanel } from './picker';
 export { HSLPickerPanel as ColorPickerPanelHSL } from './picker_hsl';

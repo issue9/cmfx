@@ -4,16 +4,18 @@
 
 import { createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import { DateView, DateViewRef } from '@components/datetime/dateview';
 import { DatetimePlugin } from '@components/datetime/plugin';
 import { Week } from '@components/datetime/utils';
 import styles from './style.module.css';
 
+export type Ref = DateViewRef;
+
 /**
  * 日历 {@link Calendar} 的属性值
  */
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 允许的最小日期
 	 *
@@ -79,12 +81,17 @@ const presetProps: Props = {
 export default function Calendar(props: Props): JSX.Element {
 	props = mergeProps(presetProps, props);
 
-	const [ref, setRef] = createSignal<DateViewRef>();
+	let ref: Ref;
 	const [selected, setSelected] = createSignal<Date>();
 
 	return (
 		<DateView
-			ref={el => setRef(el)}
+			ref={el => {
+				ref = el;
+				if (props.ref) {
+					props.ref(el);
+				}
+			}}
 			initValue={props.current ?? new Date()}
 			min={props.min}
 			max={props.max}
@@ -104,9 +111,9 @@ export default function Calendar(props: Props): JSX.Element {
 
 				const old = selected();
 				if (old) {
-					ref()?.unselect(old);
+					ref.unselect(old);
 				}
-				ref()?.select(d);
+				ref.select(d);
 				setSelected(d);
 
 				if (props.onSelected) {

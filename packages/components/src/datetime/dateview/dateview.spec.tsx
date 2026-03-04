@@ -8,6 +8,7 @@ import { describe, expect, test } from 'vitest';
 import { ComponentTester } from '@components/context/context.spec';
 import { default as DateView, inRange } from './dateview';
 import styles from './style.module.css';
+import { Ref } from './types';
 
 describe('inRange', () => {
 	const val = new Date(2023, 1, 1);
@@ -52,11 +53,12 @@ describe('inRange', () => {
 describe('DateView', async () => {
 	const user = userEvent.setup();
 	let curr: Date | undefined;
+	let ref: Ref;
 
 	const ct = await ComponentTester.build('DateView', props => (
 		<DateView
 			{...props}
-			ref={() => {}}
+			ref={el => (ref = el)}
 			onClick={d => {
 				curr = d;
 			}}
@@ -69,8 +71,11 @@ describe('DateView', async () => {
 		/>
 	));
 
-	test('props', () => {
-		ct.testProps();
+	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLTableElement);
 	});
 
 	test('hover & click', async () => {

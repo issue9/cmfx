@@ -10,8 +10,10 @@ import { BaseProps, PropsError, RefProps, style2String } from '@components/base'
 import { Button } from '@components/button';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
-import { Input, NumberProps, Ref } from '@components/input/input';
+import { Input, Ref as InputRef, NumberProps } from '@components/input/input';
 import styles from './style.module.css';
+
+export type Ref = InputRef;
 
 export interface Props extends FieldBaseProps, RefProps<Ref> {
 	/**

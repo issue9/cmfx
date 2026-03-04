@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as TimezoneProps } from './timezone';
+export type { Props as TimezoneProps, Ref as TimezoneRef } from './timezone';
 export { default as Timezone } from './timezone';

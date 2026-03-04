@@ -4,11 +4,15 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import { Label } from '@components/label';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
+	root: () => HTMLDivElement;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
 	 * 图标
 	 *
@@ -29,7 +33,15 @@ export interface Props extends BaseProps, ParentProps {
  */
 export function Description(props: Props): JSX.Element {
 	return (
-		<div class={joinClass(props.palette, styles.description, props.class)} style={props.style}>
+		<div
+			class={joinClass(props.palette, styles.description, props.class)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+		>
 			<Show when={props.icon || props.title}>
 				<Label icon={props.icon}>{props.title}</Label>
 			</Show>

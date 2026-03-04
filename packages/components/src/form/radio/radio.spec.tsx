@@ -2,13 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Radio } from './radio';
+import { Radio, Ref } from './radio';
 
 describe('Radio', async () => {
-	const ct = await ComponentTester.build('Radio', props => <Radio {...props}>abc</Radio>);
+	let ref: Ref;
+	const ct = await ComponentTester.build('Radio', props => <Radio {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLLabelElement);
+		expect(ref.input()).toBeInstanceOf(HTMLInputElement);
+	});
 });

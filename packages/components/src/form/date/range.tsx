@@ -7,7 +7,7 @@ import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass } from '@components/base';
+import { joinClass, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { DateRangePanel, DateRangeValueType, Week } from '@components/datetime';
@@ -24,7 +24,14 @@ import { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-interface Base extends Omit<PickerProps, 'accessor'> {
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLDivElement;
+}
+
+interface Base extends Omit<PickerProps, 'accessor'>, RefProps<Ref> {
 	/**
 	 * 中间的箭头
 	 *
@@ -131,6 +138,11 @@ function DateRangePicker(props: DateProps): JSX.Element {
 			class={joinClass(undefined, styles.activator, props.class)}
 			style={props.style}
 			title={props.title}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
 			aria-haspopup
 		>
 			<Show when={areas().labelArea}>

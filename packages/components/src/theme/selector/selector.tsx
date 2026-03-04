@@ -5,10 +5,14 @@
 import equal from 'fast-deep-equal';
 import { createEffect, createSignal, For, JSX } from 'solid-js';
 
-import { BaseProps, joinClass, Scheme } from '@components/base';
+import { BaseProps, joinClass, RefProps, Scheme } from '@components/base';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): HTMLDivElement;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 主题列表
 	 */
@@ -50,7 +54,15 @@ export function Selector(props: Props): JSX.Element {
 	});
 
 	return (
-		<div class={joinClass(props.palette, styles.selector, props.class)} style={props.style}>
+		<div
+			class={joinClass(props.palette, styles.selector, props.class)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+		>
 			<For each={Array.from(props.schemes.entries())}>
 				{scheme => {
 					return (

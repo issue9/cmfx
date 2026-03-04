@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as TimePickerProps } from './time';
+export type { Props as TimePickerProps, Ref as TimePickerRef } from './time';
 export { default as TimePicker } from './time';

@@ -6,10 +6,22 @@ import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { handleEvent, joinClass } from '@components/base';
+import { handleEvent, joinClass, RefProps } from '@components/base';
 import { useLocale } from '@components/context';
-import { AProps, Props as BaseProps, BProps, Button, Ref as ButtonRef, presetProps } from './button';
+import { AProps, BProps, Button, Props as ButtonProps, Ref as ButtonRef, presetProps } from './button';
 import styles from './style.module.css';
+
+export interface Ref<A extends boolean = false> {
+	/**
+	 * 按钮元素
+	 */
+	button(): ButtonRef<A>;
+
+	/**
+	 * 弹出对象的元素
+	 */
+	popover(): HTMLDivElement;
+}
 
 interface Base {
 	/**
@@ -28,7 +40,9 @@ interface Base {
 	cancel?: JSX.Element;
 }
 
-export type Props = (Base & AProps) | (Base & BProps);
+export type Props =
+	| (Base & Omit<AProps, 'ref'> & RefProps<Ref<true>>)
+	| (Base & Omit<BProps, 'ref'> & RefProps<Ref<false>>);
 
 /**
  * 带确认功能的按钮
@@ -36,18 +50,26 @@ export type Props = (Base & AProps) | (Base & BProps);
 export function ConfirmButton(props: Props) {
 	props = mergeProps(presetProps, props) as Props;
 	const l = useLocale();
-	let popElem: HTMLDivElement;
-	let ref: ButtonRef<true> | ButtonRef<false>;
+	let popRef: HTMLDivElement;
+	let btnRef: ButtonRef<true> | ButtonRef<false>;
+
+	if (props.ref) {
+		(props.ref as CallableFunction)({
+			button: () => btnRef,
+			popover: () => popRef,
+		});
+	}
 
 	const [_, btnProps] = splitProps(props, ['children', 'onclick', 'prompt', 'palette', 'ok', 'cancel', 'ref']);
 
 	onMount(() => {
 		if (props.hotkey) {
 			Hotkey.bind(props.hotkey, () => {
-				ref!.root().click();
+				btnRef!.root().click();
 			});
 		}
 	});
+
 	onCleanup(() => {
 		if (props.hotkey) {
 			Hotkey.unbind(props.hotkey);
@@ -55,7 +77,7 @@ export function ConfirmButton(props: Props) {
 	});
 
 	const nav = useNavigate();
-	const confirm: BaseProps['onclick'] = e => {
+	const confirm: ButtonProps['onclick'] = e => {
 		if (props.onclick) {
 			handleEvent(props.onclick, e);
 		}
@@ -64,21 +86,21 @@ export function ConfirmButton(props: Props) {
 			nav(props.href!);
 		}
 
-		popElem.hidePopover();
+		popRef.hidePopover();
 	};
 
 	return (
 		<>
 			<Button
 				ref={(el: ButtonRef<true> | ButtonRef<false>) => {
-					ref = el;
+					btnRef = el;
 				}}
 				{...btnProps}
 				palette={props.palette}
 				onclick={e => {
 					e.preventDefault(); // 取消默认动作，比如 type='a' 时的跳转
-					popElem.togglePopover();
-					adjustPopoverPosition(popElem, ref.root().getBoundingClientRect());
+					popRef.togglePopover();
+					adjustPopoverPosition(popRef, btnRef.root().getBoundingClientRect());
 				}}
 			>
 				{props.children}
@@ -87,13 +109,13 @@ export function ConfirmButton(props: Props) {
 			<div
 				popover="auto"
 				ref={el => {
-					popElem = el;
+					popRef = el;
 				}}
 				class={joinClass(props.palette, styles['confirm-panel'])}
 			>
 				{props.prompt ?? l.t('_c.areYouSure')}
 				<div class={styles['confirm-actions']}>
-					<Button palette="secondary" onclick={() => popElem.hidePopover()}>
+					<Button palette="secondary" onclick={() => popRef.hidePopover()}>
 						{props.cancel ?? l.t('_c.cancel')}
 					</Button>
 

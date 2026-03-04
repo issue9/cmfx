@@ -6,13 +6,14 @@ import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Badge, Corner } from './badge';
+import { Badge, Corner, Ref } from './badge';
 import styles from './style.module.css';
 
 describe('Badge', async () => {
+	let ref: Ref;
 	const [pos, setPos] = createSignal<Corner>();
 	const ct = await ComponentTester.build('Badge', props => (
-		<Badge pos={pos()} content="text" {...props}>
+		<Badge ref={el => (ref = el)} pos={pos()} content="text" {...props}>
 			abc
 		</Badge>
 	));
@@ -20,6 +21,11 @@ describe('Badge', async () => {
 	test('props', async () => {
 		const root = ct.result.container.firstChild;
 		ct.testProps(root!.lastChild as Element);
+	});
+
+	test('ref', async () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
 	});
 
 	test('pos=undefined', async () => {

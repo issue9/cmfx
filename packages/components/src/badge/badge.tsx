@@ -4,7 +4,7 @@
 
 import { createMemo, JSX, mergeProps, ParentProps } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 /**
@@ -14,7 +14,11 @@ export const corners = ['topleft', 'topright', 'bottomleft', 'bottomright'] as c
 
 export type Corner = (typeof corners)[number];
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
+	root(): HTMLDivElement;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
 	 * 位置
 	 *
@@ -52,7 +56,16 @@ export function Badge(props: Props) {
 	});
 
 	return (
-		<div class={styles.badge}>
+		<div
+			class={styles.badge}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+					});
+				}
+			}}
+		>
 			{props.children}
 			<span class={cls()} style={props.style}>
 				{props.content}

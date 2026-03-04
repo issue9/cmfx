@@ -19,9 +19,10 @@ describe('Checkbox', async () => {
 	));
 
 	test('props', () => ct.testProps());
+
 	test('ref', () => {
 		expect(ref).toBeDefined();
-		expect(ref.root()).toBeDefined();
-		expect(ref.input()).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLLabelElement);
+		expect(ref.input()).toBeInstanceOf(HTMLInputElement);
 	});
 });

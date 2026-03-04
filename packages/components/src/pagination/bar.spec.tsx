@@ -2,13 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { PaginationBar } from './bar';
+import { PaginationBar, Ref } from './bar';
 
 describe('PaginationBar', async () => {
-	const ct = await ComponentTester.build('PaginationBar', props => <PaginationBar total={20} page={1} {...props} />);
+	let ref: Ref;
+	const ct = await ComponentTester.build('PaginationBar', props => (
+		<PaginationBar total={20} page={1} ref={el => (ref = el)} {...props} />
+	));
 
 	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeDefined();
+	});
 });

@@ -5,13 +5,17 @@
 import { DisplayStyle } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show, untrack } from 'solid-js';
 
-import { BaseProps, ChangeFunc, joinClass } from '@components/base';
+import { BaseProps, ChangeFunc, joinClass, RefProps } from '@components/base';
 import { Button, ButtonRef } from '@components/button';
 import { useLocale } from '@components/context';
-import { Tab, TabItem } from '@components/tab';
+import { Tab, TabItem, TabRef } from '@components/tab';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): TabRef;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 关联的值
 	 *
@@ -70,7 +74,8 @@ export function buildRegion(): Array<Region> {
 /**
  * 时区选择组件
  *
- * @remarks 这是基于浏览器的时区选择组件，不同的浏览器展示的数据会稍有不同。
+ * @remarks
+ * 这是基于浏览器的时区选择组件，不同的浏览器展示的数据会稍有不同。
  */
 export default function Timezone(props: Props): JSX.Element {
 	const l = useLocale();
@@ -140,6 +145,11 @@ export default function Timezone(props: Props): JSX.Element {
 			items={tabs}
 			onChange={v => setTab(v)}
 			panelClass={styles.panel}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
 		>
 			<For each={regions}>
 				{region => (

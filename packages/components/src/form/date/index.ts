@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as DatePickerProps } from './date';
+export type { Props as DatePickerProps, Ref as DatePickerRef } from './date';
 export { default as DatePicker } from './date';
-export type { Props as DateRangePickerProps } from './range';
+export type { Props as DateRangePickerProps, Ref as DateRangePickerRef } from './range';
 export { default as DateRangePicker } from './range';
-export type { Props as WeekPickerProps } from './week';
+export type { Props as WeekPickerProps, Ref as WeekPickerRef } from './week';
 export { WeekPicker } from './week';

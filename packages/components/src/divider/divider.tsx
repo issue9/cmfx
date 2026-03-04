@@ -4,8 +4,12 @@
 
 import { createMemo, JSX, mergeProps, ParentProps } from 'solid-js';
 
-import { BaseProps, classList, Layout, style2String } from '@components/base';
+import { BaseProps, classList, Layout, RefProps, style2String } from '@components/base';
 import styles from './style.module.css';
+
+export interface Ref {
+	root: () => HTMLDivElement;
+}
 
 export type Props = ParentProps<
 	{
@@ -37,7 +41,8 @@ export type Props = ParentProps<
 		 * @reactive
 		 */
 		padding?: string;
-	} & BaseProps
+	} & BaseProps &
+		RefProps<Ref>
 >;
 
 const presetProps: Readonly<Props> = {
@@ -58,6 +63,9 @@ export function Divider(props: Props): JSX.Element {
 
 	return (
 		<div
+			ref={el => {
+				if (props.ref) props.ref({ root: () => el });
+			}}
 			style={style()}
 			class={classList(
 				props.palette,

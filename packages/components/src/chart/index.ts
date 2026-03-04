@@ -12,5 +12,5 @@ export { ChartAxis } from './axis';
 export type { ChartOption, Props as ChartProps, Ref as ChartRef } from './chart';
 export { Chart } from './chart';
 export { createChartLocaleLoader } from './locale';
-export type { Props as ChartPieProps } from './pie';
+export type { Props as ChartPieProps, Ref as ChartPieRef } from './pie';
 export { ChartPie } from './pie';

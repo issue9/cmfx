@@ -2,13 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, ParentProps, Show, ValidComponent } from 'solid-js';
+import { JSX, mergeProps, ParentProps, Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
+	root: () => HTMLElement;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
 	 * 图标
 	 *
@@ -17,19 +21,30 @@ export interface Props extends BaseProps, ParentProps {
 	icon?: JSX.Element;
 
 	/**
-	 * 标签，默认为 p
+	 * 标签名
+	 *
+	 * @defaultValue p
 	 */
-	tag?: ValidComponent;
+	tag?: keyof JSX.HTMLElementTags;
 }
 
 /**
  * 带图标的标题
  */
 export function Label(props: Props): JSX.Element {
-	props = mergeProps({ tag: 'p' }, props);
+	props = mergeProps({ tag: 'p' as Props['tag'] }, props);
 
 	return (
-		<Dynamic component={props.tag} class={joinClass(props.palette, styles.label, props.class)} style={props.style}>
+		<Dynamic
+			component={props.tag}
+			class={joinClass(props.palette, styles.label, props.class)}
+			style={props.style}
+			ref={(el: HTMLElement) => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+		>
 			<Show when={props.icon}>
 				{c => {
 					return c();

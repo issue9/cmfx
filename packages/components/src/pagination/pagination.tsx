@@ -8,11 +8,22 @@ import IconNext from '~icons/material-symbols/chevron-right';
 import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
-import { BaseProps, ChangeFunc, PropsError } from '@components/base';
-import { Button, ButtonGroup } from '@components/button';
+import { BaseProps, ChangeFunc, PropsError, RefProps } from '@components/base';
+import { Button, ButtonGroup, ButtonGroupRef } from '@components/button';
 import { useLocale } from '@components/context';
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): ButtonGroupRef;
+
+	/**
+	 * 跳转到指定的页面
+	 *
+	 * @param p 页码；
+	 */
+	jump(p: number): void;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 总的页码数量
 	 *
@@ -116,6 +127,13 @@ export function Pagination(props: Props): JSX.Element {
 			style={props.style}
 			ref={el => {
 				el.root().role = 'navigation';
+
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+						jump: (p: number) => change(p),
+					});
+				}
 			}}
 		>
 			<Button square onclick={() => change(1)} aria-label={l.t('_c.pagination.firstPage')} disabled={current() === 1}>

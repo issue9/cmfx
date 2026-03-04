@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as StatisticProps } from './statistic';
+export type { Props as StatisticProps, Ref as StatisticRef } from './statistic';
 export { default as Statistic } from './statistic';

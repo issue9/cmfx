@@ -4,14 +4,21 @@
 
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
 
-import { BaseProps, joinClass } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import { DateView, DateViewProps, DateViewRef } from '@components/datetime/dateview';
 import { DatetimePlugin } from '@components/datetime/plugin';
 import { TimePanel, TimePanelRef } from '@components/datetime/timepanel';
 import { Week } from '@components/datetime/utils';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): HTMLFieldSetElement;
+
+	// DateViewRef 中的 jump 等方法无法精准到时间部分，不对外公开。
+	dateview(): DateViewRef;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 禁用状态
 	 *
@@ -104,13 +111,6 @@ export interface Props extends BaseProps {
 	onEnter?: DateViewProps['onEnter'];
 	onLeave?: DateViewProps['onLeave'];
 
-	ref?: (el: HTMLFieldSetElement) => void;
-
-	/**
-	 * 获取 {@link DateViewRef} 接口
-	 */
-	viewRef?: (el: DateViewRef) => void;
-
 	/**
 	 * 插件列表
 	 *
@@ -202,9 +202,6 @@ export function CommonPanel(props: Props): JSX.Element {
 			class={joinClass(props.palette, styles.panel, props.class)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref(el);
-				}
 				dateRef = el;
 			}}
 		>
@@ -235,8 +232,11 @@ export function CommonPanel(props: Props): JSX.Element {
 				}}
 				ref={el => {
 					setDateViewRef(el);
-					if (props.viewRef) {
-						props.viewRef(el);
+					if (props.ref) {
+						props.ref({
+							root: () => dateRef,
+							dateview: () => el,
+						});
 					}
 				}}
 			/>

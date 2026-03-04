@@ -2,15 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { fieldAccessor } from '@components/form/field';
-import { default as Time } from './time';
+import { Ref, default as Time } from './time';
 
 describe('Time', async () => {
+	let ref: Ref;
 	const fa = fieldAccessor('tf', new Date());
-	const ct = await ComponentTester.build('Time', props => <Time accessor={fa} {...props} />);
+	const ct = await ComponentTester.build('Time', props => <Time accessor={fa} {...props} ref={el => (ref = el)} />);
 
-	test('prorps', () => ct.testProps());
+	test('props', () => ct.testProps());
+
+	test('ref', async () => {
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+	});
 });

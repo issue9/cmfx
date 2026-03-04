@@ -4,7 +4,7 @@
 
 import { getISOWeek } from '@cmfx/core';
 
-import { BaseProps } from '@components/base';
+import { BaseProps, RefProps } from '@components/base';
 import { DatetimePlugin } from '@components/datetime/plugin';
 import { Week } from '@components/datetime/utils';
 
@@ -13,7 +13,10 @@ import { Week } from '@components/datetime/utils';
  */
 export type WeekValueType = ReturnType<typeof getISOWeek>;
 
-export interface Ref {
+/**
+ * 提供操作 {@link DateView} 的基本功能
+ */
+export interface API {
 	/**
 	 * 为指定日期所在的 td 元素添加 {@link PropsselectedClass} 指定的样式。
 	 */
@@ -31,7 +34,7 @@ export interface Ref {
 	cover(range: [Date, Date]): void;
 
 	/**
-	 * 取消 {@link Ref#cover} 操作
+	 * 取消 {@link API#cover} 操作
 	 */
 	uncover(): void;
 
@@ -58,7 +61,11 @@ export interface Ref {
 	canOffset(year?: number, month?: number): boolean;
 }
 
-export interface Props extends BaseProps {
+export interface Ref extends API {
+	root(): HTMLTableElement;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 禁用
 	 *
@@ -118,11 +125,6 @@ export interface Props extends BaseProps {
 	 * @param range - 周数范围；
 	 */
 	onWeekClick?: (week: WeekValueType, range: [Date, Date]) => void;
-
-	/**
-	 * 非响应式属性
-	 */
-	ref: (r: Ref) => void;
 
 	/**
 	 * 星期名称的格式

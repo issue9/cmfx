@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as LabelProps } from './label';
+export type { Props as LabelProps, Ref as LabelRef } from './label';
 export { Label } from './label';

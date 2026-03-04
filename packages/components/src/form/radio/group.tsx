@@ -4,13 +4,20 @@
 
 import { createMemo, For, JSX, mergeProps, Show } from 'solid-js';
 
-import { AvailableEnumType, joinClass, Layout } from '@components/base';
+import { AvailableEnumType, joinClass, Layout, RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps, Options } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Radio } from './radio';
 import styles from './style.module.css';
 
-export interface Props<T extends AvailableEnumType = string> extends FieldBaseProps {
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLDivElement;
+}
+
+export interface Props<T extends AvailableEnumType = string> extends FieldBaseProps, RefProps<Ref> {
 	/**
 	 * 是否显示为块
 	 *
@@ -61,6 +68,9 @@ export function RadioGroup<T extends AvailableEnumType = string>(props: Props<T>
 			palette={props.palette}
 			ref={el => {
 				el.role = 'radiogroup';
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
 			}}
 		>
 			<Show when={areas().labelArea}>

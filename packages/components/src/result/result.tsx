@@ -4,10 +4,14 @@
 
 import { createMemo, JSX, mergeProps, ParentProps, Show } from 'solid-js';
 
-import { BaseProps, joinClass, Layout, PropsError, style2String } from '@components/base';
+import { BaseProps, joinClass, Layout, PropsError, RefProps, style2String } from '@components/base';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
+	root(): HTMLDivElement;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
 	 * 显示可选的插画
 	 *
@@ -78,7 +82,17 @@ export default function Result(props: Props) {
 	});
 
 	return (
-		<div class={cls()} style={style2String({ '--result-gap': props.gap }, props.style)}>
+		<div
+			class={cls()}
+			style={style2String({ '--result-gap': props.gap }, props.style)}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+					});
+				}
+			}}
+		>
 			<Show when={props.illustration}>
 				{c => (
 					<div aria-hidden="true" class={styles.illustration}>

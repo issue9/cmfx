@@ -7,13 +7,22 @@ import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
-import { joinClass } from '@components/base';
+import { joinClass, RefProps } from '@components/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import styles from './style.module.css';
-import { Props as BaseProps, Ref, Upload } from './upload';
+import { Props as BaseProps, Upload, Ref as UploadRef } from './upload';
 
-export interface Props extends Omit<BaseProps, 'dropzone' | 'ref'> {
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLDivElement;
+
+	uploader(): UploadRef;
+}
+
+export interface Props extends Omit<BaseProps, 'dropzone' | 'ref'>, RefProps<Ref> {
 	/**
 	 * 是否接受直接拖入文件
 	 */
@@ -62,7 +71,7 @@ export function Album(props: Props): JSX.Element {
 
 	let rootRef: HTMLDivElement;
 	let dropRef: HTMLFieldSetElement;
-	let uploadRef: Ref;
+	let uploadRef: UploadRef;
 
 	onMount(() => {
 		if (!props.droppable) {
@@ -119,6 +128,12 @@ export function Album(props: Props): JSX.Element {
 				<Upload
 					ref={el => {
 						uploadRef = el;
+						if (props.ref) {
+							props.ref({
+								root: () => rootRef,
+								uploader: () => uploadRef,
+							});
+						}
 					}}
 					upload={props.upload}
 					fieldName={props.fieldName}

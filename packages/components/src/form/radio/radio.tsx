@@ -4,11 +4,25 @@
 
 import { createMemo, JSX, mergeProps } from 'solid-js';
 
-import { AvailableEnumType, joinClass } from '@components/base';
+import { AvailableEnumType, joinClass, RefProps } from '@components/base';
 import { FieldBaseProps } from '@components/form/field';
 import styles from './style.module.css';
 
-export interface Props<T extends AvailableEnumType = string> extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLLabelElement;
+
+	/**
+	 * 组件的 input 元素
+	 */
+	input(): HTMLInputElement;
+}
+
+export interface Props<T extends AvailableEnumType = string>
+	extends Omit<FieldBaseProps, 'layout' | 'hasHelp'>,
+		RefProps<Ref> {
 	/**
 	 * 是否显示为块
 	 *
@@ -61,8 +75,17 @@ export function Radio<T extends AvailableEnumType = string>(props: Props<T>): JS
 		);
 	});
 
+	let rootRef: HTMLLabelElement;
 	return (
-		<label title={props.title} class={cls()} style={props.style} tabindex={props.block ? props.tabindex : -1}>
+		<label
+			title={props.title}
+			class={cls()}
+			style={props.style}
+			tabindex={props.block ? props.tabindex : -1}
+			ref={el => {
+				rootRef = el;
+			}}
+		>
 			<input
 				type="radio"
 				checked={props.checked}
@@ -83,6 +106,14 @@ export function Radio<T extends AvailableEnumType = string>(props: Props<T>): JS
 				onChange={e => {
 					if (!props.readonly && !props.disabled && props.onChange) {
 						props.onChange(e.currentTarget.checked);
+					}
+				}}
+				ref={el => {
+					if (props.ref) {
+						props.ref({
+							root: () => rootRef,
+							input: () => el,
+						});
 					}
 				}}
 			/>

@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as DividerProps } from './divider';
+export type { Props as DividerProps, Ref as DividerRef } from './divider';
 export { Divider } from './divider';

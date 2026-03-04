@@ -6,12 +6,15 @@ import { createSignal, JSX, mergeProps, onMount } from 'solid-js';
 import IconVisibility from '~icons/material-symbols/visibility';
 import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
+import { RefProps } from '@components/base';
 import { ToggleButton } from '@components/button';
 import { useForm } from '@components/form/field';
 import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfield';
 
+export type Ref = TextFieldRef;
+
 type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete';
-export interface Props extends Omit<BaseProps, omitFields> {
+export interface Props extends Omit<BaseProps, omitFields>, RefProps<Ref> {
 	autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
 
 	/**
@@ -42,6 +45,9 @@ export function Password(props: Props): JSX.Element {
 			type="password"
 			ref={el => {
 				ref = el;
+				if (props.ref) {
+					props.ref(el);
+				}
 			}}
 			suffix={
 				<ToggleButton

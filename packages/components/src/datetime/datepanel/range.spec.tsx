@@ -2,15 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { DateRangePanel } from './range';
+import { DateRangePanel, Ref } from './range';
 
 describe('DateRangePanel', async () => {
-	const ct = await ComponentTester.build('DateRangePanel', props => <DateRangePanel {...props} />);
+	let ref: Ref;
+	const ct = await ComponentTester.build('DateRangePanel', props => (
+		<DateRangePanel ref={el => (ref = el)} {...props} />
+	));
 
-	test('props', async () => {
-		ct.testProps();
+	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLFieldSetElement);
 	});
 });

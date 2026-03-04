@@ -148,8 +148,17 @@ export default function Range(props: Props): JSX.Element {
 
 	const id = createUniqueId();
 	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label, !!props.value));
+	let rootRef: HTMLDivElement;
 	return (
-		<Field class={props.class} title={props.title} palette={props.palette} style={props.style}>
+		<Field
+			class={props.class}
+			title={props.title}
+			palette={props.palette}
+			style={props.style}
+			ref={el => {
+				rootRef = el;
+			}}
+		>
 			<Show when={areas().labelArea}>
 				{area => (
 					<label
@@ -187,12 +196,8 @@ export default function Range(props: Props): JSX.Element {
 						inputRef = el;
 						if (props.ref) {
 							props.ref({
-								root() {
-									return wrapRef;
-								},
-								input() {
-									return el;
-								},
+								root: () => rootRef,
+								input: () => el,
 							});
 						}
 					}}

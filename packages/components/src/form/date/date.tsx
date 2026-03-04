@@ -6,7 +6,7 @@ import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitP
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass } from '@components/base';
+import { joinClass, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { DatePanel, DatePanelProps, Week } from '@components/datetime';
@@ -22,10 +22,14 @@ import {
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-// 允许的日期类型
-export type DateType = Date | string | number;
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLDivElement;
+}
 
-interface Base extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
+interface Base extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'>, RefProps<Ref> {
 	placeholder?: string;
 }
 
@@ -108,6 +112,11 @@ function DatePicker(props: DateProps): JSX.Element {
 			class={joinClass(undefined, styles.activator, props.class)}
 			style={props.style}
 			title={props.title}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
 			aria-haspopup
 		>
 			<Show when={areas().labelArea}>

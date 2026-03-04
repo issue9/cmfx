@@ -7,14 +7,24 @@ import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, untrac
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass } from '@components/base';
+import { joinClass, RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { TimePanel, TimePanelProps, TimePanelRef } from '@components/datetime/timepanel';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import styles from './style.module.css';
 
-export interface Props extends FieldBaseProps, Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLDivElement;
+}
+
+export interface Props
+	extends FieldBaseProps,
+		Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'>,
+		RefProps<Ref> {
 	placeholder?: string;
 
 	/**
@@ -59,6 +69,11 @@ export default function Time(props: Props): JSX.Element {
 			style={props.style}
 			title={props.title}
 			palette={props.palette}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
 			aria-haspopup
 		>
 			<Show when={areas().labelArea}>

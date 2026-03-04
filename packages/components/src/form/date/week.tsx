@@ -6,7 +6,7 @@ import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitP
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass } from '@components/base';
+import { joinClass, RefProps } from '@components/base';
 import { Week, WeekPanel } from '@components/datetime';
 import { WeekValueType } from '@components/datetime/dateview';
 import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style } from '@components/form/field';
@@ -14,7 +14,14 @@ import { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-export interface Props extends Omit<PickerProps, 'accessor' | 'accentPalette' | 'time'> {
+export interface Ref {
+	/**
+	 * 组件的根元素
+	 */
+	root(): HTMLDivElement;
+}
+
+export interface Props extends Omit<PickerProps, 'accessor' | 'accentPalette' | 'time' | 'ref'>, RefProps<Ref> {
 	accessor: Accessor<WeekValueType | undefined>;
 }
 
@@ -48,6 +55,11 @@ export function WeekPicker(props: Props): JSX.Element {
 			style={props.style}
 			title={props.title}
 			palette={props.palette}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
 			aria-haspopup
 		>
 			<Show when={areas().labelArea}>
@@ -99,7 +111,7 @@ export function WeekPicker(props: Props): JSX.Element {
 			<WeekPanel
 				{...panelProps}
 				ref={el => {
-					panelRef = el;
+					panelRef = el.root();
 				}}
 				popover="auto"
 				disabled={props.disabled}

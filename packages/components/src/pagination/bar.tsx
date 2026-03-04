@@ -4,13 +4,24 @@
 
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, ChangeFunc, joinClass, PropsError } from '@components/base';
+import { BaseProps, ChangeFunc, joinClass, PropsError, RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Choice, ChoiceOption, fieldAccessor } from '@components/form';
 import { Pagination } from './pagination';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+	root(): HTMLDivElement;
+
+	/**
+	 * 跳转到指定的页面
+	 *
+	 * @param p 页码；
+	 */
+	jump(p: number): void;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 总共的数据量
 	 *
@@ -110,13 +121,28 @@ export function PaginationBar(props: Props): JSX.Element {
 		};
 	});
 
+	let rootRef: HTMLDivElement;
 	return (
-		<div class={joinClass(props.palette, styles.bar, props.class)} style={props.style}>
+		<div ref={el => (rootRef = el)} class={joinClass(props.palette, styles.bar, props.class)} style={props.style}>
 			<div class={styles.start}>
 				{l.t('_c.pagination.items', translateItems())}
 				<Choice accessor={sizeAccessor} options={sizesOptions()} />
 			</div>
-			<Pagination class={styles.end} spans={props.spans} onChange={pageChange} value={props.page} count={pages()} />
+			<Pagination
+				class={styles.end}
+				spans={props.spans}
+				onChange={pageChange}
+				value={props.page}
+				count={pages()}
+				ref={el => {
+					if (props.ref) {
+						props.ref({
+							root: () => rootRef,
+							jump: el.jump,
+						});
+					}
+				}}
+			/>
 		</div>
 	);
 }

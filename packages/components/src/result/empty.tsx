@@ -5,10 +5,14 @@
 import { JSX, mergeProps, ParentProps } from 'solid-js';
 import IconNoData from '~icons/oui/index-close';
 
-import { BaseProps } from '@components/base';
-import Result from './result';
+import { BaseProps, RefProps } from '@components/base';
+import Result, { Ref as ResultRef } from './result';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
+	root(): ResultRef;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
 	 * 图标
 	 *
@@ -27,6 +31,7 @@ const presetProps: Props = {
  */
 export default function Empty(props: Props): JSX.Element {
 	props = mergeProps(presetProps, props);
+
 	return (
 		<Result
 			layout="vertical"
@@ -35,6 +40,11 @@ export default function Empty(props: Props): JSX.Element {
 			gap="2px"
 			palette={props.palette}
 			illustration={props.icon}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
 		>
 			{props.children}
 		</Result>
