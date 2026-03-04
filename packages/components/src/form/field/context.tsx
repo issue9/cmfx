@@ -12,7 +12,12 @@ import { CommonProps } from './types';
  * @remarks
  * 在表单中的组件，部分属性可以通过此上下文环境进行设置。
  */
-export type FormContext = CommonProps;
+export type FormContext = CommonProps & {
+	/**
+	 * 表单的 id 属性
+	 */
+	formID?: string;
+};
 
 const formContext = createContext<FormContext>({} as FormContext);
 

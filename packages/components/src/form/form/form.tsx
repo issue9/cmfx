@@ -91,7 +91,7 @@ export interface Actions {
 
 function ButtonAction(props: BProps): JSX.Element {
 	const f = useForm();
-	return <Button {...mergeProps({ disabled: f.disabled, rounded: f.rounded }, props)} />;
+	return <Button {...mergeProps({ disabled: f.disabled, rounded: f.rounded, form: f.formID }, props)} />;
 }
 
 /**
@@ -111,8 +111,6 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 ): [Form: Component<Props>, ref: Ref<T, R, P>, actions: Actions] {
 	const api = new FormAPI<T, R, P>(options);
 	let ref!: Ref<T, R, P>;
-
-	const id = createUniqueId();
 
 	const form = (props: Props): JSX.Element => {
 		props = mergeProps(preset, props);
@@ -136,6 +134,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 			if (error()) throw error();
 		});
 
+		const id = createUniqueId();
 		return (
 			<FormProvider
 				layout={props.layout}
@@ -145,6 +144,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 				readonly={props.readonly}
 				labelAlign={props.labelAlign}
 				labelWidth={props.labelWidth}
+				formID={id}
 			>
 				<Spin
 					tag="form"
@@ -180,11 +180,11 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 
 		Reset(props: Omit<BProps, 'onclick' | 'type'>): JSX.Element {
 			const [_, otherProps] = splitProps(props, ['disabled']);
-			return <ButtonAction form={id} {...otherProps} type="reset" disabled={props.disabled ?? api.isPreset()} />;
+			return <ButtonAction {...otherProps} type="reset" disabled={props.disabled ?? api.isPreset()} />;
 		},
 
 		Submit(props: Omit<BProps, 'onclick' | 'type'>): JSX.Element {
-			return <ButtonAction form={id} {...props} type="submit" />;
+			return <ButtonAction {...props} type="submit" />;
 		},
 
 		Message(props: MessageProps): JSX.Element {
