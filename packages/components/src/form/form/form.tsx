@@ -99,8 +99,8 @@ function ButtonAction(props: BProps): JSX.Element {
  *
  * @param options - 初始化参数；
  * @returns 返回元组，包含以下元素：
- *  - 0 {@link FormAPI} 实例；
- *  - 1 Form 组件；
+ *  - 0 Form 组件；
+ *  - 1 {@link Ref} 实例；
  *  - 2 表单常用的一些操作按钮；
  * @typeParam T - 表示需要提交的对象类型；
  * @typeParam R - 表示服务端返回的类型；
@@ -152,28 +152,21 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 					palette={props.palette}
 					class={joinClass(undefined, props.class)}
 					style={props.style}
+					onSubmit={e => {
+						api.submit().catch(setError);
+						e.preventDefault();
+					}}
+					onReset={e => {
+						api.reset();
+						e.preventDefault();
+					}}
+					method={props.inDialog ? 'dialog' : undefined}
+					id={id}
 					ref={el => {
 						ref = {
 							api: () => api,
 							root: el.root,
 						};
-
-						const root = el.root();
-						root.id = id;
-
-						if (props.inDialog) {
-							root.method = 'dialog';
-						}
-
-						root.addEventListener('submit', e => {
-							api.submit().catch(setError);
-							e.preventDefault();
-						});
-
-						root.addEventListener('reset', e => {
-							api.reset();
-							e.preventDefault();
-						});
 					}}
 				>
 					{props.children}

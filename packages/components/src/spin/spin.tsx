@@ -17,6 +17,7 @@ export interface Ref<T extends keyof JSX.IntrinsicElements = 'div'> {
 
 export type Props<T extends keyof JSX.IntrinsicElements = 'div'> = ParentProps &
 	BaseProps &
+	Omit<JSX.IntrinsicElements[T], 'ref' | 'children' | 'class' | 'style'> &
 	RefProps<Ref<T>> & {
 		/**
 		 * 自定义标签
