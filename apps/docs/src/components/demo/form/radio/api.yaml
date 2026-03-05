@@ -10,4 +10,4 @@
             - RadioRef
 
             - RadioGroupProps
-            - RadioGroupContext
+            - RadioGroupRef

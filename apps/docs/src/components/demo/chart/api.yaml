@@ -8,8 +8,11 @@
         types:
             - ChartProps
             - ChartRef
+
             - ChartAxisProps
             - ChartAxisPropsAxis
             - ChartAxisPropsSeries
             - ChartAxisRef
+
             - ChartPieProps
+            - ChartPieRef

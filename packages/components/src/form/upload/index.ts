@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as AlbumProps } from './album';
+export type { Props as AlbumProps, Ref as AlbumRef } from './album';
 export { Album } from './album';
 export { file2Base64 } from './preview';
 export type { Props as UploadProps, Ref as UploadRef } from './upload';
