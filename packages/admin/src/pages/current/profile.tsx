@@ -2,18 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { FormRef, UploadRef } from '@cmfx/components';
 import {
 	Avatar,
 	Button,
-	createForm,
 	Divider,
+	Form,
+	FormAPI,
 	fieldAccessor,
 	file2Base64,
 	Page,
 	Table,
 	TextField,
 	Upload,
-	UploadRef,
 	useLocale,
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
@@ -44,7 +45,8 @@ export function Profile(props: Props): JSX.Element {
 	const l = useLocale();
 	let uploadRef: UploadRef;
 
-	const [Form, api, actions] = createForm({
+	let ref!: FormRef;
+	const api = new FormAPI({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
 		onProblem: async p => handleProblem(p),
 		submit: async obj => {
@@ -163,18 +165,18 @@ export function Profile(props: Props): JSX.Element {
 
 			<Divider padding="4px" />
 
-			<Form class={styles.form}>
+			<Form class={styles.form} api={api} ref={el => (ref = el)}>
 				<TextField class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
 				<TextField class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
 				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={api.accessor<Sex>('sex')} />
 
 				<div class={styles.actions}>
-					<actions.Reset palette="secondary" disabled={api.isPreset()}>
+					<ref.Reset palette="secondary" disabled={api.isPreset()}>
 						{l.t('_c.reset')}
-					</actions.Reset>
-					<actions.Submit palette="primary" disabled={api.isPreset()}>
+					</ref.Reset>
+					<ref.Submit palette="primary" disabled={api.isPreset()}>
 						{l.t('_p.save')}
-					</actions.Submit>
+					</ref.Submit>
 				</div>
 			</Form>
 

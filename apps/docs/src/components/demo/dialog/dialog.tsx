@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, Dialog, DialogRef, MountProps, notify } from '@cmfx/components';
+import { Button, Form, FormAPI, Dialog, DialogRef, MountProps, notify } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -14,7 +14,7 @@ export default function (props: MountProps): JSX.Element {
 	let dlg2: DialogRef;
 	let dlg3: DialogRef;
 
-	const [Form] = createForm({
+	const api = new FormAPI({
 		initValue: {},
 		submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
 		onProblem: async p => await notify(p.title),
@@ -38,7 +38,7 @@ export default function (props: MountProps): JSX.Element {
 				header="header"
 			>
 				<div>
-					<Form inDialog>
+					<Form inDialog api={api}>
 						<div class="flex flex-col">
 							<div class="py-3">form</div>
 							<div class="flex">

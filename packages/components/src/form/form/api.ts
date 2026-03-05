@@ -40,7 +40,7 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
 	 * @remarks
 	 * 如果需要验证器输出的错误信息保持与当前环境相同的本地化语言，
 	 * 在 {@link FormAPI} 中使用需要手动使用 {@link Validator#changeLocale} 更新语言，
-	 * 在 {@link createForm} 中则会自动调用 {@link Validator#changeLocale} 更新语言。
+	 * 在 {@link Form} 中则会自动调用 {@link Validator#changeLocale} 更新语言。
 	 */
 	readonly validator?: Validator<T>;
 
@@ -104,6 +104,7 @@ export class FormAPI<T extends Flattenable, R = never, P = never> extends Object
 	/**
 	 * 加载数据
 	 *
+	 * @returns 是否正确加载了数据，如果未指定 {@link Options#load}，则始终返回 false。
 	 * @remarks
 	 * 只有在正确加载数据的情况下，才会更换当前表单中的数据。否则保持原有数据不变。
 	 * 加载的数据不会调用验证器对数据进行验证。

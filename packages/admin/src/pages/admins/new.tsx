@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, notify, Page, Password, TextField, useLocale } from '@cmfx/components';
+import { Button, Form, FormAPI, notify, Page, Password, TextField, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import * as z from 'zod';
@@ -33,7 +33,7 @@ export function New(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	const [Form, api] = createForm<z.infer<typeof adminSchema>>({
+	const api = new FormAPI<z.infer<typeof adminSchema>>({
 		initValue: { sex: 'unknown', name: '', nickname: '', username: '', password: '', roles: [] },
 		submit: async obj => {
 			return await rest.post('/admins', obj);
@@ -47,7 +47,7 @@ export function New(props: Props): JSX.Element {
 
 	return (
 		<Page title="_p.admin.admin" class="max-w-2xl">
-			<Form class="flex flex-col">
+			<Form class="flex flex-col" api={api}>
 				<TextField class="w-full" accessor={api.accessor<string>('username')} label={l.t('_p.current.username')} />
 				<TextField class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
 				<TextField class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />

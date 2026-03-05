@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, Dialog, DialogRef, Password, TextField, useLocale } from '@cmfx/components';
+import { Button, Dialog, DialogRef, Form, FormAPI, FormRef, Password, TextField, useLocale } from '@cmfx/components';
 import { Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
@@ -45,7 +45,8 @@ export class Pwd implements PassportComponents {
 		const usr = useAdmin();
 		const nav = useNavigate();
 
-		const [Form, api, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		let ref!: FormRef;
+		const api = new FormAPI<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', password: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -66,8 +67,8 @@ export class Pwd implements PassportComponents {
 		});
 
 		return (
-			<Form class={styles.password}>
-				<actions.Message closable />
+			<Form class={styles.password} api={api} ref={el => (ref = el)}>
+				<ref.Message closable />
 
 				<TextField
 					hasHelp
@@ -84,10 +85,10 @@ export class Pwd implements PassportComponents {
 					accessor={api.accessor<string>('password')}
 				/>
 
-				<actions.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
+				<ref.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
-				</actions.Submit>
-				<actions.Reset palette="secondary"> {l.t('_c.reset')} </actions.Reset>
+				</ref.Submit>
+				<ref.Reset palette="secondary"> {l.t('_c.reset')} </ref.Reset>
 			</Form>
 		);
 	}
@@ -109,7 +110,8 @@ export class Pwd implements PassportComponents {
 				path: ['new'],
 			});
 
-		const [Form, api, actions] = createForm<z.infer<typeof valueSchema>>({
+		let ref!: FormRef;
+		const api = new FormAPI<z.infer<typeof valueSchema>>({
 			initValue: { old: '', new: '' },
 			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
 			validOnChange: true,
@@ -141,10 +143,10 @@ export class Pwd implements PassportComponents {
 					}}
 					header={l.t('_p.current.changePassword')}
 				>
-					<Form class={styles['action-form']} inDialog>
+					<Form class={styles['action-form']} inDialog api={api} ref={el => (ref = el)}>
 						<TextField placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
 						<TextField placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
-						<actions.Submit class="ms-auto">{l.t('_c.ok')}</actions.Submit>
+						<ref.Submit class="ms-auto">{l.t('_c.ok')}</ref.Submit>
 					</Form>
 				</Dialog>
 			</>

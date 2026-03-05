@@ -9,7 +9,7 @@ import {
 	Button,
 	ButtonGroup,
 	Card,
-	createForm,
+	Form,
 	DatePanel,
 	fieldAccessor,
 	joinClass,
@@ -21,6 +21,7 @@ import {
 	ThemeProvider,
 	useLocale,
 	wcag,
+	FormAPI,
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
 import { createEffect, createSignal, For, JSX, Match, Switch } from 'solid-js';
@@ -291,7 +292,7 @@ function Components(): JSX.Element {
 		},
 	];
 
-	const [Form, api] = createForm({
+	const api = new FormAPI({
 		initValue: {
 			username: '',
 			password: '',
@@ -315,7 +316,7 @@ function Components(): JSX.Element {
 					</>
 				}
 			>
-				<Form layout="vertical">
+				<Form layout="vertical" api={api}>
 					<TextField accessor={api.accessor<string>('username')} label="用户名" placeholder="请输入用户名" />
 					<Password accessor={api.accessor<string>('password')} label="密码" placeholder="请输入密码" />
 				</Form>

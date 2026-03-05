@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, createForm, Dialog, DialogRef, QRCode, TextField, useLocale } from '@cmfx/components';
+import type { DialogRef, FormRef } from '@cmfx/components';
+import { Button, ConfirmButton, Dialog, Form, FormAPI, QRCode, TextField, useLocale } from '@cmfx/components';
 import { Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, JSX, Show } from 'solid-js';
@@ -53,7 +54,8 @@ export class TOTP implements PassportComponents {
 		const nav = useNavigate();
 		const usr = useAdmin();
 
-		const [Form, api, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		let ref!: FormRef;
+		const api = new FormAPI<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', code: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -74,8 +76,8 @@ export class TOTP implements PassportComponents {
 		});
 
 		return (
-			<Form class={styles.totp}>
-				<actions.Message />
+			<Form class={styles.totp} ref={el => (ref = el)} api={api}>
+				<ref.Message />
 
 				<TextField
 					hasHelp
@@ -92,10 +94,10 @@ export class TOTP implements PassportComponents {
 					accessor={api.accessor<string>('code')}
 				/>
 
-				<actions.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
+				<ref.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
-				</actions.Submit>
-				<actions.Reset palette="secondary"> {l.t('_c.reset')} </actions.Reset>
+				</ref.Submit>
+				<ref.Reset palette="secondary"> {l.t('_c.reset')} </ref.Reset>
 			</Form>
 		);
 	}
@@ -113,7 +115,8 @@ export class TOTP implements PassportComponents {
 			code: codeSchema.clone(),
 		});
 
-		const [Form, api, actions] = createForm<z.infer<typeof requestSchema>>({
+		let ref!: FormRef;
+		const api = new FormAPI<z.infer<typeof requestSchema>>({
 			initValue: { code: '' },
 			validator: zodValidator<z.infer<typeof requestSchema>>(requestSchema.clone(), l),
 			validOnChange: true,
@@ -173,13 +176,13 @@ export class TOTP implements PassportComponents {
 						}}
 						header={l.t('_p.current.bindTOTP')}
 					>
-						<Form class={styles['action-form']} inDialog>
+						<Form class={styles['action-form']} inDialog api={api} ref={el => (ref = el)}>
 							<p title={qr()}>
 								<QRCode type="rounded" value={qr()} />
 							</p>
 							<br />
 							<TextField hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={api.accessor('code')} />
-							<actions.Submit class="ms-auto">{l.t('_c.ok')}</actions.Submit>
+							<ref.Submit class="ms-auto">{l.t('_c.ok')}</ref.Submit>
 						</Form>
 					</Dialog>
 				</Show>

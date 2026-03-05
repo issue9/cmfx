@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { DialogRef, RemoteTableRef } from '@cmfx/components';
+import type { DialogRef, FormRef, RemoteTableRef } from '@cmfx/components';
 import {
 	Button,
 	ConfirmButton,
-	createForm,
 	Dialog,
+	Form,
+	FormAPI,
 	fieldAccessor,
 	Label,
 	RemoteTable,
@@ -62,7 +63,8 @@ export class Webauthn implements PassportComponents {
 			account: usernameSchema.clone(),
 		});
 
-		const [Form, api, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		let ref!: FormRef;
+		const api = new FormAPI<z.infer<typeof accountSchema>, Token>({
 			initValue: { account: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -114,7 +116,7 @@ export class Webauthn implements PassportComponents {
 		});
 
 		return (
-			<Form class={styles.webauthn}>
+			<Form class={styles.webauthn} api={api} ref={el => (ref = el)}>
 				<TextField
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
@@ -127,9 +129,9 @@ export class Webauthn implements PassportComponents {
 					placeholder={l.t('_p.current.username')}
 					accessor={account}
 				/>
-				<actions.Submit palette="secondary" disabled={account.getValue() === ''}>
+				<ref.Submit palette="secondary" disabled={account.getValue() === ''}>
 					{l.t('_c.ok')}
-				</actions.Submit>
+				</ref.Submit>
 			</Form>
 		);
 	}

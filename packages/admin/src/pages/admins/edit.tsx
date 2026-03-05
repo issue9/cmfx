@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, Divider, Page, Table, TextField, useLocale } from '@cmfx/components';
+import { Button, Divider, Form, FormAPI, Page, Table, TextField, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 import * as z from 'zod';
@@ -40,7 +40,7 @@ export function Edit(props: Props): JSX.Element {
 	const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
 	const nav = useNavigate();
-	const [Form, api] = createForm<Admin>({
+	const api = new FormAPI<Admin>({
 		initValue: { sex: 'unknown', name: '', nickname: '', roles: [], passports: [] },
 		submit: async obj => {
 			return await rest.patch(`/admins/${ps.id}`, obj);
@@ -68,7 +68,7 @@ export function Edit(props: Props): JSX.Element {
 
 	return (
 		<Page title="_p.admin.admin" class="max-w-2xl">
-			<Form class="flex flex-col">
+			<Form class="flex flex-col" api={api}>
 				<TextField class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
 				<TextField class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
 				<roles.Selector

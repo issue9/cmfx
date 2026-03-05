@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createForm, DatePicker, MountProps, Numeric, TextArea, TextField } from '@cmfx/components';
+import { Form, FormAPI, DatePicker, MountProps, Numeric, TextArea, TextField, FormRef } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -17,7 +17,9 @@ export default function (props: MountProps): JSX.Element {
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 	const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
-	const [Form, api, { Reset, Submit }] = createForm({
+	let ref!: FormRef;
+
+	const api = new FormAPI({
 		initValue: {
 			f1: 'f1',
 			f2: 5,
@@ -49,14 +51,16 @@ export default function (props: MountProps): JSX.Element {
 				readonly={readonly()}
 				labelWidth="70px"
 				labelAlign={labelAlign()}
+				api={api}
+				ref={el => ref = el}
 			>
 				<TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
 				<Numeric label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
 				<DatePicker label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
 				<TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
 				<div class="col-span-full flex justify-between">
-					<Reset>reset</Reset>
-					<Submit>submit</Submit>
+					<ref.Reset>reset</ref.Reset>
+					<ref.Submit>submit</ref.Submit>
 				</div>
 			</Form>
 		</>
