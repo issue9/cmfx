@@ -60,18 +60,18 @@ export function Login(props: Props): JSX.Element {
 }
 
 function LoginBox(props: Props): JSX.Element {
-	const api = useREST();
+	const rest = useREST();
 	const l = useLocale();
 	const [q, setQ] = useSearchParams<{ type: string }>();
 	const [, opt] = useOptions();
 
-	api.api().cache('/passports');
+	rest.api().cache('/passports');
 
 	const passport = fieldAccessor('passport', q.type ?? 'password');
 	passport.onChange(n => setQ({ type: n }));
 
 	const [passports] = createResource<Array<ChoiceOption>>(async () => {
-		const r = await api.get<Array<Passport>>('/passports');
+		const r = await rest.get<Array<Passport>>('/passports');
 		if (!r.ok) {
 			await handleProblem(r.body!);
 			return [];

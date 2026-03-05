@@ -33,7 +33,7 @@ export function New(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	const [Form, ref] = createForm<z.infer<typeof adminSchema>>({
+	const [Form, api] = createForm<z.infer<typeof adminSchema>>({
 		initValue: { sex: 'unknown', name: '', nickname: '', username: '', password: '', roles: [] },
 		submit: async obj => {
 			return await rest.post('/admins', obj);
@@ -48,26 +48,22 @@ export function New(props: Props): JSX.Element {
 	return (
 		<Page title="_p.admin.admin" class="max-w-2xl">
 			<Form class="flex flex-col">
-				<TextField
-					class="w-full"
-					accessor={ref.api().accessor<string>('username')}
-					label={l.t('_p.current.username')}
-				/>
-				<TextField class="w-full" accessor={ref.api().accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<TextField class="w-full" accessor={ref.api().accessor<string>('nickname')} label={l.t('_p.nickname')} />
+				<TextField class="w-full" accessor={api.accessor<string>('username')} label={l.t('_p.current.username')} />
+				<TextField class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
+				<TextField class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
 				<Password
 					class="w-full"
 					autocomplete="new-password"
-					accessor={ref.api().accessor<string>('password')}
+					accessor={api.accessor<string>('password')}
 					label={l.t('_p.current.password')}
 				/>
 				<roles.Selector
 					class="w-full"
 					multiple
-					accessor={ref.api().accessor<Array<string>>('roles')}
+					accessor={api.accessor<Array<string>>('roles')}
 					label={l.t('_p.roles.roles')}
 				/>
-				<SexSelector label={l.t('_p.sex')} class="w-full" accessor={ref.api().accessor<Sex>('sex')} />
+				<SexSelector label={l.t('_p.sex')} class="w-full" accessor={api.accessor<Sex>('sex')} />
 				<div class="flex w-full justify-between gap-5">
 					<Button type="a" href={props.backURL} palette="secondary">
 						<IconArrowBack />

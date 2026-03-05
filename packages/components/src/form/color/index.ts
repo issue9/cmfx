@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as ColorPickerProps } from './picker';
+export type { Props as ColorPickerProps, Ref as ColorPickerRef } from './picker';
 export { default as ColorPicker } from './picker';

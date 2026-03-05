@@ -48,23 +48,23 @@ export class TOTP implements PassportComponents {
 
 	Login(): JSX.Element {
 		const l = useLocale();
-		const api = useREST();
+		const rest = useREST();
 		const opt = useOptions();
 		const nav = useNavigate();
 		const usr = useAdmin();
 
-		const [Form, ref, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		const [Form, api, actions] = createForm<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', code: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
 			submit: async obj => {
-				const ret = await api.post<Token>(`/passports/${this.#id}/login`, obj);
+				const ret = await rest.post<Token>(`/passports/${this.#id}/login`, obj);
 				await usr.login(ret);
 				return ret;
 			},
 			onProblem: async p => {
 				if (p.status === 401) {
-					ref.api().setError(p.title);
+					api.setError(p.title);
 					return;
 				}
 
@@ -82,17 +82,17 @@ export class TOTP implements PassportComponents {
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
-					accessor={ref.api().accessor<string>('username')}
+					accessor={api.accessor<string>('username')}
 				/>
 				<TextField
 					hasHelp
 					prefix={<IconPin class={styles['text-field']} />}
 					autocomplete="one-time-code"
 					placeholder={l.t('_p.current.verifyCode')}
-					accessor={ref.api().accessor<string>('code')}
+					accessor={api.accessor<string>('code')}
 				/>
 
-				<actions.Submit palette="primary" disabled={ref.api().accessor<string>('username').getValue() === ''}>
+				<actions.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
 				</actions.Submit>
 				<actions.Reset palette="secondary"> {l.t('_c.reset')} </actions.Reset>
@@ -102,7 +102,7 @@ export class TOTP implements PassportComponents {
 
 	Actions(f: RefreshFunc, username?: string): JSX.Element {
 		const l = useLocale();
-		const api = useREST();
+		const rest = useREST();
 		const opt = useOptions();
 		const usr = useAdmin();
 
@@ -113,12 +113,12 @@ export class TOTP implements PassportComponents {
 			code: codeSchema.clone(),
 		});
 
-		const [Form, ref, actions] = createForm<z.infer<typeof requestSchema>>({
+		const [Form, api, actions] = createForm<z.infer<typeof requestSchema>>({
 			initValue: { code: '' },
 			validator: zodValidator<z.infer<typeof requestSchema>>(requestSchema.clone(), l),
 			validOnChange: true,
 			submit: async obj => {
-				const r = await api.post(`/passports/${this.#id}`, obj);
+				const r = await rest.post(`/passports/${this.#id}`, obj);
 				await usr.refetch();
 				return r;
 			},
@@ -134,7 +134,7 @@ export class TOTP implements PassportComponents {
 						rounded
 						title={l.t('_p.current.unbindTOTP')}
 						onclick={async () => {
-							const r = await api.delete(`/passports/${this.#id}`);
+							const r = await rest.delete(`/passports/${this.#id}`);
 							if (!r.ok) {
 								await handleProblem(r.body!);
 								return;
@@ -152,7 +152,7 @@ export class TOTP implements PassportComponents {
 						rounded
 						title={l.t('_p.current.bindTOTP')}
 						onclick={async () => {
-							const r = await api.post<Secret>(`/passports/${this.#id}/secret`);
+							const r = await rest.post<Secret>(`/passports/${this.#id}/secret`);
 							if (!r.ok) {
 								await handleProblem(r.body!);
 								return;
@@ -178,7 +178,7 @@ export class TOTP implements PassportComponents {
 								<QRCode type="rounded" value={qr()} />
 							</p>
 							<br />
-							<TextField hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={ref.api().accessor('code')} />
+							<TextField hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={api.accessor('code')} />
 							<actions.Submit class="ms-auto">{l.t('_c.ok')}</actions.Submit>
 						</Form>
 					</Dialog>

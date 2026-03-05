@@ -38,17 +38,17 @@ const infoSchema = z.object({
 });
 
 export function Profile(props: Props): JSX.Element {
-	const api = useREST();
+	const rest = useREST();
 	const opt = useOptions();
 	const usr = useAdmin();
 	const l = useLocale();
 	let uploadRef: UploadRef;
 
-	const [Form, ref, actions] = createForm({
+	const [Form, api, actions] = createForm({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
 		onProblem: async p => handleProblem(p),
 		submit: async obj => {
-			return api.patch(opt.api.info, obj);
+			return rest.patch(opt.api.info, obj);
 		},
 		onSuccess: async () => {
 			await usr.refetch();
@@ -66,11 +66,11 @@ export function Profile(props: Props): JSX.Element {
 			return;
 		}
 
-		ref.api().setPreset(info);
+		api.setPreset(info);
 
-		const nameA = ref.api().accessor('name');
-		const nicknameA = ref.api().accessor('nickname');
-		const sexA = ref.api().accessor('sex');
+		const nameA = api.accessor('name');
+		const nicknameA = api.accessor('nickname');
+		const sexA = api.accessor('sex');
 		const passportA = fieldAccessor('passports', info.passports);
 
 		nameA.setValue(info.name!);
@@ -89,7 +89,7 @@ export function Profile(props: Props): JSX.Element {
 	});
 
 	onMount(async () => {
-		const r = await api.get<Array<Passport>>('/passports');
+		const r = await rest.get<Array<Passport>>('/passports');
 		if (!r.ok) {
 			await handleProblem(r.body!);
 			return;
@@ -105,7 +105,7 @@ export function Profile(props: Props): JSX.Element {
 				}}
 				fieldName="files"
 				upload={async data => {
-					const ret = await api.upload<Array<string>>('/uploads', data);
+					const ret = await rest.upload<Array<string>>('/uploads', data);
 					if (!ret.ok) {
 						await handleProblem(ret.body!);
 						return undefined;
@@ -136,7 +136,7 @@ export function Profile(props: Props): JSX.Element {
 									}
 									setAvatar(ret[0]);
 
-									const r = await api.patch('/info', { avatar: ret[0] });
+									const r = await rest.patch('/info', { avatar: ret[0] });
 									if (!r.ok) {
 										await handleProblem(r.body!);
 										return;
@@ -164,15 +164,15 @@ export function Profile(props: Props): JSX.Element {
 			<Divider padding="4px" />
 
 			<Form class={styles.form}>
-				<TextField class="w-full" label={l.t('_p.current.name')} accessor={ref.api().accessor('name')} />
-				<TextField class="w-full" label={l.t('_p.nickname')} accessor={ref.api().accessor('nickname')} />
-				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={ref.api().accessor<Sex>('sex')} />
+				<TextField class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
+				<TextField class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
+				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={api.accessor<Sex>('sex')} />
 
 				<div class={styles.actions}>
-					<actions.Reset palette="secondary" disabled={ref.api().isPreset()}>
+					<actions.Reset palette="secondary" disabled={api.isPreset()}>
 						{l.t('_c.reset')}
 					</actions.Reset>
-					<actions.Submit palette="primary" disabled={ref.api().isPreset()}>
+					<actions.Submit palette="primary" disabled={api.isPreset()}>
 						{l.t('_p.save')}
 					</actions.Submit>
 				</div>

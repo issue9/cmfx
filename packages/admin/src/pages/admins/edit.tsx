@@ -33,32 +33,32 @@ const adminSchema = z.object({
 type Admin = z.infer<typeof adminSchema>;
 
 export function Edit(props: Props): JSX.Element {
-	const api = useREST();
+	const rest = useREST();
 	const l = useLocale();
 	const ps = useParams<{ id: string }>();
 
 	const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
 	const nav = useNavigate();
-	const [Form, ref] = createForm<Admin>({
+	const [Form, api] = createForm<Admin>({
 		initValue: { sex: 'unknown', name: '', nickname: '', roles: [], passports: [] },
 		submit: async obj => {
-			return await api.patch(`/admins/${ps.id}`, obj);
+			return await rest.patch(`/admins/${ps.id}`, obj);
 		},
 		onProblem: handleProblem,
 		onSuccess: () => nav(props.backURL),
 	});
 
 	onMount(async () => {
-		const r1 = await api.get<Admin>(`/admins/${ps.id}`);
+		const r1 = await rest.get<Admin>(`/admins/${ps.id}`);
 		if (r1.ok) {
-			ref.api().setPreset(r1.body!);
-			ref.api().setValue(r1.body!);
+			api.setPreset(r1.body!);
+			api.setValue(r1.body!);
 		} else {
 			await handleProblem(r1.body!);
 		}
 
-		const r2 = await api.get<Array<Passport>>('/passports');
+		const r2 = await rest.get<Array<Passport>>('/passports');
 		if (!r2.ok) {
 			await handleProblem(r2.body!);
 			return;
@@ -69,24 +69,24 @@ export function Edit(props: Props): JSX.Element {
 	return (
 		<Page title="_p.admin.admin" class="max-w-2xl">
 			<Form class="flex flex-col">
-				<TextField class="w-full" accessor={ref.api().accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<TextField class="w-full" accessor={ref.api().accessor<string>('nickname')} label={l.t('_p.nickname')} />
+				<TextField class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
+				<TextField class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
 				<roles.Selector
 					class="w-full"
 					multiple
-					accessor={ref.api().accessor<Array<string>>('roles')}
+					accessor={api.accessor<Array<string>>('roles')}
 					label={l.t('_p.roles.roles')}
 				/>
-				<SexSelector class="w-full" accessor={ref.api().accessor<Sex>('sex')} label={l.t('_p.sex')} />
+				<SexSelector class="w-full" accessor={api.accessor<Sex>('sex')} label={l.t('_p.sex')} />
 				<div class="flex w-full justify-between gap-5">
 					<Button type="a" href={props.backURL} palette="secondary">
 						<IconArrowBack />
 						{l.t('_p.back')}
 					</Button>
-					<Button disabled={ref.api().isPreset()} type="reset" palette="secondary">
+					<Button disabled={api.isPreset()} type="reset" palette="secondary">
 						{l.t('_c.reset')}
 					</Button>
-					<Button disabled={ref.api().isPreset()} type="submit" palette="primary">
+					<Button disabled={api.isPreset()} type="submit" palette="primary">
 						{l.t('_c.ok')}
 					</Button>
 				</div>
@@ -104,8 +104,7 @@ export function Edit(props: Props): JSX.Element {
 				<tbody>
 					<For each={passports()}>
 						{item => {
-							const uid = ref
-								.api()
+							const uid = api
 								.accessor<Admin['passports']>('passports')
 								.getValue()!
 								.find(v => v.id === item.id)?.id;

@@ -8,7 +8,7 @@ import { createEffect, createSignal, createUniqueId, mergeProps, Show, splitProp
 
 import { BaseProps, joinClass, Layout, Palette } from '@components/base';
 import { Button } from '@components/button';
-import { BProps } from '@components/button/button';
+import type { BProps } from '@components/button/button';
 import { useLocale } from '@components/context';
 import { FormContext, FormProvider, useForm } from '@components/form/field';
 import { Alert } from '@components/notify';
@@ -100,7 +100,7 @@ function ButtonAction(props: BProps): JSX.Element {
  * @param options - 初始化参数；
  * @returns 返回元组，包含以下元素：
  *  - 0 Form 组件；
- *  - 1 {@link Ref} 实例；
+ *  - 1 {@link FormAPI} 实例；
  *  - 2 表单常用的一些操作按钮；
  * @typeParam T - 表示需要提交的对象类型；
  * @typeParam R - 表示服务端返回的类型；
@@ -108,9 +108,8 @@ function ButtonAction(props: BProps): JSX.Element {
  */
 export function createForm<T extends Flattenable, R = never, P = never>(
 	options: Options<T, R, P>,
-): [Form: Component<Props>, ref: Ref<T, R, P>, actions: Actions] {
+): [Form: Component<Props>, api: FormAPI<T, R, P>, actions: Actions] {
 	const api = new FormAPI<T, R, P>(options);
-	let ref!: Ref<T, R, P>;
 
 	const form = (props: Props): JSX.Element => {
 		props = mergeProps(preset, props);
@@ -162,12 +161,6 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 					}}
 					method={props.inDialog ? 'dialog' : undefined}
 					id={id}
-					ref={el => {
-						ref = {
-							api: () => api,
-							root: el.root,
-						};
-					}}
 				>
 					{props.children}
 				</Spin>
@@ -210,5 +203,5 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 		},
 	};
 
-	return [form, ref, actions];
+	return [form, api, actions];
 }

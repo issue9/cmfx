@@ -51,7 +51,7 @@ export class Webauthn implements PassportComponents {
 	}
 
 	Login(): JSX.Element {
-		const api = useREST();
+		const rest = useREST();
 		const l = useLocale();
 		const usr = useAdmin();
 		const account = fieldAccessor('account', '');
@@ -62,12 +62,12 @@ export class Webauthn implements PassportComponents {
 			account: usernameSchema.clone(),
 		});
 
-		const [Form, ref, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		const [Form, api, actions] = createForm<z.infer<typeof accountSchema>, Token>({
 			initValue: { account: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
 			submit: async obj => {
-				const cro = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${obj}`);
+				const cro = await rest.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${obj}`);
 				if (!cro.ok) {
 					return cro;
 				}
@@ -94,7 +94,7 @@ export class Webauthn implements PassportComponents {
 						userHandle: resp.userHandle ? encodeBase64(resp.userHandle) : null,
 					},
 				};
-				const token = await api.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
+				const token = await rest.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
 				if (!token.ok) {
 					return token;
 				}
@@ -104,7 +104,7 @@ export class Webauthn implements PassportComponents {
 			},
 			onProblem: async p => {
 				if (p.status === 401) {
-					ref.api().setError(p.title);
+					api.setError(p.title);
 					return;
 				}
 
@@ -136,7 +136,7 @@ export class Webauthn implements PassportComponents {
 
 	Actions(refresh: RefreshFunc): JSX.Element {
 		const l = useLocale();
-		const api = useREST();
+		const rest = useREST();
 		let dialogRef: DialogRef;
 		let tableRef: RemoteTableRef<Credential>;
 
@@ -162,7 +162,7 @@ export class Webauthn implements PassportComponents {
 				>
 					<div class="overflow-auto">
 						<RemoteTable<Credential>
-							rest={api}
+							rest={rest}
 							ref={el => {
 								tableRef = el;
 							}}
@@ -186,7 +186,7 @@ export class Webauthn implements PassportComponents {
 											palette="error"
 											title={l.t('_p.current.unbindWebauthn')}
 											onclick={async () => {
-												const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
+												const r1 = await rest.delete(`/passports/${this.#id}/credentials/${val}`);
 												if (!r1.ok) {
 													await handleProblem(r1.body!);
 													return;
@@ -207,7 +207,7 @@ export class Webauthn implements PassportComponents {
 										palette="primary"
 										rounded
 										onclick={async () => {
-											const cco = await api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
+											const cco = await rest.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
 											if (!cco.ok) {
 												await handleProblem(cco.body!);
 												return;
@@ -230,7 +230,7 @@ export class Webauthn implements PassportComponents {
 												},
 											};
 
-											const reg = await api.post(`/passports/${this.#id}/register`, pc);
+											const reg = await rest.post(`/passports/${this.#id}/register`, pc);
 											if (!reg.ok) {
 												await handleProblem(reg.body!);
 												return;
@@ -248,7 +248,7 @@ export class Webauthn implements PassportComponents {
 										palette="secondary"
 										rounded
 										onclick={async () => {
-											const r1 = await api.delete(`/passports/${this.#id}`);
+											const r1 = await rest.delete(`/passports/${this.#id}`);
 											if (!r1.ok) {
 												await handleProblem(r1.body!);
 												return;

@@ -40,23 +40,23 @@ export class Pwd implements PassportComponents {
 
 	Login(): JSX.Element {
 		const l = useLocale();
-		const api = useREST();
+		const rest = useREST();
 		const opt = useOptions();
 		const usr = useAdmin();
 		const nav = useNavigate();
 
-		const [Form, ref, actions] = createForm<z.infer<typeof accountSchema>, Token>({
+		const [Form, api, actions] = createForm<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', password: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
 			submit: async obj => {
-				const ret = await api.post<Token>(`/passports/${this.#id}/login`, obj);
+				const ret = await rest.post<Token>(`/passports/${this.#id}/login`, obj);
 				await usr.login(ret);
 				return ret;
 			},
 			onProblem: async p => {
 				if (p.status === 401) {
-					ref.api().setError(p.title);
+					api.setError(p.title);
 					return;
 				}
 
@@ -74,17 +74,17 @@ export class Pwd implements PassportComponents {
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
-					accessor={ref.api().accessor<string>('username')}
+					accessor={api.accessor<string>('username')}
 				/>
 				<Password
 					hasHelp
 					prefix={<IconPassword class={styles['text-field']} />}
 					autocomplete="current-password"
 					placeholder={l.t('_p.current.password')}
-					accessor={ref.api().accessor<string>('password')}
+					accessor={api.accessor<string>('password')}
 				/>
 
-				<actions.Submit palette="primary" disabled={ref.api().accessor<string>('username').getValue() === ''}>
+				<actions.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
 				</actions.Submit>
 				<actions.Reset palette="secondary"> {l.t('_c.reset')} </actions.Reset>
@@ -95,7 +95,7 @@ export class Pwd implements PassportComponents {
 	Actions(_: RefreshFunc): JSX.Element {
 		let dialogRef: DialogRef;
 		const l = useLocale();
-		const api = useREST();
+		const rest = useREST();
 		const usr = useAdmin();
 
 		const valueSchema = z
@@ -109,12 +109,12 @@ export class Pwd implements PassportComponents {
 				path: ['new'],
 			});
 
-		const [Form, ref, actions] = createForm<z.infer<typeof valueSchema>>({
+		const [Form, api, actions] = createForm<z.infer<typeof valueSchema>>({
 			initValue: { old: '', new: '' },
 			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
 			validOnChange: true,
 			submit: async obj => {
-				const r = await api.put(`/passports/${this.#id}`, obj);
+				const r = await rest.put(`/passports/${this.#id}`, obj);
 				await usr.refetch();
 				return r;
 			},
@@ -142,8 +142,8 @@ export class Pwd implements PassportComponents {
 					header={l.t('_p.current.changePassword')}
 				>
 					<Form class={styles['action-form']} inDialog>
-						<TextField placeholder={l.t('_p.current.oldPassword')} accessor={ref.api().accessor<string>('old')} />
-						<TextField placeholder={l.t('_p.current.newPassword')} accessor={ref.api().accessor<string>('new')} />
+						<TextField placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
+						<TextField placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
 						<actions.Submit class="ms-auto">{l.t('_c.ok')}</actions.Submit>
 					</Form>
 				</Dialog>

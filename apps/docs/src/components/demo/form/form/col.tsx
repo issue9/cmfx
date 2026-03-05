@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 	const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
-	const [Form, ref, { Reset, Submit }] = createForm({
+	const [Form, api, { Reset, Submit }] = createForm({
 		initValue: {
 			f1: 'f1',
 			f2: 5,
@@ -50,10 +50,10 @@ export default function (props: MountProps): JSX.Element {
 				labelWidth="70px"
 				labelAlign={labelAlign()}
 			>
-				<TextField label="textField" accessor={ref.api().accessor<string>('f1')} help="这是一个帮助文本" />
-				<Numeric label="number" accessor={ref.api().accessor('f2')} help="这是一个帮助文本" />
-				<DatePicker label="date" accessor={ref.api().accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
-				<TextArea label="textarea" class="grow" accessor={ref.api().accessor<string>('textarea')} help="这是一个帮助文本" />
+				<TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
+				<Numeric label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
+				<DatePicker label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
+				<TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
 				<div class="col-span-full flex justify-between">
 					<Reset>reset</Reset>
 					<Submit>submit</Submit>
