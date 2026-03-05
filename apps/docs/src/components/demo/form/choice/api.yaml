@@ -7,4 +7,5 @@
       - entrypoint: "index.d.ts"
         types:
             - ChoiceProps
+            - ChoiceRef
             - ChoiceOption

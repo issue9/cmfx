@@ -7,5 +7,6 @@
       - entrypoint: "index.d.ts"
         types:
             - DatePanelProps
+            - DatePanelRef
             - DateRangePanelProps
             - DateRangeValueType

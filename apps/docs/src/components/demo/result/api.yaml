@@ -7,3 +7,7 @@
       - entrypoint: "index.d.ts"
         types:
             - ResultProps
+            - ResultRef
+
+            - EmptyProps
+            - EmptyRef

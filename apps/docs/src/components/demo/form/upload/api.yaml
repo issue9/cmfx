@@ -8,5 +8,8 @@
         types:
             - UploadProps
             - UploadRef
+
             - AlbumProps
+            - AlbumRef
+
             - file2Base64

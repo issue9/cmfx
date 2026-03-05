@@ -11,6 +11,7 @@
             - ButtonKind
 
             - ConfirmButtonProps
+            - ConfirmButtonRef
 
             - SplitButtonProps
             - SplitButtonRef
@@ -19,5 +20,6 @@
             - ButtonGroupRef
 
             - ToggleButtonProps
+            - ToggleButtonRef
             - ToggleFitScreenButtonProps
             - ToggleFullScreenButtonProps

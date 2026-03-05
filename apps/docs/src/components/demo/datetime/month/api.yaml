@@ -8,5 +8,6 @@
         types:
             - MonthPanelProps
             - MonthPanelRef
+
             - YearPanelProps
             - YearPanelRef

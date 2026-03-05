@@ -7,5 +7,5 @@
       - entrypoint: "index.d.ts"
         types:
             - TabProps
-            - TabItem
             - TabRef
+            - TabItem

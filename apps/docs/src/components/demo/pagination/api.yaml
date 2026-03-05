@@ -7,4 +7,7 @@
       - entrypoint: "index.d.ts"
         types:
             - PaginationProps
+            - PaginationRef
+
             - PaginationBarProps
+            - PaginationBarRef

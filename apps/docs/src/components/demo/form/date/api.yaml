@@ -7,5 +7,10 @@
       - entrypoint: "index.d.ts"
         types:
             - DatePickerProps
+            - DatePickerRef
+
             - DateRangePickerProps
+            - DateRangePickerRef
+            -
             - WeekPickerProps
+            - WeekPickerRef
