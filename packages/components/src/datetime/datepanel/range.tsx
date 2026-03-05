@@ -80,10 +80,10 @@ export function DateRangePanel(props: Props): JSX.Element {
 	const [values, setValues] = createSignal<DateRangeValueType>(props.value ?? [undefined, undefined]);
 	let index = 0; // 当前设置的值属于 values 的哪个索引值
 
-	const [page1, setPage1] = createSignal<Date>(values()[0] ?? new Date());
+	const [date1, setDate1] = createSignal<Date>(values()[0] ?? new Date());
 	const now = new Date();
 	now.setMonth(now.getMonth() + 1);
-	const [page2, setPage2] = createSignal<Date>(values()[1] ?? now);
+	const [date2, setDate2] = createSignal<Date>(values()[1] ?? now);
 
 	const changeTime = (value: Date, first?: boolean) => {
 		if (index === 1) {
@@ -337,8 +337,8 @@ export function DateRangePanel(props: Props): JSX.Element {
 							panelChange(val, time, true, true);
 						}}
 						onPaging={val => {
-							setPage1(val);
-							if (compareMonth(page2(), val) < 0) {
+							setDate1(val);
+							if (compareMonth(date2(), val) < 0) {
 								const v = new Date(val);
 								v.setMonth(v.getMonth() + 1);
 								panel2.dateview().jump(v);
@@ -361,8 +361,8 @@ export function DateRangePanel(props: Props): JSX.Element {
 							panelChange(val, time, false, true);
 						}}
 						onPaging={val => {
-							setPage2(val);
-							if (compareMonth(page1(), val) > 0) {
+							setDate2(val);
+							if (compareMonth(date1(), val) > 0) {
 								const v = new Date(val);
 								v.setMonth(v.getMonth() - 1);
 								panel1()?.dateview().jump(v);

@@ -35,7 +35,7 @@ export type Props = Omit<CommonProps, 'onEnter' | 'onLeave' | 'weeks' | 'onWeekC
  * 周选择的面板
  */
 export function WeekPanel(props: Props): JSX.Element {
-	const [, panelProps] = splitProps(props, ['value', 'onChange']);
+	const [, panelProps] = splitProps(props, ['value', 'onChange', 'ref']);
 	const [value, setValue] = createSignal(props.value);
 	let oldRange: Array<Date> = [];
 

@@ -121,6 +121,7 @@ export interface TextProps extends InputBaseProps {
 
 	onChange: (val?: string, old?: string) => void;
 }
+
 export interface NumberProps extends InputBaseProps {
 	/**
 	 * 内容类型
