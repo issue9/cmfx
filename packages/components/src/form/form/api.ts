@@ -10,7 +10,7 @@ import { ObjectAccessor } from './access';
 /**
  * 初始 {@link FormAPI} 的参数
  */
-export interface Options<T extends Flattenable, R = never, PE = never> {
+interface Options<T extends Flattenable, R = never, PE = never> {
 	/**
 	 * 初始值
 	 *
@@ -39,8 +39,8 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
 	 *
 	 * @remarks
 	 * 如果需要验证器输出的错误信息保持与当前环境相同的本地化语言，
-	 * 在 {@link FormAPI} 中使用需要手动使用 {@link Validator#changeLocale} 更新语言，
-	 * 在 {@link Form} 中则会自动调用 {@link Validator#changeLocale} 更新语言。
+	 * 在 {@link FormAPI} 中使用需要手动使用 {@link Validator#changeLocale} 更改语言，
+	 * 在 {@link Form} 中则会自动调用 {@link Validator#changeLocale} 更改语言。
 	 */
 	readonly validator?: Validator<T>;
 

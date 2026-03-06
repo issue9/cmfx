@@ -21,7 +21,7 @@ export const labelAlignments = ['start', 'center', 'end'] as const;
 export type LabelAlignment = (typeof labelAlignments)[number];
 
 /**
- * Field 和 Form 共有的属性
+ * Field 和 FormContext 共有的属性
  */
 export interface CommonProps {
 	/**

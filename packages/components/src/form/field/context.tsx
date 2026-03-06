@@ -19,7 +19,7 @@ export type FormContext = CommonProps & {
 	formID?: string;
 };
 
-const formContext = createContext<FormContext>({} as FormContext);
+const formContext = createContext<FormContext>();
 
 /**
  * 表单的实现者需要调用此组件用于给表单的组件提供上下文环境。
@@ -32,6 +32,6 @@ export function FormProvider(props: ParentProps<FormContext>): JSX.Element {
 /**
  * 获取最近一个表单的上下文环境
  */
-export function useForm(): FormContext {
+export function useForm(): FormContext | undefined {
 	return useContext(formContext);
 }

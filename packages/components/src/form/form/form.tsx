@@ -6,7 +6,7 @@ import { Flattenable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show, splitProps } from 'solid-js';
 
-import { BaseProps, joinClass, Palette, RefProps } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import type { BProps } from '@components/button/button';
 import { useLocale } from '@components/context';
@@ -180,7 +180,6 @@ export function Form<T extends Flattenable, R = never, P = never>(props: Props<T
 							},
 
 							Message(props: MessageProps): JSX.Element {
-								props = mergeProps({ palette: 'error' as Palette }, props);
 								return (
 									<Show when={api.getError()}>
 										{err => (

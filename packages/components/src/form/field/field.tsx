@@ -14,7 +14,7 @@ import type { Props } from './types';
  */
 export interface FieldArea {
 	/**
-	 * 指位置
+	 * 指定位置
 	 */
 	pos:
 		| 'top-start'

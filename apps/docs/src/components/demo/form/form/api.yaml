@@ -8,7 +8,6 @@
         types:
             - FormAPI
             - FormRef
-            - FormAPIOptions
             - FormProps
             - FormActions
             - Accessor
