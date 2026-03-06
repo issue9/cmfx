@@ -8,5 +8,5 @@ export type { FormContext } from './context';
 export { FormProvider, useForm } from './context';
 export type { FieldArea, FieldAreas, FieldProps } from './field';
 export { calcLayoutFieldAreas, default as Field, fieldArea2Style, HelpArea as FieldHelpArea } from './field';
-export type { FieldBaseProps, LabelAlignment, Option, Options } from './types';
+export type { FieldBaseProps, LabelAlignment, Option as FieldOption, Options as FieldOptions } from './types';
 export { labelAlignments } from './types';

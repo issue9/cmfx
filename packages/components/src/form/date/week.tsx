@@ -9,7 +9,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass, RefProps } from '@components/base';
 import { Week, WeekPanel } from '@components/datetime';
 import { WeekValueType } from '@components/datetime/dateview';
-import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style } from '@components/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
@@ -29,7 +29,8 @@ export interface Props extends Omit<PickerProps, 'accessor' | 'accentPalette' | 
  * 周数选择组件
  */
 export function WeekPicker(props: Props): JSX.Element {
-	props = mergeProps({ weekBase: 0 as Week }, props);
+	const form = useForm();
+	props = mergeProps({ weekBase: 0 as Week }, form, props);
 
 	const [panelProps, _] = splitProps(props, ['weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
 

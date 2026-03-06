@@ -5,7 +5,7 @@
 import { createMemo, For, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass, Layout, RefProps } from '@components/base';
-import type { Accessor, FieldBaseProps, Options } from '@components/form/field';
+import type { Accessor, FieldBaseProps, FieldOptions } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
@@ -42,7 +42,7 @@ export interface Props<T extends AvailableEnumType = string> extends FieldBasePr
 	 *
 	 * @reactive
 	 */
-	options: Options<T>;
+	options: FieldOptions<T>;
 }
 
 export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.Element {

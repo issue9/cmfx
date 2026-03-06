@@ -10,10 +10,10 @@ export * from './editor';
 export type {
 	Accessor,
 	FieldBaseProps,
+	FieldOption,
+	FieldOptions,
 	FormContext,
 	LabelAlignment,
-	Option as FieldOption,
-	Options as FieldOptions,
 } from './field';
 // field 部分内容仅内部使用
 export { FormProvider, fieldAccessor, labelAlignments, useForm } from './field';

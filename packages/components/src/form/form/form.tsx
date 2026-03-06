@@ -89,7 +89,7 @@ interface MessageProps extends BaseProps {
 
 function ButtonAction(props: BProps): JSX.Element {
 	const f = useForm();
-	return <Button {...mergeProps({ disabled: f.disabled, rounded: f.rounded, form: f.formID }, props)} />;
+	return <Button {...mergeProps({ disabled: f?.disabled, rounded: f?.rounded, form: f?.formID }, props)} />;
 }
 
 /**
