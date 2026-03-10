@@ -72,15 +72,21 @@ interface Base extends ParentProps, RefProps<Ref> {
 	align?: PopoverAlign;
 }
 
-interface MProps<T extends AvailableEnumType = string>
+/**
+ * 多选下拉菜单的属性
+ */
+export interface MultipleProps<T extends AvailableEnumType = string>
 	extends Omit<Extract<Menu.RootProps<T>, { multiple: true }>, 'layout' | 'tag' | 'ref'>,
 		Base {}
 
-interface SProps<T extends AvailableEnumType = string>
+/**
+ * 单选下拉菜单的属性
+ */
+export interface SingleProps<T extends AvailableEnumType = string>
 	extends Omit<Extract<Menu.RootProps<T>, { multiple?: false }>, 'layout' | 'tag' | 'ref'>,
 		Base {}
 
-export type Props<T extends AvailableEnumType = string> = SProps<T> | MProps<T>;
+export type Props<T extends AvailableEnumType = string> = SingleProps<T> | MultipleProps<T>;
 
 const presetProps = {
 	align: 'end',

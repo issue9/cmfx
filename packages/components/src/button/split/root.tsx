@@ -19,11 +19,16 @@ export interface Ref extends Dropdown.RootRef {
 	group(): ButtonGroup.RootRef;
 }
 
-// BUG: 目前在 vite-plugin-api 中无法处理 type = Omit<...> 的内容
-interface SProps<T extends AvailableEnumType = string>
+/**
+ * 单选下拉菜单的属性
+ */
+export interface SingleProps<T extends AvailableEnumType = string>
 	extends Omit<Extract<Dropdown.RootProps<T>, { multiple?: false }>, 'trigger' | 'ref'> {}
 
-interface MProps<T extends AvailableEnumType = string>
+/**
+ * 多选下拉菜单的属性
+ */
+export interface MultipleProps<T extends AvailableEnumType = string>
 	extends Omit<Extract<Dropdown.RootProps<T>, { multiple: true }>, 'trigger' | 'ref'> {}
 
 interface Base extends ParentProps, Omit<BaseProps, 'hotkey'>, RefProps<Ref> {
@@ -33,7 +38,7 @@ interface Base extends ParentProps, Omit<BaseProps, 'hotkey'>, RefProps<Ref> {
 	layout?: Layout;
 }
 
-export type Props<T extends AvailableEnumType = string> = (Base & SProps<T>) | (Base & MProps<T>);
+export type Props<T extends AvailableEnumType = string> = (Base & SingleProps<T>) | (Base & MultipleProps<T>);
 
 export const presetProps: Readonly<Partial<Props>> = {
 	...presetBaseProps,

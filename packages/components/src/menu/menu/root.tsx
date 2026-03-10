@@ -88,7 +88,10 @@ interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps
 	disabledClass?: string;
 }
 
-interface MProps<T extends AvailableEnumType = string> extends Base<T> {
+/**
+ * 多选菜单的属性
+ */
+export interface MultipleProps<T extends AvailableEnumType = string> extends Base<T> {
 	/**
 	 * 是否多选
 	 *
@@ -110,7 +113,10 @@ interface MProps<T extends AvailableEnumType = string> extends Base<T> {
 	onChange?: ChangeFunc<Array<T>>;
 }
 
-interface SProps<T extends AvailableEnumType = string> extends Base<T> {
+/**
+ * 单选菜单的属性
+ */
+export interface SingleProps<T extends AvailableEnumType = string> extends Base<T> {
 	/**
 	 * 是否多选
 	 */
@@ -129,7 +135,7 @@ interface SProps<T extends AvailableEnumType = string> extends Base<T> {
 	onChange?: ChangeFunc<T>;
 }
 
-export type Props<T extends AvailableEnumType = string> = SProps<T> | MProps<T>;
+export type Props<T extends AvailableEnumType = string> = SingleProps<T> | MultipleProps<T>;
 
 /**
  * 菜单组件

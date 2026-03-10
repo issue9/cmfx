@@ -49,7 +49,7 @@ interface Base<T extends AvailableEnumType = string> extends FieldBaseProps, Ref
 	closable?: boolean;
 }
 
-interface MProps<T extends AvailableEnumType = string> extends Base<T> {
+export interface MultipleProps<T extends AvailableEnumType = string> extends Base<T> {
 	/**
 	 * 是否多选
 	 */
@@ -58,7 +58,7 @@ interface MProps<T extends AvailableEnumType = string> extends Base<T> {
 	accessor: Accessor<Array<T> | undefined>;
 }
 
-interface SProps<T extends AvailableEnumType = string> extends Base<T> {
+export interface SingleProps<T extends AvailableEnumType = string> extends Base<T> {
 	/**
 	 * 是否多选
 	 */
@@ -67,7 +67,7 @@ interface SProps<T extends AvailableEnumType = string> extends Base<T> {
 	accessor: Accessor<T | undefined>;
 }
 
-export type Props<T extends AvailableEnumType = string> = MProps<T> | SProps<T>;
+export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | SingleProps<T>;
 
 /**
  * 用以替代 select 组件
