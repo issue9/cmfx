@@ -19,10 +19,10 @@ export default function (props: MountProps): JSX.Element {
 				<Spinning />
 			</Portal>
 
-			<Spin palette={palette()} spinning={spinning()} class="flex gap-2 border border-palette-bg-high p-2">
-				<Button>btn1</Button>
-				<Button>btn2</Button>
-			</Spin>
+			<Spin.Root palette={palette()} spinning={spinning()} class="flex gap-2 border border-palette-bg-high p-2">
+				<Button.Root>btn1</Button.Root>
+				<Button.Root>btn2</Button.Root>
+			</Spin.Root>
 		</>
 	);
 }

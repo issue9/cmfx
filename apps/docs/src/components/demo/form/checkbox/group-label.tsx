@@ -46,13 +46,13 @@ export default function (props: MountProps): JSX.Element {
 				<ItemLayout />
 				<LabelAlign />
 
-				<Button palette="primary" onclick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>
+				<Button.Root palette="primary" onclick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div>
-				<CheckboxGroup
+				<CheckboxGroup.Root
 					hasHelp
 					help="help text"
 					layout={layout()}

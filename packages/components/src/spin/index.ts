@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as SpinProps, Ref as SpinRef } from './spin';
-export { Spin } from './spin';
+export * as Spin from './mod';

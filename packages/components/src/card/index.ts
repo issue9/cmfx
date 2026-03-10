@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as CardProps, Ref as CardRef } from './card';
-export { Card } from './card';
+export * as Card from './mod';

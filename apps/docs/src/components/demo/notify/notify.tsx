@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { MountProps, NotifyType } from '@cmfx/components';
+import type { MountProps } from '@cmfx/components';
 import {
+	Alert,
 	Button,
 	Choice,
 	fieldAccessor,
 	Numeric,
 	notify,
-	notifyTypes,
 	TextArea,
 	TextField,
 	useLocale,
@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 	const [System, system] = boolSelector('system');
 	const [accessor] = useOptions();
 
-	const typ = fieldAccessor<NotifyType>('type', 'success');
+	const typ = fieldAccessor<Alert.Type>('type', 'success');
 	const timeout = fieldAccessor<number>('timeout', 5000);
 	const title = fieldAccessor<string>('title', 'title');
 	const body = fieldAccessor<string>('body', 'body');
@@ -44,19 +44,19 @@ export default function (props: MountProps): JSX.Element {
 				<System />
 			</Portal>
 
-			<Choice
+			<Choice.Root
 				label="type"
 				accessor={typ}
-				options={notifyTypes.map(v => {
+				options={Alert.types.map(v => {
 					return { type: 'item', value: v, label: v };
 				})}
 			/>
-			<Numeric step={500} label="timeout" accessor={timeout} />
-			<TextField label="title" accessor={title} />
-			<TextArea label="body" accessor={body} />
-			<Button palette="primary" onclick={click}>
+			<Numeric.Root step={500} label="timeout" accessor={timeout} />
+			<TextField.Root label="title" accessor={title} />
+			<TextArea.Root label="body" accessor={body} />
+			<Button.Root palette="primary" onclick={click}>
 				notify
-			</Button>
+			</Button.Root>
 		</div>
 	);
 }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Drawer, DrawerRef, MountProps } from '@cmfx/components';
+import { Button, Drawer, MountProps } from '@cmfx/components';
 import { createMemo, createSignal, JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 		}
 	});
 
-	const [ref, setRef] = createSignal<DrawerRef>();
+	const [ref, setRef] = createSignal<Drawer.RootRef>();
 
 	return (
 		<>
@@ -37,17 +37,17 @@ export default function (props: MountProps): JSX.Element {
 				<Pos />
 			</Portal>
 
-			<Button
+			<Button.Root
 				onclick={() => {
 					ref()?.toggle();
 				}}
 			>
 				ref.toggle
-			</Button>
+			</Button.Root>
 
 			<Show when={ref()}>{ref()!.ToggleButton()}</Show>
 
-			<Drawer
+			<Drawer.Root
 				ref={setRef}
 				pos={pos()}
 				palette="primary"
@@ -70,7 +70,7 @@ export default function (props: MountProps): JSX.Element {
 					aside
 					<br />
 				</div>
-			</Drawer>
+			</Drawer.Root>
 		</>
 	);
 }

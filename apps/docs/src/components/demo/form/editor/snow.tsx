@@ -22,12 +22,12 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Readonly />
 				<Layout />
-				<Button palette="primary" onclick={() => txt.setError(txt.getError() ? undefined : 'error')}>
+				<Button.Root palette="primary" onclick={() => txt.setError(txt.getError() ? undefined : 'error')}>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
-			<Editor
+			<Editor.Root
 				hasHelp
 				help="help text"
 				layout={layout()}

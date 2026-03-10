@@ -44,7 +44,7 @@ export default function (props: MountProps): JSX.Element {
 				/>
 			</Portal>
 
-			<WeekPicker
+			<WeekPicker.Root
 				class="w-[400px]"
 				placeholder="placeholder"
 				layout={layout()}
@@ -60,7 +60,7 @@ export default function (props: MountProps): JSX.Element {
 				weekBase={week()}
 			/>
 
-			<WeekPicker
+			<WeekPicker.Root
 				class="w-[200px]"
 				placeholder="placeholder"
 				layout={layout()}

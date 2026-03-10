@@ -14,11 +14,11 @@ import { Week } from '@components/datetime/utils';
 export type WeekValueType = ReturnType<typeof getISOWeek>;
 
 /**
- * 提供操作 {@link DateView} 的基本功能
+ * 提供操作 {@link Root} 的基本功能
  */
 export interface API {
 	/**
-	 * 为指定日期所在的 td 元素添加 {@link PropsselectedClass} 指定的样式。
+	 * 为指定日期所在的 td 元素添加 {@link Props#selectedClass} 指定的样式。
 	 */
 	select(...d: Array<Date>): void;
 

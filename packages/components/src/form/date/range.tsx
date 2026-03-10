@@ -10,7 +10,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
-import { DateRangePanel, DateRangeValueType, Week } from '@components/datetime';
+import { DateRangePanel, Week } from '@components/datetime';
 import type { Accessor } from '@components/form/field';
 import {
 	calcLayoutFieldAreas,
@@ -48,7 +48,7 @@ interface Base extends Omit<PickerProps, 'accessor'>, RefProps<Ref> {
 }
 
 interface DateProps extends Base {
-	accessor: Accessor<DateRangeValueType | undefined, 'date'>;
+	accessor: Accessor<DateRangePanel.ValueType | undefined, 'date'>;
 }
 
 interface NumberProps extends Base {
@@ -73,12 +73,12 @@ function isNumberProps(props: Props): props is NumberProps {
 	return props.accessor.kind() === 'number';
 }
 
-export default function Picker(props: Props): JSX.Element {
+export function Root(props: Props): JSX.Element {
 	if (isDateProps(props)) {
 		return <DateRangePicker {...props} />;
 	} else if (isNumberProps(props)) {
 		const val = props.accessor.getValue();
-		const rng: DateRangeValueType | undefined = val
+		const rng: DateRangePanel.ValueType | undefined = val
 			? [val[0] ? new Date(val[0]) : undefined, val[1] ? new Date(val[1]) : undefined]
 			: undefined;
 		const accessor = fieldAccessor('accessor', rng, 'date');
@@ -87,7 +87,7 @@ export default function Picker(props: Props): JSX.Element {
 		return <DateRangePicker {...p} accessor={accessor} />;
 	} else if (isStringProps(props)) {
 		const val = props.accessor.getValue();
-		const rng: DateRangeValueType | undefined = val
+		const rng: DateRangePanel.ValueType | undefined = val
 			? [val[0] ? new Date(val[0]) : undefined, val[1] ? new Date(val[1]) : undefined]
 			: undefined;
 		const accessor = fieldAccessor('accessor', rng, 'date');
@@ -208,7 +208,7 @@ function DateRangePicker(props: DateProps): JSX.Element {
 				class={styles.panel}
 				aria-haspopup
 			>
-				<DateRangePanel
+				<DateRangePanel.Root
 					class={styles['dt-panel']}
 					{...panelProps}
 					value={untrack(props.accessor.getValue)}
@@ -218,7 +218,7 @@ function DateRangePicker(props: DateProps): JSX.Element {
 				/>
 
 				<div class={joinClass(undefined, styles.actions, 'justify-end!')}>
-					<Button
+					<Button.Root
 						kind="flat"
 						class="px-1 py-0"
 						onclick={() => {
@@ -227,9 +227,9 @@ function DateRangePicker(props: DateProps): JSX.Element {
 						}}
 					>
 						{l.t('_c.date.clear')}
-					</Button>
+					</Button.Root>
 
-					<Button
+					<Button.Root
 						kind="flat"
 						class="px-1 py-0"
 						onclick={() => {
@@ -238,7 +238,7 @@ function DateRangePicker(props: DateProps): JSX.Element {
 						}}
 					>
 						{l.t('_c.reset')}
-					</Button>
+					</Button.Root>
 				</div>
 			</fieldset>
 

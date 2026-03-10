@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 			</Portal>
 
-			<Checkbox
+			<Checkbox.Root
 				indeterminate={i()}
 				title="indeterminate"
 				rounded={rounded()}
@@ -34,7 +34,7 @@ export default function (props: MountProps): JSX.Element {
 				disabled={disabled()}
 				readonly={readonly()}
 			/>
-			<Button onclick={() => setI(!i())}>indeterminate - {i() ? 'true' : 'false'}</Button>
+			<Button.Root onclick={() => setI(!i())}>indeterminate - {i() ? 'true' : 'false'}</Button.Root>
 		</div>
 	);
 }

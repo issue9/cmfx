@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Card, MenuItem, MenuItemGroup, MenuItemItem, Page, useLocale } from '@cmfx/components';
+import { Card, Menu, Page, useLocale } from '@cmfx/components';
 import { ArrayElement, Locale } from '@cmfx/core';
 import { A, RouteDefinition } from '@solidjs/router';
 import { For, JSX } from 'solid-js';
@@ -38,7 +38,7 @@ export default function Overview(prefix: string): JSX.Element {
 	const items = buildMenus(l, prefix);
 
 	return (
-		<Page class={styles.overview} title={l.t('_d.demo.overview')}>
+		<Page.Root class={styles.overview} title={l.t('_d.demo.overview')}>
 			<For each={items.filter(item => item.type === 'group')}>
 				{group => (
 					<fieldset class={styles.group}>
@@ -47,23 +47,23 @@ export default function Overview(prefix: string): JSX.Element {
 						</legend>
 						<For each={group.items}>
 							{item => (
-								<A href={(item as MenuItemItem<string>).value!}>
-									<Card header={(item as MenuItemItem<string>).label} class={styles.card}>
-										<div class={styles.icon}>{(item as MenuItemItem<string>).prefix}</div>
-									</Card>
+								<A href={(item as Menu.Item).value!}>
+									<Card.Root header={(item as Menu.Item).label} class={styles.card}>
+										<div class={styles.icon}>{(item as Menu.Item).prefix}</div>
+									</Card.Root>
 								</A>
 							)}
 						</For>
 					</fieldset>
 				)}
 			</For>
-		</Page>
+		</Page.Root>
 	);
 }
 
 // 生成 Drawer 组件的侧边栏菜单
-export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
-	const menus: Array<MenuItem<string>> = [
+export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
+	const menus: Array<Menu.MenuItem> = [
 		{ type: 'a', label: l.t('_d.demo.overview'), value: `${prefix}/`, suffix: routes.length }, // 指向 overview
 		{ type: 'group', label: l.t('_d.demo.general'), items: [] },
 		{ type: 'group', label: l.t('_d.demo.layout'), items: [] },
@@ -75,9 +75,9 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
 		{ type: 'group', label: l.t('_d.demo.function'), items: [] },
 	];
 
-	const append = (group: MenuItem<string>, r: ArrayElement<typeof routes>) => {
+	const append = (group: Menu.MenuItem, r: ArrayElement<typeof routes>) => {
 		const p = Array.isArray(r.path) ? r.path[0] : r.path;
-		(group as MenuItemGroup<string>).items.push({
+		(group as Menu.Group).items.push({
 			type: 'a',
 			label: l.t(r.info?.title),
 			value: prefix + p,

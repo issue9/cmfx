@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DateRangePanel, DateRangeValueType, datetimePluginLunar, MountProps, Week } from '@cmfx/components';
+import { Button, DateRangePanel, datetimePluginLunar, MountProps, Week } from '@cmfx/components';
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -21,7 +21,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Weeks, weeks] = boolSelector('weeks');
 	const [Shortcut, shortcut] = boolSelector('shortcuts(range)');
 	const [week, setWeek] = createSignal<Week>(0);
-	const [range, setRange] = createSignal<DateRangeValueType>();
+	const [range, setRange] = createSignal<DateRangePanel.ValueType>();
 
 	return (
 		<>
@@ -42,14 +42,14 @@ export default function (props: MountProps): JSX.Element {
 					value={week()}
 					onChange={e => setWeek(parseInt(e.target.value, 10) as Week)}
 				/>
-				<Button
+				<Button.Root
 					onclick={() => {
 						setRange();
 					}}
 				>
 					set undefined
-				</Button>
-				<Button
+				</Button.Root>
+				<Button.Root
 					onclick={() => {
 						const now = new Date();
 						const next = new Date(now);
@@ -58,10 +58,10 @@ export default function (props: MountProps): JSX.Element {
 					}}
 				>
 					now
-				</Button>
+				</Button.Root>
 			</Portal>
 
-			<DateRangePanel
+			<DateRangePanel.Root
 				min={minmax() ? min : undefined}
 				max={minmax() ? max : undefined}
 				shortcuts={shortcut()}
@@ -78,7 +78,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			/>
 
-			<DateRangePanel
+			<DateRangePanel.Root
 				min={minmax() ? min : undefined}
 				max={minmax() ? max : undefined}
 				shortcuts={shortcut()}

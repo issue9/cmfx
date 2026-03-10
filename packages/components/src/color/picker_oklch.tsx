@@ -6,7 +6,7 @@ import Color from 'colorjs.io';
 import { createEffect, JSX, Signal } from 'solid-js';
 
 import { useLocale } from '@components/context';
-import { ObjectAccessor, Range, RangeRef } from '@components/form';
+import { ObjectAccessor, Range } from '@components/form';
 import { PickerPanel } from './picker';
 import styles from './style.module.css';
 
@@ -56,10 +56,10 @@ export class OKLCHPickerPanel implements PickerPanel {
 	}
 
 	panel(signal: Signal<string>): JSX.Element {
-		let rl: RangeRef;
-		let rc: RangeRef;
-		let rh: RangeRef;
-		let ra: RangeRef;
+		let rl: Range.RootRef;
+		let rc: Range.RootRef;
+		let rh: Range.RootRef;
+		let ra: Range.RootRef;
 
 		createEffect(() => {
 			// 根据值改变背景颜色
@@ -105,7 +105,7 @@ export class OKLCHPickerPanel implements PickerPanel {
 
 		return (
 			<div class={styles.oklch}>
-				<Range
+				<Range.Root
 					fitHeight
 					accessor={this.#oklch.accessor('l')}
 					label={l.t('_c.color.lightness')}
@@ -118,7 +118,7 @@ export class OKLCHPickerPanel implements PickerPanel {
 					max={1}
 					step={0.0001}
 				/>
-				<Range
+				<Range.Root
 					fitHeight
 					accessor={this.#oklch.accessor('c')}
 					label={l.t('_c.color.chroma')}
@@ -131,7 +131,7 @@ export class OKLCHPickerPanel implements PickerPanel {
 					max={0.4}
 					step={0.01}
 				/>
-				<Range
+				<Range.Root
 					fitHeight
 					accessor={this.#oklch.accessor('h')}
 					label={l.t('_c.color.hue')}
@@ -144,7 +144,7 @@ export class OKLCHPickerPanel implements PickerPanel {
 					max={360}
 					step={0.01}
 				/>
-				<Range
+				<Range.Root
 					fitHeight
 					accessor={this.#oklch.accessor('a')}
 					label={l.t('_c.color.alpha')}

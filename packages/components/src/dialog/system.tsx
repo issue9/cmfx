@@ -8,7 +8,7 @@ import { Portal } from 'solid-js/web';
 import { BaseProps, MountProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { fieldAccessor, TextField } from '@components/form';
-import { Dialog, Ref } from './dialog';
+import { Ref, Root } from './root';
 
 export type Props = BaseProps & ParentProps & MountProps;
 
@@ -47,7 +47,7 @@ function Alert(props: BaseProps): JSX.Element {
 	};
 
 	return (
-		<Dialog
+		<Root
 			movable
 			palette={props.palette}
 			header={org.title}
@@ -60,7 +60,7 @@ function Alert(props: BaseProps): JSX.Element {
 			})}
 		>
 			{msg()}
-		</Dialog>
+		</Root>
 	);
 }
 
@@ -95,7 +95,7 @@ function Confirm(props: BaseProps): JSX.Element {
 	};
 
 	return (
-		<Dialog
+		<Root
 			movable
 			palette={props.palette}
 			header={org.title}
@@ -106,7 +106,7 @@ function Confirm(props: BaseProps): JSX.Element {
 			actions={dlg!.DefaultActions(async () => 'true')}
 		>
 			<p>{msg()}</p>
-		</Dialog>
+		</Root>
 	);
 }
 
@@ -144,7 +144,7 @@ function Prompt(props: BaseProps): JSX.Element {
 	};
 
 	return (
-		<Dialog
+		<Root
 			movable
 			palette={props.palette}
 			header={org.title}
@@ -154,8 +154,8 @@ function Prompt(props: BaseProps): JSX.Element {
 			class="min-w-60"
 			actions={dlg!.DefaultActions(async () => access.getValue())}
 		>
-			<TextField class="w-full" layout="vertical" label={msg()} accessor={access} />
-		</Dialog>
+			<TextField.Root class="w-full" layout="vertical" label={msg()} accessor={access} />
+		</Root>
 	);
 }
 

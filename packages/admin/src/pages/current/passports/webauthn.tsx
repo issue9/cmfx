@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { DialogRef, FormRef, RemoteTableRef } from '@cmfx/components';
 import {
 	Button,
 	ConfirmButton,
@@ -40,7 +39,7 @@ type Credential = {
 };
 
 export class Webauthn implements PassportComponents {
-	#id: string;
+	readonly #id: string;
 
 	/**
 	 * 构造函数
@@ -63,7 +62,7 @@ export class Webauthn implements PassportComponents {
 			account: usernameSchema.clone(),
 		});
 
-		let ref!: FormRef;
+		let ref!: Form.RootRef;
 		const api = new FormAPI<z.infer<typeof accountSchema>, Token>({
 			initValue: { account: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
@@ -116,8 +115,8 @@ export class Webauthn implements PassportComponents {
 		});
 
 		return (
-			<Form class={styles.webauthn} api={api} ref={el => (ref = el)}>
-				<TextField
+			<Form.Root class={styles.webauthn} api={api} ref={el => (ref = el)}>
+				<TextField.Root
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
@@ -132,19 +131,19 @@ export class Webauthn implements PassportComponents {
 				<ref.Submit palette="secondary" disabled={account.getValue() === ''}>
 					{l.t('_c.ok')}
 				</ref.Submit>
-			</Form>
+			</Form.Root>
 		);
 	}
 
 	Actions(refresh: RefreshFunc): JSX.Element {
 		const l = useLocale();
 		const rest = useREST();
-		let dialogRef: DialogRef;
-		let tableRef: RemoteTableRef<Credential>;
+		let dialogRef: Dialog.RootRef;
+		let tableRef: RemoteTable.RootRef<Credential>;
 
 		return (
 			<>
-				<Button
+				<Button.Root
 					square
 					rounded
 					title={l.t('_p.current.bindWebauthn')}
@@ -153,17 +152,17 @@ export class Webauthn implements PassportComponents {
 					}}
 				>
 					<IconCredit />
-				</Button>
+				</Button.Root>
 
-				<Dialog
+				<Dialog.Root
 					class="w-[80%]"
 					ref={el => {
 						dialogRef = el;
 					}}
-					header={<Label icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label>}
+					header={<Label.Root icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label.Root>}
 				>
 					<div class="overflow-auto">
-						<RemoteTable<Credential>
+						<RemoteTable.Root<Credential>
 							rest={rest}
 							ref={el => {
 								tableRef = el;
@@ -182,7 +181,7 @@ export class Webauthn implements PassportComponents {
 									id: 'id',
 									label: l.t('_p.actions'),
 									renderContent: (_, val) => (
-										<ConfirmButton
+										<ConfirmButton.Root
 											square
 											rounded
 											palette="error"
@@ -194,18 +193,18 @@ export class Webauthn implements PassportComponents {
 													return;
 												}
 
-												tableRef.refresh();
+												await tableRef.refresh();
 												await refresh();
 											}}
 										>
 											<IconDelete />
-										</ConfirmButton>
+										</ConfirmButton.Root>
 									),
 								},
 							]}
 							toolbar={
 								<div class="flex gap-2">
-									<Button
+									<Button.Root
 										palette="primary"
 										rounded
 										onclick={async () => {
@@ -238,15 +237,15 @@ export class Webauthn implements PassportComponents {
 												return;
 											}
 
-											tableRef.refresh();
+											await tableRef.refresh();
 											await refresh();
 										}}
 									>
 										<IconAddLink />
 										&#160;{l.t('_p.current.bindWebauthn')}
-									</Button>
+									</Button.Root>
 
-									<ConfirmButton
+									<ConfirmButton.Root
 										palette="secondary"
 										rounded
 										onclick={async () => {
@@ -260,12 +259,12 @@ export class Webauthn implements PassportComponents {
 									>
 										<IconLinkOff />
 										&#160;{l.t('_p.current.unbindAllWebauthn')}
-									</ConfirmButton>
+									</ConfirmButton.Root>
 								</div>
 							}
 						/>
 					</div>
-				</Dialog>
+				</Dialog.Root>
 			</>
 		);
 	}

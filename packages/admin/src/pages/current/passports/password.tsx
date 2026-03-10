@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, Form, FormAPI, FormRef, Password, TextField, useLocale } from '@cmfx/components';
+import { Button, Dialog, Form, FormAPI, Password, TextField, useLocale } from '@cmfx/components';
 import { Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
@@ -27,7 +27,7 @@ const accountSchema = z.object({
  * 密码登录方式
  */
 export class Pwd implements PassportComponents {
-	#id: string;
+	readonly #id: string;
 
 	/**
 	 * 构造函数
@@ -45,7 +45,7 @@ export class Pwd implements PassportComponents {
 		const usr = useAdmin();
 		const nav = useNavigate();
 
-		let ref!: FormRef;
+		let ref!: Form.RootRef;
 		const api = new FormAPI<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', password: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
@@ -67,17 +67,17 @@ export class Pwd implements PassportComponents {
 		});
 
 		return (
-			<Form class={styles.password} api={api} ref={el => (ref = el)}>
+			<Form.Root class={styles.password} api={api} ref={el => (ref = el)}>
 				<ref.Message closable />
 
-				<TextField
+				<TextField.Root
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
 					accessor={api.accessor<string>('username')}
 				/>
-				<Password
+				<Password.Root
 					hasHelp
 					prefix={<IconPassword class={styles['text-field']} />}
 					autocomplete="current-password"
@@ -89,12 +89,12 @@ export class Pwd implements PassportComponents {
 					{l.t('_c.ok')}
 				</ref.Submit>
 				<ref.Reset palette="secondary"> {l.t('_c.reset')} </ref.Reset>
-			</Form>
+			</Form.Root>
 		);
 	}
 
 	Actions(_: RefreshFunc): JSX.Element {
-		let dialogRef: DialogRef;
+		let dialogRef: Dialog.RootRef;
 		const l = useLocale();
 		const rest = useREST();
 		const usr = useAdmin();
@@ -110,7 +110,7 @@ export class Pwd implements PassportComponents {
 				path: ['new'],
 			});
 
-		let ref!: FormRef;
+		let ref!: Form.RootRef;
 		const api = new FormAPI<z.infer<typeof valueSchema>>({
 			initValue: { old: '', new: '' },
 			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
@@ -125,7 +125,7 @@ export class Pwd implements PassportComponents {
 
 		return (
 			<>
-				<Button
+				<Button.Root
 					square
 					rounded
 					title={l.t('_p.current.changePassword')}
@@ -134,21 +134,21 @@ export class Pwd implements PassportComponents {
 					}}
 				>
 					<IconPasskey />
-				</Button>
+				</Button.Root>
 
-				<Dialog
+				<Dialog.Root
 					movable
 					ref={el => {
 						dialogRef = el;
 					}}
 					header={l.t('_p.current.changePassword')}
 				>
-					<Form class={styles['action-form']} inDialog api={api} ref={el => (ref = el)}>
-						<TextField placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
-						<TextField placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
+					<Form.Root class={styles['action-form']} inDialog api={api} ref={el => (ref = el)}>
+						<TextField.Root placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
+						<TextField.Root placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
 						<ref.Submit class="ms-auto">{l.t('_c.ok')}</ref.Submit>
-					</Form>
-				</Dialog>
+					</Form.Root>
+				</Dialog.Root>
 			</>
 		);
 	}

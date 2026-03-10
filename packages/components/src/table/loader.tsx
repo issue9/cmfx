@@ -14,7 +14,7 @@ import IconReset from '~icons/material-symbols/restart-alt';
 import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Palette, RefProps } from '@components/base';
-import { Button, SplitButton, ToggleFitScreenButton } from '@components/button';
+import { Button, SplitButton, ToggleButton } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
 import { xprompt } from '@components/dialog';
 import { Divider } from '@components/divider';
@@ -22,12 +22,11 @@ import { Checkbox, ObjectAccessor, Radio } from '@components/form';
 import { Label } from '@components/label';
 import { Dropdown } from '@components/menu';
 import { PaginationBar } from '@components/pagination';
-import type { Props as BaseProps, Ref as BasicTableRef } from './basic';
-import { BasicTable } from './basic';
+import * as BasicTable from './basic.mod';
 import { fromSearch, Params, saveSearch } from './search';
 import styles from './style.module.css';
 
-export interface Ref<T extends object> extends BasicTableRef {
+export interface Ref<T extends object> extends BasicTable.RootRef {
 	/**
 	 * 表格当前页的数据
 	 */
@@ -39,7 +38,7 @@ export interface Ref<T extends object> extends BasicTableRef {
 	refresh(): Promise<void>;
 }
 
-type OBP<T extends object> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter' | 'ref'>;
+type OBP<T extends object> = Omit<BasicTable.RootProps<T>, 'items' | 'extraHeader' | 'extraFooter' | 'ref'>;
 type BaseTableProps<T extends object, Q extends Query> = OBP<T> &
 	RefProps<Ref<T>> & {
 		/**
@@ -137,10 +136,10 @@ export type Props<T extends object, Q extends Query> =
  * @typeParam T - 为数据中每一条数据的类型；
  * @typeParam Q - 为查询参数的类型；
  */
-export function LoaderTable<T extends object, Q extends Query = Query>(props: Props<T, Q>) {
+export function Root<T extends object, Q extends Query = Query>(props: Props<T, Q>) {
 	const [, opt] = useOptions();
 	const l = useLocale();
-	let ref: BasicTableRef;
+	let ref: BasicTable.RootRef;
 
 	let load = props.load;
 	props = mergeProps(
@@ -225,7 +224,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 		}
 
 		footer = (
-			<PaginationBar
+			<PaginationBar.Root
 				class={styles.footer}
 				palette={props.accentPalette}
 				onPageChange={async p => {
@@ -254,7 +253,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 				<form class={styles.search}>
 					{props.queryForm!(queries)}
 					<div class={styles.actions}>
-						<SplitButton
+						<SplitButton.Root
 							align="end"
 							onChange={async v => {
 								switch (v) {
@@ -269,37 +268,37 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 								{
 									type: 'item',
 									value: '.csv',
-									label: <Label icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label>,
+									label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
 								},
 								{
 									type: 'item',
 									value: '.xlsx',
-									label: <Label icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label>,
+									label: <Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>,
 								},
 								{
 									type: 'item',
 									value: '.ods',
-									label: <Label icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label>,
+									label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
 								},
 								{ type: 'divider' },
 								{
 									type: 'item',
 									value: 'reset',
 									disabled: queries.isPreset(),
-									label: <Label icon={<IconReset />}>{l.t('_c.reset')}</Label>,
+									label: <Label.Root icon={<IconReset />}>{l.t('_c.reset')}</Label.Root>,
 								},
 							]}
 						>
-							<Button type="submit" palette="primary" onclick={async () => await refetch()}>
+							<Button.Root type="submit" palette="primary" onclick={async () => await refetch()}>
 								{l.t('_c.search')}
-							</Button>
-						</SplitButton>
+							</Button.Root>
+						</SplitButton.Root>
 					</div>
 				</form>
 			</Show>
 
 			<Show when={props.queryForm && (props.toolbar || props.systemToolbar)}>
-				<Divider padding="8px" />
+				<Divider.Root padding="8px" />
 			</Show>
 
 			<Show when={props.toolbar || props.systemToolbar}>
@@ -307,26 +306,28 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 					{props.toolbar}
 					<Show when={props.systemToolbar}>
 						<div class={styles['system-toolbar']}>
-							<Dropdown
+							<Dropdown.Root
 								trigger="hover"
 								items={[
 									{
 										type: 'item',
 										value: 'hoverable',
-										label: <Checkbox readonly label={l.t('_c.table.hoverable')} checked={hoverable()} />,
+										label: <Checkbox.Root readonly label={l.t('_c.table.hoverable')} checked={hoverable()} />,
 									},
 									{ type: 'divider' },
 									{
 										type: 'item',
 										value: 'sticky-header',
-										label: <Checkbox readonly label={l.t('_c.table.stickyHeader')} checked={sticky() !== undefined} />,
+										label: (
+											<Checkbox.Root readonly label={l.t('_c.table.stickyHeader')} checked={sticky() !== undefined} />
+										),
 									},
 									{ type: 'divider' },
 									{
 										type: 'item',
 										value: '0',
 										label: (
-											<Radio
+											<Radio.Root
 												name="striped"
 												readonly
 												value={0}
@@ -339,7 +340,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 										type: 'item',
 										value: '2',
 										label: (
-											<Radio
+											<Radio.Root
 												name="striped"
 												readonly
 												value={2}
@@ -352,7 +353,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 										type: 'item',
 										value: '3',
 										label: (
-											<Radio
+											<Radio.Root
 												name="striped"
 												readonly
 												value={3}
@@ -365,7 +366,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 										type: 'item',
 										value: '4',
 										label: (
-											<Radio
+											<Radio.Root
 												name="striped"
 												readonly
 												value={4}
@@ -378,7 +379,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 										type: 'item',
 										value: '5',
 										label: (
-											<Radio
+											<Radio.Root
 												name="striped"
 												readonly
 												value={5}
@@ -415,11 +416,11 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 									return true;
 								}}
 							>
-								<Button square rounded kind="fill" palette="tertiary">
+								<Button.Root square rounded kind="fill" palette="tertiary">
 									<IconTableRows />
-								</Button>
-							</Dropdown>
-							<Button
+								</Button.Root>
+							</Dropdown.Root>
+							<Button.Root
 								square
 								rounded
 								kind="fill"
@@ -429,8 +430,8 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 								title={l.t('_c.refresh')}
 							>
 								<IconRefresh />
-							</Button>
-							<ToggleFitScreenButton
+							</Button.Root>
+							<ToggleButton.FitScreen
 								square
 								rounded
 								kind="fill"
@@ -439,7 +440,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 								aria-title={l.t('_c.table.fitScreen')}
 								title={l.t('_c.table.fitScreen')}
 							/>
-							<Button
+							<Button.Root
 								rounded
 								square
 								kind="fill"
@@ -453,7 +454,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 								}}
 							>
 								<IconPrint />
-							</Button>
+							</Button.Root>
 						</div>
 					</Show>
 				</div>
@@ -475,7 +476,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 			'ref',
 		]);
 		return (
-			<BasicTable
+			<BasicTable.Root
 				ref={el => {
 					ref = el;
 				}}
@@ -505,7 +506,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 		'ref',
 	]);
 	return (
-		<BasicTable
+		<BasicTable.Root
 			ref={el => {
 				ref = el;
 			}}

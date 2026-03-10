@@ -67,10 +67,10 @@ export function Edit(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page title="_p.admin.admin" class="max-w-2xl">
-			<Form class="flex flex-col" api={api}>
-				<TextField class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<TextField class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+		<Page.Root title="_p.admin.admin" class="max-w-2xl">
+			<Form.Root class="flex flex-col" api={api}>
+				<TextField.Root class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
+				<TextField.Root class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
 				<roles.Selector
 					class="w-full"
 					multiple
@@ -79,22 +79,22 @@ export function Edit(props: Props): JSX.Element {
 				/>
 				<SexSelector class="w-full" accessor={api.accessor<Sex>('sex')} label={l.t('_p.sex')} />
 				<div class="flex w-full justify-between gap-5">
-					<Button type="a" href={props.backURL} palette="secondary">
+					<Button.Root type="a" href={props.backURL} palette="secondary">
 						<IconArrowBack />
 						{l.t('_p.back')}
-					</Button>
-					<Button disabled={api.isPreset()} type="reset" palette="secondary">
+					</Button.Root>
+					<Button.Root disabled={api.isPreset()} type="reset" palette="secondary">
 						{l.t('_c.reset')}
-					</Button>
-					<Button disabled={api.isPreset()} type="submit" palette="primary">
+					</Button.Root>
+					<Button.Root disabled={api.isPreset()} type="submit" palette="primary">
 						{l.t('_c.ok')}
-					</Button>
+					</Button.Root>
 				</div>
-			</Form>
+			</Form.Root>
 
-			<Divider padding="8px">{l.t('_p.admin.passport')}</Divider>
+			<Divider.Root padding="8px">{l.t('_p.admin.passport')}</Divider.Root>
 
-			<Table hoverable>
+			<Table.Root hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_p.admin.passportType')}</th>
@@ -122,7 +122,7 @@ export function Edit(props: Props): JSX.Element {
 						}}
 					</For>
 				</tbody>
-			</Table>
-		</Page>
+			</Table.Root>
+		</Page.Root>
 	);
 }

@@ -17,17 +17,17 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Card
+			<Card.Root
 				palette={palette()}
 				footer={
 					<>
-						<Button>OK</Button> <Button>Cancel</Button>
+						<Button.Root>OK</Button.Root> <Button.Root>Cancel</Button.Root>
 					</>
 				}
 			>
 				<p>不带标题，但是有页脚。</p>
-				<Button palette="primary">button</Button>
-			</Card>
+				<Button.Root palette="primary">button</Button.Root>
+			</Card.Root>
 		</div>
 	);
 }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Column, LoaderTable, MountProps } from '@cmfx/components';
+import { BasicTable, LoaderTable, MountProps } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -34,7 +34,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
 
-	const columns: Array<Column<Item>> = [
+	const columns: Array<BasicTable.Column<Item>> = [
 		{ id: 'id' },
 		{ id: 'name' },
 		{ id: 'address' },
@@ -57,7 +57,7 @@ export default function (props: MountProps): JSX.Element {
 				<SystemToolbar />
 			</Portal>
 
-			<LoaderTable
+			<LoaderTable.Root
 				systemToolbar={systemToolbar()}
 				fixedLayout={fixedLayout()}
 				palette={palette()}

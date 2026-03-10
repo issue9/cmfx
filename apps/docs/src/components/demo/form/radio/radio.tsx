@@ -26,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 			<div>
 				<input type="radio" name="radio1" value="option1" tabindex={0} readonly={readonly()} disabled={disabled()} />
 				<input type="radio" name="radio1" value="option2" tabindex={0} readonly={readonly()} disabled={disabled()} />
-				<Radio
+				<Radio.Root
 					name="radio1"
 					label="Radio"
 					block={block()}

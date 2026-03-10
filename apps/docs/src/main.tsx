@@ -96,10 +96,10 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 
 	return (
 		<div class={styles.main}>
-			<Appbar
+			<Appbar.Root
 				href="/"
 				palette="secondary"
-				logo={options.logo}
+				logo={<Appbar.Image />}
 				title={options.title}
 				actions={
 					<>
@@ -207,7 +207,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 				/>
 
 				<Search class={styles.search} onSearch={search} icon clear hotkey={new Hotkey('k', 'control')} />
-			</Appbar>
+			</Appbar.Root>
 
 			<Transition>{props.children}</Transition>
 		</div>

@@ -23,7 +23,7 @@ export class ObjectAccessor<T extends Flattenable> {
 
 	readonly #valGetter: Store<T>;
 	readonly #valSetter: SetStoreFunction<T>;
-	readonly #accessors: Map<FlattenKeys<T>, Accessor<unknown, string>>;
+	readonly #accessors: Map<FlattenKeys<T>, Accessor<unknown>>;
 
 	readonly #errGetter: Store<Err<T>>;
 	readonly #errSetter: SetStoreFunction<Err<T>>;
@@ -45,7 +45,7 @@ export class ObjectAccessor<T extends Flattenable> {
 		this.#isPreset = createSignal(true);
 
 		[this.#valGetter, this.#valSetter] = createStore<T>(structuredClone(preset)); // 复制对象，防止与默认对象冲突。
-		this.#accessors = new Map<FlattenKeys<T>, Accessor<unknown, string>>();
+		this.#accessors = new Map<FlattenKeys<T>, Accessor<unknown>>();
 
 		[this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as Err<T>);
 		this.#error = createSignal('');

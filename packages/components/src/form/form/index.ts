@@ -4,5 +4,4 @@
 
 export { ObjectAccessor } from './access';
 export { FormAPI } from './api';
-export type { Props as FormProps, Ref as FormRef } from './form';
-export { Form } from './form';
+export * as Form from './mod';

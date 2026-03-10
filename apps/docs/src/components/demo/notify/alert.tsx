@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, MountProps, notify, notifyTypes } from '@cmfx/components';
+import { Alert, MountProps, notify } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -10,7 +10,7 @@ import IconFace from '~icons/material-symbols/face';
 import { arraySelector, boolSelector, paletteSelector } from '@docs/components/base';
 
 export function typeSelector() {
-	return arraySelector('types', notifyTypes, 'success');
+	return arraySelector('types', Alert.types, 'success');
 }
 
 export default function (props: MountProps): JSX.Element {
@@ -26,9 +26,9 @@ export default function (props: MountProps): JSX.Element {
 				<Closable />
 			</Portal>
 
-			<Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" />
+			<Alert.Root closable={closable()} palette={palette()} type={typ()} title="Alert Title" />
 
-			<Alert
+			<Alert.Root
 				closable={closable()}
 				palette={palette()}
 				type={typ()}
@@ -40,7 +40,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			/>
 
-			<Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" icon={false} />
+			<Alert.Root closable={closable()} palette={palette()} type={typ()} title="Alert Title" icon={false} />
 		</div>
 	);
 }

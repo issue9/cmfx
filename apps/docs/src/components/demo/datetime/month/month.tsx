@@ -25,12 +25,12 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Readonly />
 				<Minmax />
-				<Button onclick={() => setMonthValue()}>set undefined</Button>
-				<Button onclick={() => setMonthValue(new Date())}>current</Button>
+				<Button.Root onclick={() => setMonthValue()}>set undefined</Button.Root>
+				<Button.Root onclick={() => setMonthValue(new Date())}>current</Button.Root>
 			</Portal>
 
 			<div title="panel" class="flex items-start">
-				<MonthPanel
+				<MonthPanel.Root
 					palette={palette()}
 					readonly={readonly()}
 					disabled={disabled()}

@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { Tab } from './tab';
-export type { Item as TabItem, Props as TabProps, Ref as TabRef } from './types';
+export * as Tab from './mod';

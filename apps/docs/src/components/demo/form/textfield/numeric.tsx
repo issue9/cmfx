@@ -26,18 +26,18 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 				<Disabled />
 				<Layout />
-				<Button
+				<Button.Root
 					palette="primary"
 					onclick={() => {
 						num.setError(num.getError() ? undefined : 'error');
 					}}
 				>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
-				<Numeric
+				<Numeric.Root
 					hasHelp
 					layout={layout()}
 					placeholder="placeholder"
@@ -47,7 +47,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={num}
 				/>
-				<Numeric
+				<Numeric.Root
 					hasHelp
 					layout={layout()}
 					placeholder="placeholder"
@@ -59,7 +59,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={num}
 				/>
-				<Numeric
+				<Numeric.Root
 					hasHelp
 					layout={layout()}
 					placeholder="placeholder"

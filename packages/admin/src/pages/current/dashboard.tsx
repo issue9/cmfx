@@ -9,8 +9,8 @@ import styles from './style.module.css';
 
 export function Dashboard(props: ParentProps): JSX.Element {
 	return (
-		<Page title="_p.current.dashboard" class={styles.dashboard}>
+		<Page.Root title="_p.current.dashboard" class={styles.dashboard}>
 			{props.children}
-		</Page>
+		</Page.Root>
 	);
 }

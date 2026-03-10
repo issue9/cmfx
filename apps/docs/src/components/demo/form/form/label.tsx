@@ -39,7 +39,7 @@ export default function (props: MountProps): JSX.Element {
 				<LabelAlign />
 			</Portal>
 
-			<Form
+			<Form.Root
 				palette={palette()}
 				rounded={rounded()}
 				layout={layout()}
@@ -50,15 +50,15 @@ export default function (props: MountProps): JSX.Element {
 				labelAlign={labelAlign()}
 				api={api}
 			>
-				<TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
-				<Numeric label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
-				<DatePicker label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
-				<TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
+				<TextField.Root label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
+				<Numeric.Root label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
+				<DatePicker.Root label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
+				<TextArea.Root label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
 				<div class="flex w-full justify-between">
-					<Button type="reset">reset</Button>
-					<Button type="submit">submit</Button>
+					<Button.Root type="reset">reset</Button.Root>
+					<Button.Root type="submit">submit</Button.Root>
 				</div>
-			</Form>
+			</Form.Root>
 		</>
 	);
 }

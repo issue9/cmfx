@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceProps, useLocale } from '@cmfx/components';
+import { Choice, useLocale } from '@cmfx/components';
 import { I18n, Locale } from '@cmfx/core';
 import { createMemo, JSX } from 'solid-js';
 
@@ -21,7 +21,7 @@ export function localeSexes(l: Locale) {
 	]);
 }
 
-type P = ChoiceProps<Sex>;
+type P = Choice.RootProps<Sex>;
 
 interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
 
@@ -35,5 +35,5 @@ export type SexSelectorProps = SProps | MProps;
 export function SexSelector(props: SexSelectorProps): JSX.Element {
 	const l = useLocale();
 	const sexes = createMemo(() => localeSexes(l));
-	return <Choice {...props} options={sexes()} />;
+	return <Choice.Root {...props} options={sexes()} />;
 }

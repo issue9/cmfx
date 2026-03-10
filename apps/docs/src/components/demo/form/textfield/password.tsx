@@ -28,17 +28,17 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Layout />
 				<Count />
-				<Button
+				<Button.Root
 					palette="primary"
 					onclick={() => {
 						pwd.setError(pwd.getError() ? undefined : 'error');
 					}}
 				>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
-			<Password
+			<Password.Root
 				count={count()}
 				hasHelp
 				layout={layout()}

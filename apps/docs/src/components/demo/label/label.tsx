@@ -18,9 +18,9 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Label palette={palette()} icon={<IconEye />} tag="div">
+			<Label.Root palette={palette()} icon={<IconEye />} tag="div">
 				Label
-			</Label>
+			</Label.Root>
 		</>
 	);
 }

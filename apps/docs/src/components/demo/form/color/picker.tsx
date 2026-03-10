@@ -2,15 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	ColorPicker,
-	ColorPickerPanelHSL,
-	ColorPickerPanelOKLCH,
-	ColorPickerPanelRGB,
-	ColorPickerPanelTailwind,
-	fieldAccessor,
-	MountProps,
-} from '@cmfx/components';
+import { ColorPicker, ColorPanel, fieldAccessor, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -35,7 +27,7 @@ export default function (props: MountProps): JSX.Element {
 				<Layout />
 			</Portal>
 
-			<ColorPicker
+			<ColorPicker.Root
 				readonly={readonly()}
 				disabled={disabled()}
 				wcag="oklch(1 0 0)"
@@ -45,10 +37,10 @@ export default function (props: MountProps): JSX.Element {
 				label="picker label"
 				rounded={rounded()}
 				pickers={[
-					new ColorPickerPanelTailwind(),
-					new ColorPickerPanelOKLCH(),
-					new ColorPickerPanelHSL(),
-					new ColorPickerPanelRGB(),
+					new ColorPanel.TailwindVarsPickerPanel(),
+					new ColorPanel.OKLCHPickerPanel(),
+					new ColorPanel.HSLPickerPanel(),
+					new ColorPanel.RGBPickerPanel(),
 				]}
 			/>
 		</>

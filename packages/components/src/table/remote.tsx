@@ -9,7 +9,7 @@ import IconDelete from '~icons/material-symbols/delete';
 import { RefProps } from '@components/base';
 import { ConfirmButton } from '@components/button';
 import { useLocale } from '@components/context';
-import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
+import * as LoaderTable from './loader.mod';
 
 /**
  * 数据表中每一行的类型，必须带有 ID 作为其唯一标记。
@@ -19,7 +19,7 @@ interface Row {
 	[key: string]: unknown;
 }
 
-export interface Ref<T extends Row> extends LoaderRef<T> {
+export interface Ref<T extends Row> extends LoaderTable.RootRef<T> {
 	/**
 	 * 删除指定数据并刷新当前表
 	 *
@@ -34,7 +34,7 @@ export interface Ref<T extends Row> extends LoaderRef<T> {
 }
 
 export interface Props<T extends Row, Q extends Query = Query>
-	extends Omit<LoaderProps<T, Q>, 'load' | 'ref'>,
+	extends Omit<LoaderTable.RootProps<T, Q>, 'load' | 'ref'>,
 		RefProps<Ref<T>> {
 	/**
 	 * 数据的加载地址
@@ -57,7 +57,7 @@ export interface Props<T extends Row, Q extends Query = Query>
  * 相对于 {@link LoaderTable}，限制了加载的数据方式只能是特定的远程地址。
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
-export function RemoteTable<T extends Row, Q extends Query = Query>(props: Props<T, Q>) {
+export function Root<T extends Row, Q extends Query = Query>(props: Props<T, Q>) {
 	const l = useLocale();
 
 	const [_, tableProps] = splitProps(props, ['path', 'ref']);
@@ -66,7 +66,7 @@ export function RemoteTable<T extends Row, Q extends Query = Query>(props: Props
 	const load: any = props.paging
 		? buildPagingLoadFunc(props.rest, props.path, props.onProblem)
 		: buildNoPagingLoadFunc(props.rest, props.path, props.onProblem);
-	let ref: LoaderRef<T>;
+	let ref: LoaderTable.RootRef<T>;
 
 	onMount(() => {
 		if (props.ref) {
@@ -100,7 +100,7 @@ export function RemoteTable<T extends Row, Q extends Query = Query>(props: Props
 					}
 
 					return (
-						<ConfirmButton
+						<ConfirmButton.Root
 							square
 							rounded
 							palette="error"
@@ -110,7 +110,7 @@ export function RemoteTable<T extends Row, Q extends Query = Query>(props: Props
 							}}
 						>
 							<IconDelete />
-						</ConfirmButton>
+						</ConfirmButton.Root>
 					);
 				},
 
@@ -126,7 +126,7 @@ export function RemoteTable<T extends Row, Q extends Query = Query>(props: Props
 	});
 
 	return (
-		<LoaderTable
+		<LoaderTable.Root
 			ref={el => {
 				ref = el;
 			}}
@@ -145,7 +145,7 @@ function buildPagingLoadFunc<T extends Row, Q extends Query>(
 		const ret = await rest.get<Page<T>>(path + query2Search(q));
 		if (!ret.ok) {
 			if (ret.status !== 404 && onProblem) {
-				onProblem(ret.body);
+				await onProblem(ret.body);
 			}
 			return { count: 0, current: [] };
 		}
@@ -162,7 +162,7 @@ function buildNoPagingLoadFunc<T extends Row, Q extends Query>(
 		const ret = await rest.get<Array<T>>(path + query2Search(q));
 		if (!ret.ok) {
 			if (ret.status !== 404 && onProblem) {
-				onProblem(ret.body);
+				await onProblem(ret.body);
 			}
 			return [];
 		}

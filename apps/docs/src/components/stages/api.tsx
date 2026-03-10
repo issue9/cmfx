@@ -180,7 +180,7 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 	return (
 		<Show when={props.typeParams && props.typeParams.length > 0}>
 			<h5>{l.t('_d.stages.typeParam')}</h5>
-			<Table hoverable>
+			<Table.Root hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_d.stages.type')}</th>
@@ -201,7 +201,7 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 						)}
 					</For>
 				</tbody>
-			</Table>
+			</Table.Root>
 		</Show>
 	);
 }
@@ -236,7 +236,7 @@ function Properties(props: PropertiesProps): JSX.Element {
 	return (
 		<Show when={props.props && props.props.length > 0}>
 			<h5>{l.t('_d.stages.properties')}</h5>
-			<Table hoverable>
+			<Table.Root hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_d.stages.property')}</th>
@@ -253,13 +253,13 @@ function Properties(props: PropertiesProps): JSX.Element {
 									{field.name}
 									<Chips {...field} />
 									<Show when={props.discriminant === field.name}>
-										<Dropdown
+										<Dropdown.Root
 											align="start"
 											onChange={props.onchange}
 											items={props.discriminants!.map(v => ({ label: v, value: v, type: 'item' }))}
 										>
 											<IconDown class={styles.dropdown} />
-										</Dropdown>
+										</Dropdown.Root>
 									</Show>
 								</th>
 								<td innerHTML={tscode(field.type)} />
@@ -274,7 +274,7 @@ function Properties(props: PropertiesProps): JSX.Element {
 						)}
 					</For>
 				</tbody>
-			</Table>
+			</Table.Root>
 		</Show>
 	);
 }
@@ -297,7 +297,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 			<TypeParams typeParams={props.func.typeParams} />
 
 			<h5>{l.t('_d.stages.parameter')}</h5>
-			<Table hoverable>
+			<Table.Root hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_d.stages.parameter')}</th>
@@ -321,7 +321,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 						<td innerHTML={markdown(props.func.return.summary)} />
 					</tr>
 				</tbody>
-			</Table>
+			</Table.Root>
 		</div>
 	);
 }

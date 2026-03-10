@@ -24,20 +24,20 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-wrap items-center gap-2">
-				<Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
+				<Button.Root disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
 					primary
-				</Button>
-				<Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
+				</Button.Root>
+				<Button.Root disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
 					<IconFace class="me-1" />
 					with icon
-				</Button>
+				</Button.Root>
 
-				<Button square title="secondary" disabled={disabled()} rounded={rounded()} kind={kind()} palette="secondary">
+				<Button.Root square title="secondary" disabled={disabled()} rounded={rounded()} kind={kind()} palette="secondary">
 					<IconSync />
-				</Button>
-				<Button rounded kind="fill" palette="tertiary">
+				</Button.Root>
+				<Button.Root rounded kind="fill" palette="tertiary">
 					a
-				</Button>
+				</Button.Root>
 			</div>
 		</div>
 	);

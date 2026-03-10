@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, MountProps, notifyTypes } from '@cmfx/components';
+import { Alert, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, paletteSelector } from '@docs/components/base';
 
 export function typeSelector() {
-	return arraySelector('types', notifyTypes, 'error');
+	return arraySelector('types', Alert.types, 'error');
 }
 
 export default function (props: MountProps): JSX.Element {
@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 				<Type />
 				<Closable />
 			</Portal>
-			<Alert
+			<Alert.Root
 				closable={closable()}
 				palette={palette()}
 				type={typ()}

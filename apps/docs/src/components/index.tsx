@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, joinClass, Menu, MenuRef, useLocale } from '@cmfx/components';
+import { Drawer, joinClass, Menu, useLocale } from '@cmfx/components';
 import { RouteDefinition } from '@solidjs/router';
 import { onCleanup, onMount, ParentProps, Setter } from 'solid-js';
 
@@ -15,7 +15,7 @@ export { buildMenus } from './overview';
 /**
  * 组件预览的路由定义
  */
-export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefined>): RouteDefinition {
+export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | undefined>): RouteDefinition {
 	if (!prefix.endsWith('/')) {
 		prefix += '/';
 	}
@@ -25,8 +25,8 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
 		component: (props: ParentProps) => {
 			const l = useLocale();
 
-			let menuRef: MenuRef;
-			let ref: DrawerRef;
+			let menuRef: Menu.RootRef;
+			let ref: Drawer.RootRef;
 
 			onMount(() => {
 				setDrawer(ref);
@@ -35,7 +35,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
 			onCleanup(() => setDrawer(undefined));
 
 			return (
-				<Drawer
+				<Drawer.Root
 					visible
 					floating={floatingWidth}
 					ref={el => {
@@ -45,7 +45,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
 					mainClass={joinClass('surface', styles.main)}
 					main={props.children}
 				>
-					<Menu
+					<Menu.Root
 						ref={el => {
 							menuRef = el;
 						}}
@@ -53,7 +53,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
 						layout="inline"
 						items={buildMenus(l, prefix)}
 					/>
-				</Drawer>
+				</Drawer.Root>
 			);
 		},
 		children: [

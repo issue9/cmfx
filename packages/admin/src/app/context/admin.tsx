@@ -63,7 +63,7 @@ export function AdminProvider(props: ParentProps) {
 		}
 
 		const title = r.body ? r.body.title : l.t('_p.app.fetchUserInfoError');
-		notify(title, undefined, 'error', l.locale.toString());
+		await notify(title, undefined, 'error', l.locale.toString());
 	});
 
 	return <adminContext.Provider value={res}>{props.children}</adminContext.Provider>;
@@ -98,7 +98,7 @@ export function useAdmin() {
 		 * @param r - 登录接口返回的数据
 		 * @returns true 表示登录成功，其它情况表示错误信息
 		 */
-		async login(r: Return<Token, never>) {
+		async login(r: Return<Token>) {
 			const ret = await rest.api().login(r);
 			if (ret === true) {
 				await actions.refetch();

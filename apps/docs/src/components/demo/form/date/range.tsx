@@ -48,7 +48,7 @@ export default function (props: MountProps): JSX.Element {
 				<Shortcut />
 			</Portal>
 
-			<DateRangePicker
+			<DateRangePicker.Root
 				class="w-[400px]"
 				placeholder="placeholder"
 				layout={layout()}
@@ -67,7 +67,7 @@ export default function (props: MountProps): JSX.Element {
 			/>
 			<p>{dateFA?.getValue()?.join('-') ?? ''}</p>
 
-			<DateRangePicker
+			<DateRangePicker.Root
 				class="w-[200px]"
 				placeholder="placeholder"
 				layout={layout()}

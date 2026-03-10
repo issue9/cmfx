@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MountProps, ToggleButton, ToggleFitScreenButton, ToggleFullScreenButton } from '@cmfx/components';
+import { MountProps, ToggleButton } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -29,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-wrap items-center gap-2">
-				<ToggleButton
+				<ToggleButton.Root
 					square
 					disabled={disabled()}
 					rounded={rounded()}
@@ -44,7 +44,7 @@ export default function (props: MountProps): JSX.Element {
 					hotkey={new Hotkey('b', 'shift')}
 				/>
 
-				<ToggleFullScreenButton
+				<ToggleButton.FullScreen
 					square
 					disabled={disabled()}
 					rounded={rounded()}
@@ -52,7 +52,7 @@ export default function (props: MountProps): JSX.Element {
 					palette="primary"
 					hotkey={new Hotkey('a', 'alt')}
 				/>
-				<ToggleFullScreenButton
+				<ToggleButton.FullScreen
 					square
 					disabled={disabled()}
 					rounded={rounded()}
@@ -68,7 +68,7 @@ export default function (props: MountProps): JSX.Element {
 						screenElement = el;
 					}}
 				>
-					<ToggleFitScreenButton
+					<ToggleButton.FitScreen
 						square
 						disabled={disabled()}
 						rounded={rounded()}

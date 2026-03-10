@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BaseProps, DrawerProps, Layout, Mode, Scheme, presetOptions as xpo } from '@cmfx/components';
+import { BaseProps, Drawer, Layout, Mode, Scheme, presetOptions as xpo } from '@cmfx/components';
 import { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import { Component } from 'solid-js';
 
@@ -128,7 +128,7 @@ export interface Options {
 	 *
 	 * @defaultValue 'lg'
 	 */
-	floatingMinWidth?: Exclude<DrawerProps['floating'], boolean>;
+	floatingMinWidth?: Exclude<Drawer.RootProps['floating'], boolean>;
 
 	/**
 	 * 定义了工具栏上的按钮

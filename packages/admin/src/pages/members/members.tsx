@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Page, RemoteTable, RemoteTableRef, TextField, useLocale } from '@cmfx/components';
+import { Button, Page, RemoteTable, TextField, useLocale } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { Component, createMemo, JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';
@@ -28,7 +28,7 @@ export interface ActionProps {
 	/**
 	 * 对整个表格的引用
 	 */
-	table?: RemoteTableRef<Member>;
+	table?: RemoteTable.RootRef<Member>;
 }
 
 interface Props {
@@ -63,7 +63,7 @@ export function Members(props: Props): JSX.Element {
 		sex: ['male', 'female', 'unknown'],
 	};
 
-	let ref: RemoteTableRef<Member>;
+	let ref: RemoteTable.RootRef<Member>;
 
 	const sexes = createMemo(() => {
 		return localeSexes(l);
@@ -73,8 +73,8 @@ export function Members(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page title="_p.member.membersManager">
-			<RemoteTable<Member, Q>
+		<Page.Root title="_p.member.membersManager">
+			<RemoteTable.Root<Member, Q>
 				rest={rest}
 				ref={el => {
 					ref = el;
@@ -86,7 +86,7 @@ export function Members(props: Props): JSX.Element {
 				systemToolbar
 				queryForm={qa => (
 					<>
-						<TextField accessor={qa.accessor<string>('text')} />
+						<TextField.Root accessor={qa.accessor<string>('text')} />
 						<StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
 						<SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
 					</>
@@ -123,7 +123,7 @@ export function Members(props: Props): JSX.Element {
 							return (
 								<div class="flex gap-x-2">
 									<Show when={obj?.state !== 'deleted'}>
-										<Button
+										<Button.Root
 											type="a"
 											square
 											rounded
@@ -132,11 +132,11 @@ export function Members(props: Props): JSX.Element {
 											title={l.t('_p.member.view')}
 										>
 											<IconVisibility />
-										</Button>
+										</Button.Root>
 									</Show>
 
 									<Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
-										<Button
+										<Button.Root
 											square
 											rounded
 											palette="error"
@@ -151,11 +151,11 @@ export function Members(props: Props): JSX.Element {
 											}}
 										>
 											<IconLock />
-										</Button>
+										</Button.Root>
 									</Show>
 
 									<Show when={obj?.state === 'locked'}>
-										<Button
+										<Button.Root
 											square
 											rounded
 											palette="tertiary"
@@ -170,7 +170,7 @@ export function Members(props: Props): JSX.Element {
 											}}
 										>
 											<IconLockOpen />
-										</Button>
+										</Button.Root>
 									</Show>
 
 									<Show when={obj?.state !== 'deleted'}>{ref.DeleteAction(obj!.id!)}</Show>
@@ -182,6 +182,6 @@ export function Members(props: Props): JSX.Element {
 					},
 				]}
 			/>
-		</Page>
+		</Page.Root>
 	);
 }

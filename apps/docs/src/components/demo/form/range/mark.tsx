@@ -31,9 +31,9 @@ export default function (props: MountProps) {
 				<FitHeight />
 				<Value />
 				<Rounded />
-				<Button palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>
+				<Button.Root palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div>

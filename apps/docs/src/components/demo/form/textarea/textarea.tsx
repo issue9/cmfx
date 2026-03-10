@@ -22,11 +22,11 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Layout />
 				<Count />
-				<Button palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>
+				<Button.Root palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
-			<TextArea
+			<TextArea.Root
 				count={count()}
 				hasHelp
 				layout={layout()}
@@ -37,7 +37,7 @@ export default function (props: MountProps): JSX.Element {
 				readonly={readonly()}
 				accessor={f}
 			/>
-			<TextArea
+			<TextArea.Root
 				count={count()}
 				hasHelp
 				layout={layout()}

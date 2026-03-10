@@ -20,7 +20,7 @@ export default function (props: MountProps): JSX.Element {
 				<Editable />
 				<Wrap />
 			</Portal>
-			<Code editable={editable()} ln={0} wrap={wrap()} palette={palette()} class="h-50" lang="css">
+			<Code.Root editable={editable()} ln={0} wrap={wrap()} palette={palette()} class="h-50" lang="css">
 				{`/*
  * SPDX-FileCopyrightText: 2025 caixw
  *
@@ -40,7 +40,7 @@ export default function (props: MountProps): JSX.Element {
     }
 }
 `}
-			</Code>
+			</Code.Root>
 		</div>
 	);
 }

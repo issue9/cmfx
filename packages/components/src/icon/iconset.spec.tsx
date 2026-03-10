@@ -7,12 +7,12 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { IconSet, Ref } from './iconset';
+import { Ref, Root } from './iconset';
 
 describe('IconSet', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('IconSet', props => (
-		<IconSet
+		<Root
 			ref={el => {
 				ref = el;
 			}}

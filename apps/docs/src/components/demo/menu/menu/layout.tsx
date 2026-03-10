@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Menu, MenuItem, MountProps } from '@cmfx/components';
+import { Menu, MountProps } from '@cmfx/components';
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -25,7 +25,7 @@ export default function(props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
 
-	const items: Array<MenuItem<number>> = [
+	const items: Array<Menu.MenuItem<number>> = [
 		{ type: 'item', value: 1, label: 'v1', prefix: <IconFace />, disabled: true },
 		{ type: 'item', value: 2, label: 'v2' },
 		{ type: 'divider' },
@@ -90,7 +90,7 @@ export default function(props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<Menu
+			<Menu.Root
 				layout="horizontal"
 				selectedClass={selectedCls()}
 				palette={palette()}
@@ -100,7 +100,7 @@ export default function(props: MountProps): JSX.Element {
 				}}
 			/>
 
-			<Menu
+			<Menu.Root
 				layout="vertical"
 				selectedClass={selectedCls()}
 				palette={palette()}
@@ -110,7 +110,7 @@ export default function(props: MountProps): JSX.Element {
 				}}
 			/>
 
-			<Menu
+			<Menu.Root
 				layout="inline"
 				selectedClass={selectedCls()}
 				palette={palette()}

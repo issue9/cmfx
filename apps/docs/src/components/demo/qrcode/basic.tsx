@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MountProps, QRCode, QRCodeCornerDotType, QRCodeCornerSquareType, QRCodeDotType } from '@cmfx/components';
+import { MountProps, QRCode } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -12,16 +12,16 @@ const dotTypes = ['dots', 'rounded', 'classy', 'classy-rounded', 'square', 'extr
 const cornerDotTypes = ['dot', 'square'] as const;
 const cornerSquareTypes = ['dot', 'square', 'extra-rounded'] as const;
 
-export function typeSelector(preset: QRCodeDotType = 'square') {
+export function typeSelector(preset: QRCode.DotType = 'square') {
 	return arraySelector('type', dotTypes, preset);
 }
 
-export function cornerTypeSelector(preset: QRCodeCornerDotType = 'square') {
+export function cornerTypeSelector(preset: QRCode.CornerDotType = 'square') {
 	const corners = new Map(cornerDotTypes.map(v => [v, v]));
 	return arraySelector('corner type', corners, preset, true);
 }
 
-export function cornerSquareTypeSelector(preset: QRCodeCornerSquareType = 'square') {
+export function cornerSquareTypeSelector(preset: QRCode.CornerSquareType = 'square') {
 	const corners = new Map(cornerSquareTypes.map(v => [v, v]));
 	return arraySelector('corner square type', corners, preset, true);
 }
@@ -41,7 +41,7 @@ export default function (props: MountProps): JSX.Element {
 				<Cstype />
 			</Portal>
 
-			<QRCode
+			<QRCode.Root
 				type={t()}
 				cornerDotType={ctype()}
 				cornerSquareType={cstype()}

@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as DescriptionProps, Ref as DescriptionRef } from './description';
-export { Description } from './description';
+export * as Description from './mod';

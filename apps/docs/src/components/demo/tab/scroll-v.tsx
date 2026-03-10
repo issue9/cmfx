@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Tab, TabItem } from '@cmfx/components';
+import { Tab } from '@cmfx/components';
 import { createSignal, JSX } from 'solid-js';
 
 export default function (): JSX.Element {
-	const items: Array<TabItem> = [
+	const items: Array<Tab.Item> = [
 		{ id: 'k1', label: 'K1' },
 		{ id: 'k2', label: 'K22222222' },
 		{ id: 'k3', label: 'K3' },
@@ -17,8 +17,8 @@ export default function (): JSX.Element {
 	const [tab, setTab] = createSignal('k1');
 
 	return (
-		<Tab layout="vertical" palette="primary" items={items} onChange={e => setTab(e)} class="h-40">
+		<Tab.Root layout="vertical" palette="primary" items={items} onChange={e => setTab(e)} class="h-40">
 			<p>TabPanel:{tab()}</p>
-		</Tab>
+		</Tab.Root>
 	);
 }

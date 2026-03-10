@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as CalendarProps, Ref as CalendarRef } from './calendar';
-export { default as Calendar } from './calendar';
+export * as Calendar from './mod';

@@ -24,21 +24,21 @@ export function NotFound(): JSX.Element {
 	});
 
 	return (
-		<Result palette="error" title={text()} illustration={<illustrations.Error404 text={text()} />}>
+		<Result.Root palette="error" title={text()} illustration={<illustrations.Error404 text={text()} />}>
 			<div class={styles['error-actions']}>
-				<Button palette="primary" type="a" href={opt.routes.private.home}>
+				<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 					{l.t('_p.error.backHome')}
-				</Button>
-				<Button
+				</Button.Root>
+				<Button.Root
 					palette="primary"
 					onclick={() => {
 						nav(-1);
 					}}
 				>
 					{l.t('_p.error.backPrev')}
-				</Button>
+				</Button.Root>
 			</div>
-		</Result>
+		</Result.Root>
 	);
 }
 
@@ -47,7 +47,7 @@ export function NotFound(): JSX.Element {
  *
  * @remarks
  * 尽可能地抛出 {@link APIError} 对象，可以显示更明确的错误页面。
- * 这是 {@link ErrorBoundary} 的 fallback 类型。
+ * 这是 ErrorBoundary 的 fallback 类型。
  */
 export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// NOTE: APIError 错误，需要重新刷新整个页面才有效果，而其它错误，可能仅仅是 UI 问题，使用 reset 就可以了。
@@ -59,24 +59,24 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// 未知错误
 	const unknown = (title: string, msg?: string) => {
 		return (
-			<Result palette="error" title={title} description={msg} illustration={<illustrations.BUG />}>
+			<Result.Root palette="error" title={title} description={msg} illustration={<illustrations.BUG />}>
 				<div class={styles['error-actions']}>
-					<Button palette="primary" type="a" href={opt.routes.private.home}>
+					<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 						{l.t('_p.error.backHome')}
-					</Button>
-					<Button
+					</Button.Root>
+					<Button.Root
 						palette="primary"
 						onclick={() => {
 							nav(-1);
 						}}
 					>
 						{l.t('_p.error.backPrev')}
-					</Button>
-					<Button palette="primary" onclick={reset}>
+					</Button.Root>
+					<Button.Root palette="primary" onclick={reset}>
 						{l.t('_c.reset')}
-					</Button>
+					</Button.Root>
 				</div>
-			</Result>
+			</Result.Root>
 		);
 	};
 
@@ -88,19 +88,19 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			case 400:
 				text = l.t('_p.error.badRequest');
 				return (
-					<Result palette="error" title={text} illustration={<illustrations.Error400 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<illustrations.Error400 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button
+							<Button.Root
 								palette="primary"
 								onclick={() => {
 									nav(-1);
 								}}
 							>
 								{l.t('_p.error.backPrev')}
-							</Button>
+							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result>
+					</Result.Root>
 				);
 			case 401: {
 				const loc = useLocation();
@@ -110,122 +110,122 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 
 				text = l.t('_p.error.unauthorized');
 				return (
-					<Result palette="error" title={text} illustration={<illustrations.Error401 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<illustrations.Error401 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button
+							<Button.Root
 								palette="primary"
 								onclick={() => {
 									nav(-1);
 								}}
 							>
 								{l.t('_p.error.backPrev')}
-							</Button>
+							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result>
+					</Result.Root>
 				);
 			}
 			case 403:
 				text = l.t('_p.error.forbidden');
 				return (
-					<Result palette="error" title={text} illustration={<illustrations.Error403 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<illustrations.Error403 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" type="a" href={opt.routes.private.home}>
+							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
-							</Button>
-							<Button
+							</Button.Root>
+							<Button.Root
 								palette="primary"
 								onclick={() => {
 									nav(-1);
 								}}
 							>
 								{l.t('_p.error.backPrev')}
-							</Button>
+							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result>
+					</Result.Root>
 				);
 			case 404:
 				return NotFound();
 			case 429:
 				text = l.t('_p.error.tooManyRequests');
 				return (
-					<Result palette="error" title={text} illustration={<illustrations.Error429 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<illustrations.Error429 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button
+							<Button.Root
 								palette="primary"
 								onclick={() => {
 									nav(-1);
 								}}
 							>
 								{l.t('_p.error.backPrev')}
-							</Button>
+							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result>
+					</Result.Root>
 				);
 			case 500:
 				text = l.t('_p.error.internalServerError');
 				return (
-					<Result palette="error" title={text} illustration={<illustrations.Error500 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<illustrations.Error500 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" type="a" href={opt.routes.private.home}>
+							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
-							</Button>
-							<Button
+							</Button.Root>
+							<Button.Root
 								palette="primary"
 								onclick={() => {
 									nav(-1);
 								}}
 							>
 								{l.t('_p.error.backPrev')}
-							</Button>
+							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result>
+					</Result.Root>
 				);
 			case 503:
 				text = l.t('_p.error.serverUnavailable');
 				return (
-					<Result palette="error" title={text} illustration={<illustrations.Error503 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<illustrations.Error503 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" type="a" href={opt.routes.private.home}>
+							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
-							</Button>
-							<Button
+							</Button.Root>
+							<Button.Root
 								palette="primary"
 								onclick={() => {
 									nav(-1);
 								}}
 							>
 								{l.t('_p.error.backPrev')}
-							</Button>
-							<Button palette="primary" onclick={() => window.location.reload()}>
+							</Button.Root>
+							<Button.Root palette="primary" onclick={() => window.location.reload()}>
 								{l.t('_c.refresh')}
-							</Button>
+							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result>
+					</Result.Root>
 				);
 			case 504:
 				text = l.t('_p.error.gatewayTimeout');
 				return (
-					<Result palette="error" title={text} illustration={<illustrations.Error504 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<illustrations.Error504 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" type="a" href={opt.routes.private.home}>
+							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
-							</Button>
-							<Button
+							</Button.Root>
+							<Button.Root
 								palette="primary"
 								onclick={() => {
 									nav(-1);
 								}}
 							>
 								{l.t('_p.error.backPrev')}
-							</Button>
+							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result>
+					</Result.Root>
 				);
 			default:
 				return unknown(l.t('_p.error.unknownError'));
@@ -248,9 +248,9 @@ function RetryButton(props: { retry?: string | null }): JSX.Element {
 
 	if (!props.retry) {
 		return (
-			<Button palette="primary" onclick={() => window.location.reload()}>
+			<Button.Root palette="primary" onclick={() => window.location.reload()}>
 				{l.t('_c.refresh')}
-			</Button>
+			</Button.Root>
 		);
 	}
 
@@ -266,8 +266,8 @@ function RetryButton(props: { retry?: string | null }): JSX.Element {
 	}, 1000);
 
 	return (
-		<Button palette="primary" onclick={() => window.location.reload()} disabled={time() <= 0}>
+		<Button.Root palette="primary" onclick={() => window.location.reload()} disabled={time() <= 0}>
 			{l.t('_c.refresh')} ({time()})
-		</Button>
+		</Button.Root>
 	);
 }

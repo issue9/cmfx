@@ -21,7 +21,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<SchemeSelector value="default" palette={palette()} schemes={s} />
+			<SchemeSelector.Root value="default" palette={palette()} schemes={s} />
 		</>
 	);
 }

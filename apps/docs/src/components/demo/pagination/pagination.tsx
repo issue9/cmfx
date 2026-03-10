@@ -17,10 +17,10 @@ export default function (props: MountProps): JSX.Element {
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Numeric class="w-20" accessor={span} />
+				<Numeric.Root class="w-20" accessor={span} />
 			</Portal>
 
-			<Pagination
+			<Pagination.Root
 				palette={palette()}
 				count={10}
 				value={5}

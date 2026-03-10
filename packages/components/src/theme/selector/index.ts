@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as SchemeSelectorProps, Ref as SchemeSelectorRef } from './selector';
-export { Selector as SchemeSelector } from './selector';
+export * as SchemeSelector from './mod';

@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceOption, ChoiceProps } from '@cmfx/components';
+import { Choice } from '@cmfx/components';
 import { createSignal, JSX, onMount } from 'solid-js';
 
 import { handleProblem, useREST } from '@admin/app';
 import { Role } from './roles';
 
-type P = ChoiceProps<string>;
+type P = Choice.RootProps<string>;
 
 interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
 
@@ -17,7 +17,7 @@ interface MProps extends Omit<Extract<P, { multiple: true }>, 'options'> {}
 export type Props = SProps | MProps;
 
 export function Selector(props: Props): JSX.Element {
-	const [roles, setRoles] = createSignal<Array<ChoiceOption<string>>>([]);
+	const [roles, setRoles] = createSignal<Array<Choice.Option<string>>>([]);
 	const api = useREST();
 
 	onMount(async () => {
@@ -27,12 +27,12 @@ export function Selector(props: Props): JSX.Element {
 			return;
 		}
 
-		const rs: Array<ChoiceOption<string>> = [];
+		const rs: Array<Choice.Option<string>> = [];
 		for (const o of r.body!) {
 			rs.push({ type: 'item', value: o.id!, label: o.name });
 		}
 		setRoles(rs);
 	});
 
-	return <Choice options={roles()} {...props} />;
+	return <Choice.Root options={roles()} {...props} />;
 }

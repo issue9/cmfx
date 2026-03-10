@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, FormAPI, Dialog, DialogRef, MountProps, notify } from '@cmfx/components';
+import { Button, Form, FormAPI, Dialog, MountProps, notify } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -11,8 +11,8 @@ import { paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 
-	let dlg2: DialogRef;
-	let dlg3: DialogRef;
+	let dlg2: Dialog.RootRef;
+	let dlg3: Dialog.RootRef;
 
 	const api = new FormAPI({
 		initValue: {},
@@ -26,10 +26,10 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Button onclick={() => dlg2.root().showModal()} palette={palette()}>
+			<Button.Root onclick={() => dlg2.root().showModal()} palette={palette()}>
 				showModal
-			</Button>
-			<Dialog
+			</Button.Root>
+			<Dialog.Root
 				movable
 				palette={palette()}
 				ref={el => {
@@ -38,12 +38,12 @@ export default function (props: MountProps): JSX.Element {
 				header="header"
 			>
 				<div>
-					<Form inDialog api={api}>
+					<Form.Root inDialog api={api}>
 						<div class="flex flex-col">
 							<div class="py-3">form</div>
 							<div class="flex">
-								<Button onclick={() => dlg3.root().showModal()}>show modal</Button>
-								<Button
+								<Button.Root onclick={() => dlg3.root().showModal()}>show modal</Button.Root>
+								<Button.Root
 									ref={el => {
 										el.root().value = 'submit';
 									}}
@@ -51,8 +51,8 @@ export default function (props: MountProps): JSX.Element {
 									class="me-8"
 								>
 									submit
-								</Button>
-								<Button
+								</Button.Root>
+								<Button.Root
 									ref={el => {
 										el.root().value = 'reset';
 									}}
@@ -60,8 +60,8 @@ export default function (props: MountProps): JSX.Element {
 									class="me-8"
 								>
 									reset
-								</Button>
-								<Button
+								</Button.Root>
+								<Button.Root
 									ref={el => {
 										el.root().value = 'button';
 									}}
@@ -71,8 +71,8 @@ export default function (props: MountProps): JSX.Element {
 									}}
 								>
 									move(8,8)
-								</Button>
-								<Button
+								</Button.Root>
+								<Button.Root
 									ref={el => {
 										el.root().value = 'button';
 									}}
@@ -82,22 +82,22 @@ export default function (props: MountProps): JSX.Element {
 									}}
 								>
 									move to center
-								</Button>
-								<Button
+								</Button.Root>
+								<Button.Root
 									ref={el => {
 										el.root().value = 'button';
 									}}
 									type="button"
 								>
 									button
-								</Button>
+								</Button.Root>
 							</div>
 						</div>
-					</Form>
+					</Form.Root>
 				</div>
-			</Dialog>
+			</Dialog.Root>
 
-			<Dialog
+			<Dialog.Root
 				movable
 				ref={el => {
 					dlg3 = el;
@@ -105,7 +105,7 @@ export default function (props: MountProps): JSX.Element {
 				header="header"
 			>
 				<div>dialog 3</div>
-			</Dialog>
+			</Dialog.Root>
 		</div>
 	);
 }

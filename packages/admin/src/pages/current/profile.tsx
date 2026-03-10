@@ -2,15 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { FormRef, UploadRef } from '@cmfx/components';
 import {
+	Album,
 	Avatar,
 	Button,
 	Divider,
 	Form,
 	FormAPI,
 	fieldAccessor,
-	file2Base64,
 	Page,
 	Table,
 	TextField,
@@ -43,9 +42,9 @@ export function Profile(props: Props): JSX.Element {
 	const opt = useOptions();
 	const usr = useAdmin();
 	const l = useLocale();
-	let uploadRef: UploadRef;
+	let uploadRef: Upload.RootRef;
 
-	let ref!: FormRef;
+	let ref!: Form.RootRef;
 	const api = new FormAPI({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
 		onProblem: async p => handleProblem(p),
@@ -86,7 +85,7 @@ export function Profile(props: Props): JSX.Element {
 
 	createEffect(async () => {
 		if (uploadRef.files().length > 0) {
-			setAvatar(await file2Base64(uploadRef.files()[0]));
+			setAvatar(await Album.file2Base64(uploadRef.files()[0]));
 		}
 	});
 
@@ -100,8 +99,8 @@ export function Profile(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page title="_p.current.profile" class={styles.profile}>
-			<Upload
+		<Page.Root title="_p.current.profile" class={styles.profile}>
+			<Upload.Root
 				ref={el => {
 					uploadRef = el;
 				}}
@@ -116,7 +115,7 @@ export function Profile(props: Props): JSX.Element {
 				}}
 			/>
 			<div class="flex gap-4">
-				<Avatar
+				<Avatar.Root
 					class={styles.avatar}
 					value={avatar()}
 					fallback="avatar"
@@ -129,7 +128,7 @@ export function Profile(props: Props): JSX.Element {
 					<p class="text-2xl">{usr.info()?.name}</p>
 					<Show when={uploadRef!.files().length > 0}>
 						<div class="flex gap-2">
-							<Button
+							<Button.Root
 								palette="primary"
 								onclick={async () => {
 									const ret = await uploadRef.upload();
@@ -147,9 +146,9 @@ export function Profile(props: Props): JSX.Element {
 								}}
 							>
 								{l.t('_p.save')}
-							</Button>
+							</Button.Root>
 
-							<Button
+							<Button.Root
 								palette="error"
 								onclick={() => {
 									setAvatar(originAvatar);
@@ -157,17 +156,17 @@ export function Profile(props: Props): JSX.Element {
 								}}
 							>
 								{l.t('_c.cancel')}
-							</Button>
+							</Button.Root>
 						</div>
 					</Show>
 				</div>
 			</div>
 
-			<Divider padding="4px" />
+			<Divider.Root padding="4px" />
 
-			<Form class={styles.form} api={api} ref={el => (ref = el)}>
-				<TextField class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
-				<TextField class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
+			<Form.Root class={styles.form} api={api} ref={el => (ref = el)}>
+				<TextField.Root class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
+				<TextField.Root class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
 				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={api.accessor<Sex>('sex')} />
 
 				<div class={styles.actions}>
@@ -178,11 +177,11 @@ export function Profile(props: Props): JSX.Element {
 						{l.t('_p.save')}
 					</ref.Submit>
 				</div>
-			</Form>
+			</Form.Root>
 
-			<Divider padding="8px">{l.t('_p.admin.passport')}</Divider>
+			<Divider.Root padding="8px">{l.t('_p.admin.passport')}</Divider.Root>
 
-			<Table hoverable>
+			<Table.Root hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_p.admin.passportType')}</th>
@@ -213,7 +212,7 @@ export function Profile(props: Props): JSX.Element {
 						}}
 					</For>
 				</tbody>
-			</Table>
-		</Page>
+			</Table.Root>
+		</Page.Root>
 	);
 }

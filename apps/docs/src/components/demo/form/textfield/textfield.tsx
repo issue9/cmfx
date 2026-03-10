@@ -31,18 +31,18 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Layout />
 				<Count />
-				<Button
+				<Button.Root
 					palette="primary"
 					onclick={() => {
 						txt.setError(txt.getError() ? undefined : 'error');
 					}}
 				>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
-				<TextField
+				<TextField.Root
 					count={count() ? (v, m) => `${v}-${m}` : undefined}
 					hasHelp
 					layout={layout()}
@@ -53,7 +53,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={txt}
 				/>
-				<TextField
+				<TextField.Root
 					maxLength={10}
 					count={count()}
 					layout={layout()}
@@ -65,7 +65,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={txt}
 				/>
-				<TextField
+				<TextField.Root
 					count={count()}
 					hasHelp
 					layout={layout()}
@@ -78,7 +78,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={txt}
 				/>
-				<TextField
+				<TextField.Root
 					count={count()}
 					hasHelp
 					layout={layout()}
@@ -93,7 +93,7 @@ export default function (props: MountProps): JSX.Element {
 					accessor={txt}
 				/>
 
-				<TextField
+				<TextField.Root
 					maxLength={10}
 					count={count()}
 					hasHelp
