@@ -5,7 +5,7 @@
 import { Layout } from '@components/base';
 import type { FieldArea, FieldAreas } from '@components/form/field';
 
-type RangeAreas = FieldAreas & {
+type SliderAreas = FieldAreas & {
 	valueArea?: FieldArea;
 };
 
@@ -17,14 +17,14 @@ type RangeAreas = FieldAreas & {
  * @param hasLabel - 是否需要计算标题区域；
  * @param hasValue - 是否需要计算显示值的区域；
  */
-export function calcLayoutFieldAreas(l: Layout, hasHelp: boolean, hasLabel: boolean, hasValue: boolean): RangeAreas {
+export function calcLayoutFieldAreas(l: Layout, hasHelp: boolean, hasLabel: boolean, hasValue: boolean): SliderAreas {
 	if (l === 'horizontal') {
 		return calcHorizontalFieldAreas(hasHelp, hasLabel, hasValue);
 	}
 	return calcVerticalFieldAreas(hasHelp, hasLabel, hasValue);
 }
 
-function calcHorizontalFieldAreas(hasHelp: boolean, hasLabel: boolean, hasValue: boolean): RangeAreas {
+function calcHorizontalFieldAreas(hasHelp: boolean, hasLabel: boolean, hasValue: boolean): SliderAreas {
 	if (hasLabel) {
 		if (hasHelp) {
 			return {
@@ -56,7 +56,7 @@ function calcHorizontalFieldAreas(hasHelp: boolean, hasLabel: boolean, hasValue:
 	};
 }
 
-function calcVerticalFieldAreas(hasHelp: boolean, hasLabel: boolean, hasValue: boolean): RangeAreas {
+function calcVerticalFieldAreas(hasHelp: boolean, hasLabel: boolean, hasValue: boolean): SliderAreas {
 	if (hasLabel) {
 		if (hasHelp) {
 			return {

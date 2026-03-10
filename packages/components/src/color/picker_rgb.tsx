@@ -6,7 +6,7 @@ import Color from 'colorjs.io';
 import { createEffect, JSX, Signal } from 'solid-js';
 
 import { useLocale } from '@components/context';
-import { ObjectAccessor, Range } from '@components/form';
+import { ObjectAccessor, Slider } from '@components/form';
 import { PickerPanel } from './picker';
 import styles from './style.module.css';
 
@@ -56,10 +56,10 @@ export class RGBPickerPanel implements PickerPanel {
 	}
 
 	panel(signal: Signal<string>): JSX.Element {
-		let rRef: Range.RootRef;
-		let gRef: Range.RootRef;
-		let bRef: Range.RootRef;
-		let aRef: Range.RootRef;
+		let rRef: Slider.RootRef;
+		let gRef: Slider.RootRef;
+		let bRef: Slider.RootRef;
+		let aRef: Slider.RootRef;
 
 		createEffect(() => {
 			const store = this.#rgb.getValue();
@@ -97,7 +97,7 @@ export class RGBPickerPanel implements PickerPanel {
 		const l = useLocale();
 		return (
 			<div class={styles.rgb}>
-				<Range.Root
+				<Slider.Root
 					fitHeight
 					label={l.t('_c.color.red')}
 					accessor={this.#rgb.accessor('r')}
@@ -109,7 +109,7 @@ export class RGBPickerPanel implements PickerPanel {
 					max={1}
 					step={0.01}
 				/>
-				<Range.Root
+				<Slider.Root
 					fitHeight
 					label={l.t('_c.color.green')}
 					accessor={this.#rgb.accessor('g')}
@@ -122,7 +122,7 @@ export class RGBPickerPanel implements PickerPanel {
 					max={1}
 					step={0.01}
 				/>
-				<Range.Root
+				<Slider.Root
 					fitHeight
 					label={l.t('_c.color.blue')}
 					accessor={this.#rgb.accessor('b')}
@@ -135,7 +135,7 @@ export class RGBPickerPanel implements PickerPanel {
 					max={1}
 					step={0.01}
 				/>
-				<Range.Root
+				<Slider.Root
 					fitHeight
 					label={l.t('_c.color.alpha')}
 					accessor={this.#rgb.accessor('a')}

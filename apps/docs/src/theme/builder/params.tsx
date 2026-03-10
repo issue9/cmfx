@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Accessor, DialogRef, MenuItemItem, Palette, RangeRef, Scheme } from '@cmfx/components';
+import type { Accessor, Palette, Scheme } from '@cmfx/components';
 import {
 	Button,
 	ButtonGroup,
@@ -10,13 +10,14 @@ import {
 	Dialog,
 	Divider,
 	Dropdown,
+	Menu,
 	fieldAccessor,
 	joinClass,
 	Label,
 	notify,
 	ObjectAccessor,
 	RadioGroup,
-	Range,
+	Slider,
 	useLocale,
 	useOptions,
 } from '@cmfx/components';
@@ -40,11 +41,11 @@ import { convertSchemeVar2Color } from './utils';
 export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 	const l = useLocale();
 	const [act, opt] = useOptions();
-	let dlg: DialogRef;
+	let dlg: Dialog.RootRef;
 
 	const schemes = Array.from(opt.schemes).map(s => {
 		return { type: 'item', value: s[0], label: s[0] };
-	}) as Array<MenuItemItem<string>>;
+	}) as Array<Menu.MenuItem>;
 
 	const source = createMemo(() => JSON.stringify(s.getValue(), null, 4));
 
@@ -52,8 +53,8 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 		<div class={styles.params}>
 			<div class={joinClass('primary', styles.toolbar)}>
 				<div class={styles.actions}>
-					<ButtonGroup kind="border">
-						<Dropdown
+					<ButtonGroup.Root kind="border">
+						<Dropdown.Root
 							trigger="click"
 							selectedClass=""
 							items={schemes}
@@ -66,24 +67,24 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 								s.setValue(convertSchemeVar2Color(unwrap(obj)));
 							}}
 						>
-							<Button kind="border" square title={l.t('_d.theme.loadPredefinedSchemes')}>
+							<Button.Root kind="border" square title={l.t('_d.theme.loadPredefinedSchemes')}>
 								<IconLoad />
-							</Button>
-						</Dropdown>
-						<Button square title={l.t('_d.theme.generateScheme')} onclick={() => random(s)}>
+							</Button.Root>
+						</Dropdown.Root>
+						<Button.Root square title={l.t('_d.theme.generateScheme')} onclick={() => random(s)}>
 							<IconRand />
-						</Button>
-					</ButtonGroup>
+						</Button.Root>
+					</ButtonGroup.Root>
 				</div>
 
-				<ButtonGroup kind="border">
-					<Button square onclick={async () => act.setScheme((await s.object())!)} title={l.t('_d.theme.apply')}>
+				<ButtonGroup.Root kind="border">
+					<Button.Root square onclick={async () => act.setScheme((await s.object())!)} title={l.t('_d.theme.apply')}>
 						<IconApply />
-					</Button>
-					<Button square onclick={() => dlg.root().showModal()} title={l.t('_d.theme.export')}>
+					</Button.Root>
+					<Button.Root square onclick={() => dlg.root().showModal()} title={l.t('_d.theme.export')}>
 						<IconExport />
-					</Button>
-				</ButtonGroup>
+					</Button.Root>
+				</ButtonGroup.Root>
 			</div>
 
 			<div class={styles.ps}>
@@ -91,18 +92,18 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 				{radiusParams(l, s)}
 			</div>
 
-			<Dialog
+			<Dialog.Root
 				movable
 				class="h-1/2"
 				ref={el => {
 					dlg = el;
 				}}
-				header={<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>}
+				header={<Label.Root icon={<IconExport />}>{l.t('_d.theme.export')}</Label.Root>}
 			>
-				<Code lang="json" class="h-full" ln={0}>
+				<Code.Root lang="json" class="h-full" ln={0}>
 					{source()}
-				</Code>
-			</Dialog>
+				</Code.Root>
+			</Dialog.Root>
 		</div>
 	);
 }
@@ -139,10 +140,10 @@ export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
 function radiusParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 	return (
 		<div class={styles.param}>
-			<Divider>
+			<Divider.Root>
 				<IconRadius class="me-1" />
 				{l.t('_d.theme.radius')}
-			</Divider>
+			</Divider.Root>
 			{radius('xs', s.accessor<number>('radius.xs'))}
 			{radius('sm', s.accessor<number>('radius.sm'))}
 			{radius('md', s.accessor<number>('radius.md'))}
@@ -166,7 +167,7 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
 
 	return (
 		<div class={styles.radius}>
-			<RadioGroup
+			<RadioGroup.Root
 				class="w-full"
 				accessor={a}
 				block
@@ -181,10 +182,10 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
 function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 	return (
 		<div class={styles.param}>
-			<Divider>
+			<Divider.Root>
 				<IconColors class="me-1" />
 				{l.t('_d.theme.colors')}
-			</Divider>
+			</Divider.Root>
 			<PalettePicker palette="primary" schemes={s} />
 			<PalettePicker palette="secondary" schemes={s} />
 			<PalettePicker palette="tertiary" schemes={s} />
@@ -195,7 +196,7 @@ function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Ele
 }
 
 function PalettePicker(props: { palette: Palette; schemes: ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
-	let rangeRef: RangeRef;
+	let rangeRef: Slider.RootRef;
 	const schemesFA = props.schemes.accessor<string>(props.palette);
 
 	const c = new Color(props.schemes.getValue()[props.palette]);
@@ -220,7 +221,7 @@ function PalettePicker(props: { palette: Palette; schemes: ObjectAccessor<Expand
 	});
 
 	return (
-		<Range
+		<Slider.Root
 			min={0}
 			max={360}
 			step={0.01}

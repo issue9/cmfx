@@ -10,7 +10,7 @@ import {
 	joinClass,
 	Page,
 	RadioGroup,
-	Range,
+	Slider,
 	useLocale,
 	Settings as XSettings,
 } from '@cmfx/components';

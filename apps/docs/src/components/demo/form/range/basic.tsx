@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, fieldAccessor, MountProps, Range } from '@cmfx/components';
+import { Button, fieldAccessor, MountProps, Slider } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -39,7 +39,7 @@ export default function (props: MountProps) {
 			</Portal>
 
 			<div>
-				<Range
+				<Slider.Root
 					hasHelp
 					rounded={rounded()}
 					value={value() ? formatValue : undefined}
@@ -52,7 +52,7 @@ export default function (props: MountProps) {
 					layout={layout()}
 				/>
 
-				<Range
+				<Slider.Root
 					hasHelp
 					rounded={rounded()}
 					value={value() ? formatValue : undefined}

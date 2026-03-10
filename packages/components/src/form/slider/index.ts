@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Range from './mod';
+export * as Slider from './mod';

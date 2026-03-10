@@ -21,7 +21,7 @@ import { useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Checkbox, Choice, fieldAccessor, Numeric, RadioGroup, Range } from '@components/form';
+import { Checkbox, Choice, fieldAccessor, Numeric, RadioGroup, Slider } from '@components/form';
 import { createBytesFormatter } from '@components/kit';
 import { Label } from '@components/label';
 import { SchemeSelector } from '@components/theme';
@@ -166,7 +166,7 @@ export function Root(props: Props) {
 			{/***************************** font *******************************/}
 
 			<Item icon={<IconFontSize />} title={l.t('_c.settings.fontSize')} desc={l.t('_c.settings.fontSizeDesc')}>
-				<Range.Root class={styles.range} value={v => `${v}px`} min={12} max={32} step={1} accessor={fontSizeFA} />
+				<Slider.Root class={styles.range} value={v => `${v}px`} min={12} max={32} step={1} accessor={fontSizeFA} />
 			</Item>
 
 			{/***************************** mode *******************************/}
@@ -206,7 +206,7 @@ export function Root(props: Props) {
 				title={l.t('_c.settings.transitionDuration')}
 				desc={l.t('_c.settings.transitionDurationDesc')}
 			>
-				<Range.Root
+				<Slider.Root
 					disabled={isReducedMotion()}
 					class={styles.range}
 					value={v => `${v}ms`}
