@@ -78,7 +78,7 @@ export function Settings(): JSX.Element {
 
 						<Checkbox.Root label={l.t('_p.current.float')} checked={float[0]()} onChange={v => float[1](!!v)} />
 
-						<Range.Root
+						<Slider.Root
 							label={chk}
 							disabled={rangDisabled()}
 							step={10}

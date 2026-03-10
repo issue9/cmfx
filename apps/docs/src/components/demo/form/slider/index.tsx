@@ -15,9 +15,9 @@ import { default as step } from './step.tsx?raw';
 export default function (): Info {
 	return {
 		kind: 'data-input',
-		title: '_d.demo.range',
+		title: '_d.demo.slider',
 		icon: IconRange,
-		path: 'form/range',
+		path: 'form/slider',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		stages: [
 			{ component: Basic, source: basic, title: 'basic' },
