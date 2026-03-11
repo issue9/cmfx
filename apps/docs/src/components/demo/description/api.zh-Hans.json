@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "DescriptionProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "icon",
@@ -39,6 +39,22 @@
 			{
 				"name": "children",
 				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "RootRef",
+		"properties": [
+			{
+				"name": "root",
+				"type": "() => HTMLDivElement"
 			}
 		],
 		"pkg": "@cmfx/components"

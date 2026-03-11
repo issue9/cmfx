@@ -1,11 +1,11 @@
 [
 	{
 		"kind": "interface",
-		"name": "StepperProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "steps",
-				"type": "StepperStep[]"
+				"type": "Step[]"
 			},
 			{
 				"name": "index",
@@ -49,7 +49,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "StepperRef",
+		"name": "RootRef",
 		"properties": [
 			{
 				"name": "next",
@@ -75,7 +75,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "StepperStep",
+		"name": "Step",
 		"properties": [
 			{
 				"name": "icon",

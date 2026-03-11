@@ -6,6 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - StepperProps
-            - StepperRef
-            - StepperStep
+            - Stepper.RootProps
+            - Stepper.RootRef
+            - Stepper.Step

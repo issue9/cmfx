@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "CounterProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "start",
@@ -60,7 +60,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "CounterRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",

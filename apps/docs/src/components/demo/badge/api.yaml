@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - BadgeProps
-            - BadgeRef
+            - Badge.RootProps
+            - Badge.RootRef

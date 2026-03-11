@@ -6,13 +6,13 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - ChartProps
-            - ChartRef
+            - Chart.RootProps
+            - Chart.RootRef
 
-            - ChartAxisProps
-            - ChartAxisPropsAxis
-            - ChartAxisPropsSeries
-            - ChartAxisRef
+            - ChartAxis.RootProps
+            - ChartAxis.RootRef
+            - ChartAxis.XAxis
+            - ChartAxis.Series
 
-            - ChartPieProps
-            - ChartPieRef
+            - ChartPie.RootProps
+            - ChartPie.RootRef

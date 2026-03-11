@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "TextAreaProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "maxLength",
@@ -132,7 +132,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "TextAreaRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",

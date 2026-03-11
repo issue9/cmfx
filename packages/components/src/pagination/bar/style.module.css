@@ -15,7 +15,7 @@
 		}
 
 		.end {
-			@apply flex-1;
+			@apply flex-0;
 		}
 	}
 }

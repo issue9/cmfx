@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RangeProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "min",
@@ -139,7 +139,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RangeRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",

@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "UploadProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "fieldName",
@@ -20,7 +20,7 @@
 			},
 			{
 				"name": "ref",
-				"type": "(el: UploadRef) => void"
+				"type": "(el: Ref_53) => void"
 			},
 			{
 				"name": "dropzone",
@@ -56,11 +56,9 @@
 				"type": "number | undefined"
 			},
 			{
-				"name": "layout",
-				"summary": "表单组件的 layout 属性的默认值\n\n",
-				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
-				"type": "\"horizontal\" | \"vertical\" | undefined",
-				"def": "'horizontal'\n\n",
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{
@@ -71,9 +69,11 @@
 				"reactive": true
 			},
 			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
 				"reactive": true
 			},
 			{
@@ -117,7 +117,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "UploadRef",
+		"name": "RootRef",
 		"summary": "上传组件的外放接口\n\n",
 		"methods": [
 			{
@@ -178,7 +178,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "AlbumProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "droppable",
@@ -237,6 +237,19 @@
 				"type": "number | undefined"
 			},
 			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
 				"name": "layout",
 				"summary": "表单组件的 layout 属性的默认值\n\n",
 				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
@@ -248,19 +261,6 @@
 				"name": "multiple",
 				"summary": "是否多选\n\n",
 				"type": "boolean | undefined"
-			},
-			{
-				"name": "palette",
-				"summary": "指定当前组件采用的色盘\n\n",
-				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-				"reactive": true
-			},
-			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
 			},
 			{
 				"name": "readonly",
@@ -312,6 +312,33 @@
 				"name": "upload",
 				"summary": "执行上传操作\n\n",
 				"type": "(obj: FormData) => Promise<Array<string> | undefined>"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "组件的根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "uploader",
+				"type": "uploader(): Upload.RootRef",
+				"return": {
+					"type": "Ref_53"
+				}
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -320,7 +347,7 @@
 		"kind": "function",
 		"name": "file2Base64",
 		"summary": "将文件对象转换为 Base64 字符串\n\n",
-		"type": "function file2Base64(file: File): Promise<string>",
+		"type": "declare function file2Base64(file: File): Promise<string>",
 		"params": [
 			{
 				"name": "file",

@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "MonthPanelProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "disabled",
@@ -73,7 +73,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "MonthPanelRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -87,7 +87,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "YearPanelProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "disabled",
@@ -159,7 +159,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "YearPanelRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",

@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - DividerProps
-            - DividerRef
+            - Divider.RootProps
+            - Divider.RootRef

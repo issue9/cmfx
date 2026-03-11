@@ -6,7 +6,7 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - CodeProps
-            - CodeRef
+            - Code.RootProps
+            - Code.RootRef
             - Highlighter
             - highlight

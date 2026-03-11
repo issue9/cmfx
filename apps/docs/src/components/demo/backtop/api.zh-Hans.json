@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "BackTopProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "distance",
@@ -50,20 +50,20 @@
 	},
 	{
 		"kind": "interface",
-		"name": "BackTopRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): ButtonRef",
+				"type": "root(): Button.RootRef",
 				"return": {
-					"type": "ButtonRef<false, HTMLButtonElement>"
+					"type": "Ref_4<false, HTMLButtonElement>"
 				}
 			},
 			{
-				"name": "backtop",
+				"name": "backTop",
 				"summary": "返回页面顶部\n\n",
 				"remarks": "该功能与直接点击按钮具有相同的效果。\n\n",
-				"type": "backtop(): void",
+				"type": "backTop(): void",
 				"return": {
 					"type": "void"
 				}

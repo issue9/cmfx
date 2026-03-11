@@ -1,13 +1,13 @@
 [
 	{
-		"name": "TimerField",
+		"name": "Field",
 		"kind": "literal",
 		"type": "\"seconds\" | \"minutes\" | \"hours\" | \"days\"",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "TimerProps",
+		"name": "RootProps",
 		"summary": "倒计时的计时器\n\n",
 		"properties": [
 			{
@@ -86,7 +86,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "TimerRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "toggle",

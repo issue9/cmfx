@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "IconSetProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "icons",
@@ -57,7 +57,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "IconSetRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "to",

@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "DrawerProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "visible",
@@ -73,7 +73,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "DrawerRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",

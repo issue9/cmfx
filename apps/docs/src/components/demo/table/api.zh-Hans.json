@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "TableProps",
+		"name": "RootProps",
 		"properties": [
 			{
 				"name": "fixedLayout",
@@ -56,7 +56,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "TableRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -70,7 +70,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "BasicTableProps",
+		"name": "RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -87,8 +87,7 @@
 			{
 				"name": "columns",
 				"summary": "列的定义\n\n",
-				"type": "Column<T>[]",
-				"reactive": true
+				"type": "Column<T>[]"
 			},
 			{
 				"name": "items",
@@ -168,29 +167,92 @@
 	},
 	{
 		"kind": "interface",
-		"name": "BasicTableRef",
+		"name": "RootRef",
 		"methods": [
 			{
 				"name": "root",
 				"summary": "组件根元素\n\n",
-				"type": "root(): SpinRef<'div'>",
+				"type": "root(): Spin.RootRef<'div'>",
 				"return": {
-					"type": "SpinRef<\"div\">"
+					"type": "Ref_68<\"div\">"
 				}
 			},
 			{
 				"name": "table",
 				"summary": "组件中的表格元素\n\n",
-				"type": "table(): TableRef",
+				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "TableRef"
+					"type": "Ref_70"
 				}
 			}
 		],
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "LoaderTableProps",
+		"kind": "interface",
+		"name": "Column",
+		"summary": "用于描述列的信息\n\n",
+		"typeParams": [
+			{
+				"name": "T",
+				"summary": "表示的是展示在表格中的单条数据的类型。\n\n",
+				"type": "object"
+			}
+		],
+		"properties": [
+			{
+				"name": "renderLabel",
+				"summary": "列标题\n\n",
+				"remarks": "如果该值为空，则采用以下几种路径获取值：\n- label\n- id\n\n\nrenderLabel 和 label 的区别在于，label 用于导出，只能是字符串，\n而 renderLabel 可以是组件类型。\n\n",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "colClass",
+				"summary": "`colgroup>col`\n的 CSS 类名\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "headClass",
+				"summary": "为\n`thead>tr>td`\n和\n`thead>tr>th`\n指定的 CSS 类。\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "cellClass",
+				"summary": "为每个单元格指定类型。包括表头和普通的数据单元。\n\n",
+				"remarks": "NOTE: 如果存在\n`headClass`\n，那么 cellClass 将不会对表头中的单元格起作用；\nNOTE: 不需要打印的列，可用 no-print 样式；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "renderContent",
+				"summary": "单元格内容的渲染\n\n",
+				"remarks": "如果该值为空，则采用以下几种路径获取值：\n- content\n- T[id]\n\n\nrenderContent 和 content 的区别在于，content 用于导出，只能是字符串，\n而 renderContent 可以是组件类型。\n\n",
+				"type": "CellRenderFunc<T> | undefined"
+			},
+			{
+				"name": "id",
+				"summary": "导出列在对象 T 中的字段名，如果是自定义列，也可以是不存在于 T 中。\n\n",
+				"type": "string | keyof T"
+			},
+			{
+				"name": "label",
+				"summary": "导出列的标题，如果为空将直接采用 id\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "content",
+				"summary": "如果导出列的内容需要进行转换可以使用此方法进行转换\n\n",
+				"type": "CellRenderFunc<T> | undefined"
+			},
+			{
+				"name": "isUnexported",
+				"summary": "该列不需要导出\n\n",
+				"type": "boolean | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -278,7 +340,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "LoaderTableRef",
+		"name": "RootRef",
 		"typeParams": [
 			{
 				"name": "T",
@@ -305,17 +367,17 @@
 			{
 				"name": "root",
 				"summary": "组件根元素\n\n",
-				"type": "root(): SpinRef<'div'>",
+				"type": "root(): Spin.RootRef<'div'>",
 				"return": {
-					"type": "SpinRef<\"div\">"
+					"type": "Ref_68<\"div\">"
 				}
 			},
 			{
 				"name": "table",
 				"summary": "组件中的表格元素\n\n",
-				"type": "table(): TableRef",
+				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "TableRef"
+					"type": "Ref_70"
 				}
 			}
 		],
@@ -323,7 +385,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RemoteTableProps",
+		"name": "RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -331,7 +393,8 @@
 			},
 			{
 				"name": "Q",
-				"type": "Query"
+				"type": "Query",
+				"init": "Query"
 			}
 		],
 		"properties": [
@@ -388,6 +451,12 @@
 				"reactive": true
 			},
 			{
+				"name": "toolbar",
+				"summary": "工具栏的内容\n\n\n此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
 				"name": "fixedLayout",
 				"summary": "是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，\n但是可能会造成空间的巨大浪费。具体可查看：\n\n",
 				"type": "boolean | undefined",
@@ -408,8 +477,7 @@
 			{
 				"name": "columns",
 				"summary": "列的定义\n\n",
-				"type": "Column<T>[]",
-				"reactive": true
+				"type": "Column<T>[]"
 			},
 			{
 				"name": "stickyHeader",
@@ -442,12 +510,6 @@
 				"reactive": true
 			},
 			{
-				"name": "toolbar",
-				"summary": "工具栏的内容\n\n\n此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。\n\n",
-				"type": "JSX.Element",
-				"reactive": true
-			},
-			{
 				"name": "systemToolbar",
 				"summary": "是否需要展示框架自身提供的工具栏功能\n\n",
 				"type": "boolean | undefined",
@@ -468,7 +530,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RemoteTableRef",
+		"name": "RootRef",
 		"typeParams": [
 			{
 				"name": "T",
@@ -524,79 +586,18 @@
 			{
 				"name": "root",
 				"summary": "组件根元素\n\n",
-				"type": "root(): SpinRef<'div'>",
+				"type": "root(): Spin.RootRef<'div'>",
 				"return": {
-					"type": "SpinRef<\"div\">"
+					"type": "Ref_68<\"div\">"
 				}
 			},
 			{
 				"name": "table",
 				"summary": "组件中的表格元素\n\n",
-				"type": "table(): TableRef",
+				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "TableRef"
+					"type": "Ref_70"
 				}
-			}
-		],
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "interface",
-		"name": "Column",
-		"summary": "用于描述列的信息\n\n",
-		"typeParams": [
-			{
-				"name": "T",
-				"summary": "表示的是展示在表格中的单条数据的类型。\n\n",
-				"type": "object"
-			}
-		],
-		"properties": [
-			{
-				"name": "renderLabel",
-				"summary": "列标题\n\n\n如果该值为空，则采用以下几种路径获取值：\n- label\n- id\n\n\nrenderLabel 和 label 的区别在于，label 用于导出，只能是字符串，\n而 renderLabel 可以是组件类型。\n\n",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "colClass",
-				"summary": "`colgroup>col`\n的 CSS 类名\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "headClass",
-				"summary": "为\n`thead>tr>td`\n和\n`thead>tr>th`\n指定的 CSS 类。\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "cellClass",
-				"summary": "为每个单元格指定类型。包括表头和普通的数据单元。\n\n\nNOTE: 如果存在\n`headClass`\n，那么 cellClass 将不会对表头中的单元格起作用；\nNOTE: 不需要打印的列，可用 no-print 样式；\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "renderContent",
-				"summary": "单元格内容的渲染\n\n\n如果该值为空，则采用以下几种路径获取值：\n- content\n- T[id]\n\n\nrenderContent 和 content 的区别在于，content 用于导出，只能是字符串，\n而 renderContent 可以是组件类型。\n\n",
-				"type": "CellRenderFunc<T> | undefined"
-			},
-			{
-				"name": "id",
-				"summary": "导出列在对象 T 中的字段名，如果是自定义列，也可以是不存在于 T 中。\n\n",
-				"type": "string | keyof T"
-			},
-			{
-				"name": "label",
-				"summary": "导出列的标题，如果为空将直接采用 id\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "content",
-				"summary": "渲染单元格的方法\n\n",
-				"remarks": "如果导出列的内容需要进行转换，可以指定此方法。\n\n",
-				"type": "CellRenderFunc<T> | undefined"
-			},
-			{
-				"name": "isUnexported",
-				"summary": "该列不需要导出\n\n",
-				"type": "boolean | undefined"
 			}
 		],
 		"pkg": "@cmfx/components"

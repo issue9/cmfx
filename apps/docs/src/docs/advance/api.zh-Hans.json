@@ -25,7 +25,7 @@
 		"kind": "source",
 		"name": "createZodLocaleLoader",
 		"summary": "创建一个用于加载 zod 本地化语言的函数\n\n",
-		"source": "/**\r\n * 创建一个用于加载 zod 本地化语言的函数\r\n *\r\n * @param f - 加载 zod 本地化语言内容，比如 `(await import('../../node_modules/zod/v4/locales/en.js')).default`；\r\n * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；\r\n */\r\nexport declare function createZodLocaleLoader(f: () => any): DictLoader",
+		"source": "/**\r\n * 创建一个用于加载 zod 本地化语言的函数\r\n *\r\n * @param f - 加载 zod 本地化语言内容，比如 `(await import('../../node_modules/zod/v4/locales/en.js')).default`；\r\n * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；\r\n */\r\nexport declare function createZodLocaleLoader(f: () => z.core.$ZodConfig): DictLoader",
 		"pkg": "@cmfx/core"
 	},
 	{
@@ -46,7 +46,7 @@
 		"kind": "source",
 		"name": "Validator",
 		"summary": "验证器\n\n",
-		"source": "/**\r\n * 验证器\r\n *\r\n * @typeParam T - 需要验证的数据类型；\r\n */\r\nexport declare interface Validator<T extends Flattenable> {\r\n    /**\r\n     * 改变当前语言\r\n     *\r\n     * @remarks\r\n     * 该操作会改变之后对数据验证时的错误信息\r\n     */\r\n    changeLocale(locale: Locale): void;\r\n    /**\r\n     * 验证数据\r\n     *\r\n     * @param obj - 需要验证的数据；\r\n     * @param path - 如果不为空表示采用规则 path 验证 obj；\r\n     */\r\n    valid(obj: any, path?: FlattenKeys<T>): Promise<ValidResult<T>>;\r\n}",
+		"source": "/**\r\n * 验证器\r\n *\r\n * @typeParam T - 需要验证的数据类型；\r\n */\r\nexport declare interface Validator<T extends Flattenable> {\r\n    /**\r\n     * 改变当前语言\r\n     *\r\n     * @remarks\r\n     * 该操作会改变之后对数据验证时的错误信息\r\n     */\r\n    changeLocale(locale: Locale): void;\r\n    /**\r\n     * 验证数据\r\n     *\r\n     * @param obj - 需要验证的数据；\r\n     * @param path - 如果不为空表示采用规则 path 验证 obj；\r\n     */\r\n    valid(obj: unknown, path?: FlattenKeys<T>): Promise<ValidResult<T>>;\r\n}",
 		"pkg": "@cmfx/core"
 	},
 	{

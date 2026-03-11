@@ -6,10 +6,10 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - UploadProps
-            - UploadRef
+            - Upload.RootProps
+            - Upload.RootRef
 
-            - AlbumProps
-            - AlbumRef
+            - Album.RootProps
+            - Album.RootRef
 
-            - file2Base64
+            - Album.file2Base64

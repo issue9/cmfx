@@ -7,6 +7,7 @@ import path from 'node:path';
 import { DocComment, StandardTags } from '@microsoft/tsdoc';
 import {
 	ClassDeclaration,
+	ExportedDeclarations,
 	FunctionDeclaration,
 	GetAccessorDeclaration,
 	InterfaceDeclaration,
@@ -99,7 +100,7 @@ export class Extractor {
 	 *
 	 * @param pkg - 包名称，一般为 package.json 中的名称；
 	 * @param entrypoint - .d.ts 文件名，比如 message.d.ts、index.d.ts 等；
-	 * @param names - 需要查找的类型名称列表；
+	 * @param names - 需要查找的类型名称列表，可以包含类型名称，比如 Namespace.Type；
 	 */
 	extract(pkg: string, entrypoint: string, ...names: Array<string>): Array<Type> {
 		const project = this.#projects.get(pkg);
@@ -107,32 +108,56 @@ export class Extractor {
 			throw new Error(`项目 ${pkg} 未加载`);
 		}
 
-		const exports = project.exports.get(entrypoint);
-		if (!exports) {
+		const exps = project.exports.get(entrypoint);
+		if (!exps) {
 			throw new Error(`项目 ${pkg} 不存在入口点 ${entrypoint}`);
 		}
 
-		const types: Array<Type> = [];
-		for (const name of names) {
-			const ns = name.split(',');
-			const source = ns.length > 1 ? ns[1].toLowerCase() === 'source' : false;
-
-			const typ = exports.get(ns[0]);
-			if (!typ || typ.length === 0) {
-				throw new Error(`${pkg}/${entrypoint} 中找不到类型 ${ns[0]}`);
-			} else if (typ.length > 1) {
-				throw new Error(`${pkg}/${entrypoint} 中有多个类型 ${ns[0]}`);
-			}
-			const t = this.conv(typ[0], project.checker, source);
-			t.pkg = pkg;
-			types.push(t);
-		}
-
-		return types;
+		return names.map(name => this.getByName(project, exps, name, pkg, entrypoint));
 	}
 
-	private conv(decl: Node, chk: TypeChecker, source?: boolean): Type {
-		if (source) {
+	private getByName(
+		project: TSProject,
+		exps: ReadonlyMap<string, ExportedDeclarations[]>,
+		name: string,
+		pkg: string,
+		entry: string,
+	): Type {
+		const ns = name.split(',');
+		const isSource = ns.length > 1 ? ns[1].toLowerCase() === 'source' : false;
+
+		const items = ns[0].split('.');
+		let decls = exps.get(items[0]);
+
+		if (!decls || decls.length === 0) {
+			throw new Error(`${pkg}/${entry} 中找不到类型 ${ns[0]}`);
+		} else if (decls.length > 1) {
+			throw new Error(`${pkg}/${entry} 中有多个类型 ${ns[0]}`);
+		}
+		let decl = decls[0];
+
+		for (const item of items.slice(1)) {
+			if (!Node.isModuleDeclaration(decl)) {
+				throw new Error(`${ns[0]} 不是一个有效的命名空间`);
+			}
+
+			decls = decl.getExportedDeclarations().get(item);
+			if (!decls || decls.length === 0) {
+				throw new Error(`${pkg}/${entry} 中找不到类型 ${ns[0]}`);
+			} else if (decls.length > 1) {
+				throw new Error(`${pkg}/${entry} 中有多个类型 ${ns[0]}`);
+			}
+			decl = decls[0];
+		}
+
+		const t = this.conv(decl, project.checker, isSource);
+		t.pkg = pkg;
+		t.name = items[items.length - 1]; // 防止 Props as RootProps 等方式的导出导致的 name 被污染。
+		return t;
+	}
+
+	private conv(decl: Node, chk: TypeChecker, isSource?: boolean): Type {
+		if (isSource) {
 			return this.convSource(decl);
 		}
 
