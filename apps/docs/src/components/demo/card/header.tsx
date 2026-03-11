@@ -20,7 +20,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<Card.Root palette={palette()} header={<Label.Root icon={<IconEye />}>title</Label.Root>}>
 				<p>这是一行文字</p>
-				<Button.Root palette="primary">button</Button>
+				<Button.Root palette="primary">button</Button.Root>
 			</Card.Root>
 		</div>
 	);

@@ -8,7 +8,9 @@ import { Portal } from 'solid-js/web';
 import { BaseProps, MountProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { fieldAccessor, TextField } from '@components/form';
-import { Ref, Root } from './root';
+import { AcceptButton, PresetButtons } from './buttons';
+import type { Ref } from './context';
+import { Root } from './root';
 
 export type Props = BaseProps & ParentProps & MountProps;
 
@@ -55,9 +57,7 @@ function Alert(props: BaseProps): JSX.Element {
 				dlg = el;
 			}}
 			class="min-w-60"
-			actions={dlg!.OKAction(async () => {
-				return 'ok';
-			})}
+			footer={<AcceptButton value="ok" />}
 		>
 			{msg()}
 		</Root>
@@ -103,7 +103,7 @@ function Confirm(props: BaseProps): JSX.Element {
 			ref={el => {
 				dlg = el;
 			}}
-			actions={dlg!.DefaultActions(async () => 'true')}
+			footer={<PresetButtons />}
 		>
 			<p>{msg()}</p>
 		</Root>
@@ -152,7 +152,7 @@ function Prompt(props: BaseProps): JSX.Element {
 				dlg = el;
 			}}
 			class="min-w-60"
-			actions={dlg!.DefaultActions(async () => access.getValue())}
+			footer={<PresetButtons />}
 		>
 			<TextField.Root class="w-full" layout="vertical" label={msg()} accessor={access} />
 		</Root>

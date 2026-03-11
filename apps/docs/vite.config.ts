@@ -61,6 +61,7 @@ export default defineConfig(({ mode }) => {
 
 		plugins: [
 			tsconfigPaths(),
+			/*
 			api({
 				dts: [
 					[path.resolve(__dirname, '../../packages/core'), 'index.d.ts'],
@@ -70,6 +71,7 @@ export default defineConfig(({ mode }) => {
 				],
 				root: './src',
 			}),
+			*/
 			Icons({
 				compiler: 'solid',
 				scale: 1,

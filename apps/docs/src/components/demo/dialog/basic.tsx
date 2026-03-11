@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, MountProps } from '@cmfx/components';
+import { Button, Dialog, MountProps, notify } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -21,29 +21,22 @@ export default function (props: MountProps): JSX.Element {
 			<div>
 				<Dialog.Root
 					class="min-w-5"
-					movable
 					palette={palette()}
 					header="header"
 					ref={el => {
 						dlg = el;
+						el.root().oncancel = async () => {
+							await notify('cancel')
+						};
+						el.root().onclose = async () => {
+							await notify('close')
+						};
 					}}
-					actions={
-						<>
-							<button value="submit" type="submit" class="me-8">
-								submit
-							</button>
-							<button value="reset" type="reset" class="me-8">
-								reset
-							</button>
-							<button value="button" type="button" onClick={() => dlg.root().close('close')}>
-								close
-							</button>
-						</>
-					}
+					footer={<Dialog.PresetButtons />}
 				>
 					content
 				</Dialog.Root>
-				<Button.Root onclick={() => dlg.root().show()} palette={palette()}>
+				<Button.Root onclick={() => dlg.root().showModal()} palette={palette()}>
 					show
 				</Button.Root>
 			</div>

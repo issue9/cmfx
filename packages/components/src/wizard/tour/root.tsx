@@ -167,7 +167,7 @@ export function Root(props: Props): JSX.Element {
 				ref = el;
 			}}
 			header={<Label.Root icon={curr().icon}>{header()}</Label.Root>}
-			actions={
+			footer={
 				<>
 					{index() > 0 && (
 						<Button.Root onclick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button.Root>

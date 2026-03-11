@@ -19,7 +19,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Button.Root onclick={() => dlg.root().showModal()} palette={palette()}>
+			<Button.Root onclick={() => dlg.root().show()} palette={palette()}>
 				scrollable
 			</Button.Root>
 			<Dialog.Root
@@ -30,7 +30,7 @@ export default function (props: MountProps): JSX.Element {
 					dlg = el;
 				}}
 				header="header"
-				actions="footer"
+				footer="footer"
 				class="h-80 w-80"
 			>
 				<div>
