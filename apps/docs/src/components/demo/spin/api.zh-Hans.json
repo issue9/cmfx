@@ -1,6 +1,6 @@
 [
 	{
-		"name": "RootProps",
+		"name": "Spin.RootProps",
 		"kind": "intersection",
 		"types": [
 			{
@@ -1745,7 +1745,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Spin.RootRef",
 		"typeParams": [
 			{
 				"name": "T",

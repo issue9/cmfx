@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Search.RootProps",
 		"properties": [
 			{
 				"name": "hotkey",
@@ -77,7 +77,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Search.RootRef",
 		"methods": [
 			{
 				"name": "root",

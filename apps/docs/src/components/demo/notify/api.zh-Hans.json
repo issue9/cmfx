@@ -73,7 +73,7 @@
 				"reactive": true
 			}
 		],
-		"name": "RootProps",
+		"name": "Alert.RootProps",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -97,11 +97,11 @@
 				}
 			}
 		],
-		"name": "RootRef",
+		"name": "Alert.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "Type",
+		"name": "Alert.Type",
 		"kind": "literal",
 		"type": "\"error\" | \"warning\" | \"success\" | \"info\"",
 		"pkg": "@cmfx/components"

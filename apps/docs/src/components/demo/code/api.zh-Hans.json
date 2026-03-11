@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Code.RootProps",
 		"properties": [
 			{
 				"name": "children",
@@ -77,7 +77,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Code.RootRef",
 		"methods": [
 			{
 				"name": "root",

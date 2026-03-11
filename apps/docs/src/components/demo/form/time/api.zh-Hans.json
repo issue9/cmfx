@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "TimePicker.RootProps",
 		"properties": [
 			{
 				"name": "placeholder",
@@ -108,7 +108,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "TimePicker.RootRef",
 		"methods": [
 			{
 				"name": "root",

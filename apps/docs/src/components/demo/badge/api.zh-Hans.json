@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Badge.RootProps",
 		"properties": [
 			{
 				"name": "pos",
@@ -57,7 +57,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Badge.RootRef",
 		"methods": [
 			{
 				"name": "root",

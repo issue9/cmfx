@@ -152,7 +152,8 @@ export class Extractor {
 
 		const t = this.conv(decl, project.checker, isSource);
 		t.pkg = pkg;
-		t.name = items[items.length - 1]; // 防止 Props as RootProps 等方式的导出导致的 name 被污染。
+		//t.name = items[items.length - 1]; // 防止 Props as RootProps 等方式的导出导致的 name 被污染。
+		t.name = name; // 直接使用包含命名空间的全名
 		return t;
 	}
 

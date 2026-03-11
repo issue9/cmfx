@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Calendar.RootProps",
 		"summary": "日历\n`Calendar`\n的属性值\n\n",
 		"properties": [
 			{
@@ -207,7 +207,7 @@
 				}
 			}
 		],
-		"name": "RootRef",
+		"name": "Calendar.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

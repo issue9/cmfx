@@ -1,6 +1,6 @@
 [
 	{
-		"name": "RootProps",
+		"name": "Dropdown.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -220,7 +220,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Dropdown.RootRef",
 		"methods": [
 			{
 				"name": "show",

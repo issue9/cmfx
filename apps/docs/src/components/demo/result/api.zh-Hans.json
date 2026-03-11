@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Result.RootProps",
 		"properties": [
 			{
 				"name": "illustration",
@@ -71,7 +71,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Result.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -85,7 +85,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Empty.RootProps",
 		"properties": [
 			{
 				"name": "icon",
@@ -129,7 +129,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Empty.RootRef",
 		"methods": [
 			{
 				"name": "root",

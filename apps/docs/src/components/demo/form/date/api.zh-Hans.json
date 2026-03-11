@@ -1,6 +1,6 @@
 [
 	{
-		"name": "RootProps",
+		"name": "DatePicker.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -470,7 +470,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "DatePicker.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -484,7 +484,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "RootProps",
+		"name": "DateRangePicker.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -990,7 +990,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "DateRangePicker.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -1005,7 +1005,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "WeekPicker.RootProps",
 		"properties": [
 			{
 				"name": "accessor",
@@ -1154,7 +1154,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "WeekPicker.RootRef",
 		"methods": [
 			{
 				"name": "root",

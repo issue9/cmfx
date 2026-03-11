@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Settings.RootProps",
 		"properties": [
 			{
 				"name": "onReset",
@@ -43,7 +43,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Settings.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -72,7 +72,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "ItemProps",
+		"name": "Settings.ItemProps",
 		"summary": "设置项的属性\n\n",
 		"properties": [
 			{

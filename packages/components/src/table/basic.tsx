@@ -48,7 +48,8 @@ export interface Props<T extends object> extends Omit<Table.RootProps, 'ref'>, R
 	/**
 	 * 固定表格头部位于指定的位置
 	 *
-	 * @remarks 如果为 undefined，表示不固定，其它值表示离顶部的距离。
+	 * @remarks
+	 * 如果为 undefined，表示不固定，其它值表示离顶部的距离。
 	 *
 	 * @reactive
 	 */
@@ -61,7 +62,7 @@ export interface Props<T extends object> extends Omit<Table.RootProps, 'ref'>, R
 	 *
 	 * @reactive
 	 */
-	extraHeader?: JSX.Element;
+	header?: JSX.Element;
 
 	/**
 	 * 表格底部的扩展空间
@@ -70,7 +71,7 @@ export interface Props<T extends object> extends Omit<Table.RootProps, 'ref'>, R
 	 *
 	 * @reactive
 	 */
-	extraFooter?: JSX.Element;
+	footer?: JSX.Element;
 }
 
 /**
@@ -118,11 +119,7 @@ export function Root<T extends object>(props: Props<T>) {
 				}
 			}}
 		>
-			<Show when={props.extraHeader}>
-				{c => {
-					return c();
-				}}
-			</Show>
+			<Show when={props.header}>{c => c()}</Show>
 
 			<Table.Root
 				fixedLayout={props.fixedLayout}
@@ -182,11 +179,7 @@ export function Root<T extends object>(props: Props<T>) {
 				</tbody>
 			</Table.Root>
 
-			<Show when={props.extraFooter}>
-				{c => {
-					return c();
-				}}
-			</Show>
+			<Show when={props.footer}>{c => c()}</Show>
 		</Spin.Root>
 	);
 }

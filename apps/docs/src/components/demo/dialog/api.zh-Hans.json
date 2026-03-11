@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Dialog.RootProps",
 		"properties": [
 			{
 				"name": "ref",
@@ -60,7 +60,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Dialog.RootRef",
 		"methods": [
 			{
 				"name": "root",

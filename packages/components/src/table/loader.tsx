@@ -486,8 +486,8 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 				loading={items.loading}
 				items={items()!}
 				{...basicProps}
-				extraFooter={footer}
-				extraHeader={header}
+				footer={footer}
+				header={header}
 			/>
 		);
 	}
@@ -516,8 +516,8 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 			loading={items.loading}
 			items={items()!}
 			{...basicProps}
-			extraFooter={footer}
-			extraHeader={header}
+			footer={footer}
+			header={header}
 		/>
 	);
 }

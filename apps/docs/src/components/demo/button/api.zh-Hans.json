@@ -1,6 +1,6 @@
 [
 	{
-		"name": "RootProps",
+		"name": "Button.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -201,7 +201,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Button.RootRef",
 		"typeParams": [
 			{
 				"name": "A",
@@ -227,7 +227,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "Kind",
+		"name": "Button.Kind",
 		"summary": "组件的风格\n\n",
 		"remarks": "组件的展示风格，包含以下几种取值：\n- flat 无背景，无边框；\n- border 无背景，有边框；\n- fill 有背景，有边框；\n\n",
 		"kind": "literal",
@@ -235,7 +235,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "RootProps",
+		"name": "ConfirmButton.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -345,7 +345,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "ConfirmButton.RootRef",
 		"typeParams": [
 			{
 				"name": "A",
@@ -374,7 +374,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "RootProps",
+		"name": "SplitButton.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -701,7 +701,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "SplitButton.RootRef",
 		"methods": [
 			{
 				"name": "group",
@@ -756,7 +756,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "ButtonGroup.RootProps",
 		"properties": [
 			{
 				"name": "layout",
@@ -816,7 +816,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "ButtonGroup.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -830,7 +830,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "ToggleButton.RootProps",
 		"properties": [
 			{
 				"name": "value",
@@ -941,7 +941,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "ToggleButton.RootRef",
 		"methods": [
 			{
 				"name": "toggle",
@@ -963,7 +963,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "FitScreenProps",
+		"name": "ToggleButton.FitScreenProps",
 		"kind": "intersection",
 		"types": [
 			{
@@ -1148,7 +1148,7 @@
 				"reactive": true
 			}
 		],
-		"name": "FullScreenProps",
+		"name": "ToggleButton.FullScreenProps",
 		"pkg": "@cmfx/components"
 	}
 ]

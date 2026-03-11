@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "QRCode.RootProps",
 		"properties": [
 			{
 				"name": "value",
@@ -73,7 +73,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "QRCode.RootRef",
 		"methods": [
 			{
 				"name": "download",
@@ -114,19 +114,19 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "CornerDotType",
+		"name": "QRCode.CornerDotType",
 		"kind": "literal",
 		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").CornerDotType",
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "CornerSquareType",
+		"name": "QRCode.CornerSquareType",
 		"kind": "literal",
 		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").CornerSquareType",
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "DotType",
+		"name": "QRCode.DotType",
 		"kind": "literal",
 		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").DotType",
 		"pkg": "@cmfx/components"

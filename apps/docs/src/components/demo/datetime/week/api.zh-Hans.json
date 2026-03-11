@@ -1,6 +1,6 @@
 [
 	{
-		"name": "RootProps",
+		"name": "WeekPanel.RootProps",
 		"kind": "intersection",
 		"types": [
 			{
@@ -114,7 +114,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "WeekPanel.RootRef",
 		"methods": [
 			{
 				"name": "root",

@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Chart.RootProps",
 		"properties": [
 			{
 				"name": "useCoarsePointer",
@@ -60,7 +60,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Chart.RootRef",
 		"methods": [
 			{
 				"name": "echarts",
@@ -98,7 +98,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "ChartAxis.RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -199,7 +199,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "ChartAxis.RootRef",
 		"typeParams": [
 			{
 				"name": "T",
@@ -242,7 +242,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "XAxis",
+		"name": "ChartAxis.XAxis",
 		"typeParams": [
 			{
 				"name": "T",
@@ -265,7 +265,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Series",
+		"name": "ChartAxis.Series",
 		"typeParams": [
 			{
 				"name": "T",
@@ -313,7 +313,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "ChartPie.RootProps",
 		"properties": [
 			{
 				"name": "tooltip",
@@ -440,7 +440,7 @@
 				}
 			}
 		],
-		"name": "RootRef",
+		"name": "ChartPie.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

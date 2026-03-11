@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Timezone.RootProps",
 		"properties": [
 			{
 				"name": "value",
@@ -45,7 +45,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Timezone.RootRef",
 		"methods": [
 			{
 				"name": "root",

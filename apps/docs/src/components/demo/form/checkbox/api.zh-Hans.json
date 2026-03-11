@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Checkbox.RootProps",
 		"properties": [
 			{
 				"name": "indeterminate",
@@ -107,7 +107,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Checkbox.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -130,7 +130,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "CheckboxGroup.RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -258,7 +258,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "CheckboxGroup.RootRef",
 		"methods": [
 			{
 				"name": "root",

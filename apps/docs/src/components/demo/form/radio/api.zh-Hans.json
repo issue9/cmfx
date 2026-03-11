@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Radio.RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -118,7 +118,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Radio.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -141,7 +141,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "RadioGroup.RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -269,7 +269,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "RadioGroup.RootRef",
 		"methods": [
 			{
 				"name": "root",

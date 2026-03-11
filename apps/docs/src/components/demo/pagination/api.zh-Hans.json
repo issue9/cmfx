@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Pagination.RootProps",
 		"properties": [
 			{
 				"name": "count",
@@ -58,7 +58,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Pagination.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -87,7 +87,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "PaginationBar.RootProps",
 		"properties": [
 			{
 				"name": "total",
@@ -155,7 +155,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "PaginationBar.RootRef",
 		"methods": [
 			{
 				"name": "root",

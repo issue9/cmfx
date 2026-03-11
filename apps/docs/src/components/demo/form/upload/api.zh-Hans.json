@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Upload.RootProps",
 		"properties": [
 			{
 				"name": "fieldName",
@@ -117,7 +117,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Upload.RootRef",
 		"summary": "上传组件的外放接口\n\n",
 		"methods": [
 			{
@@ -178,7 +178,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Album.RootProps",
 		"properties": [
 			{
 				"name": "droppable",
@@ -323,7 +323,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Album.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -345,7 +345,7 @@
 	},
 	{
 		"kind": "function",
-		"name": "file2Base64",
+		"name": "Album.file2Base64",
 		"summary": "将文件对象转换为 Base64 字符串\n\n",
 		"type": "declare function file2Base64(file: File): Promise<string>",
 		"params": [

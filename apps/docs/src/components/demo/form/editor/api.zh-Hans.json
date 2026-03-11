@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Editor.RootProps",
 		"properties": [
 			{
 				"name": "simple",
@@ -108,7 +108,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Editor.RootRef",
 		"methods": [
 			{
 				"name": "root",

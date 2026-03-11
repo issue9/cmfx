@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "ColorPicker.RootProps",
 		"properties": [
 			{
 				"name": "accessor",
@@ -115,7 +115,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "ColorPicker.RootRef",
 		"methods": [
 			{
 				"name": "root",

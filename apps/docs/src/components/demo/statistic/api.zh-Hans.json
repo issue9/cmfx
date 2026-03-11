@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Statistic.RootProps",
 		"properties": [
 			{
 				"name": "label",
@@ -57,7 +57,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Statistic.RootRef",
 		"methods": [
 			{
 				"name": "root",

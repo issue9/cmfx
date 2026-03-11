@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Page.RootProps",
 		"properties": [
 			{
 				"name": "backTop",
@@ -50,7 +50,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Page.RootRef",
 		"methods": [
 			{
 				"name": "root",

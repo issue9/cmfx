@@ -1,6 +1,6 @@
 [
 	{
-		"name": "RootProps",
+		"name": "Divider.RootProps",
 		"kind": "intersection",
 		"types": [
 			{
@@ -78,7 +78,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Divider.RootRef",
 		"properties": [
 			{
 				"name": "root",

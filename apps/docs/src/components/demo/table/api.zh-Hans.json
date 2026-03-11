@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Table.RootProps",
 		"properties": [
 			{
 				"name": "fixedLayout",
@@ -56,7 +56,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Table.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -70,7 +70,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "BasicTable.RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -167,7 +167,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "BasicTable.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -190,7 +190,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Column",
+		"name": "BasicTable.Column",
 		"summary": "用于描述列的信息\n\n",
 		"typeParams": [
 			{
@@ -252,7 +252,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "RootProps",
+		"name": "LoaderTable.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -340,7 +340,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "LoaderTable.RootRef",
 		"typeParams": [
 			{
 				"name": "T",
@@ -385,7 +385,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "RemoteTable.RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -530,7 +530,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "RemoteTable.RootRef",
 		"typeParams": [
 			{
 				"name": "T",

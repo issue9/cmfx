@@ -1,6 +1,6 @@
 [
 	{
-		"name": "RootProps",
+		"name": "DatePanel.RootProps",
 		"kind": "intersection",
 		"types": [
 			{
@@ -119,7 +119,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "DatePanel.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -133,7 +133,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "DateRangePanel.RootProps",
 		"properties": [
 			{
 				"name": "value",
@@ -248,7 +248,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "DateRangePanel.RootRef",
 		"methods": [
 			{
 				"name": "root",

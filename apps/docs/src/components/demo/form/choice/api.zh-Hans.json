@@ -1,6 +1,6 @@
 [
 	{
-		"name": "RootProps",
+		"name": "Choice.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -269,7 +269,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Choice.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -283,7 +283,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "Option",
+		"name": "Choice.Option",
 		"summary": "单个选择项的类型\n\n",
 		"remarks": "直接采用了与\n`MenuItem`\n相同的类型，但是对为 type 为 a 的项是忽略处理的。\n\n",
 		"kind": "union",

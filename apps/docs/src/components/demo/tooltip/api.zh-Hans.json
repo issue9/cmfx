@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Tooltip.RootProps",
 		"summary": "Tooltip 组件的属性\n\n",
 		"properties": [
 			{
@@ -45,7 +45,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Tooltip.RootRef",
 		"methods": [
 			{
 				"name": "show",

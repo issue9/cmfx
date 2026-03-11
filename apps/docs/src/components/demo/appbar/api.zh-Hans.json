@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Appbar.RootProps",
 		"properties": [
 			{
 				"name": "logo",
@@ -69,7 +69,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Appbar.RootRef",
 		"methods": [
 			{
 				"name": "root",

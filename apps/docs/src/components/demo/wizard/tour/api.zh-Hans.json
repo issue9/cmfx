@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Tour.RootProps",
 		"properties": [
 			{
 				"name": "steps",
@@ -67,7 +67,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Tour.RootRef",
 		"properties": [
 			{
 				"name": "next",
@@ -109,7 +109,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Step",
+		"name": "Tour.Step",
 		"properties": [
 			{
 				"name": "id",

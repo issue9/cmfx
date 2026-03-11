@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Tab.RootProps",
 		"properties": [
 			{
 				"name": "items",
@@ -67,7 +67,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Tab.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -111,7 +111,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Item",
+		"name": "Tab.Item",
 		"properties": [
 			{
 				"name": "id",

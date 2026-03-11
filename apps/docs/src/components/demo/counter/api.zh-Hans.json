@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Counter.RootProps",
 		"properties": [
 			{
 				"name": "start",
@@ -60,7 +60,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RootRef",
+		"name": "Counter.RootRef",
 		"methods": [
 			{
 				"name": "root",

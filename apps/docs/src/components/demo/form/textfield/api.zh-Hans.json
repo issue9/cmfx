@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "TextField.RootProps",
 		"properties": [
 			{
 				"name": "maxLength",
@@ -184,12 +184,12 @@
 				}
 			}
 		],
-		"name": "RootRef",
+		"name": "TextField.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Numeric.RootProps",
 		"properties": [
 			{
 				"name": "min",
@@ -343,12 +343,12 @@
 				}
 			}
 		],
-		"name": "RootRef",
+		"name": "Numeric.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "RootProps",
+		"name": "Password.RootProps",
 		"properties": [
 			{
 				"name": "autocomplete",
@@ -522,7 +522,7 @@
 				}
 			}
 		],
-		"name": "RootRef",
+		"name": "Password.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

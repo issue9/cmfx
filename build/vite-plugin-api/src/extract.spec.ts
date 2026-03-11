@@ -155,7 +155,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 		expect(alias.kind).toEqual('literal');
 
 		if (alias.kind === 'literal') {
-			expect(alias.name).toEqual('Kind');
+			expect(alias.name).toEqual('Button.Kind');
 			expect(alias.summary?.trim()).toEqual('组件的风格');
 			expect(alias.remarks).toBeDefined();
 			expect(alias.type).toEqual('"flat" | "border" | "fill"');
@@ -169,7 +169,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 		const props = items![0];
 		expect(props.kind).toEqual('union');
 		if (props.kind === 'union') {
-			expect(props.name).toEqual('RootProps');
+			expect(props.name).toEqual('Button.RootProps');
 			expect(props.summary).toBeUndefined();
 			expect(props.remarks).toBeUndefined();
 
@@ -177,14 +177,14 @@ describe('Extractor', { timeout: 20000 }, () => {
 			expect(props.types).length(2);
 
 			const u0 = props.types![0] as Interface;
-			expect(u0.name).toEqual('ButtonProps');
+			expect(u0.name).toEqual('ButtonProps'); // 在 d.ts 中该类型在全局中，然后被引入 Button 空间
 			expect(u0.kind).toEqual('interface');
 			const u0Type = u0.properties?.find(p => p.name === 'type');
 			expect(u0Type).toBeDefined();
 			expect(u0Type?.type).toEqual('"submit" | "reset" | "button" | "menu" | undefined');
 
 			const u1 = props.types![1] as Interface;
-			expect(u1.name).toEqual('AnchorProps');
+			expect(u1.name).toEqual('AnchorProps'); // 在 d.ts 中该类型在全局中，然后被引入 Button 空间
 			expect(u1.kind).toEqual('interface');
 			const u1Type = u1.properties?.find(p => p.name === 'type');
 			expect(u1Type).toBeDefined();
@@ -200,7 +200,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 		expect(props.kind).toEqual('union');
 
 		if (props.kind === 'union') {
-			expect(props.name).toEqual('RootProps');
+			expect(props.name).toEqual('ConfirmButton.RootProps');
 			expect(props.summary).toBeUndefined();
 			expect(props.remarks).toBeUndefined();
 
@@ -288,7 +288,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 		expect(f.kind).toEqual('interface');
 
 		if (f.kind === 'interface') {
-			expect(f.name).toEqual('FullScreenProps');
+			expect(f.name).toEqual('ToggleButton.FullScreenProps');
 			expect(f.summary).toBeUndefined();
 			expect(f.properties).toBeDefined();
 
