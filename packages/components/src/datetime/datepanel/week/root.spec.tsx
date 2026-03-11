@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/context.spec.tsx';
-import { Ref, WeekPanel } from './week.tsx';
+import { ComponentTester } from '@components/context/context.spec';
+import { Ref, Root } from './root';
 
 describe('WeekPanel', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('WeekPanel', props => <WeekPanel ref={el => (ref = el)} {...props} />);
+	const ct = await ComponentTester.build('WeekPanel', props => <Root ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

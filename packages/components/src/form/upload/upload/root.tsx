@@ -4,6 +4,7 @@
 
 import { createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
+import { joinClass } from '@components/base';
 import { FieldBaseProps, useForm } from '@components/form/field';
 
 /**
@@ -122,7 +123,8 @@ export function Root(props: Props): JSX.Element {
 	return (
 		<input
 			type="file"
-			class="hidden"
+			class={joinClass(props.palette, 'hidden', props.class)}
+			style={props.style}
 			name={props.fieldName}
 			multiple={props.multiple}
 			ref={el => {

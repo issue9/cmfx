@@ -4,8 +4,8 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/context.spec.tsx';
-import { Ref, Root } from './root.tsx';
+import { ComponentTester } from '@components/context/context.spec';
+import { Ref, Root } from './basic';
 
 describe('BasicTable', async () => {
 	let ref: Ref;

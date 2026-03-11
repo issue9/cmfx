@@ -162,17 +162,11 @@ export function Root(props: Props): JSX.Element {
 
 	return (
 		<div
-			ref={el => {
-				rootRef = el;
-			}}
+			ref={el => (rootRef = el)}
 			class={joinClass(props.palette, styles.input, props.rounded ? styles.rounded : '', props.class)}
 			style={props.style}
 		>
-			<Show when={props.prefix}>
-				{c => {
-					return c();
-				}}
-			</Show>
+			<Show when={props.prefix}>{c => c()}</Show>
 
 			<input
 				id={props.id}
@@ -209,11 +203,7 @@ export function Root(props: Props): JSX.Element {
 				}}
 			/>
 
-			<Show when={props.suffix}>
-				{c => {
-					return c();
-				}}
-			</Show>
+			<Show when={props.suffix}>{c => c()}</Show>
 		</div>
 	);
 }

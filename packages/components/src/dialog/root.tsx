@@ -51,15 +51,15 @@ export interface Ref {
 	/**
 	 * 生成确定的按钮
 	 *
-	 * @param click - 点击事件
+	 * @param click - 点击事件；
 	 */
 	OKAction(click: ClickFunc): JSX.Element;
 
 	/**
 	 * 生成带有确认和取消两个按钮的操作栏
 	 *
-	 * @param ok - 确定按钮的事件
-	 * @param cancel - 取消按钮的事件
+	 * @param ok - 确定按钮的事件；
+	 * @param cancel - 取消按钮的事件；
 	 */
 	DefaultActions(ok: ClickFunc, cancel?: ClickFunc): JSX.Element;
 }

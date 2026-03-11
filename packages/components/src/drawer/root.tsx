@@ -49,7 +49,8 @@ export interface Ref {
 	 *  - on 显示状态下的图标；
 	 *  - off 隐藏状态下的图标；
 	 *
-	 * @remarks 该按钮会根据侧边栏的状态是否处于可调整的状态而自动显示或是隐藏。
+	 * @remarks
+	 * 该按钮会根据侧边栏的状态是否处于可调整的状态而自动显示或是隐藏。
 	 */
 	ToggleButton(props?: ToggleDrawerButtonProps): JSX.Element;
 }
