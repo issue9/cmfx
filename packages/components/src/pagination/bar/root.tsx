@@ -4,7 +4,8 @@
 
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, ChangeFunc, joinClass, PropsError, RefProps } from '@components/base';
+import type { BaseProps, ChangeFunc, RefProps } from '@components/base';
+import { joinClass, PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Choice, fieldAccessor } from '@components/form';
 import { Pagination } from '@components/pagination/pagination';

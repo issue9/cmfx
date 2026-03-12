@@ -8,7 +8,8 @@ import IconNext from '~icons/material-symbols/chevron-right';
 import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
-import { BaseProps, ChangeFunc, PropsError, RefProps } from '@components/base';
+import type { BaseProps, ChangeFunc, RefProps } from '@components/base';
+import { PropsError } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import { useLocale } from '@components/context';
 

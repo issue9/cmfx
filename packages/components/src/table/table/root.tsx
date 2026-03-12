@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, ParentProps } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
 
-import { BaseProps, classList, RefProps } from '@components/base';
+import type { BaseProps, RefProps } from '@components/base';
+import { classList } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

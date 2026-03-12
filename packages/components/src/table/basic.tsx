@@ -5,7 +5,8 @@
 import { presetCellRenderFunc } from '@cmfx/core';
 import { For, JSX, Show } from 'solid-js';
 
-import { joinClass, RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
+import { joinClass } from '@components/base';
 import { useLocale } from '@components/context';
 import { Empty } from '@components/result';
 import { Spin } from '@components/spin';

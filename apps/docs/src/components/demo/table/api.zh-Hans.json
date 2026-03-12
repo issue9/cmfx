@@ -103,13 +103,13 @@
 				"reactive": true
 			},
 			{
-				"name": "extraHeader",
+				"name": "header",
 				"summary": "表格顶部的扩展空间\n\n\nNOTE: 该区域不属于 table 空间。\n\n",
 				"type": "JSX.Element",
 				"reactive": true
 			},
 			{
-				"name": "extraFooter",
+				"name": "footer",
 				"summary": "表格底部的扩展空间\n\n\nNOTE: 该区域不属于 table 空间。\n\n",
 				"type": "JSX.Element",
 				"reactive": true
@@ -451,6 +451,18 @@
 				"reactive": true
 			},
 			{
+				"name": "footer",
+				"summary": "表格底部的扩展空间\n\n\nNOTE: 该区域不属于 table 空间。\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "header",
+				"summary": "表格顶部的扩展空间\n\n\nNOTE: 该区域不属于 table 空间。\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
 				"name": "toolbar",
 				"summary": "工具栏的内容\n\n\n此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。\n\n",
 				"type": "JSX.Element",
@@ -556,11 +568,11 @@
 			{
 				"name": "DeleteAction",
 				"summary": "基于\n`delete`\n提供一个用于删除指定 id 的按钮组件\n\n",
-				"type": "DeleteAction(id: T['id']): JSX.Element",
+				"type": "DeleteAction(props: {\r\n        id: T['id'];\r\n    }): JSX.Element",
 				"params": [
 					{
-						"name": "id",
-						"type": "T[\"id\"]"
+						"name": "props",
+						"type": "{ id: T[\"id\"]; }"
 					}
 				],
 				"return": {

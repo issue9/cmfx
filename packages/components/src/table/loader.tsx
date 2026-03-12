@@ -13,7 +13,7 @@ import IconRefresh from '~icons/material-symbols/refresh';
 import IconReset from '~icons/material-symbols/restart-alt';
 import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
-import { Palette, RefProps } from '@components/base';
+import type { Palette, RefProps } from '@components/base';
 import { Button, SplitButton, ToggleButton } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
 import { xprompt } from '@components/dialog';

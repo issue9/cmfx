@@ -164,7 +164,9 @@ export function Admins(props: Props): JSX.Element {
 										</Button.Root>
 									</Show>
 
-									<Show when={obj?.state !== 'deleted'}>{ref.DeleteAction(obj!.id!)}</Show>
+									<Show when={obj?.state !== 'deleted'}>
+										<RemoteTable.DeleteAction table={ref} id={obj!.id} />
+									</Show>
 								</div>
 							);
 						},

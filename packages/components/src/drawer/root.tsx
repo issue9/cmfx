@@ -2,11 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
+import { createEffect, createSignal, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import type { BaseProps, RefProps } from '@components/base';
+import { joinClass } from '@components/base';
 import { ToggleButton as TB } from '@components/button';
 import { Transition } from '@components/transition';
 import styles from './style.module.css';

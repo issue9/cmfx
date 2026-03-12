@@ -89,7 +89,7 @@ export function Roles(props: Props): JSX.Element {
 					dialogRef = el;
 				}}
 				header={currentID.getValue() ? l.t('_p.editItem') : l.t('_p.newItem')}
-				actions={dialogRef!.DefaultActions(save)}
+				footer={Dialog.PresetButtons(save)}
 			>
 				<form class={styles.form}>
 					<TextField.Root accessor={current.accessor<string>('name')} />
@@ -134,7 +134,7 @@ export function Roles(props: Props): JSX.Element {
 								>
 									<IconPasskey />
 								</Button.Root>
-								{tableRef.DeleteAction(obj!.id!)}
+								<RemoteTable.DeleteAction table={tableRef} id={obj!.id} />
 							</div>
 						)) as BasicTable.Column<Role>['renderContent'],
 					},

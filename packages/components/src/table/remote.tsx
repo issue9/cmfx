@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, Problem, Query, query2Search, REST } from '@cmfx/core';
-import { JSX, onMount, splitProps } from 'solid-js';
+import type { Page, Problem, Query, REST } from '@cmfx/core';
+import { query2Search } from '@cmfx/core';
+import { JSX, mergeProps, onMount, splitProps } from 'solid-js';
 import IconDelete from '~icons/material-symbols/delete';
 
-import { RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
 import { ConfirmButton } from '@components/button';
 import { useLocale } from '@components/context';
 import * as LoaderTable from './loader.mod';
@@ -26,11 +27,41 @@ export interface Ref<T extends Row> extends LoaderTable.RootRef<T> {
 	 * @param id - 需要删除数据的 id，该值相对于 {@link Props#path} 属性生成删除地址。
 	 */
 	delete(id: T['id']): Promise<void>;
+}
 
+export interface DeleteButtonProps<T extends Row> extends Omit<ConfirmButton.ButtonProps, 'onclick'> {
 	/**
-	 * 基于 {@link delete} 提供一个用于删除指定 id 的按钮组件
+	 * 指定需要删除的数据 ID
 	 */
-	DeleteAction(id: T['id']): JSX.Element;
+	id: T['id'];
+
+	table?: Ref<T>;
+}
+
+/**
+ * 基于 {@link Ref#delete} 提供一个用于删除指定 id 的按钮组件
+ */
+export function DeleteAction<T extends Row>(props: DeleteButtonProps<T>): JSX.Element {
+	const l = useLocale();
+
+	props = mergeProps(
+		{
+			square: true,
+			rounded: true,
+			palette: 'error',
+			title: l.t('_c.deleteRow'),
+			disabled: !!props.table,
+		},
+		props,
+	) as DeleteButtonProps<T>;
+
+	const [, p] = splitProps(props, ['children', 'id', 'table']);
+
+	return (
+		<ConfirmButton.Root {...p} onclick={async () => await props.table?.delete(props.id)}>
+			{props.children ?? <IconDelete />}
+		</ConfirmButton.Root>
+	);
 }
 
 export interface Props<T extends Row, Q extends Query = Query>
@@ -39,7 +70,7 @@ export interface Props<T extends Row, Q extends Query = Query>
 	/**
 	 * 数据的加载地址
 	 *
-	 * 由 {@link Ref.DeleteAction} 生成的组件也会基于此值作删除操作
+	 * 由 {@link Ref.delete} 生成的组件也会基于此值作删除操作
 	 */
 	path: string;
 
@@ -58,8 +89,6 @@ export interface Props<T extends Row, Q extends Query = Query>
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
 export function Root<T extends Row, Q extends Query = Query>(props: Props<T, Q>) {
-	const l = useLocale();
-
 	const [_, tableProps] = splitProps(props, ['path', 'ref']);
 
 	// biome-ignore lint/suspicious/noExplicitAny: any
@@ -71,13 +100,10 @@ export function Root<T extends Row, Q extends Query = Query>(props: Props<T, Q>)
 	onMount(() => {
 		if (props.ref) {
 			props.ref({
-				items() {
-					return ref.items();
-				},
-
-				async refresh(): Promise<void> {
-					await ref.refresh();
-				},
+				items: () => ref.items(),
+				refresh: () => ref.refresh(),
+				table: () => ref.table(),
+				root: () => ref.root(),
 
 				async delete(id: T['id']): Promise<void> {
 					if (id === undefined) {
@@ -92,34 +118,6 @@ export function Root<T extends Row, Q extends Query = Query>(props: Props<T, Q>)
 						return;
 					}
 					await ref.refresh();
-				},
-
-				DeleteAction(id: T['id']) {
-					if (id === undefined) {
-						throw new Error('参数 id 必须是一个有效的值');
-					}
-
-					return (
-						<ConfirmButton.Root
-							square
-							rounded
-							palette="error"
-							title={l.t('_c.deleteRow')}
-							onclick={async () => {
-								await this.delete(id);
-							}}
-						>
-							<IconDelete />
-						</ConfirmButton.Root>
-					);
-				},
-
-				table() {
-					return ref.table();
-				},
-
-				root() {
-					return ref.root();
 				},
 			});
 		}

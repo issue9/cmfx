@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Column as ExportColumn } from '@cmfx/core';
+import type { Column as ExportColumn } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
 /**

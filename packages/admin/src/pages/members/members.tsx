@@ -173,7 +173,9 @@ export function Members(props: Props): JSX.Element {
 										</Button.Root>
 									</Show>
 
-									<Show when={obj?.state !== 'deleted'}>{ref.DeleteAction(obj!.id!)}</Show>
+									<Show when={obj?.state !== 'deleted'}>
+										<RemoteTable.DeleteAction table={ref} id={obj!.id} />
+									</Show>
 
 									<Show when={props.actions}>{props.actions!({ id: obj?.id as number, member: obj, table: ref })}</Show>
 								</div>
