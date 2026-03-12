@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DisplayStyle, formatDuration, I18n } from '@cmfx/core';
-import { createSignal, JSX, ParentProps, Show } from 'solid-js';
+import type { DisplayStyle } from '@cmfx/core';
+import { formatDuration, I18n } from '@cmfx/core';
+import type { JSX, ParentProps } from 'solid-js';
+import { createSignal, Show } from 'solid-js';
 import IconTransitionDuration from '~icons/material-symbols/animated-images-rounded';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconSystemNotify from '~icons/material-symbols/notification-settings';
@@ -15,7 +17,8 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { BaseProps, isReducedMotion, joinClass, Mode, RefProps } from '@components/base';
+import type { BaseProps, Mode, RefProps } from '@components/base';
+import { isReducedMotion, joinClass } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
@@ -26,6 +29,18 @@ import { createBytesFormatter } from '@components/kit';
 import { Label } from '@components/label';
 import { SchemeSelector } from '@components/theme';
 import styles from './style.module.css';
+
+export interface Ref {
+	/**
+	 * 组件根元素
+	 */
+	root(): HTMLDivElement;
+
+	/**
+	 * 声明一个设置项的组件
+	 */
+	Item(props: ItemProps): JSX.Element;
+}
 
 /**
  * 设置项的属性
@@ -53,16 +68,31 @@ export interface ItemProps extends ParentProps {
 	desc?: string;
 }
 
-export interface Ref {
-	/**
-	 * 组件根元素
-	 */
-	root(): HTMLDivElement;
+/**
+ * 设置页面每个设置项的组件
+ */
+export function Item(props: ItemProps): JSX.Element {
+	return (
+		<>
+			<Show when={props.desc}>
+				<Description.Root icon={props.icon} title={props.title}>
+					<div innerHTML={props.desc} />
+				</Description.Root>
+			</Show>
+			<Show when={!props.desc}>
+				<Label.Root icon={props.icon}>{props.title}</Label.Root>
+			</Show>
 
-	/**
-	 * 声明一个设置项的组件
-	 */
-	Item(props: ItemProps): JSX.Element;
+			{props.children}
+		</>
+	);
+}
+
+/**
+ * 设置页面每个设置项之间的分隔线
+ */
+export function Separator(): JSX.Element {
+	return <Divider.Root padding="16px 8px" />;
 }
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
@@ -81,30 +111,6 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 export function Root(props: Props) {
 	const [accessor, origin] = useOptions();
 	const l = useLocale();
-	let count = 0;
-
-	const Item = (props: ItemProps) => {
-		count++;
-		return (
-			<>
-				<Show when={count > 1}>
-					<Divider.Root padding="16px 8px" />
-				</Show>
-
-				<Show when={props.desc}>
-					<Description.Root icon={props.icon} title={props.title}>
-						<div innerHTML={props.desc} />
-					</Description.Root>
-				</Show>
-				<Show when={!props.desc}>
-					<Label.Root icon={props.icon}>{props.title}</Label.Root>
-				</Show>
-
-				<br />
-				{props.children}
-			</>
-		);
-	};
 
 	const fontSizeFA = fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2), 10));
 	fontSizeFA.onChange(v => accessor.setFontSize(`${v}px`));
@@ -170,7 +176,7 @@ export function Root(props: Props) {
 			</Item>
 
 			{/***************************** mode *******************************/}
-
+			<Separator />
 			<Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
 				<RadioGroup.Root
 					itemLayout="horizontal"
@@ -189,6 +195,7 @@ export function Root(props: Props) {
 
 			{/***************************** scheme *******************************/}
 
+			<Separator />
 			<Show when={origin.schemes && accessor.getScheme()}>
 				<Item icon={<IconPalette />} title={l.t('_c.settings.scheme')} desc={l.t('_c.settings.schemeDesc')}>
 					<SchemeSelector.Root
@@ -201,6 +208,7 @@ export function Root(props: Props) {
 
 			{/***************************** transition duration *******************************/}
 
+			<Separator />
 			<Item
 				icon={<IconTransitionDuration />}
 				title={l.t('_c.settings.transitionDuration')}
@@ -219,12 +227,14 @@ export function Root(props: Props) {
 
 			{/***************************** stays *******************************/}
 
+			<Separator />
 			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
 				<Numeric.Root accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
 			</Item>
 
 			{/***************************** notify *******************************/}
 
+			<Separator />
 			<Show when={'Notification' in window}>
 				<Item
 					icon={/*@once*/ <IconSystemNotify />}
@@ -250,12 +260,14 @@ export function Root(props: Props) {
 
 			{/***************************** locale *******************************/}
 
+			<Separator />
 			<Item icon={/*@once*/ <IconTranslate />} title={l.t('_c.settings.locale')} desc={l.t('_c.settings.localeDesc')}>
 				<Choice.Root accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
 			</Item>
 
 			{/***************************** displayStyle *******************************/}
 
+			<Separator />
 			<Item
 				icon={/*@once*/ <IconFormat />}
 				title={l.t('_c.settings.displayStyle')}
@@ -283,6 +295,7 @@ export function Root(props: Props) {
 
 			{/***************************** timezone *******************************/}
 
+			<Separator />
 			<Item
 				icon={/*@once*/ <IconTimezone />}
 				title={l.t('_c.settings.timezone')}
@@ -300,6 +313,7 @@ export function Root(props: Props) {
 
 			{/***************************** reset *******************************/}
 
+			<Separator />
 			<Item icon={/*@once*/ <IconReset />} title={l.t('_c.settings.resetOptions')}>
 				<Button.Root
 					kind="fill"

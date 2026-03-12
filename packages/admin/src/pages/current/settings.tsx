@@ -5,7 +5,6 @@
 import {
 	Alert,
 	Checkbox,
-	Divider,
 	fieldAccessor,
 	joinClass,
 	Page,
@@ -29,7 +28,6 @@ export function Settings(): JSX.Element {
 	const l = useLocale();
 	const lay = useLayout();
 
-	let ref!: XSettings.RootRef;
 	const layout = fieldAccessor('layout', lay.layout());
 	const float = lay.float();
 	const width = fieldAccessor('width', lay.width());
@@ -54,17 +52,12 @@ export function Settings(): JSX.Element {
 
 	return (
 		<Page.Root title="_p.current.settings" class={joinClass(undefined, styles.settings)}>
-			<XSettings.Root
-				ref={el => {
-					ref = el;
-				}}
-				onReset={() => lay.reset()}
-			>
+			<XSettings.Root onReset={() => lay.reset()}>
 				<Alert.Root type="warning" title={l.t('_p.current.settingsDesc')} />
 
-				<Divider.Root padding="16px 8px" />
+				<XSettings.Separator />
 
-				<ref.Item icon={<IconLayout />} title={l.t('_p.current.layout')} desc={l.t('_p.current.layoutDesc')}>
+				<XSettings.Item icon={<IconLayout />} title={l.t('_p.current.layout')} desc={l.t('_p.current.layoutDesc')}>
 					<div class={styles.content}>
 						<RadioGroup.Root
 							class={styles.layout}
@@ -88,7 +81,9 @@ export function Settings(): JSX.Element {
 							value={v => `${v}px`}
 						/>
 					</div>
-				</ref.Item>
+				</XSettings.Item>
+
+				<XSettings.Separator />
 			</XSettings.Root>
 		</Page.Root>
 	);
