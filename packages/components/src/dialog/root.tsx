@@ -8,6 +8,7 @@ import IconClose from '~icons/material-symbols/close';
 
 import { type BaseProps, joinClass } from '@components/base';
 import { useLocale } from '@components/context';
+import { CancelButton } from './buttons';
 import type { Ref } from './context';
 import { DialogProvider } from './context';
 import styles from './style.module.css';
@@ -105,7 +106,14 @@ export function Root(props: Props): JSX.Element {
 							}}
 						>
 							{c()}
-							<IconClose class={styles.close} onClick={() => rootRef.close('close')} aria-label={l.t('_c.close')} />
+							<CancelButton
+								palette={props.palette}
+								square
+								class={styles.close}
+								ref={el => (el.root().ariaLabel = l.t('_c.close'))}
+							>
+								<IconClose />
+							</CancelButton>
 						</header>
 					)}
 				</Show>

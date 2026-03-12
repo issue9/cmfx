@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+export type { ButtonProps } from './buttons';
 export { AcceptButton, CancelButton, PresetButtons } from './buttons';
 export type { Ref as RootRef } from './context';
 export { useDialog } from './context';

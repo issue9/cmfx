@@ -85,11 +85,14 @@ export function Roles(props: Props): JSX.Element {
 	return (
 		<Page.Root title="_p.roles.rolesManager" class={styles.roles}>
 			<Dialog.Root
-				ref={el => {
-					dialogRef = el;
-				}}
+				ref={el => (dialogRef = el)}
 				header={currentID.getValue() ? l.t('_p.editItem') : l.t('_p.newItem')}
-				footer={Dialog.PresetButtons(save)}
+				footer={
+					<>
+						<Dialog.CancelButton value="cancel" onclick={save}>{l.t('_c.cancel')}</Dialog.CancelButton>
+						<Dialog.AcceptButton value="accept">{l.t('_c.ok')}</Dialog.AcceptButton>
+					</>
+				}
 			>
 				<form class={styles.form}>
 					<TextField.Root accessor={current.accessor<string>('name')} />

@@ -13,6 +13,13 @@ export interface ButtonProps extends Omit<Button.ButtonProps, 'onclick' | 'type'
 	 * 传递给对话框的值
 	 */
 	value?: string;
+
+	/**
+	 * 按钮上的点击事件类型
+	 *
+	 * @returns 如果返回 true 表示阻止关闭操作。
+	 */
+	onclick?: () => Promise<boolean | undefined>;
 }
 
 /**
@@ -23,13 +30,20 @@ export interface ButtonProps extends Omit<Button.ButtonProps, 'onclick' | 'type'
  */
 export function AcceptButton(props: ButtonProps): JSX.Element {
 	const ref = useDialog();
-	const [_, p] = splitProps(props, ['children', 'palette']);
+	const [_, p] = splitProps(props, ['children', 'palette', 'onclick']);
 	return (
 		<Button.Root
 			{...p}
 			type="submit"
 			palette={props.palette ?? 'primary'}
-			onclick={() => {
+			onclick={async () => {
+				if (props.onclick) {
+					const result = await props.onclick();
+					if (result) {
+						return;
+					}
+				}
+
 				ref.dialog.root().close(props.value);
 			}}
 		>
@@ -46,13 +60,20 @@ export function AcceptButton(props: ButtonProps): JSX.Element {
  */
 export function CancelButton(props: ButtonProps): JSX.Element {
 	const ref = useDialog();
-	const [_, p] = splitProps(props, ['children', 'palette']);
+	const [_, p] = splitProps(props, ['children', 'palette', 'onclick']);
 	return (
 		<Button.Root
 			{...p}
 			type="button"
 			palette={props.palette ?? 'secondary'}
-			onclick={() => {
+			onclick={async () => {
+				if (props.onclick) {
+					const result = await props.onclick();
+					if (result) {
+						return;
+					}
+				}
+
 				ref.dialog.root().dispatchEvent(new Event('cancel'));
 				ref.dialog.root().close(props.value);
 			}}
