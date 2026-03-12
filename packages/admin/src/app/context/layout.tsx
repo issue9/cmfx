@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Layout, Palette } from '@cmfx/components';
 import {
 	Appbar,
 	Button,
@@ -9,12 +10,11 @@ import {
 	Drawer,
 	Dropdown,
 	joinClass,
-	Layout,
 	Menu,
-	Palette,
 	useOptions as useComponentOptions,
 	useLocale,
 } from '@cmfx/components';
+import type { JSX, ParentProps, Signal } from 'solid-js';
 import {
 	createContext,
 	createEffect,
@@ -22,12 +22,9 @@ import {
 	createSignal,
 	ErrorBoundary,
 	For,
-	JSX,
 	Match,
 	onCleanup,
 	onMount,
-	ParentProps,
-	Signal,
 	Switch,
 	useContext,
 } from 'solid-js';
@@ -191,7 +188,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 								</>
 							}
 						>
-							{drawerRef()?.ToggleButton({ square: true })}
+							<Drawer.ToggleButton square drawer={drawerRef()} />
 						</Appbar.Root>
 						<main class={joinClass('surface', styles.content)}>{props.children}</main>
 					</div>
@@ -262,7 +259,7 @@ function Vertical(props: ParentProps): JSX.Element {
 					</>
 				}
 			>
-				{drawerRef()?.ToggleButton({ square: true })}
+				<Drawer.ToggleButton square drawer={drawerRef()} />
 			</Appbar.Root>
 
 			<main class={styles.main}>

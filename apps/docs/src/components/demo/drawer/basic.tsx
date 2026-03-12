@@ -21,12 +21,10 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<Drawer.Root
-				ref={el => {
-					ref = el;
-				}}
+				ref={el => (ref = el)}
 				pos={pos()}
 				palette={palette()}
-				visible={true}
+				initValue
 				floating
 				main={
 					<main class="h-full bg-primary-bg">
@@ -47,7 +45,7 @@ export default function (props: MountProps): JSX.Element {
 				</div>
 			</Drawer.Root>
 
-			{ref!.ToggleButton({ square: true, class: 'grow-0' })}
+			<Drawer.ToggleButton square class="grow-0" drawer={ref!} />
 			<Button.Root
 				onclick={() => {
 					ref.toggle();

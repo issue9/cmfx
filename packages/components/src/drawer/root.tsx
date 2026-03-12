@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
+import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
 import { BaseProps, joinClass, RefProps } from '@components/base';
-import { ToggleButton } from '@components/button';
+import { ToggleButton as TB } from '@components/button';
 import { Transition } from '@components/transition';
 import styles from './style.module.css';
 
@@ -48,24 +48,69 @@ export interface Ref {
 	 * @returns true 表示显示状态；
 	 */
 	visible(): boolean;
-
-	/**
-	 * 生成一个用于显示和隐藏侧边栏的按钮组件
-	 *
-	 * @param props - 组件属性，参数说明如下：
-	 *  - on 显示状态下的图标；
-	 *  - off 隐藏状态下的图标；
-	 *
-	 * @remarks
-	 * 该按钮会根据侧边栏的状态是否处于可调整的状态而自动显示或是隐藏。
-	 */
-	ToggleButton(props?: ToggleButtonProps): JSX.Element;
 }
 
-export type ToggleButtonProps = Omit<ToggleButton.RootProps, 'toggle' | 'value' | 'on' | 'off'> & {
+export type ToggleButtonProps = Omit<TB.RootProps, 'toggle' | 'value' | 'on' | 'off'> & {
+	/**
+	 * 侧边栏在显示状态下的按钮图标
+	 *
+	 * @reactive
+	 * @defaultValue <IconMenuOpen />
+	 */
 	on?: JSX.Element;
+
+	/**
+	 * 侧边栏在隐藏状态下的按钮图标
+	 *
+	 * @reactive
+	 * @defaultValue <IconMenu />
+	 */
 	off?: JSX.Element;
+
+	drawer?: Ref;
 };
+
+/**
+ * 生成一个用于显示和隐藏侧边栏的按钮组件
+ */
+export function ToggleButton(p: ToggleButtonProps): JSX.Element {
+	const [hidden, setHidden] = createSignal(!!p.drawer); // 按钮的显示状态
+
+	const ob = new ResizeObserver(e => {
+		setHidden(getComputedStyle(e[0].target).getPropertyValue('position') !== 'absolute');
+	});
+	onCleanup(() => ob.disconnect());
+
+	createEffect(() => {
+		const ref = p.drawer;
+
+		if (ref) {
+			ob.observe(ref.aside());
+			setHidden(true);
+		} else {
+			ob.disconnect();
+			setHidden(true);
+		}
+	});
+
+	p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu />, value: p.drawer?.visible() }, p);
+	const [_, btnProps] = splitProps(p, ['class', 'palette', 'drawer']);
+
+	return (
+		<TB.Root
+			{...(btnProps as TB.RootProps)}
+			class={joinClass(p.palette, hidden() ? 'hidden' : undefined, p.class)}
+			toggle={async (): Promise<boolean> => {
+				if (!p.drawer) {
+					return false;
+				}
+
+				p.drawer.toggle();
+				return p.drawer.visible();
+			}}
+		/>
+	);
+}
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
@@ -144,16 +189,6 @@ export function Root(props: Props) {
 		});
 	});
 
-	// 处理按钮的显示状态
-	const [hidden, setHidden] = createSignal(false);
-	onMount(() => {
-		const ob = new ResizeObserver(() => {
-			setHidden(getComputedStyle(asideRef).getPropertyValue('position') !== 'absolute');
-		});
-		ob.observe(asideRef);
-		onCleanup(() => ob.disconnect());
-	});
-
 	return (
 		<div
 			class={joinClass(props.palette, props.pos === 'end' ? styles.end : '', styles.drawer, props.class)}
@@ -163,9 +198,7 @@ export function Root(props: Props) {
 			}}
 		>
 			<aside
-				ref={el => {
-					asideRef = el;
-				}}
+				ref={el => (asideRef = el)}
 				classList={{
 					[props.asideClass ?? '']: !!props.asideClass,
 					'cmfx-drawer-floating-aside': props.floating === true,
@@ -205,20 +238,6 @@ export function Root(props: Props) {
 							hide: () => setVisible(false),
 							toggle: () => setVisible(!visible()),
 							visible: () => visible(),
-							ToggleButton: (p?: ToggleButtonProps): JSX.Element => {
-								p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu />, value: visible() }, p);
-								const [_, btnProps] = splitProps(p, ['class', 'palette']);
-								return (
-									<ToggleButton.Root
-										{...(btnProps as ToggleButton.RootProps)}
-										class={joinClass(p.palette, hidden() ? 'hidden' : undefined, p.class)}
-										toggle={async (): Promise<boolean> => {
-											setVisible(!visible());
-											return visible();
-										}}
-									/>
-								);
-							},
 						});
 					}
 				}}

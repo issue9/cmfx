@@ -278,7 +278,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 
 			return (
 				<Drawer.Root
-					visible
+					initValue
 					floating={floatingWidth}
 					ref={el => {
 						ref = el;

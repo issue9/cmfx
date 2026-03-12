@@ -45,13 +45,16 @@ export default function (props: MountProps): JSX.Element {
 				ref.toggle
 			</Button.Root>
 
-			<Show when={ref()}>{ref()!.ToggleButton()}</Show>
+			<Show when={ref()}>
+				{r => <Drawer.ToggleButton drawer={r()} />}
+			</Show>
+			<Drawer.ToggleButton drawer={ref()} />
 
 			<Drawer.Root
 				ref={setRef}
 				pos={pos()}
 				palette="primary"
-				visible={true}
+				initValue
 				floating={bp()}
 				main={
 					<main class="h-full bg-secondary-bg">

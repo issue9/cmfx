@@ -3,4 +3,4 @@
 // SPDX-License-Identifier: MIT
 
 export type { Props as RootProps, Ref as RootRef, ToggleButtonProps } from './root';
-export { Root } from './root';
+export { Root, ToggleButton } from './root';

@@ -24,7 +24,7 @@ import {
 import { Hotkey } from '@cmfx/core';
 import * as illustrations from '@cmfx/illustrations';
 import { RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
-import { createMemo, createSignal, JSX, lazy, Show } from 'solid-js';
+import { createMemo, createSignal, JSX, lazy } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
@@ -104,21 +104,9 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 				title={options.title}
 				actions={
 					<>
-						<Show when={docsRef()}>
-							{r => {
-								return r().ToggleButton({ square: true, kind: 'flat' });
-							}}
-						</Show>
-						<Show when={demoRef()}>
-							{r => {
-								return r().ToggleButton({ square: true, kind: 'flat' });
-							}}
-						</Show>
-						<Show when={themeRef()}>
-							{r => {
-								return r().ToggleButton({ square: true, kind: 'flat' });
-							}}
-						</Show>
+						<Drawer.ToggleButton square kind="flat" drawer={docsRef()} />
+						<Drawer.ToggleButton square kind="flat" drawer={demoRef()} />
+						<Drawer.ToggleButton square kind="flat" drawer={themeRef()} />
 
 						<Dropdown.Root
 							trigger="hover"
