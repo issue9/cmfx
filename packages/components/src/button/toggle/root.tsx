@@ -8,7 +8,7 @@ import IconExpand from '~icons/material-symbols/expand-content';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
-import { RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
 import { Button } from '@components/button/button';
 import styles from '@components/button/common/style.module.css';
 import { presetProps } from '@components/button/common/types';

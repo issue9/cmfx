@@ -2,11 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, ParentProps } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
+import { mergeProps } from 'solid-js';
 
-import { classList, Layout, RefProps } from '@components/base';
+import type { Layout, RefProps } from '@components/base';
+import { classList } from '@components/base';
 import styles from '@components/button/common/style.module.css';
-import { Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';
+import type { Props as BaseProps } from '@components/button/common/types';
+import { presetProps as presetBaseProps } from '@components/button/common/types';
 
 export interface Ref {
 	root(): HTMLFieldSetElement;

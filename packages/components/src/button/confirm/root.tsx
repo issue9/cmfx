@@ -6,7 +6,8 @@ import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { handleEvent, joinClass, RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
+import { handleEvent, joinClass } from '@components/base';
 import { Button } from '@components/button/button';
 import styles from '@components/button/common/style.module.css';
 import { useLocale } from '@components/context';
@@ -40,9 +41,11 @@ interface Base {
 	cancel?: JSX.Element;
 }
 
-export type Props =
-	| (Base & Omit<Button.AnchorProps, 'ref'> & RefProps<Ref<true>>)
-	| (Base & Omit<Button.ButtonProps, 'ref'> & RefProps<Ref>);
+export type AnchorProps = Base & Omit<Button.AnchorProps, 'ref'> & RefProps<Ref<true>>;
+
+export type ButtonProps = Base & Omit<Button.ButtonProps, 'ref'> & RefProps<Ref>;
+
+export type Props = AnchorProps | ButtonProps;
 
 /**
  * 带确认功能的按钮

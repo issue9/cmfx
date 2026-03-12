@@ -3,12 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
-import { A, AnchorProps as XAnchorProps } from '@solidjs/router';
+import type { AnchorProps as XAnchorProps } from '@solidjs/router';
+import { A } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
-import { classList, PropsError, RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
+import { classList, PropsError } from '@components/base';
 import styles from '@components/button/common/style.module.css';
-import { Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';
+import type { Props as BaseProps } from '@components/button/common/types';
+import { presetProps as presetBaseProps } from '@components/button/common/types';
 
 export interface Ref<A extends boolean = false, E = A extends false ? HTMLButtonElement : HTMLAnchorElement> {
 	/**

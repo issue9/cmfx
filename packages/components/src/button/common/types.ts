@@ -4,7 +4,7 @@
 
 import { Hotkey } from '@cmfx/core';
 
-import { BaseProps } from '@components/base';
+import type { BaseProps } from '@components/base';
 
 export const kinds = ['flat', 'border', 'fill'] as const;
 
