@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
+import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import { BaseProps, classList, joinClass, RefProps } from '@components/base';
+import { BaseProps, joinClass, RefProps } from '@components/base';
 import { ToggleButton } from '@components/button';
 import { Transition } from '@components/transition';
 import styles from './style.module.css';
@@ -43,6 +43,13 @@ export interface Ref {
 	toggle(): void;
 
 	/**
+	 * 获取侧边栏的显示状态
+	 *
+	 * @returns true 表示显示状态；
+	 */
+	visible(): boolean;
+
+	/**
 	 * 生成一个用于显示和隐藏侧边栏的按钮组件
 	 *
 	 * @param props - 组件属性，参数说明如下：
@@ -52,10 +59,10 @@ export interface Ref {
 	 * @remarks
 	 * 该按钮会根据侧边栏的状态是否处于可调整的状态而自动显示或是隐藏。
 	 */
-	ToggleButton(props?: ToggleDrawerButtonProps): JSX.Element;
+	ToggleButton(props?: ToggleButtonProps): JSX.Element;
 }
 
-type ToggleDrawerButtonProps = Omit<ToggleButton.RootProps, 'toggle' | 'value' | 'on' | 'off'> & {
+export type ToggleButtonProps = Omit<ToggleButton.RootProps, 'toggle' | 'value' | 'on' | 'off'> & {
 	on?: JSX.Element;
 	off?: JSX.Element;
 };
@@ -64,16 +71,18 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
 	 * 侧边栏的初始状态
 	 */
-	visible?: boolean;
+	initValue?: boolean;
 
 	/**
 	 * 侧边栏是以浮动的形式出现
 	 *
-	 * @remarks 默认值为 false。如果是 true 或是 false 表示始终保持一种状态，
+	 * @remarks
+	 * 如果是 true 或是 false 表示始终保持一种状态，
 	 * 其它的值表示在整个页面小于此值时才变为浮动状态。
 	 * 除 boolean 以外的取值与窗口查询的值相对应，比如 2xl 对应的是 `@2xl`。
 	 *
 	 * @reactive
+	 * @defaultValue false
 	 */
 	floating?: boolean | '3xs' | 'xs' | 'sm' | 'md' | 'lg' | '2xl' | '4xl' | '6xl' | '8xl';
 
@@ -81,6 +90,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	 * 位置，默认值为 start
 	 *
 	 * @reactive
+	 * @defaultValue 'start'
 	 */
 	pos?: 'start' | 'end';
 
@@ -114,7 +124,7 @@ export function Root(props: Props) {
 	let rootRef: HTMLDivElement;
 	let asideRef: HTMLElement;
 
-	const [visible, setVisible] = createSignal(props.visible);
+	const [visible, setVisible] = createSignal(!!props.initValue);
 
 	onMount(() => {
 		const handleClick = (e: MouseEvent) => {
@@ -142,12 +152,6 @@ export function Root(props: Props) {
 		});
 		ob.observe(asideRef);
 		onCleanup(() => ob.disconnect());
-	});
-	createEffect(() => {
-		const f = props.floating;
-		if (f) {
-			setHidden(getComputedStyle(asideRef).getPropertyValue('position') !== 'absolute');
-		}
 	});
 
 	return (
@@ -194,40 +198,23 @@ export function Root(props: Props) {
 				ref={el => {
 					if (props.ref) {
 						props.ref({
-							root() {
-								return rootRef;
-							},
-							main() {
-								return el;
-							},
-							aside() {
-								return asideRef;
-							},
-							show() {
-								setVisible(true);
-							},
-							hide() {
-								setVisible(false);
-							},
-							toggle() {
-								setVisible(!visible());
-							},
-							ToggleButton(p?: ToggleDrawerButtonProps): JSX.Element {
+							root: () => rootRef,
+							main: () => el,
+							aside: () => asideRef,
+							show: () => setVisible(true),
+							hide: () => setVisible(false),
+							toggle: () => setVisible(!visible()),
+							visible: () => visible(),
+							ToggleButton: (p?: ToggleButtonProps): JSX.Element => {
 								p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu />, value: visible() }, p);
-								const [_, btnProps] = splitProps(p, ['class']);
+								const [_, btnProps] = splitProps(p, ['class', 'palette']);
 								return (
 									<ToggleButton.Root
 										{...(btnProps as ToggleButton.RootProps)}
-										class={classList(
-											p.palette,
-											{
-												hidden: hidden(),
-											},
-											props.class,
-										)}
+										class={joinClass(p.palette, hidden() ? 'hidden' : undefined, p.class)}
 										toggle={async (): Promise<boolean> => {
 											setVisible(!visible());
-											return !!visible();
+											return visible();
 										}}
 									/>
 								);
