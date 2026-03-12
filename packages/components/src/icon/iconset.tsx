@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { bundleSvgsStringSync, easings, Rotation, rotations, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
+import { bundleSvgsStringSync, easings, Rotation, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
 import { createEffect, createMemo, JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
@@ -37,8 +37,6 @@ export interface Ref {
 	 */
 	root(): SVGSVGElement;
 }
-
-export const iconSetRotations = rotations;
 
 export const iconSetEasings = Object.keys(easings);
 
@@ -81,7 +79,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
  *
  * 会根据 `@media(prefers-reduced-motion: reduce)` 判断是否需要使用动画效果。
  */
-export function IconSet(props: Props): JSX.Element {
+export function Root(props: Props): JSX.Element {
 	const [opt] = useOptions();
 	const keys = Object.keys(props.icons); // 图标名称列表
 	let index = props.value ? keys.indexOf(props.value) : keys.length - 1; // 当前图标在 keys 中的索引

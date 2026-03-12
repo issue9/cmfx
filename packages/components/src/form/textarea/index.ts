@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as TextAreaProps, Ref as TextAreaRef } from './textarea';
-export { TextArea } from './textarea';
+export * as TextArea from './mod';

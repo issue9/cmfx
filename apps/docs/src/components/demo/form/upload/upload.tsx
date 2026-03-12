@@ -25,13 +25,13 @@ export default function (props: MountProps): JSX.Element {
 				<Reverse />
 				<Auto />
 				<Layout />
-				<Button palette="primary" onclick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>
+				<Button.Root palette="primary" onclick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div title="basic">
-				<Album
+				<Album.Root
 					hasHelp
 					layout={layout()}
 					fieldName="file"
@@ -47,7 +47,7 @@ export default function (props: MountProps): JSX.Element {
 			</div>
 
 			<div title="basic+drop">
-				<Album
+				<Album.Root
 					hasHelp
 					layout={layout()}
 					fieldName="file"

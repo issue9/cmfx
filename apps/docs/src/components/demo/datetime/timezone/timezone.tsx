@@ -18,7 +18,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Timezone value={timezone()} palette={palette()} onChange={d => setTimezone(d)} />
+			<Timezone.Root value={timezone()} palette={palette()} onChange={d => setTimezone(d)} />
 			<span>{timezone()}</span>
 		</div>
 	);

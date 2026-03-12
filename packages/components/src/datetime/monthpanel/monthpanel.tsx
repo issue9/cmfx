@@ -10,7 +10,7 @@ import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { months } from '@components/datetime/utils';
 import styles from './style.module.css';
-import { default as YearPanel, Ref as YearPanelRef } from './yearpanel';
+import { Root as YearPanel, Ref as YearPanelRef } from './yearpanel';
 
 export interface Ref {
 	root(): HTMLFieldSetElement;
@@ -63,7 +63,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 /**
  * 月份选择面板
  */
-export default function MonthPanel(props: Props): JSX.Element {
+export function Root(props: Props): JSX.Element {
 	const [value, setValue] = createSignal<Date | undefined>(props.value);
 	const [year, setYear] = createSignal<number>(props.value?.getFullYear() ?? new Date().getFullYear());
 
@@ -95,7 +95,7 @@ export default function MonthPanel(props: Props): JSX.Element {
 
 	const l = useLocale();
 
-	const monthFomatter = createMemo(() => {
+	const monthFormatter = createMemo(() => {
 		const s = l.displayStyle === 'full' ? 'long' : l.displayStyle === 'short' ? 'short' : 'narrow';
 		return new Intl.DateTimeFormat(l.locale.toString(), { month: s }).format;
 	});
@@ -149,7 +149,7 @@ export default function MonthPanel(props: Props): JSX.Element {
 				<For each={months}>
 					{month => {
 						return (
-							<Button
+							<Button.Root
 								kind="flat"
 								checked={value()?.getMonth() === month && year() === value()?.getFullYear()}
 								disabled={
@@ -161,8 +161,8 @@ export default function MonthPanel(props: Props): JSX.Element {
 									change(new Date(year(), month));
 								}}
 							>
-								{monthFomatter()(new Date(2000, month, 1))}
-							</Button>
+								{monthFormatter()(new Date(2000, month, 1))}
+							</Button.Root>
 						);
 					}}
 				</For>

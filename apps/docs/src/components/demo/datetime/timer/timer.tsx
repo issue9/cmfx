@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MountProps, Timer, TimerRef, timerFields } from '@cmfx/components';
+import { Button, MountProps, Timer } from '@cmfx/components';
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -11,10 +11,10 @@ import { arraySelector, boolSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Unit, unit] = boolSelector('unit');
-	const [Field, field] = arraySelector('field', timerFields, 'minutes');
+	const [Field, field] = arraySelector('field', Timer.fields, 'minutes');
 	const [msg, setMsg] = createSignal('');
 
-	let ref: TimerRef;
+	let ref: Timer.RootRef;
 
 	return (
 		<div>
@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<div class="flex flex-col gap-4">
 				<div title="-1">
-					<Timer
+					<Timer.Root
 						unit={unit()}
 						ref={el => {
 							ref = el;
@@ -34,13 +34,13 @@ export default function (props: MountProps): JSX.Element {
 						startField={field()}
 						interval={-1}
 					/>
-					<Button palette="primary" onclick={() => ref!.toggle()}>
+					<Button.Root palette="primary" onclick={() => ref!.toggle()}>
 						切换暂停和启动状态
-					</Button>
+					</Button.Root>
 				</div>
 
 				<div title="event:-1">
-					<Timer
+					<Timer.Root
 						unit={unit()}
 						onTick={() => setMsg('tick')}
 						onComplete={() => setMsg('complete')}
@@ -53,7 +53,7 @@ export default function (props: MountProps): JSX.Element {
 				</div>
 
 				<div title="+1">
-					<Timer
+					<Timer.Root
 						separator={<IconFace />}
 						unit={unit()}
 						duration={'23m34s'}

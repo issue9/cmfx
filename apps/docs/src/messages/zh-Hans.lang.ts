@@ -135,7 +135,7 @@ const messages: typeof m = {
 			pagination: 'Pagination 分页',
 			qrcode: 'QR Code 二维码',
 			radio: 'Radio 单选框',
-			range: 'Range 范围选择器',
+			slider: 'Slider 范围选择器',
 			result: 'Result 结果页',
 			spin: 'Spin 加载',
 			search: 'Search 搜索框',

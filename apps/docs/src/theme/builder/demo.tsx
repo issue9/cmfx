@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Column, Mode, Palette, Scheme } from '@cmfx/components';
+import type { Mode, Palette, Scheme } from '@cmfx/components';
 import {
 	Appbar,
 	BasicTable,
@@ -60,78 +60,78 @@ export function Demo(props: { s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Elem
 		<div class={styles.main}>
 			<ThemeProvider mode={mode.getValue()} scheme={props.s.getValue()}>
 				<div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
-					<Appbar
+					<Appbar.Root
 						title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')}
 						class={styles.appbar}
 						actions={
 							<>
-								<ButtonGroup>
-									<Button
+								<ButtonGroup.Root>
+									<Button.Root
 										square
 										checked={typ() === 'components'}
 										title={l.t('_d.theme.components')}
 										onclick={() => setTyp('components')}
 									>
 										<IconComponents />
-									</Button>
+									</Button.Root>
 
-									<Button
+									<Button.Root
 										square
 										checked={typ() === 'palettes'}
 										title={l.t('_d.theme.palettes')}
 										onclick={() => setTyp('palettes')}
 									>
 										<IconPalettes />
-									</Button>
-								</ButtonGroup>
+									</Button.Root>
+								</ButtonGroup.Root>
 
-								<ButtonGroup>
-									<Button
+								<ButtonGroup.Root>
+									<Button.Root
 										square
 										title={l.t('_d.theme.light')}
 										checked={mode.getValue() === 'light'}
 										onclick={() => mode.setValue('light')}
 									>
 										<IconLight />
-									</Button>
-									<Button
+									</Button.Root>
+									<Button.Root
 										square
 										title={l.t('_d.theme.dark')}
 										checked={mode.getValue() === 'dark'}
 										onclick={() => mode.setValue('dark')}
 									>
 										<IconDark />
-									</Button>
-								</ButtonGroup>
+									</Button.Root>
+								</ButtonGroup.Root>
 
-								<ButtonGroup>
-									<Button
+								<ButtonGroup.Root>
+									<Button.Root
 										checked={contrast() === 'more'}
 										square
 										title={l.t('_d.theme.contrastMore')}
 										onclick={() => setContrast('more')}
 									>
 										<IconMore />
-									</Button>
+									</Button.Root>
 
-									<Button
+									<Button.Root
 										checked={contrast() === 'none'}
 										square
 										title={l.t('_d.theme.contrastNone')}
 										onclick={() => setContrast('none')}
 									>
 										<IconNone />
-									</Button>
+									</Button.Root>
 
-									<Button
+									<Button.Root
 										checked={contrast() === 'less'}
 										square
 										title={l.t('_d.theme.contrastLess')}
 										onclick={() => setContrast('less')}
 									>
 										<IconLess />
-									</Button>
-								</ButtonGroup>
+									</Button.Root>
+								</ButtonGroup.Root>
 							</>
 						}
 					/>
@@ -278,7 +278,7 @@ function Components(): JSX.Element {
 		},
 		{ id: 2, name: 'name2', address: 'address2' },
 	];
-	const columns: Array<Column<(typeof items)[number]>> = [
+	const columns: Array<BasicTable.Column<(typeof items)[number]>> = [
 		{ id: 'id' },
 		{ id: 'name' },
 		{ id: 'address' },
@@ -301,28 +301,28 @@ function Components(): JSX.Element {
 
 	return (
 		<div class={styles.components}>
-			<BasicTable class="w-full! transition-all" items={items} columns={columns} />
+			<BasicTable.Root class="w-full! transition-all" items={items} columns={columns} />
 
-			<DatePanel class="transition-all" value={new Date()} />
+			<DatePanel.Root class="transition-all" value={new Date()} />
 
-			<Card
+			<Card.Root
 				class="transition-all"
 				header="注册用户"
 				footerClass="flex justify-between"
 				footer={
 					<>
-						<Button palette="primary">重置</Button>
-						<Button palette="primary">注册</Button>
+						<Button.Root palette="primary">重置</Button.Root>
+						<Button.Root palette="primary">注册</Button.Root>
 					</>
 				}
 			>
-				<Form layout="vertical" api={api}>
-					<TextField accessor={api.accessor<string>('username')} label="用户名" placeholder="请输入用户名" />
-					<Password accessor={api.accessor<string>('password')} label="密码" placeholder="请输入密码" />
-				</Form>
-			</Card>
+				<Form.Root layout="vertical" api={api}>
+					<TextField.Root accessor={api.accessor<string>('username')} label="用户名" placeholder="请输入用户名" />
+					<Password.Root accessor={api.accessor<string>('password')} label="密码" placeholder="请输入密码" />
+				</Form.Root>
+			</Card.Root>
 
-			<Menu
+			<Menu.Root
 				class="min-w-50 rounded-md border border-palette-fg-low transition-all"
 				layout="inline"
 				items={[

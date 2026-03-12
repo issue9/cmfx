@@ -38,12 +38,17 @@ export function MemStatistic(): JSX.Element {
 
 	return (
 		<div class={styles.memstatistic}>
-			<XS class={styles.item} label={l.t('_p.current.allMembers')} icon={<IconGroup />} value={s().all} />
-			<XS class={styles.item} label={l.t('_p.current.monthMembers')} icon={<IconCalendar />} value={s().month} />
-			<XS class={styles.item} label={l.t('_p.current.weekMembers')} icon={<IconWeek />} value={s().week} />
-			<XS class={styles.item} label={l.t('_p.current.dayMembers')} icon={<IconToday />} value={s().day} />
-			<XS class={styles.item} label={l.t('_p.current.activeMembers')} icon={<IconPersonChk />} value={s().active} />
-			<XS class={styles.item} label={l.t('_p.current.onlineMembers')} icon={<IconRecord />} value={s().online} />
+			<XS.Root class={styles.item} label={l.t('_p.current.allMembers')} icon={<IconGroup />} value={s().all} />
+			<XS.Root class={styles.item} label={l.t('_p.current.monthMembers')} icon={<IconCalendar />} value={s().month} />
+			<XS.Root class={styles.item} label={l.t('_p.current.weekMembers')} icon={<IconWeek />} value={s().week} />
+			<XS.Root class={styles.item} label={l.t('_p.current.dayMembers')} icon={<IconToday />} value={s().day} />
+			<XS.Root
+				class={styles.item}
+				label={l.t('_p.current.activeMembers')}
+				icon={<IconPersonChk />}
+				value={s().active}
+			/>
+			<XS.Root class={styles.item} label={l.t('_p.current.onlineMembers')} icon={<IconRecord />} value={s().online} />
 		</div>
 	);
 }

@@ -35,13 +35,13 @@ export default function (props: MountProps): JSX.Element {
 				<ItemLayout />
 				<Block />
 				<Rounded />
-				<Button palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>
+				<Button.Root palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div>
-				<RadioGroup
+				<RadioGroup.Root
 					hasHelp
 					rounded={rounded()}
 					label="test"

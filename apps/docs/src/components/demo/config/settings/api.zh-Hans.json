@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "SettingsProps",
+		"name": "Settings.RootProps",
 		"properties": [
 			{
 				"name": "onReset",
@@ -43,7 +43,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "SettingsRef",
+		"name": "Settings.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -56,11 +56,11 @@
 			{
 				"name": "Item",
 				"summary": "声明一个设置项的组件\n\n",
-				"type": "Item(props: SettingsItemProps): JSX.Element",
+				"type": "Item(props: ItemProps): JSX.Element",
 				"params": [
 					{
 						"name": "props",
-						"type": "SettingsItemProps"
+						"type": "ItemProps"
 					}
 				],
 				"return": {
@@ -72,7 +72,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "SettingsItemProps",
+		"name": "Settings.ItemProps",
 		"summary": "设置项的属性\n\n",
 		"properties": [
 			{

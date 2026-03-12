@@ -2,8 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as AlertProps, Ref as AlertRef } from './alert';
-export { default as Alert } from './alert';
-export type { Type as NotifyType } from './message';
-export { types as notifyTypes } from './message';
+export * as Alert from './alert.mod';
 export { notify } from './notify';

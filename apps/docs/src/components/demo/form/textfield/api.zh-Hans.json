@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "TextFieldProps",
+		"name": "TextField.RootProps",
 		"properties": [
 			{
 				"name": "maxLength",
@@ -184,12 +184,12 @@
 				}
 			}
 		],
-		"name": "TextFieldRef",
+		"name": "TextField.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "NumericProps",
+		"name": "Numeric.RootProps",
 		"properties": [
 			{
 				"name": "min",
@@ -325,7 +325,30 @@
 	},
 	{
 		"kind": "interface",
-		"name": "PasswordProps",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "组件的根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "input",
+				"summary": "组件中实际用于输入的 input 元素\n\n",
+				"type": "input(): HTMLInputElement",
+				"return": {
+					"type": "HTMLInputElement"
+				}
+			}
+		],
+		"name": "Numeric.RootRef",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Password.RootProps",
 		"properties": [
 			{
 				"name": "autocomplete",
@@ -373,11 +396,15 @@
 				"type": "number | undefined"
 			},
 			{
-				"name": "layout",
-				"summary": "表单组件的 layout 属性的默认值\n\n",
-				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
-				"type": "\"horizontal\" | \"vertical\" | undefined",
-				"def": "'horizontal'\n\n",
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{
@@ -388,15 +415,11 @@
 				"reactive": true
 			},
 			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "rounded",
-				"summary": "表单组件的 rounded 属性的默认值\n\n",
-				"type": "boolean | undefined",
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
 				"reactive": true
 			},
 			{
@@ -470,8 +493,36 @@
 				"summary": "提供候选词列表\n\n",
 				"remarks": "当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。\n\n",
 				"type": "((text?: string) => Array<string>) | undefined"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
 			}
 		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "组件的根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "input",
+				"summary": "组件中实际用于输入的 input 元素\n\n",
+				"type": "input(): HTMLInputElement",
+				"return": {
+					"type": "HTMLInputElement"
+				}
+			}
+		],
+		"name": "Password.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

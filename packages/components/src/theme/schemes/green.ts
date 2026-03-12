@@ -19,4 +19,4 @@ export default {
 		lg: 0,
 		xl: 0.5,
 	},
-} as Scheme;
+} satisfies Scheme;

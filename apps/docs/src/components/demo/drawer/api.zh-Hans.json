@@ -1,24 +1,26 @@
 [
 	{
 		"kind": "interface",
-		"name": "DrawerProps",
+		"name": "Drawer.RootProps",
 		"properties": [
 			{
-				"name": "visible",
+				"name": "initValue",
 				"summary": "侧边栏的初始状态\n\n",
 				"type": "boolean | undefined"
 			},
 			{
 				"name": "floating",
 				"summary": "侧边栏是以浮动的形式出现\n\n",
-				"remarks": "默认值为 false。如果是 true 或是 false 表示始终保持一种状态，\n其它的值表示在整个页面小于此值时才变为浮动状态。\n除 boolean 以外的取值与窗口查询的值相对应，比如 2xl 对应的是\n`@2xl`\n。\n\n",
+				"remarks": "如果是 true 或是 false 表示始终保持一种状态，\n其它的值表示在整个页面小于此值时才变为浮动状态。\n除 boolean 以外的取值与窗口查询的值相对应，比如 2xl 对应的是\n`@2xl`\n。\n\n",
 				"type": "boolean | \"md\" | \"3xs\" | \"xs\" | \"sm\" | \"lg\" | \"2xl\" | \"4xl\" | \"6xl\" | \"8xl\" | undefined",
+				"def": "false\n\n",
 				"reactive": true
 			},
 			{
 				"name": "pos",
 				"summary": "位置，默认值为 start\n\n",
 				"type": "\"start\" | \"end\" | undefined",
+				"def": "'start'\n\n",
 				"reactive": true
 			},
 			{
@@ -73,7 +75,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "DrawerRef",
+		"name": "Drawer.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -124,19 +126,12 @@
 				}
 			},
 			{
-				"name": "ToggleButton",
-				"summary": "生成一个用于显示和隐藏侧边栏的按钮组件\n\n",
-				"remarks": "该按钮会根据侧边栏的状态是否处于可调整的状态而自动显示或是隐藏。\n\n",
-				"type": "ToggleButton(props?: ToggleDrawerButtonProps): JSX.Element",
-				"params": [
-					{
-						"name": "props",
-						"summary": "组件属性，参数说明如下：\n- on 显示状态下的图标；\n- off 隐藏状态下的图标；\n\n",
-						"type": "ToggleDrawerButtonProps | undefined"
-					}
-				],
+				"name": "visible",
+				"summary": "获取侧边栏的显示状态\n\n",
+				"type": "visible(): boolean",
 				"return": {
-					"type": "JSX.Element"
+					"summary": "true 表示显示状态；\n\n",
+					"type": "boolean"
 				}
 			}
 		],

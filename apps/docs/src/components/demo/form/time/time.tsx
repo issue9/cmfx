@@ -25,12 +25,12 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 				<Disabled />
 				<Layout />
-				<Button palette="primary" onclick={() => ac.setError(ac.getError() ? undefined : 'error')}>
+				<Button.Root palette="primary" onclick={() => ac.setError(ac.getError() ? undefined : 'error')}>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
-			<TimePicker
+			<TimePicker.Root
 				hasHelp
 				placeholder="placeholder"
 				layout={layout()}

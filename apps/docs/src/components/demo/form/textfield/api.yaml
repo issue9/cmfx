@@ -6,11 +6,11 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - TextFieldProps
-            - TextFieldRef
+            - TextField.RootProps
+            - TextField.RootRef
 
-            - NumericProps
-            - NumericRef
+            - Numeric.RootProps
+            - Numeric.RootRef
 
-            - PasswordProps
-            - PasswordRef
+            - Password.RootProps
+            - Password.RootRef

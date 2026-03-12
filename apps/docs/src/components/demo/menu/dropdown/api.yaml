@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - DropdownProps
-            - DropdownRef
+            - Dropdown.RootProps
+            - Dropdown.RootRef

@@ -2,20 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as ButtonProps, Ref as ButtonRef } from './button';
-export { Button } from './button';
-export type { Props as ConfirmButtonProps, Ref as ConfirmButtonRef } from './confirm';
-export { ConfirmButton } from './confirm';
-export type { Props as ButtonGroupProps, Ref as ButtonGroupRef } from './group';
-export { ButtonGroup } from './group';
-export type { Props as SplitButtonProps, Ref as SplitButtonRef } from './split';
-export { default as SplitButton } from './split';
-export type {
-	Props as ToggleButtonProps,
-	Ref as ToggleButtonRef,
-	ToggleFitScreenButtonProps,
-	ToggleFullScreenButtonProps,
-} from './toggle';
-export { ToggleButton, ToggleFitScreenButton, ToggleFullScreenButton } from './toggle';
-export type { Kind as ButtonKind } from './types';
-export { kinds as buttonKinds } from './types';
+export * from './button';
+export * from './confirm';
+export * from './group';
+export * from './split';
+export * from './toggle';

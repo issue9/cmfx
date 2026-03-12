@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as TourProps, Ref as TourRef, Step as TourStep } from './tour';
-export { default as Tour } from './tour';
+export * as Tour from './mod';

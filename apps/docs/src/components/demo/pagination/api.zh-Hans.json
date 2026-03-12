@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "PaginationProps",
+		"name": "Pagination.RootProps",
 		"properties": [
 			{
 				"name": "count",
@@ -10,14 +10,16 @@
 				"reactive": true
 			},
 			{
-				"name": "initValue",
+				"name": "value",
 				"summary": "当前页的页码，取值范围为 [1,\n`count`\n]。\n\n",
-				"type": "number"
+				"type": "number | undefined",
+				"def": "1\n\n",
+				"reactive": true
 			},
 			{
 				"name": "onChange",
 				"summary": "在页码改变的时候触发\n\n",
-				"type": "((current: number, old?: number) => void) | undefined"
+				"type": "ChangeFunc<number> | undefined"
 			},
 			{
 				"name": "spans",
@@ -45,13 +47,47 @@
 				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
 			}
 		],
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "PaginationBarProps",
+		"name": "Pagination.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): ButtonGroup.RootRef",
+				"return": {
+					"type": "Ref_7"
+				}
+			},
+			{
+				"name": "jump",
+				"summary": "跳转到指定的页面\n\n",
+				"type": "jump(p: number): void",
+				"params": [
+					{
+						"name": "p",
+						"summary": "页码；\n\n",
+						"type": "number"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "PaginationBar.RootProps",
 		"properties": [
 			{
 				"name": "total",
@@ -76,11 +112,11 @@
 			},
 			{
 				"name": "onPageChange",
-				"type": "((current: number, old?: number) => void) | undefined"
+				"type": "ChangeFunc<number> | undefined"
 			},
 			{
 				"name": "onSizeChange",
-				"type": "((current: number, old?: number) => void) | undefined"
+				"type": "ChangeFunc<number> | undefined"
 			},
 			{
 				"name": "spans",
@@ -108,6 +144,40 @@
 				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "PaginationBar.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "jump",
+				"summary": "跳转到指定的页面\n\n",
+				"type": "jump(p: number): void",
+				"params": [
+					{
+						"name": "p",
+						"summary": "页码；\n\n",
+						"type": "number"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
 			}
 		],
 		"pkg": "@cmfx/components"

@@ -30,7 +30,7 @@ export default function (props: MountProps): JSX.Element {
 						</>
 					)}
 				</For>
-				<BackTop palette={palette()} class="start-[300px] end-[unset] bottom-4! mb-10" />
+				<BackTop.Root palette={palette()} class="start-[300px] end-[unset] bottom-4! mb-10" />
 			</div>
 		</>
 	);

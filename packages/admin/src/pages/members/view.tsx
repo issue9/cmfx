@@ -69,7 +69,7 @@ export function View(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page title="_p.member.view" class={joinClass(undefined, 'max-w-lg', styles.view)}>
+		<Page.Root title="_p.member.view" class={joinClass(undefined, 'max-w-lg', styles.view)}>
 			<div class={styles.info}>
 				<img class={styles.avatar} src={member().avatar} alt="avatar" />
 
@@ -127,6 +127,6 @@ export function View(props: Props): JSX.Element {
 			</div>
 
 			<Show when={props.panels}>{props.panels!({ member: member() })}</Show>
-		</Page>
+		</Page.Root>
 	);
 }

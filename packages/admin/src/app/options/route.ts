@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MenuItem as XMenuItem } from '@cmfx/components';
+import { Menu } from '@cmfx/components';
 import { Hotkey, Locale } from '@cmfx/core';
 import { RouteDefinition } from '@solidjs/router';
 import { JSX } from 'solid-js';
@@ -84,8 +84,8 @@ export type MenuItem =
 			suffix?: JSX.Element;
 	  };
 
-export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem<string>> {
-	const items: Array<XMenuItem<string>> = [];
+export function buildItems(l: Locale, menus: Array<MenuItem>): Array<Menu.MenuItem> {
+	const items: Array<Menu.MenuItem> = [];
 	menus.forEach(mi => {
 		switch (mi.type) {
 			case 'divider':

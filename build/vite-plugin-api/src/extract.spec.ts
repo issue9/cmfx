@@ -148,14 +148,14 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('union literal', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ButtonKind');
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Button.Kind');
 		expect(items).length(1);
 
 		const alias = items![0];
 		expect(alias.kind).toEqual('literal');
 
 		if (alias.kind === 'literal') {
-			expect(alias.name).toEqual('ButtonKind');
+			expect(alias.name).toEqual('Button.Kind');
 			expect(alias.summary?.trim()).toEqual('组件的风格');
 			expect(alias.remarks).toBeDefined();
 			expect(alias.type).toEqual('"flat" | "border" | "fill"');
@@ -163,13 +163,13 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('union interface', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ButtonProps');
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Button.RootProps');
 		expect(items).length(1);
 
 		const props = items![0];
 		expect(props.kind).toEqual('union');
 		if (props.kind === 'union') {
-			expect(props.name).toEqual('ButtonProps');
+			expect(props.name).toEqual('Button.RootProps');
 			expect(props.summary).toBeUndefined();
 			expect(props.remarks).toBeUndefined();
 
@@ -177,14 +177,14 @@ describe('Extractor', { timeout: 20000 }, () => {
 			expect(props.types).length(2);
 
 			const u0 = props.types![0] as Interface;
-			expect(u0.name).toEqual('BProps');
+			expect(u0.name).toEqual('ButtonProps'); // 在 d.ts 中该类型在全局中，然后被引入 Button 空间
 			expect(u0.kind).toEqual('interface');
 			const u0Type = u0.properties?.find(p => p.name === 'type');
 			expect(u0Type).toBeDefined();
 			expect(u0Type?.type).toEqual('"submit" | "reset" | "button" | "menu" | undefined');
 
 			const u1 = props.types![1] as Interface;
-			expect(u1.name).toEqual('AProps');
+			expect(u1.name).toEqual('AnchorProps'); // 在 d.ts 中该类型在全局中，然后被引入 Button 空间
 			expect(u1.kind).toEqual('interface');
 			const u1Type = u1.properties?.find(p => p.name === 'type');
 			expect(u1Type).toBeDefined();
@@ -193,14 +193,14 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('union intersection interface', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ConfirmButtonProps');
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ConfirmButton.RootProps');
 		expect(items).length(1);
 
 		const props = items![0];
 		expect(props.kind).toEqual('union');
 
 		if (props.kind === 'union') {
-			expect(props.name).toEqual('ConfirmButtonProps');
+			expect(props.name).toEqual('ConfirmButton.RootProps');
 			expect(props.summary).toBeUndefined();
 			expect(props.remarks).toBeUndefined();
 
@@ -209,22 +209,22 @@ describe('Extractor', { timeout: 20000 }, () => {
 
 			const u0 = props.types![0] as Intersection;
 			expect(u0.kind).toEqual('intersection');
-			expect(u0.types).length(2);
+			expect(u0.types).length(3);
 
 			const u1 = props.types![1] as Intersection;
 			expect(u1.kind).toEqual('intersection');
-			expect(u1.types).length(2);
+			expect(u1.types).length(3);
 		}
 	});
 
 	test('intersection', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'DividerProps');
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Divider.RootProps');
 		expect(items).length(1);
 
 		const alias = items![0];
 		expect(alias.kind).toEqual('intersection');
 		if (alias.kind === 'intersection') {
-			expect(alias.types).length(3);
+			expect(alias.types).length(4);
 
 			const i0 = alias.types[0] as Interface;
 			expect(i0).toBeDefined();
@@ -242,8 +242,13 @@ describe('Extractor', { timeout: 20000 }, () => {
 			const i2 = alias.types[2] as Interface;
 			expect(i2).toBeDefined();
 			expect(i2.properties).length(1);
-			expect(i2.properties![0].name).toEqual('children');
-			expect(i2.properties![0].type).toEqual('JSX.Element'); // JSX.Element 本身包含 undefined
+			expect(i2.properties![0].name).toEqual('ref');
+
+			const i3 = alias.types[3] as Interface;
+			expect(i3).toBeDefined();
+			expect(i3.properties).length(1);
+			expect(i3.properties![0].name).toEqual('children');
+			expect(i3.properties![0].type).toEqual('JSX.Element'); // JSX.Element 本身包含 undefined
 		}
 	});
 
@@ -276,14 +281,14 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('Omit<X,Y>', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ToggleFullScreenButtonProps');
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ToggleButton.FullScreenProps');
 		expect(items).length(1);
 
 		const f = items![0];
 		expect(f.kind).toEqual('interface');
 
 		if (f.kind === 'interface') {
-			expect(f.name).toEqual('ToggleFullScreenButtonProps');
+			expect(f.name).toEqual('ToggleButton.FullScreenProps');
 			expect(f.summary).toBeUndefined();
 			expect(f.properties).toBeDefined();
 

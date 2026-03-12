@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, Code, joinClass, ThemeProvider, ToggleFitScreenButton, useLocale } from '@cmfx/components';
+import { Button, ButtonGroup, Code, joinClass, ThemeProvider, ToggleButton, useLocale } from '@cmfx/components';
 import type { Layout, MountProps } from '@cmfx/components';
 import { Component, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
@@ -92,10 +92,10 @@ export default function Stage(props: Props): JSX.Element {
 				<div class={styles.demo} ref={setDemoRef} style={{ height: props.height }}>
 					<div class={styles.toolbar}>
 						<div class={styles.left}>
-							<ToggleFitScreenButton square container={demoRef()!} />
+							<ToggleButton.FitScreen square container={demoRef()!} />
 
-							<ButtonGroup>
-								<Button
+							<ButtonGroup.Root>
+								<Button.Root
 									square
 									checked={dir() === 'rtl'}
 									onclick={() => {
@@ -103,8 +103,8 @@ export default function Stage(props: Props): JSX.Element {
 									}}
 								>
 									<IconRTL />
-								</Button>
-								<Button
+								</Button.Root>
+								<Button.Root
 									square
 									checked={dir() === 'ltr'}
 									onclick={() => {
@@ -112,11 +112,11 @@ export default function Stage(props: Props): JSX.Element {
 									}}
 								>
 									<IconLTR />
-								</Button>
-							</ButtonGroup>
+								</Button.Root>
+							</ButtonGroup.Root>
 
-							<ButtonGroup>
-								<Button
+							<ButtonGroup.Root>
+								<Button.Root
 									square
 									checked={mode() === 'dark'}
 									onclick={() => {
@@ -124,8 +124,8 @@ export default function Stage(props: Props): JSX.Element {
 									}}
 								>
 									<IconDark />
-								</Button>
-								<Button
+								</Button.Root>
+								<Button.Root
 									square
 									checked={mode() === 'light'}
 									onclick={() => {
@@ -133,8 +133,8 @@ export default function Stage(props: Props): JSX.Element {
 									}}
 								>
 									<IconLight />
-								</Button>
-							</ButtonGroup>
+								</Button.Root>
+							</ButtonGroup.Root>
 						</div>
 
 						<div
@@ -154,9 +154,9 @@ export default function Stage(props: Props): JSX.Element {
 
 				<Show when={props.source}>
 					{s => (
-						<Code wrap ln={0} lang="tsx" class={styles.code} style={{ height: codeHeight() }}>
+						<Code.Root wrap ln={0} lang="tsx" class={styles.code} style={{ height: codeHeight() }}>
 							{s()}
-						</Code>
+						</Code.Root>
 					)}
 				</Show>
 			</div>

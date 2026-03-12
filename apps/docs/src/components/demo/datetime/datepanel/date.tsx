@@ -46,15 +46,15 @@ export default function (props: MountProps): JSX.Element {
 					value={week()}
 					onChange={e => setWeek(parseInt(e.target.value, 10) as Week)}
 				/>
-				<Button
+				<Button.Root
 					onclick={() => {
 						setValue();
 						setValWithTime();
 					}}
 				>
 					set undefined
-				</Button>
-				<Button
+				</Button.Root>
+				<Button.Root
 					onclick={() => {
 						const now = new Date();
 						const next = new Date(now);
@@ -64,11 +64,11 @@ export default function (props: MountProps): JSX.Element {
 					}}
 				>
 					now
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div class="flex flex-col items-start">
-				<DatePanel
+				<DatePanel.Root
 					time={time()}
 					min={minmax() ? min : undefined}
 					max={minmax() ? max : undefined}
@@ -88,7 +88,7 @@ export default function (props: MountProps): JSX.Element {
 			</div>
 
 			<div class="flex flex-col items-start">
-				<DatePanel
+				<DatePanel.Root
 					min={minmax() ? min : undefined}
 					max={minmax() ? max : undefined}
 					time={!time()}

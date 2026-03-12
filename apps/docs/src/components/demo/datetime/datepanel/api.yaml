@@ -6,7 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - DatePanelProps
-            - DatePanelRef
-            - DateRangePanelProps
-            - DateRangeValueType
+            - DatePanel.RootProps
+            - DatePanel.RootRef
+
+            - DateRangePanel.RootProps
+            - DateRangePanel.RootRef

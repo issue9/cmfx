@@ -35,7 +35,7 @@ export function About(props: Props): JSX.Element {
 	const data = window[aboutName];
 
 	return (
-		<Page title="_p.system.about" class={styles.about}>
+		<Page.Root title="_p.system.about" class={styles.about}>
 			{props.description?.({})}
 
 			<Show when={data.serverDependencies}>
@@ -55,16 +55,16 @@ export function About(props: Props): JSX.Element {
 					return renderPackage(l.t('_p.system.devDeps'), c(), <IconFolderCode />);
 				}}
 			</Show>
-		</Page>
+		</Page.Root>
 	);
 }
 
 function renderPackage(title: string, pkgs: Array<Package>, icon?: JSX.Element): JSX.Element {
 	return (
 		<fieldset class="palette--tertiary">
-			<Label class="px-1 text-lg" icon={icon} tag="legend">
+			<Label.Root class="px-1 text-lg" icon={icon} tag="legend">
 				{title}
-			</Label>
+			</Label.Root>
 			<For each={pkgs}>
 				{item => (
 					<div class={styles.item}>

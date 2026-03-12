@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "SearchProps",
+		"name": "Search.RootProps",
 		"properties": [
 			{
 				"name": "hotkey",
@@ -39,12 +39,12 @@
 			},
 			{
 				"name": "onSearch",
-				"type": "(text: string) => Promise<Array<MenuItemItem<string>>>"
+				"type": "(text: string) => Promise<Array<Menu.MenuItem>>"
 			},
 			{
 				"name": "onSelect",
 				"summary": "选择弹出项时触发的事件\n\n",
-				"type": "CF<false, string, string> | undefined"
+				"type": "ChangeFunc<string> | undefined"
 			},
 			{
 				"name": "palette",
@@ -66,6 +66,25 @@
 				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Search.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): Dropdown.RootRef",
+				"return": {
+					"type": "Ref_9"
+				}
 			}
 		],
 		"pkg": "@cmfx/components"

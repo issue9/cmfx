@@ -23,7 +23,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-wrap items-center gap-2">
-				<ConfirmButton
+				<ConfirmButton.Root
 					onclick={() => alert('confirm')}
 					disabled={disabled()}
 					rounded={rounded()}
@@ -31,9 +31,9 @@ export default function (props: MountProps): JSX.Element {
 					palette="tertiary"
 				>
 					click
-				</ConfirmButton>
+				</ConfirmButton.Root>
 
-				<ConfirmButton
+				<ConfirmButton.Root
 					type="a"
 					prompt={<p>点击确定之后将跳转到指定页面，取消则不跳转</p>}
 					href="/"
@@ -50,9 +50,9 @@ export default function (props: MountProps): JSX.Element {
 					cancel="cancel"
 				>
 					anchor
-				</ConfirmButton>
+				</ConfirmButton.Root>
 
-				<ConfirmButton
+				<ConfirmButton.Root
 					type="a"
 					prompt={<p>同时提供了 onclick 和 href</p>}
 					href="/"
@@ -70,7 +70,7 @@ export default function (props: MountProps): JSX.Element {
 					cancel="cancel"
 				>
 					click+href
-				</ConfirmButton>
+				</ConfirmButton.Root>
 			</div>
 		</div>
 	);

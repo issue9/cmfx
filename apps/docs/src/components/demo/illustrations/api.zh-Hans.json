@@ -6,7 +6,8 @@
 			{
 				"name": "text",
 				"summary": "组件内的提示文字\n\n",
-				"type": "string | undefined"
+				"type": "string | undefined",
+				"reactive": true
 			},
 			{
 				"name": "palette",
@@ -33,6 +34,21 @@
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
 				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/illustrations"
+	},
+	{
+		"kind": "interface",
+		"name": "IllustrationRef",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "组件的引用\n\n",
+				"type": "root(): SVGSVGElement",
+				"return": {
+					"type": "SVGSVGElement"
+				}
 			}
 		],
 		"pkg": "@cmfx/illustrations"

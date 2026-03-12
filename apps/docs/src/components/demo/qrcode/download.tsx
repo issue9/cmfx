@@ -2,15 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Button,
-	MountProps,
-	QRCode,
-	QRCodeCornerDotType,
-	QRCodeCornerSquareType,
-	QRCodeDotType,
-	QRCodeRef,
-} from '@cmfx/components';
+import { Button, MountProps, QRCode } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -20,16 +12,16 @@ const dotTypes = ['dots', 'rounded', 'classy', 'classy-rounded', 'square', 'extr
 const cornerDotTypes = ['dot', 'square'] as const;
 const cornerSquareTypes = ['dot', 'square', 'extra-rounded'] as const;
 
-export function typeSelector(preset: QRCodeDotType = 'square') {
+export function typeSelector(preset: QRCode.DotType = 'square') {
 	return arraySelector('type', dotTypes, preset);
 }
 
-export function cornerTypeSelector(preset: QRCodeCornerDotType = 'square') {
+export function cornerTypeSelector(preset: QRCode.CornerDotType = 'square') {
 	const corners = new Map(cornerDotTypes.map(v => [v, v]));
 	return arraySelector('corner type', corners, preset, true);
 }
 
-export function cornerSquareTypeSelector(preset: QRCodeCornerSquareType = 'square') {
+export function cornerSquareTypeSelector(preset: QRCode.CornerSquareType = 'square') {
 	const corners = new Map(cornerSquareTypes.map(v => [v, v]));
 	return arraySelector('corner square type', corners, preset, true);
 }
@@ -40,7 +32,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Ctype, ctype] = cornerTypeSelector();
 	const [Cstype, cstype] = cornerSquareTypeSelector();
 
-	let ref: QRCodeRef;
+	let ref: QRCode.RootRef;
 
 	return (
 		<>
@@ -51,7 +43,7 @@ export default function (props: MountProps): JSX.Element {
 				<Cstype />
 			</Portal>
 
-			<QRCode
+			<QRCode.Root
 				ref={el => {
 					ref = el;
 				}}
@@ -63,9 +55,9 @@ export default function (props: MountProps): JSX.Element {
 				value="https://example.com"
 			/>
 			<div class="mt-5 flex w-full justify-between">
-				<Button onclick={() => ref.download()}>png</Button>
-				<Button onclick={() => ref.download('f1', 'jpeg')}>jpeg</Button>
-				<Button onclick={() => ref.download('f1', 'svg')}>svg</Button>
+				<Button.Root onclick={() => ref.download()}>png</Button.Root>
+				<Button.Root onclick={() => ref.download('f1', 'jpeg')}>jpeg</Button.Root>
+				<Button.Root onclick={() => ref.download('f1', 'svg')}>svg</Button.Root>
 			</div>
 		</>
 	);

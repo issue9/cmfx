@@ -2,22 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Layout, Palette } from '@cmfx/components';
 import {
 	Appbar,
-	AppbarRef,
 	Button,
 	ContextNotFoundError,
 	Drawer,
-	DrawerRef,
 	Dropdown,
 	joinClass,
-	Layout,
 	Menu,
-	MenuRef,
-	Palette,
 	useOptions as useComponentOptions,
 	useLocale,
 } from '@cmfx/components';
+import type { JSX, ParentProps, Signal } from 'solid-js';
 import {
 	createContext,
 	createEffect,
@@ -25,12 +22,9 @@ import {
 	createSignal,
 	ErrorBoundary,
 	For,
-	JSX,
 	Match,
 	onCleanup,
 	onMount,
-	ParentProps,
-	Signal,
 	Switch,
 	useContext,
 } from 'solid-js';
@@ -134,8 +128,8 @@ function Horizontal(props: ParentProps): JSX.Element {
 	const l = useLocale();
 	const layout = useLayout();
 
-	let menuRef: MenuRef;
-	const [drawerRef, setDrawerRef] = createSignal<DrawerRef>();
+	let menuRef: Menu.RootRef;
+	const [drawerRef, setDrawerRef] = createSignal<Drawer.RootRef>();
 
 	onMount(() => {
 		if (menuRef) {
@@ -144,8 +138,8 @@ function Horizontal(props: ParentProps): JSX.Element {
 	});
 
 	// 保证两个顶部工具栏高度相同
-	let asideBar: AppbarRef;
-	let toolbar: AppbarRef;
+	let asideBar: Appbar.RootRef;
+	let toolbar: Appbar.RootRef;
 	onMount(() => {
 		const ro = new ResizeObserver(entries => {
 			asideBar.root().style.height = `${entries[0]!.borderBoxSize[0].blockSize.toString()}px`;
@@ -171,7 +165,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 	});
 
 	return (
-		<Drawer
+		<Drawer.Root
 			class={cls()}
 			floating={opt.floatingMinWidth}
 			ref={setDrawerRef}
@@ -181,7 +175,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 			main={
 				<ErrorBoundary fallback={errorHandler}>
 					<div class="contents">
-						<Appbar
+						<Appbar.Root
 							ref={el => {
 								toolbar = el;
 							}}
@@ -194,14 +188,14 @@ function Horizontal(props: ParentProps): JSX.Element {
 								</>
 							}
 						>
-							{drawerRef()?.ToggleButton({ square: true })}
-						</Appbar>
+							<Drawer.ToggleButton square drawer={drawerRef()} />
+						</Appbar.Root>
 						<main class={joinClass('surface', styles.content)}>{props.children}</main>
 					</div>
 				</ErrorBoundary>
 			}
 		>
-			<Appbar
+			<Appbar.Root
 				ref={el => {
 					asideBar = el;
 				}}
@@ -209,7 +203,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 				title={opt.title}
 				class={styles.toolbar}
 			/>
-			<Menu
+			<Menu.Root
 				class={styles.menu}
 				ref={el => {
 					menuRef = el;
@@ -217,7 +211,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 				layout="inline"
 				items={buildItems(l, opt.menus)}
 			/>
-		</Drawer>
+		</Drawer.Root>
 	);
 }
 
@@ -226,8 +220,8 @@ function Vertical(props: ParentProps): JSX.Element {
 	const l = useLocale();
 	const layout = useLayout();
 
-	let menuRef: MenuRef;
-	const [drawerRef, setDrawerRef] = createSignal<DrawerRef>();
+	let menuRef: Menu.RootRef;
+	const [drawerRef, setDrawerRef] = createSignal<Drawer.RootRef>();
 
 	onMount(() => {
 		if (menuRef) {
@@ -253,7 +247,7 @@ function Vertical(props: ParentProps): JSX.Element {
 
 	return (
 		<div class={cls()} style={style()}>
-			<Appbar
+			<Appbar.Root
 				logo={opt.logo}
 				title={opt.title}
 				class={styles.toolbar}
@@ -265,25 +259,25 @@ function Vertical(props: ParentProps): JSX.Element {
 					</>
 				}
 			>
-				{drawerRef()?.ToggleButton({ square: true })}
-			</Appbar>
+				<Drawer.ToggleButton square drawer={drawerRef()} />
+			</Appbar.Root>
 
 			<main class={styles.main}>
-				<Drawer
+				<Drawer.Root
 					floating={opt.floatingMinWidth}
 					ref={setDrawerRef}
 					asideClass={joinClass(bgPalette, styles.aside)}
 					mainClass={joinClass('surface', styles.content)}
 					main={<ErrorBoundary fallback={errorHandler}>{props.children}</ErrorBoundary>}
 				>
-					<Menu
+					<Menu.Root
 						ref={el => {
 							menuRef = el;
 						}}
 						layout="inline"
 						items={buildItems(l, opt.menus)}
 					/>
-				</Drawer>
+				</Drawer.Root>
 			</main>
 		</div>
 	);
@@ -298,11 +292,11 @@ function UserMenu(): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<Dropdown trigger="hover" items={buildItems(l, opt.userMenus)}>
-			<Button kind="flat" class="ps-1">
+		<Dropdown.Root trigger="hover" items={buildItems(l, opt.userMenus)}>
+			<Button.Root kind="flat" class="ps-1">
 				<img alt="avatar" class={styles.avatar} src={usr.info()?.avatar} />
 				{usr.info()?.name}
-			</Button>
-		</Dropdown>
+			</Button.Root>
+		</Dropdown.Root>
 	);
 }

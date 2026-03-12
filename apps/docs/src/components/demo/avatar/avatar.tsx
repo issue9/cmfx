@@ -17,7 +17,7 @@ export default function (props: MountProps) {
 				<Palette />
 				<Rounded />
 			</Portal>
-			<Avatar
+			<Avatar.Root
 				value="./brand-static.svg"
 				palette={palette()}
 				rounded={rounded()}

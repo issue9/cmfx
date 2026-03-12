@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as BackTopProps, Ref as BackTopRef } from './backtop';
-export { BackTop } from './backtop';
+export * as BackTop from './mod';

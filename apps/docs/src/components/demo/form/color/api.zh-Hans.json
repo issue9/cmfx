@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "ColorPickerProps",
+		"name": "ColorPicker.RootProps",
 		"properties": [
 			{
 				"name": "accessor",
@@ -38,7 +38,7 @@
 			{
 				"name": "pickers",
 				"summary": "指定的颜色拾取面板的类型\n\n",
-				"type": "ColorPickerPanel[]"
+				"type": "PickerPanel[]"
 			},
 			{
 				"name": "title",
@@ -104,6 +104,25 @@
 				"name": "help",
 				"summary": "提示信息\n\n\n该内容显示在 helpArea 区域，只有\n`hasHelp`\n为真时才会显示。\n\n",
 				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ColorPicker.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
 			}
 		],
 		"pkg": "@cmfx/components"

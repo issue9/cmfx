@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "ColorPanelProps",
+		"name": "ColorPanel.RootProps",
 		"properties": [
 			{
 				"name": "value",
@@ -24,7 +24,7 @@
 			{
 				"name": "pickers",
 				"summary": "指定的颜色拾取面板的类型\n\n",
-				"type": "ColorPickerPanel[]"
+				"type": "PickerPanel[]"
 			},
 			{
 				"name": "palette",
@@ -46,6 +46,40 @@
 				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "ColorPanel.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "switchPicker",
+				"summary": "切换颜色拾取面板\n\n",
+				"type": "switchPicker(id: string): void",
+				"params": [
+					{
+						"name": "id",
+						"summary": "拾取面板的 id；\n\n",
+						"type": "string"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
 			}
 		],
 		"pkg": "@cmfx/components"

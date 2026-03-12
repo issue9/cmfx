@@ -30,7 +30,7 @@ export default function (props: MountProps): JSX.Element {
 				<Clear />
 			</Portal>
 
-			<Search
+			<Search.Root
 				icon={icon()}
 				clear={clear()}
 				palette={palette()}

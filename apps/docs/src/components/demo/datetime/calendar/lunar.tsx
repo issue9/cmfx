@@ -24,11 +24,11 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Weekend />
 				<Minmax />
-				<Numeric min={0} max={6} class="w-20" placeholder="每周起始于" accessor={week} />
+				<Numeric.Root min={0} max={6} class="w-20" placeholder="每周起始于" accessor={week} />
 			</Portal>
 
 			<div class="h-[600px] w-full">
-				<Calendar
+				<Calendar.Root
 					weekend={weekend()}
 					weekBase={week.getValue()}
 					palette={palette()}

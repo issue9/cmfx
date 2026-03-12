@@ -11,7 +11,7 @@ import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
 import { Button, ButtonGroup } from '@components/button';
-import { MonthPanel, MonthPanelRef } from '@components/datetime/monthpanel';
+import { MonthPanel } from '@components/datetime/monthpanel';
 import styles from './style.module.css';
 import { API, Props } from './types';
 
@@ -21,7 +21,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 		return new Intl.DateTimeFormat(l.locale, { month: s, year: 'numeric' });
 	});
 
-	let month: MonthPanelRef;
+	let month: MonthPanel.RootRef;
 	let monthVisible = false;
 
 	return (
@@ -39,7 +39,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 				</span>
 			</p>
 
-			<MonthPanel
+			<MonthPanel.Root
 				palette={props.palette}
 				popover="auto"
 				ref={el => {
@@ -60,8 +60,8 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 				}}
 			/>
 
-			<ButtonGroup kind="flat" disabled={props.disabled} class={styles.actions}>
-				<Button
+			<ButtonGroup.Root kind="flat" disabled={props.disabled} class={styles.actions}>
+				<Button.Root
 					title={l.t('_c.date.prevYear')}
 					square
 					disabled={!api.canOffset(-1, 0)}
@@ -72,8 +72,8 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 					}}
 				>
 					<IconPrevYear />
-				</Button>
-				<Button
+				</Button.Root>
+				<Button.Root
 					title={l.t('_c.date.prevMonth')}
 					square
 					disabled={!api.canOffset(0, -1)}
@@ -84,9 +84,9 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 					}}
 				>
 					<IconPrevMonth />
-				</Button>
+				</Button.Root>
 
-				<Button
+				<Button.Root
 					title={l.t('_c.date.thisMonth')}
 					square
 					disabled={!api.canJump(new Date())}
@@ -97,9 +97,9 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 					}}
 				>
 					<IconToday />
-				</Button>
+				</Button.Root>
 
-				<Button
+				<Button.Root
 					title={l.t('_c.date.followingMonth')}
 					square
 					disabled={!api.canOffset(0, 1)}
@@ -110,8 +110,8 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 					}}
 				>
 					<IconNextMonth />
-				</Button>
-				<Button
+				</Button.Root>
+				<Button.Root
 					title={l.t('_c.date.followingYear')}
 					square
 					disabled={!api.canOffset(1, 0)}
@@ -122,8 +122,8 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 					}}
 				>
 					<IconNextYear />
-				</Button>
-			</ButtonGroup>
+				</Button.Root>
+			</ButtonGroup.Root>
 		</header>
 	);
 }

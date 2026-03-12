@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - TooltipProps
-            - TooltipRef
+            - Tooltip.RootProps
+            - Tooltip.RootRef

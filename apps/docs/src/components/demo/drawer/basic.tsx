@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Drawer, DrawerRef, MountProps } from '@cmfx/components';
+import { Button, Drawer, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -11,7 +11,7 @@ import { arraySelector, paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('secondary');
 	const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
-	let ref: DrawerRef;
+	let ref: Drawer.RootRef;
 
 	return (
 		<>
@@ -20,13 +20,11 @@ export default function (props: MountProps): JSX.Element {
 				<Pos />
 			</Portal>
 
-			<Drawer
-				ref={el => {
-					ref = el;
-				}}
+			<Drawer.Root
+				ref={el => (ref = el)}
 				pos={pos()}
 				palette={palette()}
-				visible={true}
+				initValue
 				floating
 				main={
 					<main class="h-full bg-primary-bg">
@@ -45,16 +43,16 @@ export default function (props: MountProps): JSX.Element {
 					aside
 					<br />
 				</div>
-			</Drawer>
+			</Drawer.Root>
 
-			{ref!.ToggleButton({ square: true, class: 'grow-0' })}
-			<Button
+			<Drawer.ToggleButton square class="grow-0" drawer={ref!} />
+			<Button.Root
 				onclick={() => {
 					ref.toggle();
 				}}
 			>
 				ref.toggle
-			</Button>
+			</Button.Root>
 		</>
 	);
 }

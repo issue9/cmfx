@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Drawer, joinClass, ObjectAccessor, useLocale, useOptions, useTheme } from '@cmfx/components';
-import type { Scheme, DrawerRef } from '@cmfx/components';
+import type { Scheme } from '@cmfx/components';
 import { RouteDefinition } from '@solidjs/router';
 import { createEffect, onCleanup, onMount, Setter } from 'solid-js';
 import { unwrap } from 'solid-js/store';
@@ -17,11 +17,11 @@ import { convertSchemeVar2Color } from './utils';
 /**
  * 生成路由项
  */
-export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined>): RouteDefinition {
+export function buildRoute(path: string, setDrawer: Setter<Drawer.RootRef | undefined>): RouteDefinition {
 	return {
 		path: path,
 		component: () => {
-			let drawerRef: DrawerRef;
+			let drawerRef: Drawer.RootRef;
 			onMount(() => {
 				setDrawer(drawerRef);
 			});
@@ -38,7 +38,7 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
 			});
 
 			return (
-				<Drawer
+				<Drawer.Root
 					class={styles.builder}
 					floating={floatingWidth}
 					ref={el => {
@@ -50,7 +50,7 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
 					main={<Demo s={schemeFA} />}
 				>
 					{params(schemeFA)}
-				</Drawer>
+				</Drawer.Root>
 			);
 		},
 	};

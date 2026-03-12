@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as SearchProps, Ref as SearchRef } from './search';
-export { default as Search } from './search';
+export * as Search from './mod';

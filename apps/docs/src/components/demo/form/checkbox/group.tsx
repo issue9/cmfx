@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
 	const groupFA = fieldAccessor('checkbox', ['1']);
-	const groupOptions: FieldOptions<string> = [
+	const groupOptions: FieldOptions = [
 		{ value: '1', label: <div>abc</div> },
 		{ value: '2', label: <div style="color:red">red</div> },
 		{
@@ -44,13 +44,13 @@ export default function (props: MountProps): JSX.Element {
 				<Layout />
 				<ItemLayout />
 
-				<Button palette="primary" onclick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>
+				<Button.Root palette="primary" onclick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div>
-				<CheckboxGroup
+				<CheckboxGroup.Root
 					hasHelp
 					help="help text"
 					layout={layout()}

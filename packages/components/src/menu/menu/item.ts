@@ -10,15 +10,15 @@ import { AvailableEnumType } from '@components/base';
 /**
  * 菜单项
  */
-export type MenuItem<T extends AvailableEnumType = string> = TypeDivider | TypeGroup<T> | TypeItem<T>;
+export type MenuItem<T extends AvailableEnumType = string> = Divider | Group<T> | Item<T>;
 
 // 分隔符
-export interface TypeDivider {
+export interface Divider {
 	type: 'divider';
 }
 
 // 分组
-export interface TypeGroup<T extends AvailableEnumType = string> {
+export interface Group<T extends AvailableEnumType = string> {
 	type: 'group';
 
 	label: JSX.Element;
@@ -29,7 +29,7 @@ export interface TypeGroup<T extends AvailableEnumType = string> {
 	items: Array<MenuItem<T>>;
 }
 
-export interface TypeItem<T extends AvailableEnumType = string> {
+export interface Item<T extends AvailableEnumType = string> {
 	/**
 	 * 表示普通的菜单项，如果为 a 表示这是一个链接。
 	 */
@@ -78,19 +78,19 @@ export interface TypeItem<T extends AvailableEnumType = string> {
 	hotkey?: Hotkey;
 }
 
-export type RenderTypeItem<T extends AvailableEnumType = string> = TypeItem<T> & {
+export type RenderTypeItem<T extends AvailableEnumType = string> = Item<T> & {
 	level: number;
 	items?: Array<RenderMenuItem<T>>;
 };
 
-type RenderTypeGroup<T extends AvailableEnumType = string> = Omit<TypeGroup<T>, 'items'> & {
+type RenderTypeGroup<T extends AvailableEnumType = string> = Omit<Group<T>, 'items'> & {
 	items: Array<RenderMenuItem<T>>;
 };
 
 /**
  * 经过处理后可直接用于渲染的菜单项
  */
-export type RenderMenuItem<T extends AvailableEnumType = string> = TypeDivider | RenderTypeGroup<T> | RenderTypeItem<T>;
+export type RenderMenuItem<T extends AvailableEnumType = string> = Divider | RenderTypeGroup<T> | RenderTypeItem<T>;
 
 /**
  * 生成易于渲染的菜单项数据，主要是根据参数生成了 CSS 样式。

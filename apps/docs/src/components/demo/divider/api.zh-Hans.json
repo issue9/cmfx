@@ -1,6 +1,6 @@
 [
 	{
-		"name": "DividerProps",
+		"name": "Divider.RootProps",
 		"kind": "intersection",
 		"types": [
 			{
@@ -58,10 +58,31 @@
 				"kind": "interface",
 				"properties": [
 					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
 						"name": "children",
 						"type": "JSX.Element"
 					}
 				]
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Divider.RootRef",
+		"properties": [
+			{
+				"name": "root",
+				"type": "() => HTMLDivElement"
 			}
 		],
 		"pkg": "@cmfx/components"

@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as CounterProps, Ref as CounterRef } from './counter';
-export { default as Counter } from './counter';
+export * as Counter from './mod';

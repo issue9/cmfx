@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Column, Label, Page, RemoteTable, useLocale } from '@cmfx/components';
+import { BasicTable, Label, Page, RemoteTable, useLocale } from '@cmfx/components';
 import { Duration, formatDuration, Method, parseDuration, Query } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import IconRoutes from '~icons/material-symbols/route';
@@ -42,14 +42,14 @@ export function Routes(): JSX.Element {
 	};
 
 	return (
-		<Page title="_p.system.routesViewer">
-			<RemoteTable
+		<Page.Root title="_p.system.routesViewer">
+			<RemoteTable.Root
 				rest={api}
 				systemToolbar
 				queries={queries}
 				path="/system/routes"
 				hoverable
-				toolbar={<Label icon={<IconRoutes />}>{l.t('_p.system.routesViewer')}</Label>}
+				toolbar={<Label.Root icon={<IconRoutes />}>{l.t('_p.system.routesViewer')}</Label.Root>}
 				columns={
 					[
 						{ id: 'router', label: l.t('_p.system.router') },
@@ -90,9 +90,9 @@ export function Routes(): JSX.Element {
 								return formatDuration(l.durationFormat(), val);
 							},
 						},
-					] as Array<Column<Route>>
+					] as Array<BasicTable.Column<Route>>
 				}
 			/>
-		</Page>
+		</Page.Root>
 	);
 }

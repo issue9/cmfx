@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - PaginationProps
-            - PaginationRef
+            - Pagination.RootProps
+            - Pagination.RootRef
 
-            - PaginationBarProps
-            - PaginationBarRef
+            - PaginationBar.RootProps
+            - PaginationBar.RootRef

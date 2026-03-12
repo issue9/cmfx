@@ -28,7 +28,7 @@ export interface Props extends Omit<PickerProps, 'accessor' | 'accentPalette' | 
 /**
  * 周数选择组件
  */
-export function WeekPicker(props: Props): JSX.Element {
+export function Root(props: Props): JSX.Element {
 	const form = useForm();
 	props = mergeProps({ weekBase: 0 as Week }, form, props);
 
@@ -109,7 +109,7 @@ export function WeekPicker(props: Props): JSX.Element {
 				</Show>
 			</div>
 
-			<WeekPanel
+			<WeekPanel.Root
 				{...panelProps}
 				ref={el => {
 					panelRef = el.root();

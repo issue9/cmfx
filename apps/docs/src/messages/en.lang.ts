@@ -133,7 +133,7 @@ const messages = {
 			pagination: 'Pagination',
 			qrcode: 'QR Code',
 			radio: 'Radio',
-			range: 'Range',
+			slider: 'Slider',
 			result: 'Result',
 			spin: 'Spin',
 			search: 'Search',

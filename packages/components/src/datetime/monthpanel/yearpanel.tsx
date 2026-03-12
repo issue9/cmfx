@@ -62,7 +62,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 /**
  * 年份选择面板
  */
-export default function YearPanel(props: Props): JSX.Element {
+export function Root(props: Props): JSX.Element {
 	const now = new Date();
 	const [panelValue, setPanelValue] = createSignal(props.value ?? now.getFullYear());
 	const [value, setValue] = createSignal(props.value ?? now.getFullYear());
@@ -94,8 +94,8 @@ export default function YearPanel(props: Props): JSX.Element {
 		>
 			<header class={styles.year}>
 				{years()[0]}-{years()[years().length - 1]}
-				<ButtonGroup kind="flat" class={styles.actions}>
-					<Button
+				<ButtonGroup.Root kind="flat" class={styles.actions}>
+					<Button.Root
 						square
 						onclick={() => {
 							setPanelValue(panelValue() - 12);
@@ -103,18 +103,18 @@ export default function YearPanel(props: Props): JSX.Element {
 						disabled={value() !== undefined && props.min !== undefined && years()[0] - 12 < props.min}
 					>
 						<IconPrevYear />
-					</Button>
+					</Button.Root>
 
-					<Button
+					<Button.Root
 						square
 						onclick={() => {
 							setPanelValue(new Date().getFullYear());
 						}}
 					>
 						<IconToday />
-					</Button>
+					</Button.Root>
 
-					<Button
+					<Button.Root
 						square
 						onclick={() => {
 							setPanelValue(panelValue() - 12);
@@ -122,14 +122,14 @@ export default function YearPanel(props: Props): JSX.Element {
 						disabled={value() !== undefined && props.max !== undefined && years()[years().length - 1] + 12 > props.max}
 					>
 						<IconNextYear />
-					</Button>
-				</ButtonGroup>
+					</Button.Root>
+				</ButtonGroup.Root>
 			</header>
 
 			<div class={styles.grid}>
 				<For each={years()}>
 					{year => (
-						<Button
+						<Button.Root
 							kind="flat"
 							checked={value() === year}
 							disabled={
@@ -145,7 +145,7 @@ export default function YearPanel(props: Props): JSX.Element {
 							}}
 						>
 							{year}
-						</Button>
+						</Button.Root>
 					)}
 				</For>
 			</div>

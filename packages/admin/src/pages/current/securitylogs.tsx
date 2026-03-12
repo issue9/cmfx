@@ -33,8 +33,8 @@ export function SecurityLogs(): JSX.Element {
 	};
 
 	return (
-		<Page title="_p.current.securitylog">
-			<RemoteTable<SecurityLog, Query>
+		<Page.Root title="_p.current.securitylog">
+			<RemoteTable.Root<SecurityLog, Query>
 				rest={rest}
 				path="/securitylog"
 				paging
@@ -72,10 +72,10 @@ export function SecurityLogs(): JSX.Element {
 				]}
 				queryForm={qa => (
 					<>
-						<TextField accessor={qa.accessor<string>('text')} />
+						<TextField.Root accessor={qa.accessor<string>('text')} />
 					</>
 				)}
 			/>
-		</Page>
+		</Page.Root>
 	);
 }

@@ -1,6 +1,6 @@
 [
 	{
-		"name": "InputProps",
+		"name": "Input.RootProps",
 		"kind": "union",
 		"types": [
 			{
@@ -109,7 +109,7 @@
 			},
 			{
 				"kind": "interface",
-				"name": "NumberProps",
+				"name": "NumberProps_3",
 				"properties": [
 					{
 						"name": "type",
@@ -217,7 +217,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "InputRef",
+		"name": "Input.RootRef",
 		"methods": [
 			{
 				"name": "root",

@@ -4,14 +4,9 @@
 
 import {
 	Drawer,
-	DrawerRef,
 	joinClass,
 	Menu,
-	MenuItem,
-	MenuItemGroup,
-	MenuRef,
 	Nav,
-	NavRef,
 	Page,
 	useLocale,
 	useOptions,
@@ -172,14 +167,14 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 ] as const;
 
 // 生成 Drawer 组件的侧边栏菜单
-export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
-	const menus: Array<MenuItemGroup<string>> = [
+export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
+	const menus: Array<Menu.Group> = [
 		{ type: 'group', label: l.t('_d.docs.intro'), items: [] },
 		{ type: 'group', label: l.t('_d.docs.usage'), items: [] },
 		{ type: 'group', label: l.t('_d.docs.advance'), items: [] },
 	];
 
-	const append = (group: MenuItemGroup<string>, r: ArrayElement<typeof routes>) => {
+	const append = (group: Menu.Group, r: ArrayElement<typeof routes>) => {
 		const p = Array.isArray(r.path) ? r.path[0] : r.path;
 		group.items.push({ type: 'a', label: l.t(r.info?.title), value: prefix + p });
 	};
@@ -224,7 +219,7 @@ function Markdown(props: MarkdownProps): JSX.Element {
 	const keys = Object.keys(articles);
 
 	let articleRef!: HTMLElement;
-	let navRef: NavRef;
+	let navRef: Nav.RootRef;
 
 	const [html, setHTML] = createSignal<string>(
 		articleObjs.length > 1
@@ -243,7 +238,7 @@ function Markdown(props: MarkdownProps): JSX.Element {
 	}
 
 	return (
-		<Page title={title} class={styles.docs}>
+		<Page.Root title={title} class={styles.docs}>
 			<article
 				ref={el => {
 					articleRef = el;
@@ -251,7 +246,7 @@ function Markdown(props: MarkdownProps): JSX.Element {
 				class={styles.doc}
 				innerHTML={html()}
 			/>
-			<Nav
+			<Nav.Root
 				minHeaderCount={5}
 				class={styles.nav}
 				ref={el => {
@@ -260,21 +255,21 @@ function Markdown(props: MarkdownProps): JSX.Element {
 				target={articleRef}
 				query="h2,h3,h4,h5,h6"
 			/>
-		</Page>
+		</Page.Root>
 	);
 }
 
 /**
  * 提供了文档浏览的路由定义
  */
-export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefined>): RouteDefinition {
+export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | undefined>): RouteDefinition {
 	return {
 		path: prefix,
 		component: (props: ParentProps) => {
 			const l = useLocale();
-			let menuRef: MenuRef;
+			let menuRef: Menu.RootRef;
 
-			let ref: DrawerRef;
+			let ref: Drawer.RootRef;
 			onMount(() => {
 				setDrawer(ref);
 				menuRef.scrollSelectedIntoView();
@@ -282,8 +277,8 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
 			onCleanup(() => setDrawer(undefined));
 
 			return (
-				<Drawer
-					visible
+				<Drawer.Root
+					initValue
 					floating={floatingWidth}
 					ref={el => {
 						ref = el;
@@ -292,7 +287,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
 					mainClass={joinClass('surface')}
 					main={props.children}
 				>
-					<Menu
+					<Menu.Root
 						ref={el => {
 							menuRef = el;
 						}}
@@ -300,7 +295,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
 						layout="inline"
 						items={buildMenus(l, prefix)}
 					/>
-				</Drawer>
+				</Drawer.Root>
 			);
 		},
 		children: routes,

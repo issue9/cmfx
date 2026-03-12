@@ -6,7 +6,7 @@ import Color from 'colorjs.io';
 import { createEffect, JSX, Signal } from 'solid-js';
 
 import { useLocale } from '@components/context';
-import { ObjectAccessor, Range, RangeRef } from '@components/form';
+import { ObjectAccessor, Slider } from '@components/form';
 import { PickerPanel } from './picker';
 import styles from './style.module.css';
 
@@ -56,10 +56,10 @@ export class HSLPickerPanel implements PickerPanel {
 	}
 
 	panel(signal: Signal<string>): JSX.Element {
-		let hRef: RangeRef;
-		let sRef: RangeRef;
-		let lRef: RangeRef;
-		let aRef: RangeRef;
+		let hRef: Slider.RootRef;
+		let sRef: Slider.RootRef;
+		let lRef: Slider.RootRef;
+		let aRef: Slider.RootRef;
 
 		createEffect(() => {
 			const store = this.#hsl.getValue();
@@ -100,7 +100,7 @@ export class HSLPickerPanel implements PickerPanel {
 		const l = useLocale();
 		return (
 			<div class={styles.hsl}>
-				<Range
+				<Slider.Root
 					disabled={!!this.#h}
 					fitHeight
 					accessor={this.#hsl.accessor('h')}
@@ -113,7 +113,7 @@ export class HSLPickerPanel implements PickerPanel {
 					max={360}
 					step={1}
 				/>
-				<Range
+				<Slider.Root
 					disabled={!!this.#s}
 					fitHeight
 					accessor={this.#hsl.accessor('s')}
@@ -126,7 +126,7 @@ export class HSLPickerPanel implements PickerPanel {
 					max={100}
 					step={0.01}
 				/>
-				<Range
+				<Slider.Root
 					disabled={!!this.#l}
 					fitHeight
 					accessor={this.#hsl.accessor('l')}
@@ -139,7 +139,7 @@ export class HSLPickerPanel implements PickerPanel {
 					max={100}
 					step={0.01}
 				/>
-				<Range
+				<Slider.Root
 					disabled={!!this.#a}
 					fitHeight
 					accessor={this.#hsl.accessor('a')}

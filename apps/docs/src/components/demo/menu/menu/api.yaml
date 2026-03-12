@@ -6,6 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - MenuProps
-            - MenuRef
-            - MenuItem
+            - Menu.RootProps
+            - Menu.RootRef
+            - Menu.Item

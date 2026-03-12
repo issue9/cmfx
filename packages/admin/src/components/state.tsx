@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceProps, useLocale } from '@cmfx/components';
+import { Choice, useLocale } from '@cmfx/components';
 import { I18n, Locale } from '@cmfx/core';
 import { createMemo, JSX } from 'solid-js';
 
@@ -21,7 +21,7 @@ export function localeStates(l: Locale) {
 	]);
 }
 
-type P = ChoiceProps<State>;
+type P = Choice.RootProps<State>;
 
 interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
 
@@ -35,5 +35,5 @@ export type StateSelectorProps = SProps | MProps;
 export function StateSelector(props: StateSelectorProps): JSX.Element {
 	const l = useLocale();
 	const states = createMemo(() => localeStates(l));
-	return <Choice options={states()} {...props} />;
+	return <Choice.Root options={states()} {...props} />;
 }

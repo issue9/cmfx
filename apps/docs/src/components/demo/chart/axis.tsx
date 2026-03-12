@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ChartAxis, ChartAxisRef, MountProps } from '@cmfx/components';
+import { ChartAxis, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -25,7 +25,7 @@ const items: Array<Item> = [
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 
-	let axisRef: ChartAxisRef<Item>;
+	let axisRef: ChartAxis.RootRef<Item>;
 
 	const x = [1, 2, 3, 4, 5, 6, 7];
 	let count = x.length;
@@ -45,7 +45,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div>
-				<ChartAxis
+				<ChartAxis.Root
 					palette={palette()}
 					tooltip
 					legend="right"
@@ -61,7 +61,7 @@ export default function (props: MountProps): JSX.Element {
 			</div>
 
 			<div>
-				<ChartAxis
+				<ChartAxis.Root
 					palette={palette()}
 					size={10}
 					ref={el => {

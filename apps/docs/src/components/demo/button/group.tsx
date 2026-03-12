@@ -25,53 +25,53 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-wrap items-center gap-2">
-				<ButtonGroup rounded={rounded()} palette="primary" kind={kind()} disabled={disabled()}>
-					<Button checked>abc</Button>
-					<Button>def</Button>
-					<Button>hij</Button>
-				</ButtonGroup>
+				<ButtonGroup.Root rounded={rounded()} palette="primary" kind={kind()} disabled={disabled()}>
+					<Button.Root checked>abc</Button.Root>
+					<Button.Root>def</Button.Root>
+					<Button.Root>hij</Button.Root>
+				</ButtonGroup.Root>
 
-				<ButtonGroup layout="vertical" rounded={rounded()} palette="secondary" kind={kind()} disabled={disabled()}>
-					<Button>abc</Button>
-					<Button>def</Button>
-					<Button>hij</Button>
-				</ButtonGroup>
+				<ButtonGroup.Root layout="vertical" rounded={rounded()} palette="secondary" kind={kind()} disabled={disabled()}>
+					<Button.Root>abc</Button.Root>
+					<Button.Root>def</Button.Root>
+					<Button.Root>hij</Button.Root>
+				</ButtonGroup.Root>
 
-				<ButtonGroup rounded={rounded()} palette="tertiary" kind={kind()} disabled={disabled()}>
-					<Button square>
+				<ButtonGroup.Root rounded={rounded()} palette="tertiary" kind={kind()} disabled={disabled()}>
+					<Button.Root square>
 						<IconFace />
-					</Button>
-					<Button square>
+					</Button.Root>
+					<Button.Root square>
 						<IconClose />
-					</Button>
-					<Button square>
+					</Button.Root>
+					<Button.Root square>
 						<IconSync />
-					</Button>
-				</ButtonGroup>
+					</Button.Root>
+				</ButtonGroup.Root>
 
-				<ButtonGroup rounded={rounded()} palette="surface" kind={kind()} disabled={disabled()}>
-					<Button type="a" href=".">
+				<ButtonGroup.Root rounded={rounded()} palette="surface" kind={kind()} disabled={disabled()}>
+					<Button.Root type="a" href=".">
 						abc
-					</Button>
-					<Button type="a" href=".">
+					</Button.Root>
+					<Button.Root type="a" href=".">
 						def
-					</Button>
-					<Button type="a" href=".">
+					</Button.Root>
+					<Button.Root type="a" href=".">
 						hij
-					</Button>
-				</ButtonGroup>
+					</Button.Root>
+				</ButtonGroup.Root>
 
-				<ButtonGroup rounded={rounded()} kind={kind()} disabled={disabled()}>
-					<Button type="a" square href="">
+				<ButtonGroup.Root rounded={rounded()} kind={kind()} disabled={disabled()}>
+					<Button.Root type="a" square href="">
 						<IconFace />
-					</Button>
-					<Button type="a" square href="">
+					</Button.Root>
+					<Button.Root type="a" square href="">
 						<IconClose />
-					</Button>
-					<Button type="a" square href="">
+					</Button.Root>
+					<Button.Root type="a" square href="">
 						<IconSync />
-					</Button>
-				</ButtonGroup>
+					</Button.Root>
+				</ButtonGroup.Root>
 			</div>
 		</div>
 	);

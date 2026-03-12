@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, MountProps } from '@cmfx/components';
+import { Button, Dialog, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -11,7 +11,7 @@ import { paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 
-	let dlg: DialogRef;
+	let dlg: Dialog.RootRef;
 
 	return (
 		<div>
@@ -19,10 +19,10 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Button onclick={() => dlg.root().showModal()} palette={palette()}>
+			<Button.Root onclick={() => dlg.root().show()} palette={palette()}>
 				scrollable
-			</Button>
-			<Dialog
+			</Button.Root>
+			<Dialog.Root
 				palette={palette()}
 				movable
 				scrollable
@@ -30,7 +30,7 @@ export default function (props: MountProps): JSX.Element {
 					dlg = el;
 				}}
 				header="header"
-				actions="footer"
+				footer="footer"
 				class="h-80 w-80"
 			>
 				<div>
@@ -69,7 +69,7 @@ export default function (props: MountProps): JSX.Element {
 					长内容
 					<br />
 				</div>
-			</Dialog>
+			</Dialog.Root>
 		</div>
 	);
 }

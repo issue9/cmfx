@@ -22,24 +22,7 @@ export type Layout = (typeof layouts)[number];
  */
 export type ChangeFunc<T> = (val: T, old?: T) => void;
 
-/**
- * 组件的基本属性
- *
- * @remarks
- * 组件库的所有组件都继承了此接口，以实现统一的样式管理。
- */
-export interface Props {
-	/**
-	 * 指定当前组件采用的色盘
-	 *
-	 * @remarks
-	 * 如果指定了此值，那么在组件内部的 CSS 引用的诸如 `--palette-bg` 等 CSS 变量都将使用此色盘对应的颜色。
-	 * 如果是 undefined，则表示从父元素继承。
-	 *
-	 * @reactive
-	 */
-	palette?: Palette;
-
+export interface StyleProps {
 	/**
 	 * 为组件的根元素指定 CSS 类名
 	 *
@@ -61,6 +44,25 @@ export interface Props {
 	 * @reactive
 	 */
 	style?: JSX.DOMAttributes<HTMLElement>['style'];
+}
+
+/**
+ * 组件的基本属性
+ *
+ * @remarks
+ * 组件库的所有组件都继承了此接口，以实现统一的样式管理。
+ */
+export interface Props extends StyleProps {
+	/**
+	 * 指定当前组件采用的色盘
+	 *
+	 * @remarks
+	 * 如果指定了此值，那么在组件内部的 CSS 引用的诸如 `--palette-bg` 等 CSS 变量都将使用此色盘对应的颜色。
+	 * 如果是 undefined，则表示从父元素继承。
+	 *
+	 * @reactive
+	 */
+	palette?: Palette;
 }
 
 /**

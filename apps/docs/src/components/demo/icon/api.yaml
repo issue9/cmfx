@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - IconSetProps
-            - IconSetRef
+            - IconSet.RootProps
+            - IconSet.RootRef

@@ -48,7 +48,7 @@ export default function (props: MountProps) {
 						{lines(10, '2-2-h3')}
 					</section>
 				</article>
-				<Nav palette={palette()} target={ref!} />
+				<Nav.Root palette={palette()} target={ref!} />
 			</div>
 		</div>
 	);

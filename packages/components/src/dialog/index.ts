@@ -2,6 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as DialogProps, Ref as DialogRef } from './dialog';
-export { Dialog } from './dialog';
+export * as Dialog from './mod';
 export { xalert, xconfirm, xprompt } from './system';

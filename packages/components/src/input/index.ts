@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { AutoComplete, Props as InputProps, Ref as InputRef } from './input';
-export { Input } from './input';
+export * as Input from './mod';

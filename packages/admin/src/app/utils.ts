@@ -15,5 +15,5 @@ export async function handleProblem<P>(p: Problem<P>): Promise<void> {
 	if (p.status >= 500) {
 		throw APIError.fromProblem(p);
 	}
-	notify(p.title, p.detail, 'error');
+	await notify(p.title, p.detail, 'error');
 }

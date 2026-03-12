@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ChartAxisRef } from '@cmfx/components';
 import {
 	ChartAxis,
 	ConfirmButton,
@@ -61,7 +60,7 @@ export function Info(): JSX.Element {
 
 	// event source
 
-	let axisRef: ChartAxisRef<Numbers>;
+	let axisRef: ChartAxis.RootRef<Numbers>;
 
 	const [stat, setStat] = createSignal('cpu');
 	const changeTab = (val: string) => {
@@ -141,11 +140,11 @@ export function Info(): JSX.Element {
 	});
 
 	return (
-		<Page title="_p.system.serverInfo" class={joinClass(undefined, styles.info)}>
+		<Page.Root title="_p.system.serverInfo" class={joinClass(undefined, styles.info)}>
 			<fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
-				<Label icon={<IconInfo />} tag="legend">
+				<Label.Root icon={<IconInfo />} tag="legend">
 					{l.t('_p.system.serverInfo')}
-				</Label>
+				</Label.Root>
 				<dl>
 					<dt>{l.t('_p.system.name')}</dt>
 					<dd>
@@ -178,10 +177,10 @@ export function Info(): JSX.Element {
 					<dd>{info()?.uptime ? l.datetimeFormat().format(new Date(info()!.uptime!)) : ''}</dd>
 				</dl>
 
-				<Divider padding="1rem">
+				<Divider.Root padding="1rem">
 					<IconDataset class="me-1" />
 					{l.t('_c.os')}
-				</Divider>
+				</Divider.Root>
 
 				<dl>
 					<dt>{l.t('_p.system.platform')}</dt>
@@ -203,10 +202,10 @@ export function Info(): JSX.Element {
 					<dd>{info()?.os.boot ? l.datetimeFormat().format(new Date(info()!.os.boot!)) : ''}</dd>
 				</dl>
 
-				<Divider padding="1rem">
+				<Divider.Root padding="1rem">
 					<IconDatabase class="me-1" />
 					{l.t('_c.database')}
-				</Divider>
+				</Divider.Root>
 
 				<dl>
 					<dt>{l.t('_c.database')}</dt>
@@ -241,10 +240,10 @@ export function Info(): JSX.Element {
 			</fieldset>
 
 			<fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
-				<Label icon={<IconDatabase />} tag="legend">
+				<Label.Root icon={<IconDatabase />} tag="legend">
 					{l.t('_c.database')}
-				</Label>
-				<ConfirmButton
+				</Label.Root>
+				<ConfirmButton.Root
 					palette="secondary"
 					disabled={backup.loading || backup()?.cron === ''}
 					onclick={async () => {
@@ -258,14 +257,14 @@ export function Info(): JSX.Element {
 				>
 					<IconBackup class="me-1" />
 					{l.t('_p.system.backupDB')}
-				</ConfirmButton>
+				</ConfirmButton.Root>
 				<span class="mt-1">{l.t('_p.system.backupDBHelp', { cron: backup()?.cron })}</span>
 				<ul class={styles.backup_list}>
 					<For each={backup()?.list}>
 						{item => (
 							<li>
 								{item.path}&nbsp;({bytesFormatter()(item.size)})
-								<ConfirmButton
+								<ConfirmButton.Root
 									kind="flat"
 									palette="error"
 									onclick={async () => {
@@ -278,7 +277,7 @@ export function Info(): JSX.Element {
 									}}
 								>
 									{l.t('_p.deleteItem')}
-								</ConfirmButton>
+								</ConfirmButton.Root>
 							</li>
 						)}
 					</For>
@@ -286,10 +285,10 @@ export function Info(): JSX.Element {
 			</fieldset>
 
 			<fieldset class={joinClass(undefined, styles.panel, 'w-full')}>
-				<Label icon={<IconChart />} tag="legend">
+				<Label.Root icon={<IconChart />} tag="legend">
 					{l.t('_p.system.states')}
-				</Label>
-				<Tab
+				</Label.Root>
+				<Tab.Root
 					onChange={changeTab}
 					class="m-auto mb-4 grow-0"
 					items={[
@@ -299,7 +298,7 @@ export function Info(): JSX.Element {
 						{ id: 'goroutines', label: l.t('_p.system.goroutines') },
 					]}
 				/>
-				<ChartAxis<Numbers>
+				<ChartAxis.Root<Numbers>
 					ref={el => {
 						axisRef = el;
 					}}
@@ -315,7 +314,7 @@ export function Info(): JSX.Element {
 					initValue={[]}
 				/>
 			</fieldset>
-		</Page>
+		</Page.Root>
 	);
 }
 

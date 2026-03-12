@@ -2,19 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MountProps, Stepper, StepperRef } from '@cmfx/components';
+import { Button, MountProps, Stepper } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconChat from '~icons/material-symbols/chat';
 import IconCheck from '~icons/material-symbols/check';
-import IconPersion from '~icons/material-symbols/person';
+import IconPerson from '~icons/material-symbols/person';
 
 import { layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	let ref1: StepperRef;
-	let ref2: StepperRef;
-	let ref3: StepperRef;
+	let ref1: Stepper.RootRef;
+	let ref2: Stepper.RootRef;
+	let ref3: Stepper.RootRef;
 
 	const [Palette, palette] = paletteSelector('surface');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<div class="w-full">
 				<p>icon=dot</p>
-				<Stepper
+				<Stepper.Root
 					layout={layout()}
 					palette={palette()}
 					ref={el => {
@@ -41,32 +41,32 @@ export default function (props: MountProps): JSX.Element {
 					]}
 				/>
 
-				<Button onclick={() => ref1.prev()}>prev</Button>
-				<Button onclick={() => ref1.next()}>next</Button>
+				<Button.Root onclick={() => ref1.prev()}>prev</Button.Root>
+				<Button.Root onclick={() => ref1.next()}>next</Button.Root>
 			</div>
 
 			<div class="w-full">
 				<p>icon=icon</p>
-				<Stepper
+				<Stepper.Root
 					layout={layout()}
 					palette={palette()}
 					ref={el => {
 						ref2 = el;
 					}}
 					steps={[
-						{ title: 'Step 1', content: 'Content for Step 1', icon: <IconPersion /> },
+						{ title: 'Step 1', content: 'Content for Step 1', icon: <IconPerson /> },
 						{ title: 'Step 2222222', content: 'Content for Step 2', icon: <IconChat /> },
 						{ title: 'Step 3', content: 'Content for Step 3', icon: <IconCheck /> },
 					]}
 				/>
 
-				<Button onclick={() => ref2.prev()}>prev</Button>
-				<Button onclick={() => ref2.next()}>next</Button>
+				<Button.Root onclick={() => ref2.prev()}>prev</Button.Root>
+				<Button.Root onclick={() => ref2.next()}>next</Button.Root>
 			</div>
 
 			<div class="w-full">
 				<p>w-full</p>
-				<Stepper
+				<Stepper.Root
 					layout={layout()}
 					palette={palette()}
 					ref={el => {
@@ -79,8 +79,8 @@ export default function (props: MountProps): JSX.Element {
 					]}
 				/>
 
-				<Button onclick={() => ref3.prev()}>prev</Button>
-				<Button onclick={() => ref3.next()}>next</Button>
+				<Button.Root onclick={() => ref3.prev()}>prev</Button.Root>
+				<Button.Root onclick={() => ref3.next()}>next</Button.Root>
 			</div>
 		</>
 	);

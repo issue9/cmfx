@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - AppbarProps
-            - AppbarRef
+            - Appbar.RootProps
+            - Appbar.RootRef

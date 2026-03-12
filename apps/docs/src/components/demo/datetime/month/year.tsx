@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div title="panel" class="flex items-start">
-				<YearPanel
+				<YearPanel.Root
 					palette={palette()}
 					readonly={readonly()}
 					disabled={disabled()}

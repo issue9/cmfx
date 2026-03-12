@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "QRCodeProps",
+		"name": "QRCode.RootProps",
 		"properties": [
 			{
 				"name": "value",
@@ -73,7 +73,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "QRCodeRef",
+		"name": "QRCode.RootRef",
 		"methods": [
 			{
 				"name": "download",
@@ -105,28 +105,28 @@
 				"name": "qrCodeStyling",
 				"summary": "提供了 qr-code-styling 的实例\n\n",
 				"remarks": "这是二维码对象的原始操作对象。需要注意的是，\n此方法返回的对象提供的下载方法与\n`download`\n在颜色上是不同的。\n\n",
-				"type": "qrCodeStyling(): QRCodeStyling",
+				"type": "qrCodeStyling(): default_3",
 				"return": {
-					"type": "QRCodeStyling"
+					"type": "default_3"
 				}
 			}
 		],
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "QRCodeCornerDotType",
+		"name": "QRCode.CornerDotType",
 		"kind": "literal",
 		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").CornerDotType",
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "QRCodeCornerSquareType",
+		"name": "QRCode.CornerSquareType",
 		"kind": "literal",
 		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").CornerSquareType",
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "QRCodeDotType",
+		"name": "QRCode.DotType",
 		"kind": "literal",
 		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").DotType",
 		"pkg": "@cmfx/components"

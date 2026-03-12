@@ -23,9 +23,9 @@ export function Logout(): JSX.Element {
 
 	// 在网络不通时，ctx.logout 可能会非常耗时，所以此处展示一个简单的提示页面。
 	return (
-		<Page title="_p.current.logout" class={styles.logout}>
+		<Page.Root title="_p.current.logout" class={styles.logout}>
 			{origin.loading({})}
 			{l.t('_p.current.loggingOut')}
-		</Page>
+		</Page.Root>
 	);
 }

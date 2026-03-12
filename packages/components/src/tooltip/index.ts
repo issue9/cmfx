@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as TooltipProps, Ref as TooltipRef } from './tooltip';
-export { default as Tooltip } from './tooltip';
+export * as Tooltip from './mod';

@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as DrawerProps, Ref as DrawerRef } from './drawer';
-export { Drawer } from './drawer';
+export * as Drawer from './mod';

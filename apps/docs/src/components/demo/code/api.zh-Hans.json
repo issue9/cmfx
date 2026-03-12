@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "CodeProps",
+		"name": "Code.RootProps",
 		"properties": [
 			{
 				"name": "children",
@@ -41,6 +41,12 @@
 				"reactive": true
 			},
 			{
+				"name": "theme",
+				"summary": "主题名\n\n",
+				"type": "BundledTheme | undefined",
+				"reactive": true
+			},
+			{
 				"name": "palette",
 				"summary": "指定当前组件采用的色盘\n\n",
 				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
@@ -71,7 +77,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "CodeRef",
+		"name": "Code.RootRef",
 		"methods": [
 			{
 				"name": "root",
@@ -88,42 +94,33 @@
 		"name": "Highlighter",
 		"summary": "提供特定语言的代码高亮功能\n\n",
 		"remarks": "与\n`highlight`\n的区别在于：\n- Highlighter 提供的高亮方法是同步的，而\n`highlight`\n是异步的；\n- Highlighter 在不使用时需要手动清除对象；\n用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
-		"typeParams": [
-			{
-				"name": "L",
-				"summary": "表示语言的 ID；\n\n",
-				"type": "BundledLanguage"
-			}
-		],
 		"methods": [
 			{
 				"name": "build",
 				"summary": "构造可以高亮指定语言的对象\n\n",
-				"type": "static build<L extends BundledLanguage>(...langs: [L, ...Array<L>]): Promise<Highlighter<L>>",
-				"typeParams": [
-					{
-						"name": "L",
-						"summary": "表示语言的 ID，不能为空；\n\n",
-						"type": "BundledLanguage"
-					}
-				],
+				"type": "static build(langs: Array<BundledLanguage>, themes?: (ThemeInput | StringLiteralUnion<BundledTheme> | SpecialTheme)[]): Promise<Highlighter>",
 				"params": [
 					{
 						"name": "langs",
 						"summary": "语言 ID 列表；\n\n",
-						"type": "[L, ...L[]]"
+						"type": "BundledLanguage[]"
+					},
+					{
+						"name": "themes",
+						"summary": "主题列表，可以为空，表示使用默认主题；\n\n",
+						"type": "(ThemeInput | StringLiteralUnion<BundledTheme> | \"none\")[] | undefined"
 					}
 				],
 				"return": {
 					"summary": "返回\n`Highlighter`\n对象；\n\n",
-					"type": "Promise<Highlighter<L>>"
+					"type": "Promise<Highlighter>"
 				},
 				"static": true
 			},
 			{
 				"name": "html",
 				"summary": "高亮代码\n\n",
-				"type": "html(code: string, lang: L, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean): string",
+				"type": "html(code: string, lang: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean, theme?: BundledTheme): string",
 				"params": [
 					{
 						"name": "code",
@@ -133,11 +130,11 @@
 					{
 						"name": "lang",
 						"summary": "语言 ID；\n\n",
-						"type": "L"
+						"type": "BundledLanguage"
 					},
 					{
 						"name": "ln",
-						"summary": "起始行号，unndefined 表示不显示行号；\n\n",
+						"summary": "起始行号，undefined 表示不显示行号；\n\n",
 						"type": "number | undefined"
 					},
 					{
@@ -159,6 +156,11 @@
 						"name": "simple",
 						"summary": "简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；\n\n",
 						"type": "boolean | undefined"
+					},
+					{
+						"name": "theme",
+						"summary": "主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；\n\n",
+						"type": "BundledTheme | undefined"
 					}
 				],
 				"return": {
@@ -184,7 +186,7 @@
 		"name": "highlight",
 		"summary": "高亮代码\n\n",
 		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
-		"type": "function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean): Promise<string>",
+		"type": "function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean, theme?: BundledTheme): Promise<string>",
 		"params": [
 			{
 				"name": "code",
@@ -220,6 +222,11 @@
 				"name": "simple",
 				"summary": "简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；\n\n",
 				"type": "boolean | undefined"
+			},
+			{
+				"name": "theme",
+				"summary": "主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；\n\n",
+				"type": "BundledTheme | undefined"
 			}
 		],
 		"return": {

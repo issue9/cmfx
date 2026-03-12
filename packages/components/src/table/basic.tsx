@@ -5,27 +5,28 @@
 import { presetCellRenderFunc } from '@cmfx/core';
 import { For, JSX, Show } from 'solid-js';
 
-import { joinClass, RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
+import { joinClass } from '@components/base';
 import { useLocale } from '@components/context';
 import { Empty } from '@components/result';
-import { Spin, SpinRef } from '@components/spin';
-import { CellRenderFunc, Column } from './column';
+import { Spin } from '@components/spin';
+import { CellRenderFunc, Column } from './column.ts';
 import styles from './style.module.css';
-import { Table, Props as TableProps, Ref as TableRef } from './table';
+import { Table } from './table';
 
 export interface Ref {
 	/**
 	 * 组件根元素
 	 */
-	root(): SpinRef<'div'>;
+	root(): Spin.RootRef<'div'>;
 
 	/**
 	 * 组件中的表格元素
 	 */
-	table(): TableRef;
+	table(): Table.RootRef;
 }
 
-export interface Props<T extends object> extends Omit<TableProps, 'ref'>, RefProps<Ref> {
+export interface Props<T extends object> extends Omit<Table.RootProps, 'ref'>, RefProps<Ref> {
 	/**
 	 * 是否加载状态
 	 *
@@ -48,7 +49,8 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'>, RefPro
 	/**
 	 * 固定表格头部位于指定的位置
 	 *
-	 * @remarks 如果为 undefined，表示不固定，其它值表示离顶部的距离。
+	 * @remarks
+	 * 如果为 undefined，表示不固定，其它值表示离顶部的距离。
 	 *
 	 * @reactive
 	 */
@@ -61,7 +63,7 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'>, RefPro
 	 *
 	 * @reactive
 	 */
-	extraHeader?: JSX.Element;
+	header?: JSX.Element;
 
 	/**
 	 * 表格底部的扩展空间
@@ -70,16 +72,16 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'>, RefPro
 	 *
 	 * @reactive
 	 */
-	extraFooter?: JSX.Element;
+	footer?: JSX.Element;
 }
 
 /**
  * 基础的表格组件
  */
-export function BasicTable<T extends object>(props: Props<T>) {
+export function Root<T extends object>(props: Props<T>) {
 	const l = useLocale();
 	const df = l.datetimeFormat();
-	let tableRef: TableRef;
+	let tableRef: Table.RootRef;
 
 	const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
 
@@ -103,7 +105,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
 	);
 
 	return (
-		<Spin
+		<Spin.Root
 			tag="div"
 			spinning={props.loading}
 			palette={props.palette}
@@ -118,13 +120,9 @@ export function BasicTable<T extends object>(props: Props<T>) {
 				}
 			}}
 		>
-			<Show when={props.extraHeader}>
-				{c => {
-					return c();
-				}}
-			</Show>
+			<Show when={props.header}>{c => c()}</Show>
 
-			<Table
+			<Table.Root
 				fixedLayout={props.fixedLayout}
 				hoverable={props.hoverable}
 				striped={props.striped}
@@ -175,18 +173,14 @@ export function BasicTable<T extends object>(props: Props<T>) {
 					<Show when={!props.items || props.items.length === 0}>
 						<tr>
 							<td colSpan={props.columns.length}>
-								<Empty palette={props.palette}>{l.t('_c.table.nodata')}</Empty>
+								<Empty.Root palette={props.palette}>{l.t('_c.table.nodata')}</Empty.Root>
 							</td>
 						</tr>
 					</Show>
 				</tbody>
-			</Table>
+			</Table.Root>
 
-			<Show when={props.extraFooter}>
-				{c => {
-					return c();
-				}}
-			</Show>
-		</Spin>
+			<Show when={props.footer}>{c => c()}</Show>
+		</Spin.Root>
 	);
 }

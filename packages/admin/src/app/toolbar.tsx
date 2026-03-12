@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { MenuItem, MenuItemItem } from '@cmfx/components';
-import { Button, Dropdown, Search, ToggleFullScreenButton, useLocale, useOptions } from '@cmfx/components';
+import type { Menu } from '@cmfx/components';
+import { Button, Dropdown, Search, ToggleButton, useLocale, useOptions } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { Component } from 'solid-js';
@@ -21,7 +21,7 @@ import styles from './style.module.css';
 export function createFullscreen(hk?: Hotkey): Component {
 	return () => {
 		const l = useLocale();
-		return <ToggleFullScreenButton hotkey={hk} square type="button" kind="flat" title={l.t('_c.fullscreen')} />;
+		return <ToggleButton.FullScreen hotkey={hk} square type="button" kind="flat" title={l.t('_c.fullscreen')} />;
 	};
 }
 
@@ -40,7 +40,7 @@ export function createClear(hk?: Hotkey): Component {
 		const [set] = useOptions();
 
 		return (
-			<Dropdown
+			<Dropdown.Root
 				selectedClass=""
 				hotkey={hk}
 				trigger="hover"
@@ -69,10 +69,10 @@ export function createClear(hk?: Hotkey): Component {
 					}
 				}}
 			>
-				<Button kind="flat" square title={l.t('_p.system.clearCache')}>
+				<Button.Root kind="flat" square title={l.t('_p.system.clearCache')}>
 					<IconClear />
-				</Button>
-			</Dropdown>
+				</Button.Root>
+			</Dropdown.Root>
 		);
 	};
 }
@@ -83,8 +83,8 @@ export function createClear(hk?: Hotkey): Component {
  * @param hk - 工具栏；
  */
 export function createSearch(hk?: Hotkey): Component {
-	const search = async (value: string, menus: Array<MenuItem<string>>): Promise<Array<MenuItemItem<string>>> => {
-		const items: Array<MenuItemItem<string>> = [];
+	const search = async (value: string, menus: Array<Menu.MenuItem>): Promise<Array<Menu.Item>> => {
+		const items: Array<Menu.Item> = [];
 
 		for (const m of menus) {
 			if (m.type === 'a' && m.items && m.items.length > 0) {
@@ -103,6 +103,8 @@ export function createSearch(hk?: Hotkey): Component {
 		const opt = useAdminOptions();
 		const l = useLocale();
 
-		return <Search class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, buildItems(l, opt.menus))} />;
+		return (
+			<Search.Root class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, buildItems(l, opt.menus))} />
+		);
 	};
 }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BasicTable, Button, Column, MountProps } from '@cmfx/components';
+import { BasicTable, Button, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -29,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 		{ id: 6, name: 'name6', address: 'address6' },
 	];
 
-	const columns: Array<Column<Item>> = [
+	const columns: Array<BasicTable.Column<Item>> = [
 		{ id: 'id' },
 		{ id: 'name' },
 		{ id: 'address' },
@@ -52,7 +52,7 @@ export default function (props: MountProps): JSX.Element {
 				<FixedLayout />
 			</Portal>
 
-			<BasicTable
+			<BasicTable.Root
 				loading={loading()}
 				fixedLayout={fixedLayout()}
 				palette={palette()}
@@ -60,7 +60,7 @@ export default function (props: MountProps): JSX.Element {
 				columns={columns}
 				extraHeader={
 					<p class="bg-primary-fg text-primary-bg">
-						<Button palette="primary">Button</Button>
+						<Button.Root palette="primary">Button</Button.Root>
 					</p>
 				}
 				extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}

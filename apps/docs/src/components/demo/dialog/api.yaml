@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - DialogProps
-            - DialogRef
+            - Dialog.RootProps
+            - Dialog.RootRef
             - xalert
             - xconfirm
             - xprompt

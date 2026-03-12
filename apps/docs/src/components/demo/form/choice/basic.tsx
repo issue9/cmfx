@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Choice, ChoiceOption, fieldAccessor, MountProps, TextField } from '@cmfx/components';
+import { Button, Choice, fieldAccessor, MountProps, TextField } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -10,7 +10,7 @@ import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/
 
 export default function (props: MountProps): JSX.Element {
 	const fa = fieldAccessor<string | undefined>('choice', '1');
-	const options: Array<ChoiceOption> = [
+	const options: Array<Choice.Option> = [
 		{ type: 'item', value: '1', label: <div>abc</div> },
 		{ type: 'item', value: '2', label: <div style="color:green">green</div> },
 		{
@@ -45,18 +45,18 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 				<Layout />
 
-				<Button
+				<Button.Root
 					palette="primary"
 					onclick={() => {
 						fa.setError(fa.getError() ? undefined : 'error');
 					}}
 				>
 					toggle error
-				</Button>
+				</Button.Root>
 			</Portal>
 
 			<div class="flex items-start justify-start gap-5">
-				<Choice
+				<Choice.Root
 					closable={closable()}
 					hasHelp
 					layout={layout()}
@@ -70,7 +70,7 @@ export default function (props: MountProps): JSX.Element {
 					accessor={fa}
 					options={options}
 				/>
-				<TextField
+				<TextField.Root
 					layout={layout()}
 					placeholder="placeholder"
 					disabled={disabled()}

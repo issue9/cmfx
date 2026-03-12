@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, DatePicker, Numeric, notify, TextArea, TextField, FormAPI } from '@cmfx/components';
-import { FormRef, MountProps } from '@cmfx/components';
+import { Button, Form, DatePicker, MountProps, Numeric, notify, TextArea, TextField, FormAPI } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -17,7 +16,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 
-	let ref!: FormRef;
+	let ref!: Form.RootRef;
 	const api = new FormAPI({
 		initValue: {
 			f1: 'f1',
@@ -38,16 +37,16 @@ export default function (props: MountProps): JSX.Element {
 				<Layout />
 				<Disabled />
 				<Readonly />
-				<Button
+				<Button.Root
 					onclick={() => {
 						api.setError(api.getError() ? undefined : 'error');
 					}}
 				>
 					Set Error
-				</Button>
+				</Button.Root>
 			</Portal>
 
-			<Form
+			<Form.Root
 				palette={palette()}
 				rounded={rounded()}
 				layout={layout()}
@@ -59,11 +58,11 @@ export default function (props: MountProps): JSX.Element {
 				ref={el => ref = el}
 			>
 				<ref.Message />
-				<TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
-				<Numeric label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
-				<DatePicker label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
-				<TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
-			</Form>
+				<TextField.Root label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
+				<Numeric.Root label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
+				<DatePicker.Root label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
+				<TextArea.Root label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
+			</Form.Root>
 			<div class="flex w-full justify-between">
 				<ref.Reset>reset</ref.Reset>
 				<ref.Submit>submit</ref.Submit>

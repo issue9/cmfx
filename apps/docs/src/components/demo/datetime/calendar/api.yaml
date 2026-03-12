@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - CalendarProps
-            - CalendarRef
+            - Calendar.RootProps
+            - Calendar.RootRef

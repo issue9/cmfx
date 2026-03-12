@@ -18,7 +18,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div>
-				<ChartPie
+				<ChartPie.Root
 					palette={palette()}
 					tooltip
 					legend="left"
@@ -36,7 +36,7 @@ export default function (props: MountProps): JSX.Element {
 			</div>
 
 			<div>
-				<ChartPie
+				<ChartPie.Root
 					palette={palette()}
 					legend="center"
 					selectedMode="multiple"

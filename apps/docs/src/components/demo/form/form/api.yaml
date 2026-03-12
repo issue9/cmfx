@@ -7,9 +7,8 @@
       - entrypoint: "index.d.ts"
         types:
             - FormAPI
-            - FormRef
-            - FormProps
-            - FormActions
+            - Form.RootRef
+            - Form.RootProps
             - Accessor
             - useForm
             - FormContext

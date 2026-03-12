@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - ResultProps
-            - ResultRef
+            - Result.RootProps
+            - Result.RootRef
 
-            - EmptyProps
-            - EmptyRef
+            - Empty.RootProps
+            - Empty.RootRef

@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "RadioProps",
+		"name": "Radio.RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -67,16 +67,16 @@
 				"type": "number | undefined"
 			},
 			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
 				"name": "palette",
 				"summary": "指定当前组件采用的色盘\n\n",
 				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
 				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-				"reactive": true
-			},
-			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{
@@ -107,13 +107,41 @@
 				"name": "help",
 				"summary": "提示信息\n\n\n该内容显示在 helpArea 区域，只有\n`hasHelp`\n为真时才会显示。\n\n",
 				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
 			}
 		],
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "RadioGroupProps",
+		"name": "Radio.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "组件的根元素\n\n",
+				"type": "root(): HTMLLabelElement",
+				"return": {
+					"type": "HTMLLabelElement"
+				}
+			},
+			{
+				"name": "input",
+				"summary": "组件的 input 元素\n\n",
+				"type": "input(): HTMLInputElement",
+				"return": {
+					"type": "HTMLInputElement"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "RadioGroup.RootProps",
 		"typeParams": [
 			{
 				"name": "T",
@@ -230,6 +258,26 @@
 				"name": "help",
 				"summary": "提示信息\n\n\n该内容显示在 helpArea 区域，只有\n`hasHelp`\n为真时才会显示。\n\n",
 				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "RadioGroup.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "组件的根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
 			}
 		],
 		"pkg": "@cmfx/components"

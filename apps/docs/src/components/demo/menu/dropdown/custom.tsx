@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dropdown, DropdownRef, MenuItem, MountProps } from '@cmfx/components';
+import { Button, Dropdown, Menu, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
 
-	const items: Array<MenuItem<string>> = [
+	const items: Array<Menu.MenuItem> = [
 		{ type: 'item', value: 'v1', label: 'v1', prefix: <IconFace />, disabled: true },
 		{ type: 'item', value: 'v2', label: 'v2' },
 		{ type: 'divider' },
@@ -81,7 +81,7 @@ export default function (props: MountProps): JSX.Element {
 		},
 	];
 
-	let ref: DropdownRef;
+	let ref: Dropdown.RootRef;
 
 	return (
 		<div>
@@ -90,11 +90,11 @@ export default function (props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<Button onclick={() => ref.show()}>show</Button>
-			<Button onclick={() => ref.hide()}>hide</Button>
-			<Button onclick={() => ref.toggle()}>toggle</Button>
+			<Button.Root onclick={() => ref.show()}>show</Button.Root>
+			<Button.Root onclick={() => ref.hide()}>hide</Button.Root>
+			<Button.Root onclick={() => ref.toggle()}>toggle</Button.Root>
 			<br />
-			<Dropdown
+			<Dropdown.Root
 				selectedClass={selectedCls()}
 				palette={palette()}
 				ref={el => {
@@ -108,7 +108,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			>
 				<div class="h-full w-full bg-primary-bg text-primary-fg">custom</div>
-			</Dropdown>
+			</Dropdown.Root>
 		</div>
 	);
 }

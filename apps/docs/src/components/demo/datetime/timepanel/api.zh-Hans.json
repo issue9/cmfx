@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "TimePanelProps",
+		"name": "TimePanel.RootProps",
 		"properties": [
 			{
 				"name": "disabled",
@@ -61,7 +61,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "TimePanelRef",
+		"name": "TimePanel.RootRef",
 		"methods": [
 			{
 				"name": "root",

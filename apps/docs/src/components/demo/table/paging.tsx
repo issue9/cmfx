@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Column, LoaderTable, MountProps, TextField } from '@cmfx/components';
+import { BasicTable, Button, LoaderTable, MountProps, TextField } from '@cmfx/components';
 import { Page, Query, sleep } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -56,7 +56,7 @@ export default function (props: MountProps): JSX.Element {
 	const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
 	const [SystemToolbar, systemToolbar] = boolSelector('systemToolbar', true);
 
-	const columns: Array<Column<Item>> = [
+	const columns: Array<BasicTable.Column<Item>> = [
 		{ id: 'id' },
 		{ id: 'name' },
 		{ id: 'address' },
@@ -78,19 +78,19 @@ export default function (props: MountProps): JSX.Element {
 				<SystemToolbar />
 			</Portal>
 
-			<LoaderTable
+			<LoaderTable.Root
 				accentPalette="primary"
 				paging
 				systemToolbar={systemToolbar()}
 				inSearch
 				fixedLayout={fixedLayout()}
 				palette={palette()}
-				toolbar={<Button palette="primary">+ New</Button>}
+				toolbar={<Button.Root palette="primary">+ New</Button.Root>}
 				columns={columns}
 				queries={{ txt: 'abc', page: 1, size: 10 }}
 				queryForm={oa => (
 					<>
-						<TextField accessor={oa.accessor<string>('txt')} />
+						<TextField.Root accessor={oa.accessor<string>('txt')} />
 					</>
 				)}
 				load={pagingLoader}

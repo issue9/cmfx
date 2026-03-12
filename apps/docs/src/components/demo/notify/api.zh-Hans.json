@@ -1,48 +1,5 @@
 [
 	{
-		"kind": "function",
-		"name": "notify",
-		"summary": "发送一条通知给用户\n\n",
-		"type": "function notify(title: string, body?: string, type?: NotifyType, lang?: string, duration?: number): Promise<void>",
-		"params": [
-			{
-				"name": "title",
-				"summary": "标题；\n\n",
-				"type": "string"
-			},
-			{
-				"name": "body",
-				"summary": "具体内容，如果为空则只显示标题；\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "type",
-				"summary": "类型，仅对非系统通知的情况下有效；\n\n",
-				"type": "\"error\" | \"warning\" | \"success\" | \"info\" | undefined"
-			},
-			{
-				"name": "lang",
-				"summary": "语言，仅对系统通知的情况下有效；\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "duration",
-				"summary": "如果大于 0，超过此毫秒数时将自动关闭提示框；\n\n",
-				"type": "number | undefined"
-			}
-		],
-		"return": {
-			"type": "Promise<void>"
-		},
-		"pkg": "@cmfx/components"
-	},
-	{
-		"name": "NotifyType",
-		"kind": "literal",
-		"type": "\"error\" | \"warning\" | \"success\" | \"info\"",
-		"pkg": "@cmfx/components"
-	},
-	{
 		"kind": "interface",
 		"properties": [
 			{
@@ -81,7 +38,7 @@
 			{
 				"name": "onClose",
 				"summary": "在将当前组件从 DOM 中移除之前执行的操作，返回 true 将阻止后续的移除操作。\n\n",
-				"type": "(() => Promise<boolean | void>) | undefined"
+				"type": "(() => Promise<boolean | undefined>) | undefined"
 			},
 			{
 				"name": "palette",
@@ -116,7 +73,7 @@
 				"reactive": true
 			}
 		],
-		"name": "AlertProps",
+		"name": "Alert.RootProps",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -140,7 +97,50 @@
 				}
 			}
 		],
-		"name": "AlertRef",
+		"name": "Alert.RootRef",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "Alert.Type",
+		"kind": "literal",
+		"type": "\"error\" | \"warning\" | \"success\" | \"info\"",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "notify",
+		"summary": "发送一条通知给用户\n\n",
+		"type": "function notify(title: string, body?: string, type?: Type, lang?: string, duration?: number): Promise<void>",
+		"params": [
+			{
+				"name": "title",
+				"summary": "标题；\n\n",
+				"type": "string"
+			},
+			{
+				"name": "body",
+				"summary": "具体内容，如果为空则只显示标题；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "type",
+				"summary": "类型，仅对非系统通知的情况下有效；\n\n",
+				"type": "\"error\" | \"warning\" | \"success\" | \"info\" | undefined"
+			},
+			{
+				"name": "lang",
+				"summary": "语言，仅对系统通知的情况下有效；\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "duration",
+				"summary": "如果大于 0，超过此毫秒数时将自动关闭提示框；\n\n",
+				"type": "number | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
 		"pkg": "@cmfx/components"
 	}
 ]

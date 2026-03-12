@@ -18,9 +18,9 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex gap-2">
-				<Statistic label="basic" palette={palette()} value={5} />
-				<Statistic label="basic" palette={palette()} value={500} icon={<IconEye class="text-[1em]" />} />
-				<Statistic
+				<Statistic.Root label="basic" palette={palette()} value={5} />
+				<Statistic.Root label="basic" palette={palette()} value={500} icon={<IconEye class="text-[1em]" />} />
+				<Statistic.Root
 					label="basic"
 					palette={palette()}
 					value={5}

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Badge, Button, badgeCorners, MountProps } from '@cmfx/components';
+import { Badge, Button, MountProps } from '@cmfx/components';
 import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -21,11 +21,11 @@ export default function (props: MountProps) {
 			</Portal>
 
 			<div class="flex flex-wrap justify-start gap-3">
-				<For each={badgeCorners}>
+				<For each={Badge.corners}>
 					{pos => (
-						<Badge pos={pos} rounded={rounded()} palette={palette()} content={<IconFace />}>
-							<Button palette="primary">{pos}</Button>
-						</Badge>
+						<Badge.Root pos={pos} rounded={rounded()} palette={palette()} content={<IconFace />}>
+							<Button.Root palette="primary">{pos}</Button.Root>
+						</Badge.Root>
 					)}
 				</For>
 			</div>

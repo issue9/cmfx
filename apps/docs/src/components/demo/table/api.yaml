@@ -6,16 +6,15 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - TableProps
-            - TableRef
+            - Table.RootProps
+            - Table.RootRef
 
-            - BasicTableProps
-            - BasicTableRef
+            - BasicTable.RootProps
+            - BasicTable.RootRef
+            - BasicTable.Column
 
-            - LoaderTableProps
-            - LoaderTableRef
+            - LoaderTable.RootProps
+            - LoaderTable.RootRef
 
-            - RemoteTableProps
-            - RemoteTableRef
-
-            - Column
+            - RemoteTable.RootProps
+            - RemoteTable.RootRef

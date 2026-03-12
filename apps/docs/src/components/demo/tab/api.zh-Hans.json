@@ -1,12 +1,12 @@
 [
 	{
 		"kind": "interface",
-		"name": "TabProps",
+		"name": "Tab.RootProps",
 		"properties": [
 			{
 				"name": "items",
 				"summary": "所有的 tab 项\n\n",
-				"type": "TabItem[]",
+				"type": "Item_2[]",
 				"reactive": true
 			},
 			{
@@ -29,6 +29,7 @@
 			},
 			{
 				"name": "onChange",
+				"summary": "标签切换时的回调函数\n\n",
 				"type": "ChangeFunc<string> | undefined"
 			},
 			{
@@ -55,13 +56,62 @@
 			{
 				"name": "children",
 				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
 			}
 		],
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "TabItem",
+		"name": "Tab.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "获取组件根元素\n\n",
+				"type": "root(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
+				"name": "switch",
+				"summary": "切换到指定的标签\n\n",
+				"type": "switch(id: Item_2['id']): void",
+				"params": [
+					{
+						"name": "id",
+						"type": "string"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "scroll",
+				"summary": "滚动标签列表\n\n",
+				"type": "scroll(delta: number): void",
+				"params": [
+					{
+						"name": "delta",
+						"summary": "滚动的距离，正数向右滚动，负数向左滚动。\n\n",
+						"type": "number"
+					}
+				],
+				"return": {
+					"type": "void"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Tab.Item",
 		"properties": [
 			{
 				"name": "id",

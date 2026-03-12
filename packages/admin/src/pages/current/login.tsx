@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseProps, ChoiceOption, Mode } from '@cmfx/components';
+import type { BaseProps, Mode } from '@cmfx/components';
 import {
 	Appbar,
 	Choice,
@@ -70,7 +70,7 @@ function LoginBox(props: Props): JSX.Element {
 	const passport = fieldAccessor('passport', q.type ?? 'password');
 	passport.onChange(n => setQ({ type: n }));
 
-	const [passports] = createResource<Array<ChoiceOption>>(async () => {
+	const [passports] = createResource<Array<Choice.Option>>(async () => {
 		const r = await rest.get<Array<Passport>>('/passports');
 		if (!r.ok) {
 			await handleProblem(r.body!);
@@ -80,8 +80,8 @@ function LoginBox(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page backtop={false} title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
-			<Appbar
+		<Page.Root backTop={false} title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
+			<Appbar.Root
 				class={styles.toolbar}
 				title={opt.title}
 				logo={opt.logo}
@@ -93,7 +93,7 @@ function LoginBox(props: Props): JSX.Element {
 				<div class={styles.form}>
 					<div class={styles.title}>
 						<p>{l.t('_p.current.login')}</p>
-						<Choice accessor={passport} options={!passports.loading ? passports()! : []} />
+						<Choice.Root accessor={passport} options={!passports.loading ? passports()! : []} />
 					</div>
 					<div>
 						<Transition>{props.passports.get(passport.getValue())?.Login()}</Transition>
@@ -114,7 +114,7 @@ function LoginBox(props: Props): JSX.Element {
 					</For>
 				</footer>
 			</Show>
-		</Page>
+		</Page.Root>
 	);
 }
 
@@ -130,9 +130,9 @@ function Actions(): JSX.Element {
 
 	return (
 		<>
-			<Choice accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
+			<Choice.Root accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
 
-			<Choice
+			<Choice.Root
 				accessor={modeFA}
 				options={modes.map(v => ({ type: 'item', value: v, label: l.t(`_c.settings.${v}`) }))}
 			/>

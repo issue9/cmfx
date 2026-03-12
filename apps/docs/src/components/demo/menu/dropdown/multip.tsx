@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown, MenuItem, MountProps } from '@cmfx/components';
+import { Dropdown, Menu, MountProps } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -26,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
 
-	const items: Array<MenuItem<string>> = [
+	const items: Array<Menu.MenuItem> = [
 		{ type: 'item', value: 'v1', label: 'v1', prefix: <IconFace />, disabled: true },
 		{ type: 'item', value: 'v2', label: 'v2' },
 		{ type: 'divider' },
@@ -89,9 +89,9 @@ export default function (props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<Dropdown align="start" selectedClass={selectedCls()} palette={palette()} items={items} multiple>
+			<Dropdown.Root align="start" selectedClass={selectedCls()} palette={palette()} items={items} multiple>
 				<div class="h-full w-full bg-primary-bg text-primary-fg">click</div>
-			</Dropdown>
+			</Dropdown.Root>
 		</>
 	);
 }

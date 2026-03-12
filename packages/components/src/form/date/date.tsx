@@ -9,7 +9,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
-import { DatePanel, DatePanelProps, Week } from '@components/datetime';
+import { DatePanel, Week } from '@components/datetime';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import {
 	calcLayoutFieldAreas,
@@ -29,7 +29,10 @@ export interface Ref {
 	root(): HTMLDivElement;
 }
 
-interface Base extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'>, RefProps<Ref> {
+interface Base
+	extends FieldBaseProps,
+		Omit<DatePanel.RootProps, 'onChange' | 'value' | 'popover' | 'ref'>,
+		RefProps<Ref> {
 	placeholder?: string;
 }
 
@@ -59,7 +62,7 @@ function isNumberProps(props: Props): props is NumberProps {
 	return props.accessor.kind() === 'number';
 }
 
-export default function Picker(props: Props): JSX.Element {
+export function Root(props: Props): JSX.Element {
 	if (isDateProps(props)) {
 		return <DatePicker {...props} />;
 	} else if (isNumberProps(props)) {
@@ -173,7 +176,7 @@ function DatePicker(props: DateProps): JSX.Element {
 				class={styles.panel}
 				aria-haspopup
 			>
-				<DatePanel
+				<DatePanel.Root
 					class={styles['dt-panel']}
 					{...panelProps}
 					value={props.accessor.getValue()}
@@ -182,7 +185,7 @@ function DatePicker(props: DateProps): JSX.Element {
 
 				<div class={styles.actions}>
 					<div class={styles.left}>
-						<Button
+						<Button.Root
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
@@ -195,11 +198,11 @@ function DatePicker(props: DateProps): JSX.Element {
 							}}
 						>
 							{l.t(props.time ? '_c.date.now' : '_c.date.today')}
-						</Button>
+						</Button.Root>
 					</div>
 
 					<div class={styles.right}>
-						<Button
+						<Button.Root
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
@@ -208,9 +211,9 @@ function DatePicker(props: DateProps): JSX.Element {
 							}}
 						>
 							{l.t('_c.date.clear')}
-						</Button>
+						</Button.Root>
 
-						<Button
+						<Button.Root
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
@@ -219,7 +222,7 @@ function DatePicker(props: DateProps): JSX.Element {
 							}}
 						>
 							{l.t('_c.reset')}
-						</Button>
+						</Button.Root>
 					</div>
 				</div>
 			</fieldset>

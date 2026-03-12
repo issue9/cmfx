@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, IconSet, IconSetRef, IconSetRotation, iconSetRotations, MountProps } from '@cmfx/components';
+import { Button, IconSet, MountProps } from '@cmfx/components';
 import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';
@@ -12,8 +12,8 @@ import IconPerson from '~icons/material-symbols/person';
 import { arraySelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	let aref: IconSetRef;
-	const [Rotation, rotation] = arraySelector<IconSetRotation>('rotation', iconSetRotations, 'none');
+	let aref: IconSet.RootRef;
+	const [Rotation, rotation] = arraySelector<IconSet.Rotation>('rotation', IconSet.rotations, 'none');
 	const [Palette, palette] = paletteSelector();
 
 	return (
@@ -23,8 +23,8 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Button palette={palette()}>
-				<IconSet
+			<Button.Root palette={palette()}>
+				<IconSet.Root
 					class="aspect-square w-8!"
 					ref={el => {
 						aref = el;
@@ -36,24 +36,24 @@ export default function (props: MountProps): JSX.Element {
 					}}
 					rotation={rotation()}
 				/>
-			</Button>
+			</Button.Root>
 
-			<Button palette={palette()} onclick={() => aref?.to('face')}>
+			<Button.Root palette={palette()} onclick={() => aref?.to('face')}>
 				face
-			</Button>
-			<Button palette={palette()} onclick={() => aref?.to('close')}>
+			</Button.Root>
+			<Button.Root palette={palette()} onclick={() => aref?.to('close')}>
 				close
-			</Button>
-			<Button palette={palette()} onclick={() => aref?.to('not-exists')}>
+			</Button.Root>
+			<Button.Root palette={palette()} onclick={() => aref?.to('not-exists')}>
 				not-exists
-			</Button>
+			</Button.Root>
 
-			<Button palette={palette()} onclick={() => aref?.next()}>
+			<Button.Root palette={palette()} onclick={() => aref?.next()}>
 				next
-			</Button>
-			<Button palette={palette()} onclick={() => aref?.prev()}>
+			</Button.Root>
+			<Button.Root palette={palette()} onclick={() => aref?.prev()}>
 				prev
-			</Button>
+			</Button.Root>
 		</div>
 	);
 }

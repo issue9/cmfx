@@ -1,12 +1,12 @@
 [
 	{
 		"kind": "interface",
-		"name": "AppbarProps",
+		"name": "Appbar.RootProps",
 		"properties": [
 			{
 				"name": "logo",
 				"summary": "首部的 LOGO 图片\n\n",
-				"type": "string | undefined",
+				"type": "JSX.Element",
 				"reactive": true
 			},
 			{
@@ -69,7 +69,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "AppbarRef",
+		"name": "Appbar.RootRef",
 		"methods": [
 			{
 				"name": "root",

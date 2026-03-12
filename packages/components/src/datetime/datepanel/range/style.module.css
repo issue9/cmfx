@@ -1,0 +1,45 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../../../style.css";
+
+@layer components {
+	.range {
+		@apply flex rounded-lg overflow-clip;
+		@apply border border-palette-border;
+		@apply bg-palette-bg text-palette-fg;
+
+		> main {
+			@apply flex flex-col;
+
+			.panels {
+				@apply flex flex-wrap;
+
+				> fieldset.panel {
+					@apply rounded-none! border-transparent;
+				}
+
+				> fieldset.panel:last-child {
+					@apply border-s-palette-border;
+				}
+			}
+
+			.value {
+				@apply py-1 px-2 border-t border-palette-border text-left;
+			}
+
+			/* 保证内容为空时的高度不变 */
+			.value::before {
+				content: "\200B";
+			}
+		}
+
+		.shortcuts {
+			@apply flex flex-col shrink-0 p-2 items-stretch;
+			@apply border-s border-s-palette-border;
+		}
+	}
+}

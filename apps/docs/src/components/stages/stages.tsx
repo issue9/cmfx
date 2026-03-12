@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, NavRef, Page, useLocale, useOptions } from '@cmfx/components';
+import { Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
@@ -55,7 +55,7 @@ export default function Stages(props: Props): JSX.Element {
 	const title = route[route.length - 1].route.info?.title;
 
 	let articleRef!: HTMLElement;
-	let navRef!: NavRef;
+	let navRef!: Nav.RootRef;
 	const url = baseURL + props.dir;
 
 	const [footer, setFooter] = createSignal<string>('');
@@ -98,7 +98,7 @@ export default function Stages(props: Props): JSX.Element {
 	}
 
 	return (
-		<Page class={styles['stages-page']} title={title}>
+		<Page.Root class={styles['stages-page']} title={title}>
 			<article
 				class={styles.root}
 				ref={el => {
@@ -137,7 +137,7 @@ export default function Stages(props: Props): JSX.Element {
 				<Show when={footer()}>{f => <article innerHTML={markdown(f())} />}</Show>
 			</article>
 
-			<Nav
+			<Nav.Root
 				minHeaderCount={5}
 				ref={el => {
 					navRef = el;
@@ -146,6 +146,6 @@ export default function Stages(props: Props): JSX.Element {
 				target={articleRef}
 				query="h3,h4"
 			/>
-		</Page>
+		</Page.Root>
 	);
 }

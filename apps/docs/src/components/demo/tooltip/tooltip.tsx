@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonRef, MountProps, Tooltip, TooltipRef } from '@cmfx/components';
+import { Button, MountProps, Tooltip } from '@cmfx/components';
 import { PopoverPosition } from '@cmfx/core';
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -10,8 +10,8 @@ import { Portal } from 'solid-js/web';
 import { posSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	let ref1: TooltipRef;
-	let btn1: ButtonRef;
+	let ref1: Tooltip.RootRef;
+	let btn1: Button.RootRef;
 	const [timeout, setTimeout] = createSignal<number>();
 	const [Pos, pos] = posSelector();
 
@@ -22,7 +22,7 @@ export default function (props: MountProps): JSX.Element {
 				<input type="number" min={-1} max={5000} step={100} onChange={e => setTimeout(parseInt(e.target.value, 10))} />
 			</Portal>
 
-			<Button
+			<Button.Root
 				palette="primary"
 				ref={el => {
 					btn1 = el;
@@ -30,8 +30,8 @@ export default function (props: MountProps): JSX.Element {
 				onclick={() => ref1.show(btn1.root(), pos() as PopoverPosition)}
 			>
 				show
-			</Button>
-			<Tooltip
+			</Button.Root>
+			<Tooltip.Root
 				ref={el => {
 					ref1 = el;
 				}}
@@ -43,7 +43,7 @@ export default function (props: MountProps): JSX.Element {
 					<br />
 					line2
 				</p>
-			</Tooltip>
+			</Tooltip.Root>
 		</>
 	);
 }

@@ -22,12 +22,6 @@
 				"def": "`~icons/cmfx/loading`\n\n"
 			},
 			{
-				"name": "systemDialog",
-				"summary": "是否替换系统对话框\n\n",
-				"type": "boolean | undefined",
-				"def": "false\n\n"
-			},
-			{
 				"name": "systemNotify",
 				"summary": "是否使用系统通知，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
 				"type": "boolean | undefined",

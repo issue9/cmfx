@@ -4,17 +4,18 @@
 
 import './style.css';
 
-import type { DrawerRef, DropdownRef, MenuItem, MenuItemItem, Mode } from '@cmfx/components';
+import type { Mode } from '@cmfx/components';
 import {
 	Appbar,
 	Button,
+	Drawer,
 	Dropdown,
 	Menu,
 	modes,
 	Result,
 	run,
 	Search,
-	ToggleFullScreenButton,
+	ToggleButton,
 	Transition,
 	useLocale,
 	useOptions,
@@ -23,7 +24,7 @@ import {
 import { Hotkey } from '@cmfx/core';
 import * as illustrations from '@cmfx/illustrations';
 import { RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
-import { createMemo, createSignal, JSX, lazy, Show } from 'solid-js';
+import { createMemo, createSignal, JSX, lazy } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
@@ -56,9 +57,9 @@ const componentsRoute = '/components/demo';
 const contributeRoute = '/contribute';
 const themeRoute = '/theme-builder';
 
-const [docsRef, setDocsRef] = createSignal<DrawerRef>();
-const [demoRef, setDemoRef] = createSignal<DrawerRef>();
-const [themeRef, setThemeRef] = createSignal<DrawerRef>();
+const [docsRef, setDocsRef] = createSignal<Drawer.RootRef>();
+const [demoRef, setDemoRef] = createSignal<Drawer.RootRef>();
+const [themeRef, setThemeRef] = createSignal<Drawer.RootRef>();
 
 function InternalApp(props: RouteSectionProps): JSX.Element {
 	const l = useLocale();
@@ -66,13 +67,13 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 	const [dir, setDir] = createSignal<'ltr' | 'rtl' | 'auto'>('auto');
 	const theme = useTheme();
 
-	const menus: Array<MenuItem<string>> = [
+	const menus: Array<Menu.MenuItem> = [
 		...buildComponentsMenus(l, componentsRoute),
 		...buildDocsMenus(l, docsRoute),
 		{ type: 'a', value: contributeRoute, label: l.t('_d.contribute.contribute') },
 	];
 	const search = async (value: string) => {
-		const items: Array<MenuItemItem<string>> = [];
+		const items: Array<Menu.MenuItem> = [];
 
 		for (const m of menus) {
 			if (m.type === 'a' && m.label && (m.label as string).toLowerCase().includes(value.toLowerCase())) {
@@ -92,34 +93,22 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 	};
 
 	const [modeValues, setModeValues] = createSignal<Array<Mode>>([theme.mode ?? 'system'], { equals: false });
-	let themeDropdown: DropdownRef;
+	let themeDropdown: Dropdown.RootRef;
 
 	return (
 		<div class={styles.main}>
-			<Appbar
+			<Appbar.Root
 				href="/"
 				palette="secondary"
-				logo={options.logo}
+				logo={<Appbar.Image />}
 				title={options.title}
 				actions={
 					<>
-						<Show when={docsRef()}>
-							{r => {
-								return r().ToggleButton({ square: true, kind: 'flat' });
-							}}
-						</Show>
-						<Show when={demoRef()}>
-							{r => {
-								return r().ToggleButton({ square: true, kind: 'flat' });
-							}}
-						</Show>
-						<Show when={themeRef()}>
-							{r => {
-								return r().ToggleButton({ square: true, kind: 'flat' });
-							}}
-						</Show>
+						<Drawer.ToggleButton square kind="flat" drawer={docsRef()} />
+						<Drawer.ToggleButton square kind="flat" drawer={demoRef()} />
+						<Drawer.ToggleButton square kind="flat" drawer={themeRef()} />
 
-						<Dropdown
+						<Dropdown.Root
 							trigger="hover"
 							value={l.match(Array.from(languageIcons.keys()), act.getLocale())}
 							onChange={e => act.setLocale(e)}
@@ -130,12 +119,12 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 								prefix: languageIcons.get(locale[0]) ?? <IconLanguage />,
 							}))}
 						>
-							<Button kind="flat" square>
+							<Button.Root kind="flat" square>
 								<IconLanguage />
-							</Button>
-						</Dropdown>
+							</Button.Root>
+						</Dropdown.Root>
 
-						<Dropdown
+						<Dropdown.Root
 							ref={el => {
 								themeDropdown = el;
 							}}
@@ -165,12 +154,12 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 								{ type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', prefix: <IconBuilder /> },
 							]}
 						>
-							<Button kind="flat" square>
+							<Button.Root kind="flat" square>
 								<IconTheme />
-							</Button>
-						</Dropdown>
+							</Button.Root>
+						</Dropdown.Root>
 
-						<Dropdown
+						<Dropdown.Root
 							trigger="hover"
 							value={dir()}
 							onChange={e => {
@@ -183,20 +172,20 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 								{ type: 'item', label: l.t('_d.main.auto'), value: 'auto', prefix: <IconAuto /> },
 							]}
 						>
-							<Button kind="flat" square>
+							<Button.Root kind="flat" square>
 								<IconAlign />
-							</Button>
-						</Dropdown>
+							</Button.Root>
+						</Dropdown.Root>
 
-						<ToggleFullScreenButton kind="flat" square title={l.t('_c.fullscreen')} />
+						<ToggleButton.FullScreen kind="flat" square title={l.t('_c.fullscreen')} />
 
-						<Button type="a" kind="flat" square href={pkg.repository.url}>
+						<Button.Root type="a" kind="flat" square href={pkg.repository.url}>
 							<IconGithub />
-						</Button>
+						</Button.Root>
 					</>
 				}
 			>
-				<Menu
+				<Menu.Root
 					layout="horizontal"
 					items={[
 						{ type: 'a', label: l.t('_d.main.home'), value: '/' },
@@ -206,8 +195,8 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 					]}
 				/>
 
-				<Search class={styles.search} onSearch={search} icon clear hotkey={new Hotkey('k', 'control')} />
-			</Appbar>
+				<Search.Root class={styles.search} onSearch={search} icon clear hotkey={new Hotkey('k', 'control')} />
+			</Appbar.Root>
 
 			<Transition>{props.children}</Transition>
 		</div>
@@ -223,12 +212,12 @@ function NotFound(): JSX.Element {
 	});
 
 	return (
-		<Result palette="error" title={text()} illustration={<illustrations.Error404 text={text()} />}>
+		<Result.Root palette="error" title={text()} illustration={<illustrations.Error404 text={text()} />}>
 			<div class={styles['error-actions']}>
-				<Button palette="primary" type="a" href="/">
+				<Button.Root palette="primary" type="a" href="/">
 					{l.t('_d.error.backHome')}
-				</Button>
-				<Button
+				</Button.Root>
+				<Button.Root
 					palette="primary"
 					type="button"
 					onclick={() => {
@@ -236,9 +225,9 @@ function NotFound(): JSX.Element {
 					}}
 				>
 					{l.t('_d.error.backPrev')}
-				</Button>
+				</Button.Root>
 			</div>
-		</Result>
+		</Result.Root>
 	);
 }
 

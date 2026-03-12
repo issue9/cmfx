@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "TimezoneProps",
+		"name": "Timezone.RootProps",
 		"properties": [
 			{
 				"name": "value",
@@ -34,6 +34,25 @@
 				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Timezone.RootRef",
+		"methods": [
+			{
+				"name": "root",
+				"type": "root(): Tab.RootRef",
+				"return": {
+					"type": "Ref_30"
+				}
 			}
 		],
 		"pkg": "@cmfx/components"

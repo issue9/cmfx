@@ -38,7 +38,7 @@ export default function (props: MountProps): JSX.Element {
 				<Week />
 			</Portal>
 
-			<DatePicker
+			<DatePicker.Root
 				class="w-[400px]"
 				placeholder="placeholder"
 				layout={layout()}
@@ -56,7 +56,7 @@ export default function (props: MountProps): JSX.Element {
 			/>
 			<p>{dateFA?.getValue()?.toString() ?? 'undefined'}</p>
 
-			<DatePicker
+			<DatePicker.Root
 				class="w-[200px]"
 				placeholder="placeholder"
 				layout={layout()}

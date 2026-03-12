@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ButtonKind, ChoiceOption, LabelAlignment, Layout, Palette } from '@cmfx/components';
+import type { LabelAlignment, Layout, Palette } from '@cmfx/components';
 import {
-	buttonKinds,
+	Button,
 	Checkbox,
 	Choice,
 	fieldAccessor,
@@ -65,7 +65,7 @@ export function boolSelector(label: string, preset: boolean = false): [Component
 	const [get, set] = createSignal(preset);
 	const chk = () => {
 		const l = useLocale();
-		return <Checkbox checked={get()} onChange={v => set(!!v)} label={l.t(label)} />;
+		return <Checkbox.Root checked={get()} onChange={v => set(!!v)} label={l.t(label)} />;
 	};
 	return [chk, get, set];
 }
@@ -82,8 +82,8 @@ export function layoutSelector(label: string, preset?: Layout) {
 	return arraySelector(label, layouts, preset);
 }
 
-export function buttonKindSelector(v?: ButtonKind) {
-	return arraySelector('_d.demo.buttonKind', buttonKinds, v);
+export function buttonKindSelector(v?: Button.Kind) {
+	return arraySelector('_d.demo.buttonKind', Button.kinds, v);
 }
 
 /**
@@ -102,7 +102,7 @@ export function arraySelector<T extends string | number>(
 ): [Component, Accessor<T | undefined>, Setter<T | undefined>] {
 	const signal = createSignal<T | undefined>(preset);
 
-	let options: Array<ChoiceOption<T>>;
+	let options: Array<Choice.Option<T>>;
 
 	if (Array.isArray(array)) {
 		options = array.map(item => {
@@ -136,7 +136,7 @@ export function arraySelector<T extends string | number>(
 	const elem = () => {
 		const l = useLocale();
 		return (
-			<Choice
+			<Choice.Root
 				closable
 				layout="horizontal"
 				placeholder={l.t(label)}

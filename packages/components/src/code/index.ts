@@ -2,6 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as CodeProps, Ref as CodeRef } from './code';
-export { default as Code } from './code';
+export * as Code from './mod';
 export { Highlighter, highlight } from './shiki';

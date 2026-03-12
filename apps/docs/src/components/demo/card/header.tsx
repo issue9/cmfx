@@ -18,10 +18,10 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Card palette={palette()} header={<Label icon={<IconEye />}>title</Label>}>
+			<Card.Root palette={palette()} header={<Label.Root icon={<IconEye />}>title</Label.Root>}>
 				<p>这是一行文字</p>
-				<Button palette="primary">button</Button>
-			</Card>
+				<Button.Root palette="primary">button</Button.Root>
+			</Card.Root>
 		</div>
 	);
 }

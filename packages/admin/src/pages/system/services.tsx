@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Column, Label, LoaderTable, Page, useLocale } from '@cmfx/components';
+import { BasicTable, Label, LoaderTable, Page, useLocale } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { createMemo, JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
@@ -60,12 +60,12 @@ export function Services(): JSX.Element {
 	});
 
 	return (
-		<Page title="_p.system.serviceViewer" class={styles.services}>
+		<Page.Root title="_p.system.serviceViewer" class={styles.services}>
 			<fieldset>
-				<Label icon={<IconSubtitle />} tag="legend">
+				<Label.Root icon={<IconSubtitle />} tag="legend">
 					{l.t('_p.system.services')}
-				</Label>
-				<LoaderTable
+				</Label.Root>
+				<LoaderTable.Root
 					hoverable
 					load={async (_: Query) => (await items())?.services}
 					queries={{}}
@@ -76,7 +76,7 @@ export function Services(): JSX.Element {
 							label: l.t('_p.system.serviceState'),
 							content: ((_: string, v?: State) => {
 								return states().find(val => val.value === v)?.label;
-							}) as Column<Task>['content'],
+							}) as BasicTable.Column<Task>['content'],
 						},
 						{ id: 'err', label: l.t('_p.system.error') },
 					]}
@@ -86,10 +86,10 @@ export function Services(): JSX.Element {
 			<br />
 
 			<fieldset>
-				<Label icon={<IconTask />} tag="legend">
+				<Label.Root icon={<IconTask />} tag="legend">
 					{l.t('_p.system.jobs')}
-				</Label>
-				<LoaderTable
+				</Label.Root>
+				<LoaderTable.Root
 					hoverable
 					load={async (_: Query) => (await items())?.jobs}
 					queries={{}}
@@ -100,7 +100,7 @@ export function Services(): JSX.Element {
 							label: l.t('_p.system.serviceState'),
 							content: ((_: string, v?: State) => {
 								return states().find(val => val.value === v)?.label;
-							}) as Column<Job>['content'],
+							}) as BasicTable.Column<Job>['content'],
 						},
 						{ id: 'err', label: l.t('_p.system.error') },
 						{
@@ -120,6 +120,6 @@ export function Services(): JSX.Element {
 					]}
 				/>
 			</fieldset>
-		</Page>
+		</Page.Root>
 	);
 }

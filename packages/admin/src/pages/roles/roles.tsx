@@ -3,14 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import {
+	BasicTable,
 	Button,
-	Column,
 	Dialog,
-	DialogRef,
 	ObjectAccessor,
 	Page,
 	RemoteTable,
-	RemoteTableRef,
 	TextArea,
 	TextField,
 	useLocale,
@@ -40,8 +38,8 @@ interface Props {
 export function Roles(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
-	let tableRef: RemoteTableRef<Role>;
-	let dialogRef: DialogRef;
+	let tableRef: RemoteTable.RootRef<Role>;
+	let dialogRef: Dialog.RootRef;
 	const current = new ObjectAccessor({} as Role);
 	const currentID = current.accessor('id');
 
@@ -49,7 +47,7 @@ export function Roles(props: Props): JSX.Element {
 
 	// 保存数据
 	const save = async (): Promise<undefined> => {
-		let ret: Return<Role, never>;
+		let ret: Return<Role>;
 		const id = currentID.getValue();
 
 		const obj = await current.object();
@@ -85,21 +83,21 @@ export function Roles(props: Props): JSX.Element {
 	};
 
 	return (
-		<Page title="_p.roles.rolesManager" class={styles.roles}>
-			<Dialog
+		<Page.Root title="_p.roles.rolesManager" class={styles.roles}>
+			<Dialog.Root
 				ref={el => {
 					dialogRef = el;
 				}}
 				header={currentID.getValue() ? l.t('_p.editItem') : l.t('_p.newItem')}
-				actions={dialogRef!.DefaultActions(save)}
+				footer={Dialog.PresetButtons(save)}
 			>
 				<form class={styles.form}>
-					<TextField accessor={current.accessor<string>('name')} />
-					<TextArea accessor={current.accessor<string>('description')} />
+					<TextField.Root accessor={current.accessor<string>('name')} />
+					<TextArea.Root accessor={current.accessor<string>('description')} />
 				</form>
-			</Dialog>
+			</Dialog.Root>
 
-			<RemoteTable
+			<RemoteTable.Root
 				rest={rest}
 				ref={el => {
 					tableRef = el;
@@ -117,10 +115,16 @@ export function Roles(props: Props): JSX.Element {
 						label: l.t('_p.actions'),
 						renderContent: ((_, __, obj) => (
 							<div class="flex gap-x-2">
-								<Button square rounded palette="tertiary" onclick={() => edit(obj!.id!)} title={l.t('_p.editItem')}>
+								<Button.Root
+									square
+									rounded
+									palette="tertiary"
+									onclick={() => edit(obj!.id!)}
+									title={l.t('_p.editItem')}
+								>
 									<IconEdit />
-								</Button>
-								<Button
+								</Button.Root>
+								<Button.Root
 									square
 									rounded
 									palette="tertiary"
@@ -129,18 +133,18 @@ export function Roles(props: Props): JSX.Element {
 									title={l.t('_p.roles.editPermission')}
 								>
 									<IconPasskey />
-								</Button>
-								{tableRef.DeleteAction(obj!.id!)}
+								</Button.Root>
+								<RemoteTable.DeleteAction table={tableRef} id={obj!.id} />
 							</div>
-						)) as Column<Role>['renderContent'],
+						)) as BasicTable.Column<Role>['renderContent'],
 					},
 				]}
 				toolbar={
-					<Button palette="primary" onclick={() => edit('')}>
+					<Button.Root palette="primary" onclick={() => edit('')}>
 						{l.t('_p.newItem')}
-					</Button>
+					</Button.Root>
 				}
 			/>
-		</Page>
+		</Page.Root>
 	);
 }

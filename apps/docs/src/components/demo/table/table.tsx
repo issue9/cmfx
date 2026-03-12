@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, MountProps, Numeric, Table, TableProps } from '@cmfx/components';
+import { fieldAccessor, MountProps, Numeric, Table } from '@cmfx/components';
 import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -24,7 +24,7 @@ function buildItems(start: number, size: number): Array<Item> {
 }
 
 export default function (props: MountProps) {
-	const striped = fieldAccessor<TableProps['striped']>('striped', 0);
+	const striped = fieldAccessor<Table.RootProps['striped']>('striped', 0);
 	const [Palette, palette] = paletteSelector();
 	const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
 	const [Hoverable, hoverable] = boolSelector('hoverable', false);
@@ -35,10 +35,10 @@ export default function (props: MountProps) {
 				<Palette />
 				<FixedLayout />
 				<Hoverable />
-				<Numeric class="w-20" accessor={striped} min={0} max={10} />
+				<Numeric.Root class="w-20" accessor={striped} min={0} max={10} />
 			</Portal>
 
-			<Table striped={striped.getValue()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>
+			<Table.Root striped={striped.getValue()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -57,7 +57,7 @@ export default function (props: MountProps) {
 						)}
 					</For>
 				</tbody>
-			</Table>
+			</Table.Root>
 		</>
 	);
 }

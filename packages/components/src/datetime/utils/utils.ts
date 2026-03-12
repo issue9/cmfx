@@ -155,6 +155,8 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
  *
  * @param date - 需要计算的月份；
  * @param weekStart - 每周的起始；
+ * @param min - 允许的最小日期；
+ * @param max - 允许的最大日期；
  * @returns 以 7 天为一组的数据，每个元素包含以下字段：
  *  - 0 是否为禁用；
  *  - 1 表示当前的日期，仅精确到天；

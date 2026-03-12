@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - MonthPanelProps
-            - MonthPanelRef
+            - MonthPanel.RootProps
+            - MonthPanel.RootRef
 
-            - YearPanelProps
-            - YearPanelRef
+            - YearPanel.RootProps
+            - YearPanel.RootRef

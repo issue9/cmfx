@@ -5,13 +5,11 @@
 import {
 	Alert,
 	Checkbox,
-	Divider,
 	fieldAccessor,
 	joinClass,
 	Page,
 	RadioGroup,
-	Range,
-	SettingsRef,
+	Slider,
 	useLocale,
 	Settings as XSettings,
 } from '@cmfx/components';
@@ -30,7 +28,6 @@ export function Settings(): JSX.Element {
 	const l = useLocale();
 	const lay = useLayout();
 
-	let ref!: SettingsRef;
 	const layout = fieldAccessor('layout', lay.layout());
 	const float = lay.float();
 	const width = fieldAccessor('width', lay.width());
@@ -43,7 +40,7 @@ export function Settings(): JSX.Element {
 	});
 
 	const chk = (
-		<Checkbox
+		<Checkbox.Root
 			label={l.t('_p.current.setWidth')}
 			checked={!rangDisabled()}
 			onChange={v => {
@@ -54,20 +51,15 @@ export function Settings(): JSX.Element {
 	);
 
 	return (
-		<Page title="_p.current.settings" class={joinClass(undefined, styles.settings)}>
-			<XSettings
-				ref={el => {
-					ref = el;
-				}}
-				onReset={() => lay.reset()}
-			>
-				<Alert type="warning" title={l.t('_p.current.settingsDesc')} />
+		<Page.Root title="_p.current.settings" class={joinClass(undefined, styles.settings)}>
+			<XSettings.Root onReset={() => lay.reset()}>
+				<Alert.Root type="warning" title={l.t('_p.current.settingsDesc')} />
 
-				<Divider padding="16px 8px" />
+				<XSettings.Separator />
 
-				<ref.Item icon={<IconLayout />} title={l.t('_p.current.layout')} desc={l.t('_p.current.layoutDesc')}>
+				<XSettings.Item icon={<IconLayout />} title={l.t('_p.current.layout')} desc={l.t('_p.current.layoutDesc')}>
 					<div class={styles.content}>
-						<RadioGroup
+						<RadioGroup.Root
 							class={styles.layout}
 							block
 							accessor={layout}
@@ -77,9 +69,9 @@ export function Settings(): JSX.Element {
 							]}
 						/>
 
-						<Checkbox label={l.t('_p.current.float')} checked={float[0]()} onChange={v => float[1](!!v)} />
+						<Checkbox.Root label={l.t('_p.current.float')} checked={float[0]()} onChange={v => float[1](!!v)} />
 
-						<Range
+						<Slider.Root
 							label={chk}
 							disabled={rangDisabled()}
 							step={10}
@@ -89,8 +81,10 @@ export function Settings(): JSX.Element {
 							value={v => `${v}px`}
 						/>
 					</div>
-				</ref.Item>
-			</XSettings>
-		</Page>
+				</XSettings.Item>
+
+				<XSettings.Separator />
+			</XSettings.Root>
+		</Page.Root>
 	);
 }

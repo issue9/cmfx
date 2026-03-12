@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "EditorProps",
+		"name": "Editor.RootProps",
 		"properties": [
 			{
 				"name": "simple",
@@ -42,11 +42,9 @@
 				"type": "number | undefined"
 			},
 			{
-				"name": "layout",
-				"summary": "表单组件的 layout 属性的默认值\n\n",
-				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
-				"type": "\"horizontal\" | \"vertical\" | undefined",
-				"def": "'horizontal'\n\n",
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{
@@ -57,9 +55,11 @@
 				"reactive": true
 			},
 			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
 				"reactive": true
 			},
 			{
@@ -108,7 +108,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "EditorRef",
+		"name": "Editor.RootRef",
 		"methods": [
 			{
 				"name": "root",

@@ -1,12 +1,12 @@
 [
 	{
 		"kind": "interface",
-		"name": "TourProps",
+		"name": "Tour.RootProps",
 		"properties": [
 			{
 				"name": "steps",
 				"summary": "指定所有教程步骤\n\n",
-				"type": "TourStep[]"
+				"type": "Step_3[]"
 			},
 			{
 				"name": "accentPalette",
@@ -39,7 +39,7 @@
 			},
 			{
 				"name": "ref",
-				"type": "(el: TourRef) => void"
+				"type": "(el: Ref_78) => void"
 			},
 			{
 				"name": "palette",
@@ -67,7 +67,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "TourRef",
+		"name": "Tour.RootRef",
 		"properties": [
 			{
 				"name": "next",
@@ -99,9 +99,9 @@
 			},
 			{
 				"name": "root",
-				"type": "root(): DialogRef",
+				"type": "root(): Dialog.RootRef",
 				"return": {
-					"type": "DialogRef"
+					"type": "Ref_32"
 				}
 			}
 		],
@@ -109,7 +109,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "TourStep",
+		"name": "Tour.Step",
 		"properties": [
 			{
 				"name": "id",
