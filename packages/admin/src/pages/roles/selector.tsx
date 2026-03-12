@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { Choice } from '@cmfx/components';
-import { createSignal, JSX, onMount } from 'solid-js';
+import { createSignal, type JSX, onMount } from 'solid-js';
 
 import { handleProblem, useREST } from '@admin/app';
-import { Role } from './roles';
+import type { Role } from './roles';
 
 type P = Choice.RootProps<string>;
 

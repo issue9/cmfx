@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, JSX, mergeProps, splitProps } from 'solid-js';
+import { createMemo, type JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Chart } from '@components/chart/chart';
 

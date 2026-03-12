@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BundledLanguage, BundledTheme } from 'shiki/bundle/full';
-import { createEffect, createSignal, JSX } from 'solid-js';
+import type { BundledLanguage, BundledTheme } from 'shiki/bundle/full';
+import { createEffect, createSignal, type JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { highlight } from './shiki';
 
 export interface Ref {

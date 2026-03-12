@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
-import { Component } from 'solid-js';
+import type { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
+import type { Component } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 
-import { BaseProps, joinClass, Mode, readScheme, Scheme } from '@components/base';
+import type { BaseProps, Mode, Scheme } from '@components/base';
+import { joinClass, readScheme } from '@components/base';
 import styles from './style.module.css';
 
 /**

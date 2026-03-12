@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flattenable, FlattenKeys } from '@core/types';
+import type { Flattenable, FlattenKeys } from '@core/types';
 
 /**
  * 翻译对象

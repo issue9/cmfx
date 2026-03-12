@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Ref, Root, Step } from './root';
+import { type Ref, Root, type Step } from './root';
 
 const steps: Array<Step> = [
 	{ title: 'Step 1', content: 'Content for Step 1' },

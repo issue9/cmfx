@@ -5,8 +5,10 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { sleep } from '@core/time';
-import { API, REST } from './api';
-import { Token, writeToken } from './token';
+import type { REST } from './api';
+import { API } from './api';
+import type { Token } from './token';
+import { writeToken } from './token';
 
 // 这是 YAML 格式的。如果下面的测试函数中的 API.build 修改了 accept 格式，也需要修改此字符串的格式。
 const resp401 = 'type: "40101"\ntitle: "40101"\nstatus: 401\n';

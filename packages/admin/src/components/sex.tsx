@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { Choice, useLocale } from '@cmfx/components';
-import { I18n, Locale } from '@cmfx/core';
-import { createMemo, JSX } from 'solid-js';
+import { I18n, type Locale } from '@cmfx/core';
+import { createMemo, type JSX } from 'solid-js';
 
-import { Sex } from '@admin/schemas';
+import type { Sex } from '@admin/schemas';
 
 const localeObjects = I18n.createObject<Array<{ type: 'item'; value: Sex; label: string }>>();
 

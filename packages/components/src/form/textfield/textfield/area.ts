@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Layout } from '@components/base';
-import { FieldArea, FieldAreas } from '@components/form/field';
+import type { Layout } from '@components/base';
+import type { FieldArea, FieldAreas } from '@components/form/field';
 
 export interface TextFieldAreas extends FieldAreas {
 	countArea?: FieldArea;

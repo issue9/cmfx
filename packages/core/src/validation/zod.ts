@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import * as z from 'zod';
+import type * as z from 'zod';
 
-import { Params } from '@core/api';
-import { Dict, DictLoader, I18n, Locale } from '@core/locale';
-import { Flattenable, FlattenKeys } from '@core/types';
-import { Validator, ValidResult } from './validation';
+import type { Params } from '@core/api';
+import type { Dict, DictLoader, Locale } from '@core/locale';
+import { I18n } from '@core/locale';
+import type { Flattenable, FlattenKeys } from '@core/types';
+import type { Validator, ValidResult } from './validation';
 
 const objects = I18n.createObject<z.core.$ZodConfig>();
 

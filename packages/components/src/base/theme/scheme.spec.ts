@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { readScheme, Scheme, writeScheme } from './scheme';
+import { readScheme, type Scheme, writeScheme } from './scheme';
 
 test('Scheme', () => {
 	const parent = document.createElement('div');

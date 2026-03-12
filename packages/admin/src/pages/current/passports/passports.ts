@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
 /**
  * 每一种登录方式需要提供的组件

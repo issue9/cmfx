@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, ParentProps } from 'solid-js';
-import { Transition as Trans, TransitionProps } from 'solid-transition-group';
+import type { JSX, ParentProps } from 'solid-js';
+import { Transition as Trans, type TransitionProps } from 'solid-transition-group';
 
 import styles from './style.module.css';
 

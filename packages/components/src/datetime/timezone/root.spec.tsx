@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { buildLocaleRegion, buildRegion, Ref, Root } from './root';
+import { buildLocaleRegion, buildRegion, type Ref, Root } from './root';
 
 describe('region', () => {
 	const regions = buildRegion();

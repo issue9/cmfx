@@ -5,8 +5,8 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { MenuItem } from '@components/menu/menu/item';
-import { Ref, Root } from './root';
+import type { MenuItem } from '@components/menu/menu/item';
+import { type Ref, Root } from './root';
 
 const items: Array<MenuItem> = [
 	{ type: 'item', value: 'v1', label: 'v1-label' },

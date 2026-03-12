@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Page } from '@cmfx/components';
-import { JSX, ParentProps } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
 
 import styles from './style.module.css';
 

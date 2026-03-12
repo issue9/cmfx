@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { API, sanitizeAPI } from './api';
+import { type API, sanitizeAPI } from './api';
 
 test('sanitizeAPI', () => {
 	const api: API = {

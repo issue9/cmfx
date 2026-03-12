@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import QRCodeStyling, {
+import type {
 	CornerDotType,
 	CornerSquareType,
 	DotType,
@@ -10,9 +10,10 @@ import QRCodeStyling, {
 	FileExtension,
 	Options,
 } from 'qr-code-styling';
-import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
+import QRCodeStyling from 'qr-code-styling';
+import { createEffect, createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

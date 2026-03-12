@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, ParentProps } from 'solid-js';
+import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps, MountProps } from '@components/base';
+import type { BaseProps, MountProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { fieldAccessor, TextField } from '@components/form';
 import { AcceptButton, PresetButtons } from './buttons';

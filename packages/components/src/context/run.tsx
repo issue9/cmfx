@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { HashRouter, RouteDefinition, Router, RouteSectionProps } from '@solidjs/router';
-import { Component } from 'solid-js';
+import { HashRouter, type RouteDefinition, type Router, type RouteSectionProps } from '@solidjs/router';
+import type { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { default as SystemDialog } from '@components/dialog/system';
 import { Notify } from '@components/notify/notify';
 import { Clipboard } from './clipboard';
 import { OptionsProvider } from './context';
-import { Options, requiredOptions } from './options';
+import { type Options, requiredOptions } from './options';
 import styles from './style.module.css';
 
 /**

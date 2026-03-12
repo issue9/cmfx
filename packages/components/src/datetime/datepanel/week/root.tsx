@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
-import { createEffect, createSignal, JSX, splitProps, untrack } from 'solid-js';
+import { createEffect, createSignal, type JSX, splitProps, untrack } from 'solid-js';
 
-import { ChangeFunc, RefProps } from '@components/base';
-import { CommonPanel, Props as CommonProps, Ref as CommonRef } from '@components/datetime/datepanel/common/common.tsx';
-import { WeekValueType } from '@components/datetime/dateview';
+import type { ChangeFunc, RefProps } from '@components/base';
+import type { Props as CommonProps, Ref as CommonRef } from '@components/datetime/datepanel/common/common.tsx';
+import { CommonPanel } from '@components/datetime/datepanel/common/common.tsx';
+import type { WeekValueType } from '@components/datetime/dateview';
 
 export interface Ref {
 	root(): HTMLFieldSetElement;

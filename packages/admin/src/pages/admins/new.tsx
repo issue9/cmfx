@@ -4,14 +4,14 @@
 
 import { Button, Form, FormAPI, notify, Page, Password, TextField, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
 import { handleProblem, useREST } from '@admin/app';
 import { SexSelector } from '@admin/components';
 import { roles } from '@admin/pages/roles';
-import { Sex, sexSchema } from '@admin/schemas';
+import { type Sex, sexSchema } from '@admin/schemas';
 
 interface Props {
 	/**

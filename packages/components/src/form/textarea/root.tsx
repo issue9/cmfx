@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show } from 'solid-js';
 
-import { joinClass, RefProps } from '@components/base';
+import { joinClass, type RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
-import { Input } from '@components/input';
+import type { Input } from '@components/input';
 import styles from './style.module.css';
 
 export interface Ref {

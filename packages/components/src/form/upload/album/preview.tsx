@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX } from 'solid-js';
+import { createEffect, createSignal, type JSX } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
 import styles from './style.module.css';

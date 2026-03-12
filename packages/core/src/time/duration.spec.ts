@@ -15,16 +15,16 @@ test('parseDuration', () => {
 	expect(parseDuration(9999999)).toEqual(9999999);
 	expect(parseDuration()).toEqual(0);
 
-	expect(parseDuration('1h')).toEqual(1 * hour);
-	expect(parseDuration('1h2s')).toEqual(1 * hour + 2 * second);
-	expect(parseDuration('1h2us')).toEqual(1 * hour + 2 * us);
+	expect(parseDuration('1h')).toEqual(hour);
+	expect(parseDuration('1h2s')).toEqual(hour + 2 * second);
+	expect(parseDuration('1h2us')).toEqual(hour + 2 * us);
 	expect(parseDuration('3.9ms')).toEqual(3 * ms + 900 * us);
 	expect(parseDuration('.9ms')).toEqual(900 * us);
 	expect(parseDuration('16.089ms')).toEqual(16 * ms + 89 * us);
 	expect(parseDuration('3.9ms10')).toEqual(3 * ms + 900 * us + 10);
 	expect(parseDuration('3.9ms10us')).toEqual(3 * ms + 910 * us);
 	expect(parseDuration('3.9ms800us')).toEqual(4 * ms + 700 * us);
-	expect(parseDuration('1h2us555')).toEqual(1 * hour + 2 * us + 555);
+	expect(parseDuration('1h2us555')).toEqual(hour + 2 * us + 555);
 	expect(parseDuration('5.426ms')).toEqual(5 * ms + 426 * us);
 	expect(parseDuration(NaN)).toEqual(0);
 	expect(() => parseDuration('1hour2us555')).toThrowError('无法解析的单位名称 hour');

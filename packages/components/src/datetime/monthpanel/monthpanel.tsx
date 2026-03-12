@@ -3,14 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
-import { createEffect, createMemo, createSignal, For, JSX, untrack } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, type JSX, untrack } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { months } from '@components/datetime/utils';
 import styles from './style.module.css';
-import { Root as YearPanel, Ref as YearPanelRef } from './yearpanel';
+import { Root as YearPanel, type Ref as YearPanelRef } from './yearpanel';
 
 export interface Ref {
 	root(): HTMLFieldSetElement;

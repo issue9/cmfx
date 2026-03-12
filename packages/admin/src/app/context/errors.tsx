@@ -6,7 +6,7 @@ import { Button, Result, useLocale } from '@cmfx/components';
 import { APIError } from '@cmfx/core';
 import * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
-import { createMemo, createSignal, JSX } from 'solid-js';
+import { createMemo, createSignal, type JSX } from 'solid-js';
 
 import { useOptions } from './options';
 import styles from './style.module.css';

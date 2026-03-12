@@ -4,12 +4,12 @@
 
 import { joinClass, Page, useLocale } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
-import { Component, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
+import { type Component, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 
 import { handleProblem, useOptions, useREST } from '@admin/app';
-import { localeSexes, localeStates, Passport } from '@admin/components';
+import { localeSexes, localeStates, type Passport } from '@admin/components';
 import styles from './style.module.css';
-import { Member } from './types';
+import type { Member } from './types';
 
 export interface PanelProps {
 	/**

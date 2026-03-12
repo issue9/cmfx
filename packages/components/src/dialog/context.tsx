@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createContext, JSX, ParentProps, splitProps, useContext } from 'solid-js';
+import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 
 import { ContextNotFoundError } from '@components/context';
 

@@ -7,7 +7,7 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Ref, Root } from './iconset';
+import { type Ref, Root } from './iconset';
 
 describe('IconSet', async () => {
 	let ref: Ref;

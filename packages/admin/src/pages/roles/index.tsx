@@ -4,7 +4,7 @@
 
 import IconGroups from '~icons/material-symbols/groups';
 
-import { Pages } from '@admin/pages/pages';
+import type { Pages } from '@admin/pages/pages';
 import { Permission } from './permission';
 import { Roles } from './roles';
 import { Selector } from './selector';

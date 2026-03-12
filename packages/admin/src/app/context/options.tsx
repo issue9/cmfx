@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { ContextNotFoundError } from '@cmfx/components';
-import { createContext, JSX, ParentProps, splitProps, useContext } from 'solid-js';
+import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 
-import { build } from '@admin/app/options';
+import type { build } from '@admin/app/options';
 
 type OptionsContext = ReturnType<typeof build>;
 

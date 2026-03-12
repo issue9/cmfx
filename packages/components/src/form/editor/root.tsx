@@ -6,9 +6,9 @@ import type { QuillOptions } from 'quill';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.snow.css';
-import { createEffect, createMemo, createUniqueId, JSX, mergeProps, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createUniqueId, type JSX, mergeProps, onMount, Show } from 'solid-js';
 
-import { joinClass, RefProps } from '@components/base';
+import { joinClass, type RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import styles from './style.module.css';

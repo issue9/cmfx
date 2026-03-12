@@ -7,7 +7,7 @@ import { describe, expect, test } from 'vitest';
 import { ColorPanel } from '@components/color';
 import { ComponentTester } from '@components/context/context.spec';
 import { fieldAccessor } from '@components/form/field';
-import { Ref, Root } from './root';
+import { type Ref, Root } from './root';
 
 describe('ColorPicker', async () => {
 	let ref: Ref;

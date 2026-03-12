@@ -23,8 +23,8 @@ import {
 } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import * as illustrations from '@cmfx/illustrations';
-import { RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
-import { createMemo, createSignal, JSX, lazy } from 'solid-js';
+import { type RouteDefinition, type RouteSectionProps, useNavigate } from '@solidjs/router';
+import { createMemo, createSignal, type JSX, lazy } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';

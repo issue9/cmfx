@@ -2,19 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Component, JSX } from 'solid-js';
+import type { Component, JSX } from 'solid-js';
 import IconDashboard from '~icons/material-symbols/dashboard';
 import IconIDCard from '~icons/material-symbols/id-card';
 import IconLogout from '~icons/material-symbols/logout';
 import IconSecurity from '~icons/material-symbols/security';
 import IconSettings from '~icons/material-symbols/settings';
 
-import { Pages } from '@admin/pages/pages';
+import type { Pages } from '@admin/pages/pages';
 import { Dashboard } from './dashboard';
-import { Login, Props as LoginProps } from './login';
+import { Login, type Props as LoginProps } from './login';
 import { Logout } from './logout';
 import { MemStatistic } from './memstatistic';
-import { components, PassportComponents } from './passports';
+import { components, type PassportComponents } from './passports';
 import { Profile } from './profile';
 import { SecurityLogs } from './securitylogs';
 import { Settings } from './settings';

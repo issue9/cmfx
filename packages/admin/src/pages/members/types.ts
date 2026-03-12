@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Admin } from '@admin/app';
-import { Sex, State } from '@admin/schemas';
+import type { Admin } from '@admin/app';
+import type { Sex, State } from '@admin/schemas';
 
 export type Member = {
 	id: number;

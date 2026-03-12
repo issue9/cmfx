@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Dict, DictKeys, DisplayStyle, I18n, Locale, TranslateArgs } from '@cmfx/core';
-import { Accessor, createContext, createEffect, createSignal, JSX, ParentProps, useContext } from 'solid-js';
+import type { Dict, DictKeys, DisplayStyle, Locale, TranslateArgs } from '@cmfx/core';
+import { I18n } from '@cmfx/core';
+import type { Accessor, JSX, ParentProps } from 'solid-js';
+import { createContext, createEffect, createSignal, useContext } from 'solid-js';
 
 import { useOptions } from './context';
 import { ContextNotFoundError } from './errors';

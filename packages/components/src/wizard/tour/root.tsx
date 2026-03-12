@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { calcPopoverPosition, PopoverPosition } from '@cmfx/core';
-import { createEffect, createMemo, createSignal, JSX, onCleanup, onMount } from 'solid-js';
+import { calcPopoverPosition, type PopoverPosition } from '@cmfx/core';
+import { createEffect, createMemo, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps, joinClass, Palette } from '@components/base';
+import { type BaseProps, joinClass, type Palette } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Label } from '@components/label';
-import { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
+import type { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
 import styles from './style.module.css';
 
 export interface Ref extends WizardRef {

@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
+import { createMemo, createSignal, For, type JSX, Match, mergeProps, Switch } from 'solid-js';
 
-import { BaseProps, joinClass, Layout, RefProps } from '@components/base';
-import { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
+import type { BaseProps, Layout, RefProps } from '@components/base';
+import { joinClass } from '@components/base';
+import type { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
 import styles from './style.module.css';
 
 export interface Ref extends WizardRef {

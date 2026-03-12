@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Ref, Root } from './monthpanel';
+import { type Ref, Root } from './monthpanel';
 
 describe('MonthPanel', async () => {
 	let ref: Ref;

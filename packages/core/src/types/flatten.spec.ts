@@ -4,8 +4,8 @@
 
 import { assertType, expect, test } from 'vitest';
 
-import { Flatten, flatten, Keys } from './flatten';
-import { Expand } from './types';
+import { type Flatten, flatten, type Keys } from './flatten';
+import type { Expand } from './types';
 
 test('flatten', () => {
 	const o1 = { x: '1' };

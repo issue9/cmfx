@@ -3,14 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { getISOWeek, getISOWeekRange } from '@cmfx/core';
-import { createMemo, createSignal, For, JSX, mergeProps, Show, untrack } from 'solid-js';
+import { createMemo, createSignal, For, type JSX, mergeProps, Show, untrack } from 'solid-js';
 
 import { classList, joinClass } from '@components/base';
 import { useLocale } from '@components/context';
 import { compareDate, equalDate, sunday, weekDay, weekDays, weeks } from '@components/datetime/utils';
 import { buildHeader } from './header';
 import styles from './style.module.css';
-import { API, Props } from './types';
+import type { API, Props } from './types';
 
 const presetProps: Partial<Props> = {
 	weekBase: 0,

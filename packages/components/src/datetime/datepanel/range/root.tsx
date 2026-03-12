@@ -7,7 +7,7 @@ import {
 	createEffect,
 	createMemo,
 	createSignal,
-	JSX,
+	type JSX,
 	Match,
 	onCleanup,
 	onMount,
@@ -17,10 +17,11 @@ import {
 	untrack,
 } from 'solid-js';
 
-import { joinClass, RefProps } from '@components/base';
+import { joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
-import { CommonPanel, Props as CommonProps, Ref as CommonRef } from '@components/datetime/datepanel/common/common';
+import type { Props as CommonProps, Ref as CommonRef } from '@components/datetime/datepanel/common/common';
+import { CommonPanel } from '@components/datetime/datepanel/common/common';
 import type { ValueType } from './shortcuts';
 import { nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, thisQuarter, thisYear } from './shortcuts';
 import styles from './style.module.css';

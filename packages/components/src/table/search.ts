@@ -3,8 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Query } from '@cmfx/core';
-import type { SetParams } from '@solidjs/router';
-import { useSearchParams } from '@solidjs/router';
+import type { SetParams, useSearchParams } from '@solidjs/router';
 
 /**
  * 根据 T 生成其值类型为字符串的对象

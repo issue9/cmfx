@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, Match, Show, Switch } from 'solid-js';
+import { createEffect, createSignal, type JSX, Match, Show, Switch } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

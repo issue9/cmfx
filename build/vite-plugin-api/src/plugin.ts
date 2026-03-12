@@ -4,11 +4,11 @@
 
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { Plugin } from 'vite';
+import type { Plugin } from 'vite';
 import YAML from 'yaml';
 
 import { Extractor } from './extract';
-import { Type } from './types';
+import type { Type } from './types';
 
 // 配置文件名
 const filename = 'api';

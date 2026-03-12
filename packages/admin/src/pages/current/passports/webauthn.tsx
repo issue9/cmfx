@@ -14,9 +14,9 @@ import {
 	TextField,
 	useLocale,
 } from '@cmfx/components';
-import { Token, zodValidator } from '@cmfx/core';
+import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
-import { JSX, Show } from 'solid-js';
+import { type JSX, Show } from 'solid-js';
 import { z } from 'zod';
 import IconAddLink from '~icons/material-symbols/add-link';
 import IconClose from '~icons/material-symbols/close';
@@ -28,7 +28,7 @@ import IconPerson from '~icons/material-symbols/person';
 import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
 import { usernameSchema } from '@admin/schemas';
 import { decodeBase64, encodeBase64 } from './base';
-import { PassportComponents, RefreshFunc } from './passports';
+import type { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
 type Credential = {

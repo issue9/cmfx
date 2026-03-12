@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Show } from 'solid-js';
+import { type JSX, Show } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { Counter } from '@components/counter';
 import styles from './style.module.css';
 

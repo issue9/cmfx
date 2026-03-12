@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, Signal, untrack } from 'solid-js';
+import { createSignal, type Signal, untrack } from 'solid-js';
 
-import { ChangeFunc } from '@components/base';
+import type { ChangeFunc } from '@components/base';
 
 /**
  * 每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制

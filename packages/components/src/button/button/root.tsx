@@ -5,7 +5,7 @@
 import { Hotkey } from '@cmfx/core';
 import type { AnchorProps as XAnchorProps } from '@solidjs/router';
 import { A } from '@solidjs/router';
-import { JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
+import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 
 import type { RefProps } from '@components/base';
 import { classList, PropsError } from '@components/base';

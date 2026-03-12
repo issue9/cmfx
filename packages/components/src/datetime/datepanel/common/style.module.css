@@ -7,6 +7,14 @@
 @reference "../../../style.css";
 
 @layer components {
+	fieldset.panel:enabled {
+		table tbody tr {
+			td:not(.disabled):hover {
+				@apply bg-palette-fg-low cursor-pointer;
+			}
+		}
+	}
+
 	fieldset.panel {
 		@apply flex flex-row rounded-lg overflow-clip flex-1;
 		@apply border border-palette-border;
@@ -30,7 +38,7 @@
 					@apply cursor-default;
 				}
 
-				tbody tr {
+				tbody > tr {
 					td > time {
 						@apply px-1 rounded-sm text-center inline-block;
 					}
@@ -76,14 +84,6 @@
 
 		> fieldset.timer {
 			@apply rounded-none border-t-0 border-b-0 border-e-0 py-2 pe-2;
-		}
-	}
-
-	fieldset.panel:enabled {
-		table tbody tr {
-			td:not(.disabled):hover {
-				@apply bg-palette-fg-low cursor-pointer;
-			}
 		}
 	}
 

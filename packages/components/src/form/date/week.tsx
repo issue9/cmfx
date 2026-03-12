@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps, untrack } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show, splitProps, untrack } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, RefProps } from '@components/base';
-import { Week, WeekPanel } from '@components/datetime';
-import { WeekValueType } from '@components/datetime/dateview';
-import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
-import { Props as PickerProps } from './date';
+import { joinClass, type RefProps } from '@components/base';
+import { type Week, WeekPanel } from '@components/datetime';
+import type { WeekValueType } from '@components/datetime/dateview';
+import type { Accessor } from '@components/form/field';
+import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import type { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 

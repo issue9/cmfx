@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { buildRenderItemType, MenuItem } from './item';
+import { buildRenderItemType, type MenuItem } from './item';
 
 const items: Array<MenuItem<string>> = [
 	{ type: 'item', value: 'v1', label: 'v1' },

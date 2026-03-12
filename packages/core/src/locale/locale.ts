@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import IntlMessageFormat from 'intl-messageformat';
+import type IntlMessageFormat from 'intl-messageformat';
 
-import { Dict, DictKeys } from './dict';
+import type { Dict, DictKeys } from './dict';
 
 export const displayStyles = ['full', 'short', 'narrow'] as const;
 

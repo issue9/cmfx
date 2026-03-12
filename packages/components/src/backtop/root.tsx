@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { getScrollableParent } from '@cmfx/core';
-import { JSX, mergeProps, onCleanup, onMount, ParentProps } from 'solid-js';
+import { type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import styles from './style.module.css';

@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, JSX, Signal } from 'solid-js';
+import { createEffect, type JSX, type Signal } from 'solid-js';
 
 import { useLocale } from '@components/context';
 import { ObjectAccessor, Slider } from '@components/form';
-import { PickerPanel } from './picker';
+import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 
 type HSL = {

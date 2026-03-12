@@ -5,13 +5,13 @@
 import { Config, sleep } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
-import { JSX, ParentProps } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
 import { afterAll, expect, test } from 'vitest';
 
-import { BaseProps } from '@components/base';
+import type { BaseProps } from '@components/base';
 import { schemes } from '@components/theme';
 import { buildAccessor, OptionsProvider } from './context';
-import { Options, requiredOptions } from './options';
+import { type Options, requiredOptions } from './options';
 
 // 提供用于测试的配置项
 const options: Options = {

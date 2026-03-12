@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
 /**
  * 每一步向导的属性

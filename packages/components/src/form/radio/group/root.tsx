@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, For, JSX, mergeProps, Show } from 'solid-js';
+import { createMemo, For, type JSX, mergeProps, Show } from 'solid-js';
 
-import { AvailableEnumType, joinClass, Layout, RefProps } from '@components/base';
+import { type AvailableEnumType, joinClass, type Layout, type RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps, FieldOptions } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import * as Radio from '@components/form/radio/radio/mod';

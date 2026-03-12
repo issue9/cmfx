@@ -9,7 +9,7 @@ import {
 	createMemo,
 	createSignal,
 	For,
-	JSX,
+	type JSX,
 	Match,
 	mergeProps,
 	onCleanup,
@@ -22,11 +22,12 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { AvailableEnumType, BaseProps, ChangeFunc, classList, joinClass, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, ChangeFunc, Layout, RefProps } from '@components/base';
+import { classList, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
 import { IconSet } from '@components/icon';
-import { buildRenderItemType, MenuItem, RenderMenuItem } from './item';
+import { buildRenderItemType, type MenuItem, type RenderMenuItem } from './item';
 import styles from './style.module.css';
 
 export interface Ref {

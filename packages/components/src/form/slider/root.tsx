@@ -8,15 +8,16 @@ import {
 	createSignal,
 	createUniqueId,
 	For,
-	JSX,
+	type JSX,
 	mergeProps,
 	onCleanup,
 	onMount,
 	Show,
 } from 'solid-js';
 
-import { RefProps } from '@components/base';
-import { Accessor, Field, FieldBaseProps, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import type { RefProps } from '@components/base';
+import type { Accessor, FieldBaseProps } from '@components/form/field';
+import { Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Query } from '@cmfx/core';
+import { API, type Query } from '@cmfx/core';
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec.tsx';
-import { Ref, Root } from './remote';
+import { type Ref, Root } from './remote';
 
 describe('RemoteTable', async () => {
 	type Obj = {

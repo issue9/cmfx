@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { PassportComponents } from './passports';
+import type { PassportComponents } from './passports';
 import { Pwd } from './password';
 import { TOTP } from './totp';
 import { Webauthn } from './webauthn';

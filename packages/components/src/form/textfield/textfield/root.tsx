@@ -7,7 +7,7 @@ import {
 	createMemo,
 	createSignal,
 	createUniqueId,
-	JSX,
+	type JSX,
 	Match,
 	mergeProps,
 	onCleanup,
@@ -16,10 +16,11 @@ import {
 	Switch,
 } from 'solid-js';
 
-import { BaseProps, RefProps, style2String } from '@components/base';
-import { Accessor, Field, FieldBaseProps, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { type BaseProps, type RefProps, style2String } from '@components/base';
+import type { Accessor, FieldBaseProps } from '@components/form/field';
+import { Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Input } from '@components/input';
-import { Dropdown, Menu } from '@components/menu';
+import { Dropdown, type Menu } from '@components/menu';
 import { calcLayoutFieldAreas } from './area.ts';
 import styles from './style.module.css';
 

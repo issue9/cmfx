@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
-import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
+import { createEffect, createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 

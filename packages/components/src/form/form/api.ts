@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flattenable, FlattenKeys, Params, Problem, Return, Validator } from '@cmfx/core';
-import { createSignal, Signal } from 'solid-js';
+import type { Flattenable, FlattenKeys, Params, Problem, Return, Validator } from '@cmfx/core';
+import { createSignal, type Signal } from 'solid-js';
 
 import { ObjectAccessor } from './access';
 

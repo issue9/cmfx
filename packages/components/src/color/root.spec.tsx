@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { HSLPickerPanel } from './picker_hsl';
-import { Ref, Root } from './root';
+import { type Ref, Root } from './root';
 
 describe('ColorPanel', async () => {
 	let ref: Ref;

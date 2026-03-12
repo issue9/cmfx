@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { useLocale, Statistic as XS } from '@cmfx/components';
-import { createSignal, JSX, onMount } from 'solid-js';
+import { createSignal, type JSX, onMount } from 'solid-js';
 import IconCalendar from '~icons/material-symbols/calendar-month';
 import IconToday from '~icons/material-symbols/calendar-today';
 import IconWeek from '~icons/material-symbols/calendar-view-week';

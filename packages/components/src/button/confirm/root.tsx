@@ -4,7 +4,7 @@
 
 import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
-import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import type { RefProps } from '@components/base';
 import { handleEvent, joinClass } from '@components/base';

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, ParentProps, Show } from 'solid-js';
+import { type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

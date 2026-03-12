@@ -6,7 +6,7 @@ import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Ref, Root } from './root';
+import { type Ref, Root } from './root';
 import styles from './style.module.css';
 
 describe('Spin', async () => {

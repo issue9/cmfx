@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, JSX, untrack } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, type JSX, untrack } from 'solid-js';
 import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import styles from './style.module.css';
 

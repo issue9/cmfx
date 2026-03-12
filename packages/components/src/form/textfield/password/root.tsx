@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, onMount } from 'solid-js';
+import { createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 import IconVisibility from '~icons/material-symbols/visibility';
 import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
-import { RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
 import { ToggleButton } from '@components/button';
 import { useForm } from '@components/form/field';
 import { TextField } from '@components/form/textfield/textfield';

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mimetype, PickOptional } from '@cmfx/core';
+import type { Mimetype, PickOptional } from '@cmfx/core';
 
 /**
  * 与访问后端 API 相关的配置项

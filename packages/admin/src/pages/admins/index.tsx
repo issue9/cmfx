@@ -4,7 +4,7 @@
 
 import IconAccount from '~icons/material-symbols/manage-accounts';
 
-import { Pages } from '@admin/pages/pages';
+import type { Pages } from '@admin/pages/pages';
 import { Admins } from './admins';
 import { Edit } from './edit';
 import { New } from './new';

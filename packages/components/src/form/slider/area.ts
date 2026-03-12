@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Layout } from '@components/base';
+import type { Layout } from '@components/base';
 import type { FieldArea, FieldAreas } from '@components/form/field';
 
 type SliderAreas = FieldAreas & {

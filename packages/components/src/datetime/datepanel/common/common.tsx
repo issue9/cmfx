@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
+import { createEffect, createSignal, type JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { DateView } from '@components/datetime/dateview';
-import { DatetimePlugin } from '@components/datetime/plugin';
+import type { DatetimePlugin } from '@components/datetime/plugin';
 import { TimePanel } from '@components/datetime/timepanel';
-import { Week } from '@components/datetime/utils';
+import type { Week } from '@components/datetime/utils';
 import styles from './style.module.css';
 
 export interface Ref {

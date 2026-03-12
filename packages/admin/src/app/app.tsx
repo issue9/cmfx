@@ -4,8 +4,8 @@
 
 import { run, useOptions as useXOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
-import { Navigate, RouteDefinition, Router } from '@solidjs/router';
-import { ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
+import { Navigate, type RouteDefinition, type Router } from '@solidjs/router';
+import { ErrorBoundary, type JSX, Match, type ParentProps, Switch } from 'solid-js';
 
 import {
 	AdminProvider,
@@ -17,7 +17,7 @@ import {
 	useAdmin,
 	useOptions,
 } from './context';
-import { build as buildOptions, Options, presetConfigName } from './options';
+import { build as buildOptions, type Options, presetConfigName } from './options';
 
 /**
  * 创建项目

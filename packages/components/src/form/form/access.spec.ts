@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ExpandType, Locale, sleep, ValidResult } from '@cmfx/core';
+import { type ExpandType, type Locale, sleep, type ValidResult } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { ObjectAccessor } from './access';

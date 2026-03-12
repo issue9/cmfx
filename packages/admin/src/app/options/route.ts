@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Menu } from '@cmfx/components';
-import { Hotkey, Locale } from '@cmfx/core';
-import { RouteDefinition } from '@solidjs/router';
-import { JSX } from 'solid-js';
+import type { Menu } from '@cmfx/components';
+import type { Hotkey, Locale } from '@cmfx/core';
+import type { RouteDefinition } from '@solidjs/router';
+import type { JSX } from 'solid-js';
 
 /**
  * 对路由的定义

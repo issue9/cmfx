@@ -4,7 +4,7 @@
 
 import { Button, Checkbox, Page, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
-import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
+import { createEffect, createResource, createSignal, For, type JSX } from 'solid-js';
 
 import { handleProblem, useREST } from '@admin/app';
 import styles from './style.module.css';

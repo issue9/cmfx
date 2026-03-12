@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flattenable } from '@cmfx/core';
+import type { Flattenable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show, splitProps } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
-import { FormContext, FormProvider, useForm } from '@components/form/field';
+import { type FormContext, FormProvider, useForm } from '@components/form/field';
 import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
-import { FormAPI } from './api';
+import type { FormAPI } from './api';
 
 export interface Ref {
 	/**

@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
-import { JSX, mergeProps, ParentProps } from 'solid-js';
+import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
-import { BaseProps, joinClass, MountProps, Palette } from '@components/base';
+import { type BaseProps, joinClass, type MountProps, type Palette } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
-import { Message, Props as MessageProps, Type } from './message';
+import { Message, type Props as MessageProps, type Type } from './message';
 import styles from './style.module.css';
 
 let notifyInst: typeof notify;

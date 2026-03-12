@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { RemoveIndexSignature } from './types';
+import type { RemoveIndexSignature } from './types';
 
 /**
  * 联合类型转换为交叉类型

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Hotkey } from '@cmfx/core';
-import { JSX } from 'solid-js';
+import type { Hotkey } from '@cmfx/core';
+import type { JSX } from 'solid-js';
 
-import { AvailableEnumType } from '@components/base';
+import type { AvailableEnumType } from '@components/base';
 
 /**
  * 菜单项

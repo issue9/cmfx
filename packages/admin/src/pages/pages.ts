@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { RouteDefinition } from '@solidjs/router';
+import type { RouteDefinition } from '@solidjs/router';
 
-import { Options } from '@admin/app';
+import type { Options } from '@admin/app';
 
 /**
  * 定义一个页面集合需要提供的接口

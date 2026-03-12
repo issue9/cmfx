@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, splitProps } from 'solid-js';
+import { type JSX, splitProps } from 'solid-js';
 
-import { RefProps } from '@components/base';
-import { CommonPanel, Props as CommonProps } from '@components/datetime/datepanel/common/common.tsx';
+import type { RefProps } from '@components/base';
+import { CommonPanel, type Props as CommonProps } from '@components/datetime/datepanel/common/common.tsx';
 
 export interface Ref {
 	root(): HTMLFieldSetElement;

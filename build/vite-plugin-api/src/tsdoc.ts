@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { DocComment, DocNode } from '@microsoft/tsdoc';
 import {
 	DocCodeSpan,
-	DocComment,
 	DocLinkTag,
 	DocMemberReference,
-	DocNode,
 	DocPlainText,
 	StandardTags,
 	TSDocConfiguration,
@@ -15,7 +14,7 @@ import {
 	TSDocTagDefinition,
 	TSDocTagSyntaxKind,
 } from '@microsoft/tsdoc';
-import { JSDocableNode } from 'ts-morph';
+import type { JSDocableNode } from 'ts-morph';
 
 export const reactiveTag = '@reactive';
 

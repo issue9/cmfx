@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { fieldAccessor } from '@components/form/field';
-import { Ref, Root } from './root';
+import { type Ref, Root } from './root';
 
 describe('RadioGroup', async () => {
 	let ref: Ref;

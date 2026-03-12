@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Option, Ref, Root } from './root';
+import { type Option, type Ref, Root } from './root';
 
 describe('Chart', async () => {
 	const x = [1, 2, 3, 4, 5, 6, 7];

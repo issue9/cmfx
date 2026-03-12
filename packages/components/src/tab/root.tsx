@@ -6,9 +6,9 @@ import { createEffect, createMemo, createSignal, For, mergeProps, onCleanup, onM
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
 
-import { joinClass, Layout } from '@components/base';
+import { joinClass, type Layout } from '@components/base';
 import styles from './style.module.css';
-import { Item, Props } from './types';
+import type { Item, Props } from './types';
 
 /**
  * Tab 组件

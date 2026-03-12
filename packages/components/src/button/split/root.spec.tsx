@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 import { Button } from '@components/button/button';
 import { ComponentTester } from '@components/context/context.spec.tsx';
-import { Ref, Root } from './root';
+import { type Ref, Root } from './root';
 
 describe('SplitButton', async () => {
 	let ref: Ref;

@@ -4,9 +4,9 @@
 
 import { useLocale } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
-import { Message } from '../locales';
+import type { Message } from '../locales';
 
 export default function Test(): JSX.Element {
 	const ps = useParams();

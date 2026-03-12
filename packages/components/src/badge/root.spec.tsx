@@ -6,7 +6,7 @@ import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Corner, Ref, Root } from './root';
+import { type Corner, type Ref, Root } from './root';
 import styles from './style.module.css';
 
 describe('Badge', async () => {

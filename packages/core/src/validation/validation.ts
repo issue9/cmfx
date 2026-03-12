@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Params } from '@core/api';
-import { Locale } from '@core/locale';
-import { Flattenable, FlattenKeys } from '@core/types';
+import type { Params } from '@core/api';
+import type { Locale } from '@core/locale';
+import type { Flattenable, FlattenKeys } from '@core/types';
 
 /**
  * 验证数据的返回结果

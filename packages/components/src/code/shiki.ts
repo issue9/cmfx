@@ -13,7 +13,7 @@ import type {
 } from 'shiki/bundle/full';
 import { codeToHtml, createHighlighter } from 'shiki/bundle/full';
 
-import { BaseProps, joinClass, style2String } from '@components/base';
+import { type BaseProps, joinClass, style2String } from '@components/base';
 import { copy2Clipboard } from '@components/context';
 import styles from './style.module.css';
 import { shikiTheme } from './theme';

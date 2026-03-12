@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, JSX, Match, onMount, ParentProps, Switch } from 'solid-js';
+import { createEffect, type JSX, Match, onMount, type ParentProps, Switch } from 'solid-js';
 
 import { BackTop } from '@components/backtop';
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import styles from './style.module.css';
 

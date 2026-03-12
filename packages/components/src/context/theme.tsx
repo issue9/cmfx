@@ -2,19 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	children,
-	createContext,
-	createEffect,
-	createMemo,
-	For,
-	JSX,
-	ParentProps,
-	splitProps,
-	useContext,
-} from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
+import { children, createContext, createEffect, createMemo, For, splitProps, useContext } from 'solid-js';
 
-import { changeMode, Mode, Scheme, writeScheme } from '@components/base';
+import { changeMode, type Mode, type Scheme, writeScheme } from '@components/base';
 import { useOptions } from './context';
 import { ContextNotFoundError } from './errors';
 

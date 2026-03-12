@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Message } from './en';
+import type { Message } from './en';
 
 const m: Message = {
 	home: '首页',

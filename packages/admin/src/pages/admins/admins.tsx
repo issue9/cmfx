@@ -3,15 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Page, RemoteTable, TextField, useLocale } from '@cmfx/components';
-import { Query } from '@cmfx/core';
-import { createMemo, JSX, Show } from 'solid-js';
+import type { Query } from '@cmfx/core';
+import { createMemo, type JSX, Show } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
 import IconLock from '~icons/material-symbols/lock';
 import IconLockOpenRight from '~icons/material-symbols/lock-open-right';
 
 import { handleProblem, useREST } from '@admin/app';
 import { localeSexes, localeStates, SexSelector, StateSelector } from '@admin/components';
-import { Sex, State } from '@admin/schemas';
+import type { Sex, State } from '@admin/schemas';
 
 interface Props {
 	/**

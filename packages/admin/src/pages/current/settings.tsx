@@ -13,7 +13,7 @@ import {
 	useLocale,
 	Settings as XSettings,
 } from '@cmfx/components';
-import { createSignal, JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 import IconLayout from '~icons/material-symbols/responsive-layout-rounded';
 import IconHorizontal from '~icons/ph/square-split-horizontal-fill';
 import IconVertical from '~icons/ph/square-split-vertical-fill';

@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, RefProps } from '@components/base';
+import { joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
-import { DatePanel, Week } from '@components/datetime';
+import { DatePanel, type Week } from '@components/datetime';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import {
 	calcLayoutFieldAreas,

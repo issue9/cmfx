@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
+import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 
 import type { BaseProps, ChangeFunc, RefProps } from '@components/base';
 import { joinClass, PropsError } from '@components/base';

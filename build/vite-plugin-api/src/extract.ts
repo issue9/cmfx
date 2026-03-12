@@ -4,8 +4,8 @@
 
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { DocComment, StandardTags } from '@microsoft/tsdoc';
-import {
+import { type DocComment, StandardTags } from '@microsoft/tsdoc';
+import type {
 	ClassDeclaration,
 	ExportedDeclarations,
 	FunctionDeclaration,
@@ -16,12 +16,9 @@ import {
 	MethodSignature,
 	ModuledNode,
 	Symbol as MSymbol,
-	Node,
 	ParameterDeclaration,
-	Project,
 	PropertyDeclaration,
 	PropertySignature,
-	Scope,
 	SetAccessorDeclaration,
 	Signature,
 	TypeAliasDeclaration,
@@ -30,9 +27,10 @@ import {
 	TypeParameterDeclaration,
 	Type as XType,
 } from 'ts-morph';
+import { Node, Project, Scope } from 'ts-morph';
 
 import { comment2String, getCustomDoc, getTsdoc, newTSDocParser, reactiveTag } from './tsdoc';
-import {
+import type {
 	Class,
 	ClassMethod,
 	ClassProperty,

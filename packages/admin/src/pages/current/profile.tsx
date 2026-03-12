@@ -16,15 +16,15 @@ import {
 	Upload,
 	useLocale,
 } from '@cmfx/components';
-import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
 import IconCamera from '~icons/material-symbols/photo-camera';
 
 import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
-import { Passport, SexSelector } from '@admin/components';
-import { Sex, sexSchema } from '@admin/schemas';
-import { PassportComponents } from './passports';
+import { type Passport, SexSelector } from '@admin/components';
+import { type Sex, sexSchema } from '@admin/schemas';
+import type { PassportComponents } from './passports';
 import styles from './style.module.css';
 
 interface Props {

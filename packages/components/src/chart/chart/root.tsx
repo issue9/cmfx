@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import * as echarts from 'echarts';
-import { createEffect, JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
+import { createEffect, type JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps, isReducedMotion, joinClass, RefProps } from '@components/base';
+import { type BaseProps, isReducedMotion, joinClass, type RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { matchLocale } from './locale.ts';
 

@@ -3,14 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { createTimer, sleep } from '@cmfx/core';
-import { createMemo, createUniqueId, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
+import { createMemo, createUniqueId, type JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
 import IconError from '~icons/flowbite/close-circle-solid';
 import IconSuccess from '~icons/material-symbols/check-circle-rounded';
 import IconClose from '~icons/material-symbols/close';
 import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
 
-import { BaseProps, joinClass, Palette, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type Palette, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;

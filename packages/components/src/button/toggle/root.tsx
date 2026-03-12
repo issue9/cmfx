@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { createSignal, type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconCollapse from '~icons/material-symbols/collapse-content';
 import IconExpand from '~icons/material-symbols/expand-content';
 import IconFullScreen from '~icons/material-symbols/fullscreen';

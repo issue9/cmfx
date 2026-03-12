@@ -8,7 +8,7 @@ import { describe, expect, test } from 'vitest';
 import { ComponentTester } from '@components/context/context.spec';
 import { inRange, Root } from './root';
 import styles from './style.module.css';
-import { Ref } from './types';
+import type { Ref } from './types';
 
 describe('inRange', () => {
 	const val = new Date(2023, 1, 1);

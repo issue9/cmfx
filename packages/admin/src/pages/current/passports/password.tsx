@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Dialog, Form, FormAPI, Password, TextField, useLocale } from '@cmfx/components';
-import { Token, zodValidator } from '@cmfx/core';
+import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 import { z } from 'zod';
 import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
@@ -13,7 +13,7 @@ import IconPerson from '~icons/material-symbols/person';
 
 import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
 import { usernameSchema } from '@admin/schemas';
-import { PassportComponents, RefreshFunc } from './passports';
+import type { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
 const passwordSchema = z.string().min(2).max(32);

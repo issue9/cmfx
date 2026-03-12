@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Ref, Root } from './root';
+import { type Ref, Root } from './root';
 
 describe('pagination', async () => {
 	let ref: Ref;

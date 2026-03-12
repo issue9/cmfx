@@ -1,8 +1,8 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX } from 'solid-js';
+import { type JSX } from 'solid-js';
 
-import { Props, buildClass, mergeText } from './props';
+import { type Props, buildClass, mergeText } from './props';
 
 const presetText = 'Too Many Requests';
 

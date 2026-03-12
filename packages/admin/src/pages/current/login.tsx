@@ -16,12 +16,12 @@ import {
 } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
-import { createResource, ErrorBoundary, For, JSX, Match, Show, Switch } from 'solid-js';
+import { createResource, ErrorBoundary, For, type JSX, Match, Show, Switch } from 'solid-js';
 
 import { handleProblem, useAdmin, useOptions as useAdminOptions, useREST } from '@admin/app';
 import { errorHandler } from '@admin/app/context';
-import { Passport } from '@admin/components';
-import { PassportComponents } from './passports';
+import type { Passport } from '@admin/components';
+import type { PassportComponents } from './passports';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

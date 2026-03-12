@@ -5,8 +5,8 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Menu } from '@components/menu';
-import { Ref, Root } from './root';
+import type { Menu } from '@components/menu';
+import { type Ref, Root } from './root';
 
 describe('Search', async () => {
 	const search = async (_: string): Promise<Array<Menu.MenuItem>> => [{ type: 'item', value: 'v', label: 'label' }];

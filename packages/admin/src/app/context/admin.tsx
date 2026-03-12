@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { ContextNotFoundError, notify, useLocale, useOptions } from '@cmfx/components';
-import { Return, Token } from '@cmfx/core';
-import { createContext, createResource, ParentProps, ResourceReturn, useContext } from 'solid-js';
+import type { Return, Token } from '@cmfx/core';
+import { createContext, createResource, type ParentProps, type ResourceReturn, useContext } from 'solid-js';
 import { z } from 'zod';
 
 import { presetConfigName } from '@admin/app/options';

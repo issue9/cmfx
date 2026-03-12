@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BaseProps, Drawer, Layout, Mode, Scheme, presetOptions as xpo } from '@cmfx/components';
-import { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
-import { Component } from 'solid-js';
+import type { BaseProps, Drawer, Layout, Mode, Scheme } from '@cmfx/components';
+import { presetOptions as xpo } from '@cmfx/components';
+import type { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
+import type { Component } from 'solid-js';
 
-import { API, sanitizeAPI } from './api';
+import { type API, sanitizeAPI } from './api';
 import type { MenuItem, Routes } from './route';
 
 /**

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createUniqueId, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createUniqueId, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
-import { BaseProps, PropsError, RefProps, style2String } from '@components/base';
+import { type BaseProps, PropsError, type RefProps, style2String } from '@components/base';
 import { Button } from '@components/button';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';

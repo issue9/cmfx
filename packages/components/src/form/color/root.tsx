@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { createMemo, createUniqueId, type JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { classList, RefProps } from '@components/base';
+import { classList, type RefProps } from '@components/base';
 import { ColorPanel } from '@components/color';
 import { Dialog } from '@components/dialog';
 import type { Accessor, FieldBaseProps } from '@components/form/field';

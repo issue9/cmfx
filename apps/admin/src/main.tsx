@@ -12,11 +12,11 @@ import {
 	createSearch,
 	current,
 	members,
-	Options,
+	type Options,
 	roles,
 	system,
 } from '@cmfx/admin';
-import { Card, createChartLocaleLoader, Label, Scheme, schemes, useLocale } from '@cmfx/components';
+import { Card, createChartLocaleLoader, Label, type Scheme, schemes, useLocale } from '@cmfx/components';
 import { createZodLocaleLoader, Hotkey } from '@cmfx/core';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';
 import IconDashboard from '~icons/material-symbols/dashboard';

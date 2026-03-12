@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, ParentProps } from 'solid-js';
+import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 import IconNoData from '~icons/oui/index-close';
 
-import { BaseProps, RefProps } from '@components/base';
+import type { BaseProps, RefProps } from '@components/base';
 import { Result } from '@components/result/result';
 
 export interface Ref {

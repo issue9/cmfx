@@ -5,7 +5,7 @@
 import { expect, test } from 'vitest';
 
 import { schemes } from '@components/theme';
-import { applyTheme, hasTheme, Theme } from './theme';
+import { applyTheme, hasTheme, type Theme } from './theme';
 
 test('theme', () => {
 	let t: Theme = { scheme: schemes.green, mode: 'light' };

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, JSX, mergeProps } from 'solid-js';
+import { createMemo, type JSX, mergeProps } from 'solid-js';
 
-import { AvailableEnumType, joinClass, RefProps } from '@components/base';
-import { FieldBaseProps } from '@components/form/field';
+import { type AvailableEnumType, joinClass, type RefProps } from '@components/base';
+import type { FieldBaseProps } from '@components/form/field';
 import styles from './style.module.css';
 
 export interface Ref {

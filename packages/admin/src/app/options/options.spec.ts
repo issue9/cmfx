@@ -5,7 +5,7 @@
 import { expect, test } from 'vitest';
 
 import { build } from './options';
-import { Routes } from './route';
+import type { Routes } from './route';
 
 const api = {
 	base: 'http://localhost',

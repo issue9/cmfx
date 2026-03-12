@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Component } from 'solid-js';
+import type { Component } from 'solid-js';
 import IconGroup from '~icons/material-symbols/group';
 
-import { Pages } from '@admin/pages/pages';
-import { ActionProps, Members } from './members';
-import { PanelProps, View } from './view';
+import type { Pages } from '@admin/pages/pages';
+import { type ActionProps, Members } from './members';
+import { type PanelProps, View } from './view';
 
 export type { Member } from './types';
 

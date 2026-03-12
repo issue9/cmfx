@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec.tsx';
 import { fieldAccessor } from '@components/form/field';
-import { Ref, Root } from './root.tsx';
+import { type Ref, Root } from './root.tsx';
 
 describe('Album', async () => {
 	let ref: Ref;

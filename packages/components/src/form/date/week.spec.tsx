@@ -5,9 +5,9 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { WeekValueType } from '@components/datetime';
+import type { WeekValueType } from '@components/datetime';
 import { fieldAccessor } from '@components/form/field';
-import { Ref, Root } from './week';
+import { type Ref, Root } from './week';
 
 describe('WeekPicker', async () => {
 	let ref: Ref;

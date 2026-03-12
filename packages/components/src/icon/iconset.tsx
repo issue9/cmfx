@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { bundleSvgsStringSync, easings, Rotation, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
-import { createEffect, createMemo, JSX, onMount } from 'solid-js';
+import { bundleSvgsStringSync, easings, type Rotation, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
+import { createEffect, createMemo, type JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, isReducedMotion, joinClass, RefProps, style2String } from '@components/base';
+import { type BaseProps, isReducedMotion, joinClass, type RefProps, style2String } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 

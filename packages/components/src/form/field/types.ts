@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
-import { AvailableEnumType, BaseProps, Layout } from '@components/base';
+import type { AvailableEnumType, BaseProps, Layout } from '@components/base';
 
 /**
  * 组件 Field 的属性

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { default as m } from './en.lang';
+import type { default as m } from './en.lang';
 
 const messages: typeof m = {
 	_p: {

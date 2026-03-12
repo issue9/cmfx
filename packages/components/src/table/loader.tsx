@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Exporter, FlattenKeys, Page, printElement, Query } from '@cmfx/core';
+import type { FlattenKeys, Page, Query } from '@cmfx/core';
+import { Exporter, printElement } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
-import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { createResource, createSignal, type JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconExcel from '~icons/icon-park-twotone/excel';
 import IconCSV from '~icons/material-symbols/csv';
 import IconODS from '~icons/material-symbols/ods';
@@ -23,7 +24,7 @@ import { Label } from '@components/label';
 import { Dropdown } from '@components/menu';
 import { PaginationBar } from '@components/pagination';
 import * as BasicTable from './basic.mod';
-import { fromSearch, Params, saveSearch } from './search';
+import { fromSearch, type Params, saveSearch } from './search';
 import styles from './style.module.css';
 
 export interface Ref<T extends object> extends BasicTable.RootRef {

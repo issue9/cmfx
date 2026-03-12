@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, mergeProps, onMount, splitProps } from 'solid-js';
+import { createEffect, createSignal, type JSX, mergeProps, onMount, splitProps } from 'solid-js';
 
-import { RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
 import { Chart } from '@components/chart/chart';
 
 export interface Ref<T extends object> {

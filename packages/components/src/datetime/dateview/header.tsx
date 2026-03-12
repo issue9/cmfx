@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition, Locale } from '@cmfx/core';
-import { Accessor, createMemo, JSX, untrack } from 'solid-js';
+import { adjustPopoverPosition, type Locale } from '@cmfx/core';
+import { type Accessor, createMemo, type JSX, untrack } from 'solid-js';
 import IconPrevMonth from '~icons/material-symbols/chevron-left';
 import IconNextMonth from '~icons/material-symbols/chevron-right';
 import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
@@ -13,7 +13,7 @@ import IconToday from '~icons/material-symbols/today';
 import { Button, ButtonGroup } from '@components/button';
 import { MonthPanel } from '@components/datetime/monthpanel';
 import styles from './style.module.css';
-import { API, Props } from './types';
+import type { API, Props } from './types';
 
 export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: Props): JSX.Element {
 	const monthFormatter = createMemo(() => {

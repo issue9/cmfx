@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { Page, RemoteTable, TextField, useLocale } from '@cmfx/components';
-import { Query as Q } from '@cmfx/core';
+import type { Query as Q } from '@cmfx/core';
 import Bowser from 'bowser';
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
 import { useREST } from '@admin/app';
 

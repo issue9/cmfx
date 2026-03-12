@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { FitScreen, FullScreen, Ref } from './root';
+import { FitScreen, FullScreen, type Ref } from './root';
 
 describe('FullScreen', async () => {
 	let ref: Ref;

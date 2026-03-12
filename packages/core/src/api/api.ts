@@ -5,8 +5,9 @@
 import { newCache } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
-import { delToken, getToken, SSEToken, state, Token, writeToken } from './token';
-import { Method, Problem, Return } from './types';
+import type { SSEToken, Token } from './token';
+import { delToken, getToken, state, writeToken } from './token';
+import type { Method, Problem, Return } from './types';
 
 /**
  * API 请求时的额外参数

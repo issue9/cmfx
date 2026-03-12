@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Column as ExportColumn } from '@cmfx/core';
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
 /**
  * 用于描述列的信息

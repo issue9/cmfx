@@ -4,9 +4,9 @@
 
 import type { Menu } from '@cmfx/components';
 import { Button, Dropdown, Search, ToggleButton, useLocale, useOptions } from '@cmfx/components';
-import { Hotkey } from '@cmfx/core';
+import type { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
-import { Component } from 'solid-js';
+import type { Component } from 'solid-js';
 import IconClear from '~icons/material-symbols/delete-rounded';
 
 import { useAdmin, useOptions as useAdminOptions, useAPI } from './context';

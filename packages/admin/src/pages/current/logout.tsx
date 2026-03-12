@@ -4,7 +4,7 @@
 
 import { Page, useLocale, useOptions } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
-import { JSX, onMount } from 'solid-js';
+import { type JSX, onMount } from 'solid-js';
 
 import { useAdmin, useOptions as useAdminOptions } from '@admin/app';
 import styles from './style.module.css';

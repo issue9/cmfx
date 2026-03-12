@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, Signal } from 'solid-js';
+import { For, type JSX, type Signal } from 'solid-js';
 
 import { joinClass } from '@components/base';
-import { PickerPanel } from './picker';
+import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 
 const vars: Array<string> = [

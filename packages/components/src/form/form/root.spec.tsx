@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { FormAPI } from './api';
-import { Ref, Root } from './root';
+import { type Ref, Root } from './root';
 
 describe('Form', async () => {
 	let ref: Ref;

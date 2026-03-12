@@ -3,10 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { A } from '@solidjs/router';
-import { JSX, ParentProps, Show } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
+import { Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, joinClass, RefProps, StyleProps } from '@components/base';
+import type { BaseProps, RefProps, StyleProps } from '@components/base';
+import { joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 

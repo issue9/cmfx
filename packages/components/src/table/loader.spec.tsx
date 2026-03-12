@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Query } from '@cmfx/core';
+import type { Query } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Ref, Root } from './loader';
+import { type Ref, Root } from './loader';
 
 describe('LoaderTable', async () => {
 	let ref: Ref<object>;

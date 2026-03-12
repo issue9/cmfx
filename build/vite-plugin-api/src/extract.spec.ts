@@ -6,7 +6,7 @@ import path from 'node:path';
 import { describe, expect, test } from 'vitest';
 
 import { Extractor } from './extract';
-import { Interface, Intersection } from './types';
+import type { Interface, Intersection } from './types';
 
 describe('Extractor', { timeout: 20000 }, () => {
 	const extractor = new Extractor();

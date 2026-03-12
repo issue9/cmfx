@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Label, Page, useLocale } from '@cmfx/components';
-import { For, JSX, Show, VoidComponent } from 'solid-js';
+import { For, type JSX, Show, type VoidComponent } from 'solid-js';
 import IconAutomation from '~icons/material-symbols/automation';
 import IconFolderCode from '~icons/material-symbols/folder-code';
 import IconHost from '~icons/material-symbols/host';

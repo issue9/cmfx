@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Signal } from 'solid-js';
+import type { JSX, Signal } from 'solid-js';
 
 /**
  * 表示颜色选择面板的类型

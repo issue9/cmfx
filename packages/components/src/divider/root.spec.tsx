@@ -7,7 +7,7 @@ import { describe, expect, test } from 'vitest';
 
 import { joinClass } from '@components/base';
 import { ComponentTester } from '@components/context/context.spec';
-import { Props, Ref, Root } from './root';
+import { type Props, type Ref, Root } from './root';
 import styles from './style.module.css';
 
 describe('Divider', async () => {

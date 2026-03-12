@@ -13,7 +13,7 @@ import {
 	Tab,
 	useLocale,
 } from '@cmfx/components';
-import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
+import { createEffect, createMemo, createResource, createSignal, For, type JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
 import IconDatabase from '~icons/material-symbols/database';
 import IconDataset from '~icons/material-symbols/dataset';

@@ -3,14 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, createSignal, JSX, Show } from 'solid-js';
+import { createEffect, createSignal, type JSX, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 
-import { BaseProps, joinClass, PropsError, RefProps, wcag } from '@components/base';
+import { type BaseProps, joinClass, PropsError, type RefProps, wcag } from '@components/base';
 import { Button } from '@components/button';
 import { copy2Clipboard, useLocale } from '@components/context';
 import { Choice, fieldAccessor } from '@components/form';
-import { PickerPanel } from './picker';
+import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 
 declare global {

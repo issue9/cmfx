@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
-import { Palette } from './theme';
-import { Props } from './types';
+import type { Palette } from './theme';
+import type { Props } from './types';
 
 /**
  * 复制整个 {@link JSX#Element} 元素

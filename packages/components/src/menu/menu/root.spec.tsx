@@ -6,8 +6,8 @@ import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { MenuItem } from './item';
-import { Ref, Root, selectedElements } from './root';
+import type { MenuItem } from './item';
+import { type Ref, Root, selectedElements } from './root';
 
 const items: Array<MenuItem> = [
 	{ type: 'item', value: 'v1', label: 'v1-label' },

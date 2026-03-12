@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createContext, JSX, ParentProps, splitProps, useContext } from 'solid-js';
+import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 
-import { CommonProps } from './types';
+import type { CommonProps } from './types';
 
 /**
  * 提供了表单的上下文环境

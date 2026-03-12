@@ -3,14 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { presetCellRenderFunc } from '@cmfx/core';
-import { For, JSX, Show } from 'solid-js';
+import { For, type JSX, Show } from 'solid-js';
 
 import type { RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { useLocale } from '@components/context';
 import { Empty } from '@components/result';
 import { Spin } from '@components/spin';
-import { CellRenderFunc, Column } from './column.ts';
+import type { CellRenderFunc, Column } from './column.ts';
 import styles from './style.module.css';
 import { Table } from './table';
 

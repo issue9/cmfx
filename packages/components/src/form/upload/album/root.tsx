@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, For, JSX, mergeProps, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, For, type JSX, mergeProps, onMount, Show } from 'solid-js';
 import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
-import { joinClass, RefProps } from '@components/base';
-import { Accessor, calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { joinClass, type RefProps } from '@components/base';
+import type { Accessor } from '@components/form/field';
+import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Upload } from '@components/form/upload/upload';
 import { PreviewFile, PreviewURL } from './preview.tsx';
 import styles from './style.module.css';

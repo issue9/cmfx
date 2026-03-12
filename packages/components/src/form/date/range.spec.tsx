@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
 import { fieldAccessor } from '@components/form/field';
-import { Ref, Root } from './range';
+import { type Ref, Root } from './range';
 
 describe('DateRangePicker', async () => {
 	let ref: Ref;

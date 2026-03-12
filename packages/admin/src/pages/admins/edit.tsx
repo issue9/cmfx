@@ -4,16 +4,16 @@
 
 import { Button, Divider, Form, FormAPI, Page, Table, TextField, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
-import { createSignal, For, JSX, onMount } from 'solid-js';
+import { createSignal, For, type JSX, onMount } from 'solid-js';
 import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 import IconHelp from '~icons/material-symbols/help';
 
 import { handleProblem } from '@admin/app';
 import { passportSchema, useREST } from '@admin/app/context';
-import { Passport, SexSelector } from '@admin/components';
+import { type Passport, SexSelector } from '@admin/components';
 import { roles } from '@admin/pages/roles';
-import { Sex, sexSchema } from '@admin/schemas';
+import { type Sex, sexSchema } from '@admin/schemas';
 
 interface Props {
 	/**

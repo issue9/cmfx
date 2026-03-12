@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { movable } from '@cmfx/core';
-import { JSX, onCleanup, onMount, ParentProps, Show } from 'solid-js';
+import { type JSX, onCleanup, onMount, type ParentProps, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
-import { BaseProps, joinClass } from '@components/base';
+import { type BaseProps, joinClass } from '@components/base';
 import { useLocale } from '@components/context';
 import type { Ref } from './context';
 import { DialogProvider } from './context';

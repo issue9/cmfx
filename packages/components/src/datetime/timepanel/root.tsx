@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, JSX, onMount, untrack } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, type JSX, onMount, untrack } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps } from '@components/base';
+import { type BaseProps, joinClass, type RefProps } from '@components/base';
 import { hoursOptions, minutesOptions } from '@components/datetime/utils';
 import styles from './style.module.css';
 

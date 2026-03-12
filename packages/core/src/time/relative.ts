@@ -3,7 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { round } from '@core/math';
-import { Duration, day, hour, minute, parseDuration, second } from './duration';
+import type { Duration } from './duration';
+import { day, hour, minute, parseDuration, second } from './duration';
 
 const nameValues: Array<[Intl.RelativeTimeFormatUnit, number]> = [
 	['seconds', second],

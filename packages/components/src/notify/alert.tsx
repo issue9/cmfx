@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
 import { useLocale, useOptions } from '@components/context';
-import { Message, Props as MessageProps, Ref as MessageRef } from './message';
+import { Message, type Props as MessageProps, type Ref as MessageRef } from './message';
 
 export type Props = Omit<MessageProps, 'transitionDuration' | 'closeAriaLabel'>;
 

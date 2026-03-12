@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep, write2Clipboard } from '@cmfx/core';
-import { JSX, ParentProps } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
 import { render } from 'solid-js/web';
 import IconOK from '~icons/material-symbols/check';
 import IconError from '~icons/material-symbols/error';

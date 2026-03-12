@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Hotkey } from '@cmfx/core';
+import type { Hotkey } from '@cmfx/core';
 
 import type { BaseProps } from '@components/base';
 

@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, JSX, mergeProps, ParentProps, Show } from 'solid-js';
+import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
-import { BaseProps, joinClass, Layout, PropsError, RefProps, style2String } from '@components/base';
+import type { BaseProps, Layout, RefProps } from '@components/base';
+import { joinClass, PropsError, style2String } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {

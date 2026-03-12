@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
-import { Palette } from './theme';
+import type { Palette } from './theme';
 
 export const layouts = ['horizontal', 'vertical'] as const;
 

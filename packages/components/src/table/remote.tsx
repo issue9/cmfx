@@ -4,7 +4,7 @@
 
 import type { Page, Problem, Query, REST } from '@cmfx/core';
 import { query2Search } from '@cmfx/core';
-import { JSX, mergeProps, onMount, splitProps } from 'solid-js';
+import { type JSX, mergeProps, onMount, splitProps } from 'solid-js';
 import IconDelete from '~icons/material-symbols/delete';
 
 import type { RefProps } from '@components/base';

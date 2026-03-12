@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-	BasicTable,
+	type BasicTable,
 	Button,
 	Dialog,
 	ObjectAccessor,
@@ -13,8 +13,8 @@ import {
 	TextField,
 	useLocale,
 } from '@cmfx/components';
-import { Return } from '@cmfx/core';
-import { JSX } from 'solid-js';
+import type { Return } from '@cmfx/core';
+import type { JSX } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
 import IconPasskey from '~icons/material-symbols/passkey';
 

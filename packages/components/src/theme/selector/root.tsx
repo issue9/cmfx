@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import equal from 'fast-deep-equal';
-import { createEffect, createSignal, For, JSX } from 'solid-js';
+import { createEffect, createSignal, For, type JSX } from 'solid-js';
 
-import { BaseProps, joinClass, RefProps, Scheme } from '@components/base';
+import type { BaseProps, RefProps, Scheme } from '@components/base';
+import { joinClass } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref {
