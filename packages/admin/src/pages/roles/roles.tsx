@@ -89,7 +89,9 @@ export function Roles(props: Props): JSX.Element {
 				header={currentID.getValue() ? l.t('_p.editItem') : l.t('_p.newItem')}
 				footer={
 					<>
-						<Dialog.CancelButton value="cancel" onclick={save}>{l.t('_c.cancel')}</Dialog.CancelButton>
+						<Dialog.CancelButton value="cancel" onclick={save}>
+							{l.t('_c.cancel')}
+						</Dialog.CancelButton>
 						<Dialog.AcceptButton value="accept">{l.t('_c.ok')}</Dialog.AcceptButton>
 					</>
 				}

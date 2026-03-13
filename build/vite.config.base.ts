@@ -12,15 +12,15 @@
  * import pkg from './package.json' with {type: 'json'}
  * ```
  */
-export function buildPostBanner(pkg: unknown) {
-	return (chunk: {isEntry: boolean}): string => {
+export function buildPostBanner(pkg: { name: string; version: string; homepage: string; license: string }) {
+	return (chunk: { isEntry: boolean }): string => {
 		if (chunk.isEntry) {
 			return `/*!
  * ${pkg.name} v${pkg.version}
  * ${pkg.homepage}
  * ${pkg.license} licensed
  */`;
-		}else {
+		} else {
 			return '';
 		}
 	};
