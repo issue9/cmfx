@@ -122,6 +122,7 @@
 					.demo {
 						/* 演示区域，包含了常规的工具栏和演示组件 */
 						@apply flex flex-col justify-between p-2 flex-1 h-fit w-1/2;
+						@apply bg-palette-bg text-palette-fg;
 
 						> .toolbar {
 							@apply w-full pb-2 border border-transparent border-b-palette-border mb-4;
