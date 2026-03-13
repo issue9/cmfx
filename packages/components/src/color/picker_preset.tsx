@@ -43,6 +43,7 @@ export class PresetPickerPanel implements PickerPanel {
 						<span
 							class={joinClass(undefined, styles.color, signal[0]() === v ? styles.selected : '')}
 							style={{ background: v }}
+							title={v}
 							onclick={() => {
 								signal[1](v);
 							}}
