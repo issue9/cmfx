@@ -400,7 +400,7 @@
 		"properties": [
 			{
 				"name": "path",
-				"summary": "数据的加载地址\n\n\n由\n`Ref\nDeleteAction`\n生成的组件也会基于此值作删除操作\n\n",
+				"summary": "数据的加载地址\n\n\n由\n`Ref\ndelete`\n生成的组件也会基于此值作删除操作\n\n",
 				"type": "string"
 			},
 			{
@@ -563,20 +563,6 @@
 				],
 				"return": {
 					"type": "Promise<void>"
-				}
-			},
-			{
-				"name": "DeleteAction",
-				"summary": "基于\n`delete`\n提供一个用于删除指定 id 的按钮组件\n\n",
-				"type": "DeleteAction(props: {\r\n        id: T['id'];\r\n    }): JSX.Element",
-				"params": [
-					{
-						"name": "props",
-						"type": "{ id: T[\"id\"]; }"
-					}
-				],
-				"return": {
-					"type": "JSX.Element"
 				}
 			},
 			{

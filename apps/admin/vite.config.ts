@@ -57,8 +57,12 @@ export default defineConfig(({ mode }) => {
 							{ find: '@cmfx/illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
 							{ find: '@illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
 						],
+
+						tsconfigPaths: true,
 					}
-				: undefined,
+				: {
+						tsconfigPaths: true,
+					},
 
 		plugins: [
 			Icons({

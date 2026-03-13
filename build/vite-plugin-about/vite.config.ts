@@ -25,7 +25,6 @@ export default defineConfig({
 	build: {
 		minify: true,
 		outDir: './lib',
-		target: 'ESNext',
 		lib: {
 			entry: {
 				index: './src/index.ts',

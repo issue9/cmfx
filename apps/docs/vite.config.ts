@@ -9,7 +9,6 @@ import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 import customIcons from '../../build/unplugin-icons';
 import pkg from './package.json';
@@ -56,11 +55,13 @@ export default defineConfig(({ mode }) => {
 							{ find: '@cmfx/illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
 							{ find: '@illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
 						],
+						tsconfigPaths: true,
 					}
-				: undefined,
+				: {
+						tsconfigPaths: true,
+					},
 
 		plugins: [
-			tsconfigPaths(),
 			api({
 				dts: [
 					[path.resolve(__dirname, '../../packages/core'), 'index.d.ts'],

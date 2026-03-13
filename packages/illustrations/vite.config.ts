@@ -7,14 +7,12 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 import pkg from './package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		tsconfigPaths(),
 		solidPlugin(),
 		dts({
 			entryRoot: './src',
@@ -30,10 +28,13 @@ export default defineConfig({
 
 	define: { 'process.env': {} },
 
+	resolve: {
+		tsconfigPaths: true,
+	},
+
 	build: {
 		minify: true,
 		outDir: './lib',
-		target: 'ESNext',
 		lib: {
 			entry: {
 				index: './src/index.ts',

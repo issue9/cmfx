@@ -2,14 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fileURLToPath, URL } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 import customIcons from '../../build/unplugin-icons';
 import pkg from './package.json';
@@ -17,7 +15,6 @@ import pkg from './package.json';
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		tsconfigPaths(),
 		solidPlugin(),
 		viteStaticCopy({
 			targets: [
@@ -42,15 +39,12 @@ export default defineConfig({
 	define: { 'process.env': {} },
 
 	resolve: {
-		alias: {
-			'@': fileURLToPath(new URL('./src', import.meta.url)),
-		},
+		tsconfigPaths: true,
 	},
 
 	build: {
 		minify: true,
 		outDir: './lib',
-		target: 'ESNext',
 		lib: {
 			entry: {
 				index: './src/index.ts',
