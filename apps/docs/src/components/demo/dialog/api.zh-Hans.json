@@ -9,9 +9,8 @@
 			},
 			{
 				"name": "header",
-				"summary": "标题内容，如果此值不为空则同时会显示关闭按钮。\n\n",
-				"type": "JSX.Element",
-				"reactive": true
+				"summary": "指定标题内容\n\n\n如果此值不为空则同时会显示关闭按钮。如果想要\n`movable`\n有效果，此值不能为空。\n\n",
+				"type": "JSX.Element"
 			},
 			{
 				"name": "footer",

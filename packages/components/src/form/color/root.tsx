@@ -6,6 +6,7 @@ import { createMemo, createUniqueId, type JSX, mergeProps, Show, splitProps } fr
 
 import { classList, type RefProps } from '@components/base';
 import { ColorPanel } from '@components/color';
+import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
@@ -20,6 +21,7 @@ export interface Props extends Omit<ColorPanel.RootProps, 'value' | 'onChange' |
 }
 
 export function Root(props: Props): JSX.Element {
+	const l = useLocale();
 	const form = useForm();
 	props = mergeProps(form, props);
 
@@ -88,13 +90,7 @@ export function Root(props: Props): JSX.Element {
 				</div>
 			</div>
 
-			<Dialog.Root
-				header={props.label}
-				movable
-				ref={el => {
-					dlgRef = el;
-				}}
-			>
+			<Dialog.Root header={l.t('_c.color.pickColor')} movable ref={el => (dlgRef = el)}>
 				<ColorPanel.Root {...panelProps} onChange={v => props.accessor.setValue(v)} value={props.accessor.getValue()} />
 			</Dialog.Root>
 

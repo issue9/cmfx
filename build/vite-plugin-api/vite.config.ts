@@ -6,7 +6,7 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
-import { buildPostBanner } from '../../build/vite.config.base';
+import { buildPostBanner } from '../vite.config.base';
 import pkg from './package.json' with { type: 'json' };
 
 // https://vitejs.dev/config/

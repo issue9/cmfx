@@ -6,7 +6,7 @@ import { movable } from '@cmfx/core';
 import { type JSX, onCleanup, onMount, type ParentProps, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
-import { type BaseProps, joinClass } from '@components/base';
+import { type BaseProps, joinClass, PropsError } from '@components/base';
 import { useLocale } from '@components/context';
 import { CancelButton } from './buttons';
 import type { Ref } from './context';
@@ -20,9 +20,10 @@ export interface Props extends BaseProps, ParentProps {
 	ref: (m: Ref) => void;
 
 	/**
-	 * 标题内容，如果此值不为空则同时会显示关闭按钮。
+	 * 指定标题内容
 	 *
-	 * @reactive
+	 * @remarrks
+	 * 如果此值不为空则同时会显示关闭按钮。如果想要 {@link movable} 有效果，此值不能为空。
 	 */
 	header?: JSX.Element;
 
@@ -73,6 +74,10 @@ function buildRef(ref: HTMLDialogElement): Ref {
  * 采用的是 html 标准中的 dialog 标签。
  */
 export function Root(props: Props): JSX.Element {
+	if (props.movable && !props.header) {
+		throw new PropsError('header', 'header must be provided when movable is true');
+	}
+
 	const l = useLocale();
 
 	let rootRef: HTMLDialogElement;
