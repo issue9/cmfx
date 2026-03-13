@@ -191,26 +191,4 @@
 		@apply cursor-not-allowed;
 		@apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
 	}
-
-	/************************* confirm ******************************/
-
-	.confirm-panel {
-		@apply p-4 gap-2 bg-palette-bg text-palette-fg mt-1 rounded-md m-0;
-	}
-
-	.confirm-actions {
-		@apply flex justify-end gap-2 mt-4;
-	}
-
-	.confirm-panel:popover-open {
-		@apply flex flex-col;
-	}
-
-	/********************* fit-screen **********************/
-
-	.fit-screen {
-		@apply fixed! top-0! inset-s-0! overflow-y-scroll z-popover;
-		@apply w-full! h-full! max-w-full! max-h-full! p-4;
-		@apply bg-palette-bg text-palette-fg;
-	}
 }

@@ -1,0 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../../style.css";
+
+@layer components {
+	.panel {
+		@apply p-4 gap-2 bg-palette-bg text-palette-fg mt-1 rounded-md m-0;
+	}
+
+	.actions {
+		@apply flex justify-end gap-2 mt-4;
+	}
+
+	.panel:popover-open {
+		@apply flex flex-col;
+	}
+}

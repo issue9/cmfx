@@ -9,8 +9,8 @@ import { type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import type { RefProps } from '@components/base';
 import { handleEvent, joinClass } from '@components/base';
 import { Button } from '@components/button/button';
-import styles from '@components/button/common/style.module.css';
 import { useLocale } from '@components/context';
+import styles from './style.module.css';
 
 export interface Ref<A extends boolean = false> {
 	/**
@@ -114,10 +114,10 @@ export function Root(props: Props) {
 				ref={el => {
 					popRef = el;
 				}}
-				class={joinClass(props.palette, styles['confirm-panel'])}
+				class={joinClass(props.palette, styles.panel)}
 			>
 				{props.prompt ?? l.t('_c.areYouSure')}
-				<div class={styles['confirm-actions']}>
+				<div class={styles.actions}>
 					<Button.Root palette="secondary" onclick={() => popRef.hidePopover()}>
 						{props.cancel ?? l.t('_c.cancel')}
 					</Button.Root>

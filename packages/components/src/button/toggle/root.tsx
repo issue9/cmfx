@@ -10,9 +10,9 @@ import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
 import type { RefProps } from '@components/base';
 import { Button } from '@components/button/button';
-import styles from '@components/button/common/style.module.css';
 import { presetProps } from '@components/button/common/types';
 import { IconSet } from '@components/icon';
+import styles from './style.module.css';
 
 export interface Ref extends Button.RootRef<false> {
 	/**
