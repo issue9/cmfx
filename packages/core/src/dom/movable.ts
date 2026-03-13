@@ -15,24 +15,31 @@ export function movable(toolbar: HTMLElement, container: HTMLElement): Cancel {
 	let moving = false;
 	let x = 0,
 		y = 0;
-	const w = container.offsetWidth;
 
 	const mouseDown = (e: MouseEvent) => {
+		if (e.target !== toolbar) {
+			return;
+		}
+
 		moving = true;
 		x = e.clientX - container.offsetLeft;
 		y = e.clientY - container.offsetTop;
 	};
 
 	const mouseMove = (e: MouseEvent) => {
-		if (!moving) return;
+		if (e.target !== toolbar) {
+			return;
+		}
+
+		if (!moving) {
+			return;
+		}
+
 		container.style.left = `${e.clientX - x}px`;
 		container.style.top = `${e.clientY - y}px`;
-		container.style.width = `${w}px`;
 	};
 
-	const mouseFree = () => {
-		moving = false;
-	};
+	const mouseFree = () => (moving = false);
 
 	toolbar.addEventListener('mousedown', mouseDown);
 	toolbar.addEventListener('mousemove', mouseMove);
