@@ -11,7 +11,8 @@ import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import customIcons from '../../build/unplugin-icons';
-import pkg from './package.json';
+import { buildPostBanner } from '../../build/vite.config.base';
+import pkg from './package.json' with { type: 'json' };
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -27,17 +28,7 @@ export default defineConfig(({ mode }) => {
 			outDir: '../../docs',
 			rollupOptions: {
 				output: {
-					banner: chunk => {
-						if (chunk.isEntry) {
-							return `/*!
- * ${pkg.name} v${pkg.version}
- * ${pkg.homepage}
- * ${pkg.license} licensed
- */`;
-						} else {
-							return '';
-						}
-					},
+					postBanner: buildPostBanner(pkg),
 				},
 			},
 		},
@@ -79,7 +70,7 @@ export default defineConfig(({ mode }) => {
 			tailwindcss(),
 			viteStaticCopy({
 				targets: [
-					{ src: '../../LICENSE', dest: '../apps/docs' }, // dest 是相对于 tsconfig 中 outdir 目录的
+					{ src: '../../LICENSE', dest: '../apps/docs' }, // dest 是相对于 tsconfig 中 outDir 目录的
 					{
 						src: '../../assets/brand-static.svg',
 						dest: '../apps/docs/public',

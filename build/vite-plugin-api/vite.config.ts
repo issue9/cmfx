@@ -6,7 +6,8 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
-import pkg from './package.json';
+import { buildPostBanner } from '../../build/vite.config.base';
+import pkg from './package.json' with { type: 'json' };
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,19 +34,9 @@ export default defineConfig({
 			formats: ['es'],
 			fileName: (_, name) => `${name}.js`,
 		},
-		rollupOptions: {
+		rolldownOptions: {
 			output: {
-				banner: chunk => {
-					if (chunk.isEntry) {
-						return `/*!
- * ${pkg.name} v${pkg.version}
- * ${pkg.homepage}
- * ${pkg.license} licensed
- */`;
-					} else {
-						return '';
-					}
-				},
+				postBanner: buildPostBanner(pkg),
 			},
 			external: ['vite', 'node:fs', 'node:path', 'node:os', '@microsoft/tsdoc', 'ts-morph', 'typescript'],
 		},
