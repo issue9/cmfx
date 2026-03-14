@@ -52,7 +52,7 @@ export interface Ref {
 	visible(): boolean;
 }
 
-export type ToggleButtonProps = Omit<TB.RootProps, 'toggle' | 'value' | 'on' | 'off'> & {
+export type ToggleButtonProps = Omit<TB.RootProps, 'onToggle' | 'value' | 'on' | 'off'> & {
 	/**
 	 * 侧边栏在显示状态下的按钮图标
 	 *
@@ -88,23 +88,22 @@ export function ToggleButton(p: ToggleButtonProps): JSX.Element {
 
 		if (ref) {
 			ob.observe(ref.aside());
-			setHidden(true);
 		} else {
 			ob.disconnect();
-			setHidden(true);
 		}
 	});
 
-	p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu />, value: p.drawer?.visible() }, p);
+	p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu /> }, p);
 	const [_, btnProps] = splitProps(p, ['class', 'palette', 'drawer']);
 
 	return (
 		<TB.Root
 			{...(btnProps as TB.RootProps)}
+			value={p.drawer?.visible()}
 			class={joinClass(p.palette, hidden() ? 'hidden' : undefined, p.class)}
-			toggle={async (): Promise<boolean> => {
+			onToggle={async (): Promise<boolean | undefined> => {
 				if (!p.drawer) {
-					return false;
+					return;
 				}
 
 				p.drawer.toggle();

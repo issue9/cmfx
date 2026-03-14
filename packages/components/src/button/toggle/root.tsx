@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { createEffect, createSignal, type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconCollapse from '~icons/material-symbols/collapse-content';
 import IconExpand from '~icons/material-symbols/expand-content';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
@@ -18,26 +18,27 @@ export interface Ref extends Button.RootRef<false> {
 	/**
 	 * 切换图标显示
 	 */
-	toggle(): Promise<boolean>;
+	toggle(): Promise<void>;
 }
 
 export interface Props extends Omit<Button.ButtonProps, 'onclick' | 'children' | 'ref'>, RefProps<Ref> {
 	/**
 	 * 指定按钮的状态
 	 *
+	 * @reactive
 	 * @remarks
 	 * 有些条件下可能会通过外部状态修改按钮的状态，此时可以使用此属性。
 	 */
 	value?: boolean;
 
 	/**
-	 * 执行切换状态的方法
+	 * 执行切换图标的事件
 	 *
 	 * @remarks
-	 * 该方法应该返回一个 `Promise<boolean>`，用于异步执行切换操作。
-	 * 当 Promise 解决时，根据返回的值决定显示 {@link on} 或是 {@link off}。
+	 * 鼠标点击事件触发此事件。参数为新的状态值，
+	 * 返回值表示实际需要显示的状态值，如果是 undefined 则不改变状态。
 	 */
-	toggle: () => Promise<boolean>;
+	onToggle?: (v: boolean) => Promise<boolean | undefined>;
 
 	/**
 	 * 状态 1 的图标
@@ -64,20 +65,35 @@ export interface Props extends Omit<Button.ButtonProps, 'onclick' | 'children' |
  */
 export function Root(props: Props): JSX.Element {
 	props = mergeProps(presetProps, props);
-	const [, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value', 'ref']);
+	const [, btnProps] = splitProps(props, ['onToggle', 'on', 'off', 'value', 'ref']);
 	const [val, setVal] = createSignal(props.value);
+
+	// 监视 props.value 的变化
+	createEffect(() => setVal(props.value));
+
+	const toggle = async () => {
+		let v = !val();
+
+		if (props.onToggle) {
+			const vv = await props.onToggle(v);
+			if (vv === undefined) {
+				return;
+			}
+			v = vv;
+		}
+
+		setVal(v);
+	};
 
 	return (
 		<Button.Root
 			{...btnProps}
-			onclick={async () => {
-				setVal(await props.toggle());
-			}}
+			onclick={toggle}
 			ref={el => {
 				if (props.ref) {
 					props.ref({
 						root: () => el.root(),
-						toggle: async () => setVal(await props.toggle()),
+						toggle: async () => toggle(),
 					});
 				}
 			}}
@@ -87,7 +103,7 @@ export function Root(props: Props): JSX.Element {
 	);
 }
 
-export type FullScreenProps = Omit<Props, 'toggle' | 'on' | 'off' | 'value'>;
+export type FullScreenProps = Omit<Props, 'on' | 'off' | 'value'>;
 
 /**
  * 切换全屏状态的按钮
@@ -100,9 +116,7 @@ export function FullScreen(props: FullScreenProps): JSX.Element {
 	const [fs, setFS] = createSignal(!document.fullscreenElement);
 
 	// 有可能浏览器通过其它方式控制全屏功能
-	const change = () => {
-		setFS(!document.fullscreenElement);
-	};
+	const change = () => setFS(!document.fullscreenElement);
 	onMount(() => {
 		document.addEventListener('fullscreenchange', change);
 	});
@@ -110,20 +124,28 @@ export function FullScreen(props: FullScreenProps): JSX.Element {
 		document.removeEventListener('fullscreenchange', change);
 	});
 
-	const toggle = async () => {
-		if (document.fullscreenElement) {
-			await document.exitFullscreen();
-			return true;
+	const toggle = async (v: boolean): Promise<boolean | undefined> => {
+		if (!v) {
+			if (!document.fullscreenElement) {
+				await document.body.requestFullscreen();
+			}
 		} else {
-			await document.body.requestFullscreen();
-			return false;
+			if (document.fullscreenElement) {
+				await document.exitFullscreen();
+			}
 		}
+
+		if (props.onToggle) {
+			return await props.onToggle(v); // 如果是 onToggle 返回了值，需要如实返回，否则不返回值
+		}
+
+		return undefined;
 	};
 
-	return <Root {...props} value={fs()} toggle={toggle} on={<IconFullScreen />} off={<IconFullScreenExit />} />;
+	return <Root {...props} value={fs()} onToggle={toggle} on={<IconFullScreen />} off={<IconFullScreenExit />} />;
 }
 
-export type FitScreenProps = Omit<Props, 'toggle' | 'on' | 'off' | 'value'> & {
+export type FitScreenProps = Omit<Props, 'on' | 'off' | 'value'> & {
 	/**
 	 * 指定需要扩展的容器
 	 */
@@ -137,9 +159,18 @@ export type FitScreenProps = Omit<Props, 'toggle' | 'on' | 'off' | 'value'> & {
  */
 export function FitScreen(props: FitScreenProps): JSX.Element {
 	const [_, btnProps] = splitProps(props, ['container']);
-	const toggle = async () => {
-		return props.container.classList.toggle(styles['fit-screen']);
+	const toggle = async (v: boolean): Promise<boolean | undefined> => {
+		v = props.container.classList.toggle(styles['fit-screen']);
+
+		if (props.onToggle) {
+			const vv = await props.onToggle(v);
+			if (vv === undefined) {
+				return;
+			}
+			v = vv;
+		}
+		return v;
 	};
 
-	return <Root {...btnProps} toggle={toggle} on={<IconCollapse />} off={<IconExpand />} />;
+	return <Root {...btnProps} onToggle={toggle} on={<IconCollapse />} off={<IconExpand />} />;
 }

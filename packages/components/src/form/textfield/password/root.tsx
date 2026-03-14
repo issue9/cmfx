@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, type JSX, mergeProps, onMount } from 'solid-js';
+import { type JSX, mergeProps, onMount } from 'solid-js';
 import IconVisibility from '~icons/material-symbols/visibility';
 import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
@@ -32,7 +32,6 @@ export function Root(props: Props): JSX.Element {
 	const form = useForm(); // Password 在 textfield 的外层，所以得保证 useForm 是可用的。
 	props = mergeProps(form, props);
 
-	const [visible, setVisible] = createSignal(!!props.visible);
 	let ref: TextField.RootRef;
 
 	onMount(() => {
@@ -57,10 +56,9 @@ export function Root(props: Props): JSX.Element {
 					value={props.visible}
 					off={<IconVisibility />}
 					on={<IconVisibilityOff />}
-					toggle={async () => {
-						setVisible(!visible());
-						ref.input().type = visible() ? 'text' : 'password';
-						return visible();
+					onToggle={async (v: boolean) => {
+						ref.input().type = v ? 'text' : 'password';
+						return v;
 					}}
 				/>
 			}

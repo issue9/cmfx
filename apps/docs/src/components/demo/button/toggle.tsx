@@ -37,7 +37,7 @@ export default function (props: MountProps): JSX.Element {
 					palette="tertiary"
 					on={<IconClose />}
 					off={<IconFace />}
-					toggle={async () => {
+					onToggle={async () => {
 						toggleFlag2 = !toggleFlag2;
 						return toggleFlag2;
 					}}
@@ -63,11 +63,7 @@ export default function (props: MountProps): JSX.Element {
 
 				<br />
 
-				<div
-					ref={el => {
-						screenElement = el;
-					}}
-				>
+				<div class="bg-palette-bg" ref={el => screenElement = el}>
 					<ToggleButton.FitScreen
 						square
 						disabled={disabled()}
