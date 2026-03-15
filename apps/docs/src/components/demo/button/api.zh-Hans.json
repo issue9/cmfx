@@ -836,13 +836,14 @@
 				"name": "value",
 				"summary": "指定按钮的状态\n\n",
 				"remarks": "有些条件下可能会通过外部状态修改按钮的状态，此时可以使用此属性。\n\n",
-				"type": "boolean | undefined"
+				"type": "boolean | undefined",
+				"reactive": true
 			},
 			{
-				"name": "toggle",
-				"summary": "执行切换状态的方法\n\n",
-				"remarks": "该方法应该返回一个\n`Promise<boolean>`\n，用于异步执行切换操作。\n当 Promise 解决时，根据返回的值决定显示\n`on`\n或是\n`off`\n。\n\n",
-				"type": "() => Promise<boolean>"
+				"name": "onToggle",
+				"summary": "执行切换图标的事件\n\n",
+				"remarks": "鼠标点击事件触发此事件。参数为新的状态值，\n返回值表示实际需要显示的状态值，如果是 undefined 则不改变状态。\n\n",
+				"type": "((v: boolean) => Promise<boolean | undefined>) | undefined"
 			},
 			{
 				"name": "on",
@@ -946,9 +947,9 @@
 			{
 				"name": "toggle",
 				"summary": "切换图标显示\n\n",
-				"type": "toggle(): Promise<boolean>",
+				"type": "toggle(): Promise<void>",
 				"return": {
-					"type": "Promise<boolean>"
+					"type": "Promise<void>"
 				}
 			},
 			{
@@ -1004,6 +1005,12 @@
 						"name": "ref",
 						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
 						"type": "((m: REF) => void) | undefined"
+					},
+					{
+						"name": "onToggle",
+						"summary": "执行切换图标的事件\n\n",
+						"remarks": "鼠标点击事件触发此事件。参数为新的状态值，\n返回值表示实际需要显示的状态值，如果是 undefined 则不改变状态。\n\n",
+						"type": "((v: boolean) => Promise<boolean | undefined>) | undefined"
 					},
 					{
 						"name": "square",
@@ -1102,6 +1109,12 @@
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
 				"type": "((m: REF) => void) | undefined"
+			},
+			{
+				"name": "onToggle",
+				"summary": "执行切换图标的事件\n\n",
+				"remarks": "鼠标点击事件触发此事件。参数为新的状态值，\n返回值表示实际需要显示的状态值，如果是 undefined 则不改变状态。\n\n",
+				"type": "((v: boolean) => Promise<boolean | undefined>) | undefined"
 			},
 			{
 				"name": "square",

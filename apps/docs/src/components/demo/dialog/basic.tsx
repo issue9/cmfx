@@ -22,7 +22,7 @@ export default function (props: MountProps): JSX.Element {
 				<Dialog.Root
 					class="min-w-5"
 					palette={palette()}
-					header="header"
+					header={<Dialog.Toolbar movable close min max>header</Dialog.Toolbar>}
 					ref={el => {
 						dlg = el;
 						el.root().oncancel = async () => {
@@ -32,7 +32,7 @@ export default function (props: MountProps): JSX.Element {
 							await notify('close')
 						};
 					}}
-					footer={<Dialog.PresetButtons />}
+					footer={<Dialog.Actions />}
 				>
 					content
 				</Dialog.Root>

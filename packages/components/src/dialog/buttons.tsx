@@ -7,6 +7,7 @@ import { type JSX, splitProps } from 'solid-js';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { useDialog } from './context';
+import styles from './style.module.css';
 
 export interface ButtonProps extends Omit<Button.ButtonProps, 'onclick' | 'type'> {
 	/**
@@ -83,18 +84,26 @@ export function CancelButton(props: ButtonProps): JSX.Element {
 	);
 }
 
+export interface ActionsProps {
+	rounded?: boolean;
+	square?: boolean;
+	accept?: ButtonProps['onclick'];
+	cancel?: ButtonProps['onclick'];
+}
+
 /**
  * 为对话框提供一组默认的按钮组
- *
- * @remarks
- * 同时包含了 {@link AcceptButton} 和 {@link CancelButton}。
  */
-export function PresetButtons(): JSX.Element {
+export function Actions(props: ActionsProps): JSX.Element {
 	const l = useLocale();
 	return (
-		<>
-			<CancelButton value="cancel">{l.t('_c.cancel')}</CancelButton>
-			<AcceptButton value="accept">{l.t('_c.ok')}</AcceptButton>
-		</>
+		<footer class={styles.footer}>
+			<CancelButton rounded={props.rounded} square={props.square} onclick={props.cancel} value="cancel">
+				{l.t('_c.cancel')}
+			</CancelButton>
+			<AcceptButton rounded={props.rounded} square={props.square} onclick={props.accept} value="accept">
+				{l.t('_c.ok')}
+			</AcceptButton>
+		</footer>
 	);
 }

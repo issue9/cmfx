@@ -3,12 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { movable } from '@cmfx/core';
-import { type JSX, onCleanup, onMount, type ParentProps, Show } from 'solid-js';
-import IconClose from '~icons/material-symbols/close';
+import type { JSX, ParentProps } from 'solid-js';
 
 import { type BaseProps, joinClass, PropsError } from '@components/base';
-import { useLocale } from '@components/context';
-import { CancelButton } from './buttons';
 import type { Ref } from './context';
 import { DialogProvider } from './context';
 import styles from './style.module.css';
@@ -78,54 +75,21 @@ export function Root(props: Props): JSX.Element {
 		throw new PropsError('header', 'header must be provided when movable is true');
 	}
 
-	const l = useLocale();
-
-	let rootRef: HTMLDialogElement;
-	let toolbarRef: HTMLElement;
-
 	let ref!: Ref;
-
-	onMount(() => {
-		const cancelMovable = props.movable ? movable(toolbarRef, rootRef) : undefined;
-		if (cancelMovable) {
-			onCleanup(() => cancelMovable());
-		}
-	});
 
 	return (
 		<dialog
 			ref={el => {
 				ref = buildRef(el);
 				props.ref(ref);
-				rootRef = el;
 			}}
 			class={joinClass(props.palette, styles.dialog, props.class)}
 			style={props.style}
 		>
 			<DialogProvider dialog={ref}>
-				<Show when={props.header}>
-					{c => (
-						<header
-							ref={el => {
-								toolbarRef = el;
-							}}
-						>
-							{c()}
-							<CancelButton
-								palette={props.palette}
-								square
-								class={styles.close}
-								ref={el => (el.root().ariaLabel = l.t('_c.close'))}
-							>
-								<IconClose />
-							</CancelButton>
-						</header>
-					)}
-				</Show>
-
+				{props.header}
 				<main class={props.scrollable ? styles.scrollable : ''}>{props.children}</main>
-
-				<Show when={props.footer}>{c => <footer>{c()}</footer>}</Show>
+				{props.footer}
 			</DialogProvider>
 		</dialog>
 	);

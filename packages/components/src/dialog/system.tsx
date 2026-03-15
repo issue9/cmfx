@@ -4,13 +4,16 @@
 
 import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
+import IconClose from '~icons/material-symbols/close';
 
 import type { BaseProps, MountProps } from '@components/base';
-import { useOptions } from '@components/context';
+import { Button } from '@components/button';
+import { useLocale, useOptions } from '@components/context';
 import { fieldAccessor, TextField } from '@components/form';
-import { AcceptButton, PresetButtons } from './buttons';
+import { AcceptButton, Actions } from './buttons';
 import type { Ref } from './context';
 import { Root } from './root';
+import styles from './style.module.css';
 
 export type Props = BaseProps & ParentProps & MountProps;
 
@@ -38,6 +41,7 @@ function Alert(props: BaseProps): JSX.Element {
 	const [, org] = useOptions();
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
+	const l = useLocale();
 
 	alertInst = async (msg?: string): Promise<void> => {
 		setMsg(msg);
@@ -52,12 +56,19 @@ function Alert(props: BaseProps): JSX.Element {
 		<Root
 			movable
 			palette={props.palette}
-			header={org.title}
-			ref={el => {
-				dlg = el;
-			}}
+			header={
+				<header class={styles.header}>
+					{org.title}
+					<div class={styles.control}>
+						<Button.Root palette="error" square onclick={() => dlg.root().close('close')}>
+							<IconClose />
+						</Button.Root>
+					</div>
+				</header>
+			}
+			ref={el => (dlg = el)}
 			class="min-w-60"
-			footer={<AcceptButton value="ok" />}
+			footer={<AcceptButton value="ok">{l.t('_c.ok')}</AcceptButton>}
 		>
 			{msg()}
 		</Root>
@@ -98,12 +109,19 @@ function Confirm(props: BaseProps): JSX.Element {
 		<Root
 			movable
 			palette={props.palette}
-			header={org.title}
+			header={
+				<header class={styles.header}>
+					{org.title}
+					<div class={styles.control}>
+						<Button.Root palette="error" square onclick={() => dlg.root().close('close')}>
+							<IconClose />
+						</Button.Root>
+					</div>
+				</header>
+			}
 			class="min-w-60"
-			ref={el => {
-				dlg = el;
-			}}
-			footer={<PresetButtons />}
+			ref={el => (dlg = el)}
+			footer={<Actions />}
 		>
 			<p>{msg()}</p>
 		</Root>
@@ -147,12 +165,19 @@ function Prompt(props: BaseProps): JSX.Element {
 		<Root
 			movable
 			palette={props.palette}
-			header={org.title}
-			ref={el => {
-				dlg = el;
-			}}
+			header={
+				<header class={styles.header}>
+					{org.title}
+					<div class={styles.control}>
+						<Button.Root palette="error" square onclick={() => dlg.root().close('close')}>
+							<IconClose />
+						</Button.Root>
+					</div>
+				</header>
+			}
+			ref={el => (dlg = el)}
 			class="min-w-60"
-			footer={<PresetButtons />}
+			footer={<Actions />}
 		>
 			<TextField.Root class="w-full" layout="vertical" label={msg()} accessor={access} />
 		</Root>
