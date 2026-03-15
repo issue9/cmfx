@@ -2,7 +2,6 @@
 
 ![Version](https://img.shields.io/github/v/tag/issue9/cmfx?label=version)
 [![License](https://img.shields.io/github/license/issue9/cmfx)](https://opensource.org/licenses/MIT)
-[![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@cmfx/vite-plugin-about)
 ![Node Current](https://img.shields.io/node/v/%40cmfx%2Fvite-plugin-about)
 [![Test](https://github.com/issue9/cmfx/actions/workflows/test.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
