@@ -3,6 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import type { Locale } from '@cmfx/core';
+import { createEffect, createSignal, type JSX } from 'solid-js';
+
+import { useLocale } from '@components/context';
 
 const kb = 1024;
 const mb = kb * 1024;
@@ -10,13 +13,40 @@ const gb = mb * 1024;
 const tb = gb * 1024;
 const pb = tb * 1024;
 
+export interface ByteFormatterProps {
+	/**
+	 * 需要转换的数值
+	 *
+	 * @reactive
+	 */
+	value: number;
+}
+
+/**
+ * 字节大小的格式化组件
+ *
+ * @remarks
+ * 这是对 {@link createBytes} 的封装。
+ */
+export function Bytes(props: ByteFormatterProps): JSX.Element {
+	const l = useLocale();
+	const f = createBytes(l);
+
+	const [val, setVal] = createSignal(props.value);
+	createEffect(() => {
+		setVal(props.value);
+	});
+
+	return <>{f(val())}</>;
+}
+
 /**
  * 创建用于格式化字节大小的函数
  *
  * @param l - 本地化接口；
  * @returns 用于格式化的函数，会根据传入的字节大小自动选择合适的单位；
  */
-export function createBytesFormatter(l: Locale): (byte: number) => string {
+export function createBytes(l: Locale): (byte: number) => string {
 	let style: Intl.NumberFormatOptions['unitDisplay'];
 
 	switch (l.displayStyle) {

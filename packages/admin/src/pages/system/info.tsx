@@ -5,7 +5,7 @@
 import {
 	ChartAxis,
 	ConfirmButton,
-	createBytesFormatter,
+	createBytes,
 	Divider,
 	joinClass,
 	Label,
@@ -28,7 +28,7 @@ const mb = 1024 * 1024;
 export function Info(): JSX.Element {
 	const rest = useREST();
 	const l = useLocale();
-	const bytesFormatter = createMemo(() => createBytesFormatter(l));
+	const bytesFormatter = createMemo(() => createBytes(l));
 
 	const [info] = createResource(async () => {
 		const ret = await rest.get<Info>('/system/info');

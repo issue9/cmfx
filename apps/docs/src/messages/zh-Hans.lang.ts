@@ -120,6 +120,7 @@ const messages: typeof m = {
 			editor: 'Editor WYSIWYG 编辑器',
 			empty: 'Empty 空状态',
 			form: 'Form 表单',
+			formatter: 'Formatter 格式化',
 			icon: 'Icon 图标',
 			illustrations: 'Illustrations 插画',
 			input: 'Input 输入框基础',

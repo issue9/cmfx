@@ -7,7 +7,6 @@
       - entrypoint: "index.d.ts"
         types:
             - run
-            - createBytesFormatter
             - copy2Clipboard
 
 - pkg: "@cmfx/admin"
