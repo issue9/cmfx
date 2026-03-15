@@ -1,19 +1,22 @@
 [
 	{
-		"kind": "function",
-		"name": "Formatter.Bytes",
-		"summary": "字节大小的格式化组件\n\n",
-		"remarks": "这是对\n`createBytes`\n的封装。\n\n",
-		"type": "declare function Bytes(props: ByteFormatterProps): JSX.Element",
-		"params": [
+		"kind": "interface",
+		"name": "Formatter.BytesProps",
+		"properties": [
 			{
-				"name": "props",
-				"type": "ByteFormatterProps"
+				"name": "value",
+				"summary": "需要转换的数值\n\n",
+				"type": "number",
+				"reactive": true
+			},
+			{
+				"name": "unit",
+				"summary": "显示的单位\n\n",
+				"remarks": "如果不为空，则显示该单位的数值，如果为空，则显示为可表示的最大单位。\n\n",
+				"type": "\"byte\" | \"kilobyte\" | \"megabyte\" | \"gigabyte\" | \"terabyte\" | \"petabyte\" | undefined",
+				"reactive": true
 			}
 		],
-		"return": {
-			"type": "JSX.Element"
-		},
 		"pkg": "@cmfx/components"
 	},
 	{
