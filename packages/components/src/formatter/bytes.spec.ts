@@ -20,4 +20,6 @@ test('createBytes', async () => {
 	expect(f(10261111)).equal('9.786 megabytes');
 	expect(f(9999261111)).equal('9.313 gigabytes');
 	expect(f(99998888261111)).equal('90.948 terabytes');
+
+	expect(createBytes(l, 'byte')(99998888261111)).equal('99998888261111 bytes');
 });

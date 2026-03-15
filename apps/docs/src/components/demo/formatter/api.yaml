@@ -6,6 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Formatter.ByteFormatterProps
-            - Formatter.ByteFormatter
-            - Formatter.createByteFormatter
+            - Formatter.BytesProps
+            - Formatter.Bytes
+            - Formatter.createBytes
+            - Formatter.ByteUnit
+            - Formatter.byteUnits

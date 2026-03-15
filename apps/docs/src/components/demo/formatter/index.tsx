@@ -10,7 +10,7 @@ import { default as bytes } from './bytes.tsx?raw';
 
 export default function (): Info {
 	return {
-		kind: 'general',
+		kind: 'function',
 		title: '_d.demo.formatter',
 		icon: IconFormatter,
 		path: 'formatter',

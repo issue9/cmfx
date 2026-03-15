@@ -1,0 +1,54 @@
+[
+	{
+		"kind": "function",
+		"name": "Formatter.Bytes",
+		"summary": "字节大小的格式化组件\n\n",
+		"remarks": "这是对\n`createBytes`\n的封装。\n\n",
+		"type": "declare function Bytes(props: ByteFormatterProps): JSX.Element",
+		"params": [
+			{
+				"name": "props",
+				"type": "ByteFormatterProps"
+			}
+		],
+		"return": {
+			"type": "JSX.Element"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Formatter.createBytes",
+		"summary": "创建用于格式化字节大小的函数\n\n",
+		"type": "declare function createBytes(l: Locale, unit?: Unit): (byte: number) => string",
+		"params": [
+			{
+				"name": "l",
+				"summary": "本地化接口；\n\n",
+				"type": "Locale"
+			},
+			{
+				"name": "unit",
+				"summary": "单位；\n\n",
+				"type": "\"byte\" | \"kilobyte\" | \"megabyte\" | \"gigabyte\" | \"terabyte\" | \"petabyte\" | undefined"
+			}
+		],
+		"return": {
+			"summary": "用于格式化的函数，会根据传入的字节大小自动选择合适的单位；\n\n",
+			"type": "(byte: number) => string"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "Formatter.ByteUnit",
+		"kind": "literal",
+		"type": "\"byte\" | \"kilobyte\" | \"megabyte\" | \"gigabyte\" | \"terabyte\" | \"petabyte\"",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "source",
+		"name": "Formatter.byteUnits",
+		"source": "units: readonly [\"byte\", \"kilobyte\", \"megabyte\", \"gigabyte\", \"terabyte\", \"petabyte\"]",
+		"pkg": "@cmfx/components"
+	}
+]
