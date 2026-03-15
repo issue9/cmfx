@@ -6,7 +6,7 @@
 
 [![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@cmfx/admin)
 [![test](https://github.com/issue9/cmfx/actions/workflows/vitest.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
-[![NPM Version](https://img.shields.io/npm/v/%40cmfx%2Fadmin)](https://www.npmjs.com/package/@cmfx/admin)
+[![NPM Version](https://img.shields.io/npm/v/%40cmfx%2Fadmin)](https://npmx.dev/package/@cmfx/admin)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 [![License](https://img.shields.io/github/license/issue9/cmfx)](https://opensource.org/licenses/MIT)
 
