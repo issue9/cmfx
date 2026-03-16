@@ -118,6 +118,7 @@ const messages = {
 			editor: 'Editor',
 			empty: 'Empty',
 			form: 'Form',
+			formatter: 'Formatter',
 			icon: 'Icon',
 			illustrations: 'Illustrations',
 			input: 'Input',

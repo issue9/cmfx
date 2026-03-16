@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 caixw
+#
+# SPDX-License-Identifier: MIT
+
+- pkg: "@cmfx/components"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - Formatter.BytesProps
+            - Formatter.createBytes
+            - Formatter.ByteUnit
+            - Formatter.byteUnits
+
+            - Formatter.BitsProps
+            - Formatter.createBits
+            - Formatter.BitUnit
+            - Formatter.bitUnits

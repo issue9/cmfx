@@ -25,7 +25,7 @@ import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
 import { Checkbox, Choice, fieldAccessor, Numeric, RadioGroup, Slider } from '@components/form';
-import { createBytesFormatter } from '@components/kit';
+import { Formatter } from '@components/formatter';
 import { Label } from '@components/label';
 import { SchemeSelector } from '@components/theme';
 import styles from './style.module.css';
@@ -289,7 +289,7 @@ export function Root(props: Props) {
 				<div class={styles['ds-demo']}>
 					<p>{l.datetimeFormat().format(new Date())}</p>
 					<p>{formatDuration(l.durationFormat(), 1111111223245)}</p>
-					<p>{createBytesFormatter(l)(1111223245)}</p>
+					<p>{Formatter.createBytes(l)(1111223245)}</p>
 				</div>
 			</Item>
 

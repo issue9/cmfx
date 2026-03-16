@@ -2,17 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	ChartAxis,
-	ConfirmButton,
-	createBytesFormatter,
-	Divider,
-	joinClass,
-	Label,
-	Page,
-	Tab,
-	useLocale,
-} from '@cmfx/components';
+import { ChartAxis, ConfirmButton, Divider, Formatter, joinClass, Label, Page, Tab, useLocale } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, type JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
 import IconDatabase from '~icons/material-symbols/database';
@@ -28,7 +18,7 @@ const mb = 1024 * 1024;
 export function Info(): JSX.Element {
 	const rest = useREST();
 	const l = useLocale();
-	const bytesFormatter = createMemo(() => createBytesFormatter(l));
+	const bytesFormatter = createMemo(() => Formatter.createBytes(l));
 
 	const [info] = createResource(async () => {
 		const ret = await rest.get<Info>('/system/info');

@@ -39,24 +39,6 @@
 	},
 	{
 		"kind": "function",
-		"name": "createBytesFormatter",
-		"summary": "创建用于格式化字节大小的函数\n\n",
-		"type": "function createBytesFormatter(l: Locale): (byte: number) => string",
-		"params": [
-			{
-				"name": "l",
-				"summary": "本地化接口；\n\n",
-				"type": "Locale"
-			}
-		],
-		"return": {
-			"summary": "用于格式化的函数，会根据传入的字节大小自动选择合适的单位；\n\n",
-			"type": "(byte: number) => string"
-		},
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "function",
 		"name": "copy2Clipboard",
 		"summary": "复制内容到剪切版，并在 target 显示复制状态。\n\n",
 		"type": "function copy2Clipboard(target: HTMLElement, text: string): Promise<void>",
