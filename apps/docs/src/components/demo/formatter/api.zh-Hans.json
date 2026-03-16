@@ -23,7 +23,7 @@
 		"kind": "function",
 		"name": "Formatter.createBytes",
 		"summary": "创建用于格式化字节大小的函数\n\n",
-		"type": "declare function createBytes(l: Locale, unit?: Unit): (byte: number) => string",
+		"type": "declare function createBytes(l: Locale, unit?: Unit_2): (byte: number) => string",
 		"params": [
 			{
 				"name": "l",
@@ -51,7 +51,7 @@
 	{
 		"kind": "source",
 		"name": "Formatter.byteUnits",
-		"source": "units: readonly [\"byte\", \"kilobyte\", \"megabyte\", \"gigabyte\", \"terabyte\", \"petabyte\"]",
+		"source": "units_2: readonly [\"byte\", \"kilobyte\", \"megabyte\", \"gigabyte\", \"terabyte\", \"petabyte\"]",
 		"pkg": "@cmfx/components"
 	}
 ]

@@ -7,6 +7,8 @@ import IconFormatter from '~icons/material-symbols/text-format-rounded';
 import type { Info } from '@docs/components/base';
 import { default as Bytes } from './bytes';
 import { default as bytes } from './bytes.tsx?raw';
+import { default as Bits } from './bits';
+import { default as bits } from './bits.tsx?raw';
 
 export default function (): Info {
 	return {
@@ -17,6 +19,7 @@ export default function (): Info {
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		stages: [
 			{ component: Bytes, source: bytes, title: 'bytes' },
+			{ component: Bits, source: bits, title: 'bits' },
 		],
 	};
 }
