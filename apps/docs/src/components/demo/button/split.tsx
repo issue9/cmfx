@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Menu, MountProps, notify, SplitButton } from '@cmfx/components';
+import { Button, Menu, type MountProps, notify, SplitButton } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 

@@ -18,7 +18,7 @@
 
 		> .lang,
 		> .action {
-			@apply absolute top-0 py-1! px-2! start-auto end-0 text-sm;
+			@apply absolute top-0 py-1! px-2! start-auto inset-e-0 text-sm;
 			@apply transition;
 		}
 
@@ -64,7 +64,7 @@
 		> code > span::before {
 			margin-inline-start: calc(-1 * var(--line-number-margin));
 			@apply font-mono w-(--line-number-width) px-1 me-1 box-content;
-			@apply inline-block bg-palette-bg-low text-palette-fg-low start-0 top-0 sticky;
+			@apply inline-block bg-palette-bg-low text-palette-fg-low inset-s-0 top-0 sticky;
 			content: counter(line);
 		}
 	}

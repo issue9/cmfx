@@ -8,8 +8,9 @@ import IconPicker from '~icons/circum/picker-half';
 
 import { type BaseProps, joinClass, PropsError, type RefProps, wcag } from '@components/base';
 import { Button } from '@components/button';
-import { copy2Clipboard, useLocale } from '@components/context';
+import { useLocale } from '@components/context';
 import { Choice, fieldAccessor } from '@components/form';
+import { CopyIcon } from '@components/icon';
 import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 
@@ -147,15 +148,13 @@ export function Root(props: Props): JSX.Element {
 				<div class={styles.middle}>
 					<div
 						class={styles.value}
-						ref={el => {
-							contentRef = el;
-						}}
-						onclick={() => copy2Clipboard(contentRef, signal[0]())}
+						ref={el => (contentRef = el)}
 						style={{
 							'background-color': signal[0](),
 							color: props.wcag ?? 'var(--palette-fg)',
 						}}
 					>
+						<CopyIcon.Root class="mr-2 self-center" getText={async () => signal[0]()} />
 						{signal[0]()}
 					</div>
 					<Show when={props.wcag}>

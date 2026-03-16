@@ -2,4 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as IconSet from './mod';
+export * from './copy';
+export * from './iconset';

@@ -17,7 +17,7 @@
 				@apply flex gap-1 items-center justify-center;
 
 				.value {
-					@apply text-sm cursor-pointer;
+					@apply text-sm;
 					@apply overflow-hidden overflow-ellipsis whitespace-nowrap;
 					@apply flex justify-center items-center h-8 w-fit px-2;
 					@apply border border-palette-border rounded-sm;

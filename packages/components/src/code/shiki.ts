@@ -183,6 +183,7 @@ function buildOptions(
 										width: '24',
 										height: '24',
 										viewBox: '0 0 24 24',
+										style: 'width: 1.2em; height: 1.2em;',
 									},
 									children: [
 										{
