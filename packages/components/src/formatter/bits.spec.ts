@@ -21,4 +21,6 @@ test('createBits', async () => {
 	expect(f(9999261111)).equal('9.313 gigabits');
 
 	expect(createBits(l, 'bit')(99998888261111)).equal('99998888261111 bits');
+
+	expect(createBits(l, 'bit', 'minute')(99998888261111)).equal('99998888261111 bits per minute');
 });

@@ -6,6 +6,7 @@ import type { Locale } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, type JSX } from 'solid-js';
 
 import { useLocale } from '@components/context';
+import { buildPerUnit } from './utils';
 
 const kb = 1024;
 const mb = kb * 1024;
@@ -19,7 +20,7 @@ export type Unit = (typeof units)[number];
 
 export interface BitsProps {
 	/**
-	 * 需要转换的数值
+	 * 需要转换的比特数值
 	 *
 	 * @reactive
 	 */
@@ -34,10 +35,17 @@ export interface BitsProps {
 	 * 如果不为空，则显示该单位的数值，如果为空，则显示为可表示的最大单位。
 	 */
 	unit?: Unit;
+
+	/**
+	 * 与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等
+	 *
+	 * @reactive
+	 */
+	per?: string;
 }
 
 /**
- * 位大小的格式化组件
+ * 比特位大小的格式化组件
  *
  * @remarks
  * 这是对 {@link createBits} 的封装。
@@ -45,7 +53,7 @@ export interface BitsProps {
 export function Bits(props: BitsProps): JSX.Element {
 	const l = useLocale();
 	const f = createMemo(() => {
-		return createBits(l, props.unit);
+		return createBits(l, props.unit, props.per);
 	});
 
 	const [val, setVal] = createSignal(props.value);
@@ -61,9 +69,14 @@ export function Bits(props: BitsProps): JSX.Element {
  *
  * @param l - 本地化接口；
  * @param unit - 单位；
+ * @param per - 与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等；
  * @returns 用于格式化的函数，会根据传入的字节大小自动选择合适的单位；
  */
-export function createBits(l: Locale, unit?: Unit): (bit: number) => string {
+export function createBits(l: Locale, unit?: Unit, per?: string): (bit: number) => string {
+	if (per && units.includes(per as Unit)) {
+		throw new TypeError('per 不能是比特单位');
+	}
+
 	let style: Intl.NumberFormatOptions['unitDisplay'];
 
 	switch (l.displayStyle) {
@@ -81,11 +94,11 @@ export function createBits(l: Locale, unit?: Unit): (bit: number) => string {
 			console.error('参数 u 的类型无效');
 	}
 
-	const b = l.numberFormat({ style: 'unit', unit: 'bit', unitDisplay: style });
-	const k = l.numberFormat({ style: 'unit', unit: 'kilobit', unitDisplay: style });
-	const m = l.numberFormat({ style: 'unit', unit: 'megabit', unitDisplay: style });
-	const g = l.numberFormat({ style: 'unit', unit: 'gigabit', unitDisplay: style });
-	const t = l.numberFormat({ style: 'unit', unit: 'terabit', unitDisplay: style });
+	const b = l.numberFormat({ style: 'unit', unit: buildPerUnit('bit', per), unitDisplay: style });
+	const k = l.numberFormat({ style: 'unit', unit: buildPerUnit('kilobit', per), unitDisplay: style });
+	const m = l.numberFormat({ style: 'unit', unit: buildPerUnit('megabit', per), unitDisplay: style });
+	const g = l.numberFormat({ style: 'unit', unit: buildPerUnit('gigabit', per), unitDisplay: style });
+	const t = l.numberFormat({ style: 'unit', unit: buildPerUnit('terabit', per), unitDisplay: style });
 
 	switch (unit) {
 		case 'bit':

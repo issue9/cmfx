@@ -6,6 +6,7 @@ import type { Locale } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, type JSX } from 'solid-js';
 
 import { useLocale } from '@components/context';
+import { buildPerUnit } from './utils';
 
 const kb = 1024;
 const mb = kb * 1024;
@@ -34,6 +35,13 @@ export interface BytesProps {
 	 * 如果不为空，则显示该单位的数值，如果为空，则显示为可表示的最大单位。
 	 */
 	unit?: Unit;
+
+	/**
+	 * 与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等
+	 *
+	 * @reactive
+	 */
+	per?: string;
 }
 
 /**
@@ -44,8 +52,9 @@ export interface BytesProps {
  */
 export function Bytes(props: BytesProps): JSX.Element {
 	const l = useLocale();
+
 	const f = createMemo(() => {
-		return createBytes(l, props.unit);
+		return createBytes(l, props.unit, props.per);
 	});
 
 	const [val, setVal] = createSignal(props.value);
@@ -61,9 +70,14 @@ export function Bytes(props: BytesProps): JSX.Element {
  *
  * @param l - 本地化接口；
  * @param unit - 单位；
+ * @param per - 与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等；
  * @returns 用于格式化的函数，会根据传入的字节大小自动选择合适的单位；
  */
-export function createBytes(l: Locale, unit?: Unit): (byte: number) => string {
+export function createBytes(l: Locale, unit?: Unit, per?: string): (byte: number) => string {
+	if (per && units.includes(per as Unit)) {
+		throw new TypeError('per 不能是字节单位');
+	}
+
 	let style: Intl.NumberFormatOptions['unitDisplay'];
 
 	switch (l.displayStyle) {
@@ -81,12 +95,12 @@ export function createBytes(l: Locale, unit?: Unit): (byte: number) => string {
 			console.error('参数 u 的类型无效');
 	}
 
-	const b = l.numberFormat({ style: 'unit', unit: 'byte', unitDisplay: style });
-	const k = l.numberFormat({ style: 'unit', unit: 'kilobyte', unitDisplay: style });
-	const m = l.numberFormat({ style: 'unit', unit: 'megabyte', unitDisplay: style });
-	const g = l.numberFormat({ style: 'unit', unit: 'gigabyte', unitDisplay: style });
-	const t = l.numberFormat({ style: 'unit', unit: 'terabyte', unitDisplay: style });
-	const p = l.numberFormat({ style: 'unit', unit: 'petabyte', unitDisplay: style });
+	const b = l.numberFormat({ style: 'unit', unit: buildPerUnit('byte', per), unitDisplay: style });
+	const k = l.numberFormat({ style: 'unit', unit: buildPerUnit('kilobyte', per), unitDisplay: style });
+	const m = l.numberFormat({ style: 'unit', unit: buildPerUnit('megabyte', per), unitDisplay: style });
+	const g = l.numberFormat({ style: 'unit', unit: buildPerUnit('gigabyte', per), unitDisplay: style });
+	const t = l.numberFormat({ style: 'unit', unit: buildPerUnit('terabyte', per), unitDisplay: style });
+	const p = l.numberFormat({ style: 'unit', unit: buildPerUnit('petabyte', per), unitDisplay: style });
 
 	switch (unit) {
 		case 'byte':

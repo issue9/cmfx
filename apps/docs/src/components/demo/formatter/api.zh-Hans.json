@@ -53,5 +53,60 @@
 		"name": "Formatter.byteUnits",
 		"source": "units_2: readonly [\"byte\", \"kilobyte\", \"megabyte\", \"gigabyte\", \"terabyte\", \"petabyte\"]",
 		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Formatter.BitsProps",
+		"properties": [
+			{
+				"name": "value",
+				"summary": "需要转换的数值\n\n",
+				"type": "number",
+				"reactive": true
+			},
+			{
+				"name": "unit",
+				"summary": "显示的单位\n\n",
+				"remarks": "如果不为空，则显示该单位的数值，如果为空，则显示为可表示的最大单位。\n\n",
+				"type": "\"bit\" | \"kilobit\" | \"megabit\" | \"gigabit\" | \"terabit\" | undefined",
+				"reactive": true
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Formatter.createBits",
+		"summary": "创建用于格式化位大小的函数\n\n",
+		"type": "declare function createBits(l: Locale, unit?: Unit): (bit: number) => string",
+		"params": [
+			{
+				"name": "l",
+				"summary": "本地化接口；\n\n",
+				"type": "Locale"
+			},
+			{
+				"name": "unit",
+				"summary": "单位；\n\n",
+				"type": "\"bit\" | \"kilobit\" | \"megabit\" | \"gigabit\" | \"terabit\" | undefined"
+			}
+		],
+		"return": {
+			"summary": "用于格式化的函数，会根据传入的字节大小自动选择合适的单位；\n\n",
+			"type": "(bit: number) => string"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "Formatter.BitUnit",
+		"kind": "literal",
+		"type": "\"bit\" | \"kilobit\" | \"megabit\" | \"gigabit\" | \"terabit\"",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "source",
+		"name": "Formatter.bitUnits",
+		"source": "units: readonly [\"bit\", \"kilobit\", \"megabit\", \"gigabit\", \"terabit\"]",
+		"pkg": "@cmfx/components"
 	}
 ]
