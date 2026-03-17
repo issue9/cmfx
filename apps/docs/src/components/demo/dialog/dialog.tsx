@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, FormAPI, Dialog, MountProps, notify } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { Button, Dialog, Form, FormAPI, type MountProps, notify } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';
@@ -30,12 +30,13 @@ export default function (props: MountProps): JSX.Element {
 				showModal
 			</Button.Root>
 			<Dialog.Root
-				movable
 				palette={palette()}
-				ref={el => {
-					dlg2 = el;
-				}}
-				header="header"
+				ref={el => (dlg2 = el)}
+				header={
+					<Dialog.Toolbar movable close min max>
+						header
+					</Dialog.Toolbar>
+				}
 			>
 				<div>
 					<Form.Root inDialog api={api}>

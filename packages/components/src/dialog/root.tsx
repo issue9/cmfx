@@ -5,7 +5,7 @@
 import { movable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 
-import { type BaseProps, joinClass, PropsError } from '@components/base';
+import { type BaseProps, joinClass } from '@components/base';
 import type { Ref } from './context';
 import { DialogProvider } from './context';
 import styles from './style.module.css';
@@ -30,11 +30,6 @@ export interface Props extends BaseProps, ParentProps {
 	 * @reactive
 	 */
 	footer?: JSX.Element;
-
-	/**
-	 * 是否是可拖拽移动的
-	 */
-	movable?: boolean;
 
 	/**
 	 * 内容是否可滚动
@@ -71,10 +66,6 @@ function buildRef(ref: HTMLDialogElement): Ref {
  * 采用的是 html 标准中的 dialog 标签。
  */
 export function Root(props: Props): JSX.Element {
-	if (props.movable && !props.header) {
-		throw new PropsError('header', 'header must be provided when movable is true');
-	}
-
 	let ref!: Ref;
 
 	return (

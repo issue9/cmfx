@@ -24,12 +24,9 @@ export default function (props: MountProps): JSX.Element {
 			</Button.Root>
 			<Dialog.Root
 				palette={palette()}
-				movable
 				scrollable
-				ref={el => {
-					dlg = el;
-				}}
-				header="header"
+				ref={el => dlg = el}
+				header={<Dialog.Toolbar movable close min max>header</Dialog.Toolbar>}
 				footer="footer"
 				class="h-80 w-80"
 			>

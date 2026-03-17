@@ -90,7 +90,10 @@ export function Root(props: Props): JSX.Element {
 				</div>
 			</div>
 
-			<Dialog.Root header={l.t('_c.color.pickColor')} movable ref={el => (dlgRef = el)}>
+			<Dialog.Root
+				ref={el => (dlgRef = el)}
+				header={<Dialog.Toolbar close>{l.t('_c.color.pickColor')}</Dialog.Toolbar>}
+			>
 				<ColorPanel.Root {...panelProps} onChange={v => props.accessor.setValue(v)} value={props.accessor.getValue()} />
 			</Dialog.Root>
 

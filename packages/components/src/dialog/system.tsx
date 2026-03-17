@@ -4,16 +4,14 @@
 
 import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
-import IconClose from '~icons/material-symbols/close';
 
 import type { BaseProps, MountProps } from '@components/base';
-import { Button } from '@components/button';
-import { useLocale, useOptions } from '@components/context';
+import { useLocale } from '@components/context';
 import { fieldAccessor, TextField } from '@components/form';
 import { AcceptButton, Actions } from './buttons';
 import type { Ref } from './context';
 import { Root } from './root';
-import styles from './style.module.css';
+import { Toolbar } from './toolbar';
 
 export type Props = BaseProps & ParentProps & MountProps;
 
@@ -38,7 +36,6 @@ export default function SystemDialog(props: Props): JSX.Element {
 let alertInst: typeof xalert;
 
 function Alert(props: BaseProps): JSX.Element {
-	const [, org] = useOptions();
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
 	const l = useLocale();
@@ -54,17 +51,11 @@ function Alert(props: BaseProps): JSX.Element {
 
 	return (
 		<Root
-			movable
 			palette={props.palette}
 			header={
-				<header class={styles.header}>
-					{org.title}
-					<div class={styles.control}>
-						<Button.Root palette="error" square onclick={() => dlg.root().close('close')}>
-							<IconClose />
-						</Button.Root>
-					</div>
-				</header>
+				<Toolbar movable close>
+					{l.t('_c.color.pickColor')}
+				</Toolbar>
 			}
 			ref={el => (dlg = el)}
 			class="min-w-60"
@@ -90,9 +81,9 @@ export async function xalert(msg: string): Promise<void> {
 let confirmInst: typeof xconfirm;
 
 function Confirm(props: BaseProps): JSX.Element {
-	const [, org] = useOptions();
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
+	const l = useLocale();
 
 	confirmInst = (msg?: string): Promise<boolean> => {
 		setMsg(msg);
@@ -107,17 +98,11 @@ function Confirm(props: BaseProps): JSX.Element {
 
 	return (
 		<Root
-			movable
 			palette={props.palette}
 			header={
-				<header class={styles.header}>
-					{org.title}
-					<div class={styles.control}>
-						<Button.Root palette="error" square onclick={() => dlg.root().close('close')}>
-							<IconClose />
-						</Button.Root>
-					</div>
-				</header>
+				<Toolbar movable close>
+					{l.t('_c.color.pickColor')}
+				</Toolbar>
 			}
 			class="min-w-60"
 			ref={el => (dlg = el)}
@@ -143,10 +128,10 @@ export async function xconfirm(msg?: string): Promise<boolean> {
 let promptInst: typeof xprompt;
 
 function Prompt(props: BaseProps): JSX.Element {
-	const [, org] = useOptions();
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
 	const access = fieldAccessor('prompt', '');
+	const l = useLocale();
 
 	promptInst = (msg?: string, val?: string): Promise<string | null> => {
 		setMsg(msg);
@@ -163,17 +148,11 @@ function Prompt(props: BaseProps): JSX.Element {
 
 	return (
 		<Root
-			movable
 			palette={props.palette}
 			header={
-				<header class={styles.header}>
-					{org.title}
-					<div class={styles.control}>
-						<Button.Root palette="error" square onclick={() => dlg.root().close('close')}>
-							<IconClose />
-						</Button.Root>
-					</div>
-				</header>
+				<Toolbar movable close>
+					{l.t('_c.color.pickColor')}
+				</Toolbar>
 			}
 			ref={el => (dlg = el)}
 			class="min-w-60"
