@@ -2,5 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as RootProps, Ref as RootRef } from './root';
+export type { Ref as RootRef } from './clipboard';
+export type { Props as RootProps } from './root';
 export { Root } from './root';

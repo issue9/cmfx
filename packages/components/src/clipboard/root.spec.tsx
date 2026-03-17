@@ -5,13 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { type Ref, Root } from './root';
+import type { Ref } from './clipboard';
+import { Root } from './root';
 
-describe('CopyIcon', async () => {
+describe('Clipboard', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('CopyIcon', props => (
-		<Root getText={async () => 'abc'} ref={el => (ref = el)} {...props} />
-	));
+	const ct = await ComponentTester.build('Clipboard', props => <Root ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

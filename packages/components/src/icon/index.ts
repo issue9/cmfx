@@ -2,5 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * from './copy';
 export * from './iconset';

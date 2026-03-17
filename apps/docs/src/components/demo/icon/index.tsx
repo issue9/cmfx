@@ -9,8 +9,6 @@ import { default as IconSet } from './iconset';
 import { default as iconSet } from './iconset.tsx?raw';
 import { default as Text } from './text';
 import { default as text } from './text.tsx?raw';
-import { default as Copy } from './copy';
-import { default as copy } from './copy.tsx?raw';
 
 export default function (): Info {
 	return {
@@ -22,7 +20,6 @@ export default function (): Info {
 		stages: [
 			{ component: Text, source: text, title: '与文本的排版' },
 			{ component: IconSet, source: iconSet, title: '图标集' },
-			{ component: Copy, source: copy, title: 'copy' },
 		],
 	};
 }

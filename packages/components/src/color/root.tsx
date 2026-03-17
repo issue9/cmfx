@@ -8,9 +8,9 @@ import IconPicker from '~icons/circum/picker-half';
 
 import { type BaseProps, joinClass, PropsError, type RefProps, wcag } from '@components/base';
 import { Button } from '@components/button';
+import { Clipboard } from '@components/clipboard';
 import { useLocale } from '@components/context';
 import { Choice, fieldAccessor } from '@components/form';
-import { CopyIcon } from '@components/icon';
 import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 
@@ -111,6 +111,7 @@ export function Root(props: Props): JSX.Element {
 	const [apca, setApca] = createSignal(false);
 	let contentRef: HTMLDivElement;
 
+	let clipboardRef: Clipboard.RootRef;
 	return (
 		<div
 			class={joinClass(props.palette, styles['color-panel'], props.class)}
@@ -147,6 +148,7 @@ export function Root(props: Props): JSX.Element {
 
 				<div class={styles.middle}>
 					<div
+						onclick={() => clipboardRef.writeText(signal[0]())}
 						class={styles.value}
 						ref={el => (contentRef = el)}
 						style={{
@@ -154,7 +156,7 @@ export function Root(props: Props): JSX.Element {
 							color: props.wcag ?? 'var(--palette-fg)',
 						}}
 					>
-						<CopyIcon.Root class="mr-2 self-center" getText={async () => signal[0]()} />
+						<Clipboard.Root class="mr-2 self-center" ref={el => (clipboardRef = el)} />
 						{signal[0]()}
 					</div>
 					<Show when={props.wcag}>

@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as CopyIcon from './mod';
+export * as Clipboard from './mod';

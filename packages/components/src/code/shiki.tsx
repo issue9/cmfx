@@ -15,7 +15,7 @@ import { render } from 'solid-js/web';
 
 import { type BaseProps, joinClass, style2String } from '@components/base';
 import { Button } from '@components/button';
-import { CopyIcon } from '@components/icon';
+import { Clipboard } from '@components/clipboard';
 import styles from './style.module.css';
 import { shikiTheme } from './theme';
 
@@ -151,7 +151,7 @@ function buildOptions(
 }
 
 /**
- * 为所有的 shiki 代码块添加复制按钮
+ * 为 elem 及其子元素中的所有 shiki 代码块添加复制按钮
  */
 export function withCopyButton(elem: HTMLElement) {
 	if (elem.matches('[data-code]')) {
@@ -166,16 +166,16 @@ export function withCopyButton(elem: HTMLElement) {
 }
 
 function mountCopyButton(el: HTMLElement) {
-	let icons: CopyIcon.RootRef;
+	let clipboardRef: Clipboard.RootRef;
 	render(
 		() => (
 			<Button.Root
 				class={styles.action}
 				square
 				kind="flat"
-				onclick={() => icons?.root().root().dispatchEvent(new Event('click'))}
+				onclick={() => clipboardRef.writeText(el.dataset.code ?? '')}
 			>
-				<CopyIcon.Root ref={el => (icons = el)} getText={async () => el.dataset.code ?? ''} />
+				<Clipboard.Root ref={el => (clipboardRef = el)} />
 			</Button.Root>
 		),
 		el,
