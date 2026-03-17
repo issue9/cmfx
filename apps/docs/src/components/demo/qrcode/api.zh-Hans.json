@@ -116,19 +116,19 @@
 	{
 		"name": "QRCode.CornerDotType",
 		"kind": "literal",
-		"type": "import(\"C:/Users/xnote/dev/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").CornerDotType",
+		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").CornerDotType",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"name": "QRCode.CornerSquareType",
 		"kind": "literal",
-		"type": "import(\"C:/Users/xnote/dev/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").CornerSquareType",
+		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").CornerSquareType",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"name": "QRCode.DotType",
 		"kind": "literal",
-		"type": "import(\"C:/Users/xnote/dev/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").DotType",
+		"type": "import(\"/Users/caixw/dev.localized/issue9/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index\").DotType",
 		"pkg": "@cmfx/components"
 	}
 ]

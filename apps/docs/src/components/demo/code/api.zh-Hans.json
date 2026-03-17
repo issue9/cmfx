@@ -90,37 +90,13 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"kind": "class",
-		"name": "Highlighter",
-		"summary": "提供特定语言的代码高亮功能\n\n",
-		"remarks": "与\n`highlight`\n的区别在于：\n- Highlighter 提供的高亮方法是同步的，而\n`highlight`\n是异步的；\n- Highlighter 在不使用时需要手动清除对象；\n用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
+		"kind": "interface",
+		"name": "Code.Highlighter",
 		"methods": [
-			{
-				"name": "build",
-				"summary": "构造可以高亮指定语言的对象\n\n",
-				"type": "static build(langs: Array<BundledLanguage>, themes?: (ThemeInput | StringLiteralUnion<BundledTheme> | SpecialTheme)[]): Promise<Highlighter>",
-				"params": [
-					{
-						"name": "langs",
-						"summary": "语言 ID 列表；\n\n",
-						"type": "BundledLanguage[]"
-					},
-					{
-						"name": "themes",
-						"summary": "主题列表，可以为空，表示使用默认主题；\n\n",
-						"type": "(ThemeInput | StringLiteralUnion<BundledTheme> | \"none\")[] | undefined"
-					}
-				],
-				"return": {
-					"summary": "返回\n`Highlighter`\n对象；\n\n",
-					"type": "Promise<Highlighter>"
-				},
-				"static": true
-			},
 			{
 				"name": "html",
 				"summary": "高亮代码\n\n",
-				"type": "html(code: string, lang: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean, theme?: BundledTheme): string",
+				"type": "html(code: string, lang: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], theme?: BundledTheme): string",
 				"params": [
 					{
 						"name": "code",
@@ -153,11 +129,6 @@
 						"type": "string | JSX.CSSProperties | undefined"
 					},
 					{
-						"name": "simple",
-						"summary": "简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；\n\n",
-						"type": "boolean | undefined"
-					},
-					{
 						"name": "theme",
 						"summary": "主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；\n\n",
 						"type": "BundledTheme | undefined"
@@ -166,8 +137,7 @@
 				"return": {
 					"summary": "高亮处理之后的 html 代码；\n\n",
 					"type": "string"
-				},
-				"static": false
+				}
 			},
 			{
 				"name": "dispose",
@@ -175,18 +145,41 @@
 				"type": "dispose(): void",
 				"return": {
 					"type": "void"
-				},
-				"static": false
+				}
 			}
 		],
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "function",
-		"name": "highlight",
+		"name": "Code.buildHighlighter",
+		"summary": "构造可以高亮指定语言的对象\n\n",
+		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
+		"type": "declare function buildHighlighter(langs: Array<BundledLanguage>, themes?: (ThemeInput | StringLiteralUnion<BundledTheme> | SpecialTheme)[]): Promise<Highlighter>",
+		"params": [
+			{
+				"name": "langs",
+				"summary": "语言 ID 列表；\n\n",
+				"type": "BundledLanguage[]"
+			},
+			{
+				"name": "themes",
+				"summary": "主题列表，可以为空，表示使用默认主题；\n\n",
+				"type": "(ThemeInput | StringLiteralUnion<BundledTheme> | \"none\")[] | undefined"
+			}
+		],
+		"return": {
+			"summary": "返回\n`Highlighter`\n对象；\n\n",
+			"type": "Promise<Highlighter>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Code.highlight",
 		"summary": "高亮代码\n\n",
 		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
-		"type": "function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean, theme?: BundledTheme): Promise<string>",
+		"type": "declare function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], theme?: BundledTheme): Promise<string>",
 		"params": [
 			{
 				"name": "code",
@@ -217,11 +210,6 @@
 				"name": "style",
 				"summary": "传递给 pre 标签的 CSS 样式；\n\n",
 				"type": "string | JSX.CSSProperties | undefined"
-			},
-			{
-				"name": "simple",
-				"summary": "简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；\n\n",
-				"type": "boolean | undefined"
 			},
 			{
 				"name": "theme",

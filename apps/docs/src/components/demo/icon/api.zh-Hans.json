@@ -102,5 +102,77 @@
 			}
 		],
 		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "CopyIcon.RootProps",
+		"properties": [
+			{
+				"name": "getText",
+				"summary": "获取需要复制的文本\n\n",
+				"type": "string | (() => string) | (() => Promise<string>)"
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "easing",
+				"summary": "缓动函数\n\n",
+				"remarks": "如果需要自定义缓动函数，可以通过使用\n`registerEasing`\n方法进行注册。\n\n",
+				"type": "\"circ-in\" | \"circ-out\" | \"circ-in-out\" | \"cubic-in\" | \"cubic-out\" | \"cubic-in-out\" | \"elastic-in\" | \"elastic-out\" | \"elastic-in-out\" | \"expo-in\" | \"expo-out\" | \"expo-in-out\" | \"linear\" | \"quad-in\" | \"quad-out\" | \"quad-in-out\" | \"quart-in\" | \"quart-out\" | \"quart-in-out\" | \"quint-in\" | \"quint-out\" | \"quint-in-out\" | \"sine-in\" | \"sine-out\" | \"sine-in-out\" | undefined"
+			},
+			{
+				"name": "rotation",
+				"summary": "旋转方式\n\n",
+				"type": "\"none\" | \"clock\" | \"counterclock\" | \"random\" | undefined"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "CopyIcon.RootRef",
+		"methods": [
+			{
+				"name": "copy",
+				"summary": "复制内容\n\n",
+				"type": "copy(): Promise<void>",
+				"return": {
+					"type": "Promise<void>"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "根元素\n\n",
+				"type": "root(): IconSet.RootRef",
+				"return": {
+					"type": "Ref_55"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
 	}
 ]

@@ -15,6 +15,12 @@
 				"remarks": "如果不为空，则显示该单位的数值，如果为空，则显示为可表示的最大单位。\n\n",
 				"type": "\"byte\" | \"kilobyte\" | \"megabyte\" | \"gigabyte\" | \"terabyte\" | \"petabyte\" | undefined",
 				"reactive": true
+			},
+			{
+				"name": "per",
+				"summary": "与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等\n\n",
+				"type": "string | undefined",
+				"reactive": true
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -23,7 +29,7 @@
 		"kind": "function",
 		"name": "Formatter.createBytes",
 		"summary": "创建用于格式化字节大小的函数\n\n",
-		"type": "declare function createBytes(l: Locale, unit?: Unit_2): (byte: number) => string",
+		"type": "declare function createBytes(l: Locale, unit?: Unit_2, per?: string): (byte: number) => string",
 		"params": [
 			{
 				"name": "l",
@@ -34,6 +40,11 @@
 				"name": "unit",
 				"summary": "单位；\n\n",
 				"type": "\"byte\" | \"kilobyte\" | \"megabyte\" | \"gigabyte\" | \"terabyte\" | \"petabyte\" | undefined"
+			},
+			{
+				"name": "per",
+				"summary": "与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等；\n\n",
+				"type": "string | undefined"
 			}
 		],
 		"return": {
@@ -60,7 +71,7 @@
 		"properties": [
 			{
 				"name": "value",
-				"summary": "需要转换的数值\n\n",
+				"summary": "需要转换的比特数值\n\n",
 				"type": "number",
 				"reactive": true
 			},
@@ -70,6 +81,12 @@
 				"remarks": "如果不为空，则显示该单位的数值，如果为空，则显示为可表示的最大单位。\n\n",
 				"type": "\"bit\" | \"kilobit\" | \"megabit\" | \"gigabit\" | \"terabit\" | undefined",
 				"reactive": true
+			},
+			{
+				"name": "per",
+				"summary": "与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等\n\n",
+				"type": "string | undefined",
+				"reactive": true
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -78,7 +95,7 @@
 		"kind": "function",
 		"name": "Formatter.createBits",
 		"summary": "创建用于格式化位大小的函数\n\n",
-		"type": "declare function createBits(l: Locale, unit?: Unit): (bit: number) => string",
+		"type": "declare function createBits(l: Locale, unit?: Unit, per?: string): (bit: number) => string",
 		"params": [
 			{
 				"name": "l",
@@ -89,6 +106,11 @@
 				"name": "unit",
 				"summary": "单位；\n\n",
 				"type": "\"bit\" | \"kilobit\" | \"megabit\" | \"gigabit\" | \"terabit\" | undefined"
+			},
+			{
+				"name": "per",
+				"summary": "与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等；\n\n",
+				"type": "string | undefined"
 			}
 		],
 		"return": {

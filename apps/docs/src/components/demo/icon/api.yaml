@@ -8,3 +8,6 @@
         types:
             - IconSet.RootProps
             - IconSet.RootRef
+
+            - CopyIcon.RootProps
+            - CopyIcon.RootRef

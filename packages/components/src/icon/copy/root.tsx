@@ -29,16 +29,19 @@ export interface Props extends Omit<IconSet.RootProps, 'onclick' | 'ref' | 'valu
 	/**
 	 * 获取需要复制的文本
 	 */
-	getText: () => Promise<string>;
+	getText: string | (() => string) | (() => Promise<string>);
 }
 
+/**
+ * 提供了一个反映复制状态的图标
+ */
 export function Root(props: Props) {
 	let iconsetRef!: IconSet.RootRef;
 
 	const [opt] = useOptions();
 
 	const copy = async (): Promise<void> => {
-		await write2Clipboard(await props.getText(), ok => {
+		await write2Clipboard(props.getText, ok => {
 			iconsetRef.to(ok ? 'ok' : 'error');
 		});
 

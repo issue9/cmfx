@@ -98,18 +98,16 @@ export default function Stage(props: Props): JSX.Element {
 								<Button.Root
 									square
 									checked={dir() === 'rtl'}
-									onclick={() => {
-										setDir('rtl');
-									}}
+									onclick={() => setDir('rtl')
+									}
 								>
 									<IconRTL />
 								</Button.Root>
 								<Button.Root
 									square
 									checked={dir() === 'ltr'}
-									onclick={() => {
-										setDir('ltr');
-									}}
+									onclick={() => setDir('ltr')
+									}
 								>
 									<IconLTR />
 								</Button.Root>
@@ -119,18 +117,14 @@ export default function Stage(props: Props): JSX.Element {
 								<Button.Root
 									square
 									checked={mode() === 'dark'}
-									onclick={() => {
-										setMode('dark');
-									}}
+									onclick={() => setMode('dark')}
 								>
 									<IconDark />
 								</Button.Root>
 								<Button.Root
 									square
 									checked={mode() === 'light'}
-									onclick={() => {
-										setMode('light');
-									}}
+									onclick={() => setMode('light')}
 								>
 									<IconLight />
 								</Button.Root>

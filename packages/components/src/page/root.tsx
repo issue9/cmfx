@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, type JSX, Match, onMount, type ParentProps, Switch } from 'solid-js';
+import { createEffect, type JSX, Match, type ParentProps, Switch } from 'solid-js';
 
 import { BackTop } from '@components/backtop';
 import { type BaseProps, joinClass, type RefProps } from '@components/base';
@@ -50,36 +50,25 @@ export function Root(props: Props): JSX.Element {
 	const [act] = useOptions();
 	const l = useLocale();
 
-	let ref: HTMLDivElement;
-	let backTopRef: BackTop.RootRef;
+	let rootRef: HTMLDivElement;
 
 	createEffect(() => {
 		act.setTitle(l.t(props.title));
 	});
 
-	onMount(() => {
-		if (props.ref) {
-			props.ref({
-				root: () => ref,
-				backTop: () => backTopRef,
-			});
-		}
-	});
-
 	return (
-		<div
-			ref={el => {
-				ref = el;
-			}}
-			class={joinClass(props.palette, styles.page, props.class)}
-			style={props.style}
-		>
+		<div ref={el => (rootRef = el)} class={joinClass(props.palette, styles.page, props.class)} style={props.style}>
 			{props.children}
 			<Switch>
 				<Match when={props.backTop === undefined}>
 					<BackTop.Root
 						ref={el => {
-							backTopRef = el;
+							if (props.ref) {
+								props.ref({
+									root: () => rootRef,
+									backTop: () => el,
+								});
+							}
 						}}
 					/>
 				</Match>
@@ -88,7 +77,12 @@ export function Root(props: Props): JSX.Element {
 						<BackTop.Root
 							{...p}
 							ref={el => {
-								backTopRef = el;
+								if (props.ref) {
+									props.ref({
+										root: () => rootRef,
+										backTop: () => el,
+									});
+								}
 							}}
 						/>
 					)}

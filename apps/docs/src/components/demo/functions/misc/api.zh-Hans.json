@@ -39,28 +39,6 @@
 	},
 	{
 		"kind": "function",
-		"name": "copy2Clipboard",
-		"summary": "复制内容到剪切版，并在 target 显示复制状态。\n\n",
-		"type": "function copy2Clipboard(target: HTMLElement, text: string): Promise<void>",
-		"params": [
-			{
-				"name": "target",
-				"summary": "显示复制状态的对象，状态会显示在该对象之上，要求 target.parentElement 不能为空；\n\n",
-				"type": "HTMLElement"
-			},
-			{
-				"name": "text",
-				"summary": "复制的内容；\n\n",
-				"type": "string"
-			}
-		],
-		"return": {
-			"type": "Promise<void>"
-		},
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "function",
 		"name": "create",
 		"summary": "创建项目\n\n",
 		"type": "function create(elementID: string, o: Options, router?: typeof Router): Promise<void>",

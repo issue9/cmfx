@@ -14,14 +14,17 @@ export type AfterWrite2Clipboard = (ok?: boolean, text?: string) => void;
  * @param text - 写入的文本，可以是字符串或是一个返回字符串的方法；
  * @param after - 写入完成之后执行的操作；
  */
-export async function write2Clipboard(text: string | (() => string), after?: AfterWrite2Clipboard): Promise<void> {
+export async function write2Clipboard(
+	text: string | (() => string) | (() => Promise<string>),
+	after?: AfterWrite2Clipboard,
+): Promise<void> {
 	let t: string;
 	switch (typeof text) {
 		case 'string':
 			t = text;
 			break;
 		case 'function':
-			t = text();
+			t = await text();
 			break;
 		default:
 			throw '参数 text 的类型无效';

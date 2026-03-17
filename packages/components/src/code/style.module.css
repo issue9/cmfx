@@ -16,24 +16,8 @@
 			@apply block overflow-auto w-full h-full;
 		}
 
-		> .lang,
 		> .action {
-			@apply absolute top-0 py-1! px-2! start-auto inset-e-0 text-sm;
-			@apply transition;
-		}
-
-		> .action {
-			@apply opacity-0 hover:text-palette-fg-focused active:text-palette-fg-actived;
-		}
-	}
-
-	.shiki:hover {
-		> .lang {
-			@apply opacity-0;
-		}
-
-		> .action {
-			@apply block cursor-pointer opacity-100;
+			@apply absolute top-0 inset-e-0 p-1!;
 		}
 	}
 

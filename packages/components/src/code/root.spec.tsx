@@ -10,12 +10,7 @@ import { type Ref, Root } from './root';
 describe('Code', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('Code', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			{...props}
-		>
+		<Root ref={el => (ref = el)} {...props}>
 			abc
 		</Root>
 	));

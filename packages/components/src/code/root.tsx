@@ -7,7 +7,7 @@ import { createEffect, createSignal, type JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import { type BaseProps, joinClass, type RefProps } from '@components/base';
-import { highlight } from './shiki';
+import { highlight, withCopyButton } from './shiki';
 
 export interface Ref {
 	root(): HTMLElement;
@@ -24,15 +24,17 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 是否可编辑
 	 *
-	 * @remarks 编辑内容并不会重新渲染内容，一些高亮内容可能不再准确。
 	 * @reactive
+	 * @remarks
+	 * 编辑内容并不会重新渲染内容，一些高亮内容可能不再准确。
 	 */
 	editable?: boolean;
 
 	/**
 	 * 修改内容触发的事件
 	 *
-	 * @remarks 仅在 {@link Props#editable} 为 true 时生效。
+	 * @remarks
+	 * 仅在 {@link Props#editable} 为 true 时生效。
 	 */
 	oninput?: (value: string) => void;
 
@@ -77,7 +79,7 @@ export function Root(props: Props): JSX.Element {
 
 	createEffect(async () => {
 		const cls = joinClass(props.palette, props.class);
-		const pre = await highlight(props.children, props.lang, props.ln, props.wrap, cls, props.style, false, props.theme);
+		const pre = await highlight(props.children, props.lang, props.ln, props.wrap, cls, props.style, props.theme);
 		setHTML(template(pre)() as HTMLElement);
 
 		if (props.ref) {
@@ -103,6 +105,8 @@ export function Root(props: Props): JSX.Element {
 				props.oninput(txt);
 			}
 		});
+
+		withCopyButton(el);
 	});
 
 	return <>{html()}</>;

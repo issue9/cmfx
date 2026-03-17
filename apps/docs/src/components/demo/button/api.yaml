@@ -16,9 +16,6 @@
             - SplitButton.RootProps
             - SplitButton.RootRef
 
-            - CopyButton.RootProps
-            - CopyButton.RootRef
-
             - ButtonGroup.RootProps
             - ButtonGroup.RootRef
 

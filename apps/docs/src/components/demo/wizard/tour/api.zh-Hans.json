@@ -39,7 +39,7 @@
 			},
 			{
 				"name": "ref",
-				"type": "(el: Ref_78) => void"
+				"type": "(el: Ref_79) => void"
 			},
 			{
 				"name": "palette",

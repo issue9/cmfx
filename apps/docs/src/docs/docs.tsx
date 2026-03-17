@@ -10,13 +10,14 @@ import {
 	Page,
 	useLocale,
 	useOptions,
+	Code,
 } from '@cmfx/components';
 import { ArrayElement, Locale } from '@cmfx/core';
-import { Source } from '@cmfx/vite-plugin-api';
-import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import { createEffect, createSignal, JSX, onCleanup, onMount, ParentProps, Setter } from 'solid-js';
+import type { Source } from '@cmfx/vite-plugin-api';
+import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
+import { createEffect, createSignal, type JSX, onCleanup, onMount, ParentProps, Setter } from 'solid-js';
 
-import { floatingWidth, MarkdownFileObject, markdown } from '@docs/utils';
+import { floatingWidth, type MarkdownFileObject, markdown } from '@docs/utils';
 import { default as advanceAPI } from './advance/api.zh-Hans.json' with { type: 'json' };
 import styles from './style.module.css';
 import { default as usageAPI } from './usage/api.zh-Hans.json' with { type: 'json' };
@@ -237,21 +238,23 @@ function Markdown(props: MarkdownProps): JSX.Element {
 		});
 	}
 
+	let page: Page.RootRef;
+
+	onMount(() => {
+		Code.withCopyButton(page.root());
+	});
+
 	return (
-		<Page.Root title={title} class={styles.docs}>
+		<Page.Root ref={el=>page=el} title={title} class={styles.docs}>
 			<article
-				ref={el => {
-					articleRef = el;
-				}}
+				ref={el => articleRef = el}
 				class={styles.doc}
 				innerHTML={html()}
 			/>
 			<Nav.Root
 				minHeaderCount={5}
 				class={styles.nav}
-				ref={el => {
-					navRef = el;
-				}}
+				ref={el =>navRef = el}
 				target={articleRef}
 				query="h2,h3,h4,h5,h6"
 			/>
@@ -280,17 +283,13 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 				<Drawer.Root
 					initValue
 					floating={floatingWidth}
-					ref={el => {
-						ref = el;
-					}}
+					ref={el => ref = el }
 					palette="secondary"
 					mainClass={joinClass('surface')}
 					main={props.children}
 				>
 					<Menu.Root
-						ref={el => {
-							menuRef = el;
-						}}
+						ref={el => menuRef = el }
 						class="min-w-60"
 						layout="inline"
 						items={buildMenus(l, prefix)}

@@ -8,5 +8,6 @@
         types:
             - Code.RootProps
             - Code.RootRef
-            - Highlighter
-            - highlight
+            - Code.Highlighter
+            - Code.buildHighlighter
+            - Code.highlight
