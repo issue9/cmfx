@@ -88,7 +88,7 @@ export function Root(props: Props): JSX.Element {
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef)}
-				class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : undefined)}
+				class={joinClass(undefined, styles.container, props.rounded ? styles.rounded : undefined)}
 			>
 				<input
 					id={id}

@@ -2,7 +2,7 @@
 
 import { type JSX } from 'solid-js';
 
-import { type Props, buildClass, mergeText } from './props';
+import { type Props, buildClass, mergeText } from '../common/props';
 
 const presetText = 'Bad Request';
 

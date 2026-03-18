@@ -7,14 +7,14 @@ settings:
 catalogs:
   default:
     '@formatjs/intl-durationformat':
-      specifier: ^0.10.1
-      version: 0.10.1
+      specifier: ^0.10.2
+      version: 0.10.2
     '@iconify/json':
-      specifier: ^2.2.450
-      version: 2.2.450
+      specifier: ^2.2.451
+      version: 2.2.451
     '@solidjs/router':
-      specifier: ^0.15.4
-      version: 0.15.4
+      specifier: ^0.16.1
+      version: 0.16.1
     '@solidjs/testing-library':
       specifier: ^0.8.10
       version: 0.8.10
@@ -46,8 +46,8 @@ catalogs:
       specifier: ^6.0.0
       version: 6.0.0
     intl-messageformat:
-      specifier: ^11.1.2
-      version: 11.1.2
+      specifier: ^11.1.3
+      version: 11.1.3
     shiki:
       specifier: ^4.0.2
       version: 4.0.2
@@ -97,10 +97,10 @@ importers:
         version: 2.4.7
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.450
+        version: 2.2.451
       '@solidjs/testing-library':
         specifier: 'catalog:'
-        version: 0.8.10(@solidjs/router@0.15.4(solid-js@1.9.11))(solid-js@1.9.11)
+        version: 0.8.10(@solidjs/router@0.16.1(solid-js@1.9.11))(solid-js@1.9.11)
       '@testing-library/jest-dom':
         specifier: 'catalog:'
         version: 6.9.1
@@ -142,10 +142,10 @@ importers:
         version: link:../../packages/illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.450
+        version: 2.2.451
       '@solidjs/router':
         specifier: 'catalog:'
-        version: 0.15.4(solid-js@1.9.11)
+        version: 0.16.1(solid-js@1.9.11)
       echarts:
         specifier: 'catalog:'
         version: 6.0.0
@@ -206,10 +206,10 @@ importers:
         version: link:../../build/vite-plugin-api
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.450
+        version: 2.2.451
       '@solidjs/router':
         specifier: 'catalog:'
-        version: 0.15.4(solid-js@1.9.11)
+        version: 0.16.1(solid-js@1.9.11)
       colorjs.io:
         specifier: 'catalog:'
         version: 0.6.1
@@ -329,13 +329,13 @@ importers:
         version: link:../illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.450
+        version: 2.2.451
       '@scure/base':
         specifier: ^2.0.0
         version: 2.0.0
       '@solidjs/router':
         specifier: 'catalog:'
-        version: 0.15.4(solid-js@1.9.11)
+        version: 0.16.1(solid-js@1.9.11)
       bowser:
         specifier: 'catalog:'
         version: 2.14.1
@@ -387,16 +387,16 @@ importers:
         version: link:../core
       '@formatjs/intl-durationformat':
         specifier: 'catalog:'
-        version: 0.10.1
+        version: 0.10.2
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.450
+        version: 2.2.451
       '@iconsets/svg-morpheus-ts':
         specifier: ^1.4.12
         version: 1.4.12
       '@solidjs/router':
         specifier: 'catalog:'
-        version: 0.15.4(solid-js@1.9.11)
+        version: 0.16.1(solid-js@1.9.11)
       colorjs.io:
         specifier: 'catalog:'
         version: 0.6.1
@@ -463,7 +463,7 @@ importers:
     dependencies:
       '@formatjs/intl-durationformat':
         specifier: 'catalog:'
-        version: 0.10.1
+        version: 0.10.2
       bowser:
         specifier: 'catalog:'
         version: 2.14.1
@@ -472,7 +472,7 @@ importers:
         version: 2.3.0
       intl-messageformat:
         specifier: 'catalog:'
-        version: 11.1.2
+        version: 11.1.3
       printd:
         specifier: ^1.6.0
         version: 1.6.0
@@ -624,14 +624,19 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.29.2':
+    resolution: {integrity: sha512-4GgRzy/+fsBa72/RZVJmGKPmZu9Byn8o4MoLpmNe1m8ZfYnz5emHLQz3U4gLud6Zwl0RZIcgiLD7Uq7ySFuDLA==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/plugin-syntax-jsx@7.28.6':
     resolution: {integrity: sha512-wgEmr06G6sIpqr8YDwA2dSRTE3bJ+V0IfpzfSY3Lfgd7YWOaAdlykvJi13ZKBt8cZHfgH1IXN+CL656W3uUa4w==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime@7.28.6':
-    resolution: {integrity: sha512-05WQkdpL9COIMz4LjTxGpPNCdlpyimKppYNoJ5Di5EUObifl8t4tuLuUBBZEpoLYOmfvIWrsp9fCl0HoPRVTdA==}
+  '@babel/runtime@7.29.2':
+    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.28.6':
@@ -921,26 +926,26 @@ packages:
       '@noble/hashes':
         optional: true
 
-  '@formatjs/ecma402-abstract@3.1.1':
-    resolution: {integrity: sha512-jhZbTwda+2tcNrs4kKvxrPLPjx8QsBCLCUgrrJ/S+G9YrGHWLhAyFMMBHJBnBoOwuLHd7L14FgYudviKaxkO2Q==}
+  '@formatjs/ecma402-abstract@3.1.2':
+    resolution: {integrity: sha512-ApPcse35dtr+snmBbDtnBkc9bvAZCxr9DDzgUR3nXiHZgpwU+85g1Mz0KRqjh7kIgJ6rgIQLQVqYx56rf58XZg==}
 
-  '@formatjs/fast-memoize@3.1.0':
-    resolution: {integrity: sha512-b5mvSWCI+XVKiz5WhnBCY3RJ4ZwfjAidU0yVlKa3d3MSgKmH1hC3tBGEAtYyN5mqL7N0G5x0BOUYyO8CEupWgg==}
+  '@formatjs/fast-memoize@3.1.1':
+    resolution: {integrity: sha512-CbNbf+tlJn1baRnPkNePnBqTLxGliG6DDgNa/UtV66abwIjwsliPMOt0172tzxABYzSuxZBZfcp//qI8AvBWPg==}
 
-  '@formatjs/icu-messageformat-parser@3.5.1':
-    resolution: {integrity: sha512-sSDmSvmmoVQ92XqWb499KrIhv/vLisJU8ITFrx7T7NZHUmMY7EL9xgRowAosaljhqnj/5iufG24QrdzB6X3ItA==}
+  '@formatjs/icu-messageformat-parser@3.5.2':
+    resolution: {integrity: sha512-Ok2CTY90hkKTeTrGAgGPfF/V0gMBmo4qBsg83CFcP3uRETDiyAjKDGgN5aZbUTMiLt6o6hS8JQmyDwQspkXm9A==}
 
-  '@formatjs/icu-skeleton-parser@2.1.1':
-    resolution: {integrity: sha512-PSFABlcNefjI6yyk8f7nyX1DC7NHmq6WaCHZLySEXBrXuLOB2f935YsnzuPjlz+ibhb9yWTdPeVX1OVcj24w2Q==}
+  '@formatjs/icu-skeleton-parser@2.1.2':
+    resolution: {integrity: sha512-8YuKCC+YhNTRwoL4OIT0flW6bNgH2TOtyM9e17vpHHgL815vlviPs9WZIKFuugyKOucAsQUKEIC1qKltj2z17Q==}
 
-  '@formatjs/intl-durationformat@0.10.1':
-    resolution: {integrity: sha512-Rgc/ftDN8d8reSuhUFZ4t20t0KUidQCI1bKYZuZ4Uqt1xzBDVsogQuzDJujRf9YP3HXtvsV3xffGFHNNsklp8w==}
+  '@formatjs/intl-durationformat@0.10.2':
+    resolution: {integrity: sha512-V0SPTsS1uywC2vUg/A144LilUVXPmlbTJb1kc1sCR6VnihMO6odPvD21DtQQnjLbsWVPWEce2UkUKe3gte1Cpw==}
 
-  '@formatjs/intl-localematcher@0.8.1':
-    resolution: {integrity: sha512-xwEuwQFdtSq1UKtQnyTZWC+eHdv7Uygoa+H2k/9uzBVQjDyp9r20LNDNKedWXll7FssT3GRHvqsdJGYSUWqYFA==}
+  '@formatjs/intl-localematcher@0.8.2':
+    resolution: {integrity: sha512-q05KMYGJLyqFNFtIb8NhWLF5X3aK/k0wYt7dnRFuy6aLQL+vUwQ1cg5cO4qawEiINybeCPXAWlprY2mSBjSXAQ==}
 
-  '@iconify/json@2.2.450':
-    resolution: {integrity: sha512-dltwhGrVC1guhfqIiFJ+jH21aO1C9RRvIOsAYdmsqKOr3vfMkKnwji4pYpxPEEEg3YQCvVDFpyKCKbfI8Gl/ow==}
+  '@iconify/json@2.2.451':
+    resolution: {integrity: sha512-dDAPVdlpXdjtqYReacSWtwa3Mix0Cg4ezZ5SORLjLqyPSQttaHn03sjndnqgXfeY1zckOuLUgYUMLiZfIoD2oQ==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1299,8 +1304,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
-  '@solidjs/router@0.15.4':
-    resolution: {integrity: sha512-WOpgg9a9T638cR+5FGbFi/IV4l2FpmBs1GpIMSPa0Ce9vyJN7Wts+X2PqMf9IYn0zUj2MlSJtm1gp7/HI/n5TQ==}
+  '@solidjs/router@0.16.1':
+    resolution: {integrity: sha512-IhyjedgC6LRpw/8CPGGI89FrV+r0xTHzOl2c4CRyzYQ1bLepJxbVI1LLKvsavMWY5TRBRacV7hAeOhuTXkjiqg==}
     peerDependencies:
       solid-js: ^1.8.6
 
@@ -1878,8 +1883,8 @@ packages:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
 
-  intl-messageformat@11.1.2:
-    resolution: {integrity: sha512-ucSrQmZGAxfiBHfBRXW/k7UC8MaGFlEj4Ry1tKiDcmgwQm1y3EDl40u+4VNHYomxJQMJi9NEI3riDRlth96jKg==}
+  intl-messageformat@11.1.3:
+    resolution: {integrity: sha512-FgQM0OyG8muoEQp2jc+Xx1tTFtdCuRumIovj8wi5qPOVkJx3/1+SGRIFSK+vfnj3z0C9Q6gQ0oCWKC5Lt1ht5A==}
 
   is-binary-path@2.1.0:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
@@ -2468,11 +2473,15 @@ packages:
     resolution: {integrity: sha512-PSkbLUoxOFRzJYjjxHJt9xro7D+iilgMX/C9lawzVuYiIdcihh9DXmVibBe8lmcFrRi/VzlPjBxbN7rH24q8/Q==}
     engines: {node: '>=14.0.0'}
 
-  tldts-core@7.0.24:
-    resolution: {integrity: sha512-pj7yygNMoMRqG7ML2SDQ0xNIOfN3IBDUcPVM2Sg6hP96oFNN2nqnzHreT3z9xLq85IWJyNTvD38O002DdOrPMw==}
+  tinyrainbow@3.1.0:
+    resolution: {integrity: sha512-Bf+ILmBgretUrdJxzXM0SgXLZ3XfiaUuOj/IKQHuTXip+05Xn+uyEYdVg0kYDipTBcLrCVyUzAPz7QmArb0mmw==}
+    engines: {node: '>=14.0.0'}
 
-  tldts@7.0.24:
-    resolution: {integrity: sha512-1r6vQTTt1rUiJkI5vX7KG8PR342Ru/5Oh13kEQP2SMbRSZpOey9SrBe27IDxkoWulx8ShWu4K6C0BkctP8Z1bQ==}
+  tldts-core@7.0.26:
+    resolution: {integrity: sha512-5WJ2SqFsv4G2Dwi7ZFVRnz6b2H1od39QME1lc2y5Ew3eWiZMAeqOAfWpRP9jHvhUl881406QtZTODvjttJs+ew==}
+
+  tldts@7.0.26:
+    resolution: {integrity: sha512-WiGwQjr0qYdNNG8KpMKlSvpxz652lqa3Rd+/hSaDcY4Uo6SKWZq2LAF+hsAhUewTtYhXlorBKgNF3Kk8hnjGoQ==}
     hasBin: true
 
   to-regex-range@5.0.1:
@@ -2515,8 +2524,8 @@ packages:
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
-  undici@7.24.3:
-    resolution: {integrity: sha512-eJdUmK/Wrx2d+mnWWmwwLRyA7OQCkLap60sk3dOK4ViZR7DKwwptwuIvFBg2HaiP9ESaEdhtpSymQPvytpmkCA==}
+  undici@7.24.4:
+    resolution: {integrity: sha512-BM/JzwwaRXxrLdElV2Uo6cTLEjhSb3WXboncJamZ15NgUURmvlXvxa6xkwIOILIjPNo9i8ku136ZvWV0Uly8+w==}
     engines: {node: '>=20.18.1'}
 
   unist-util-is@6.0.1:
@@ -2861,12 +2870,16 @@ snapshots:
     dependencies:
       '@babel/types': 7.29.0
 
+  '@babel/parser@7.29.2':
+    dependencies:
+      '@babel/types': 7.29.0
+
   '@babel/plugin-syntax-jsx@7.28.6(@babel/core@7.29.0)':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/helper-plugin-utils': 7.28.6
 
-  '@babel/runtime@7.28.6': {}
+  '@babel/runtime@7.29.2': {}
 
   '@babel/template@7.28.6':
     dependencies:
@@ -3054,40 +3067,33 @@ snapshots:
 
   '@exodus/bytes@1.15.0': {}
 
-  '@formatjs/ecma402-abstract@3.1.1':
+  '@formatjs/ecma402-abstract@3.1.2':
     dependencies:
-      '@formatjs/fast-memoize': 3.1.0
-      '@formatjs/intl-localematcher': 0.8.1
+      '@formatjs/fast-memoize': 3.1.1
+      '@formatjs/intl-localematcher': 0.8.2
       decimal.js: 10.6.0
-      tslib: 2.8.1
 
-  '@formatjs/fast-memoize@3.1.0':
+  '@formatjs/fast-memoize@3.1.1': {}
+
+  '@formatjs/icu-messageformat-parser@3.5.2':
     dependencies:
-      tslib: 2.8.1
+      '@formatjs/ecma402-abstract': 3.1.2
+      '@formatjs/icu-skeleton-parser': 2.1.2
 
-  '@formatjs/icu-messageformat-parser@3.5.1':
+  '@formatjs/icu-skeleton-parser@2.1.2':
     dependencies:
-      '@formatjs/ecma402-abstract': 3.1.1
-      '@formatjs/icu-skeleton-parser': 2.1.1
-      tslib: 2.8.1
+      '@formatjs/ecma402-abstract': 3.1.2
 
-  '@formatjs/icu-skeleton-parser@2.1.1':
+  '@formatjs/intl-durationformat@0.10.2':
     dependencies:
-      '@formatjs/ecma402-abstract': 3.1.1
-      tslib: 2.8.1
+      '@formatjs/ecma402-abstract': 3.1.2
+      '@formatjs/intl-localematcher': 0.8.2
 
-  '@formatjs/intl-durationformat@0.10.1':
+  '@formatjs/intl-localematcher@0.8.2':
     dependencies:
-      '@formatjs/ecma402-abstract': 3.1.1
-      '@formatjs/intl-localematcher': 0.8.1
-      tslib: 2.8.1
+      '@formatjs/fast-memoize': 3.1.1
 
-  '@formatjs/intl-localematcher@0.8.1':
-    dependencies:
-      '@formatjs/fast-memoize': 3.1.0
-      tslib: 2.8.1
-
-  '@iconify/json@2.2.450':
+  '@iconify/json@2.2.451':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 2.0.3
@@ -3398,16 +3404,16 @@ snapshots:
     dependencies:
       solid-js: 1.9.11
 
-  '@solidjs/router@0.15.4(solid-js@1.9.11)':
+  '@solidjs/router@0.16.1(solid-js@1.9.11)':
     dependencies:
       solid-js: 1.9.11
 
-  '@solidjs/testing-library@0.8.10(@solidjs/router@0.15.4(solid-js@1.9.11))(solid-js@1.9.11)':
+  '@solidjs/testing-library@0.8.10(@solidjs/router@0.16.1(solid-js@1.9.11))(solid-js@1.9.11)':
     dependencies:
       '@testing-library/dom': 10.4.1
       solid-js: 1.9.11
     optionalDependencies:
-      '@solidjs/router': 0.15.4(solid-js@1.9.11)
+      '@solidjs/router': 0.16.1(solid-js@1.9.11)
 
   '@standard-schema/spec@1.1.0': {}
 
@@ -3482,7 +3488,7 @@ snapshots:
   '@testing-library/dom@10.4.1':
     dependencies:
       '@babel/code-frame': 7.29.0
-      '@babel/runtime': 7.28.6
+      '@babel/runtime': 7.29.2
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
       dom-accessibility-api: 0.5.16
@@ -3579,7 +3585,7 @@ snapshots:
       magicast: 0.5.2
       obug: 2.1.1
       std-env: 4.0.0
-      tinyrainbow: 3.0.3
+      tinyrainbow: 3.1.0
       vitest: 4.1.0(@types/node@25.5.0)(jsdom@29.0.0)(vite@8.0.0(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.2))
 
   '@vitest/expect@4.1.0':
@@ -3994,12 +4000,11 @@ snapshots:
 
   indent-string@4.0.0: {}
 
-  intl-messageformat@11.1.2:
+  intl-messageformat@11.1.3:
     dependencies:
-      '@formatjs/ecma402-abstract': 3.1.1
-      '@formatjs/fast-memoize': 3.1.0
-      '@formatjs/icu-messageformat-parser': 3.5.1
-      tslib: 2.8.1
+      '@formatjs/ecma402-abstract': 3.1.2
+      '@formatjs/fast-memoize': 3.1.1
+      '@formatjs/icu-messageformat-parser': 3.5.2
 
   is-binary-path@2.1.0:
     dependencies:
@@ -4059,7 +4064,7 @@ snapshots:
       saxes: 6.0.0
       symbol-tree: 3.2.4
       tough-cookie: 6.0.1
-      undici: 7.24.3
+      undici: 7.24.4
       w3c-xmlserializer: 5.0.0
       webidl-conversions: 8.0.1
       whatwg-mimetype: 5.0.0
@@ -4216,7 +4221,7 @@ snapshots:
 
   magicast@0.5.2:
     dependencies:
-      '@babel/parser': 7.29.0
+      '@babel/parser': 7.29.2
       '@babel/types': 7.29.0
       source-map-js: 1.2.1
 
@@ -4573,11 +4578,13 @@ snapshots:
 
   tinyrainbow@3.0.3: {}
 
-  tldts-core@7.0.24: {}
+  tinyrainbow@3.1.0: {}
 
-  tldts@7.0.24:
+  tldts-core@7.0.26: {}
+
+  tldts@7.0.26:
     dependencies:
-      tldts-core: 7.0.24
+      tldts-core: 7.0.26
 
   to-regex-range@5.0.1:
     dependencies:
@@ -4585,7 +4592,7 @@ snapshots:
 
   tough-cookie@6.0.1:
     dependencies:
-      tldts: 7.0.24
+      tldts: 7.0.26
 
   tr46@6.0.0:
     dependencies:
@@ -4600,7 +4607,8 @@ snapshots:
 
   tslib@2.3.0: {}
 
-  tslib@2.8.1: {}
+  tslib@2.8.1:
+    optional: true
 
   typescript@5.8.2: {}
 
@@ -4610,7 +4618,7 @@ snapshots:
 
   undici-types@7.18.2: {}
 
-  undici@7.24.3: {}
+  undici@7.24.4: {}
 
   unist-util-is@6.0.1:
     dependencies:

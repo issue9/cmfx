@@ -8,7 +8,7 @@
 
 @layer components {
 	.activator {
-		.activator-container {
+		.container {
 			@apply rounded-md border border-palette-border flex items-center px-2 py-1 cursor-pointer outline-none w-full;
 
 			@apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
@@ -26,7 +26,7 @@
 			}
 		}
 
-		.activator-container.rounded {
+		.container.rounded {
 			@apply rounded-full!;
 		}
 	}
