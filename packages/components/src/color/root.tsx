@@ -44,7 +44,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * 指定一个用于计算 WCAG 值的颜色
 	 *
 	 * @remarks
-	 * 如果该值不为空，那么在颜色展示区域上的文字会以此颜色值显示，否则使用默认颜色值或是没有文字。
+	 * 如果该值不为空，那么在颜色展示区域上的文字会以此颜色值显示，否则使用默认颜色值。
 	 * 该值只能是所有 CSS 直接支持的颜色值，不能是 CSS 变量。
 	 *
 	 * @reactive

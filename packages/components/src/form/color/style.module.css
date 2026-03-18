@@ -7,24 +7,25 @@
 @reference "../../style.css";
 
 @layer components {
-	.color-panel-activator {
-		@apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-border;
-		@apply flex justify-center items-center font-bold;
+	.activator {
+		@apply rounded-sm cursor-pointer border border-palette-border;
+		@apply flex justify-center items-center;
+		@apply w-20 overflow-hidden overflow-ellipsis whitespace-nowrap;
 
 		@apply transition;
 		@apply hover:border-palette-border-focused;
 		@apply active:border-palette-border-actived;
 	}
 
-	.color-panel-activator.readonly {
+	.activator.readonly {
 		@apply cursor-default;
 	}
 
-	.color-panel-activator.rounded {
+	.activator.rounded {
 		@apply rounded-full;
 	}
 
-	.color-panel-activator.disabled {
+	.activator.disabled {
 		@apply cursor-not-allowed;
 	}
 }

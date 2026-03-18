@@ -61,7 +61,7 @@ export function Root(props: Props): JSX.Element {
 			<div style={fieldArea2Style(areas().inputArea)}>
 				<div
 					class={classList(undefined, {
-						[styles['color-panel-activator']]: true,
+						[styles.activator]: true,
 						[styles.rounded]: props.rounded,
 						[styles.readonly]: props.readonly,
 						[styles.disabled]: props.disabled,
@@ -75,10 +75,10 @@ export function Root(props: Props): JSX.Element {
 					}}
 					style={{
 						background: props.accessor.getValue(),
-						color: props.wcag,
+						color: props.wcag ?? 'var(--primary-fg)',
 					}}
 				>
-					<Show when={props.wcag}>A</Show>
+					{props.accessor.getValue()}
 					<input
 						id={id}
 						onClick={e => e.preventDefault()}
