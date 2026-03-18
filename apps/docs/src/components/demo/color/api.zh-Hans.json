@@ -60,13 +60,6 @@
 		"name": "ColorPanel.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "switchPicker",
 				"summary": "切换颜色拾取面板\n\n",
 				"type": "switchPicker(id: string): void",
@@ -79,6 +72,14 @@
 				],
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

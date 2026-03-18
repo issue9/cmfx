@@ -6,11 +6,12 @@ import { bundleSvgsStringSync, easings, type Rotation, SVGMorpheus } from '@icon
 import { createEffect, createMemo, type JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { type BaseProps, isReducedMotion, joinClass, type RefProps, style2String } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
+import { isReducedMotion, joinClass, style2String } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref {
+export interface Ref extends BaseRef<SVGSVGElement> {
 	/**
 	 * 跳转至新图标
 	 *
@@ -31,11 +32,6 @@ export interface Ref {
 	 * @remarks 图标的顺序与 {@link Props#icons} 的顺序是相同的。
 	 */
 	prev(): void;
-
-	/**
-	 * 组件的根元素
-	 */
-	root(): SVGSVGElement;
 
 	/**
 	 * 当前展示的图标 ID

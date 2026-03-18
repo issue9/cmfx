@@ -5,16 +5,11 @@
 import { sleep } from '@cmfx/core';
 import { createEffect, createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 运行计数器
 	 */

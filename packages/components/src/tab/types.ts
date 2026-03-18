@@ -4,14 +4,9 @@
 
 import type { JSX, ParentProps } from 'solid-js';
 
-import type { BaseProps, ChangeFunc, Layout, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
 
-export interface Ref {
-	/**
-	 * 获取组件根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 切换到指定的标签
 	 */

@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { JSX } from 'solid-js';
 import {
 	createEffect,
 	createMemo,
 	createSignal,
 	createUniqueId,
-	type JSX,
 	Match,
 	mergeProps,
 	onCleanup,

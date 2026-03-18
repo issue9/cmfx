@@ -4,15 +4,10 @@
 
 import { createSignal, For, type JSX, mergeProps } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLElement;
-
+export interface Ref extends BaseRef<HTMLElement> {
 	/**
 	 * 重新计算导航内容
 	 */

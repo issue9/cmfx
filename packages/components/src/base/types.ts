@@ -86,3 +86,13 @@ export interface MountProps {
 	 */
 	mount?: Node;
 }
+
+/**
+ * 所有组件的 ref 属性传递的参数类型
+ */
+export interface Ref<T> {
+	/**
+	 * 返回组件的根元素
+	 */
+	root(): T;
+}

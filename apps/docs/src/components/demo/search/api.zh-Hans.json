@@ -77,16 +77,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Search.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): Dropdown.RootRef",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "Ref_9"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Search.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

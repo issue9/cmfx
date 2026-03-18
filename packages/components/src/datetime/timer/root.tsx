@@ -5,7 +5,7 @@
 import { createTimer, type Duration, ms, nano2IntlDuration, parseDuration } from '@cmfx/core';
 import { type Accessor, createMemo, createSignal, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
@@ -79,7 +79,7 @@ const presetProps: Partial<Props> = {
 	interval: -1,
 } as const;
 
-export interface Ref {
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 切换开始和暂停状态
 	 */
@@ -94,8 +94,6 @@ export interface Ref {
 	 * 暂停计数
 	 */
 	pause(): void;
-
-	root(): HTMLDivElement;
 }
 
 const minutesInDay = 24 * 60;

@@ -5,14 +5,12 @@
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
 import { createEffect, createSignal, type JSX, splitProps, untrack } from 'solid-js';
 
-import type { ChangeFunc, RefProps } from '@components/base';
+import type { BaseRef, ChangeFunc, RefProps } from '@components/base';
 import type { Props as CommonProps, Ref as CommonRef } from '@components/datetime/datepanel/common/common.tsx';
 import { CommonPanel } from '@components/datetime/datepanel/common/common.tsx';
 import type { WeekValueType } from '@components/datetime/dateview';
 
-export interface Ref {
-	root(): HTMLFieldSetElement;
-}
+export type Ref = BaseRef<HTMLFieldSetElement>;
 
 export type Props = Omit<CommonProps, 'onEnter' | 'onLeave' | 'weeks' | 'onWeekClick' | 'value' | 'onChange' | 'ref'> &
 	RefProps<Ref> & {

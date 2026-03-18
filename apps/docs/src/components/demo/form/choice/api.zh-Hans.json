@@ -269,17 +269,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Choice.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLDivElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Choice.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{

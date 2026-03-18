@@ -4,12 +4,10 @@
 
 import { createMemo, type JSX, mergeProps, type ParentProps } from 'solid-js';
 
-import { type BaseProps, classList, type Layout, type RefProps, style2String } from '@components/base';
+import { type BaseProps, type BaseRef, classList, type Layout, type RefProps, style2String } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref {
-	root: () => HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 export type Props = ParentProps<
 	{

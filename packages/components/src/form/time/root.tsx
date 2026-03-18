@@ -7,19 +7,14 @@ import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show, u
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { TimePanel } from '@components/datetime';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props
 	extends FieldBaseProps,

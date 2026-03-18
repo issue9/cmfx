@@ -80,20 +80,20 @@
 		"kind": "interface",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "close",
 				"summary": "从 DOM 中移除当前组件\n\n",
 				"remarks": "该行为可能受到\n`onClose`\n的影响。\n\n",
 				"type": "close(): Promise<void>",
 				"return": {
 					"type": "Promise<void>"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

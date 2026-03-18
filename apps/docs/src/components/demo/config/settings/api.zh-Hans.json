@@ -46,14 +46,6 @@
 		"name": "Settings.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "Item",
 				"summary": "声明一个设置项的组件\n\n",
 				"type": "Item(props: ItemProps): JSX.Element",
@@ -65,6 +57,14 @@
 				],
 				"return": {
 					"type": "JSX.Element"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

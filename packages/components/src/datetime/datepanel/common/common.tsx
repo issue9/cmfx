@@ -4,16 +4,14 @@
 
 import { createEffect, createSignal, type JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { DateView } from '@components/datetime/dateview';
 import type { DatetimePlugin } from '@components/datetime/plugin';
 import { TimePanel } from '@components/datetime/timepanel';
 import type { Week } from '@components/datetime/utils';
 import styles from './style.module.css';
 
-export interface Ref {
-	root(): HTMLFieldSetElement;
-
+export interface Ref extends BaseRef<HTMLFieldSetElement> {
 	// DateView.RootRef 中的 jump 等方法无法精准到时间部分，不对外公开。
 	dateview(): DateView.RootRef;
 }

@@ -5,11 +5,11 @@
 import { adjustPopoverPosition, Hotkey, type PopoverAlign, pointInElement } from '@cmfx/core';
 import { createSignal, type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 
-import { type AvailableEnumType, joinClass, type RefProps } from '@components/base';
+import { type AvailableEnumType, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Menu } from '@components/menu/menu';
 import styles from './style.module.css';
 
-export interface Ref {
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 显示下拉的菜单
 	 */
@@ -24,11 +24,6 @@ export interface Ref {
 	 * 切换菜单的显示和关闭
 	 */
 	toggle(): void;
-
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
 
 	/**
 	 * 下拉菜单的元素

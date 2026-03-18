@@ -4,13 +4,13 @@
 
 import { createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { joinClass } from '@components/base';
+import { type BaseRef, joinClass } from '@components/base';
 import { type FieldBaseProps, useForm } from '@components/form/field';
 
 /**
  * 上传组件的外放接口
  */
-export interface Ref {
+export interface Ref extends BaseRef<HTMLInputElement> {
 	/**
 	 * 显示文件选取对话框，如果有选择文件的话，还自动添加至 {@link Ref#files} 中。
 	 */
@@ -35,8 +35,6 @@ export interface Ref {
 	 * 上传 {@link Ref#files} 中的文件
 	 */
 	upload(): Promise<Array<string> | undefined>;
-
-	root(): HTMLInputElement;
 }
 
 export interface Props extends Omit<FieldBaseProps, 'rounded'> {

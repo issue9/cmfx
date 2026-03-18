@@ -80,134 +80,145 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"kind": "interface",
-		"methods": [
+		"name": "Calendar.RootRef",
+		"kind": "intersection",
+		"types": [
 			{
-				"name": "root",
-				"type": "root(): HTMLTableElement",
-				"return": {
-					"type": "HTMLTableElement"
-				}
-			},
-			{
-				"name": "select",
-				"summary": "为指定日期所在的 td 元素添加\n`selectedClass`\n指定的样式。\n\n",
-				"type": "select(...d: Array<Date>): void",
-				"params": [
+				"kind": "interface",
+				"methods": [
 					{
-						"name": "d",
-						"type": "Date[]"
-					}
-				],
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "unselect",
-				"summary": "取消选中项\n\n",
-				"type": "unselect(...d: Array<Date | undefined>): void",
-				"params": [
-					{
-						"name": "d",
-						"type": "(Date | undefined)[]"
-					}
-				],
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "cover",
-				"summary": "为指定范围的日期添加\n`coveredClass`\n指定的样式\n\n",
-				"type": "cover(range: [Date, Date]): void",
-				"params": [
-					{
-						"name": "range",
-						"summary": "要覆盖的日期范围，大小无所谓，会自动排序；\n\n",
-						"type": "[Date, Date]"
-					}
-				],
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "uncover",
-				"summary": "取消\n`cover`\n操作\n\n",
-				"type": "uncover(): void",
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "jump",
-				"summary": "跳转到指定的日期\n\n",
-				"type": "jump(date: Date): void",
-				"params": [
-					{
-						"name": "date",
-						"type": "Date"
-					}
-				],
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "canJump",
-				"summary": "是否能跳转到指定的日期，只有\n`min`\n或\n`max`\n有值时才有效。\n\n",
-				"type": "canJump(date: Date): boolean",
-				"params": [
-					{
-						"name": "date",
-						"type": "Date"
-					}
-				],
-				"return": {
-					"type": "boolean"
-				}
-			},
-			{
-				"name": "offset",
-				"summary": "移动指定数量的年月，如果是负数，表示向前移动。\n\n",
-				"type": "offset(year?: number, month?: number): void",
-				"params": [
-					{
-						"name": "year",
-						"type": "number | undefined"
+						"name": "select",
+						"summary": "为指定日期所在的 td 元素添加\n`selectedClass`\n指定的样式。\n\n",
+						"type": "select(...d: Array<Date>): void",
+						"params": [
+							{
+								"name": "d",
+								"type": "Date[]"
+							}
+						],
+						"return": {
+							"type": "void"
+						}
 					},
 					{
-						"name": "month",
-						"type": "number | undefined"
-					}
-				],
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "canOffset",
-				"summary": "能否移动到指定的日期，只有\n`min`\n或\n`max`\n有值时才有效。\n\n",
-				"type": "canOffset(year?: number, month?: number): boolean",
-				"params": [
-					{
-						"name": "year",
-						"summary": "移动的年数，负数表示向前移动；\n\n",
-						"type": "number | undefined"
+						"name": "unselect",
+						"summary": "取消选中项\n\n",
+						"type": "unselect(...d: Array<Date | undefined>): void",
+						"params": [
+							{
+								"name": "d",
+								"type": "(Date | undefined)[]"
+							}
+						],
+						"return": {
+							"type": "void"
+						}
 					},
 					{
-						"name": "month",
-						"summary": "移动的月数，负数表示向前移动；\n\n",
-						"type": "number | undefined"
+						"name": "cover",
+						"summary": "为指定范围的日期添加\n`coveredClass`\n指定的样式\n\n",
+						"type": "cover(range: [Date, Date]): void",
+						"params": [
+							{
+								"name": "range",
+								"summary": "要覆盖的日期范围，大小无所谓，会自动排序；\n\n",
+								"type": "[Date, Date]"
+							}
+						],
+						"return": {
+							"type": "void"
+						}
+					},
+					{
+						"name": "uncover",
+						"summary": "取消\n`cover`\n操作\n\n",
+						"type": "uncover(): void",
+						"return": {
+							"type": "void"
+						}
+					},
+					{
+						"name": "jump",
+						"summary": "跳转到指定的日期\n\n",
+						"type": "jump(date: Date): void",
+						"params": [
+							{
+								"name": "date",
+								"type": "Date"
+							}
+						],
+						"return": {
+							"type": "void"
+						}
+					},
+					{
+						"name": "canJump",
+						"summary": "是否能跳转到指定的日期，只有\n`min`\n或\n`max`\n有值时才有效。\n\n",
+						"type": "canJump(date: Date): boolean",
+						"params": [
+							{
+								"name": "date",
+								"type": "Date"
+							}
+						],
+						"return": {
+							"type": "boolean"
+						}
+					},
+					{
+						"name": "offset",
+						"summary": "移动指定数量的年月，如果是负数，表示向前移动。\n\n",
+						"type": "offset(year?: number, month?: number): void",
+						"params": [
+							{
+								"name": "year",
+								"type": "number | undefined"
+							},
+							{
+								"name": "month",
+								"type": "number | undefined"
+							}
+						],
+						"return": {
+							"type": "void"
+						}
+					},
+					{
+						"name": "canOffset",
+						"summary": "能否移动到指定的日期，只有\n`min`\n或\n`max`\n有值时才有效。\n\n",
+						"type": "canOffset(year?: number, month?: number): boolean",
+						"params": [
+							{
+								"name": "year",
+								"summary": "移动的年数，负数表示向前移动；\n\n",
+								"type": "number | undefined"
+							},
+							{
+								"name": "month",
+								"summary": "移动的月数，负数表示向前移动；\n\n",
+								"type": "number | undefined"
+							}
+						],
+						"return": {
+							"type": "boolean"
+						}
 					}
-				],
-				"return": {
-					"type": "boolean"
-				}
+				]
+			},
+			{
+				"kind": "interface",
+				"methods": [
+					{
+						"name": "root",
+						"summary": "返回组件的根元素\n\n",
+						"type": "root(): T",
+						"return": {
+							"type": "T"
+						}
+					}
+				]
 			}
 		],
-		"name": "Calendar.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

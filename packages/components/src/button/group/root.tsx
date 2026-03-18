@@ -5,15 +5,13 @@
 import type { JSX, ParentProps } from 'solid-js';
 import { mergeProps } from 'solid-js';
 
-import type { Layout, RefProps } from '@components/base';
+import type { BaseRef, Layout, RefProps } from '@components/base';
 import { classList } from '@components/base';
 import styles from '@components/button/common/style.module.css';
 import type { Props as BaseProps } from '@components/button/common/types';
 import { presetProps as presetBaseProps } from '@components/button/common/types';
 
-export interface Ref {
-	root(): HTMLFieldSetElement;
-}
+export type Ref = BaseRef<HTMLFieldSetElement>;
 
 export interface Props extends Omit<BaseProps, 'hotkey'>, ParentProps, RefProps<Ref> {
 	layout?: Layout;

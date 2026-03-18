@@ -5,16 +5,11 @@
 import { createEffect, type JSX, Match, type ParentProps, Switch } from 'solid-js';
 
 import { BackTop } from '@components/backtop';
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 返回组件的根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 返回顶部按钮的接口
 	 */

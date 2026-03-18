@@ -2,17 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseProps, joinClass, type RefProps } from '@cmfx/components';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@cmfx/components';
 import { mergeProps } from 'solid-js';
 
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的引用
-	 */
-	root(): SVGSVGElement;
-}
+export type Ref = BaseRef<SVGSVGElement>;
 
 export interface Props extends BaseProps, RefProps<Ref> {
 	/**

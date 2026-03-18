@@ -99,9 +99,10 @@
 			},
 			{
 				"name": "root",
-				"type": "root(): Dialog.RootRef",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "Ref_34"
+					"type": "T"
 				}
 			}
 		],

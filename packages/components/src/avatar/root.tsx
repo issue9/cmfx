@@ -4,12 +4,10 @@
 
 import { createEffect, createSignal, type JSX, Match, Show, Switch } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref {
-	root(): HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props extends BaseProps, RefProps<Ref> {
 	/**

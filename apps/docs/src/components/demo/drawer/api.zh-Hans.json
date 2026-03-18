@@ -78,14 +78,6 @@
 		"name": "Drawer.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "返回组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "aside",
 				"summary": "返回侧边栏的元素\n\n",
 				"type": "aside(): HTMLElement",
@@ -132,6 +124,14 @@
 				"return": {
 					"summary": "true 表示显示状态；\n\n",
 					"type": "boolean"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

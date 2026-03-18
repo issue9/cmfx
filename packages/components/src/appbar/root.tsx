@@ -8,16 +8,11 @@ import { Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import type { BaseProps, RefProps, StyleProps } from '@components/base';
-import { joinClass } from '@components/base';
+import { type BaseRef, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件根元素
-	 */
-	root(): HTMLElement;
-}
+export type Ref = BaseRef<HTMLElement>;
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**

@@ -4,15 +4,10 @@
 
 import { createEffect, createSignal, type JSX, mergeProps, onMount, splitProps } from 'solid-js';
 
-import type { RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Chart } from '@components/chart/chart';
 
-export interface Ref<T extends object> {
-	/**
-	 * 组件根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref<T extends object> extends BaseRef<HTMLDivElement> {
 	/**
 	 * 追加数据
 	 */

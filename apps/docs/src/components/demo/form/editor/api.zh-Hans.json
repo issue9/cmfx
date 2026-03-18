@@ -111,19 +111,19 @@
 		"name": "Editor.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "quill",
 				"summary": "向外暴露的 quill 对象\n\n",
 				"type": "quill(): default_2",
 				"return": {
 					"type": "default_2"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

@@ -5,16 +5,14 @@
 import { adjustPopoverPosition } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, For, type JSX, untrack } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { months } from '@components/datetime/utils';
 import styles from './style.module.css';
 import { Root as YearPanel, type Ref as YearPanelRef } from './yearpanel';
 
-export interface Ref {
-	root(): HTMLFieldSetElement;
-}
+export type Ref = BaseRef<HTMLFieldSetElement>;
 
 export interface Props extends BaseProps, RefProps<Ref> {
 	/**

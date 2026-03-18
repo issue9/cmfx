@@ -94,20 +94,20 @@
 				}
 			},
 			{
-				"name": "root",
-				"summary": "获取组件的根元素\n\n",
-				"type": "root(): HTMLSpanElement",
-				"return": {
-					"type": "HTMLSpanElement"
-				}
-			},
-			{
 				"name": "qrCodeStyling",
 				"summary": "提供了 qr-code-styling 的实例\n\n",
 				"remarks": "这是二维码对象的原始操作对象。需要注意的是，\n此方法返回的对象提供的下载方法与\n`download`\n在颜色上是不同的。\n\n",
 				"type": "qrCodeStyling(): default_3",
 				"return": {
 					"type": "default_3"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

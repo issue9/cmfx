@@ -69,17 +69,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Appbar.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): HTMLElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Appbar.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

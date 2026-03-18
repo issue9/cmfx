@@ -10,7 +10,7 @@ import IconClose from '~icons/material-symbols/close';
 import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
 
-import { type BaseProps, joinClass, type Palette, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type Palette, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;
@@ -24,12 +24,7 @@ const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
 	['info', 'secondary'],
 ]);
 
-export interface Ref {
-	/**
-	 * 组件根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 从 DOM 中移除当前组件
 	 *

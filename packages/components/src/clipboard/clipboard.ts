@@ -4,10 +4,11 @@
 
 import { sleep } from '@cmfx/core';
 
+import type { BaseRef } from '@components/base';
 import type { OptionsAccessor } from '@components/context';
 import type { IconSet } from '@components/icon';
 
-export interface Ref {
+export interface Ref extends BaseRef<IconSet.RootRef> {
 	/**
 	 * 将文本内容写入剪切版
 	 */
@@ -17,11 +18,6 @@ export interface Ref {
 	 * 将任意内容写入剪切版
 	 */
 	write(items: Array<ClipboardItem>): Promise<void>;
-
-	/**
-	 * 根元素
-	 */
-	root(): IconSet.RootRef;
 }
 
 export function buildRef(root: IconSet.RootRef, opt: OptionsAccessor): Ref {

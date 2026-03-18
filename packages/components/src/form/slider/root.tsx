@@ -2,31 +2,26 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { JSX } from 'solid-js';
 import {
 	createEffect,
 	createMemo,
 	createSignal,
 	createUniqueId,
 	For,
-	type JSX,
 	mergeProps,
 	onCleanup,
 	onMount,
 	Show,
 } from 'solid-js';
 
-import type { RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中实际用于输入的 input 元素
 	 */

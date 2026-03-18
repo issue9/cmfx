@@ -6,7 +6,7 @@ import Color from 'colorjs.io';
 import { createEffect, createSignal, type JSX, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 
-import { type BaseProps, joinClass, PropsError, type RefProps, wcag } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, PropsError, type RefProps, wcag } from '@components/base';
 import { Button } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
 import { useLocale } from '@components/context';
@@ -21,9 +21,7 @@ declare global {
 	}
 }
 
-export interface Ref {
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 切换颜色拾取面板
 	 *

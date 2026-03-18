@@ -61,16 +61,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "TimePanel.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLFieldSetElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLFieldSetElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "TimePanel.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

@@ -4,7 +4,7 @@
 
 import { createMemo, createUniqueId, type JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { classList, type RefProps } from '@components/base';
+import { type BaseRef, classList, type RefProps } from '@components/base';
 import { ColorPanel } from '@components/color';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
@@ -12,9 +12,7 @@ import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import styles from './style.module.css';
 
-export interface Ref {
-	root(): HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props extends Omit<ColorPanel.RootProps, 'value' | 'onChange' | 'ref'>, FieldBaseProps, RefProps<Ref> {
 	accessor: Accessor<string>;

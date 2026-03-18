@@ -53,19 +53,20 @@
 		"name": "BackTop.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"type": "root(): Button.RootRef",
-				"return": {
-					"type": "Ref_4<false, HTMLButtonElement>"
-				}
-			},
-			{
 				"name": "backTop",
 				"summary": "返回页面顶部\n\n",
 				"remarks": "该功能与直接点击按钮具有相同的效果。\n\n",
 				"type": "backTop(): void",
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

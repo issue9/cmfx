@@ -7,13 +7,11 @@ import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import styles from './style.module.css';
 
-export interface Ref {
-	root(): HTMLFieldSetElement;
-}
+export type Ref = BaseRef<HTMLFieldSetElement>;
 
 export interface Props extends BaseProps, RefProps<Ref> {
 	/**

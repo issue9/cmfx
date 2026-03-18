@@ -50,13 +50,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Description.RootRef",
-		"properties": [
+		"methods": [
 			{
 				"name": "root",
-				"type": "() => HTMLDivElement"
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
+				}
 			}
 		],
+		"name": "Description.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

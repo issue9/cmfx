@@ -71,16 +71,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Result.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLDivElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLDivElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Result.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -129,16 +130,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Empty.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): Result.RootRef",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "Ref_66"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Empty.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

@@ -8,17 +8,12 @@ import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.snow.css';
 import { createEffect, createMemo, createUniqueId, type JSX, mergeProps, onMount, Show } from 'solid-js';
 
-import { joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 向外暴露的 quill 对象
 	 */

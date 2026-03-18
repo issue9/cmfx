@@ -6,12 +6,10 @@ import type { BundledLanguage, BundledTheme } from 'shiki/bundle/full';
 import { createEffect, createSignal, type JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { highlight, withCopyButton } from './shiki';
 
-export interface Ref {
-	root(): HTMLElement;
-}
+export type Ref = BaseRef<HTMLElement>;
 
 export interface Props extends BaseProps, RefProps<Ref> {
 	/**

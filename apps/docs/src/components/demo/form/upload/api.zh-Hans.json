@@ -168,9 +168,10 @@
 			},
 			{
 				"name": "root",
-				"type": "root(): HTMLInputElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLInputElement"
+					"type": "T"
 				}
 			}
 		],
@@ -326,18 +327,18 @@
 		"name": "Album.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "uploader",
 				"type": "uploader(): Upload.RootRef",
 				"return": {
 					"type": "Ref_55"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

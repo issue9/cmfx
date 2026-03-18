@@ -8,14 +8,12 @@ import IconNext from '~icons/material-symbols/chevron-right';
 import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
-import type { BaseProps, ChangeFunc, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
 import { PropsError } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import { useLocale } from '@components/context';
 
-export interface Ref {
-	root(): ButtonGroup.RootRef;
-
+export interface Ref extends BaseRef<ButtonGroup.RootRef> {
 	/**
 	 * 跳转到指定的页面
 	 *

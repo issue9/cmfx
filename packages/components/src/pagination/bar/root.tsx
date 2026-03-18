@@ -4,16 +4,14 @@
 
 import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 
-import type { BaseProps, ChangeFunc, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
 import { joinClass, PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Choice, fieldAccessor } from '@components/form';
 import { Pagination } from '@components/pagination/pagination';
 import styles from './style.module.css';
 
-export interface Ref {
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 跳转到指定的页面
 	 *

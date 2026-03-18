@@ -71,14 +71,6 @@
 				}
 			},
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "update",
 				"summary": "更新图表数据\n\n",
 				"type": "update(o: Option_2): void",
@@ -91,6 +83,14 @@
 				],
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],
@@ -208,14 +208,6 @@
 		],
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "append",
 				"summary": "追加数据\n\n",
 				"type": "append(...data: Array<T>): void",
@@ -235,6 +227,14 @@
 				"type": "clear(): void",
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],
@@ -417,14 +417,6 @@
 				}
 			},
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "update",
 				"summary": "更新图表数据\n\n",
 				"type": "update(o: Option_2): void",
@@ -437,6 +429,14 @@
 				],
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

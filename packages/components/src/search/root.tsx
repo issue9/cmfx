@@ -7,15 +7,13 @@ import { createSignal, type JSX, Match, mergeProps, onCleanup, onMount, Switch }
 import IconClear from '~icons/material-symbols/close';
 import IconSearch from '~icons/material-symbols/search';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { Input } from '@components/input';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
 
-export interface Ref {
-	root(): Dropdown.RootRef;
-}
+export type Ref = BaseRef<Dropdown.RootRef>;
 
 export interface Props extends BaseProps, RefProps<Ref> {
 	hotkey?: Hotkey;

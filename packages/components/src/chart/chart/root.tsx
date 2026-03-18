@@ -5,22 +5,17 @@
 import * as echarts from 'echarts';
 import { createEffect, type JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
-import { type BaseProps, isReducedMotion, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, isReducedMotion, joinClass, type RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { matchLocale } from './locale.ts';
 
 export type Option = echarts.EChartsOption;
 
-export interface Ref {
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 返回 echarts 的操作实例
 	 */
 	echarts(): echarts.ECharts;
-
-	/**
-	 * 组件根元素
-	 */
-	root(): HTMLDivElement;
 
 	/**
 	 * 更新图表数据

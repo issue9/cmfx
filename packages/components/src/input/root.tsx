@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, type JSX, Show, untrack } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
 /**
@@ -12,12 +12,7 @@ import styles from './style.module.css';
  */
 export type AutoComplete = JSX.HTMLAutocomplete;
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中实际用于输入的 input 元素
 	 */

@@ -93,19 +93,19 @@
 				}
 			},
 			{
-				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): SVGSVGElement",
-				"return": {
-					"type": "SVGSVGElement"
-				}
-			},
-			{
 				"name": "id",
 				"summary": "当前展示的图标 ID\n\n",
 				"type": "id(): string",
 				"return": {
 					"type": "string"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

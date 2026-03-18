@@ -13,19 +13,14 @@ import type {
 import QRCodeStyling from 'qr-code-styling';
 import { createEffect, createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref {
+export interface Ref extends BaseRef<HTMLSpanElement> {
 	/**
 	 * 提供下载图片的功能
 	 */
 	download(name?: string, ext?: FileExtension): Promise<void>;
-
-	/**
-	 * 获取组件的根元素
-	 */
-	root(): HTMLSpanElement;
 
 	/**
 	 * 提供了 qr-code-styling 的实例

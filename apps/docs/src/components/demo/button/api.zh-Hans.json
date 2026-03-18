@@ -201,29 +201,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Button.RootRef",
-		"typeParams": [
-			{
-				"name": "A",
-				"type": "boolean",
-				"init": "false"
-			},
-			{
-				"name": "E",
-				"type": "any",
-				"init": "A extends false ? HTMLButtonElement : HTMLAnchorElement"
-			}
-		],
 		"methods": [
 			{
 				"name": "root",
 				"summary": "返回组件的根元素\n\n",
-				"type": "root(): E",
+				"type": "root(): T",
 				"return": {
-					"type": "E"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Button.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -359,7 +347,7 @@
 				"summary": "按钮元素\n\n",
 				"type": "button(): Button.RootRef<A>",
 				"return": {
-					"type": "Ref_4<A, A extends false ? HTMLButtonElement : HTMLAnchorElement>"
+					"type": "Ref_4<A>"
 				}
 			},
 			{
@@ -736,19 +724,19 @@
 				}
 			},
 			{
-				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "menu",
 				"summary": "下拉菜单的元素\n\n",
 				"type": "menu(): Menu.RootRef",
 				"return": {
 					"type": "Ref_8"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],
@@ -816,16 +804,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "ButtonGroup.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLFieldSetElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLFieldSetElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "ButtonGroup.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -955,9 +944,9 @@
 			{
 				"name": "root",
 				"summary": "返回组件的根元素\n\n",
-				"type": "root(): E",
+				"type": "root(): T",
 				"return": {
-					"type": "E"
+					"type": "T"
 				}
 			}
 		],

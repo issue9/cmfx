@@ -5,11 +5,11 @@
 import { adjustPopoverPosition, type PopoverPosition } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 
-import { type BaseProps, joinClass } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref {
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 显示提示框
 	 * @param anchor - 用于定位提示框的元素；
@@ -21,8 +21,6 @@ export interface Ref {
 	 * 隐藏提示内容
 	 */
 	hide(): void;
-
-	root(): HTMLDivElement;
 }
 
 /**

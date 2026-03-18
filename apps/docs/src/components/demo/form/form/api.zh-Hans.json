@@ -63,14 +63,6 @@
 		"name": "Form.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLFormElement",
-				"return": {
-					"type": "HTMLFormElement"
-				}
-			},
-			{
 				"name": "Button",
 				"summary": "普通的按钮，但是可以跟随\n`rounded`\n属性变化\n\n",
 				"type": "Button(props: Button.ButtonProps): JSX.Element",
@@ -126,6 +118,14 @@
 				],
 				"return": {
 					"type": "JSX.Element"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

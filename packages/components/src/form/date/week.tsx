@@ -6,7 +6,7 @@ import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show, s
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { type Week, WeekPanel } from '@components/datetime';
 import type { WeekValueType } from '@components/datetime/dateview';
 import type { Accessor } from '@components/form/field';
@@ -15,12 +15,7 @@ import type { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props extends Omit<PickerProps, 'accessor' | 'accentPalette' | 'time' | 'ref'>, RefProps<Ref> {
 	accessor: Accessor<WeekValueType | undefined>;

@@ -5,12 +5,10 @@
 import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 import IconNoData from '~icons/oui/index-close';
 
-import type { BaseProps, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { Result } from '@components/result/result';
 
-export interface Ref {
-	root(): Result.RootRef;
-}
+export type Ref = BaseRef<Result.RootRef>;
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**

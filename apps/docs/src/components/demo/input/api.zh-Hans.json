@@ -220,19 +220,19 @@
 		"name": "Input.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "input",
 				"summary": "组件中实际用于输入的 input 元素\n\n",
 				"type": "input(): HTMLInputElement",
 				"return": {
 					"type": "HTMLInputElement"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

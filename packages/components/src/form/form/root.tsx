@@ -6,7 +6,7 @@ import type { Flattenable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show, splitProps } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { type FormContext, FormProvider, useForm } from '@components/form/field';
@@ -14,12 +14,7 @@ import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
 import type { FormAPI } from './api';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLFormElement;
-
+export interface Ref extends BaseRef<HTMLFormElement> {
 	/**
 	 * 普通的按钮，但是可以跟随 {@link FormContext#rounded} 属性变化
 	 */

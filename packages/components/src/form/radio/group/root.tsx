@@ -4,18 +4,13 @@
 
 import { createMemo, For, type JSX, mergeProps, Show } from 'solid-js';
 
-import { type AvailableEnumType, joinClass, type Layout, type RefProps } from '@components/base';
+import { type AvailableEnumType, type BaseRef, joinClass, type Layout, type RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps, FieldOptions } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import * as Radio from '@components/form/radio/radio/mod';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props<T extends AvailableEnumType = string> extends FieldBaseProps, RefProps<Ref> {
 	/**

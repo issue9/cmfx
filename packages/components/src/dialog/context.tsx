@@ -4,14 +4,10 @@
 
 import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 
+import type { BaseRef } from '@components/base';
 import { ContextNotFoundError } from '@components/context';
 
-export interface Ref {
-	/**
-	 * 返回组件的根元素
-	 */
-	root(): HTMLDialogElement;
-
+export interface Ref extends BaseRef<HTMLDialogElement> {
 	/**
 	 * 移动对话框的位置
 	 *

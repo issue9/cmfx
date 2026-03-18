@@ -4,13 +4,11 @@
 
 import { type JSX, type ParentProps, Show } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Label } from '@components/label';
 import styles from './style.module.css';
 
-export interface Ref {
-	root: () => HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**

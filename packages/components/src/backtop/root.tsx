@@ -6,14 +6,12 @@ import { getScrollableParent } from '@cmfx/core';
 import { type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref {
-	root(): Button.RootRef;
-
+export interface Ref extends BaseRef<Button.RootRef> {
 	/**
 	 * 返回页面顶部
 	 *

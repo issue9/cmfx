@@ -5,7 +5,7 @@
 import { calcPopoverPosition, type PopoverPosition } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
-import { type BaseProps, joinClass, type Palette } from '@components/base';
+import { type BaseProps, joinClass, type Palette, type BaseRef } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
@@ -13,7 +13,7 @@ import { Label } from '@components/label';
 import type { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
 import styles from './style.module.css';
 
-export interface Ref extends WizardRef {
+export interface Ref extends WizardRef, BaseRef<Dialog.RootRef> {
 	/**
 	 * 显示教程组件，即打开组件对话框。
 	 */
@@ -23,8 +23,6 @@ export interface Ref extends WizardRef {
 	 * 完成教程组件，即关闭组件对话框。
 	 */
 	complete(): void;
-
-	root(): Dialog.RootRef;
 }
 
 export interface Step extends WizardStep {

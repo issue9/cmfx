@@ -5,7 +5,7 @@
 import { presetCellRenderFunc } from '@cmfx/core';
 import { For, type JSX, Show } from 'solid-js';
 
-import type { RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { useLocale } from '@components/context';
 import { Empty } from '@components/result';
@@ -14,12 +14,7 @@ import type { CellRenderFunc, Column } from './column.ts';
 import styles from './style.module.css';
 import { Table } from './table';
 
-export interface Ref {
-	/**
-	 * 组件根元素
-	 */
-	root(): Spin.RootRef<'div'>;
-
+export interface Ref extends BaseRef<Spin.RootRef<'div'>> {
 	/**
 	 * 组件中的表格元素
 	 */

@@ -45,16 +45,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Timezone.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): Tab.RootRef",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "Ref_32"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Timezone.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

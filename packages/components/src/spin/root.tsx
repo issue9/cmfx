@@ -5,15 +5,12 @@
 import { type JSX, type ParentProps, Show, splitProps, type ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref<T extends keyof JSX.IntrinsicElements = 'div'> {
-	/**
-	 * 组件根元素
-	 */
-	root(): T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement;
-}
+export type Ref<T extends keyof JSX.IntrinsicElements = 'div'> = BaseRef<
+	T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement
+>;
 
 export type Props<T extends keyof JSX.IntrinsicElements = 'div'> = ParentProps &
 	BaseProps &

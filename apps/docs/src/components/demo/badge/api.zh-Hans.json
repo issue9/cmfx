@@ -57,16 +57,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Badge.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLDivElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLDivElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Badge.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

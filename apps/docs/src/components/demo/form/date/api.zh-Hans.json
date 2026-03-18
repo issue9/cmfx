@@ -470,17 +470,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "DatePicker.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLDivElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "DatePicker.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -990,17 +990,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "DateRangePicker.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLDivElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "DateRangePicker.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -1154,17 +1154,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "WeekPicker.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLDivElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "WeekPicker.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

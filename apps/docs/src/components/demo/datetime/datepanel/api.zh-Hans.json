@@ -119,16 +119,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "DatePanel.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLFieldSetElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLFieldSetElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "DatePanel.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -248,16 +249,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "DateRangePanel.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLFieldSetElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLFieldSetElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "DateRangePanel.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

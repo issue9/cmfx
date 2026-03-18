@@ -4,7 +4,7 @@
 
 import type { getISOWeek } from '@cmfx/core';
 
-import type { BaseProps, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import type { DatetimePlugin } from '@components/datetime/plugin';
 import type { Week } from '@components/datetime/utils';
 
@@ -61,9 +61,7 @@ export interface API {
 	canOffset(year?: number, month?: number): boolean;
 }
 
-export interface Ref extends API {
-	root(): HTMLTableElement;
-}
+export type Ref = API & BaseRef<HTMLTableElement>;
 
 export interface Props extends BaseProps, RefProps<Ref> {
 	/**

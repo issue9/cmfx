@@ -7,18 +7,13 @@ import type { AnchorProps as XAnchorProps } from '@solidjs/router';
 import { A } from '@solidjs/router';
 import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 
-import type { RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { classList, PropsError } from '@components/base';
 import styles from '@components/button/common/style.module.css';
 import type { Props as BaseProps } from '@components/button/common/types';
 import { presetProps as presetBaseProps } from '@components/button/common/types';
 
-export interface Ref<A extends boolean = false, E = A extends false ? HTMLButtonElement : HTMLAnchorElement> {
-	/**
-	 * 返回组件的根元素
-	 */
-	root(): E;
-}
+export type Ref<A extends boolean = false, E = A extends false ? HTMLButtonElement : HTMLAnchorElement> = BaseRef<E>;
 
 interface Base extends BaseProps, ParentProps {
 	/**

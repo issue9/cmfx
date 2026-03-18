@@ -4,16 +4,11 @@
 
 import { createMemo, type JSX, mergeProps } from 'solid-js';
 
-import { type AvailableEnumType, joinClass, type RefProps } from '@components/base';
+import { type AvailableEnumType, type BaseRef, joinClass, type RefProps } from '@components/base';
 import type { FieldBaseProps } from '@components/form/field';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLLabelElement;
-
+export interface Ref extends BaseRef<HTMLLabelElement> {
 	/**
 	 * 组件的 input 元素
 	 */

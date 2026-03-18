@@ -6,18 +6,13 @@ import { createMemo, createUniqueId, For, type JSX, Match, mergeProps, Show, Swi
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type AvailableEnumType, cloneElement, joinClass, type RefProps } from '@components/base';
+import { type AvailableEnumType, type BaseRef, cloneElement, joinClass, type RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 /**
  * 单个选择项的类型

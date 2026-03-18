@@ -53,19 +53,19 @@
 		"name": "Page.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "返回组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "backTop",
 				"summary": "返回顶部按钮的接口\n\n",
 				"type": "backTop(): BackTop.RootRef",
 				"return": {
 					"type": "Ref_3"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

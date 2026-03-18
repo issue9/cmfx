@@ -70,14 +70,6 @@
 		"name": "Tab.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "获取组件根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "switch",
 				"summary": "切换到指定的标签\n\n",
 				"type": "switch(id: Item_2['id']): void",
@@ -104,6 +96,14 @@
 				],
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

@@ -4,18 +4,13 @@
 
 import { createEffect, createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show } from 'solid-js';
 
-import { joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import type { Accessor, FieldBaseProps } from '@components/form/field';
 import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
 import type { Input } from '@components/input';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中的 textarea 元素
 	 */

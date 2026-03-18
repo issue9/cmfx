@@ -61,13 +61,6 @@
 		"name": "Pagination.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"type": "root(): ButtonGroup.RootRef",
-				"return": {
-					"type": "Ref_7"
-				}
-			},
-			{
 				"name": "jump",
 				"summary": "跳转到指定的页面\n\n",
 				"type": "jump(p: number): void",
@@ -80,6 +73,14 @@
 				],
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],
@@ -158,13 +159,6 @@
 		"name": "PaginationBar.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "jump",
 				"summary": "跳转到指定的页面\n\n",
 				"type": "jump(p: number): void",
@@ -177,6 +171,14 @@
 				],
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

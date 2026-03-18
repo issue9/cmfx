@@ -4,12 +4,10 @@
 
 import { type JSX, splitProps } from 'solid-js';
 
-import type { RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { CommonPanel, type Props as CommonProps } from '@components/datetime/datepanel/common/common.tsx';
 
-export interface Ref {
-	root(): HTMLFieldSetElement;
-}
+export type Ref = BaseRef<HTMLFieldSetElement>;
 
 export type Props = Omit<CommonProps, 'viewRef' | 'onEnter' | 'onLeave' | 'ref'> & RefProps<Ref>;
 

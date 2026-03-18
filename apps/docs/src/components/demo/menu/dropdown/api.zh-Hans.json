@@ -247,19 +247,19 @@
 				}
 			},
 			{
-				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
 				"name": "menu",
 				"summary": "下拉菜单的元素\n\n",
 				"type": "menu(): Menu.RootRef",
 				"return": {
 					"type": "Ref_8"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

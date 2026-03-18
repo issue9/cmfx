@@ -56,16 +56,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Table.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLTableElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLTableElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Table.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -170,19 +171,19 @@
 		"name": "BasicTable.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): Spin.RootRef<'div'>",
-				"return": {
-					"type": "Ref_69<\"div\">"
-				}
-			},
-			{
 				"name": "table",
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
 					"type": "Ref_71"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],
@@ -365,19 +366,19 @@
 				}
 			},
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): Spin.RootRef<'div'>",
-				"return": {
-					"type": "Ref_69<\"div\">"
-				}
-			},
-			{
 				"name": "table",
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
 					"type": "Ref_71"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],
@@ -582,19 +583,19 @@
 				}
 			},
 			{
-				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): Spin.RootRef<'div'>",
-				"return": {
-					"type": "Ref_69<\"div\">"
-				}
-			},
-			{
 				"name": "table",
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
 					"type": "Ref_71"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

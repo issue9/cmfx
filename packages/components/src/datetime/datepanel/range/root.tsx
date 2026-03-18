@@ -17,7 +17,7 @@ import {
 	untrack,
 } from 'solid-js';
 
-import { joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import type { Props as CommonProps, Ref as CommonRef } from '@components/datetime/datepanel/common/common';
@@ -26,9 +26,7 @@ import type { ValueType } from './shortcuts';
 import { nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, thisQuarter, thisYear } from './shortcuts';
 import styles from './style.module.css';
 
-export interface Ref {
-	root(): HTMLFieldSetElement;
-}
+export type Ref = BaseRef<HTMLFieldSetElement>;
 
 export interface Props
 	extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave' | 'ref'>,

@@ -50,16 +50,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "SchemeSelector.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLDivElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLDivElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "SchemeSelector.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

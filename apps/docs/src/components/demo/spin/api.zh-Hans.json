@@ -1745,24 +1745,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Spin.RootRef",
-		"typeParams": [
-			{
-				"name": "T",
-				"type": "keyof JSX.IntrinsicElements",
-				"init": "'div'"
-			}
-		],
 		"methods": [
 			{
 				"name": "root",
-				"summary": "组件根元素\n\n",
-				"type": "root(): T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Spin.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

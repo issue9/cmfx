@@ -4,7 +4,7 @@
 
 import { createMemo, type JSX, mergeProps, type ParentProps } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
 /**
@@ -14,9 +14,7 @@ export const corners = ['topleft', 'topright', 'bottomleft', 'bottomright'] as c
 
 export type Corner = (typeof corners)[number];
 
-export interface Ref {
-	root(): HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**

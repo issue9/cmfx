@@ -4,12 +4,12 @@
 
 import { calcPopoverPosition, Hotkey, sleep } from '@cmfx/core';
 import { A, useMatch } from '@solidjs/router';
+import type { JSX } from 'solid-js';
 import {
 	createEffect,
 	createMemo,
 	createSignal,
 	For,
-	type JSX,
 	Match,
 	mergeProps,
 	onCleanup,
@@ -22,7 +22,7 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import type { AvailableEnumType, BaseProps, ChangeFunc, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
 import { classList, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
@@ -30,16 +30,12 @@ import { IconSet } from '@components/icon';
 import { buildRenderItemType, type MenuItem, type RenderMenuItem } from './item';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 返回组件的根元素
-	 */
-	root(): HTMLMenuElement | HTMLElement;
-
+export interface Ref extends BaseRef<HTMLMenuElement | HTMLElement> {
 	/**
 	 * 将选中项滚动到可见范围
 	 *
-	 * @remarks 如果选中项是子菜单，那么将滚动到让其父元素处于可见位置。
+	 * @remarks
+	 * 如果选中项是子菜单，那么将滚动到让其父元素处于可见位置。
 	 */
 	scrollSelectedIntoView(): void;
 }

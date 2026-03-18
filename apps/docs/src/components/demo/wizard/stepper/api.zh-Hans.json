@@ -48,27 +48,36 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"kind": "interface",
 		"name": "Stepper.RootRef",
-		"properties": [
+		"kind": "intersection",
+		"types": [
 			{
-				"name": "next",
-				"summary": "下一步\n\n",
-				"type": "() => void"
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "next",
+						"summary": "下一步\n\n",
+						"type": "() => void"
+					},
+					{
+						"name": "prev",
+						"summary": "上一步\n\n",
+						"type": "() => void"
+					}
+				]
 			},
 			{
-				"name": "prev",
-				"summary": "上一步\n\n",
-				"type": "() => void"
-			}
-		],
-		"methods": [
-			{
-				"name": "root",
-				"type": "root(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
-				}
+				"kind": "interface",
+				"methods": [
+					{
+						"name": "root",
+						"summary": "返回组件的根元素\n\n",
+						"type": "root(): T",
+						"return": {
+							"type": "T"
+						}
+					}
+				]
 			}
 		],
 		"pkg": "@cmfx/components"

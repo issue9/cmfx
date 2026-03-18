@@ -121,19 +121,19 @@
 		"name": "Radio.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLLabelElement",
-				"return": {
-					"type": "HTMLLabelElement"
-				}
-			},
-			{
 				"name": "input",
 				"summary": "组件的 input 元素\n\n",
 				"type": "input(): HTMLInputElement",
 				"return": {
 					"type": "HTMLInputElement"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],
@@ -269,17 +269,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "RadioGroup.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLDivElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLDivElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "RadioGroup.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

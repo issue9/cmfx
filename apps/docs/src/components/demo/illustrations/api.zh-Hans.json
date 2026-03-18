@@ -40,17 +40,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Ref",
 		"methods": [
 			{
 				"name": "root",
-				"summary": "组件的引用\n\n",
-				"type": "root(): SVGSVGElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "SVGSVGElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Ref",
 		"pkg": "@cmfx/illustrations"
 	}
 ]

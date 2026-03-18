@@ -7,7 +7,7 @@ import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { DateRangePanel, type Week } from '@components/datetime';
@@ -24,12 +24,7 @@ import type { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-export interface Ref {
-	/**
-	 * 组件的根元素
-	 */
-	root(): HTMLDivElement;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 interface Base extends Omit<PickerProps, 'accessor'>, RefProps<Ref> {
 	/**

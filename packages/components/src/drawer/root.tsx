@@ -7,18 +7,13 @@ import { createEffect, createSignal, mergeProps, onCleanup, onMount, splitProps 
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import type { BaseProps, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { ToggleButton as TB } from '@components/button';
 import { Transition } from '@components/transition';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 返回组件的根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 返回侧边栏的元素
 	 */

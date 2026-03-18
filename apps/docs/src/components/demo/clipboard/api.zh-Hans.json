@@ -77,10 +77,10 @@
 			},
 			{
 				"name": "root",
-				"summary": "根元素\n\n",
-				"type": "root(): IconSet.RootRef",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "Ref_17"
+					"type": "T"
 				}
 			}
 		],

@@ -77,16 +77,17 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Code.RootRef",
 		"methods": [
 			{
 				"name": "root",
-				"type": "root(): HTMLElement",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
 				"return": {
-					"type": "HTMLElement"
+					"type": "T"
 				}
 			}
 		],
+		"name": "Code.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{

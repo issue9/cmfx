@@ -55,19 +55,19 @@
 		"name": "Nav.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "组件的根元素\n\n",
-				"type": "root(): HTMLElement",
-				"return": {
-					"type": "HTMLElement"
-				}
-			},
-			{
 				"name": "refresh",
 				"summary": "重新计算导航内容\n\n",
 				"type": "refresh(): void",
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],

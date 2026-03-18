@@ -17,7 +17,7 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import type { BaseProps, Mode, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, Mode, RefProps } from '@components/base';
 import { isReducedMotion, joinClass } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
@@ -30,12 +30,7 @@ import { Label } from '@components/label';
 import { SchemeSelector } from '@components/theme';
 import styles from './style.module.css';
 
-export interface Ref {
-	/**
-	 * 组件根元素
-	 */
-	root(): HTMLDivElement;
-
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 声明一个设置项的组件
 	 */

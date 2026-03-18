@@ -57,14 +57,6 @@
 		"name": "Dialog.RootRef",
 		"methods": [
 			{
-				"name": "root",
-				"summary": "返回组件的根元素\n\n",
-				"type": "root(): HTMLDialogElement",
-				"return": {
-					"type": "HTMLDialogElement"
-				}
-			},
-			{
 				"name": "move",
 				"summary": "移动对话框的位置\n\n",
 				"type": "move(p?: {\r\n        x: number | string;\r\n        y: number | string;\r\n    }): void",
@@ -77,6 +69,14 @@
 				],
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
 				}
 			}
 		],
