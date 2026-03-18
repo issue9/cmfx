@@ -4,3 +4,4 @@
 
 export type { Props as RootProps, Ref as RootRef } from './root';
 export { Root } from './root';
+export { buildHighlighter, type Highlighter, highlight, withCopyButton } from './shiki';

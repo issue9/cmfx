@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, joinClass, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Code, Drawer, joinClass, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import type { ArrayElement, Locale } from '@cmfx/core';
 import type { Source } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
@@ -229,21 +229,19 @@ function Markdown(props: MarkdownProps): JSX.Element {
 		});
 	}
 
+	let page: Page.RootRef;
+
+	onMount(() => {
+		Code.withCopyButton(page.root());
+	});
+
 	return (
-		<Page.Root title={title} class={styles.docs}>
-			<article
-				ref={el => {
-					articleRef = el;
-				}}
-				class={styles.doc}
-				innerHTML={html()}
-			/>
+		<Page.Root ref={el => (page = el)} title={title} class={styles.docs}>
+			<article ref={el => (articleRef = el)} class={styles.doc} innerHTML={html()} />
 			<Nav.Root
 				minHeaderCount={5}
 				class={styles.nav}
-				ref={el => {
-					navRef = el;
-				}}
+				ref={el => (navRef = el)}
 				target={articleRef}
 				query="h2,h3,h4,h5,h6"
 			/>
@@ -272,21 +270,12 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 				<Drawer.Root
 					initValue
 					floating={floatingWidth}
-					ref={el => {
-						ref = el;
-					}}
+					ref={el => (ref = el)}
 					palette="secondary"
 					mainClass={joinClass('surface')}
 					main={props.children}
 				>
-					<Menu.Root
-						ref={el => {
-							menuRef = el;
-						}}
-						class="min-w-60"
-						layout="inline"
-						items={buildMenus(l, prefix)}
-					/>
+					<Menu.Root ref={el => (menuRef = el)} class="min-w-60" layout="inline" items={buildMenus(l, prefix)} />
 				</Drawer.Root>
 			);
 		},

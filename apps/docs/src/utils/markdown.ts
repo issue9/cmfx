@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Highlighter } from '@cmfx/components';
+import { Code } from '@cmfx/components';
 import type { Source } from '@cmfx/vite-plugin-api';
 import { parse, type Token } from 'marked';
 
 import styles from './style.module.css';
 
-const highlighter = await Highlighter.build([
+const highlighter = await Code.buildHighlighter([
 	'bash',
 	'css',
 	'git-commit',
@@ -58,7 +58,7 @@ function markdownCode(types?: Array<Source>) {
 				Object.assign(token, {
 					type: 'html',
 					block: true,
-					text: highlighter.html(txt, lang[0], undefined, true, styles['simple-code'], undefined, true),
+					text: highlighter.html(txt, lang[0], undefined, true, styles['simple-code']),
 				});
 				break;
 			}

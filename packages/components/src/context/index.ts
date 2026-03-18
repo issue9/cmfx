@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { copy2Clipboard } from './clipboard';
 export type { OptionsAccessor } from './context';
 export { useOptions } from './context';
 export { ContextNotFoundError } from './errors';

@@ -174,7 +174,7 @@
 				"summary": "组件根元素\n\n",
 				"type": "root(): Spin.RootRef<'div'>",
 				"return": {
-					"type": "Ref_68<\"div\">"
+					"type": "Ref_69<\"div\">"
 				}
 			},
 			{
@@ -182,7 +182,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_70"
+					"type": "Ref_71"
 				}
 			}
 		],
@@ -369,7 +369,7 @@
 				"summary": "组件根元素\n\n",
 				"type": "root(): Spin.RootRef<'div'>",
 				"return": {
-					"type": "Ref_68<\"div\">"
+					"type": "Ref_69<\"div\">"
 				}
 			},
 			{
@@ -377,7 +377,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_70"
+					"type": "Ref_71"
 				}
 			}
 		],
@@ -586,7 +586,7 @@
 				"summary": "组件根元素\n\n",
 				"type": "root(): Spin.RootRef<'div'>",
 				"return": {
-					"type": "Ref_68<\"div\">"
+					"type": "Ref_69<\"div\">"
 				}
 			},
 			{
@@ -594,7 +594,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_70"
+					"type": "Ref_71"
 				}
 			}
 		],

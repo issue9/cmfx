@@ -104,6 +104,7 @@ const messages: typeof m = {
 			calendar: 'Calendar 日历',
 			card: 'Card 卡片',
 			code: 'Code 代码',
+			clipboard: 'Clipboard 剪贴板',
 			counter: 'Counter 计数器',
 			chart: 'Chart 图表',
 			checkbox: 'Checkbox 复选框',

@@ -106,6 +106,7 @@ const messages = {
 			chart: 'Chart',
 			checkbox: 'Checkbox',
 			choice: 'Choice',
+			clipboard: 'Clipboard',
 			color: 'Color',
 			style: 'Style',
 			date: 'Date',

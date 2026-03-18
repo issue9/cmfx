@@ -16,24 +16,8 @@
 			@apply block overflow-auto w-full h-full;
 		}
 
-		> .lang,
 		> .action {
-			@apply absolute top-0 py-1! px-2! start-auto end-0 text-sm;
-			@apply transition;
-		}
-
-		> .action {
-			@apply opacity-0 hover:text-palette-fg-focused active:text-palette-fg-actived;
-		}
-	}
-
-	.shiki:hover {
-		> .lang {
-			@apply opacity-0;
-		}
-
-		> .action {
-			@apply block cursor-pointer opacity-100;
+			@apply absolute top-0 inset-e-0 p-1!;
 		}
 	}
 
@@ -64,7 +48,7 @@
 		> code > span::before {
 			margin-inline-start: calc(-1 * var(--line-number-margin));
 			@apply font-mono w-(--line-number-width) px-1 me-1 box-content;
-			@apply inline-block bg-palette-bg-low text-palette-fg-low start-0 top-0 sticky;
+			@apply inline-block bg-palette-bg-low text-palette-fg-low inset-s-0 top-0 sticky;
 			content: counter(line);
 		}
 	}

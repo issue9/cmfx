@@ -7,7 +7,6 @@
       - entrypoint: "index.d.ts"
         types:
             - run
-            - copy2Clipboard
 
 - pkg: "@cmfx/admin"
   entrypoints:

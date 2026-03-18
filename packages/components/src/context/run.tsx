@@ -8,7 +8,6 @@ import { render } from 'solid-js/web';
 
 import { default as SystemDialog } from '@components/dialog/system';
 import { Notify } from '@components/notify/notify';
-import { Clipboard } from './clipboard';
 import { OptionsProvider } from './context';
 import { type Options, requiredOptions } from './options';
 import styles from './style.module.css';
@@ -44,7 +43,7 @@ export function run(
 			<OptionsProvider {...opt}>
 				<SystemDialog mount={mountedElement} palette="primary">
 					<Notify mount={mountedElement} palette="error">
-						<Clipboard>{app(props)}</Clipboard>
+						{app(props)}
 					</Notify>
 				</SystemDialog>
 			</OptionsProvider>

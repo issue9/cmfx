@@ -135,7 +135,7 @@
 				"name": "root",
 				"type": "root(): Result.RootRef",
 				"return": {
-					"type": "Ref_65"
+					"type": "Ref_66"
 				}
 			}
 		],
