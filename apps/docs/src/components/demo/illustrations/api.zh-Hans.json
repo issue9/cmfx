@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "IllustrationProps",
+		"name": "Props",
 		"properties": [
 			{
 				"name": "text",
@@ -40,7 +40,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "IllustrationRef",
+		"name": "Ref",
 		"methods": [
 			{
 				"name": "root",

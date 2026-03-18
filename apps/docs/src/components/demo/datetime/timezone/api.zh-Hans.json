@@ -51,7 +51,7 @@
 				"name": "root",
 				"type": "root(): Tab.RootRef",
 				"return": {
-					"type": "Ref_30"
+					"type": "Ref_32"
 				}
 			}
 		],

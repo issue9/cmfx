@@ -101,7 +101,7 @@
 				"name": "root",
 				"type": "root(): Dialog.RootRef",
 				"return": {
-					"type": "Ref_32"
+					"type": "Ref_34"
 				}
 			}
 		],

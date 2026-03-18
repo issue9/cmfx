@@ -2,4 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Clipboard from './mod';
+// NOTE: Clipboard 是全局类型名
+
+export * as ClipboardAPI from './mod';

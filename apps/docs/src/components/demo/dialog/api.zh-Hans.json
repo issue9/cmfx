@@ -5,7 +5,7 @@
 		"properties": [
 			{
 				"name": "ref",
-				"type": "(m: Ref_32) => void"
+				"type": "(m: Ref_34) => void"
 			},
 			{
 				"name": "header",
@@ -17,11 +17,6 @@
 				"summary": "底部的按钮\n\n",
 				"type": "JSX.Element",
 				"reactive": true
-			},
-			{
-				"name": "movable",
-				"summary": "是否是可拖拽移动的\n\n",
-				"type": "boolean | undefined"
 			},
 			{
 				"name": "scrollable",

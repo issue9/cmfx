@@ -15,7 +15,7 @@ import { render } from 'solid-js/web';
 
 import { type BaseProps, joinClass, style2String } from '@components/base';
 import { Button } from '@components/button';
-import { Clipboard } from '@components/clipboard';
+import { ClipboardAPI } from '@components/clipboard';
 import styles from './style.module.css';
 import { shikiTheme } from './theme';
 
@@ -166,7 +166,7 @@ export function withCopyButton(elem: HTMLElement) {
 }
 
 function mountCopyButton(el: HTMLElement) {
-	let clipboardRef: Clipboard.RootRef;
+	let clipboardRef: ClipboardAPI.RootRef;
 	render(
 		() => (
 			<Button.Root
@@ -175,7 +175,7 @@ function mountCopyButton(el: HTMLElement) {
 				kind="flat"
 				onclick={() => clipboardRef.writeText(el.dataset.code ?? '')}
 			>
-				<Clipboard.Root ref={el => (clipboardRef = el)} />
+				<ClipboardAPI.Root ref={el => (clipboardRef = el)} />
 			</Button.Root>
 		),
 		el,

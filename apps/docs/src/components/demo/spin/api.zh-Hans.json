@@ -1517,7 +1517,7 @@
 					{
 						"name": "\"aria-dropeffect\"",
 						"summary": "Indicates what functions can be performed when a dragged object is released on the drop\ntarget.\n\n",
-						"type": "\"link\" | \"move\" | \"none\" | \"copy\" | \"execute\" | \"popup\" | undefined"
+						"type": "\"link\" | \"none\" | \"move\" | \"copy\" | \"execute\" | \"popup\" | undefined"
 					},
 					{
 						"name": "\"aria-errormessage\"",
@@ -1696,7 +1696,7 @@
 					},
 					{
 						"name": "role",
-						"type": "\"button\" | \"menu\" | \"form\" | \"link\" | \"log\" | \"none\" | \"group\" | \"search\" | \"article\" | \"dialog\" | \"figure\" | \"img\" | \"main\" | \"meter\" | \"option\" | \"table\" | \"menuitem\" | \"switch\" | \"math\" | \"list\" | \"separator\" | \"listbox\" | \"tree\" | \"grid\" | \"alert\" | \"alertdialog\" | \"application\" | \"banner\" | \"cell\" | \"checkbox\" | \"columnheader\" | \"combobox\" | \"complementary\" | \"contentinfo\" | \"definition\" | \"directory\" | \"document\" | \"feed\" | \"gridcell\" | \"heading\" | \"listitem\" | \"marquee\" | \"menubar\" | \"menuitemcheckbox\" | \"menuitemradio\" | \"navigation\" | \"note\" | \"presentation\" | \"progressbar\" | \"radio\" | \"radiogroup\" | \"region\" | \"row\" | \"rowgroup\" | \"rowheader\" | \"scrollbar\" | \"searchbox\" | \"slider\" | \"spinbutton\" | \"status\" | \"tab\" | \"tablist\" | \"tabpanel\" | \"term\" | \"textbox\" | \"timer\" | \"toolbar\" | \"tooltip\" | \"treegrid\" | \"treeitem\" | undefined"
+						"type": "\"button\" | \"menu\" | \"form\" | \"link\" | \"none\" | \"log\" | \"group\" | \"search\" | \"article\" | \"dialog\" | \"figure\" | \"img\" | \"main\" | \"meter\" | \"option\" | \"table\" | \"menuitem\" | \"switch\" | \"math\" | \"list\" | \"separator\" | \"listbox\" | \"tree\" | \"grid\" | \"alert\" | \"alertdialog\" | \"application\" | \"banner\" | \"cell\" | \"checkbox\" | \"columnheader\" | \"combobox\" | \"complementary\" | \"contentinfo\" | \"definition\" | \"directory\" | \"document\" | \"feed\" | \"gridcell\" | \"heading\" | \"listitem\" | \"marquee\" | \"menubar\" | \"menuitemcheckbox\" | \"menuitemradio\" | \"navigation\" | \"note\" | \"presentation\" | \"progressbar\" | \"radio\" | \"radiogroup\" | \"region\" | \"row\" | \"rowgroup\" | \"rowheader\" | \"scrollbar\" | \"searchbox\" | \"slider\" | \"spinbutton\" | \"status\" | \"tab\" | \"tablist\" | \"tabpanel\" | \"term\" | \"textbox\" | \"timer\" | \"toolbar\" | \"tooltip\" | \"treegrid\" | \"treeitem\" | undefined"
 					}
 				]
 			},

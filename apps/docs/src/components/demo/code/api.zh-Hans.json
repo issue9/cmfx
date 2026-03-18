@@ -165,7 +165,7 @@
 			{
 				"name": "themes",
 				"summary": "主题列表，可以为空，表示使用默认主题；\n\n",
-				"type": "(ThemeInput | StringLiteralUnion<BundledTheme> | \"none\")[] | undefined"
+				"type": "(\"none\" | ThemeInput | StringLiteralUnion<BundledTheme>)[] | undefined"
 			}
 		],
 		"return": {

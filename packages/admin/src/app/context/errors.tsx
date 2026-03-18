@@ -4,7 +4,7 @@
 
 import { Button, Result, useLocale } from '@cmfx/components';
 import { APIError } from '@cmfx/core';
-import * as illustrations from '@cmfx/illustrations';
+import { Amico } from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, type JSX } from 'solid-js';
 
@@ -24,7 +24,7 @@ export function NotFound(): JSX.Element {
 	});
 
 	return (
-		<Result.Root palette="error" title={text()} illustration={<illustrations.Error404 text={text()} />}>
+		<Result.Root palette="error" title={text()} illustration={<Amico.Error404 text={text()} />}>
 			<div class={styles['error-actions']}>
 				<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 					{l.t('_p.error.backHome')}
@@ -59,7 +59,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// 未知错误
 	const unknown = (title: string, msg?: string) => {
 		return (
-			<Result.Root palette="error" title={title} description={msg} illustration={<illustrations.BUG />}>
+			<Result.Root palette="error" title={title} description={msg} illustration={<Amico.BUG />}>
 				<div class={styles['error-actions']}>
 					<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 						{l.t('_p.error.backHome')}
@@ -88,7 +88,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			case 400:
 				text = l.t('_p.error.badRequest');
 				return (
-					<Result.Root palette="error" title={text} illustration={<illustrations.Error400 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<Amico.Error400 text={text} />}>
 						<div class={styles['error-actions']}>
 							<Button.Root
 								palette="primary"
@@ -110,7 +110,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 
 				text = l.t('_p.error.unauthorized');
 				return (
-					<Result.Root palette="error" title={text} illustration={<illustrations.Error401 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<Amico.Error401 text={text} />}>
 						<div class={styles['error-actions']}>
 							<Button.Root
 								palette="primary"
@@ -128,7 +128,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			case 403:
 				text = l.t('_p.error.forbidden');
 				return (
-					<Result.Root palette="error" title={text} illustration={<illustrations.Error403 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<Amico.Error403 text={text} />}>
 						<div class={styles['error-actions']}>
 							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
@@ -150,7 +150,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			case 429:
 				text = l.t('_p.error.tooManyRequests');
 				return (
-					<Result.Root palette="error" title={text} illustration={<illustrations.Error429 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<Amico.Error429 text={text} />}>
 						<div class={styles['error-actions']}>
 							<Button.Root
 								palette="primary"
@@ -167,7 +167,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			case 500:
 				text = l.t('_p.error.internalServerError');
 				return (
-					<Result.Root palette="error" title={text} illustration={<illustrations.Error500 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<Amico.Error500 text={text} />}>
 						<div class={styles['error-actions']}>
 							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
@@ -187,7 +187,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			case 503:
 				text = l.t('_p.error.serverUnavailable');
 				return (
-					<Result.Root palette="error" title={text} illustration={<illustrations.Error503 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<Amico.Error503 text={text} />}>
 						<div class={styles['error-actions']}>
 							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
@@ -210,7 +210,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			case 504:
 				text = l.t('_p.error.gatewayTimeout');
 				return (
-					<Result.Root palette="error" title={text} illustration={<illustrations.Error504 text={text} />}>
+					<Result.Root palette="error" title={text} illustration={<Amico.Error504 text={text} />}>
 						<div class={styles['error-actions']}>
 							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}

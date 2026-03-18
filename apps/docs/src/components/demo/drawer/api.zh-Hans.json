@@ -243,7 +243,7 @@
 					},
 					{
 						"name": "drawer",
-						"type": "Ref_34 | undefined"
+						"type": "Ref_36 | undefined"
 					}
 				]
 			}
