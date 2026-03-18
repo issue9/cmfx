@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BasicTable, Button, MountProps } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { BasicTable, Button, type MountProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '@docs/components/base';
@@ -58,12 +58,12 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				items={nodata() ? [] : items}
 				columns={columns}
-				extraHeader={
+				header={
 					<p class="bg-primary-fg text-primary-bg">
 						<Button.Root palette="primary">Button</Button.Root>
 					</p>
 				}
-				extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
+				footer={<p class="bg-primary-fg text-primary-bg">footer</p>}
 			/>
 		</>
 	);

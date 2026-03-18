@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Drawer, joinClass, Menu, useLocale } from '@cmfx/components';
-import { RouteDefinition } from '@solidjs/router';
-import { onCleanup, onMount, ParentProps, Setter } from 'solid-js';
+import type { RouteDefinition } from '@solidjs/router';
+import { onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
 
 import { floatingWidth } from '@docs/utils';
 import { buildMenus, default as overview, routes } from './overview';
@@ -36,7 +36,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 
 			return (
 				<Drawer.Root
-					visible
+					initValue
 					floating={floatingWidth}
 					ref={el => {
 						ref = el;

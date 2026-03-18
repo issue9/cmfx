@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MountProps, Stepper } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { Button, type MountProps, Stepper } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconChat from '~icons/material-symbols/chat';
 import IconCheck from '~icons/material-symbols/check';

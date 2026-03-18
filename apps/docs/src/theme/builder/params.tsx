@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Accessor, Palette, Scheme } from '@cmfx/components';
+import type { Accessor, ObjectAccessor, Palette, Scheme } from '@cmfx/components';
 import {
 	Button,
 	ButtonGroup,
@@ -10,20 +10,19 @@ import {
 	Dialog,
 	Divider,
 	Dropdown,
-	Menu,
 	fieldAccessor,
 	joinClass,
 	Label,
+	type Menu,
 	notify,
-	ObjectAccessor,
 	RadioGroup,
 	Slider,
 	useLocale,
 	useOptions,
 } from '@cmfx/components';
-import { ExpandType, Locale, rand } from '@cmfx/core';
+import { type ExpandType, type Locale, rand } from '@cmfx/core';
 import Color from 'colorjs.io';
-import { batch, createEffect, createMemo, JSX } from 'solid-js';
+import { batch, createEffect, createMemo, type JSX } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconLoad from '~icons/material-symbols/arrow-upload-progress';

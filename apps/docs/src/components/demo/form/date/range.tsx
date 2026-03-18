@@ -2,17 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DateRangePicker, fieldAccessor, MountProps, Week, weeks } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { DateRangePicker, fieldAccessor, type MountProps, type Week, weeks } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const dateFA = fieldAccessor<[Date, Date] | undefined, 'date'>('range', [
-		new Date('2024-01-02T15:34'),
-		new Date('2025-01-02T15:34'),
-	], 'date');
+	const dateFA = fieldAccessor<[Date, Date] | undefined, 'date'>(
+		'range',
+		[new Date('2024-01-02T15:34'), new Date('2025-01-02T15:34')],
+		'date',
+	);
 	const numberFA = fieldAccessor<[number | undefined, number | undefined], 'number'>(
 		'range',
 		[undefined, 1765000000000],

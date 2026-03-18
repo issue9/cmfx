@@ -2,21 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Drawer,
-	joinClass,
-	Menu,
-	Nav,
-	Page,
-	useLocale,
-	useOptions,
-} from '@cmfx/components';
-import { ArrayElement, Locale } from '@cmfx/core';
-import { Source } from '@cmfx/vite-plugin-api';
-import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import { createEffect, createSignal, JSX, onCleanup, onMount, ParentProps, Setter } from 'solid-js';
+import { Drawer, joinClass, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import type { ArrayElement, Locale } from '@cmfx/core';
+import type { Source } from '@cmfx/vite-plugin-api';
+import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
+import { createEffect, createSignal, type JSX, onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
 
-import { floatingWidth, MarkdownFileObject, markdown } from '@docs/utils';
+import { floatingWidth, type MarkdownFileObject, markdown } from '@docs/utils';
 import { default as advanceAPI } from './advance/api.zh-Hans.json' with { type: 'json' };
 import styles from './style.module.css';
 import { default as usageAPI } from './usage/api.zh-Hans.json' with { type: 'json' };

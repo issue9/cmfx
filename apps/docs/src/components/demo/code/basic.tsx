@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Code, MountProps } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { Code, type MountProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '@docs/components/base';

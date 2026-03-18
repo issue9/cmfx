@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, IconSet, IconSetRef, Scheme, ThemeProvider, useOptions, useTheme } from '@cmfx/components';
+import { Button, Divider, IconSet, type Scheme, ThemeProvider, useOptions, useTheme } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
@@ -16,45 +16,43 @@ export default function () {
 
 	const [m2, setMode2] = createSignal(origin.mode);
 
-	let ref: IconSetRef;
+	let ref: IconSet.RootRef;
 
 	return (
 		<div>
-			<Button>
+			<Button.Root>
 				这是继承上一层的主题: {g.mode}, {g.scheme?.primary}
-			</Button>
-			<Divider />
+			</Button.Root>
+			<Divider.Root />
 
 			<ThemeProvider mode={m()} scheme={s()}>
-				<Button>
+				<Button.Root>
 					这是当前主题 {useTheme().mode}, {useTheme().scheme?.primary}
-				</Button>
+				</Button.Root>
 
-				<Button onclick={() => setScheme(origin.schemes?.get('purple'))}>主题-purple</Button>
-				<Button onclick={() => setScheme(origin.schemes?.get('green'))}>主题-green</Button>
+				<Button.Root onclick={() => setScheme(origin.schemes?.get('purple'))}>主题-purple</Button.Root>
+				<Button.Root onclick={() => setScheme(origin.schemes?.get('green'))}>主题-green</Button.Root>
 
-				<Button onclick={() => setMode('light')}>浅色</Button>
-				<Button onclick={() => setMode('dark')}>深色</Button>
-				<Button onclick={() => setMode('system')}>跟随系统</Button>
-				<Button onclick={() => ref.next()} class="w-16">
-					<IconSet
-						ref={el => {
-							ref = el;
-						}}
+				<Button.Root onclick={() => setMode('light')}>浅色</Button.Root>
+				<Button.Root onclick={() => setMode('dark')}>深色</Button.Root>
+				<Button.Root onclick={() => setMode('system')}>跟随系统</Button.Root>
+				<Button.Root onclick={() => ref.next()} class="w-16">
+					<IconSet.Root
+						ref={el => (ref = el)}
 						icons={{
 							face: <IconFace />,
 							close: <IconClose />,
 							person: <IconPerson />,
 						}}
 					/>
-				</Button>
+				</Button.Root>
 
 				<ThemeProvider mode={m2()}>
-					<Divider />
-					<Button>这是另一个嵌套的主题 {useTheme().mode}</Button>
-					<Button onclick={() => setMode2('light')}>浅色</Button>
-					<Button onclick={() => setMode2('dark')}>深色</Button>
-					<Button onclick={() => setMode2('system')}>跟随系统</Button>
+					<Divider.Root />
+					<Button.Root>这是另一个嵌套的主题 {useTheme().mode}</Button.Root>
+					<Button.Root onclick={() => setMode2('light')}>浅色</Button.Root>
+					<Button.Root onclick={() => setMode2('dark')}>深色</Button.Root>
+					<Button.Root onclick={() => setMode2('system')}>跟随系统</Button.Root>
 				</ThemeProvider>
 			</ThemeProvider>
 		</div>

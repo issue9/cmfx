@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Scheme, ThemeProvider, useTheme } from '@cmfx/components';
-import { createSignal, JSX } from 'solid-js';
+import { Button, type Scheme, ThemeProvider, useTheme } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 
 export default function (): JSX.Element {
 	const s1 = { primary: 'yellow', secondary: 'green', tertiary: 'blue', error: 'red', surface: 'white' } as Scheme;
@@ -16,7 +16,7 @@ export default function (): JSX.Element {
 				<pre>{`${JSON.stringify(useTheme(), null, 4)}`}</pre>
 				<ThemeProvider mode="light" scheme={s()}>
 					<div class="bg-palette-2-bg p-2 text-palette-2-fg">
-						<Button onclick={() => setS(s() === s1 ? s2 : s1)}>change scheme</Button>
+						<Button.Root onclick={() => setS(s() === s1 ? s2 : s1)}>change scheme</Button.Root>
 						mode 设置为 light, scheme 为自定义
 						<pre>{`${JSON.stringify(useTheme(), null, 4)}`}</pre>
 						<div class="bg-palette-3-bg p-2 text-palette-3-fg">

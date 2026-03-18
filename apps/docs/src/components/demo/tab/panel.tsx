@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Tab } from '@cmfx/components';
-import { createSignal, JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 
 export default function (): JSX.Element {
 	const items: Array<Tab.Item> = [

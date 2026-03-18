@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, xalert, xconfirm, xprompt } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 
 export default function (): JSX.Element {
 	return (

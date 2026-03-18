@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, LocaleProvider, useLocale } from '@cmfx/components';
-import { createSignal, JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 
 export default function (): JSX.Element {
 	const l = useLocale();
@@ -17,8 +17,8 @@ export default function (): JSX.Element {
 			<LocaleProvider id={locale()} displayStyle="narrow">
 				<p>这是当前语言的翻译内容：{useLocale().t('_c.ok')}</p>
 				<p>当前值：{useLocale().locale.toString()}</p>
-				<Button onclick={() => setLocale('en')}>en</Button>
-				<Button onclick={() => setLocale('zh-Hans')}>zh-Hans</Button>
+				<Button.Root onclick={() => setLocale('en')}>en</Button.Root>
+				<Button.Root onclick={() => setLocale('zh-Hans')}>zh-Hans</Button.Root>
 			</LocaleProvider>
 		</div>
 	);

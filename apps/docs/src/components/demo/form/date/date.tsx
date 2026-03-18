@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker, fieldAccessor, MountProps, Week, weeks } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { DatePicker, fieldAccessor, type MountProps, type Week, weeks } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';

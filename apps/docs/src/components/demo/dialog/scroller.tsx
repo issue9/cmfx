@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, MountProps } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { Button, Dialog, type MountProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';
@@ -25,8 +25,12 @@ export default function (props: MountProps): JSX.Element {
 			<Dialog.Root
 				palette={palette()}
 				scrollable
-				ref={el => dlg = el}
-				header={<Dialog.Toolbar movable close min max>header</Dialog.Toolbar>}
+				ref={el => (dlg = el)}
+				header={
+					<Dialog.Toolbar movable close min max>
+						header
+					</Dialog.Toolbar>
+				}
 				footer="footer"
 				class="h-80 w-80"
 			>

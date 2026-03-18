@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MonthPanel, MountProps } from '@cmfx/components';
-import { createSignal, JSX } from 'solid-js';
+import { Button, MonthPanel, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '@docs/components/base';

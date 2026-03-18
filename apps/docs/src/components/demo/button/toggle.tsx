@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MountProps, ToggleButton } from '@cmfx/components';
+import { type MountProps, ToggleButton } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
-import { JSX } from 'solid-js';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
@@ -63,7 +63,7 @@ export default function (props: MountProps): JSX.Element {
 
 				<br />
 
-				<div class="bg-palette-bg" ref={el => screenElement = el}>
+				<div class="bg-palette-bg" ref={el => (screenElement = el)}>
 					<ToggleButton.FitScreen
 						square
 						disabled={disabled()}

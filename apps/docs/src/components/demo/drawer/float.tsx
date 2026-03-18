@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Drawer, MountProps } from '@cmfx/components';
-import { createMemo, createSignal, JSX, Show } from 'solid-js';
+import { Button, Drawer, type MountProps } from '@cmfx/components';
+import { createMemo, createSignal, type JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector } from '@docs/components/base';
@@ -45,9 +45,7 @@ export default function (props: MountProps): JSX.Element {
 				ref.toggle
 			</Button.Root>
 
-			<Show when={ref()}>
-				{r => <Drawer.ToggleButton drawer={r()} />}
-			</Show>
+			<Show when={ref()}>{r => <Drawer.ToggleButton drawer={r()} />}</Show>
 			<Drawer.ToggleButton drawer={ref()} />
 
 			<Drawer.Root

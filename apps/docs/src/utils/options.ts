@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer } from '@cmfx/components';
+import type { Drawer } from '@cmfx/components';
 
 export const floatingWidth: Drawer.RootProps['floating'] = 'lg';

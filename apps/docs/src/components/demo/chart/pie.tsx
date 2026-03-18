@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ChartPie, MountProps } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { ChartPie, type MountProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Menu, MountProps } from '@cmfx/components';
-import { createSignal, JSX } from 'solid-js';
+import { Menu, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
@@ -21,7 +21,7 @@ function selectedClassSelector(preset?: string) {
 	);
 }
 
-export default function(props: MountProps): JSX.Element {
+export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
 

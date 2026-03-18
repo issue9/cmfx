@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Divider, MountProps } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { Divider, type MountProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 

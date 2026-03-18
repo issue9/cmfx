@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, LocaleProvider, useLocale } from '@cmfx/components';
-import { DisplayStyle } from '@cmfx/core';
-import { createSignal, JSX } from 'solid-js';
+import type { DisplayStyle } from '@cmfx/core';
+import { createSignal, type JSX } from 'solid-js';
 
 export default function (): JSX.Element {
 	const [style, setStyle] = createSignal<DisplayStyle>('full');
@@ -13,7 +13,7 @@ export default function (): JSX.Element {
 		<div class="p-2">
 			<LocaleProvider id="zh" displayStyle={style()}>
 				其中 timezone 继承自合局的默认值，
-				<Button onclick={() => setStyle(style() === 'full' ? 'short' : 'full')}>change style</Button>
+				<Button.Root onclick={() => setStyle(style() === 'full' ? 'short' : 'full')}>change style</Button.Root>
 				<p>
 					当前值：{useLocale().locale.toString()},{useLocale().displayStyle},{useLocale().timezone}
 				</p>

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MountProps, WeekPanel, WeekValueType } from '@cmfx/components';
+import { Button, type MountProps, WeekPanel, type WeekValueType } from '@cmfx/components';
 import { getISOWeek } from '@cmfx/core';
-import { createSignal, JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '@docs/components/base';

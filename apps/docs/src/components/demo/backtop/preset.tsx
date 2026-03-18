@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BackTop, MountProps } from '@cmfx/components';
-import { For, JSX } from 'solid-js';
+import { BackTop, type MountProps } from '@cmfx/components';
+import { For, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';
@@ -30,7 +30,7 @@ export default function (props: MountProps): JSX.Element {
 						</>
 					)}
 				</For>
-				<BackTop.Root palette={palette()} class="start-[300px] end-[unset] bottom-4! mb-10" />
+				<BackTop.Root palette={palette()} class="inset-e-[unset] inset-s-[300px] bottom-4! mb-10" />
 			</div>
 		</>
 	);

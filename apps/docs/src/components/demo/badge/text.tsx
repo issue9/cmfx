@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Badge, Button, MountProps } from '@cmfx/components';
+import { Badge, Button, type MountProps } from '@cmfx/components';
 import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

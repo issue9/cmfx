@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MountProps, Scheme, SchemeSelector, schemes } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { type MountProps, type Scheme, SchemeSelector, schemes } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '@docs/components/base';

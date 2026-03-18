@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Highlighter } from '@cmfx/components';
-import { Source } from '@cmfx/vite-plugin-api';
-import { parse, Token } from 'marked';
+import type { Source } from '@cmfx/vite-plugin-api';
+import { parse, type Token } from 'marked';
 
 import styles from './style.module.css';
 

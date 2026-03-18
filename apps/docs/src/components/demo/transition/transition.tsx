@@ -10,13 +10,13 @@ export default function () {
 
 	return (
 		<div class="flex flex-col gap-2">
-			<Button
+			<Button.Root
 				onclick={() => {
 					setCurr(curr() === 'red' ? 'blue' : 'red');
 				}}
 			>
 				switch
-			</Button>
+			</Button.Root>
 
 			<div>
 				<Transition>

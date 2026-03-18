@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Avatar, Badge, MountProps, notify } from '@cmfx/components';
+import { Avatar, Badge, type MountProps, notify } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconCamera from '~icons/material-symbols/photo-camera';
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { RouteDefinition } from '@solidjs/router';
+import type { RouteDefinition } from '@solidjs/router';
 
 import { Contribute } from './contribute';
 

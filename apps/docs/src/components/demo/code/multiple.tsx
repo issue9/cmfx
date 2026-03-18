@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Code, MountProps } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { Code, type MountProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, paletteSelector } from '@docs/components/base';
@@ -12,7 +12,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Editable, editable] = boolSelector('_d.demo.editable');
 	const [Wrap, wrap] = boolSelector('_d.demo.wrap');
-	const [Theme, theme] = arraySelector('themes', ['andromeeda', 'aurora-x', 'ayu-dark', 'ayu-light'])
+	const [Theme, theme] = arraySelector('themes', ['andromeeda', 'aurora-x', 'ayu-dark', 'ayu-light']);
 
 	return (
 		<div>
@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<Code.Root
-			 	theme={theme()}
+				theme={theme()}
 				wrap={wrap()}
 				ln={21}
 				class="w-100"

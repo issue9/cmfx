@@ -13,11 +13,11 @@ import {
 	palettes,
 	useLocale,
 } from '@cmfx/components';
-import { DictKeys, PopoverPosition } from '@cmfx/core';
-import { Accessor, Component, createSignal, createUniqueId, Setter } from 'solid-js';
+import type { DictKeys, PopoverPosition } from '@cmfx/core';
+import { type Accessor, type Component, createSignal, createUniqueId, type Setter } from 'solid-js';
 
-import messages from '@docs/messages/en.lang';
-import { StageProps, StagesProps } from './stages';
+import type messages from '@docs/messages/en.lang';
+import type { StageProps, StagesProps } from './stages';
 
 export function posSelector(preset?: PopoverPosition) {
 	return arraySelector('_d.demo.tooltipPos', ['left', 'right', 'top', 'bottom'], preset ?? 'left');

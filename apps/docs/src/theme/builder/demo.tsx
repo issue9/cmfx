@@ -2,29 +2,28 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Mode, Palette, Scheme } from '@cmfx/components';
+import type { Mode, ObjectAccessor, Palette, Scheme } from '@cmfx/components';
 import {
 	Appbar,
 	BasicTable,
 	Button,
 	ButtonGroup,
 	Card,
-	Form,
 	DatePanel,
+	Form,
+	FormAPI,
 	fieldAccessor,
 	joinClass,
 	Menu,
-	ObjectAccessor,
 	Password,
 	palettes,
 	TextField,
 	ThemeProvider,
 	useLocale,
 	wcag,
-	FormAPI,
 } from '@cmfx/components';
-import { ExpandType } from '@cmfx/core';
-import { createEffect, createSignal, For, JSX, Match, Switch } from 'solid-js';
+import type { ExpandType } from '@cmfx/core';
+import { createEffect, createSignal, For, type JSX, Match, Switch } from 'solid-js';
 import IconNone from '~icons/ic/round-contrast';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLight from '~icons/material-symbols/light-mode';

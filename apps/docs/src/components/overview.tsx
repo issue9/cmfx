@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Card, Menu, Page, useLocale } from '@cmfx/components';
-import { ArrayElement, Locale } from '@cmfx/core';
-import { A, RouteDefinition } from '@solidjs/router';
-import { For, JSX } from 'solid-js';
+import { Card, type Menu, Page, useLocale } from '@cmfx/components';
+import type { ArrayElement, Locale } from '@cmfx/core';
+import { A, type RouteDefinition } from '@solidjs/router';
+import { For, type JSX } from 'solid-js';
 import IconPresetComponent from '~icons/iconamoon/component-fill'; // 组件的默认图标
 
-import { Info } from './base';
+import type { Info } from './base';
 import { Stages } from './stages';
 import styles from './style.module.css';
 

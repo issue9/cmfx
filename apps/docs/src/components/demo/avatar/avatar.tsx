@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Avatar, MountProps, notify } from '@cmfx/components';
+import { Avatar, type MountProps, notify } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '@docs/components/base';

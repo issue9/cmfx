@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { palettes, Scheme } from '@cmfx/components';
+import { palettes, type Scheme } from '@cmfx/components';
 
 /**
  * 将参数 s 中的颜色变量转换为实际颜色值

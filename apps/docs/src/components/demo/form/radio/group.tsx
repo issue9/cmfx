@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, FieldOptions, fieldAccessor, MountProps, Palette, RadioGroup } from '@cmfx/components';
-import { createSignal, JSX } from 'solid-js';
+import { Button, type FieldOptions, fieldAccessor, type MountProps, type Palette, RadioGroup } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector } from '@docs/components/base';

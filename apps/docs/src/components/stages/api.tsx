@@ -16,7 +16,7 @@ import type {
 	Type,
 	Union,
 } from '@cmfx/vite-plugin-api';
-import { createSignal, For, JSX, Match, Show, Switch } from 'solid-js';
+import { createSignal, For, type JSX, Match, Show, Switch } from 'solid-js';
 import IconDown from '~icons/material-symbols/arrow-drop-down';
 
 import { markdown } from '@docs/utils';

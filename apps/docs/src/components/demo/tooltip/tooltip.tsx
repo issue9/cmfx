@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MountProps, Tooltip } from '@cmfx/components';
-import { PopoverPosition } from '@cmfx/core';
-import { createSignal, JSX } from 'solid-js';
+import { Button, type MountProps, Tooltip } from '@cmfx/components';
+import type { PopoverPosition } from '@cmfx/core';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { posSelector } from '@docs/components/base';

@@ -3,15 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { Nav, Page, useLocale, useOptions } from '@cmfx/components';
-import { Type } from '@cmfx/vite-plugin-api';
+import type { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
-import { createEffect, createSignal, For, JSX, Show } from 'solid-js';
+import { createEffect, createSignal, For, type JSX, Show } from 'solid-js';
 import IconGithub from '~icons/lineicons/github';
 
-import { MarkdownFileObject, markdown } from '@docs/utils';
+import { type MarkdownFileObject, markdown } from '@docs/utils';
 import pkg from '../../../package.json';
 import { API } from './api';
-import { default as Stage, Props as StageProps } from './stage';
+import { default as Stage, type Props as StageProps } from './stage';
 import styles from './style.module.css';
 
 // 演示文件的基地址

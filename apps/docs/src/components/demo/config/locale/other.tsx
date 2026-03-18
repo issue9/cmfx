@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, LocaleProvider, useLocale, useOptions } from '@cmfx/components';
-import { DisplayStyle } from '@cmfx/core';
-import { createSignal, JSX } from 'solid-js';
+import type { DisplayStyle } from '@cmfx/core';
+import { createSignal, type JSX } from 'solid-js';
 
 export default function (): JSX.Element {
 	const [accessor] = useOptions();
@@ -30,20 +30,20 @@ export default function (): JSX.Element {
 
 				<div class="flex flex-col">
 					<div class="flex">
-						<Button onclick={() => setLocale('en')}>en</Button>
-						<Button onclick={() => setLocale('zh-Hans')}>zh-Hans</Button>
+						<Button.Root onclick={() => setLocale('en')}>en</Button.Root>
+						<Button.Root onclick={() => setLocale('zh-Hans')}>zh-Hans</Button.Root>
 					</div>
 
 					<div class="flex">
-						<Button onclick={() => setStyle('full')}>full</Button>
-						<Button onclick={() => setStyle('short')}>short</Button>
-						<Button onclick={() => setStyle('narrow')}>narrow</Button>
+						<Button.Root onclick={() => setStyle('full')}>full</Button.Root>
+						<Button.Root onclick={() => setStyle('short')}>short</Button.Root>
+						<Button.Root onclick={() => setStyle('narrow')}>narrow</Button.Root>
 					</div>
 
 					<div class="flex">
-						<Button onclick={() => setTZ('Asia/Shanghai')}>Asia/Shanghai</Button>
-						<Button onclick={() => setTZ('Africa/Abidjan')}>Africa/Abidjan</Button>
-						<Button onclick={() => setTZ('UTC')}>UTC</Button>
+						<Button.Root onclick={() => setTZ('Asia/Shanghai')}>Asia/Shanghai</Button.Root>
+						<Button.Root onclick={() => setTZ('Africa/Abidjan')}>Africa/Abidjan</Button.Root>
+						<Button.Root onclick={() => setTZ('UTC')}>UTC</Button.Root>
 					</div>
 				</div>
 			</LocaleProvider>

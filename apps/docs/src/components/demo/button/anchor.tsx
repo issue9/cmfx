@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MountProps } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { Button, type MountProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
@@ -44,7 +44,15 @@ export default function (props: MountProps): JSX.Element {
 					undefined
 				</Button.Root>
 
-				<Button.Root type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="tertiary" square>
+				<Button.Root
+					type="a"
+					href="./"
+					disabled={disabled()}
+					rounded={rounded()}
+					kind={kind()}
+					palette="tertiary"
+					square
+				>
 					<IconFace />
 				</Button.Root>
 				<Button.Root type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">

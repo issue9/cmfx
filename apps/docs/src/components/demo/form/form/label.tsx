@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, DatePicker, MountProps, Numeric, TextArea, TextField, FormAPI } from '@cmfx/components';
-import { JSX } from 'solid-js';
+import { Button, DatePicker, Form, FormAPI, type MountProps, Numeric, TextArea, TextField } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, labelAlignSelector, layoutSelector, paletteSelector } from '@docs/components/base';
@@ -53,7 +53,12 @@ export default function (props: MountProps): JSX.Element {
 				<TextField.Root label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
 				<Numeric.Root label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
 				<DatePicker.Root label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
-				<TextArea.Root label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
+				<TextArea.Root
+					label="textarea"
+					class="grow"
+					accessor={api.accessor<string>('textarea')}
+					help="这是一个帮助文本"
+				/>
 				<div class="flex w-full justify-between">
 					<Button.Root type="reset">reset</Button.Root>
 					<Button.Root type="submit">submit</Button.Root>
