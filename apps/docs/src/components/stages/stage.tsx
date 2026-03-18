@@ -95,37 +95,19 @@ export default function Stage(props: Props): JSX.Element {
 							<ToggleButton.FitScreen square container={demoRef()!} />
 
 							<ButtonGroup.Root>
-								<Button.Root
-									square
-									checked={dir() === 'rtl'}
-									onclick={() => setDir('rtl')
-									}
-								>
+								<Button.Root square checked={dir() === 'rtl'} onclick={() => setDir('rtl')}>
 									<IconRTL />
 								</Button.Root>
-								<Button.Root
-									square
-									checked={dir() === 'ltr'}
-									onclick={() => setDir('ltr')
-									}
-								>
+								<Button.Root square checked={dir() === 'ltr'} onclick={() => setDir('ltr')}>
 									<IconLTR />
 								</Button.Root>
 							</ButtonGroup.Root>
 
 							<ButtonGroup.Root>
-								<Button.Root
-									square
-									checked={mode() === 'dark'}
-									onclick={() => setMode('dark')}
-								>
+								<Button.Root square checked={mode() === 'dark'} onclick={() => setMode('dark')}>
 									<IconDark />
 								</Button.Root>
-								<Button.Root
-									square
-									checked={mode() === 'light'}
-									onclick={() => setMode('light')}
-								>
+								<Button.Root square checked={mode() === 'light'} onclick={() => setMode('light')}>
 									<IconLight />
 								</Button.Root>
 							</ButtonGroup.Root>
