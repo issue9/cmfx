@@ -22,13 +22,7 @@ export default function Error401(props: Props): JSX.Element {
 			style={props.style}
 			role="presentation"
 			aria-hidden={true}
-			ref={el =>
-				props.ref?.({
-					root() {
-						return el;
-					},
-				})
-			}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<title>{props.text}</title>
 			<defs>

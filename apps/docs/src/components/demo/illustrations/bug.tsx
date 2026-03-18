@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps } from '@cmfx/components';
-import * as illustrations from '@cmfx/illustrations';
+import { Amico } from '@cmfx/illustrations';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -18,7 +18,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<illustrations.BUG class="aspect-square w-full bg-palette-bg" palette={palette()} />
+			<Amico.BUG class="aspect-square w-full bg-palette-bg" palette={palette()} />
 		</>
 	);
 }

@@ -22,13 +22,7 @@ export default function Error404(props: Props): JSX.Element {
 			class={buildClass(props)}
 			role="presentation"
 			aria-hidden={true}
-			ref={el =>
-				props.ref?.({
-					root() {
-						return el;
-					},
-				})
-			}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<title>{props.text}</title>
 			<defs>

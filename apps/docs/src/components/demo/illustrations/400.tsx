@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps } from '@cmfx/components';
-import * as illustrations from '@cmfx/illustrations';
+import { Amico } from '@cmfx/illustrations';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -20,7 +20,7 @@ export default function (props: MountProps): JSX.Element {
 				<Custom />
 			</Portal>
 
-			<illustrations.Error400
+			<Amico.Error400
 				class="aspect-square w-full bg-palette-bg"
 				palette={palette()}
 				text={custom() ? '自定义错误信息' : undefined}
