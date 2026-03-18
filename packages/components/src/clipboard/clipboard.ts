@@ -29,6 +29,10 @@ export function buildRef(root: IconSet.RootRef, opt: OptionsAccessor): Ref {
 		root: () => root,
 
 		writeText: async (text: string): Promise<void> => {
+			if (root.id() !== 'copy') {
+				return;
+			}
+
 			await writeText2Clipboard(text, ok => {
 				root.to(ok ? 'ok' : 'error');
 			});
@@ -38,6 +42,10 @@ export function buildRef(root: IconSet.RootRef, opt: OptionsAccessor): Ref {
 		},
 
 		write: async (items: Array<ClipboardItem>): Promise<void> => {
+			if (root.id() !== 'copy') {
+				return;
+			}
+
 			await write2Clipboard(items, ok => {
 				root.to(ok ? 'ok' : 'error');
 			});
@@ -54,9 +62,10 @@ export function buildRef(root: IconSet.RootRef, opt: OptionsAccessor): Ref {
 type AfterWrite2Clipboard = (ok?: boolean) => void;
 
 async function writeText2Clipboard(text: string, after?: AfterWrite2Clipboard): Promise<void> {
-	let ok = true;
+	let ok = !!navigator.clipboard;
+
 	try {
-		await navigator.clipboard.writeText(text);
+		await navigator.clipboard?.writeText(text);
 	} catch (err) {
 		console.error(err);
 		ok = false;
@@ -68,9 +77,10 @@ async function writeText2Clipboard(text: string, after?: AfterWrite2Clipboard): 
 }
 
 async function write2Clipboard(items: Array<ClipboardItem>, after?: AfterWrite2Clipboard): Promise<void> {
-	let ok = true;
+	let ok = !!navigator.clipboard;
+
 	try {
-		await navigator.clipboard.write(items);
+		await navigator.clipboard?.write(items);
 	} catch (err) {
 		console.error(err);
 		ok = false;

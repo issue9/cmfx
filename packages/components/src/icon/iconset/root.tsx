@@ -36,6 +36,11 @@ export interface Ref {
 	 * 组件的根元素
 	 */
 	root(): SVGSVGElement;
+
+	/**
+	 * 当前展示的图标 ID
+	 */
+	id(): string;
 }
 
 export const iconSetEasings = Object.keys(easings);
@@ -148,6 +153,8 @@ export function Root(props: Props): JSX.Element {
 					},
 
 					root: () => icons,
+
+					id: () => morpheus.currIconId(),
 				});
 			},
 		);
