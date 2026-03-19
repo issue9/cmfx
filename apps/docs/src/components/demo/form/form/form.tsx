@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps } from '@cmfx/components';
-import { Button, DatePicker, Form, FormAPI, Numeric, notify, TextArea, TextField } from '@cmfx/components';
+import { Button, DatePicker, Form, FormAPI, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -26,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 			textarea: 'textarea',
 		},
 		submit: async () => ({ ok: false, status: 500, body: { type: '500', title: '请求未处理', status: 500 } }),
-		onProblem: p => notify('error', p.title),
+		onProblem: p => Notify.notify('error', p.title),
 	});
 
 	return (

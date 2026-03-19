@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Calendar, fieldAccessor, type MountProps, Numeric, notify, type Week } from '@cmfx/components';
+import { Calendar, fieldAccessor, type MountProps, Notify, Numeric, type Week } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -34,7 +34,7 @@ export default function (props: MountProps): JSX.Element {
 					palette={palette()}
 					min={minmax() ? min : undefined}
 					max={minmax() ? max : undefined}
-					onSelected={(d: Date) => notify(d.toString())}
+					onSelected={(d: Date) => Notify.notify(d.toString())}
 				/>
 			</div>
 		</>

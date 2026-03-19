@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type Menu, type MountProps, notify, SplitButton } from '@cmfx/components';
+import { Button, type Menu, type MountProps, Notify, SplitButton } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -90,7 +90,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<SplitButton.Root selectedClass={selectedCls()} palette={palette()} items={items}>
-				<Button.Root onclick={() => notify('click split button')}>split button</Button.Root>
+				<Button.Root onclick={() => Notify.notify('click split button')}>split button</Button.Root>
 			</SplitButton.Root>
 		</div>
 	);

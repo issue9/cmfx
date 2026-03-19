@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, type MountProps, notify } from '@cmfx/components';
+import { Alert, type MountProps, Notify } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -35,7 +35,7 @@ export default function (props: MountProps): JSX.Element {
 				title="由 onclose 阻止"
 				icon={<IconFace />}
 				onClose={async () => {
-					await notify('阻止了关闭操作!');
+					await Notify.notify('阻止了关闭操作!');
 					return true;
 				}}
 			/>

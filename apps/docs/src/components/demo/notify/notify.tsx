@@ -8,8 +8,8 @@ import {
 	Button,
 	Choice,
 	fieldAccessor,
+	Notify,
 	Numeric,
-	notify,
 	TextArea,
 	TextField,
 	useLocale,
@@ -31,7 +31,7 @@ export default function (props: MountProps): JSX.Element {
 	const body = fieldAccessor<string>('body', 'body');
 
 	const click = async (): Promise<void> => {
-		await notify(title.getValue(), body.getValue(), typ.getValue(), l.locale.toString(), timeout.getValue());
+		await Notify.notify(title.getValue(), body.getValue(), typ.getValue(), l.locale.toString(), timeout.getValue());
 	};
 
 	createEffect(() => {

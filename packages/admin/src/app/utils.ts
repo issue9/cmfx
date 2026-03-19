@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { notify } from '@cmfx/components';
+import { Notify } from '@cmfx/components';
 import { APIError, type Problem } from '@cmfx/core';
 
 /**
@@ -15,5 +15,5 @@ export async function handleProblem<P>(p: Problem<P>): Promise<void> {
 	if (p.status >= 500) {
 		throw APIError.fromProblem(p);
 	}
-	await notify(p.title, p.detail, 'error');
+	await Notify.notify(p.title, p.detail, 'error');
 }

@@ -14,7 +14,7 @@ import {
 	joinClass,
 	Label,
 	type Menu,
-	notify,
+	Notify,
 	RadioGroup,
 	Slider,
 	useLocale,
@@ -60,7 +60,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 							onChange={e => {
 								const obj = opt.schemes.get(e);
 								if (!obj) {
-									notify(l.t('_d.theme.predefinedSchemesNotFound', { name: e }));
+									Notify.notify(l.t('_d.theme.predefinedSchemesNotFound', { name: e }));
 									return;
 								}
 								s.setValue(convertSchemeVar2Color(unwrap(obj)));
@@ -92,11 +92,8 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 			</div>
 
 			<Dialog.Root
-				movable
 				class="h-1/2"
-				ref={el => {
-					dlg = el;
-				}}
+				ref={el => (dlg = el)}
 				header={<Label.Root icon={<IconExport />}>{l.t('_d.theme.export')}</Label.Root>}
 			>
 				<Code.Root lang="json" class="h-full" ln={0}>

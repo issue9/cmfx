@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, Form, FormAPI, type MountProps, notify } from '@cmfx/components';
+import { Button, Dialog, Form, FormAPI, type MountProps, Notify } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const api = new FormAPI({
 		initValue: {},
 		submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
-		onProblem: async p => await notify(p.title),
+		onProblem: async p => await Notify.notify(p.title),
 	});
 
 	return (
@@ -98,13 +98,7 @@ export default function (props: MountProps): JSX.Element {
 				</div>
 			</Dialog.Root>
 
-			<Dialog.Root
-				movable
-				ref={el => {
-					dlg3 = el;
-				}}
-				header="header"
-			>
+			<Dialog.Root ref={el => (dlg3 = el)} header="header">
 				<div>dialog 3</div>
 			</Dialog.Root>
 		</div>

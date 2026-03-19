@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Avatar, type MountProps, notify } from '@cmfx/components';
+import { Avatar, type MountProps, Notify } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '@docs/components/base';
@@ -22,7 +22,7 @@ export default function (props: MountProps) {
 				palette={palette()}
 				rounded={rounded()}
 				class="h-16"
-				onclick={() => notify('click')}
+				onclick={() => Notify.notify('click')}
 			/>
 		</>
 	);

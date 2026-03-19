@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError, notify, useLocale, useOptions } from '@cmfx/components';
+import { ContextNotFoundError, Notify, useLocale, useOptions } from '@cmfx/components';
 import type { Return, Token } from '@cmfx/core';
 import { createContext, createResource, type ParentProps, type ResourceReturn, useContext } from 'solid-js';
 import { z } from 'zod';
@@ -63,7 +63,7 @@ export function AdminProvider(props: ParentProps) {
 		}
 
 		const title = r.body ? r.body.title : l.t('_p.app.fetchUserInfoError');
-		await notify(title, undefined, 'error', l.locale.toString());
+		await Notify.notify(title, undefined, 'error', l.locale.toString());
 	});
 
 	return <adminContext.Provider value={res}>{props.children}</adminContext.Provider>;

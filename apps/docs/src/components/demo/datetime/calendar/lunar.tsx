@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps, Week } from '@cmfx/components';
-import { Calendar, datetimePluginLunar, fieldAccessor, Numeric, notify } from '@cmfx/components';
+import { Calendar, datetimePluginLunar, fieldAccessor, Notify, Numeric } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -36,7 +36,7 @@ export default function (props: MountProps): JSX.Element {
 					plugins={[datetimePluginLunar]}
 					min={minmax() ? min : undefined}
 					max={minmax() ? max : undefined}
-					onSelected={(d: Date) => notify(d.toString())}
+					onSelected={(d: Date) => Notify.notify(d.toString())}
 				/>
 			</div>
 		</>

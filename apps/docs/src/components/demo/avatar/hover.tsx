@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Avatar, Badge, type MountProps, notify } from '@cmfx/components';
+import { Avatar, Badge, type MountProps, Notify } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconCamera from '~icons/material-symbols/photo-camera';
 
@@ -35,7 +35,7 @@ export default function (props: MountProps) {
 					palette={palette()}
 					hover={<IconCamera class="h-8 w-8" />}
 					class="h-16"
-					onclick={() => notify('click')}
+					onclick={() => Notify.notify('click')}
 				/>
 			</Badge.Root>
 		</>

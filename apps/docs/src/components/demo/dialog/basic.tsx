@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, type MountProps, notify } from '@cmfx/components';
+import { Button, Dialog, type MountProps, Notify } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -30,10 +30,10 @@ export default function (props: MountProps): JSX.Element {
 					ref={el => {
 						dlg = el;
 						el.root().oncancel = async () => {
-							await notify('cancel');
+							await Notify.notify('cancel');
 						};
 						el.root().onclose = async () => {
-							await notify('close');
+							await Notify.notify('close');
 						};
 					}}
 					footer={<Dialog.Actions />}

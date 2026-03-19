@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, FormAPI, notify, Page, Password, TextField, useLocale } from '@cmfx/components';
+import { Button, Form, FormAPI, Notify, Page, Password, TextField, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import * as z from 'zod';
@@ -40,7 +40,7 @@ export function New(props: Props): JSX.Element {
 		},
 		onProblem: p => handleProblem(p),
 		onSuccess: async () => {
-			await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
+			await Notify.notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
 			useNavigate()(-1);
 		},
 	});
