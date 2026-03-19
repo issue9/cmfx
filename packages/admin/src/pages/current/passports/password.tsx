@@ -137,11 +137,8 @@ export class Pwd implements PassportComponents {
 				</Button.Root>
 
 				<Dialog.Root
-					movable
-					ref={el => {
-						dialogRef = el;
-					}}
-					header={l.t('_p.current.changePassword')}
+					ref={el => dialogRef = el}
+					header={<Dialog.Toolbar movable close>{l.t('_p.current.changePassword')}</Dialog.Toolbar>}
 				>
 					<Form.Root class={styles['action-form']} inDialog api={api} ref={el => (ref = el)}>
 						<TextField.Root placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />

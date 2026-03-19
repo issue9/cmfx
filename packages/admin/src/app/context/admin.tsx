@@ -63,7 +63,7 @@ export function AdminProvider(props: ParentProps) {
 		}
 
 		const title = r.body ? r.body.title : l.t('_p.app.fetchUserInfoError');
-		await Notify.notify(title, undefined, 'error', l.locale.toString());
+		await Notify.notify(title, undefined, 'error');
 	});
 
 	return <adminContext.Provider value={res}>{props.children}</adminContext.Provider>;

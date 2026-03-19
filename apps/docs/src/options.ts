@@ -11,7 +11,6 @@ export const options: Options = {
 	locale: 'zh-Hans',
 	displayStyle: 'full',
 	logo: './brand-static.svg',
-	systemNotify: false,
 	timezone: 'Asia/Shanghai',
 	messages: {
 		en: [

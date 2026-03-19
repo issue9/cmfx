@@ -5,10 +5,9 @@
 import type { DisplayStyle } from '@cmfx/core';
 import { formatDuration, I18n } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
-import { createSignal, Show } from 'solid-js';
+import { Show } from 'solid-js';
 import IconTransitionDuration from '~icons/material-symbols/animated-images-rounded';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
-import IconSystemNotify from '~icons/material-symbols/notification-settings';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
 import IconPalette from '~icons/material-symbols/palette';
 import IconReset from '~icons/material-symbols/reset-settings-outline-rounded';
@@ -24,18 +23,13 @@ import { useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Checkbox, Choice, fieldAccessor, Numeric, RadioGroup, Slider } from '@components/form';
+import { Choice, fieldAccessor, Numeric, RadioGroup, Slider } from '@components/form';
 import { Formatter } from '@components/formatter';
 import { Label } from '@components/label';
 import { SchemeSelector } from '@components/theme';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
-	/**
-	 * 声明一个设置项的组件
-	 */
-	Item(props: ItemProps): JSX.Element;
-}
+export type Ref = BaseRef<HTMLDivElement>;
 
 /**
  * 设置项的属性
@@ -125,30 +119,6 @@ export function Root(props: Props) {
 	const transitionDurationFA = fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
 	transitionDurationFA.onChange(v => accessor.setTransitionDuration(v));
 
-	const [sysNotifyDisabled, setSysNotifyDisabled] = createSignal(false);
-	const requestSysNotify = async () => {
-		if (!('Notification' in window)) {
-			return;
-		}
-
-		switch (Notification.permission) {
-			case 'denied':
-				setSysNotifyDisabled(true);
-				return;
-			case 'granted':
-				setSysNotifyDisabled(false);
-				return;
-			case 'default': {
-				const p = await Notification.requestPermission();
-				if (p === 'granted') {
-					setSysNotifyDisabled(false);
-				} else {
-					setSysNotifyDisabled(true);
-				}
-			}
-		}
-	};
-
 	return (
 		<div
 			class={joinClass(props.palette, styles.settings, props.class)}
@@ -157,7 +127,6 @@ export function Root(props: Props) {
 				if (props.ref) {
 					props.ref({
 						root: () => el,
-						Item: Item,
 					});
 				}
 			}}
@@ -226,32 +195,6 @@ export function Root(props: Props) {
 			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
 				<Numeric.Root accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
 			</Item>
-
-			{/***************************** notify *******************************/}
-
-			<Separator />
-			<Show when={'Notification' in window}>
-				<Item
-					icon={/*@once*/ <IconSystemNotify />}
-					title={l.t('_c.settings.systemNotify')}
-					desc={l.t('_c.settings.systemNotifyDesc', { request: l.t('_c.settings.requestNotifyPermission') })}
-				>
-					<div class={styles.notify}>
-						<Checkbox.Root
-							label={l.t('_c.settings.enabled')}
-							class={styles.checkbox}
-							disabled={sysNotifyDisabled()}
-							checked={accessor.getSystemNotify()}
-							onChange={async v => {
-								accessor.setSystemNotify(!!v);
-							}}
-						/>
-						<Button.Root kind="flat" onclick={requestSysNotify}>
-							{l.t('_c.settings.requestNotifyPermission')}
-						</Button.Root>
-					</div>
-				</Item>
-			</Show>
 
 			{/***************************** locale *******************************/}
 

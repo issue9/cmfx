@@ -2,27 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { MountProps } from '@cmfx/components';
-import {
-	Alert,
-	Button,
-	Choice,
-	fieldAccessor,
-	Notify,
-	Numeric,
-	TextArea,
-	TextField,
-	useOptions,
-} from '@cmfx/components';
-import { createEffect, type JSX } from 'solid-js';
-import { Portal } from 'solid-js/web';
+import { Alert, Button, Choice, fieldAccessor, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 
-import { boolSelector } from '@docs/components/base';
-
-export default function (props: MountProps): JSX.Element {
-	const [System, system] = boolSelector('system');
-	const [accessor] = useOptions();
-
+export default function (): JSX.Element {
 	const typ = fieldAccessor<Alert.Type>('type', 'success');
 	const timeout = fieldAccessor<number>('timeout', 5000);
 	const title = fieldAccessor<string>('title', 'title');
@@ -32,16 +15,8 @@ export default function (props: MountProps): JSX.Element {
 		await Notify.notify(title.getValue(), body.getValue(), typ.getValue(), timeout.getValue());
 	};
 
-	createEffect(() => {
-		accessor.setSystemNotify(system());
-	});
-
 	return (
 		<div class="flex w-40 flex-col gap-2">
-			<Portal mount={props.mount}>
-				<System />
-			</Portal>
-
 			<Choice.Root
 				label="type"
 				accessor={typ}

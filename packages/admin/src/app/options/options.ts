@@ -192,7 +192,6 @@ const presetOptions: Readonly<PickOptional<Options>> = {
 	float: false,
 	width: 0,
 	loading: xpo.loading,
-	systemNotify: xpo.systemNotify,
 	titleSeparator: xpo.titleSeparator,
 	floatingMinWidth: 'lg',
 	mode: xpo.mode,

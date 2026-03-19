@@ -35,13 +35,6 @@ export interface Options {
 	loading?: Component<BaseProps>;
 
 	/**
-	 * 是否使用系统通知，当在 {@link config} 中存在时，当前值将被忽略。
-	 *
-	 * @defaultValue false
-	 */
-	systemNotify?: boolean;
-
-	/**
 	 * 字体大小，当在 {@link config} 中存在时，当前值将被忽略。
 	 */
 	fontSize?: string;
@@ -148,7 +141,6 @@ export interface Options {
  */
 export const presetOptions: PickOptional<Options> = {
 	fontSize: '14px',
-	systemNotify: false,
 	locale:
 		document.documentElement.lang ||
 		navigator.language ||

@@ -19,7 +19,6 @@ const schemeKey = 'scheme';
 const modeKey = 'mode';
 const tzKey = 'timezone';
 const staysKey = 'stays';
-const systemNotifyKey = 'system-notify';
 const fontSizeKey = 'font-size';
 const transitionDurationKey = 'transition-duration';
 
@@ -109,7 +108,6 @@ export function buildAccessor(o: ReqOptions) {
 		displayStyle: o.displayStyle,
 		timezone: o.timezone,
 		stays: o.stays,
-		systemNotify: o.systemNotify,
 		fontSize: o.fontSize,
 		transitionDuration: o.transitionDuration,
 	});
@@ -123,7 +121,6 @@ export function buildAccessor(o: ReqOptions) {
 			displayStyle: conf.get(displayStyleKey) ?? val.displayStyle,
 			timezone: conf.get(tzKey) ?? val.timezone,
 			stays: conf.get(staysKey) ?? val.stays,
-			systemNotify: conf.get(systemNotifyKey) ?? val.systemNotify,
 			fontSize: conf.get(fontSizeKey) ?? val.fontSize,
 			transitionDuration: conf.get(transitionDurationKey) ?? val.transitionDuration,
 		});
@@ -159,7 +156,6 @@ export function buildAccessor(o: ReqOptions) {
 			this.setDisplayStyle(o.displayStyle);
 			this.setTimezone(o.timezone);
 			this.setStays(o.stays);
-			this.setSystemNotify(o.systemNotify);
 			this.setFontSize(o.fontSize);
 			this.setTransitionDuration(o.transitionDuration);
 		},
@@ -283,18 +279,6 @@ export function buildAccessor(o: ReqOptions) {
 
 		getStays(): number {
 			return val.stays;
-		},
-
-		/**
-		 * 是否启用系统通知
-		 */
-		setSystemNotify(v: boolean): void {
-			set({ systemNotify: v });
-			conf.set(systemNotifyKey, v);
-		},
-
-		getSystemNotify(): boolean {
-			return val.systemNotify;
 		},
 
 		/**
