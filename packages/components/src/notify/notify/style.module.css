@@ -1,0 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../../style.css";
+
+@layer components {
+	.notify {
+		@apply absolute top-4 inset-e-4 inset-s-4 flex flex-col z-notify gap-2;
+		@apply @2xl/root:w-80 @2xl/root:start-auto;
+	}
+}

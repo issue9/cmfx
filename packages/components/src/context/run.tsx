@@ -7,7 +7,7 @@ import type { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { default as SystemDialog } from '@components/dialog/system';
-import { Notify } from '@components/notify/notify';
+import { NotifyProvider } from '@components/notify/notify/notify';
 import { OptionsProvider } from './context';
 import { type Options, requiredOptions } from './options';
 import styles from './style.module.css';
@@ -20,7 +20,7 @@ import styles from './style.module.css';
  * 所以组件库必须要以此方法作为入口，否则部分组件可能无法正常运行。
  *
  * 此方法会将 'root' 作为 mountedElement 上的 `container-name` 值，
- * 子组件的 css 样式可以使用此作为容器查询，比如 {@link Notify} 就使用 `@sm/root:` 作为样式变体。
+ * 子组件的 css 样式可以使用此作为容器查询，比如 {@link NotifyProvider} 就使用 `@sm/root:` 作为样式变体。
  *
  * @param app - 实际的内容组件；
  * @param mountedElement - 组件挂载的元素；
@@ -42,9 +42,9 @@ export function run(
 		return (
 			<OptionsProvider {...opt}>
 				<SystemDialog mount={mountedElement} palette="primary">
-					<Notify mount={mountedElement} palette="error">
+					<NotifyProvider mount={mountedElement} palette="error">
 						{app(props)}
-					</Notify>
+					</NotifyProvider>
 				</SystemDialog>
 			</OptionsProvider>
 		);

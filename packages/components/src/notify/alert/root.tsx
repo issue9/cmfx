@@ -5,7 +5,7 @@
 import type { JSX } from 'solid-js';
 
 import { useLocale, useOptions } from '@components/context';
-import { Message, type Props as MessageProps, type Ref as MessageRef } from './message';
+import { Message, type Props as MessageProps, type Ref as MessageRef } from '@components/notify/message';
 
 export type Props = Omit<MessageProps, 'transitionDuration' | 'closeAriaLabel'>;
 

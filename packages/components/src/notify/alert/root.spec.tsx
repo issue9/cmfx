@@ -5,7 +5,7 @@
 import { describe, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { Root } from './alert';
+import { Root } from './root';
 
 describe('Alert', async () => {
 	// type 会重定义 palette，success 对应的是 `ComponentTester.testProps` 中的 primary

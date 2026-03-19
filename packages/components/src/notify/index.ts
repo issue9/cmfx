@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Alert from './alert.mod';
-export { notify } from './notify';
+export * from './alert';
+export * from './notify';

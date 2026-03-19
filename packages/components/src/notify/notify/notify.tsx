@@ -6,12 +6,29 @@ import { sleep } from '@cmfx/core';
 import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
-import { type BaseProps, joinClass, type MountProps, type Palette } from '@components/base';
+import type { BaseProps, MountProps, Palette } from '@components/base';
+import { joinClass } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
-import { Message, type Props as MessageProps, type Type } from './message';
+import { Message, type Props as MessageProps, type Type } from '@components/notify/message';
 import styles from './style.module.css';
 
 let notifyInst: typeof notify;
+
+export async function success(title: string, body?: string, lang?: string, duration?: number): Promise<void> {
+	await notify(title, body, 'success', lang, duration);
+}
+
+export async function info(title: string, body?: string, lang?: string, duration?: number): Promise<void> {
+	await notify(title, body, 'info', lang, duration);
+}
+
+export async function warning(title: string, body?: string, lang?: string, duration?: number): Promise<void> {
+	await notify(title, body, 'warning', lang, duration);
+}
+
+export async function error(title: string, body?: string, lang?: string, duration?: number): Promise<void> {
+	await notify(title, body, 'error', lang, duration);
+}
 
 /**
  * 发送一条通知给用户
@@ -41,7 +58,7 @@ export type Props = BaseProps & ParentProps & MountProps;
  *
  * NOTE: 不可多次调用，仅用于初始化通知组件。
  */
-export function Notify(props: Props): JSX.Element {
+export function NotifyProvider(props: Props): JSX.Element {
 	props = mergeProps({ palette: 'error' as Palette }, props);
 	return (
 		<>
@@ -81,14 +98,7 @@ function initNotify(p: Props): JSX.Element {
 		render(() => <Message {...props} />, ref);
 	};
 
-	return (
-		<div
-			ref={el => {
-				ref = el;
-			}}
-			class={joinClass(p.palette, styles.notify, p.class)}
-		/>
-	);
+	return <div ref={el => (ref = el)} class={joinClass(p.palette, styles.notify, p.class)} />;
 }
 
 /**

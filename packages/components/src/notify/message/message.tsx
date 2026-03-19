@@ -180,9 +180,7 @@ export function Message(props: Props): JSX.Element {
 				rootRef = el;
 				if (props.ref) {
 					props.ref({
-						root() {
-							return el;
-						},
+						root: () => el,
 						async close() {
 							await close();
 						},
@@ -191,13 +189,7 @@ export function Message(props: Props): JSX.Element {
 			}}
 		>
 			<Show when={props.icon !== false}>
-				<div
-					class={styles.left}
-					aria-hidden="true"
-					ref={el => {
-						leftRef = el;
-					}}
-				>
+				<div class={styles.left} aria-hidden="true" ref={el => (leftRef = el)}>
 					<Switch>
 						<Match when={props.icon}>{c => c()}</Match>
 						<Match when={props.type === 'error'}>
@@ -217,20 +209,13 @@ export function Message(props: Props): JSX.Element {
 			</Show>
 
 			<div class={styles.right}>
-				<div
-					class={styles.label}
-					ref={el => {
-						labelRef = el;
-					}}
-				>
+				<div class={styles.label} ref={el => (labelRef = el)}>
 					<p id={titleID}>{props.title}</p>
 					<Show when={props.closable}>
 						<button
 							type="button"
 							class={styles['close-wrap']}
-							ref={el => {
-								buttonRef = el;
-							}}
+							ref={el => (buttonRef = el)}
 							aria-label={props.closeAriaLabel}
 						>
 							<IconClose onClick={close} class={styles.close} />
