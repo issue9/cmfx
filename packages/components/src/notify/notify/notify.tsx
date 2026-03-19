@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
 import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
@@ -13,21 +12,22 @@ import { Message, type Props as MessageProps, type Type } from '@components/noti
 import styles from './style.module.css';
 
 let notifyInst: typeof notify;
+let systemInst: typeof system;
 
-export async function success(title: string, body?: string, lang?: string, duration?: number): Promise<void> {
-	await notify(title, body, 'success', lang, duration);
+export async function success(title: string, body?: string, duration?: number): Promise<void> {
+	await notify(title, body, 'success', duration);
 }
 
-export async function info(title: string, body?: string, lang?: string, duration?: number): Promise<void> {
-	await notify(title, body, 'info', lang, duration);
+export async function info(title: string, body?: string, duration?: number): Promise<void> {
+	await notify(title, body, 'info', duration);
 }
 
-export async function warning(title: string, body?: string, lang?: string, duration?: number): Promise<void> {
-	await notify(title, body, 'warning', lang, duration);
+export async function warning(title: string, body?: string, duration?: number): Promise<void> {
+	await notify(title, body, 'warning', duration);
 }
 
-export async function error(title: string, body?: string, lang?: string, duration?: number): Promise<void> {
-	await notify(title, body, 'error', lang, duration);
+export async function error(title: string, body?: string, duration?: number): Promise<void> {
+	await notify(title, body, 'error', duration);
 }
 
 /**
@@ -36,17 +36,20 @@ export async function error(title: string, body?: string, lang?: string, duratio
  * @param title - 标题；
  * @param body - 具体内容，如果为空则只显示标题；
  * @param type - 类型，仅对非系统通知的情况下有效；
- * @param lang - 语言，仅对系统通知的情况下有效；
  * @param duration - 如果大于 0，超过此毫秒数时将自动关闭提示框；
  */
-export async function notify(
-	title: string,
-	body?: string,
-	type?: Type,
-	lang?: string,
-	duration?: number,
-): Promise<void> {
-	return await notifyInst(title, body, type, lang, duration);
+export async function notify(title: string, body?: string, type?: Type, duration?: number): Promise<void> {
+	return await notifyInst(title, body, type, duration);
+}
+
+/**
+ * 向操作系统的通知中心发送消息
+ *
+ * @param title - 标题；
+ * @param o - 其他选项，并不是所有选项都被系统支持，具体情况可参考 https://caniuse.com/?search=Notification；
+ */
+export async function system(title: string, o?: NotificationOptions): Promise<Notification | undefined> {
+	return await systemInst(title, o);
 }
 
 export type Props = BaseProps & ParentProps & MountProps;
@@ -69,19 +72,12 @@ export function NotifyProvider(props: Props): JSX.Element {
 }
 
 function initNotify(p: Props): JSX.Element {
-	const [accessor, opt] = useOptions();
+	const [opt, origin] = useOptions();
 	const l = useLocale();
 	let ref: HTMLDivElement;
 
-	notifyInst = async (title: string, body?: string, type?: Type, lang?: string, duration?: number) => {
-		duration = duration ?? accessor.getStays();
-
-		if (
-			accessor.getSystemNotify() &&
-			(await systemNotify(title, body, opt.logo, lang ?? accessor.getLocale(), duration))
-		) {
-			return;
-		}
+	notifyInst = async (title: string, body?: string, type?: Type, duration?: number) => {
+		duration = duration ?? opt.getStays();
 
 		const props: MessageProps = {
 			title,
@@ -92,50 +88,43 @@ function initNotify(p: Props): JSX.Element {
 			icon: false,
 
 			// 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
-			transitionDuration: accessor.getTransitionDuration(),
+			transitionDuration: opt.getTransitionDuration(),
 			closeAriaLabel: l.t('_c.close'),
 		};
 		render(() => <Message {...props} />, ref);
 	};
 
-	return <div ref={el => (ref = el)} class={joinClass(p.palette, styles.notify, p.class)} />;
-}
-
-/**
- * 向系统发送通知
- *
- * @returns 如果发送成功返回 true，否则返回 false。
- */
-async function systemNotify(
-	title: string,
-	body?: string,
-	icon?: string,
-	lang?: string,
-	timeout?: number,
-): Promise<boolean> {
-	if (!('Notification' in window)) {
-		// 不支持
-		return false;
-	} else if (Notification.permission === 'denied') {
-		// 明确拒绝
-		return false;
-	} else if (Notification.permission !== 'granted') {
-		// 未明确的权限
-		if ((await Notification.requestPermission()) === 'denied') {
-			return false;
+	systemInst = async (title: string, o?: NotificationOptions): Promise<Notification | undefined> => {
+		if (!('Notification' in window)) {
+			// 不支持
+			return;
+		} else if (Notification.permission === 'denied') {
+			// 明确拒绝
+			return;
+		} else if (Notification.permission !== 'granted') {
+			// 未明确的权限
+			if ((await Notification.requestPermission()) === 'denied') {
+				return;
+			}
 		}
-	}
 
-	const n = new Notification(title, {
-		icon: icon,
-		lang: lang,
-		body: body,
-	});
+		o = Object.assign(
+			{},
+			{
+				badge: origin.logo,
+				icon: origin.logo,
+				lang: opt.getLocale(), // 使用的是全局的配置
+			},
+			o,
+		);
 
-	if (timeout && timeout > 0) {
-		await sleep(timeout);
-		n.close();
-	}
+		try {
+			return new Notification(title, o);
+		} catch (e) {
+			console.error(e);
+			return;
+		}
+	};
 
-	return true;
+	return <div ref={el => (ref = el)} class={joinClass(p.palette, styles.notify, p.class)} />;
 }

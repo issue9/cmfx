@@ -108,9 +108,9 @@
 	},
 	{
 		"kind": "function",
-		"name": "notify",
+		"name": "Notify.notify",
 		"summary": "发送一条通知给用户\n\n",
-		"type": "function notify(title: string, body?: string, type?: Type, lang?: string, duration?: number): Promise<void>",
+		"type": "declare function notify(title: string, body?: string, type?: Type, duration?: number): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -128,11 +128,6 @@
 				"type": "\"error\" | \"warning\" | \"success\" | \"info\" | undefined"
 			},
 			{
-				"name": "lang",
-				"summary": "语言，仅对系统通知的情况下有效；\n\n",
-				"type": "string | undefined"
-			},
-			{
 				"name": "duration",
 				"summary": "如果大于 0，超过此毫秒数时将自动关闭提示框；\n\n",
 				"type": "number | undefined"
@@ -140,6 +135,120 @@
 		],
 		"return": {
 			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Notify.info",
+		"type": "declare function info(title: string, body?: string, duration?: number): Promise<void>",
+		"params": [
+			{
+				"name": "title",
+				"type": "string"
+			},
+			{
+				"name": "body",
+				"type": "string | undefined"
+			},
+			{
+				"name": "duration",
+				"type": "number | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Notify.warning",
+		"type": "declare function warning(title: string, body?: string, duration?: number): Promise<void>",
+		"params": [
+			{
+				"name": "title",
+				"type": "string"
+			},
+			{
+				"name": "body",
+				"type": "string | undefined"
+			},
+			{
+				"name": "duration",
+				"type": "number | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Notify.success",
+		"type": "declare function success(title: string, body?: string, duration?: number): Promise<void>",
+		"params": [
+			{
+				"name": "title",
+				"type": "string"
+			},
+			{
+				"name": "body",
+				"type": "string | undefined"
+			},
+			{
+				"name": "duration",
+				"type": "number | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Notify.error",
+		"type": "declare function error(title: string, body?: string, duration?: number): Promise<void>",
+		"params": [
+			{
+				"name": "title",
+				"type": "string"
+			},
+			{
+				"name": "body",
+				"type": "string | undefined"
+			},
+			{
+				"name": "duration",
+				"type": "number | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Notify.system",
+		"summary": "向操作系统的通知中心发送消息\n\n",
+		"type": "declare function system(title: string, o?: NotificationOptions): Promise<Notification | undefined>",
+		"params": [
+			{
+				"name": "title",
+				"summary": "标题；\n\n",
+				"type": "string"
+			},
+			{
+				"name": "o",
+				"summary": "其他选项，并不是所有选项都被系统支持，具体情况可参考 https://caniuse.com/?search=Notification；\n\n",
+				"type": "NotificationOptions | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<Notification | undefined>"
 		},
 		"pkg": "@cmfx/components"
 	}

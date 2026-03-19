@@ -10,4 +10,9 @@
             - Alert.RootRef
             - Alert.Type
 
-            - notify
+            - Notify.notify
+            - Notify.info
+            - Notify.warning
+            - Notify.success
+            - Notify.error
+            - Notify.system

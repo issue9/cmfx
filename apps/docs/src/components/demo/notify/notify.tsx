@@ -12,7 +12,6 @@ import {
 	Numeric,
 	TextArea,
 	TextField,
-	useLocale,
 	useOptions,
 } from '@cmfx/components';
 import { createEffect, type JSX } from 'solid-js';
@@ -21,7 +20,6 @@ import { Portal } from 'solid-js/web';
 import { boolSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const l = useLocale();
 	const [System, system] = boolSelector('system');
 	const [accessor] = useOptions();
 
@@ -31,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 	const body = fieldAccessor<string>('body', 'body');
 
 	const click = async (): Promise<void> => {
-		await Notify.notify(title.getValue(), body.getValue(), typ.getValue(), l.locale.toString(), timeout.getValue());
+		await Notify.notify(title.getValue(), body.getValue(), typ.getValue(), timeout.getValue());
 	};
 
 	createEffect(() => {
