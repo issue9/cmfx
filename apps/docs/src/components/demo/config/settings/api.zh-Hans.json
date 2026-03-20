@@ -43,22 +43,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Settings.RootRef",
 		"methods": [
-			{
-				"name": "Item",
-				"summary": "声明一个设置项的组件\n\n",
-				"type": "Item(props: ItemProps): JSX.Element",
-				"params": [
-					{
-						"name": "props",
-						"type": "ItemProps"
-					}
-				],
-				"return": {
-					"type": "JSX.Element"
-				}
-			},
 			{
 				"name": "root",
 				"summary": "返回组件的根元素\n\n",
@@ -68,6 +53,7 @@
 				}
 			}
 		],
+		"name": "Settings.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{

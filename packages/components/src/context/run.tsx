@@ -42,9 +42,7 @@ export function run(
 		return (
 			<OptionsProvider {...opt}>
 				<SystemDialog mount={mountedElement} palette="primary">
-					<NotifyProvider mount={mountedElement} palette="error">
-						{app(props)}
-					</NotifyProvider>
+					<NotifyProvider mount={mountedElement}>{app(props)}</NotifyProvider>
 				</SystemDialog>
 			</OptionsProvider>
 		);

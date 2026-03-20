@@ -50,7 +50,7 @@
 			{
 				"name": "body",
 				"summary": "内容\n\n",
-				"remarks": "为了与 Notification 组件保持一致，如果需要换行，需要使用\n`\\n`\n，不支持 HTML 标签。\n\n",
+				"remarks": "使用\nn 作为换行符。\n\n",
 				"type": "string | undefined",
 				"reactive": true
 			},
@@ -110,7 +110,7 @@
 		"kind": "function",
 		"name": "Notify.notify",
 		"summary": "发送一条通知给用户\n\n",
-		"type": "declare function notify(title: string, body?: string, type?: Type, duration?: number): Promise<void>",
+		"type": "declare function notify(title: string, body?: string, type?: Type, duration?: number, system?: boolean): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -131,6 +131,11 @@
 				"name": "duration",
 				"summary": "如果大于 0，超过此毫秒数时将自动关闭提示框；\n\n",
 				"type": "number | undefined"
+			},
+			{
+				"name": "system",
+				"summary": "当处于后台时，是否使用系统通知。系统通知不会区分 type 类型；\n\n",
+				"type": "boolean | undefined"
 			}
 		],
 		"return": {
@@ -141,7 +146,8 @@
 	{
 		"kind": "function",
 		"name": "Notify.info",
-		"type": "declare function info(title: string, body?: string, duration?: number): Promise<void>",
+		"summary": "`notify`\n的快捷方式，用于显示普通信息。\n\n",
+		"type": "declare function info(title: string, body?: string, duration?: number, system?: boolean): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -154,6 +160,10 @@
 			{
 				"name": "duration",
 				"type": "number | undefined"
+			},
+			{
+				"name": "system",
+				"type": "boolean | undefined"
 			}
 		],
 		"return": {
@@ -164,7 +174,8 @@
 	{
 		"kind": "function",
 		"name": "Notify.warning",
-		"type": "declare function warning(title: string, body?: string, duration?: number): Promise<void>",
+		"summary": "`notify`\n的快捷方式，用于显示警告信息。\n\n",
+		"type": "declare function warning(title: string, body?: string, duration?: number, system?: boolean): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -177,6 +188,10 @@
 			{
 				"name": "duration",
 				"type": "number | undefined"
+			},
+			{
+				"name": "system",
+				"type": "boolean | undefined"
 			}
 		],
 		"return": {
@@ -187,7 +202,8 @@
 	{
 		"kind": "function",
 		"name": "Notify.success",
-		"type": "declare function success(title: string, body?: string, duration?: number): Promise<void>",
+		"summary": "`notify`\n的快捷方式，用于显示成功信息。\n\n",
+		"type": "declare function success(title: string, body?: string, duration?: number, system?: boolean): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -200,6 +216,10 @@
 			{
 				"name": "duration",
 				"type": "number | undefined"
+			},
+			{
+				"name": "system",
+				"type": "boolean | undefined"
 			}
 		],
 		"return": {
@@ -210,7 +230,8 @@
 	{
 		"kind": "function",
 		"name": "Notify.error",
-		"type": "declare function error(title: string, body?: string, duration?: number): Promise<void>",
+		"summary": "`notify`\n的快捷方式，用于显示错误信息。\n\n",
+		"type": "declare function error(title: string, body?: string, duration?: number, system?: boolean): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -223,6 +244,10 @@
 			{
 				"name": "duration",
 				"type": "number | undefined"
+			},
+			{
+				"name": "system",
+				"type": "boolean | undefined"
 			}
 		],
 		"return": {

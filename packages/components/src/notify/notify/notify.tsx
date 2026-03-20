@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type JSX, mergeProps, type ParentProps } from 'solid-js';
+import { sleep } from '@cmfx/core';
+import type { JSX, ParentProps } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
-import type { BaseProps, MountProps, Palette } from '@components/base';
+import type { MountProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Message, type Props as MessageProps, type Type } from '@components/notify/message';
@@ -14,20 +15,32 @@ import styles from './style.module.css';
 let notifyInst: typeof notify;
 let systemInst: typeof system;
 
-export async function success(title: string, body?: string, duration?: number): Promise<void> {
-	await notify(title, body, 'success', duration);
+/**
+ * {@link notify} 的快捷方式，用于显示成功信息。
+ */
+export async function success(title: string, body?: string, duration?: number, system = false): Promise<void> {
+	await notify(title, body, 'success', duration, system);
 }
 
-export async function info(title: string, body?: string, duration?: number): Promise<void> {
-	await notify(title, body, 'info', duration);
+/**
+ * {@link notify} 的快捷方式，用于显示普通信息。
+ */
+export async function info(title: string, body?: string, duration?: number, system = false): Promise<void> {
+	await notify(title, body, 'info', duration, system);
 }
 
-export async function warning(title: string, body?: string, duration?: number): Promise<void> {
-	await notify(title, body, 'warning', duration);
+/**
+ * {@link notify} 的快捷方式，用于显示警告信息。
+ */
+export async function warning(title: string, body?: string, duration?: number, system = false): Promise<void> {
+	await notify(title, body, 'warning', duration, system);
 }
 
-export async function error(title: string, body?: string, duration?: number): Promise<void> {
-	await notify(title, body, 'error', duration);
+/**
+ * {@link notify} 的快捷方式，用于显示错误信息。
+ */
+export async function error(title: string, body?: string, duration?: number, system = false): Promise<void> {
+	await notify(title, body, 'error', duration, system);
 }
 
 /**
@@ -37,9 +50,16 @@ export async function error(title: string, body?: string, duration?: number): Pr
  * @param body - 具体内容，如果为空则只显示标题；
  * @param type - 类型，仅对非系统通知的情况下有效；
  * @param duration - 如果大于 0，超过此毫秒数时将自动关闭提示框；
+ * @param system - 当处于后台时，是否使用系统通知。系统通知不会区分 type 类型且未必会成功；
  */
-export async function notify(title: string, body?: string, type?: Type, duration?: number): Promise<void> {
-	return await notifyInst(title, body, type, duration);
+export async function notify(
+	title: string,
+	body?: string,
+	type?: Type,
+	duration?: number,
+	system = false,
+): Promise<void> {
+	return await notifyInst(title, body, type, duration, system);
 }
 
 /**
@@ -47,12 +67,15 @@ export async function notify(title: string, body?: string, type?: Type, duration
  *
  * @param title - 标题；
  * @param o - 其他选项，并不是所有选项都被系统支持，具体情况可参考 https://caniuse.com/?search=Notification；
+ *
+ * @remarks
+ * 发送系统通知并不是总能成功的，因为浏览器可能会阻止系统通知的显示。
  */
 export async function system(title: string, o?: NotificationOptions): Promise<Notification | undefined> {
 	return await systemInst(title, o);
 }
 
-export type Props = BaseProps & ParentProps & MountProps;
+export type Props = ParentProps & MountProps;
 
 /**
  * 注册全局通知组件
@@ -62,30 +85,36 @@ export type Props = BaseProps & ParentProps & MountProps;
  * NOTE: 不可多次调用，仅用于初始化通知组件。
  */
 export function NotifyProvider(props: Props): JSX.Element {
-	props = mergeProps({ palette: 'error' as Palette }, props);
 	return (
 		<>
-			<Portal mount={props.mount}>{initNotify(props)}</Portal>
+			<Portal mount={props.mount}>{init()}</Portal>
 			{props.children}
 		</>
 	);
 }
 
-function initNotify(p: Props): JSX.Element {
+function init(): JSX.Element {
 	const [opt, origin] = useOptions();
 	const l = useLocale();
 	let ref: HTMLDivElement;
 
-	notifyInst = async (title: string, body?: string, type?: Type, duration?: number) => {
-		duration = duration ?? opt.getStays();
+	notifyInst = async (title: string, body?: string, type?: Type, duration?: number, sys = false): Promise<void> => {
+		if (sys && document.visibilityState === 'hidden') {
+			const n = await system(title, { body: body });
+
+			if (duration && n) {
+				await sleep(duration);
+				n.close();
+			}
+			return;
+		}
 
 		const props: MessageProps = {
 			title,
 			body,
 			type,
-			duration,
+			duration: duration ?? opt.getStays(),
 			closable: true,
-			icon: false,
 
 			// 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
 			transitionDuration: opt.getTransitionDuration(),
@@ -126,5 +155,5 @@ function initNotify(p: Props): JSX.Element {
 		}
 	};
 
-	return <div ref={el => (ref = el)} class={joinClass(p.palette, styles.notify, p.class)} />;
+	return <div ref={el => (ref = el)} class={joinClass('error', styles.notify)} />;
 }

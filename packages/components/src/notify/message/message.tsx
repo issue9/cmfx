@@ -56,7 +56,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @reactive
 	 *
 	 * @remarks
-	 * 为了与 Notification 组件保持一致，如果需要换行，需要使用 `\n`，不支持 HTML 标签。
+	 * 使用 \n 作为换行符。
 	 */
 	body?: string;
 
@@ -90,7 +90,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 */
 	onClose?: () => Promise<boolean | undefined>;
 
-	// 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，可能无法使用 useOptions 获取动画时长。
+	// 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，无法在 Message 中使用 useOptions 获取动画时长。
 	transitionDuration: number;
 
 	/**
