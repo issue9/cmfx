@@ -8,6 +8,6 @@
         types:
             - Dialog.RootProps
             - Dialog.RootRef
-            - xalert
-            - xconfirm
-            - xprompt
+            - Dialog.alert
+            - Dialog.confirm
+            - Dialog.prompt

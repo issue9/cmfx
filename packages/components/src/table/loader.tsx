@@ -17,7 +17,7 @@ import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 import type { Palette, RefProps } from '@components/base';
 import { Button, SplitButton, ToggleButton } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
-import { xprompt } from '@components/dialog';
+import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
 import { Checkbox, ObjectAccessor, Radio } from '@components/form';
 import { Label } from '@components/label';
@@ -209,7 +209,7 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 		delete q.page;
 
 		await e.fetch(load, q);
-		const filename = await xprompt(l.t('_c.table.downloadFilename'), props.filename);
+		const filename = await Dialog.prompt(l.t('_c.table.downloadFilename'), props.filename);
 		if (filename) {
 			e.export(filename, ext, l.locale.language);
 		}

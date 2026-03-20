@@ -8,5 +8,6 @@ export type { Ref as RootRef } from './context';
 export { useDialog } from './context';
 export type { Props as RootProps } from './root';
 export { Root } from './root';
+export { alert, confirm, prompt } from './system';
 export type { State, ToolbarProps } from './toolbar';
 export { Toolbar } from './toolbar';

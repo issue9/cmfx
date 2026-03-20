@@ -11,20 +11,21 @@ import { fieldAccessor, TextField } from '@components/form';
 import { AcceptButton, Actions } from './buttons';
 import type { Ref } from './context';
 import { Root } from './root';
+import styles from './style.module.css';
 import { Toolbar } from './toolbar';
 
 export type Props = BaseProps & ParentProps & MountProps;
 
 /**
- * 提供了 {@link xalert}、{@link xconfirm} 和 {@link xprompt} 的方法，可用于替换对应的浏览器方法。
+ * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
  */
-export default function SystemDialog(props: Props): JSX.Element {
+export function DialogProvider(props: Props): JSX.Element {
 	return (
 		<>
 			<Portal mount={props.mount}>
-				<Alert palette={props.palette} />
-				<Confirm palette={props.palette} />
-				<Prompt palette={props.palette} />
+				<AlertProvider palette={props.palette} />
+				<ConfirmProvider palette={props.palette} />
+				<PromptProvider palette={props.palette} />
 			</Portal>
 			{props.children}
 		</>
@@ -33,9 +34,9 @@ export default function SystemDialog(props: Props): JSX.Element {
 
 /************************ alert *****************************/
 
-let alertInst: typeof xalert;
+let alertInst: typeof alert;
 
-function Alert(props: BaseProps): JSX.Element {
+function AlertProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
 	const l = useLocale();
@@ -59,7 +60,11 @@ function Alert(props: BaseProps): JSX.Element {
 			}
 			ref={el => (dlg = el)}
 			class="min-w-60"
-			footer={<AcceptButton value="ok">{l.t('_c.ok')}</AcceptButton>}
+			footer={
+				<footer class={styles.footer}>
+					<AcceptButton value="ok">{l.t('_c.ok')}</AcceptButton>
+				</footer>
+			}
 		>
 			{msg()}
 		</Root>
@@ -72,15 +77,15 @@ function Alert(props: BaseProps): JSX.Element {
  *
  * @param msg - 提示框的内容；
  */
-export async function xalert(msg: string): Promise<void> {
+export async function alert(msg: string): Promise<void> {
 	await alertInst(msg);
 }
 
 /************************ confirm *****************************/
 
-let confirmInst: typeof xconfirm;
+let confirmInst: typeof confirm;
 
-function Confirm(props: BaseProps): JSX.Element {
+function ConfirmProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
 	const l = useLocale();
@@ -119,15 +124,15 @@ function Confirm(props: BaseProps): JSX.Element {
  *
  * @param msg - 提示框的内容；
  */
-export async function xconfirm(msg?: string): Promise<boolean> {
+export async function confirm(msg?: string): Promise<boolean> {
 	return await confirmInst(msg);
 }
 
 /************************ prompt *****************************/
 
-let promptInst: typeof xprompt;
+let promptInst: typeof prompt;
 
-function Prompt(props: BaseProps): JSX.Element {
+function PromptProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
 	const access = fieldAccessor('prompt', '');
@@ -170,6 +175,6 @@ function Prompt(props: BaseProps): JSX.Element {
  * @param msg - 对话框的内容；
  * @param val - 对话框中的默认值；
  */
-export async function xprompt(msg?: string, val?: string): Promise<string | null> {
+export async function prompt(msg?: string, val?: string): Promise<string | null> {
 	return await promptInst(msg, val);
 }

@@ -6,7 +6,7 @@ import { HashRouter, type RouteDefinition, type Router, type RouteSectionProps }
 import type { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { default as SystemDialog } from '@components/dialog/system';
+import { DialogProvider } from '@components/dialog/system';
 import { NotifyProvider } from '@components/notify/notify/notify';
 import { OptionsProvider } from './context';
 import { type Options, requiredOptions } from './options';
@@ -41,9 +41,9 @@ export function run(
 	const Root = (props: RouteSectionProps) => {
 		return (
 			<OptionsProvider {...opt}>
-				<SystemDialog mount={mountedElement} palette="primary">
+				<DialogProvider mount={mountedElement} palette="primary">
 					<NotifyProvider mount={mountedElement}>{app(props)}</NotifyProvider>
-				</SystemDialog>
+				</DialogProvider>
 			</OptionsProvider>
 		);
 	};

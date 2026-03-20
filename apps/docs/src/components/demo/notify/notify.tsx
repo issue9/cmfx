@@ -48,7 +48,7 @@ export default function (): JSX.Element {
 					palette="primary"
 					onclick={async () => {
 						await sleep(5000);
-						Notify.error('error', '由浏览器转换而来,5 秒后自动关闭', 5000, true);
+						await Notify.error('error', '由浏览器转换而来,5 秒后自动关闭', 5000, true);
 					}}
 				>
 					Notify.error(...system)

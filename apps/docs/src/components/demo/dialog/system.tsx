@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, xalert, xconfirm, xprompt } from '@cmfx/components';
+import { Button, Dialog } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
 export default function (): JSX.Element {
@@ -10,32 +10,32 @@ export default function (): JSX.Element {
 		<div>
 			<Button.Root
 				onclick={async () => {
-					await xalert('msg');
+					await Dialog.alert('msg');
 					console.log('alert');
 				}}
 			>
-				xalert
+				alert
 			</Button.Root>
 
 			<Button.Root
 				onclick={async () => {
 					console.log(
 						'confirm:',
-						await xconfirm(
+						await Dialog.confirm(
 							'这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！',
 						),
 					);
 				}}
 			>
-				xconfirm
+				confirm
 			</Button.Root>
 
 			<Button.Root
 				onclick={async () => {
-					console.log('prompt:', await xprompt('msg', 'def'));
+					console.log('prompt:', await Dialog.prompt('msg', 'def'));
 				}}
 			>
-				xprompt
+				prompt
 			</Button.Root>
 
 			<Button.Root
