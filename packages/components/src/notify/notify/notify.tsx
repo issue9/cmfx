@@ -15,32 +15,60 @@ import styles from './style.module.css';
 let notifyInst: typeof notify;
 let systemInst: typeof system;
 
+export const positions = ['top', 'bottom'] as const;
+
+export type Position = (typeof positions)[number];
+
 /**
  * {@link notify} 的快捷方式，用于显示成功信息。
  */
-export async function success(title: string, body?: string, duration?: number, system = false): Promise<void> {
-	await notify(title, body, 'success', duration, system);
+export async function success(
+	title: string,
+	body?: string,
+	duration?: number,
+	system = false,
+	pos: Position = 'top',
+): Promise<void> {
+	await notify(title, body, 'success', duration, system, pos);
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示普通信息。
  */
-export async function info(title: string, body?: string, duration?: number, system = false): Promise<void> {
-	await notify(title, body, 'info', duration, system);
+export async function info(
+	title: string,
+	body?: string,
+	duration?: number,
+	system = false,
+	pos: Position = 'top',
+): Promise<void> {
+	await notify(title, body, 'info', duration, system, pos);
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示警告信息。
  */
-export async function warning(title: string, body?: string, duration?: number, system = false): Promise<void> {
-	await notify(title, body, 'warning', duration, system);
+export async function warning(
+	title: string,
+	body?: string,
+	duration?: number,
+	system = false,
+	pos: Position = 'top',
+): Promise<void> {
+	await notify(title, body, 'warning', duration, system, pos);
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示错误信息。
  */
-export async function error(title: string, body?: string, duration?: number, system = false): Promise<void> {
-	await notify(title, body, 'error', duration, system);
+export async function error(
+	title: string,
+	body?: string,
+	duration?: number,
+	system = false,
+	pos: Position = 'top',
+): Promise<void> {
+	await notify(title, body, 'error', duration, system, pos);
 }
 
 /**
@@ -51,6 +79,7 @@ export async function error(title: string, body?: string, duration?: number, sys
  * @param type - 类型，仅对非系统通知的情况下有效；
  * @param duration - 如果大于 0，超过此毫秒数时将自动关闭提示框；
  * @param system - 当处于后台时，是否使用系统通知。系统通知不会区分 type 类型且未必会成功；
+ * @param pos - 弹出位置；
  */
 export async function notify(
 	title: string,
@@ -58,8 +87,9 @@ export async function notify(
 	type?: Type,
 	duration?: number,
 	system = false,
+	pos: Position = 'top',
 ): Promise<void> {
-	return await notifyInst(title, body, type, duration, system);
+	return await notifyInst(title, body, type, duration, system, pos);
 }
 
 /**
@@ -75,8 +105,6 @@ export async function system(title: string, o?: NotificationOptions): Promise<No
 	return await systemInst(title, o);
 }
 
-export type Props = ParentProps & MountProps;
-
 /**
  * 注册全局通知组件
  *
@@ -84,7 +112,7 @@ export type Props = ParentProps & MountProps;
  *
  * NOTE: 不可多次调用，仅用于初始化通知组件。
  */
-export function NotifyProvider(props: Props): JSX.Element {
+export function NotifyProvider(props: ParentProps & MountProps): JSX.Element {
 	return (
 		<>
 			<Portal mount={props.mount}>{init()}</Portal>
@@ -96,9 +124,17 @@ export function NotifyProvider(props: Props): JSX.Element {
 function init(): JSX.Element {
 	const [opt, origin] = useOptions();
 	const l = useLocale();
-	let ref: HTMLDivElement;
+	let topRef: HTMLDivElement;
+	let bottomRef: HTMLDivElement;
 
-	notifyInst = async (title: string, body?: string, type?: Type, duration?: number, sys = false): Promise<void> => {
+	notifyInst = async (
+		title: string,
+		body?: string,
+		type?: Type,
+		duration?: number,
+		sys = false,
+		pos: Position = 'top',
+	): Promise<void> => {
 		if (sys && document.visibilityState === 'hidden') {
 			const n = await system(title, { body: body });
 
@@ -120,7 +156,14 @@ function init(): JSX.Element {
 			transitionDuration: opt.getTransitionDuration(),
 			closeAriaLabel: l.t('_c.close'),
 		};
-		render(() => <Message {...props} />, ref);
+
+		switch (pos) {
+			case 'top':
+				render(() => <Message {...props} />, topRef);
+				break;
+			case 'bottom':
+				render(() => <Message {...props} />, bottomRef);
+		}
 	};
 
 	systemInst = async (title: string, o?: NotificationOptions): Promise<Notification | undefined> => {
@@ -155,5 +198,10 @@ function init(): JSX.Element {
 		}
 	};
 
-	return <div ref={el => (ref = el)} class={joinClass('error', styles.notify)} />;
+	return (
+		<>
+			<div ref={el => (topRef = el)} class={joinClass('error', styles.notify, styles.top)} />
+			<div ref={el => (bottomRef = el)} class={joinClass('error', styles.notify, styles.bottom)} />
+		</>
+	);
 }

@@ -8,7 +8,15 @@
 
 @layer components {
 	.notify {
-		@apply absolute top-4 inset-e-4 inset-s-4 flex flex-col z-notify gap-2;
+		@apply absolute inset-e-4 inset-s-4 flex flex-col z-notify gap-2;
 		@apply @2xl/root:w-80 @2xl/root:start-auto;
+	}
+
+	.notify.top {
+		@apply top-4;
+	}
+
+	.notify.bottom {
+		@apply bottom-4;
 	}
 }

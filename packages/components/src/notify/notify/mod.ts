@@ -2,4 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { error, info, notify, success, system, warning } from './notify';
+export type { Position } from './notify';
+export { error, info, notify, positions, success, system, warning } from './notify';
