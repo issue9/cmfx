@@ -17,19 +17,19 @@
 			@apply inline-flex items-center justify-center;
 		}
 
-		.topleft {
+		.top-left {
 			@apply top-(--badge-size) left-(--badge-size);
 		}
 
-		.topright {
+		.top-right {
 			@apply top-(--badge-size) right-(--badge-size);
 		}
 
-		.bottomleft {
+		.bottom-left {
 			@apply bottom-(--badge-size) left-(--badge-size);
 		}
 
-		.bottomright {
+		.bottom-right {
 			@apply bottom-(--badge-size) right-(--badge-size);
 		}
 	}

@@ -110,7 +110,7 @@
 		"kind": "function",
 		"name": "Notify.notify",
 		"summary": "发送一条通知给用户\n\n",
-		"type": "declare function notify(title: string, body?: string, type?: Type, duration?: number, system?: boolean): Promise<void>",
+		"type": "declare function notify(title: string, body?: string, type?: Type, duration?: number, system?: boolean, pos?: Position): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -134,8 +134,13 @@
 			},
 			{
 				"name": "system",
-				"summary": "当处于后台时，是否使用系统通知。系统通知不会区分 type 类型；\n\n",
+				"summary": "当处于后台时，是否使用系统通知。系统通知不会区分 type 类型且未必会成功；\n\n",
 				"type": "boolean | undefined"
+			},
+			{
+				"name": "pos",
+				"summary": "弹出位置；\n\n",
+				"type": "\"top\" | \"bottom\" | undefined"
 			}
 		],
 		"return": {
@@ -147,7 +152,7 @@
 		"kind": "function",
 		"name": "Notify.info",
 		"summary": "`notify`\n的快捷方式，用于显示普通信息。\n\n",
-		"type": "declare function info(title: string, body?: string, duration?: number, system?: boolean): Promise<void>",
+		"type": "declare function info(title: string, body?: string, duration?: number, system?: boolean, pos?: Position): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -164,6 +169,10 @@
 			{
 				"name": "system",
 				"type": "boolean | undefined"
+			},
+			{
+				"name": "pos",
+				"type": "\"top\" | \"bottom\" | undefined"
 			}
 		],
 		"return": {
@@ -175,7 +184,7 @@
 		"kind": "function",
 		"name": "Notify.warning",
 		"summary": "`notify`\n的快捷方式，用于显示警告信息。\n\n",
-		"type": "declare function warning(title: string, body?: string, duration?: number, system?: boolean): Promise<void>",
+		"type": "declare function warning(title: string, body?: string, duration?: number, system?: boolean, pos?: Position): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -192,6 +201,10 @@
 			{
 				"name": "system",
 				"type": "boolean | undefined"
+			},
+			{
+				"name": "pos",
+				"type": "\"top\" | \"bottom\" | undefined"
 			}
 		],
 		"return": {
@@ -203,7 +216,7 @@
 		"kind": "function",
 		"name": "Notify.success",
 		"summary": "`notify`\n的快捷方式，用于显示成功信息。\n\n",
-		"type": "declare function success(title: string, body?: string, duration?: number, system?: boolean): Promise<void>",
+		"type": "declare function success(title: string, body?: string, duration?: number, system?: boolean, pos?: Position): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -220,6 +233,10 @@
 			{
 				"name": "system",
 				"type": "boolean | undefined"
+			},
+			{
+				"name": "pos",
+				"type": "\"top\" | \"bottom\" | undefined"
 			}
 		],
 		"return": {
@@ -231,7 +248,7 @@
 		"kind": "function",
 		"name": "Notify.error",
 		"summary": "`notify`\n的快捷方式，用于显示错误信息。\n\n",
-		"type": "declare function error(title: string, body?: string, duration?: number, system?: boolean): Promise<void>",
+		"type": "declare function error(title: string, body?: string, duration?: number, system?: boolean, pos?: Position): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -248,6 +265,10 @@
 			{
 				"name": "system",
 				"type": "boolean | undefined"
+			},
+			{
+				"name": "pos",
+				"type": "\"top\" | \"bottom\" | undefined"
 			}
 		],
 		"return": {
@@ -259,6 +280,7 @@
 		"kind": "function",
 		"name": "Notify.system",
 		"summary": "向操作系统的通知中心发送消息\n\n",
+		"remarks": "发送系统通知并不是总能成功的，因为浏览器可能会阻止系统通知的显示。\n\n",
 		"type": "declare function system(title: string, o?: NotificationOptions): Promise<Notification | undefined>",
 		"params": [
 			{

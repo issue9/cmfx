@@ -5,7 +5,7 @@
 import { calcPopoverPosition, type PopoverPosition } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
-import { type BaseProps, joinClass, type Palette, type BaseRef } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type Palette } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';

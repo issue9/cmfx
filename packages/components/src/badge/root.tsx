@@ -10,7 +10,7 @@ import styles from './style.module.css';
 /**
  * 组件的四个角
  */
-export const corners = ['topleft', 'topright', 'bottomleft', 'bottomright'] as const;
+export const corners = ['top-left', 'top-right', 'bottom-left', 'bottom-right'] as const;
 
 export type Corner = (typeof corners)[number];
 
@@ -21,7 +21,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	 * 位置
 	 *
 	 * @reactive
-	 * @defaultValue 'topright'
+	 * @defaultValue 'top-right'
 	 */
 	pos?: Corner;
 
@@ -41,7 +41,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 }
 
 const presetProps: Readonly<Partial<Props>> = {
-	pos: 'topright',
+	pos: 'top-right',
 };
 
 /**

@@ -6,8 +6,8 @@
 			{
 				"name": "pos",
 				"summary": "位置\n\n",
-				"type": "\"topleft\" | \"topright\" | \"bottomleft\" | \"bottomright\" | undefined",
-				"def": "'topright'\n\n",
+				"type": "\"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\" | undefined",
+				"def": "'top-right'\n\n",
 				"reactive": true
 			},
 			{

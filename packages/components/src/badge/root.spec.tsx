@@ -37,11 +37,11 @@ describe('Badge', async () => {
 		const span = c.lastChild;
 		expect(span).toHaveTextContent('text');
 		expect(span).toHaveClass(styles.point);
-		expect(span).toHaveClass(styles.topright);
+		expect(span).toHaveClass(styles['top-right']);
 	});
 
-	test('pos=bottomleft', async () => {
-		setPos('bottomleft');
+	test('pos=bottom-left', async () => {
+		setPos('bottom-left');
 
 		const c = ct.result.container.firstElementChild!;
 
