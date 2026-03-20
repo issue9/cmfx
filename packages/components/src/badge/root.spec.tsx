@@ -51,6 +51,6 @@ describe('Badge', async () => {
 		const span = c.lastChild;
 		expect(span).toHaveTextContent('text');
 		expect(span).toHaveClass(styles.point);
-		expect(span).toHaveClass(styles.bottomleft);
+		expect(span).toHaveClass(styles['bottom-left']);
 	});
 });

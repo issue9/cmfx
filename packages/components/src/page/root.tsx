@@ -13,7 +13,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 返回顶部按钮的接口
 	 */
-	backTop(): BackTop.RootRef;
+	backTop(): BackTop.RootRef | undefined;
 }
 
 export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
@@ -52,7 +52,19 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<div ref={el => (rootRef = el)} class={joinClass(props.palette, styles.page, props.class)} style={props.style}>
+		<div
+			ref={el => {
+				rootRef = el;
+				if (props.backTop === false && props.ref) {
+					props.ref({
+						root: () => rootRef,
+						backTop: () => undefined,
+					});
+				}
+			}}
+			class={joinClass(props.palette, styles.page, props.class)}
+			style={props.style}
+		>
 			{props.children}
 			<Switch>
 				<Match when={props.backTop === undefined}>

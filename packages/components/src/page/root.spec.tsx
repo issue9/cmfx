@@ -10,42 +10,43 @@ import { type Ref, Root } from './root';
 describe('Page backtop=undefined', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('Page', props => (
-		<Root
-			{...props}
-			title="title"
-			ref={el => {
-				ref = el;
-			}}
-		>
+		<Root {...props} title="title" ref={el => (ref = el)}>
 			abc
 		</Root>
 	));
 
 	test('props', () => ct.testProps());
 
-	test('backtop=undefined', () => {
-		expect(ref!.root()).not.toBeUndefined();
-		expect(ref!.backTop()).not.toBeUndefined();
+	test('ref', () => {
+		expect(ref!.root()).toBeDefined();
+		expect(ref!.backTop()).toBeDefined();
 	});
 });
 
-describe('Page', async () => {
+describe('Page backtop=false', async () => {
 	let ref: Ref;
 	await ComponentTester.build('Page', props => (
-		<Root
-			backTop={false}
-			{...props}
-			title="title"
-			ref={el => {
-				ref = el;
-			}}
-		>
+		<Root backTop={false} {...props} title="title" ref={el => (ref = el)}>
 			abc
 		</Root>
 	));
 
-	test('backtop=false', async () => {
-		expect(ref!.root()).not.toBeUndefined();
+	test('ref', async () => {
+		expect(ref!.root()).toBeDefined();
 		expect(ref!.backTop()).toBeUndefined();
+	});
+});
+
+describe('Page backtop=custom', async () => {
+	let ref: Ref;
+	await ComponentTester.build('Page', props => (
+		<Root backTop={{ rounded: true }} {...props} title="title" ref={el => (ref = el)}>
+			abc
+		</Root>
+	));
+
+	test('ref', async () => {
+		expect(ref!.root()).toBeDefined();
+		expect(ref!.backTop()).toBeDefined();
 	});
 });

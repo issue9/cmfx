@@ -84,9 +84,9 @@
 	},
 	{
 		"kind": "function",
-		"name": "xalert",
+		"name": "Dialog.alert",
 		"summary": "提供了与\n`alert`\n相同的功能，但是在行为上有些不同。\n`alert`\n是阻塞模式的，而当前函数则是异步函数。\n\n",
-		"type": "function xalert(msg: string): Promise<void>",
+		"type": "declare function alert_2(msg: string): Promise<void>",
 		"params": [
 			{
 				"name": "msg",
@@ -101,9 +101,9 @@
 	},
 	{
 		"kind": "function",
-		"name": "xconfirm",
+		"name": "Dialog.confirm",
 		"summary": "提供了与\n`confirm`\n相同的功能，但是在行为上有些不同。\n`confirm`\n是阻塞模式的，而当前函数则是异步函数。\n\n",
-		"type": "function xconfirm(msg?: string): Promise<boolean>",
+		"type": "declare function confirm_2(msg?: string): Promise<boolean>",
 		"params": [
 			{
 				"name": "msg",
@@ -118,9 +118,9 @@
 	},
 	{
 		"kind": "function",
-		"name": "xprompt",
+		"name": "Dialog.prompt",
 		"summary": "提供了与\n`prompt`\n相同的功能，但是在行为上有些不同。\n`prompt`\n是阻塞模式的，而当前函数则是异步函数。\n\n",
-		"type": "function xprompt(msg?: string, val?: string): Promise<string | null>",
+		"type": "declare function prompt_2(msg?: string, val?: string): Promise<string | null>",
 		"params": [
 			{
 				"name": "msg",
