@@ -4,17 +4,8 @@
 
 import type { JSX } from 'solid-js';
 
-import type { AvailableEnumType, BaseProps, Layout } from '@components/base';
-
-/**
- * 组件 Field 的属性
- */
-export interface Props extends BaseProps {
-	/**
-	 * 鼠标提示内容
-	 */
-	title?: string;
-}
+import type { AvailableEnumType, Layout } from '@components/base';
+import type { Props } from './field';
 
 export const labelAlignments = ['start', 'center', 'end'] as const;
 

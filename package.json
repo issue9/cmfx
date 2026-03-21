@@ -35,13 +35,13 @@
 		"test-nowatch": "vitest run"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.7",
+		"@biomejs/biome": "2.4.8",
 		"@iconify/json": "catalog:",
 		"@solidjs/testing-library": "catalog:",
 		"@testing-library/jest-dom": "catalog:",
 		"@testing-library/user-event": "catalog:",
 		"@vitest/coverage-v8": "catalog:",
-		"jsdom": "^29.0.0",
+		"jsdom": "^29.0.1",
 		"unplugin-icons": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-solid": "catalog:",

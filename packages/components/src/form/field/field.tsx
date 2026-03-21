@@ -4,10 +4,19 @@
 
 import type { JSX, ParentProps } from 'solid-js';
 
-import { joinClass, type Layout, type RefProps } from '@components/base';
+import { type BaseProps, joinClass, type Layout, type RefProps } from '@components/base';
 import type { Accessor } from './access';
 import styles from './style.module.css';
-import type { Props } from './types';
+
+/**
+ * 组件 Field 的属性
+ */
+export interface Props extends BaseProps {
+	/**
+	 * 鼠标提示内容
+	 */
+	title?: string;
+}
 
 /**
  * 子组件所处的位置
