@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import type { Layout } from '@components/base';
-import type { FieldArea, FieldAreas } from '@components/form/field';
+import type { Form } from '@components/form/form';
 
-export interface TextFieldAreas extends FieldAreas {
-	countArea?: FieldArea;
+export interface TextFieldAreas extends Form.FieldAreas {
+	countArea?: Form.FieldArea;
 }
 
 /**

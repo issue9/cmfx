@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, fieldAccessor, type MountProps, Slider } from '@cmfx/components';
+import { Button, Form, type MountProps, Slider } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -13,7 +13,7 @@ function formatValue(value: number): JSX.Element {
 }
 
 export default function (props: MountProps) {
-	const f = fieldAccessor('name', 5);
+	const f = Form.fieldAccessor('name', 5);
 
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');

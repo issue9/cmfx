@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, FormAPI, Page, Table, TextField, useLocale } from '@cmfx/components';
+import { Button, Divider, Form, Page, Table, TextField, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, type JSX, onMount } from 'solid-js';
 import * as z from 'zod';
@@ -40,7 +40,7 @@ export function Edit(props: Props): JSX.Element {
 	const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
 	const nav = useNavigate();
-	const api = new FormAPI<Admin>({
+	const api = new Form.API<Admin>({
 		initValue: { sex: 'unknown', name: '', nickname: '', roles: [], passports: [] },
 		submit: async obj => {
 			return await rest.patch(`/admins/${ps.id}`, obj);

@@ -8,14 +8,13 @@ import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
 import { type BaseProps, PropsError, type RefProps, style2String } from '@components/base';
 import { Button } from '@components/button';
-import type { Accessor, FieldBaseProps } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import { Input } from '@components/input';
 import styles from './style.module.css';
 
 export type Ref = Input.RootRef;
 
-export interface Props extends FieldBaseProps, RefProps<Ref> {
+export interface Props extends Form.FieldBaseProps, RefProps<Ref> {
 	/**
 	 * 最小值
 	 */
@@ -48,7 +47,7 @@ export interface Props extends FieldBaseProps, RefProps<Ref> {
 	/**
 	 * NOTE: 非响应式属性
 	 */
-	accessor: Accessor<number | undefined>;
+	accessor: Form.Accessor<number | undefined>;
 
 	/**
 	 * 键盘的输入模式
@@ -67,7 +66,7 @@ const presetProps: Partial<Props> = {
  * 数字输入组件
  */
 export function Root(props: Props): JSX.Element {
-	const form = useForm(); // Numeric 在 textfield 的外层，所以得保证 useForm 是可用的。
+	const form = Form.useForm(); // Numeric 在 textfield 的外层，所以得保证 useForm 是可用的。
 	props = mergeProps(presetProps, form, props);
 
 	if (props.step === 0) {
@@ -130,7 +129,7 @@ export function Root(props: Props): JSX.Element {
 		</>
 	);
 
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
 	const id = createUniqueId();
 
@@ -181,11 +180,9 @@ export function Root(props: Props): JSX.Element {
 	};
 
 	return (
-		<Field
+		<Form.Field
 			title={props.title}
-			ref={el => {
-				rootRef = el;
-			}}
+			ref={el => (rootRef = el)}
 			palette={props.palette}
 			class={props.class}
 			style={props.style}
@@ -194,7 +191,7 @@ export function Root(props: Props): JSX.Element {
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -205,11 +202,11 @@ export function Root(props: Props): JSX.Element {
 				)}
 			</Show>
 
-			<Trigger style={fieldArea2Style(areas().inputArea)} />
+			<Trigger style={Form.fieldArea2Style(areas().inputArea)} />
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

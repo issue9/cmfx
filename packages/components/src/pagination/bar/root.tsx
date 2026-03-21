@@ -7,7 +7,7 @@ import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
 import { joinClass, PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
-import { Choice, fieldAccessor } from '@components/form';
+import { Choice, Form } from '@components/form';
 import { Pagination } from '@components/pagination/pagination';
 import styles from './style.module.css';
 
@@ -87,7 +87,7 @@ export function Root(props: Props): JSX.Element {
 
 	const [page, setPage] = createSignal(props.page);
 
-	const sizeAccessor = fieldAccessor('size', props.size!);
+	const sizeAccessor = Form.fieldAccessor('size', props.size!);
 	sizeAccessor.onChange((val: number, old?: number) => {
 		if (page() >= pages()) {
 			pageChange(pages(), page());

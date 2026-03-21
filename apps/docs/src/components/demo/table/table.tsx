@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, type MountProps, Numeric, Table } from '@cmfx/components';
+import { Form, type MountProps, Numeric, Table } from '@cmfx/components';
 import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -24,7 +24,7 @@ function buildItems(start: number, size: number): Array<Item> {
 }
 
 export default function (props: MountProps) {
-	const striped = fieldAccessor<Table.RootProps['striped']>('striped', 0);
+	const striped = Form.fieldAccessor<Table.RootProps['striped']>('striped', 0);
 	const [Palette, palette] = paletteSelector();
 	const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
 	const [Hoverable, hoverable] = boolSelector('hoverable', false);

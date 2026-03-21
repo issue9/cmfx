@@ -9,8 +9,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { type Week, WeekPanel } from '@components/datetime';
 import type { WeekValueType } from '@components/datetime/dateview';
-import type { Accessor } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import type { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
@@ -18,14 +17,14 @@ import { togglePop } from './utils';
 export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props extends Omit<PickerProps, 'accessor' | 'accentPalette' | 'time' | 'ref'>, RefProps<Ref> {
-	accessor: Accessor<WeekValueType | undefined>;
+	accessor: Form.Accessor<WeekValueType | undefined>;
 }
 
 /**
  * 周数选择组件
  */
 export function Root(props: Props): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps({ weekBase: 0 as Week }, form, props);
 
 	const [panelProps, _] = splitProps(props, ['weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
@@ -45,9 +44,9 @@ export function Root(props: Props): JSX.Element {
 	};
 
 	const id = createUniqueId();
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 	return (
-		<Field
+		<Form.Field
 			class={joinClass(undefined, styles.activator, props.class)}
 			style={props.style}
 			title={props.title}
@@ -63,7 +62,7 @@ export function Root(props: Props): JSX.Element {
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -76,7 +75,7 @@ export function Root(props: Props): JSX.Element {
 
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: 正常需求 */}
 			<div
-				style={fieldArea2Style(areas().inputArea)}
+				style={Form.fieldArea2Style(areas().inputArea)}
 				ref={el => {
 					anchorRef = el;
 				}}
@@ -118,8 +117,8 @@ export function Root(props: Props): JSX.Element {
 			/>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

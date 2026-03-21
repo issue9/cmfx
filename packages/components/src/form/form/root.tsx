@@ -9,10 +9,10 @@ import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show, 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
-import { type FormContext, FormProvider, useForm } from '@components/form/field';
 import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
-import type { FormAPI } from './api';
+import type { API } from './api';
+import { type Context, Provider, useForm } from './context';
 
 export interface Ref extends BaseRef<HTMLFormElement> {
 	/**
@@ -46,7 +46,7 @@ export interface Ref extends BaseRef<HTMLFormElement> {
 
 export interface Props<T extends Flattenable, R = never, P = never>
 	extends BaseProps,
-		FormContext,
+		Context,
 		ParentProps,
 		RefProps<Ref> {
 	/**
@@ -62,7 +62,7 @@ export interface Props<T extends Flattenable, R = never, P = never>
 	/**
 	 * 指定操作表单的 api
 	 */
-	api: FormAPI<T, R, P>;
+	api: API<T, R, P>;
 }
 
 interface MessageProps extends BaseProps {
@@ -127,7 +127,7 @@ export function Root<T extends Flattenable, R = never, P = never>(props: Props<T
 
 	const id = createUniqueId();
 	return (
-		<FormProvider
+		<Provider
 			layout={props.layout}
 			hasHelp={props.hasHelp}
 			rounded={props.rounded}
@@ -194,6 +194,6 @@ export function Root<T extends Flattenable, R = never, P = never>(props: Props<T
 			>
 				{props.children}
 			</Spin.Root>
-		</FormProvider>
+		</Provider>
 	);
 }

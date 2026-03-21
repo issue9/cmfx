@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type FieldOptions, fieldAccessor, type MountProps, type Palette, RadioGroup } from '@cmfx/components';
+import { Button, Form, type MountProps, type Palette, RadioGroup } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -10,7 +10,7 @@ import { boolSelector, layoutSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [change, setChange] = createSignal<string>('');
-	const f = fieldAccessor<Palette>('name', 'secondary');
+	const f = Form.fieldAccessor<Palette>('name', 'secondary');
 	f.onChange((v, o) => setChange(`new: ${v}, old: ${o}`));
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
@@ -19,7 +19,7 @@ export default function (props: MountProps): JSX.Element {
 	const [ItemLayout, itemLayout] = layoutSelector('_d.demo.itemLayout', 'horizontal');
 	const [Block, block] = boolSelector('_d.demo.block');
 
-	const options: FieldOptions<Palette | 'undefined'> = [
+	const options: Form.FieldOptions<Palette | 'undefined'> = [
 		{ value: 'error', label: 'error' },
 		{ value: 'secondary', label: 'secondary' },
 		{ value: 'undefined', label: 'undefined' },

@@ -5,14 +5,13 @@
 import { createMemo, For, type JSX, mergeProps, Show } from 'solid-js';
 
 import { type AvailableEnumType, type BaseRef, joinClass, type Layout, type RefProps } from '@components/base';
-import type { Accessor, FieldBaseProps, FieldOptions } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import * as Radio from '@components/form/radio/radio/mod';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
-export interface Props<T extends AvailableEnumType = string> extends FieldBaseProps, RefProps<Ref> {
+export interface Props<T extends AvailableEnumType = string> extends Form.FieldBaseProps, RefProps<Ref> {
 	/**
 	 * 是否显示为块
 	 *
@@ -30,14 +29,14 @@ export interface Props<T extends AvailableEnumType = string> extends FieldBasePr
 	/**
 	 * NOTE: 非响应式属性
 	 */
-	accessor: Accessor<T>;
+	accessor: Form.Accessor<T>;
 
 	/**
 	 * 选择项
 	 *
 	 * @reactive
 	 */
-	options: FieldOptions<T>;
+	options: Form.FieldOptions<T>;
 }
 
 /**
@@ -46,17 +45,17 @@ export interface Props<T extends AvailableEnumType = string> extends FieldBasePr
  * @remarks 相同名称的单选框组，名称采用 {@link Accessor.name} 值。
  */
 export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 	const inputCls = createMemo(() => {
 		return joinClass(undefined, styles['group-content'], props.itemLayout === 'vertical' ? 'flex-col' : '');
 	});
 
 	const access = props.accessor;
 	return (
-		<Field
+		<Form.Field
 			class={props.class}
 			style={props.style}
 			title={props.title}
@@ -72,7 +71,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				{area => (
 					<span
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 							cursor: 'default',
@@ -85,7 +84,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: 不需要鼠标事件 */}
 			<div
-				style={fieldArea2Style(areas().inputArea)}
+				style={Form.fieldArea2Style(areas().inputArea)}
 				class={inputCls()}
 				onKeyDown={e => {
 					if (!props.block || props.disabled || props.readonly) {
@@ -136,8 +135,8 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			</div>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

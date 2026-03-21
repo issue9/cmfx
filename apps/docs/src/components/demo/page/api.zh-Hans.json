@@ -55,9 +55,9 @@
 			{
 				"name": "backTop",
 				"summary": "返回顶部按钮的接口\n\n",
-				"type": "backTop(): BackTop.RootRef",
+				"type": "backTop(): BackTop.RootRef | undefined",
 				"return": {
-					"type": "Ref_3"
+					"type": "Ref_3 | undefined"
 				}
 			},
 			{

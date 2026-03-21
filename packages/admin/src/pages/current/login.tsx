@@ -3,17 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { BaseProps, Mode } from '@cmfx/components';
-import {
-	Appbar,
-	Choice,
-	fieldAccessor,
-	joinClass,
-	modes,
-	Page,
-	Transition,
-	useLocale,
-	useOptions,
-} from '@cmfx/components';
+import { Appbar, Choice, Form, joinClass, modes, Page, Transition, useLocale, useOptions } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createResource, ErrorBoundary, For, type JSX, Match, Show, Switch } from 'solid-js';
@@ -67,7 +57,7 @@ function LoginBox(props: Props): JSX.Element {
 
 	rest.api().cache('/passports');
 
-	const passport = fieldAccessor('passport', q.type ?? 'password');
+	const passport = Form.fieldAccessor('passport', q.type ?? 'password');
 	passport.onChange(n => setQ({ type: n }));
 
 	const [passports] = createResource<Array<Choice.Option>>(async () => {
@@ -122,10 +112,10 @@ function Actions(): JSX.Element {
 	const l = useLocale();
 	const [accessor] = useOptions();
 
-	const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
+	const localeFA = Form.fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
 	localeFA.onChange(v => accessor.setLocale(v));
 
-	const modeFA = fieldAccessor<Mode>('mode', accessor.getMode());
+	const modeFA = Form.fieldAccessor<Mode>('mode', accessor.getMode());
 	modeFA.onChange(m => accessor.setMode(m));
 
 	return (

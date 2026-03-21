@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps } from '@cmfx/components';
-import { Button, DatePicker, Form, FormAPI, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
+import { Button, DatePicker, Form, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -18,7 +18,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 
 	let ref!: Form.RootRef;
-	const api = new FormAPI({
+	const api = new Form.API({
 		initValue: {
 			f1: 'f1',
 			f2: 5,

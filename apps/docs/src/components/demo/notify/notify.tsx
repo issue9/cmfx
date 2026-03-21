@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Choice, fieldAccessor, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
+import { Alert, Button, Choice, Form, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 
 export default function (): JSX.Element {
-	const typ = fieldAccessor<Alert.Type>('type', 'success');
-	const pos = fieldAccessor<Notify.Position>('pos', 'top');
-	const timeout = fieldAccessor<number>('timeout', 5000);
-	const title = fieldAccessor<string>('title', 'title');
-	const body = fieldAccessor<string>('body', 'body');
+	const typ = Form.fieldAccessor<Alert.Type>('type', 'success');
+	const pos = Form.fieldAccessor<Notify.Position>('pos', 'top');
+	const timeout = Form.fieldAccessor<number>('timeout', 5000);
+	const title = Form.fieldAccessor<string>('title', 'title');
+	const body = Form.fieldAccessor<string>('body', 'body');
 
 	const click = async (): Promise<void> => {
 		await Notify.notify(title.getValue(), body.getValue(), typ.getValue(), timeout.getValue(), false, pos.getValue());

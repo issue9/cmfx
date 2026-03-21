@@ -5,7 +5,7 @@
 		"properties": [
 			{
 				"name": "accessor",
-				"type": "Accessor<string, string>"
+				"type": "Accessor_2<string, string>"
 			},
 			{
 				"name": "style",

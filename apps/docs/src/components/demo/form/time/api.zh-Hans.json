@@ -10,7 +10,7 @@
 			{
 				"name": "accessor",
 				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor<Date | undefined, string>"
+				"type": "Accessor_2<Date | undefined, string>"
 			},
 			{
 				"name": "title",

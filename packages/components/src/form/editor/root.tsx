@@ -9,8 +9,7 @@ import 'quill/dist/quill.snow.css';
 import { createEffect, createMemo, createUniqueId, type JSX, mergeProps, onMount, Show } from 'solid-js';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
-import type { Accessor, FieldBaseProps } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import styles from './style.module.css';
 
 export interface Ref extends BaseRef<HTMLDivElement> {
@@ -20,7 +19,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	quill(): Quill;
 }
 
-export interface Props extends Omit<FieldBaseProps, 'rounded'>, RefProps<Ref> {
+export interface Props extends Omit<Form.FieldBaseProps, 'rounded'>, RefProps<Ref> {
 	/**
 	 * 简单样式
 	 *
@@ -34,14 +33,14 @@ export interface Props extends Omit<FieldBaseProps, 'rounded'>, RefProps<Ref> {
 	/**
 	 * NOTE: 非响应式属性
 	 */
-	accessor: Accessor<string>;
+	accessor: Form.Accessor<string>;
 }
 
 /**
  * WYSIWYG 编辑器
  */
 export function Root(props: Props): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(form, props);
 
 	const options: QuillOptions = {
@@ -112,9 +111,9 @@ export function Root(props: Props): JSX.Element {
 		editor.setSelection(editor.getLength()); // 光标定位末尾
 	});
 
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 	return (
-		<Field
+		<Form.Field
 			class={joinClass(undefined, styles.editor, props.class)}
 			style={props.style}
 			title={props.title}
@@ -141,7 +140,7 @@ export function Root(props: Props): JSX.Element {
 					// biome-ignore lint/a11y/noStaticElementInteractions: 需要点击事件
 					<span
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 							cursor: 'default',
@@ -153,7 +152,7 @@ export function Root(props: Props): JSX.Element {
 				)}
 			</Show>
 
-			<div class={styles['editor-wrap']} style={fieldArea2Style(areas().inputArea)}>
+			<div class={styles['editor-wrap']} style={Form.fieldArea2Style(areas().inputArea)}>
 				<div
 					ref={el => {
 						ref = el;
@@ -163,8 +162,8 @@ export function Root(props: Props): JSX.Element {
 			</div>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

@@ -2,20 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Album,
-	Avatar,
-	Button,
-	Divider,
-	Form,
-	FormAPI,
-	fieldAccessor,
-	Page,
-	Table,
-	TextField,
-	Upload,
-	useLocale,
-} from '@cmfx/components';
+import { Album, Avatar, Button, Divider, Form, Page, Table, TextField, Upload, useLocale } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
@@ -45,7 +32,7 @@ export function Profile(props: Props): JSX.Element {
 	let uploadRef: Upload.RootRef;
 
 	let ref!: Form.RootRef;
-	const api = new FormAPI({
+	const api = new Form.API({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
 		onProblem: async p => handleProblem(p),
 		submit: async obj => {
@@ -72,7 +59,7 @@ export function Profile(props: Props): JSX.Element {
 		const nameA = api.accessor('name');
 		const nicknameA = api.accessor('nickname');
 		const sexA = api.accessor('sex');
-		const passportA = fieldAccessor('passports', info.passports);
+		const passportA = Form.fieldAccessor('passports', info.passports);
 
 		nameA.setValue(info.name!);
 		nicknameA.setValue(info.nickname!);

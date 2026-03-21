@@ -5,8 +5,7 @@
 import { createEffect, createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show } from 'solid-js';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
-import type { Accessor, FieldBaseProps } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import type { Input } from '@components/input';
 import styles from './style.module.css';
 
@@ -17,7 +16,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	textarea(): HTMLTextAreaElement;
 }
 
-export interface Props extends FieldBaseProps, RefProps<Ref> {
+export interface Props extends Form.FieldBaseProps, RefProps<Ref> {
 	/**
 	 * 最小的字符数量
 	 *
@@ -37,7 +36,7 @@ export interface Props extends FieldBaseProps, RefProps<Ref> {
 	/**
 	 * NOTE: 非响应式属性
 	 */
-	accessor: Accessor<string>;
+	accessor: Form.Accessor<string>;
 
 	/**
 	 * 指定输入键盘的模式
@@ -70,7 +69,7 @@ function countFormater(val: number, max?: number): string {
  * @typeParam T - 文本框内容的类型
  */
 export function Root(props: Props): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(form, props);
 
 	const [count, setCount] = createSignal('');
@@ -88,10 +87,10 @@ export function Root(props: Props): JSX.Element {
 	const [helpRef, setHelpRef] = createSignal<HTMLParagraphElement | undefined>();
 
 	const id = createUniqueId();
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
 	return (
-		<Field
+		<Form.Field
 			ref={el => {
 				rootRef = el;
 			}}
@@ -104,7 +103,7 @@ export function Root(props: Props): JSX.Element {
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -116,7 +115,7 @@ export function Root(props: Props): JSX.Element {
 			</Show>
 
 			<textarea
-				style={fieldArea2Style(areas().inputArea)}
+				style={Form.fieldArea2Style(areas().inputArea)}
 				id={id}
 				inputMode={props.inputMode}
 				class={joinClass(undefined, styles.textarea, props.rounded ? styles.rounded : '')}
@@ -155,8 +154,10 @@ export function Root(props: Props): JSX.Element {
 			</span>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea ref={setHelpRef} area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => (
+					<Form.FieldHelpArea ref={setHelpRef} area={area()} getError={props.accessor.getError} help={props.help} />
+				)}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

@@ -10,37 +10,29 @@ import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { DatePanel, type Week } from '@components/datetime';
-import type { Accessor, FieldBaseProps } from '@components/form/field';
-import {
-	calcLayoutFieldAreas,
-	Field,
-	FieldHelpArea,
-	fieldAccessor,
-	fieldArea2Style,
-	useForm,
-} from '@components/form/field';
+import { Form } from '@components/form/form';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
 interface Base
-	extends FieldBaseProps,
+	extends Form.FieldBaseProps,
 		Omit<DatePanel.RootProps, 'onChange' | 'value' | 'popover' | 'ref'>,
 		RefProps<Ref> {
 	placeholder?: string;
 }
 
 interface DateProps extends Base {
-	accessor: Accessor<Date | undefined, 'date'>;
+	accessor: Form.Accessor<Date | undefined, 'date'>;
 }
 
 interface NumberProps extends Base {
-	accessor: Accessor<number | undefined, 'number'>;
+	accessor: Form.Accessor<number | undefined, 'number'>;
 }
 
 interface StringProps extends Base {
-	accessor: Accessor<string | undefined, 'string'>;
+	accessor: Form.Accessor<string | undefined, 'string'>;
 }
 
 export type Props = DateProps | NumberProps | StringProps;
@@ -62,13 +54,13 @@ export function Root(props: Props): JSX.Element {
 		return <DatePicker {...props} />;
 	} else if (isNumberProps(props)) {
 		const val = props.accessor.getValue();
-		const accessor = fieldAccessor('accessor', val ? new Date(val) : undefined, 'date');
+		const accessor = Form.fieldAccessor('accessor', val ? new Date(val) : undefined, 'date');
 		accessor.onChange(v => props.accessor.setValue(v?.getTime()));
 		const [_, p] = splitProps(props, ['accessor']);
 		return <DatePicker {...p} accessor={accessor} />;
 	} else if (isStringProps(props)) {
 		const val = props.accessor.getValue();
-		const accessor = fieldAccessor('accessor', val ? new Date(val) : undefined, 'date');
+		const accessor = Form.fieldAccessor('accessor', val ? new Date(val) : undefined, 'date');
 		accessor.onChange(v => props.accessor.setValue(v?.toISOString()));
 		const [_, p] = splitProps(props, ['accessor']);
 		return <DatePicker {...p} accessor={accessor} />;
@@ -76,7 +68,7 @@ export function Root(props: Props): JSX.Element {
 }
 
 function DatePicker(props: DateProps): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps({ weekBase: 0 as Week }, form, props);
 
 	const l = useLocale();
@@ -103,9 +95,9 @@ function DatePicker(props: DateProps): JSX.Element {
 	});
 
 	const id = createUniqueId();
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 	return (
-		<Field
+		<Form.Field
 			palette={props.palette}
 			class={joinClass(undefined, styles.activator, props.class)}
 			style={props.style}
@@ -121,7 +113,7 @@ function DatePicker(props: DateProps): JSX.Element {
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -134,7 +126,7 @@ function DatePicker(props: DateProps): JSX.Element {
 
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: 正常需要 */}
 			<div
-				style={fieldArea2Style(areas().inputArea)}
+				style={Form.fieldArea2Style(areas().inputArea)}
 				ref={el => {
 					anchorRef = el;
 				}}
@@ -223,8 +215,8 @@ function DatePicker(props: DateProps): JSX.Element {
 			</fieldset>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

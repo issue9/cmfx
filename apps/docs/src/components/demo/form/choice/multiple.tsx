@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Choice, fieldAccessor, type MountProps, TextField } from '@cmfx/components';
+import { Button, Choice, Form, type MountProps, TextField } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const mfa = fieldAccessor<Array<number>>('choice', [1, 2]);
+	const mfa = Form.fieldAccessor<Array<number>>('choice', [1, 2]);
 	const multipleOptions: Array<Choice.Option<number>> = [
 		{ type: 'item', value: 1, label: <div>abc</div> },
 		{ type: 'item', value: 2, label: <div style="color:green">green</div> },
@@ -48,7 +48,7 @@ export default function (props: MountProps): JSX.Element {
 		},
 	];
 
-	const tf = fieldAccessor('textfield', '');
+	const tf = Form.fieldAccessor('textfield', '');
 
 	const [Palette, palette] = paletteSelector();
 	const [Closable, closable] = boolSelector('closable');

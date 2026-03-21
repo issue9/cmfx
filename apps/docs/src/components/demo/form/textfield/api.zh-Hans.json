@@ -43,7 +43,7 @@
 			{
 				"name": "accessor",
 				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor<string | undefined, string>"
+				"type": "Accessor_2<string | undefined, string>"
 			},
 			{
 				"name": "inputMode",
@@ -221,7 +221,7 @@
 			{
 				"name": "accessor",
 				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor<number | undefined, string>"
+				"type": "Accessor_2<number | undefined, string>"
 			},
 			{
 				"name": "inputMode",
@@ -461,7 +461,7 @@
 			{
 				"name": "accessor",
 				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor<string | undefined, string>"
+				"type": "Accessor_2<string | undefined, string>"
 			},
 			{
 				"name": "placeholder",

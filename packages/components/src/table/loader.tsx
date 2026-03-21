@@ -19,7 +19,7 @@ import { Button, SplitButton, ToggleButton } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
-import { Checkbox, ObjectAccessor, Radio } from '@components/form';
+import { Checkbox, Form, Radio } from '@components/form';
 import { Label } from '@components/label';
 import { Dropdown } from '@components/menu';
 import { PaginationBar } from '@components/pagination';
@@ -61,7 +61,7 @@ type BaseTableProps<T extends object, Q extends Query> = OBP<T> &
 		 *
 		 * @reactive
 		 */
-		queryForm?: (oa: ObjectAccessor<Q>) => JSX.Element;
+		queryForm?: (oa: Form.ObjectAccessor<Q>) => JSX.Element;
 
 		/**
 		 * 查询参数的默认值
@@ -164,7 +164,7 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 		}) as Props<T, Q>['load'];
 	}
 
-	const queries = new ObjectAccessor<Q>(props.queries);
+	const queries = new Form.ObjectAccessor<Q>(props.queries);
 	const [total, setTotal] = createSignal<number>(100);
 
 	const [items, { refetch }] = createResource(async () => {

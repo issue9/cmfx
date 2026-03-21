@@ -8,7 +8,7 @@ import { createSignal, type Signal } from 'solid-js';
 import { ObjectAccessor } from './access';
 
 /**
- * 初始 {@link FormAPI} 的参数
+ * 初始 {@link API} 的参数
  */
 interface Options<T extends Flattenable, R = never, PE = never> {
 	/**
@@ -39,7 +39,7 @@ interface Options<T extends Flattenable, R = never, PE = never> {
 	 *
 	 * @remarks
 	 * 如果需要验证器输出的错误信息保持与当前环境相同的本地化语言，
-	 * 在 {@link FormAPI} 中使用需要手动使用 {@link Validator#changeLocale} 更改语言，
+	 * 在 {@link API} 中使用需要手动使用 {@link Validator#changeLocale} 更改语言，
 	 * 在 {@link Form} 中则会自动调用 {@link Validator#changeLocale} 更改语言。
 	 */
 	readonly validator?: Validator<T>;
@@ -53,7 +53,7 @@ interface Options<T extends Flattenable, R = never, PE = never> {
 	 * 提交数据的方法
 	 *
 	 * @remarks
-	 * 如果为空那么 {@link FormAPI#submit} 和 {@link FormAPI#spinning} 将无实际作用
+	 * 如果为空那么 {@link API#submit} 和 {@link API#spinning} 将无实际作用
 	 */
 	readonly submit?: (obj: T) => Promise<Return<R, PE>>;
 
@@ -61,7 +61,7 @@ interface Options<T extends Flattenable, R = never, PE = never> {
 	 * 加载表单数据
 	 *
 	 * @remarks
-	 * 如果为空，{@link FormAPI#load} 将无实际用处。
+	 * 如果为空，{@link API#load} 将无实际用处。
 	 */
 	readonly load?: () => Promise<Return<T, PE>>;
 }
@@ -76,7 +76,7 @@ interface Options<T extends Flattenable, R = never, PE = never> {
  * @typeParam R - 表示服务端返回的类型；
  * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export class FormAPI<T extends Flattenable, R = never, P = never> extends ObjectAccessor<T> {
+export class API<T extends Flattenable, R = never, P = never> extends ObjectAccessor<T> {
 	readonly #onProblem?: Options<T, R, P>['onProblem'];
 	readonly #load?: Options<T, R, P>['load'];
 	readonly #submit?: Options<T, R, P>['submit'];

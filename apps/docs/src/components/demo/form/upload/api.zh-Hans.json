@@ -200,7 +200,7 @@
 			{
 				"name": "accessor",
 				"summary": "保存着所有已经上传的文件列表\n\n",
-				"type": "Accessor<string[], string>"
+				"type": "Accessor_2<string[], string>"
 			},
 			{
 				"name": "itemSize",

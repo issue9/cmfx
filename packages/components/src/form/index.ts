@@ -7,16 +7,6 @@ export * from './choice';
 export * from './color';
 export * from './date';
 export * from './editor';
-export type {
-	Accessor,
-	FieldBaseProps,
-	FieldOption,
-	FieldOptions,
-	FormContext,
-	LabelAlignment,
-} from './field';
-// field 部分内容仅内部使用
-export { FormProvider, fieldAccessor, labelAlignments, useForm } from './field';
 export * from './form';
 export * from './radio';
 export * from './slider';

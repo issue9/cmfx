@@ -16,8 +16,7 @@ import {
 } from 'solid-js';
 
 import type { BaseRef, RefProps } from '@components/base';
-import type { Accessor, FieldBaseProps } from '@components/form/field';
-import { Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 
@@ -28,7 +27,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	input(): HTMLInputElement;
 }
 
-export interface Props extends FieldBaseProps, RefProps<Ref> {
+export interface Props extends Form.FieldBaseProps, RefProps<Ref> {
 	/**
 	 * 最小值
 	 *
@@ -66,7 +65,7 @@ export interface Props extends FieldBaseProps, RefProps<Ref> {
 	 */
 	marks?: Array<[number, string]>;
 
-	accessor: Accessor<number>;
+	accessor: Form.Accessor<number>;
 
 	/**
 	 * 是否需要显示滑块的当前值
@@ -80,7 +79,7 @@ export interface Props extends FieldBaseProps, RefProps<Ref> {
  * 相当于 <input type="range" />
  */
 export function Root(props: Props): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(form, props);
 
 	const access = props.accessor;
@@ -146,7 +145,7 @@ export function Root(props: Props): JSX.Element {
 	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label, !!props.value));
 	let rootRef: HTMLDivElement;
 	return (
-		<Field
+		<Form.Field
 			class={props.class}
 			title={props.title}
 			palette={props.palette}
@@ -159,7 +158,7 @@ export function Root(props: Props): JSX.Element {
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -174,7 +173,7 @@ export function Root(props: Props): JSX.Element {
 				ref={el => {
 					wrapRef = el;
 				}}
-				style={fieldArea2Style(areas().inputArea)}
+				style={Form.fieldArea2Style(areas().inputArea)}
 				class={styles.range}
 			>
 				<input
@@ -230,15 +229,15 @@ export function Root(props: Props): JSX.Element {
 
 			<Show when={areas().valueArea}>
 				{area => (
-					<div style={fieldArea2Style(area())} class={styles.value}>
+					<div style={Form.fieldArea2Style(area())} class={styles.value}>
 						{props.value!(value())}
 					</div>
 				)}
 			</Show>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

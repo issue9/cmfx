@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, Button, fieldAccessor, type MountProps } from '@cmfx/components';
+import { Album, Button, Form, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -15,7 +15,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 
-	const basicA = fieldAccessor('upload', ['../../../../../../apps/admin/public/icon.svg', './test.jpg']);
+	const basicA = Form.fieldAccessor('upload', ['../../../../../../apps/admin/public/icon.svg', './test.jpg']);
 
 	return (
 		<>

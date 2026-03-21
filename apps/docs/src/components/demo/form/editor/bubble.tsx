@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Editor, fieldAccessor, type MountProps } from '@cmfx/components';
+import { Button, Editor, Form, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const txt = fieldAccessor('name', '<p style="color:red">red</p><br />line2');
+	const txt = Form.fieldAccessor('name', '<p style="color:red">red</p><br />line2');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Palette, palette] = paletteSelector();

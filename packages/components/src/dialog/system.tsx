@@ -7,7 +7,7 @@ import { Portal } from 'solid-js/web';
 
 import type { BaseProps, MountProps } from '@components/base';
 import { useLocale } from '@components/context';
-import { fieldAccessor, TextField } from '@components/form';
+import { Form, TextField } from '@components/form';
 import { AcceptButton, Actions } from './buttons';
 import type { Ref } from './context';
 import { Root } from './root';
@@ -135,7 +135,7 @@ let promptInst: typeof prompt;
 function PromptProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
-	const access = fieldAccessor('prompt', '');
+	const access = Form.fieldAccessor('prompt', '');
 	const l = useLocale();
 
 	promptInst = (msg?: string, val?: string): Promise<string | null> => {

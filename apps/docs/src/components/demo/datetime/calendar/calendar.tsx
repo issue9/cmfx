@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Calendar, fieldAccessor, type MountProps, Notify, Numeric, type Week } from '@cmfx/components';
+import { Calendar, Form, type MountProps, Notify, Numeric, type Week } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -16,7 +16,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Weekend, weekend] = boolSelector('weekend');
 	const [Minmax, minmax] = boolSelector('minmax');
-	const week = fieldAccessor<Week>('weekbase', 0);
+	const week = Form.fieldAccessor<Week>('weekbase', 0);
 
 	return (
 		<>

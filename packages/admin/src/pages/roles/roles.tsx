@@ -2,17 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	type BasicTable,
-	Button,
-	Dialog,
-	ObjectAccessor,
-	Page,
-	RemoteTable,
-	TextArea,
-	TextField,
-	useLocale,
-} from '@cmfx/components';
+import type { BasicTable } from '@cmfx/components';
+import { Button, Dialog, Form, Page, RemoteTable, TextArea, TextField, useLocale } from '@cmfx/components';
 import type { Return } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
@@ -40,7 +31,7 @@ export function Roles(props: Props): JSX.Element {
 	const rest = useREST();
 	let tableRef: RemoteTable.RootRef<Role>;
 	let dialogRef: Dialog.RootRef;
-	const current = new ObjectAccessor({} as Role);
+	const current = new Form.ObjectAccessor({} as Role);
 	const currentID = current.accessor('id');
 
 	rest.api().cache('/roles', '/roles/*');
@@ -104,9 +95,7 @@ export function Roles(props: Props): JSX.Element {
 
 			<RemoteTable.Root
 				rest={rest}
-				ref={el => {
-					tableRef = el;
-				}}
+				ref={el => (tableRef = el)}
 				path="/roles"
 				queries={{}}
 				systemToolbar

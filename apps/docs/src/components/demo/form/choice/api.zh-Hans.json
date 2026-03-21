@@ -21,7 +21,7 @@
 					},
 					{
 						"name": "accessor",
-						"type": "Accessor<T[] | undefined, string>"
+						"type": "Accessor_2<T[] | undefined, string>"
 					},
 					{
 						"name": "placeholder",
@@ -30,7 +30,7 @@
 					{
 						"name": "options",
 						"summary": "选择项\n\n",
-						"type": "Option_3<T>[]",
+						"type": "Option_4<T>[]",
 						"reactive": true
 					},
 					{
@@ -151,7 +151,7 @@
 					},
 					{
 						"name": "accessor",
-						"type": "Accessor<T | undefined, string>"
+						"type": "Accessor_2<T | undefined, string>"
 					},
 					{
 						"name": "placeholder",
@@ -160,7 +160,7 @@
 					{
 						"name": "options",
 						"summary": "选择项\n\n",
-						"type": "Option_3<T>[]",
+						"type": "Option_4<T>[]",
 						"reactive": true
 					},
 					{

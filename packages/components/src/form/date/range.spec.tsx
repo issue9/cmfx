@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { fieldAccessor } from '@components/form/field';
+import { Form } from '@components/form/form';
 import { type Ref, Root } from './range';
 
 describe('DateRangePicker', async () => {
 	let ref: Ref;
-	const fa = fieldAccessor<[Date, Date], 'date'>('chk', [new Date(), new Date()], 'date');
+	const fa = Form.fieldAccessor<[Date, Date], 'date'>('chk', [new Date(), new Date()], 'date');
 	const ct = await ComponentTester.build('DateRangePicker', props => (
 		<Root accessor={fa} {...props} ref={el => (ref = el)} />
 	));

@@ -6,7 +6,7 @@ import Color from 'colorjs.io';
 import { createEffect, type JSX, type Signal } from 'solid-js';
 
 import { useLocale } from '@components/context';
-import { ObjectAccessor, Slider } from '@components/form';
+import { Form, Slider } from '@components/form';
 import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 
@@ -21,7 +21,7 @@ type HSL = {
  * HSL 的 {@link PickerPanel} 实现
  */
 export class HSLPickerPanel implements PickerPanel {
-	readonly #hsl: ObjectAccessor<HSL>;
+	readonly #hsl: Form.ObjectAccessor<HSL>;
 	readonly #h?: number;
 	readonly #s?: number;
 	readonly #l?: number;
@@ -36,7 +36,7 @@ export class HSLPickerPanel implements PickerPanel {
 	 * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
 	 */
 	constructor(h?: number, s?: number, l?: number, a?: number) {
-		this.#hsl = new ObjectAccessor<HSL>({ h: h ?? 180, s: s ?? 50, l: l ?? 50, a: a ?? 1 });
+		this.#hsl = new Form.ObjectAccessor<HSL>({ h: h ?? 180, s: s ?? 50, l: l ?? 50, a: a ?? 1 });
 		this.#h = h;
 		this.#s = s;
 		this.#l = l;

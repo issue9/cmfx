@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, type MountProps, type Week, WeekPicker, type WeekValueType } from '@cmfx/components';
+import { Form, type MountProps, type Week, WeekPicker, type WeekValueType } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const weekNum = fieldAccessor<WeekValueType>('week', [2025, 7]);
+	const weekNum = Form.fieldAccessor<WeekValueType>('week', [2025, 7]);
 
 	const min = new Date('2023-12-02T15:34');
 	const max = new Date('2025-12-02T15:34');

@@ -5,7 +5,7 @@
 import { createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
 import { type BaseRef, joinClass } from '@components/base';
-import { type FieldBaseProps, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 
 /**
  * 上传组件的外放接口
@@ -37,7 +37,7 @@ export interface Ref extends BaseRef<HTMLInputElement> {
 	upload(): Promise<Array<string> | undefined>;
 }
 
-export interface Props extends Omit<FieldBaseProps, 'rounded'> {
+export interface Props extends Omit<Form.FieldBaseProps, 'rounded'> {
 	/**
 	 * 上传文件在表单中的名称
 	 */
@@ -73,7 +73,7 @@ export interface Props extends Omit<FieldBaseProps, 'rounded'> {
  * 提供了文件上传组件的基本功能，但是并未提供对应的 UI 功能。
  */
 export function Root(props: Props): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(form, props);
 
 	const [files, setFiles] = createSignal<Array<File>>([]);

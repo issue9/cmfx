@@ -5,7 +5,7 @@
 import {
 	Alert,
 	Checkbox,
-	fieldAccessor,
+	Form,
 	joinClass,
 	Page,
 	RadioGroup,
@@ -28,9 +28,9 @@ export function Settings(): JSX.Element {
 	const l = useLocale();
 	const lay = useLayout();
 
-	const layout = fieldAccessor('layout', lay.layout());
+	const layout = Form.fieldAccessor('layout', lay.layout());
 	const float = lay.float();
-	const width = fieldAccessor('width', lay.width());
+	const width = Form.fieldAccessor('width', lay.width());
 	const [rangDisabled, setRangeDisabled] = createSignal(lay.width()[0]() < 640);
 	width.onChange(v => {
 		if (v < 640) {

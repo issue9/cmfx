@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "class",
-		"name": "FormAPI",
+		"name": "Form.API",
 		"summary": "用于操作表单的 API\n\n",
 		"remarks": "相对于\n`ObjectAccessor`\n，当前对象提供了一些额外的接口用于以方便与表单进行配合操作。\n\n",
 		"typeParams": [
@@ -161,7 +161,7 @@
 			{
 				"name": "api",
 				"summary": "指定操作表单的 api\n\n",
-				"type": "FormAPI<T, R, P>"
+				"type": "API_2<T, R, P>"
 			},
 			{
 				"name": "palette",
@@ -250,7 +250,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Accessor",
+		"name": "Form.Accessor",
 		"summary": "每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制\n\n",
 		"typeParams": [
 			{
@@ -355,16 +355,16 @@
 	},
 	{
 		"kind": "function",
-		"name": "useForm",
+		"name": "Form.useForm",
 		"summary": "获取最近一个表单的上下文环境\n\n",
-		"type": "function useForm(): FormContext | undefined",
+		"type": "declare function useForm(): Context_2 | undefined",
 		"return": {
-			"type": "FormContext | undefined"
+			"type": "Context_2 | undefined"
 		},
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "FormContext",
+		"name": "Form.Context",
 		"summary": "提供了表单的上下文环境\n\n",
 		"remarks": "在表单中的组件，部分属性可以通过此上下文环境进行设置。\n\n",
 		"kind": "intersection",
@@ -432,6 +432,189 @@
 				]
 			}
 		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "Form.FieldProps",
+		"summary": "组件 Field 的属性\n\n",
+		"kind": "intersection",
+		"types": [
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "title",
+						"summary": "鼠标提示内容\n\n",
+						"type": "string | undefined"
+					},
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "children",
+						"type": "JSX.Element"
+					}
+				]
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Form.FieldArea",
+		"summary": "子组件所处的位置\n\n",
+		"properties": [
+			{
+				"name": "pos",
+				"summary": "指定位置\n\n",
+				"type": "\"top-start\" | \"top-center\" | \"top-end\" | \"middle-start\" | \"middle-center\" | \"middle-end\" | \"bottom-start\" | \"bottom-center\" | \"bottom-end\""
+			},
+			{
+				"name": "cols",
+				"summary": "向后跨的列数\n\n",
+				"type": "3 | 2 | 1 | undefined"
+			},
+			{
+				"name": "rows",
+				"summary": "向下跨的行数\n\n",
+				"type": "3 | 2 | 1 | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Form.calcLayoutFieldAreas",
+		"summary": "根据布局 l 生成通用的各个字段位置\n\n",
+		"type": "declare function calcLayoutFieldAreas(l: Layout, hasHelp?: boolean, hasLabel?: boolean): FieldAreas",
+		"params": [
+			{
+				"name": "l",
+				"summary": "布局方式；\n\n",
+				"type": "\"horizontal\" | \"vertical\""
+			},
+			{
+				"name": "hasHelp",
+				"summary": "是否需要计算显示帮助信息的区域；\n\n",
+				"type": "boolean | undefined"
+			},
+			{
+				"name": "hasLabel",
+				"summary": "是否需要计算标题区域；\n\n",
+				"type": "boolean | undefined"
+			}
+		],
+		"return": {
+			"type": "FieldAreas"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Form.fieldArea2Style",
+		"summary": "将\n`FieldArea`\n转换为 CSS 样式\n\n",
+		"type": "declare function fieldArea2Style(area: FieldArea): JSX.CSSProperties",
+		"params": [
+			{
+				"name": "area",
+				"type": "FieldArea"
+			}
+		],
+		"return": {
+			"type": "JSX.CSSProperties"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Form.Field",
+		"summary": "表单字段的基本结构\n\n",
+		"remarks": "所有的表单字段可基于此组件作二次开发，以达到样式上的统一。\n\n\n组件内的各个子组件，需要通过 style 属性指定位置，可指定的位置如下：\ntop-start    | top-center    | top-end\nmiddle-start | middle-center | middle-end\nbottom-start | bottom-center | bottom-end\n\n",
+		"type": "declare function Field_2(props: FieldProps): JSX.Element",
+		"params": [
+			{
+				"name": "props",
+				"type": "FieldProps"
+			}
+		],
+		"return": {
+			"type": "JSX.Element"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Form.FieldHelpArea",
+		"summary": "可在\n`Field`\n中显示帮助和错误信息的子组件\n\n",
+		"type": "declare function HelpArea(props: HelpAreaProps): JSX.Element",
+		"params": [
+			{
+				"name": "props",
+				"type": "HelpAreaProps"
+			}
+		],
+		"return": {
+			"type": "JSX.Element"
+		},
 		"pkg": "@cmfx/components"
 	}
 ]

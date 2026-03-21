@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Scheme } from '@cmfx/components';
-import { Drawer, joinClass, ObjectAccessor, useLocale, useOptions, useTheme } from '@cmfx/components';
+import { Drawer, Form, joinClass, useLocale, useOptions, useTheme } from '@cmfx/components';
 import type { RouteDefinition } from '@solidjs/router';
 import { createEffect, onCleanup, onMount, type Setter } from 'solid-js';
 import { unwrap } from 'solid-js/store';
@@ -31,7 +31,7 @@ export function buildRoute(path: string, setDrawer: Setter<Drawer.RootRef | unde
 			const [act] = useOptions();
 
 			const t = useTheme();
-			const schemeFA = new ObjectAccessor<Scheme>(convertSchemeVar2Color(unwrap(t.scheme)!));
+			const schemeFA = new Form.ObjectAccessor<Scheme>(convertSchemeVar2Color(unwrap(t.scheme)!));
 
 			createEffect(() => {
 				act.setTitle(l.t('_d.theme.builder'));

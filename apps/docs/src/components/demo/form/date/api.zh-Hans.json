@@ -9,7 +9,7 @@
 				"properties": [
 					{
 						"name": "accessor",
-						"type": "Accessor<Date | undefined, \"date\">"
+						"type": "Accessor_2<Date | undefined, \"date\">"
 					},
 					{
 						"name": "placeholder",
@@ -163,7 +163,7 @@
 				"properties": [
 					{
 						"name": "accessor",
-						"type": "Accessor<number | undefined, \"number\">"
+						"type": "Accessor_2<number | undefined, \"number\">"
 					},
 					{
 						"name": "placeholder",
@@ -317,7 +317,7 @@
 				"properties": [
 					{
 						"name": "accessor",
-						"type": "Accessor<string | undefined, \"string\">"
+						"type": "Accessor_2<string | undefined, \"string\">"
 					},
 					{
 						"name": "placeholder",
@@ -493,7 +493,7 @@
 				"properties": [
 					{
 						"name": "accessor",
-						"type": "Accessor<ValueType | undefined, \"date\">"
+						"type": "Accessor_2<ValueType | undefined, \"date\">"
 					},
 					{
 						"name": "arrowIcon",
@@ -659,7 +659,7 @@
 				"properties": [
 					{
 						"name": "accessor",
-						"type": "Accessor<[start: number | undefined, end: number | undefined] | undefined, \"number\">"
+						"type": "Accessor_2<[start: number | undefined, end: number | undefined] | undefined, \"number\">"
 					},
 					{
 						"name": "arrowIcon",
@@ -825,7 +825,7 @@
 				"properties": [
 					{
 						"name": "accessor",
-						"type": "Accessor<[start: string | undefined, end: string | undefined] | undefined, \"string\">"
+						"type": "Accessor_2<[start: string | undefined, end: string | undefined] | undefined, \"string\">"
 					},
 					{
 						"name": "arrowIcon",
@@ -1009,7 +1009,7 @@
 		"properties": [
 			{
 				"name": "accessor",
-				"type": "Accessor<[year: number, week: number] | undefined, string>"
+				"type": "Accessor_2<[year: number, week: number] | undefined, string>"
 			},
 			{
 				"name": "style",

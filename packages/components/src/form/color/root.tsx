@@ -8,28 +8,30 @@ import { type BaseRef, classList, type RefProps } from '@components/base';
 import { ColorPanel } from '@components/color';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
-import type { Accessor, FieldBaseProps } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
-export interface Props extends Omit<ColorPanel.RootProps, 'value' | 'onChange' | 'ref'>, FieldBaseProps, RefProps<Ref> {
-	accessor: Accessor<string>;
+export interface Props
+	extends Omit<ColorPanel.RootProps, 'value' | 'onChange' | 'ref'>,
+		Form.FieldBaseProps,
+		RefProps<Ref> {
+	accessor: Form.Accessor<string>;
 }
 
 export function Root(props: Props): JSX.Element {
 	const l = useLocale();
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(form, props);
 
 	const [panelProps, _] = splitProps(props, ['palette', 'wcag', 'pickers']);
 	let dlgRef: Dialog.RootRef;
 
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 	const id = createUniqueId();
 	return (
-		<Field
+		<Form.Field
 			class={props.class}
 			title={props.title}
 			palette={props.palette}
@@ -45,7 +47,7 @@ export function Root(props: Props): JSX.Element {
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -56,7 +58,7 @@ export function Root(props: Props): JSX.Element {
 				)}
 			</Show>
 
-			<div style={fieldArea2Style(areas().inputArea)}>
+			<div style={Form.fieldArea2Style(areas().inputArea)}>
 				<div
 					class={classList(undefined, {
 						[styles.activator]: true,
@@ -96,8 +98,8 @@ export function Root(props: Props): JSX.Element {
 			</Dialog.Root>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

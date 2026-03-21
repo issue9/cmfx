@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { fieldAccessor } from '@components/form/field';
+import { Form } from '@components/form/form';
 import { type Ref, Root } from './root';
 
 describe('Numeric', async () => {
 	let ref: Ref;
-	const fa = fieldAccessor('tf', 5);
+	const fa = Form.fieldAccessor('tf', 5);
 	const ct = await ComponentTester.build('Numeric', props => (
 		<Root
 			accessor={fa}

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, Dialog, Form, FormAPI, QRCode, TextField, useLocale } from '@cmfx/components';
+import { Button, ConfirmButton, Dialog, Form, QRCode, TextField, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';
@@ -54,7 +54,7 @@ export class TOTP implements PassportComponents {
 		const usr = useAdmin();
 
 		let ref!: Form.RootRef;
-		const api = new FormAPI<z.infer<typeof accountSchema>, Token>({
+		const api = new Form.API<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', code: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -115,7 +115,7 @@ export class TOTP implements PassportComponents {
 		});
 
 		let ref!: Form.RootRef;
-		const api = new FormAPI<z.infer<typeof requestSchema>>({
+		const api = new Form.API<z.infer<typeof requestSchema>>({
 			initValue: { code: '' },
 			validator: zodValidator<z.infer<typeof requestSchema>>(requestSchema.clone(), l),
 			validOnChange: true,

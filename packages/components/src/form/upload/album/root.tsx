@@ -8,8 +8,7 @@ import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
-import type { Accessor } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import { Upload } from '@components/form/upload/upload';
 import { PreviewFile, PreviewURL } from './preview.tsx';
 import styles from './style.module.css';
@@ -39,7 +38,7 @@ export interface Props extends Omit<Upload.RootProps, 'dropzone' | 'ref'>, RefPr
 	/**
 	 * 保存着所有已经上传的文件列表
 	 */
-	accessor: Accessor<Array<string>>;
+	accessor: Form.Accessor<Array<string>>;
 
 	/**
 	 * 子项的宽度
@@ -61,7 +60,7 @@ const presetProps: Readonly<Partial<Props>> = {
 };
 
 export function Root(props: Props): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(presetProps, form, props);
 	const access = props.accessor;
 
@@ -88,14 +87,12 @@ export function Root(props: Props): JSX.Element {
 		return { height: props.itemSize, width: props.itemSize };
 	});
 
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 	return (
-		<Field
+		<Form.Field
 			class={props.class}
 			style={props.style}
-			ref={el => {
-				rootRef = el;
-			}}
+			ref={el => (rootRef = el)}
 			title={props.title}
 			palette={props.palette}
 		>
@@ -103,7 +100,7 @@ export function Root(props: Props): JSX.Element {
 				{area => (
 					<div
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 							cursor: 'default',
@@ -115,10 +112,8 @@ export function Root(props: Props): JSX.Element {
 			</Show>
 
 			<fieldset
-				style={fieldArea2Style(areas().inputArea)}
-				ref={el => {
-					dropRef = el;
-				}}
+				style={Form.fieldArea2Style(areas().inputArea)}
+				ref={el => (dropRef = el)}
 				class={styles['upload-content']}
 			>
 				<Upload.Root
@@ -204,8 +199,8 @@ export function Root(props: Props): JSX.Element {
 			</fieldset>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

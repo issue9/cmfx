@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, FormAPI, Notify, Page, Password, TextField, useLocale } from '@cmfx/components';
+import { Button, Form, Notify, Page, Password, TextField, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import * as z from 'zod';
@@ -33,7 +33,7 @@ export function New(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	const api = new FormAPI<z.infer<typeof adminSchema>>({
+	const api = new Form.API<z.infer<typeof adminSchema>>({
 		initValue: { sex: 'unknown', name: '', nickname: '', username: '', password: '', roles: [] },
 		submit: async obj => {
 			return await rest.post('/admins', obj);

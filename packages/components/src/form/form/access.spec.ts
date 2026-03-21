@@ -1,11 +1,60 @@
-// SPDX-FileCopyrightText: 2024-2026 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { type ExpandType, type Locale, sleep, type ValidResult } from '@cmfx/core';
+import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { ObjectAccessor } from './access';
+import { fieldAccessor, ObjectAccessor } from './access';
+
+describe('fieldAccessor', () => {
+	test('value', () => {
+		const a = fieldAccessor('name', 5);
+
+		expect(a.getError()).toBeUndefined();
+		expect(a.getValue()).toEqual<number>(5);
+
+		a.setError('error');
+		expect(a.getError()).toEqual<string>('error');
+
+		a.setValue(7);
+		expect(a.getValue()).toEqual<number>(7);
+		expect(a.getError()).toEqual<string>('error');
+		a.setError('error');
+
+		a.reset();
+		expect(a.getValue()).toEqual<number>(5);
+		expect(a.getError()).toBeUndefined();
+
+		a.setValue(7);
+	});
+
+	test('signal', () => {
+		const v = createSignal(5);
+		const a = fieldAccessor('name', v);
+
+		expect(a.getError()).toBeUndefined();
+		expect(a.getValue()).toEqual<number>(5);
+		expect(a.getValue()).toEqual<number>(v[0]());
+
+		a.setError('error');
+		expect(a.getError()).toEqual<string>('error');
+
+		a.setValue(7);
+		expect(a.getValue()).toEqual<number>(7);
+		expect(a.getValue()).toEqual<number>(v[0]());
+		expect(a.getError()).toEqual<string>('error');
+		a.setError('error');
+
+		a.reset();
+		expect(a.getValue()).toEqual<number>(5);
+		expect(a.getValue()).toEqual<number>(v[0]());
+		expect(a.getError()).toBeUndefined();
+
+		a.setValue(7);
+	});
+});
 
 type Object = {
 	age: number;

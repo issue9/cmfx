@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, fieldAccessor, type MountProps, Password } from '@cmfx/components';
+import { Button, Form, type MountProps, Password } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -10,7 +10,7 @@ import IconFace from '~icons/material-symbols/face';
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const pwd = fieldAccessor('name', 'pwd');
+	const pwd = Form.fieldAccessor('name', 'pwd');
 
 	const [Palette, palette] = paletteSelector();
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');

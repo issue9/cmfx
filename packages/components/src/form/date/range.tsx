@@ -11,15 +11,7 @@ import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { DateRangePanel, type Week } from '@components/datetime';
-import type { Accessor } from '@components/form/field';
-import {
-	calcLayoutFieldAreas,
-	Field,
-	FieldHelpArea,
-	fieldAccessor,
-	fieldArea2Style,
-	useForm,
-} from '@components/form/field';
+import { Form } from '@components/form/form';
 import type { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
@@ -43,15 +35,15 @@ interface Base extends Omit<PickerProps, 'accessor'>, RefProps<Ref> {
 }
 
 interface DateProps extends Base {
-	accessor: Accessor<DateRangePanel.ValueType | undefined, 'date'>;
+	accessor: Form.Accessor<DateRangePanel.ValueType | undefined, 'date'>;
 }
 
 interface NumberProps extends Base {
-	accessor: Accessor<[start: number | undefined, end: number | undefined] | undefined, 'number'>;
+	accessor: Form.Accessor<[start: number | undefined, end: number | undefined] | undefined, 'number'>;
 }
 
 interface StringProps extends Base {
-	accessor: Accessor<[start: string | undefined, end: string | undefined] | undefined, 'string'>;
+	accessor: Form.Accessor<[start: string | undefined, end: string | undefined] | undefined, 'string'>;
 }
 
 export type Props = DateProps | NumberProps | StringProps;
@@ -76,7 +68,7 @@ export function Root(props: Props): JSX.Element {
 		const rng: DateRangePanel.ValueType | undefined = val
 			? [val[0] ? new Date(val[0]) : undefined, val[1] ? new Date(val[1]) : undefined]
 			: undefined;
-		const accessor = fieldAccessor('accessor', rng, 'date');
+		const accessor = Form.fieldAccessor('accessor', rng, 'date');
 		accessor.onChange(v => props.accessor.setValue(v ? [v[0]?.getTime(), v[1]?.getTime()] : undefined));
 		const [_, p] = splitProps(props, ['accessor']);
 		return <DateRangePicker {...p} accessor={accessor} />;
@@ -85,7 +77,7 @@ export function Root(props: Props): JSX.Element {
 		const rng: DateRangePanel.ValueType | undefined = val
 			? [val[0] ? new Date(val[0]) : undefined, val[1] ? new Date(val[1]) : undefined]
 			: undefined;
-		const accessor = fieldAccessor('accessor', rng, 'date');
+		const accessor = Form.fieldAccessor('accessor', rng, 'date');
 		accessor.onChange(v => props.accessor.setValue(v ? [v[0]?.toISOString(), v[1]?.toISOString()] : undefined));
 		const [_, p] = splitProps(props, ['accessor']);
 		return <DateRangePicker {...p} accessor={accessor} />;
@@ -93,7 +85,7 @@ export function Root(props: Props): JSX.Element {
 }
 
 function DateRangePicker(props: DateProps): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(
 		{
 			weekBase: 0 as Week,
@@ -126,9 +118,9 @@ function DateRangePicker(props: DateProps): JSX.Element {
 	});
 
 	const id = createUniqueId();
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 	return (
-		<Field
+		<Form.Field
 			palette={props.palette}
 			class={joinClass(undefined, styles.activator, props.class)}
 			style={props.style}
@@ -144,7 +136,7 @@ function DateRangePicker(props: DateProps): JSX.Element {
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -157,7 +149,7 @@ function DateRangePicker(props: DateProps): JSX.Element {
 
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: 正常需求 */}
 			<div
-				style={fieldArea2Style(areas().inputArea)}
+				style={Form.fieldArea2Style(areas().inputArea)}
 				ref={el => {
 					anchorRef = el;
 				}}
@@ -238,8 +230,8 @@ function DateRangePicker(props: DateProps): JSX.Element {
 			</fieldset>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

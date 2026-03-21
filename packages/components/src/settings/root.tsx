@@ -23,7 +23,7 @@ import { useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Choice, fieldAccessor, Numeric, RadioGroup, Slider } from '@components/form';
+import { Choice, Form, Numeric, RadioGroup, Slider } from '@components/form';
 import { Formatter } from '@components/formatter';
 import { Label } from '@components/label';
 import { SchemeSelector } from '@components/theme';
@@ -101,22 +101,22 @@ export function Root(props: Props) {
 	const [accessor, origin] = useOptions();
 	const l = useLocale();
 
-	const fontSizeFA = fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2), 10));
+	const fontSizeFA = Form.fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2), 10));
 	fontSizeFA.onChange(v => accessor.setFontSize(`${v}px`));
 
-	const modeFA = fieldAccessor<Mode>('mode', accessor.getMode());
+	const modeFA = Form.fieldAccessor<Mode>('mode', accessor.getMode());
 	modeFA.onChange(m => accessor.setMode(m));
 
-	const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
+	const localeFA = Form.fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
 	localeFA.onChange(v => accessor.setLocale(v));
 
-	const unitFA = fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
+	const unitFA = Form.fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
 	unitFA.onChange(v => accessor.setDisplayStyle(v));
 
-	const staysFA = fieldAccessor<number>('stays', accessor.getStays());
+	const staysFA = Form.fieldAccessor<number>('stays', accessor.getStays());
 	staysFA.onChange(v => accessor.setStays(v));
 
-	const transitionDurationFA = fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
+	const transitionDurationFA = Form.fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
 	transitionDurationFA.onChange(v => accessor.setTransitionDuration(v));
 
 	return (

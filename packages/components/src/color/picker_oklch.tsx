@@ -6,7 +6,7 @@ import Color from 'colorjs.io';
 import { createEffect, type JSX, type Signal } from 'solid-js';
 
 import { useLocale } from '@components/context';
-import { ObjectAccessor, Slider } from '@components/form';
+import { Form, Slider } from '@components/form';
 import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 
@@ -21,7 +21,7 @@ type OKLCH = {
  * OKLCH 的 {@link PickerPanel} 实现
  */
 export class OKLCHPickerPanel implements PickerPanel {
-	readonly #oklch: ObjectAccessor<OKLCH>;
+	readonly #oklch: Form.ObjectAccessor<OKLCH>;
 	readonly #l?: number;
 	readonly #c?: number;
 	readonly #h?: number;
@@ -36,7 +36,7 @@ export class OKLCHPickerPanel implements PickerPanel {
 	 * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
 	 */
 	constructor(l?: number, c?: number, h?: number, a?: number) {
-		this.#oklch = new ObjectAccessor<OKLCH>({ l: l ?? 1, c: c ?? 0.4, h: h ?? 1, a: a ?? 1 });
+		this.#oklch = new Form.ObjectAccessor<OKLCH>({ l: l ?? 1, c: c ?? 0.4, h: h ?? 1, a: a ?? 1 });
 		this.#l = l;
 		this.#c = c;
 		this.#h = h;

@@ -165,12 +165,12 @@
 			{
 				"name": "accessor",
 				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor<T, string>"
+				"type": "Accessor_2<T, string>"
 			},
 			{
 				"name": "options",
 				"summary": "选择项\n\n",
-				"type": "FieldOptions<T>",
+				"type": "Options_3<T>",
 				"reactive": true
 			},
 			{

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, type MountProps, Numeric, Pagination } from '@cmfx/components';
+import { Form, type MountProps, Numeric, Pagination } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -11,7 +11,7 @@ import { paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [page, setPage] = createSignal('');
-	const span = fieldAccessor('spans', 3);
+	const span = Form.fieldAccessor('spans', 3);
 
 	return (
 		<>

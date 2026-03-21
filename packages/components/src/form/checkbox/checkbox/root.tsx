@@ -5,7 +5,7 @@
 import { createEffect, createMemo, type JSX, mergeProps } from 'solid-js';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
-import type { FieldBaseProps } from '@components/form/field';
+import type { Form } from '@components/form/form';
 import styles from './style.module.css';
 
 export interface Ref extends BaseRef<HTMLLabelElement> {
@@ -15,7 +15,7 @@ export interface Ref extends BaseRef<HTMLLabelElement> {
 	input(): HTMLInputElement;
 }
 
-export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'>, RefProps<Ref> {
+export interface Props extends Omit<Form.FieldBaseProps, 'layout' | 'hasHelp'>, RefProps<Ref> {
 	/**
 	 * 设置为不确定状态，只负责样式控制。
 	 *

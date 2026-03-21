@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec.tsx';
-import { fieldAccessor } from '@components/form/field';
+import { Form } from '@components/form/form';
 import { type Ref, Root } from './root.tsx';
 
 describe('Album', async () => {
 	let ref: Ref;
-	const fa = fieldAccessor('tf', ['url']);
+	const fa = Form.fieldAccessor('tf', ['url']);
 	const ct = await ComponentTester.build('Album', props => (
 		<Root fieldName="file" upload={async () => []} accessor={fa} {...props} ref={el => (ref = el)} />
 	));

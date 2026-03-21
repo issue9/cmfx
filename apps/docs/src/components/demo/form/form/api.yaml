@@ -6,9 +6,15 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - FormAPI
+            - Form.API
             - Form.RootRef
             - Form.RootProps
-            - Accessor
-            - useForm
-            - FormContext
+            - Form.Accessor
+            - Form.useForm
+            - Form.Context
+            - Form.FieldProps
+            - Form.FieldArea
+            - Form.calcLayoutFieldAreas
+            - Form.fieldArea2Style
+            - Form.Field
+            - Form.FieldHelpArea

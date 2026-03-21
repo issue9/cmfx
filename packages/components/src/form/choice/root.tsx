@@ -7,8 +7,7 @@ import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { type AvailableEnumType, type BaseRef, cloneElement, joinClass, type RefProps } from '@components/base';
-import type { Accessor, FieldBaseProps } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
 
@@ -22,7 +21,7 @@ export type Ref = BaseRef<HTMLDivElement>;
  */
 export type Option<T extends AvailableEnumType = string> = Menu.MenuItem<T>;
 
-interface Base<T extends AvailableEnumType = string> extends FieldBaseProps, RefProps<Ref> {
+interface Base<T extends AvailableEnumType = string> extends Form.FieldBaseProps, RefProps<Ref> {
 	placeholder?: string;
 
 	/**
@@ -50,7 +49,7 @@ export interface MultipleProps<T extends AvailableEnumType = string> extends Bas
 	 */
 	multiple: true;
 
-	accessor: Accessor<Array<T> | undefined>;
+	accessor: Form.Accessor<Array<T> | undefined>;
 }
 
 export interface SingleProps<T extends AvailableEnumType = string> extends Base<T> {
@@ -59,7 +58,7 @@ export interface SingleProps<T extends AvailableEnumType = string> extends Base<
 	 */
 	multiple?: false;
 
-	accessor: Accessor<T | undefined>;
+	accessor: Form.Accessor<T | undefined>;
 }
 
 export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | SingleProps<T>;
@@ -68,7 +67,7 @@ export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | Sin
  * 用以替代 select 组件
  */
 export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(form, props);
 	const id = createUniqueId();
 
@@ -92,7 +91,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 		return items;
 	};
 
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
 	const value = createMemo(() => {
 		// 生成下拉菜单的选中项
@@ -164,7 +163,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 
 	let dropdownRef: Dropdown.RootRef;
 	return (
-		<Field
+		<Form.Field
 			class={joinClass(undefined, styles.activator, props.class)}
 			style={props.style}
 			title={props.title}
@@ -181,7 +180,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -192,7 +191,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				)}
 			</Show>
 
-			<div style={fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}>
+			<div style={Form.fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}>
 				<Dropdown.Root
 					multiple={props.multiple}
 					// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
@@ -223,9 +222,9 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			</div>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }
 

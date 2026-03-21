@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Mode, ObjectAccessor, Palette, Scheme } from '@cmfx/components';
+import type { Mode, Palette, Scheme } from '@cmfx/components';
 import {
 	Appbar,
 	BasicTable,
@@ -11,8 +11,6 @@ import {
 	Card,
 	DatePanel,
 	Form,
-	FormAPI,
-	fieldAccessor,
 	joinClass,
 	Menu,
 	Password,
@@ -46,12 +44,12 @@ const contrasts: ReadonlyMap<Contrast, Record<string, string>> = new Map([
 /**
  * 组件演示
  */
-export function Demo(props: { s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
+export function Demo(props: { s: Form.ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
 	const l = useLocale();
 
 	const [contrast, setContrast] = createSignal<Contrast>('none');
 	const [typ, setTyp] = createSignal<'components' | 'palettes'>('components');
-	const mode = fieldAccessor<Mode>('mode', 'light');
+	const mode = Form.fieldAccessor<Mode>('mode', 'light');
 
 	// NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
 	// 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
@@ -150,7 +148,7 @@ export function Demo(props: { s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Elem
 	);
 }
 
-function Palettes(props: { s: ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
+function Palettes(props: { s: Form.ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
 	return (
 		<div class={styles.palettes}>
 			<For each={palettes}>{p => <PaletteBlocks p={p} s={props.s} c={props.c} />}</For>
@@ -158,7 +156,7 @@ function Palettes(props: { s: ObjectAccessor<ExpandType<Scheme>>; c: Contrast })
 	);
 }
 
-function PaletteBlocks(props: { p: Palette; s: ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
+function PaletteBlocks(props: { p: Palette; s: Form.ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
 	const raw = props.s.getValue();
 
 	let baseRef: HTMLDivElement;
@@ -291,7 +289,7 @@ function Components(): JSX.Element {
 		},
 	];
 
-	const api = new FormAPI({
+	const api = new Form.API({
 		initValue: {
 			username: '',
 			password: '',

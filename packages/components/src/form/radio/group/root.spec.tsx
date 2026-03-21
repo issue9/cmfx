@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import { fieldAccessor } from '@components/form/field';
+import { Form } from '@components/form/form';
 import { type Ref, Root } from './root';
 
 describe('RadioGroup', async () => {
 	let ref: Ref;
-	const fa = fieldAccessor('chk', '1');
+	const fa = Form.fieldAccessor('chk', '1');
 	const ct = await ComponentTester.build('RadioGroup', props => (
 		<Root options={[]} accessor={fa} {...props} ref={el => (ref = el)} />
 	));

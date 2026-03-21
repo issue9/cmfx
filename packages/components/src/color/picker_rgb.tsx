@@ -6,7 +6,7 @@ import Color from 'colorjs.io';
 import { createEffect, type JSX, type Signal } from 'solid-js';
 
 import { useLocale } from '@components/context';
-import { ObjectAccessor, Slider } from '@components/form';
+import { Form, Slider } from '@components/form';
 import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 
@@ -21,7 +21,7 @@ type RGB = {
  * RGB 的 {@link PickerPanel} 实现
  */
 export class RGBPickerPanel implements PickerPanel {
-	readonly #rgb: ObjectAccessor<RGB>;
+	readonly #rgb: Form.ObjectAccessor<RGB>;
 	readonly #r?: number;
 	readonly #g?: number;
 	readonly #b?: number;
@@ -36,7 +36,7 @@ export class RGBPickerPanel implements PickerPanel {
 	 * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
 	 */
 	constructor(r?: number, g?: number, b?: number, a?: number) {
-		this.#rgb = new ObjectAccessor<RGB>({ r: r ?? 1, g: g ?? 1, b: b ?? 1, a: a ?? 1 });
+		this.#rgb = new Form.ObjectAccessor<RGB>({ r: r ?? 1, g: g ?? 1, b: b ?? 1, a: a ?? 1 });
 		this.#r = r;
 		this.#g = g;
 		this.#b = b;

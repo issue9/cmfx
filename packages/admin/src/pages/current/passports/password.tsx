@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, Form, FormAPI, Password, TextField, useLocale } from '@cmfx/components';
+import { Button, Dialog, Form, Password, TextField, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
@@ -46,7 +46,7 @@ export class Pwd implements PassportComponents {
 		const nav = useNavigate();
 
 		let ref!: Form.RootRef;
-		const api = new FormAPI<z.infer<typeof accountSchema>, Token>({
+		const api = new Form.API<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', password: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -111,7 +111,7 @@ export class Pwd implements PassportComponents {
 			});
 
 		let ref!: Form.RootRef;
-		const api = new FormAPI<z.infer<typeof valueSchema>>({
+		const api = new Form.API<z.infer<typeof valueSchema>>({
 			initValue: { old: '', new: '' },
 			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
 			validOnChange: true,

@@ -8,9 +8,6 @@ import { type BaseProps, joinClass, type Layout, type RefProps } from '@componen
 import type { Accessor } from './access';
 import styles from './style.module.css';
 
-/**
- * 组件 Field 的属性
- */
 export interface Props extends BaseProps {
 	/**
 	 * 鼠标提示内容
@@ -133,7 +130,10 @@ function calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAre
 	return { inputArea: { pos: 'top-start', cols: 3, rows: 3 } };
 }
 
-export type FieldProps = ParentProps<Props & RefProps<HTMLDivElement>>;
+/**
+ * 组件 Field 的属性
+ */
+export type FieldProps = ParentProps<Props & BaseProps & RefProps<HTMLDivElement>>;
 
 /**
  * 表单字段的基本结构
@@ -146,7 +146,7 @@ export type FieldProps = ParentProps<Props & RefProps<HTMLDivElement>>;
  *  middle-start | middle-center | middle-end
  *  bottom-start | bottom-center | bottom-end
  */
-export default function Field(props: FieldProps): JSX.Element {
+export function Field(props: FieldProps): JSX.Element {
 	// NOTE: 采用 grid 主要是方便对齐方式的实现。
 	// 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
 	// help 应该与 input 左对齐，而不是与 label 左对齐。

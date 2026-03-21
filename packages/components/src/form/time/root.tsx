@@ -10,14 +10,13 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { TimePanel } from '@components/datetime';
-import type { Accessor, FieldBaseProps } from '@components/form/field';
-import { calcLayoutFieldAreas, Field, FieldHelpArea, fieldArea2Style, useForm } from '@components/form/field';
+import { Form } from '@components/form/form';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props
-	extends FieldBaseProps,
+	extends Form.FieldBaseProps,
 		Omit<TimePanel.RootProps, 'onChange' | 'value' | 'popover' | 'ref'>,
 		RefProps<Ref> {
 	placeholder?: string;
@@ -25,7 +24,7 @@ export interface Props
 	/**
 	 * NOTE: 非响应式属性
 	 */
-	accessor: Accessor<Date | undefined>;
+	accessor: Form.Accessor<Date | undefined>;
 }
 
 function togglePop(anchor: Element, popElem: HTMLElement): boolean {
@@ -36,7 +35,7 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 }
 
 export function Root(props: Props): JSX.Element {
-	const form = useForm();
+	const form = Form.useForm();
 	props = mergeProps(form, props);
 	const l = useLocale();
 
@@ -47,7 +46,7 @@ export function Root(props: Props): JSX.Element {
 	let anchorRef: HTMLElement;
 
 	const id = createUniqueId();
-	const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
 	const formatter = createMemo(
 		() =>
@@ -59,7 +58,7 @@ export function Root(props: Props): JSX.Element {
 	);
 
 	return (
-		<Field
+		<Form.Field
 			class={joinClass(undefined, styles.activator, props.class)}
 			style={props.style}
 			title={props.title}
@@ -75,7 +74,7 @@ export function Root(props: Props): JSX.Element {
 				{area => (
 					<label
 						style={{
-							...fieldArea2Style(area()),
+							...Form.fieldArea2Style(area()),
 							width: props.labelWidth,
 							'text-align': props.labelAlign,
 						}}
@@ -88,7 +87,7 @@ export function Root(props: Props): JSX.Element {
 
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: Mouse 事件上是为了达到 label 效果 */}
 			<div
-				style={fieldArea2Style(areas().inputArea)}
+				style={Form.fieldArea2Style(areas().inputArea)}
 				ref={el => {
 					anchorRef = el;
 				}}
@@ -118,9 +117,7 @@ export function Root(props: Props): JSX.Element {
 
 			<TimePanel.Root
 				popover="auto"
-				ref={el => {
-					panelRef = el;
-				}}
+				ref={el => (panelRef = el)}
 				disabled={props.disabled}
 				readonly={props.readonly}
 				value={ac.getValue()}
@@ -133,8 +130,8 @@ export function Root(props: Props): JSX.Element {
 			/>
 
 			<Show when={areas().helpArea}>
-				{area => <FieldHelpArea area={area()} getError={ac.getError} help={props.help} />}
+				{area => <Form.FieldHelpArea area={area()} getError={ac.getError} help={props.help} />}
 			</Show>
-		</Field>
+		</Form.Field>
 	);
 }

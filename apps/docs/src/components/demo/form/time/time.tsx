@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, fieldAccessor, type MountProps, TimePicker } from '@cmfx/components';
+import { Button, Form, type MountProps, TimePicker } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const ac = fieldAccessor('time', new Date('2024-01-02T15:34'));
+	const ac = Form.fieldAccessor('time', new Date('2024-01-02T15:34'));
 
 	const [Palette, palette] = paletteSelector();
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
