@@ -95,10 +95,7 @@ export class TOTP implements PassportComponents {
 				<Form.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
 				</Form.Submit>
-				<Form.Reset palette="secondary">
-					{' '}
-					{l.t('_c.reset')}{' '}
-				</Form.Reset>
+				<Form.Reset palette="secondary"> {l.t('_c.reset')} </Form.Reset>
 			</Form.Root>
 		);
 	}

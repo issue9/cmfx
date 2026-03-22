@@ -87,7 +87,7 @@ export function Profile(props: Props): JSX.Element {
 	return (
 		<Page.Root title="_p.current.profile" class={styles.profile}>
 			<Upload.Root
-				ref={el => uploadRef = el}
+				ref={el => (uploadRef = el)}
 				fieldName="files"
 				upload={async data => {
 					const ret = await rest.upload<Array<string>>('/uploads', data);
