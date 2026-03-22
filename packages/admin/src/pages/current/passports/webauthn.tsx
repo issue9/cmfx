@@ -51,7 +51,6 @@ export class Webauthn implements PassportComponents {
 			account: usernameSchema.clone(),
 		});
 
-		let ref!: Form.RootRef;
 		const api = new Form.API<z.infer<typeof accountSchema>, Token>({
 			initValue: { account: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
@@ -104,7 +103,7 @@ export class Webauthn implements PassportComponents {
 		});
 
 		return (
-			<Form.Root class={styles.webauthn} api={api} ref={el => (ref = el)}>
+			<Form.Root class={styles.webauthn} api={api}>
 				<TextField.Root
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
@@ -117,9 +116,9 @@ export class Webauthn implements PassportComponents {
 					placeholder={l.t('_p.current.username')}
 					accessor={account}
 				/>
-				<ref.Submit palette="secondary" disabled={account.getValue() === ''}>
+				<Form.Submit palette="secondary" disabled={account.getValue() === ''}>
 					{l.t('_c.ok')}
-				</ref.Submit>
+				</Form.Submit>
 			</Form.Root>
 		);
 	}
@@ -145,17 +144,13 @@ export class Webauthn implements PassportComponents {
 
 				<Dialog.Root
 					class="w-[80%]"
-					ref={el => {
-						dialogRef = el;
-					}}
+					ref={el => (dialogRef = el)}
 					header={<Label.Root icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label.Root>}
 				>
 					<div class="overflow-auto">
 						<RemoteTable.Root<Credential>
 							rest={rest}
-							ref={el => {
-								tableRef = el;
-							}}
+							ref={el => (tableRef = el)}
 							queries={{}}
 							path={`/passports/${this.#id}/credentials`}
 							columns={[

@@ -17,7 +17,6 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 
-	let ref!: Form.RootRef;
 	const api = new Form.API({
 		initValue: {
 			f1: 'f1',
@@ -56,9 +55,8 @@ export default function (props: MountProps): JSX.Element {
 				readonly={readonly()}
 				class="flex flex-col gap-4"
 				api={api}
-				ref={el => (ref = el)}
 			>
-				<ref.Message />
+				<Form.Message api={api} />
 				<TextField.Root label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
 				<Numeric.Root label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
 				<DatePicker.Root label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
@@ -70,8 +68,8 @@ export default function (props: MountProps): JSX.Element {
 				/>
 			</Form.Root>
 			<div class="flex w-full justify-between">
-				<ref.Reset>reset</ref.Reset>
-				<ref.Submit>submit</ref.Submit>
+				<Form.Reset>reset</Form.Reset>
+				<Form.Submit>submit</Form.Submit>
 			</div>
 		</>
 	);

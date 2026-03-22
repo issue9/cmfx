@@ -60,66 +60,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Form.RootRef",
 		"methods": [
-			{
-				"name": "Button",
-				"summary": "普通的按钮，但是可以跟随\n`rounded`\n属性变化\n\n",
-				"type": "Button(props: Button.ButtonProps): JSX.Element",
-				"params": [
-					{
-						"name": "props",
-						"type": "ButtonProps"
-					}
-				],
-				"return": {
-					"type": "JSX.Element"
-				}
-			},
-			{
-				"name": "Submit",
-				"summary": "提交按钮\n\n",
-				"remarks": "如果指定了\n`inDialog`\n属性，那么表单的 submit 按钮将会关闭所在的对话框，\n且 submit 按钮的 value 属性会传递给 dialog.returnValue。\n按钮可以在表单之外，点击时会正确触发对应的表单事件。\n\n",
-				"type": "Submit(props: Omit<Button.ButtonProps, 'type' | 'onclick'>): JSX.Element",
-				"params": [
-					{
-						"name": "props",
-						"type": "Omit<ButtonProps, \"type\" | \"onclick\">"
-					}
-				],
-				"return": {
-					"type": "JSX.Element"
-				}
-			},
-			{
-				"name": "Reset",
-				"summary": "重置按钮\n\n",
-				"remarks": "按钮可以在表单之外，点击时会正确触发对应的表单事件。\n\n",
-				"type": "Reset(props: Omit<Button.ButtonProps, 'type' | 'onclick'>): JSX.Element",
-				"params": [
-					{
-						"name": "props",
-						"type": "Omit<ButtonProps, \"type\" | \"onclick\">"
-					}
-				],
-				"return": {
-					"type": "JSX.Element"
-				}
-			},
-			{
-				"name": "Message",
-				"summary": "显示整个表单的错误信息\n\n",
-				"type": "Message(props: MessageProps): JSX.Element",
-				"params": [
-					{
-						"name": "props",
-						"type": "MessageProps"
-					}
-				],
-				"return": {
-					"type": "JSX.Element"
-				}
-			},
 			{
 				"name": "root",
 				"summary": "返回组件的根元素\n\n",
@@ -129,6 +70,7 @@
 				}
 			}
 		],
+		"name": "Form.RootRef",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -244,6 +186,66 @@
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
 				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Form.MessageProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "Flattenable"
+			},
+			{
+				"name": "R",
+				"type": "any",
+				"init": "never"
+			},
+			{
+				"name": "P",
+				"type": "any",
+				"init": "never"
+			}
+		],
+		"properties": [
+			{
+				"name": "closable",
+				"summary": "是否显示关闭按钮\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "duration",
+				"summary": "非空值表示组件展示的时长\n\n",
+				"type": "number | undefined",
+				"reactive": true
+			},
+			{
+				"name": "api",
+				"type": "API_2<T, R, P>"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
 			}
 		],
 		"pkg": "@cmfx/components"

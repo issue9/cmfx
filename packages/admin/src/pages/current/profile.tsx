@@ -31,7 +31,6 @@ export function Profile(props: Props): JSX.Element {
 	const l = useLocale();
 	let uploadRef: Upload.RootRef;
 
-	let ref!: Form.RootRef;
 	const api = new Form.API({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
 		onProblem: async p => handleProblem(p),
@@ -88,9 +87,7 @@ export function Profile(props: Props): JSX.Element {
 	return (
 		<Page.Root title="_p.current.profile" class={styles.profile}>
 			<Upload.Root
-				ref={el => {
-					uploadRef = el;
-				}}
+				ref={el => uploadRef = el}
 				fieldName="files"
 				upload={async data => {
 					const ret = await rest.upload<Array<string>>('/uploads', data);
@@ -107,9 +104,7 @@ export function Profile(props: Props): JSX.Element {
 					value={avatar()}
 					fallback="avatar"
 					hover={<IconCamera />}
-					onclick={() => {
-						uploadRef.pick();
-					}}
+					onclick={() => uploadRef.pick()}
 				/>
 				<div class={styles.name}>
 					<p class="text-2xl">{usr.info()?.name}</p>
@@ -151,18 +146,18 @@ export function Profile(props: Props): JSX.Element {
 
 			<Divider.Root padding="4px" />
 
-			<Form.Root class={styles.form} api={api} ref={el => (ref = el)}>
+			<Form.Root class={styles.form} api={api}>
 				<TextField.Root class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
 				<TextField.Root class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
 				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={api.accessor<Sex>('sex')} />
 
 				<div class={styles.actions}>
-					<ref.Reset palette="secondary" disabled={api.isPreset()}>
+					<Form.Reset palette="secondary" disabled={api.isPreset()}>
 						{l.t('_c.reset')}
-					</ref.Reset>
-					<ref.Submit palette="primary" disabled={api.isPreset()}>
+					</Form.Reset>
+					<Form.Submit palette="primary" disabled={api.isPreset()}>
 						{l.t('_p.save')}
-					</ref.Submit>
+					</Form.Submit>
 				</div>
 			</Form.Root>
 

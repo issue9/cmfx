@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/context.spec';
-import Field, { calcLayoutFieldAreas, fieldArea2Style } from './field';
+import { calcLayoutFieldAreas, Field, fieldArea2Style } from './field';
 
 describe('fieldArea2Style', () => {
 	test('pos', () => {

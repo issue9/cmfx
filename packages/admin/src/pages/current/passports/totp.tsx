@@ -53,7 +53,6 @@ export class TOTP implements PassportComponents {
 		const nav = useNavigate();
 		const usr = useAdmin();
 
-		let ref!: Form.RootRef;
 		const api = new Form.API<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', code: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
@@ -75,8 +74,8 @@ export class TOTP implements PassportComponents {
 		});
 
 		return (
-			<Form.Root class={styles.totp} ref={el => (ref = el)} api={api}>
-				<ref.Message />
+			<Form.Root class={styles.totp} api={api}>
+				<Form.Message api={api} />
 
 				<TextField.Root
 					hasHelp
@@ -93,10 +92,13 @@ export class TOTP implements PassportComponents {
 					accessor={api.accessor<string>('code')}
 				/>
 
-				<ref.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
+				<Form.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
-				</ref.Submit>
-				<ref.Reset palette="secondary"> {l.t('_c.reset')} </ref.Reset>
+				</Form.Submit>
+				<Form.Reset palette="secondary">
+					{' '}
+					{l.t('_c.reset')}{' '}
+				</Form.Reset>
 			</Form.Root>
 		);
 	}
@@ -114,7 +116,6 @@ export class TOTP implements PassportComponents {
 			code: codeSchema.clone(),
 		});
 
-		let ref!: Form.RootRef;
 		const api = new Form.API<z.infer<typeof requestSchema>>({
 			initValue: { code: '' },
 			validator: zodValidator<z.infer<typeof requestSchema>>(requestSchema.clone(), l),
@@ -169,19 +170,14 @@ export class TOTP implements PassportComponents {
 						<IconAddLink />
 					</Button.Root>
 
-					<Dialog.Root
-						ref={el => {
-							dialogRef = el;
-						}}
-						header={l.t('_p.current.bindTOTP')}
-					>
-						<Form.Root class={styles['action-form']} inDialog api={api} ref={el => (ref = el)}>
+					<Dialog.Root ref={el => (dialogRef = el)} header={l.t('_p.current.bindTOTP')}>
+						<Form.Root class={styles['action-form']} inDialog api={api}>
 							<p title={qr()}>
 								<QRCode.Root type="rounded" value={qr()} />
 							</p>
 							<br />
 							<TextField.Root hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={api.accessor('code')} />
-							<ref.Submit class="ms-auto">{l.t('_c.ok')}</ref.Submit>
+							<Form.Submit class="ms-auto">{l.t('_c.ok')}</Form.Submit>
 						</Form.Root>
 					</Dialog.Root>
 				</Show>

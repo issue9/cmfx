@@ -4,7 +4,7 @@
 
 import type { Flattenable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
-import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show, splitProps } from 'solid-js';
+import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show } from 'solid-js';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
@@ -14,35 +14,7 @@ import { Spin } from '@components/spin';
 import type { API } from './api';
 import { type Context, Provider, useForm } from './context';
 
-export interface Ref extends BaseRef<HTMLFormElement> {
-	/**
-	 * 普通的按钮，但是可以跟随 {@link FormContext#rounded} 属性变化
-	 */
-	Button(props: Button.ButtonProps): JSX.Element;
-
-	/**
-	 * 提交按钮
-	 *
-	 * @remarks
-	 * 如果指定了 {@link Props#inDialog} 属性，那么表单的 submit 按钮将会关闭所在的对话框，
-	 * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
-	 * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
-	 */
-	Submit(props: Omit<Button.ButtonProps, 'type' | 'onclick'>): JSX.Element;
-
-	/**
-	 * 重置按钮
-	 *
-	 * @remarks
-	 * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
-	 */
-	Reset(props: Omit<Button.ButtonProps, 'type' | 'onclick'>): JSX.Element;
-
-	/**
-	 * 显示整个表单的错误信息
-	 */
-	Message(props: MessageProps): JSX.Element;
-}
+export type Ref = BaseRef<HTMLFormElement>;
 
 export interface Props<T extends Flattenable, R = never, P = never>
 	extends BaseProps,
@@ -65,7 +37,7 @@ export interface Props<T extends Flattenable, R = never, P = never>
 	api: API<T, R, P>;
 }
 
-interface MessageProps extends BaseProps {
+export interface MessageProps<T extends Flattenable, R = never, P = never> extends BaseProps {
 	/**
 	 * 是否显示关闭按钮
 	 *
@@ -79,11 +51,62 @@ interface MessageProps extends BaseProps {
 	 * @reactive
 	 */
 	duration?: number;
+
+	api: API<T, R, P>;
 }
 
-function ButtonAction(props: Button.ButtonProps): JSX.Element {
+/**
+ * 显示整个表单的错误信息
+ */
+export function Message<T extends Flattenable, R = never, P = never>(props: MessageProps<T, R, P>): JSX.Element {
+	return (
+		<Show when={props.api.getError()}>
+			{err => (
+				<Alert.Root
+					closable={props.closable}
+					duration={props.duration}
+					type="error"
+					title={err()}
+					class={props.class}
+					style={props.style}
+					onClose={async () => {
+						props.api.setError();
+						return undefined;
+					}}
+				/>
+			)}
+		</Show>
+	);
+}
+
+/**
+ * 普通的按钮，但是可以跟随 {@link Context#rounded} 属性变化
+ */
+export function ButtonAction(props: Button.ButtonProps): JSX.Element {
 	const f = useForm();
 	return <Button.Root {...mergeProps({ disabled: f?.disabled, rounded: f?.rounded, form: f?.formID }, props)} />;
+}
+
+/**
+ * 重置按钮
+ *
+ * @remarks
+ * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
+ */
+export function Reset(props: Omit<Button.ButtonProps, 'onclick' | 'type'>): JSX.Element {
+	return <ButtonAction {...props} type="reset" />;
+}
+
+/**
+ * 提交按钮
+ *
+ * @remarks
+ * 如果指定了 {@link Props#inDialog} 属性，那么表单的 submit 按钮将会关闭所在的对话框，
+ * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
+ * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
+ */
+export function Submit(props: Omit<Button.ButtonProps, 'onclick' | 'type'>): JSX.Element {
+	return <ButtonAction {...props} type="submit" />;
 }
 
 /**
@@ -157,37 +180,6 @@ export function Root<T extends Flattenable, R = never, P = never>(props: Props<T
 					if (props.ref) {
 						props.ref({
 							root: el.root,
-							Button: ButtonAction,
-
-							Reset(props: Omit<Button.ButtonProps, 'onclick' | 'type'>): JSX.Element {
-								const [_, otherProps] = splitProps(props, ['disabled']);
-								return <ButtonAction {...otherProps} type="reset" disabled={props.disabled ?? api.isPreset()} />;
-							},
-
-							Submit(props: Omit<Button.ButtonProps, 'onclick' | 'type'>): JSX.Element {
-								return <ButtonAction {...props} type="submit" />;
-							},
-
-							Message(props: MessageProps): JSX.Element {
-								return (
-									<Show when={api.getError()}>
-										{err => (
-											<Alert.Root
-												closable={props.closable}
-												duration={props.duration}
-												type="error"
-												title={err()}
-												class={props.class}
-												style={props.style}
-												onClose={async () => {
-													api.setError();
-													return undefined;
-												}}
-											/>
-										)}
-									</Show>
-								);
-							},
 						});
 					}
 				}}

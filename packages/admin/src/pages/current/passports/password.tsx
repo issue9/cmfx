@@ -45,7 +45,6 @@ export class Pwd implements PassportComponents {
 		const usr = useAdmin();
 		const nav = useNavigate();
 
-		let ref!: Form.RootRef;
 		const api = new Form.API<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', password: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
@@ -67,8 +66,8 @@ export class Pwd implements PassportComponents {
 		});
 
 		return (
-			<Form.Root class={styles.password} api={api} ref={el => (ref = el)}>
-				<ref.Message closable />
+			<Form.Root class={styles.password} api={api}>
+				<Form.Message api={api} closable />
 
 				<TextField.Root
 					hasHelp
@@ -85,10 +84,10 @@ export class Pwd implements PassportComponents {
 					accessor={api.accessor<string>('password')}
 				/>
 
-				<ref.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
+				<Form.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
 					{l.t('_c.ok')}
-				</ref.Submit>
-				<ref.Reset palette="secondary"> {l.t('_c.reset')} </ref.Reset>
+				</Form.Submit>
+				<Form.Reset palette="secondary"> {l.t('_c.reset')} </Form.Reset>
 			</Form.Root>
 		);
 	}
@@ -110,7 +109,6 @@ export class Pwd implements PassportComponents {
 				path: ['new'],
 			});
 
-		let ref!: Form.RootRef;
 		const api = new Form.API<z.infer<typeof valueSchema>>({
 			initValue: { old: '', new: '' },
 			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
@@ -144,10 +142,10 @@ export class Pwd implements PassportComponents {
 						</Dialog.Toolbar>
 					}
 				>
-					<Form.Root class={styles['action-form']} inDialog api={api} ref={el => (ref = el)}>
+					<Form.Root class={styles['action-form']} inDialog api={api}>
 						<TextField.Root placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
 						<TextField.Root placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
-						<ref.Submit class="ms-auto">{l.t('_c.ok')}</ref.Submit>
+						<Form.Submit class="ms-auto">{l.t('_c.ok')}</Form.Submit>
 					</Form.Root>
 				</Dialog.Root>
 			</>

@@ -9,6 +9,7 @@
             - Form.API
             - Form.RootRef
             - Form.RootProps
+            - Form.MessageProps
             - Form.Accessor
             - Form.useForm
             - Form.Context
