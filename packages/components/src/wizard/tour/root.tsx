@@ -161,9 +161,7 @@ export function Root(props: Props): JSX.Element {
 			palette={props.palette}
 			class={joinClass(undefined, styles.tour, props.class)}
 			style={props.style}
-			ref={el => {
-				ref = el;
-			}}
+			ref={el => (ref = el)}
 			header={<Label.Root icon={curr().icon}>{header()}</Label.Root>}
 			footer={
 				<>

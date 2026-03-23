@@ -34,4 +34,18 @@
 			@apply mt-2 print:hidden;
 		}
 	}
+
+	@media print {
+		.table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		tr {
+			border-bottom: 1px solid black;
+		}
+		th,
+		td {
+			text-align: left;
+		}
+	}
 }

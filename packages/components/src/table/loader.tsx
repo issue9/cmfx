@@ -39,7 +39,7 @@ export interface Ref<T extends object> extends BasicTable.RootRef {
 	refresh(): Promise<void>;
 }
 
-type OBP<T extends object> = Omit<BasicTable.RootProps<T>, 'items' | 'extraHeader' | 'extraFooter' | 'ref'>;
+type OBP<T extends object> = Omit<BasicTable.RootProps<T>, 'items' | 'header' | 'footer' | 'ref'>;
 type BaseTableProps<T extends object, Q extends Query> = OBP<T> &
 	RefProps<Ref<T>> & {
 		/**
@@ -449,9 +449,7 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 								aria-label={l.t('_c.print')}
 								title={l.t('_c.print')}
 								onclick={() => {
-									const css =
-										'table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left}';
-									printElement(ref.root().root().querySelector('table')!, css);
+									printElement(ref.root().root().querySelector('table')!, styles.table);
 								}}
 							>
 								<IconPrint />
@@ -478,9 +476,7 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 		]);
 		return (
 			<BasicTable.Root
-				ref={el => {
-					ref = el;
-				}}
+				ref={el => (ref = el)}
 				stickyHeader={sticky()}
 				striped={striped()}
 				hoverable={hoverable()}
@@ -508,9 +504,7 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 	]);
 	return (
 		<BasicTable.Root
-			ref={el => {
-				ref = el;
-			}}
+			ref={el => (ref = el)}
 			stickyHeader={sticky()}
 			striped={striped()}
 			hoverable={hoverable()}

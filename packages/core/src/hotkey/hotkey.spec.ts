@@ -16,14 +16,14 @@ describe('HotKey', () => {
 		Hotkey.bindKeys(() => {}, 'f', 'control');
 		expect(Hotkey.hasKeys('f', 'control')).toBeTruthy();
 
-		expect(() => Hotkey.bindKeys(() => {}, 'f', 'control')).toThrowError('快捷键 control+f 已经存在');
+		expect(() => Hotkey.bindKeys(() => {}, 'f', 'control')).toThrow('快捷键 control+f 已经存在');
 
 		Hotkey.unbind(new Hotkey('F', 'control'));
 		expect(Hotkey.hasKeys('f', 'control')).toBeFalsy();
 	});
 
 	test('construct', () => {
-		expect(() => new Hotkey('F', 'shift', 'shift')).toThrowError('重复的修饰符 shift');
+		expect(() => new Hotkey('F', 'shift', 'shift')).toThrow('重复的修饰符 shift');
 
 		let hk = new Hotkey('F', 'shift');
 		expect(hk.key).toEqual('F');

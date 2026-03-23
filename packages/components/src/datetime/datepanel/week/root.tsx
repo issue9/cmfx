@@ -12,7 +12,10 @@ import type { WeekValueType } from '@components/datetime/dateview';
 
 export type Ref = BaseRef<HTMLFieldSetElement>;
 
-export type Props = Omit<CommonProps, 'onEnter' | 'onLeave' | 'weeks' | 'onWeekClick' | 'value' | 'onChange' | 'ref'> &
+export type Props = Omit<
+	CommonProps,
+	'onEnter' | 'onLeave' | 'weeks' | 'onWeekClick' | 'value' | 'onChange' | 'ref' | 'time'
+> &
 	RefProps<Ref> & {
 		/**
 		 * 关联的值

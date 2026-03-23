@@ -1,0 +1,32 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@media print {
+	body * {
+		visibility: hidden; /* 隐藏所有内容 */
+	}
+
+	/* 只显示目标元素及其子元素 */
+	.printable,
+	.printable * {
+		visibility: visible;
+	}
+
+	/* 定位目标元素到页面左上角 */
+	.printable {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+
+		.no-print {
+			/* biome-ignore lint/complexity/noImportantStyles: 没有更好的处理方式 */
+			display: none !important;
+		}
+	}
+}

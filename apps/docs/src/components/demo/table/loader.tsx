@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type BasicTable, LoaderTable, type MountProps } from '@cmfx/components';
-import { sleep } from '@cmfx/core';
+import { noPrint, sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -45,7 +45,7 @@ export default function (props: MountProps): JSX.Element {
 				return <button type="button">...</button>;
 			},
 			isUnexported: true,
-			cellClass: 'no-print',
+			cellClass: noPrint,
 		},
 	];
 

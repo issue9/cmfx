@@ -1,0 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* 仅供 app/docs 和 app/admin 的开发环境使用 */
+
+@import "./print/style.module.css";

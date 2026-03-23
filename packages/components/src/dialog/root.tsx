@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { movable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 
 import { type BaseProps, joinClass } from '@components/base';
@@ -19,8 +18,7 @@ export interface Props extends BaseProps, ParentProps {
 	/**
 	 * 指定标题内容
 	 *
-	 * @remarrks
-	 * 如果此值不为空则同时会显示关闭按钮。如果想要 {@link movable} 有效果，此值不能为空。
+	 * @reactive
 	 */
 	header?: JSX.Element;
 

@@ -32,7 +32,8 @@
 		".": {
 			"types": "./lib/index.d.ts",
 			"import": "./lib/index.js"
-		}
+		},
+		"./style.css": "./lib/style.css"
 	},
 	"scripts": {
 		"build": "vite build"
@@ -42,7 +43,6 @@
 		"bowser": "catalog:",
 		"cbor2": "^2.3.0",
 		"intl-messageformat": "catalog:",
-		"printd": "^1.6.0",
 		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
 		"yaml": "catalog:",
 		"zod": "catalog:"

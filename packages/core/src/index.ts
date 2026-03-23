@@ -21,8 +21,10 @@ declare global {
 export * from './api';
 export * from './config';
 export * from './dom';
+export * from './hotkey';
 export * from './locale';
 export * from './math';
+export * from './print';
 export * from './time';
 export * from './types';
 export * from './validation';
