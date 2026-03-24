@@ -68,10 +68,10 @@ export default defineConfig(({ mode }) => {
 			}),
 			viteStaticCopy({
 				targets: [
-					{ src: '../../LICENSE', dest: '../' },
+					{ src: path.resolve(__dirname, '../../LICENSE'), dest: path.resolve(__dirname, './') },
 					{
-						src: '../../assets/brand-static.svg',
-						dest: '../public/',
+						src: path.resolve(__dirname, '../../assets/brand-static.svg'),
+						dest: path.resolve(__dirname, './public/'),
 						transform: (content, _) => {
 							return content.replace(/currentColor/g, '#00a1f1');
 						},

@@ -70,10 +70,10 @@ export default defineConfig(({ mode }) => {
 			tailwindcss(),
 			viteStaticCopy({
 				targets: [
-					{ src: '../../LICENSE', dest: '../apps/docs' }, // dest 是相对于 tsconfig 中 outDir 目录的
+					{ src: path.resolve(__dirname, '../../LICENSE'), dest: path.resolve(__dirname, './') },
 					{
-						src: '../../assets/brand-static.svg',
-						dest: '../apps/docs/public',
+						src: path.resolve(__dirname, '../../assets/brand-static.svg'),
+						dest: path.resolve(__dirname, './public'),
 						transform: (content, _) => {
 							return content.replace(/currentColor/g, '#00a1f1');
 						},

@@ -2,12 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import path from 'node:path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import { buildPostBanner } from '../vite.config.base';
 import pkg from './package.json' with { type: 'json' };
+
+const outDir = './lib';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,13 +22,13 @@ export default defineConfig({
 			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts'],
 		}),
 		viteStaticCopy({
-			targets: [{ src: '../../LICENSE', dest: '../' }],
+			targets: [{ src: path.resolve(__dirname, '../../LICENSE'), dest: path.resolve(__dirname, outDir) }],
 		}),
 	],
 
 	build: {
 		minify: true,
-		outDir: './lib',
+		outDir: outDir,
 		lib: {
 			entry: {
 				index: './src/index.ts',
