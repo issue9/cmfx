@@ -40,6 +40,7 @@
 	},
 	"dependencies": {
 		"@cmfx/components": "workspace:*",
+		"@cmfx/theme": "workspace:*",
 		"solid-js": "catalog:",
 		"tailwindcss": "catalog:"
 	},

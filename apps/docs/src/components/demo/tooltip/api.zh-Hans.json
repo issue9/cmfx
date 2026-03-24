@@ -13,7 +13,7 @@
 			},
 			{
 				"name": "ref",
-				"type": "(ref: Ref_76) => void"
+				"type": "(ref: Ref_77) => void"
 			},
 			{
 				"name": "palette",

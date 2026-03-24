@@ -175,7 +175,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_71"
+					"type": "Ref_72"
 				}
 			},
 			{
@@ -370,7 +370,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_71"
+					"type": "Ref_72"
 				}
 			},
 			{
@@ -449,18 +449,6 @@
 				"summary": "一些突出元素的主题色，默认值为 primary。\n\n",
 				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
 				"def": "'primary'\n\n",
-				"reactive": true
-			},
-			{
-				"name": "footer",
-				"summary": "表格底部的扩展空间\n\n\nNOTE: 该区域不属于 table 空间。\n\n",
-				"type": "JSX.Element",
-				"reactive": true
-			},
-			{
-				"name": "header",
-				"summary": "表格顶部的扩展空间\n\n\nNOTE: 该区域不属于 table 空间。\n\n",
-				"type": "JSX.Element",
 				"reactive": true
 			},
 			{
@@ -587,7 +575,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_71"
+					"type": "Ref_72"
 				}
 			},
 			{

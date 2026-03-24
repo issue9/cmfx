@@ -48,17 +48,17 @@
 				"reactive": true
 			},
 			{
+				"name": "icon",
+				"summary": "显示的图标\n\n",
+				"remarks": "如果未指定，则根据 type 自动选择图标。若不想显示图标，可以将此值指定为 false。\n\n",
+				"type": "JSX.Element"
+			},
+			{
 				"name": "body",
 				"summary": "内容\n\n",
 				"remarks": "使用\nn 作为换行符。\n\n",
 				"type": "string | undefined",
 				"reactive": true
-			},
-			{
-				"name": "icon",
-				"summary": "显示的图标\n\n",
-				"remarks": "如果未指定，则根据 type 自动选择图标。若不想显示图标，可以将此值指定为 false。\n\n",
-				"type": "JSX.Element"
 			},
 			{
 				"name": "duration",

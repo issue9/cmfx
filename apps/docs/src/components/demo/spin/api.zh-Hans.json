@@ -1627,7 +1627,7 @@
 					{
 						"name": "\"aria-relevant\"",
 						"summary": "Indicates what notifications the user agent will trigger when the accessibility tree within a\nlive region is modified.\n\n",
-						"type": "\"text\" | \"additions\" | \"additions removals\" | \"additions text\" | \"all\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text additions\" | \"text removals\" | undefined"
+						"type": "\"text\" | \"all\" | \"additions\" | \"additions removals\" | \"additions text\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text additions\" | \"text removals\" | undefined"
 					},
 					{
 						"name": "\"aria-required\"",

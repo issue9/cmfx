@@ -251,7 +251,7 @@
 				"summary": "下拉菜单的元素\n\n",
 				"type": "menu(): Menu.RootRef",
 				"return": {
-					"type": "Ref_8"
+					"type": "Ref_9"
 				}
 			},
 			{

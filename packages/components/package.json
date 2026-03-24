@@ -46,6 +46,7 @@
 	},
 	"dependencies": {
 		"@cmfx/core": "workspace:*",
+		"@cmfx/theme": "workspace:*",
 		"@formatjs/intl-durationformat": "catalog:",
 		"@iconify/json": "catalog:",
 		"@iconsets/svg-morpheus-ts": "^1.4.12",

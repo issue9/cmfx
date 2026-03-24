@@ -176,9 +176,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 				<ErrorBoundary fallback={errorHandler}>
 					<div class="contents">
 						<Appbar.Root
-							ref={el => {
-								toolbar = el;
-							}}
+							ref={el => (toolbar = el)}
 							class={styles.toolbar}
 							palette={bgPalette}
 							actions={
@@ -188,29 +186,15 @@ function Horizontal(props: ParentProps): JSX.Element {
 								</>
 							}
 						>
-							<Drawer.ToggleButton square drawer={drawerRef()} />
+							<Drawer.ToggleButton drawer={drawerRef()} />
 						</Appbar.Root>
 						<main class={joinClass('surface', styles.content)}>{props.children}</main>
 					</div>
 				</ErrorBoundary>
 			}
 		>
-			<Appbar.Root
-				ref={el => {
-					asideBar = el;
-				}}
-				logo={opt.logo}
-				title={opt.title}
-				class={styles.toolbar}
-			/>
-			<Menu.Root
-				class={styles.menu}
-				ref={el => {
-					menuRef = el;
-				}}
-				layout="inline"
-				items={buildItems(l, opt.menus)}
-			/>
+			<Appbar.Root ref={el => (asideBar = el)} logo={opt.logo} title={opt.title} class={styles.toolbar} />
+			<Menu.Root class={styles.menu} ref={el => (menuRef = el)} layout="inline" items={buildItems(l, opt.menus)} />
 		</Drawer.Root>
 	);
 }
@@ -259,7 +243,7 @@ function Vertical(props: ParentProps): JSX.Element {
 					</>
 				}
 			>
-				<Drawer.ToggleButton square drawer={drawerRef()} />
+				<Drawer.ToggleButton drawer={drawerRef()} />
 			</Appbar.Root>
 
 			<main class={styles.main}>
@@ -270,13 +254,7 @@ function Vertical(props: ParentProps): JSX.Element {
 					mainClass={joinClass('surface', styles.content)}
 					main={<ErrorBoundary fallback={errorHandler}>{props.children}</ErrorBoundary>}
 				>
-					<Menu.Root
-						ref={el => {
-							menuRef = el;
-						}}
-						layout="inline"
-						items={buildItems(l, opt.menus)}
-					/>
+					<Menu.Root ref={el => (menuRef = el)} layout="inline" items={buildItems(l, opt.menus)} />
 				</Drawer.Root>
 			</main>
 		</div>

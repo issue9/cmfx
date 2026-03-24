@@ -21,10 +21,7 @@ export default defineConfig({
 	plugins: [
 		solidPlugin(),
 		viteStaticCopy({
-			targets: [
-				{ src: path.resolve(__dirname, '../../LICENSE'), dest: './' },
-				{ src: path.resolve(__dirname, './src/tailwind.css'), dest: path.resolve(__dirname, outDir) },
-			],
+			targets: [{ src: path.resolve(__dirname, '../../LICENSE'), dest: './' }],
 		}),
 		Icons({
 			compiler: 'solid',

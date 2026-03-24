@@ -51,6 +51,7 @@
 	"dependencies": {
 		"@cmfx/core": "workspace:*",
 		"@cmfx/components": "workspace:*",
+		"@cmfx/theme": "workspace:*",
 		"@cmfx/illustrations": "workspace:*",
 		"@iconify/json": "catalog:",
 		"@scure/base": "^2.0.0",

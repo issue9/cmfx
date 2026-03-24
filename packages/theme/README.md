@@ -1,0 +1,18 @@
+<!--
+为了链接的正确性，所有的链接都应该是绝对链接。
+-->
+
+# cmfx/theme
+
+[![npmx](https://img.shields.io/npm/v/%40cmfx%2Ftheme?label=npmx)](https://npmx.dev/@cmfx/theme)
+[![License](https://img.shields.io/github/license/issue9/cmfx)](https://opensource.org/licenses/MIT)
+
+提供了 [cmfx](https://github.com/issue9/cmfx) 前端的 tailwind 主题变量
+
+## 开发
+
+若要参与此项目的开发，可参考 [CONTRIBUTING](https://github.com/issue9/cmfx/blob/master/CONTRIBUTING.md)。
+
+## 版权
+
+本项目采用 [MIT](https://opensource.org/licenses/MIT) 开源授权许可证，完整的授权说明可在 [LICENSE](https://github.com/issue9/cmfx/blob/master/LICENSE) 文件中找到。

@@ -37,6 +37,8 @@ export default defineConfig(({ mode }) => {
 			mode === 'development'
 				? {
 						alias: [
+							{ find: '@cmfx/theme', replacement: path.resolve(__dirname, '../../packages/theme') },
+
 							{ find: '@cmfx/core', replacement: path.resolve(__dirname, '../../packages/core/src') },
 							{ find: '@core', replacement: path.resolve(__dirname, '../../packages/core/src') },
 

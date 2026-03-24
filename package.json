@@ -24,6 +24,7 @@
 		"apps/docs",
 		"build/vite-plugin-about",
 		"build/vite-plugin-api",
+		"packages/theme",
 		"packages/core",
 		"packages/components",
 		"packages/illustrations",

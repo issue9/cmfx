@@ -140,6 +140,9 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../../packages/illustrations
+      '@cmfx/theme':
+        specifier: workspace:*
+        version: link:../../packages/theme
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.453
@@ -201,6 +204,9 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../../packages/illustrations
+      '@cmfx/theme':
+        specifier: workspace:*
+        version: link:../../packages/theme
       '@cmfx/vite-plugin-api':
         specifier: workspace:*
         version: link:../../build/vite-plugin-api
@@ -327,6 +333,9 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../illustrations
+      '@cmfx/theme':
+        specifier: workspace:*
+        version: link:../theme
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.453
@@ -385,6 +394,9 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core
+      '@cmfx/theme':
+        specifier: workspace:*
+        version: link:../theme
       '@formatjs/intl-durationformat':
         specifier: 'catalog:'
         version: 0.10.3
@@ -510,6 +522,9 @@ importers:
       '@cmfx/components':
         specifier: workspace:*
         version: link:../components
+      '@cmfx/theme':
+        specifier: workspace:*
+        version: link:../theme
       solid-js:
         specifier: 'catalog:'
         version: 1.9.11
@@ -538,6 +553,8 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.0(@types/node@25.5.0)(jsdom@29.0.1)(vite@8.0.1(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3))
+
+  packages/theme: {}
 
 packages:
 

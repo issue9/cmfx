@@ -27,7 +27,7 @@
 			{
 				"name": "inputMode",
 				"summary": "指定输入键盘的模式\n\n",
-				"type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | undefined",
+				"type": "\"text\" | \"none\" | \"tel\" | \"url\" | \"email\" | \"search\" | undefined",
 				"reactive": true
 			},
 			{

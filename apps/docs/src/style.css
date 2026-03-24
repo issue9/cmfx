@@ -6,8 +6,8 @@
 
 @import "tailwindcss";
 
+@import "@cmfx/theme/style.css";
 @import "@cmfx/components/style.css";
 @import "@cmfx/illustrations/style.css";
-@import "@cmfx/components/tailwind.css";
 
 @source ".";

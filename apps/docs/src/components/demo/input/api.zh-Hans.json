@@ -10,13 +10,13 @@
 					{
 						"name": "type",
 						"summary": "内容类型\n\n",
-						"type": "\"submit\" | \"reset\" | \"button\" | \"time\" | \"date\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | \"color\" | \"datetime-local\" | \"file\" | \"image\" | \"month\" | \"password\" | \"range\" | \"week\" | undefined",
+						"type": "\"submit\" | \"reset\" | \"button\" | \"text\" | \"time\" | \"date\" | \"tel\" | \"url\" | \"email\" | \"search\" | \"color\" | \"datetime-local\" | \"file\" | \"image\" | \"month\" | \"password\" | \"range\" | \"week\" | undefined",
 						"reactive": true
 					},
 					{
 						"name": "inputMode",
 						"summary": "键盘的输入模式\n\n",
-						"type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"search\" | undefined",
+						"type": "\"text\" | \"none\" | \"tel\" | \"url\" | \"email\" | \"search\" | undefined",
 						"reactive": true
 					},
 					{

@@ -181,13 +181,6 @@
 						"type": "((m: REF) => void) | undefined"
 					},
 					{
-						"name": "square",
-						"summary": "是否为一个长宽比为 1:1 的按钮\n\n",
-						"remarks": "比如图标之类可能需要此属性，\n但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
 						"name": "disabled",
 						"summary": "是否禁用\n\n",
 						"type": "boolean | undefined",
@@ -243,7 +236,7 @@
 					},
 					{
 						"name": "drawer",
-						"type": "Ref_36 | undefined"
+						"type": "Ref_37 | undefined"
 					}
 				]
 			}

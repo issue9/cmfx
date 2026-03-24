@@ -44,12 +44,6 @@
 						"reactive": true
 					},
 					{
-						"name": "time",
-						"summary": "是否符带时间选择器\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
 						"name": "min",
 						"summary": "允许的最小日期\n\n",
 						"type": "Date | undefined"
