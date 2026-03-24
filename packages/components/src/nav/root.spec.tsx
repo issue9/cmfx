@@ -13,21 +13,11 @@ describe('Nav', async () => {
 
 	const ct = await ComponentTester.build('Nav', props => (
 		<div>
-			<article
-				ref={el => {
-					articleRef = el;
-				}}
-			>
+			<article ref={el => (articleRef = el)}>
 				<h1>head1</h1>
 				<h2>head2</h2>
 			</article>
-			<Root
-				{...props}
-				target={articleRef}
-				ref={el => {
-					ref = el;
-				}}
-			/>
+			<Root {...props} target={articleRef} ref={el => (ref = el)} />
 		</div>
 	));
 

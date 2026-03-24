@@ -82,9 +82,7 @@ export function Root(props: Props): JSX.Element {
 
 		if (props.ref) {
 			props.ref({
-				root() {
-					return html()!;
-				},
+				root: () => html()!,
 			});
 		}
 	});

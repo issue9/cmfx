@@ -150,9 +150,7 @@ function DateRangePicker(props: DateProps): JSX.Element {
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: 正常需求 */}
 			<div
 				style={Form.fieldArea2Style(areas().inputArea)}
-				ref={el => {
-					anchorRef = el;
-				}}
+				ref={el => (anchorRef = el)}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef)}
@@ -186,15 +184,7 @@ function DateRangePicker(props: DateProps): JSX.Element {
 				</Show>
 			</div>
 
-			<fieldset
-				popover="auto"
-				disabled={props.disabled}
-				ref={el => {
-					panelRef = el;
-				}}
-				class={styles.panel}
-				aria-haspopup
-			>
+			<fieldset popover="auto" disabled={props.disabled} ref={el => (panelRef = el)} class={styles.panel} aria-haspopup>
 				<DateRangePanel.Root
 					class={styles['dt-panel']}
 					{...panelProps}

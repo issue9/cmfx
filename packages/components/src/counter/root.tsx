@@ -96,12 +96,8 @@ export function Root(props: Props): JSX.Element {
 			ref={el => {
 				if (props.ref) {
 					props.ref({
-						root() {
-							return el;
-						},
-						async play(): Promise<void> {
-							await play();
-						},
+						root: () => el,
+						play: play,
 					});
 				}
 			}}

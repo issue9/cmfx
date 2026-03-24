@@ -18,9 +18,7 @@ describe('LoaderTable', async () => {
 			}}
 			columns={[]}
 			queries={{}}
-			ref={el => {
-				ref = el;
-			}}
+			ref={el => (ref = el)}
 		/>
 	));
 

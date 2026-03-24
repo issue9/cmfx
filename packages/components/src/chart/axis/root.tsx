@@ -219,13 +219,9 @@ export function Root<T extends object>(props: Props<T>): JSX.Element {
 							});
 						},
 
-						clear() {
-							setData([]);
-						},
+						clear: () => setData([]),
 
-						root() {
-							return el.root();
-						},
+						root: el.root,
 					});
 				}
 			}}

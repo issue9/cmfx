@@ -12,13 +12,7 @@ describe('TextField', async () => {
 	let ref: Ref;
 	const fa = Form.fieldAccessor('tf', 'textfield');
 	const ct = await ComponentTester.build('TextField', props => (
-		<Root
-			accessor={fa}
-			{...props}
-			ref={el => {
-				ref = el;
-			}}
-		/>
+		<Root accessor={fa} {...props} ref={el => (ref = el)} />
 	));
 
 	test('ref', async () => {

@@ -11,13 +11,7 @@ import { type Ref, Root } from './root';
 describe('ColorPanel', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('ColorPanel', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			{...props}
-			pickers={[new HSLPickerPanel()]}
-		/>
+		<Root ref={el => (ref = el)} {...props} pickers={[new HSLPickerPanel()]} />
 	));
 
 	test('props', () => ct.testProps());

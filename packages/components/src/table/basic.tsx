@@ -121,9 +121,7 @@ export function Root<T extends object>(props: Props<T>) {
 				fixedLayout={props.fixedLayout}
 				hoverable={props.hoverable}
 				striped={props.striped}
-				ref={el => {
-					tableRef = el;
-				}}
+				ref={el => (tableRef = el)}
 			>
 				<Show when={hasCol}>
 					<colgroup>

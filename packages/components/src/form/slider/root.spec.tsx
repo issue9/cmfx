@@ -11,15 +11,7 @@ import { type Ref, Root } from './root';
 describe('Slider', async () => {
 	let ref: Ref;
 	const fa = Form.fieldAccessor<number>('tf', 0);
-	const ct = await ComponentTester.build('Slider', props => (
-		<Root
-			accessor={fa}
-			{...props}
-			ref={el => {
-				ref = el;
-			}}
-		/>
-	));
+	const ct = await ComponentTester.build('Slider', props => <Root accessor={fa} {...props} ref={el => (ref = el)} />);
 
 	test('ref', async () => {
 		expect(ref.root()).toBeInstanceOf(HTMLDivElement);

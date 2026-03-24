@@ -43,11 +43,7 @@ export function Root(props: Props): JSX.Element {
 				}
 			}}
 		>
-			<Show when={props.icon}>
-				{c => {
-					return c();
-				}}
-			</Show>
+			<Show when={props.icon}>{c => c()}</Show>
 			{props.children}
 		</Dynamic>
 	);

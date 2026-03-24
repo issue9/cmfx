@@ -76,9 +76,7 @@ export function Root(props: Props): JSX.Element {
 			class={cls()}
 			style={props.style}
 			tabindex={props.block ? props.tabindex : -1}
-			ref={el => {
-				rootRef = el;
-			}}
+			ref={el => (rootRef = el)}
 		>
 			<input
 				type="checkbox"
@@ -89,12 +87,8 @@ export function Root(props: Props): JSX.Element {
 					inputRef = el;
 					if (props.ref) {
 						props.ref({
-							root() {
-								return rootRef;
-							},
-							input() {
-								return el;
-							},
+							root: () => rootRef,
+							input: () => el,
 						});
 					}
 				}}

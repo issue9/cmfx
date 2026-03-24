@@ -10,13 +10,7 @@ import { type Ref, Root } from './root';
 describe('Avatar', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('Appbar', props => (
-		<Root
-			value="../../../assets/brand-static.svg"
-			{...props}
-			ref={r => {
-				ref = r;
-			}}
-		/>
+		<Root value="../../../assets/brand-static.svg" {...props} ref={el => (ref = el)} />
 	));
 
 	test('props', () => ct.testProps());

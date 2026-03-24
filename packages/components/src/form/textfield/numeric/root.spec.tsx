@@ -11,15 +11,7 @@ import { type Ref, Root } from './root';
 describe('Numeric', async () => {
 	let ref: Ref;
 	const fa = Form.fieldAccessor('tf', 5);
-	const ct = await ComponentTester.build('Numeric', props => (
-		<Root
-			accessor={fa}
-			{...props}
-			ref={el => {
-				ref = el;
-			}}
-		/>
-	));
+	const ct = await ComponentTester.build('Numeric', props => <Root accessor={fa} {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

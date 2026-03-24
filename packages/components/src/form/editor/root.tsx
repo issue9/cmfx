@@ -125,12 +125,8 @@ export function Root(props: Props): JSX.Element {
 					return;
 				}
 				props.ref({
-					root() {
-						return el;
-					},
-					quill() {
-						return editor;
-					},
+					root: () => el,
+					quill: () => editor,
 				});
 			}}
 		>
@@ -153,12 +149,7 @@ export function Root(props: Props): JSX.Element {
 			</Show>
 
 			<div class={styles['editor-wrap']} style={Form.fieldArea2Style(areas().inputArea)}>
-				<div
-					ref={el => {
-						ref = el;
-					}}
-					id={`editor-${createUniqueId()}`}
-				/>
+				<div ref={el => (ref = el)} id={`editor-${createUniqueId()}`} />
 			</div>
 
 			<Show when={areas().helpArea}>

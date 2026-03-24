@@ -26,9 +26,7 @@ describe('ChartAxis', async () => {
 
 	const ct = await ComponentTester.build('ChartAxis', props => (
 		<Root
-			ref={el => {
-				ref = el;
-			}}
+			ref={el => (ref = el)}
 			initValue={items}
 			{...props}
 			xAxis={{ name: 'X', key: 'name' }}

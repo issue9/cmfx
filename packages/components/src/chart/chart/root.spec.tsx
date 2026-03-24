@@ -34,19 +34,9 @@ describe('Chart', async () => {
 	};
 
 	let ref: Ref;
-	const ct = await ComponentTester.build('Chart', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			initValue={opt}
-			{...props}
-		/>
-	));
+	const ct = await ComponentTester.build('Chart', props => <Root ref={el => (ref = el)} initValue={opt} {...props} />);
 
-	test('props', async () => {
-		ct.testProps();
-	});
+	test('props', async () => ct.testProps());
 
 	test('ref', async () => {
 		expect(ref).toBeDefined();

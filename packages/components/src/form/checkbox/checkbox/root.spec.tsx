@@ -9,14 +9,7 @@ import { type Ref, Root } from './root';
 
 describe('Checkbox', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('Checkbox', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			{...props}
-		/>
-	));
+	const ct = await ComponentTester.build('Checkbox', props => <Root ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

@@ -14,15 +14,7 @@ describe('pagination', async () => {
 	let curr: number;
 
 	const ct = await ComponentTester.build('Pagination', props => (
-		<Root
-			ref={el => (ref = el)}
-			count={5}
-			value={3}
-			onChange={val => {
-				curr = val;
-			}}
-			{...props}
-		/>
+		<Root ref={el => (ref = el)} count={5} value={3} onChange={val => (curr = val)} {...props} />
 	));
 
 	test('props', () => ct.testProps());

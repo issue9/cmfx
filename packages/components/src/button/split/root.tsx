@@ -102,16 +102,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				}}
 			>
 				{props.children}
-				<Button.Root
-					class={styles.split}
-					square
-					ref={el => {
-						arrowRef = el;
-					}}
-					onclick={() => {
-						dropdownRef.toggle();
-					}}
-				>
+				<Button.Root class={styles.split} square ref={el => (arrowRef = el)} onclick={() => dropdownRef.toggle()}>
 					<IconArrowDown />
 				</Button.Root>
 			</ButtonGroup.Root>

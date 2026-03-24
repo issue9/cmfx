@@ -115,6 +115,8 @@ export type FullScreenProps = Omit<Props, 'on' | 'off' | 'value' | 'title'>;
  */
 export function FullScreen(props: FullScreenProps): JSX.Element {
 	props = mergeProps({ disabled: !document.fullscreenEnabled }, props);
+	const [, p] = splitProps(props, ['ref']);
+
 	const l = useLocale();
 	const [fs, setFS] = createSignal(!document.fullscreenElement);
 
@@ -147,12 +149,18 @@ export function FullScreen(props: FullScreenProps): JSX.Element {
 
 	return (
 		<Root
-			{...props}
+			{...p}
 			value={fs()}
 			title={l.t('_c.fullscreen')}
 			onToggle={toggle}
 			on={<IconFullScreen />}
 			off={<IconFullScreenExit />}
+			ref={el => {
+				if (props.ref) {
+					props.ref(el);
+				}
+				el.root().ariaLabel = l.t('_c.fullscreen');
+			}}
 		/>
 	);
 }
@@ -171,7 +179,8 @@ export type FitScreenProps = Omit<Props, 'on' | 'off' | 'value' | 'title'> & {
  */
 export function FitScreen(props: FitScreenProps): JSX.Element {
 	const l = useLocale();
-	const [_, btnProps] = splitProps(props, ['container']);
+	const [_, btnProps] = splitProps(props, ['container', 'ref']);
+
 	const toggle = async (v: boolean): Promise<boolean | undefined> => {
 		v = props.container.classList.toggle(styles['fit-screen']);
 
@@ -186,6 +195,19 @@ export function FitScreen(props: FitScreenProps): JSX.Element {
 	};
 
 	return (
-		<Root {...btnProps} title={l.t('_c.fitscreen')} onToggle={toggle} on={<IconCollapse />} off={<IconExpand />} />
+		<Root
+			{...btnProps}
+			title={l.t('_c.fitscreen')}
+			onToggle={toggle}
+			on={<IconCollapse />}
+			off={<IconExpand />}
+			ref={el => {
+				if (props.ref) {
+					props.ref(el);
+				}
+
+				el.root().ariaLabel = l.t('_c.fitscreen');
+			}}
+		/>
 	);
 }

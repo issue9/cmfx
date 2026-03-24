@@ -199,9 +199,7 @@ export function CommonPanel(props: Props): JSX.Element {
 			popover={props.popover}
 			class={joinClass(props.palette, styles.panel, props.class)}
 			style={props.style}
-			ref={el => {
-				dateRef = el;
-			}}
+			ref={el => (dateRef = el)}
 		>
 			<DateView.Root
 				initValue={value() ?? new Date()}

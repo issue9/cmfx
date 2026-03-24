@@ -13,13 +13,7 @@ describe('Button', async () => {
 	const ct = await ComponentTester.build('Button', props => (
 		<div>
 			<div>elem</div>
-			<Root
-				{...props}
-				element={() => html}
-				ref={el => {
-					ref = el;
-				}}
-			/>
+			<Root {...props} element={() => html} ref={el => (ref = el)} />
 		</div>
 	));
 

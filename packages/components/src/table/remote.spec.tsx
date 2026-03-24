@@ -31,16 +31,7 @@ describe('RemoteTable', async () => {
 
 	let ref: Ref<Obj>;
 	const ct = await ComponentTester.build('RemoteTable', props => (
-		<Root<Obj, Query>
-			{...props}
-			path="/"
-			columns={[]}
-			queries={{}}
-			ref={el => {
-				ref = el;
-			}}
-			rest={api}
-		/>
+		<Root<Obj, Query> {...props} path="/" columns={[]} queries={{}} ref={el => (ref = el)} rest={api} />
 	));
 
 	test('props', async () => {

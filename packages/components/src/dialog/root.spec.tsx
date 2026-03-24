@@ -12,12 +12,7 @@ import styles from './style.module.css';
 describe('Dialog', async () => {
 	let ref!: Ref;
 	const ct = await ComponentTester.build('Dialog', props => (
-		<Root
-			{...props}
-			ref={el => {
-				ref = el;
-			}}
-		>
+		<Root {...props} ref={el => (ref = el)}>
 			abc
 		</Root>
 	));

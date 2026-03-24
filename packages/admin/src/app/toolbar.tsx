@@ -20,7 +20,7 @@ import styles from './style.module.css';
  */
 export function createFullscreen(hk?: Hotkey): Component {
 	return () => {
-		return <ToggleButton.FullScreen hotkey={hk} square type="button" kind="flat" />;
+		return <ToggleButton.FullScreen hotkey={hk} type="button" kind="flat" />;
 	};
 }
 

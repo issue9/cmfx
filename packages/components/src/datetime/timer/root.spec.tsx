@@ -9,15 +9,7 @@ import { type Ref, Root } from './root';
 
 describe('Timer', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('Timer', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			duration="10s"
-			{...props}
-		/>
-	));
+	const ct = await ComponentTester.build('Timer', props => <Root ref={el => (ref = el)} duration="10s" {...props} />);
 
 	test('props', () => ct.testProps());
 

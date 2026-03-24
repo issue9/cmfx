@@ -80,9 +80,7 @@ export function Root(props: Props): JSX.Element {
 			ref={el => {
 				if (props.ref) {
 					props.ref({
-						root() {
-							return el;
-						},
+						root: () => el,
 					});
 				}
 			}}

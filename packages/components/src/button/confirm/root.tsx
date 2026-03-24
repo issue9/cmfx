@@ -95,9 +95,7 @@ export function Root(props: Props) {
 	return (
 		<>
 			<Button.Root
-				ref={(el: Button.RootRef<true> | Button.RootRef<false>) => {
-					btnRef = el;
-				}}
+				ref={(el: Button.RootRef<true> | Button.RootRef<false>) => (btnRef = el)}
 				{...btnProps}
 				palette={props.palette}
 				onclick={e => {
@@ -109,26 +107,14 @@ export function Root(props: Props) {
 				{props.children}
 			</Button.Root>
 
-			<div
-				popover="auto"
-				ref={el => {
-					popRef = el;
-				}}
-				class={joinClass(props.palette, styles.panel)}
-			>
+			<div popover="auto" ref={el => (popRef = el)} class={joinClass(props.palette, styles.panel)}>
 				{props.prompt ?? l.t('_c.areYouSure')}
 				<div class={styles.actions}>
 					<Button.Root palette="secondary" onclick={() => popRef.hidePopover()}>
 						{props.cancel ?? l.t('_c.cancel')}
 					</Button.Root>
 
-					<Button.Root
-						palette="primary"
-						ref={el => {
-							el.root().autofocus = true;
-						}}
-						onclick={confirm}
-					>
+					<Button.Root palette="primary" ref={el => (el.root().autofocus = true)} onclick={confirm}>
 						{props.ok ?? l.t('_c.ok')}
 					</Button.Root>
 				</div>

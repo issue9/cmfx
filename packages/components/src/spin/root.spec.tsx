@@ -13,14 +13,7 @@ describe('Spin', async () => {
 	let ref: Ref;
 	const [spin, setSpin] = createSignal(false);
 	const ct = await ComponentTester.build('Spin', props => (
-		<Root
-			{...props}
-			indicator="def"
-			spinning={spin()}
-			ref={el => {
-				ref = el;
-			}}
-		>
+		<Root {...props} indicator="def" spinning={spin()} ref={el => (ref = el)}>
 			abc
 		</Root>
 	));

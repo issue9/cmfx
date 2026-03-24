@@ -125,15 +125,9 @@ export function Root(props: Props): JSX.Element {
 
 				if (props.ref) {
 					props.ref({
-						root() {
-							return el;
-						},
-						echarts() {
-							return inst;
-						},
-						update(o: Option) {
-							inst.setOption(o);
-						},
+						root: () => el,
+						echarts: () => inst,
+						update: inst.setOption,
 					});
 				}
 			}}

@@ -106,9 +106,7 @@ export function Root(props: Props): JSX.Element {
 
 			<WeekPanel.Root
 				{...panelProps}
-				ref={el => {
-					panelRef = el.root();
-				}}
+				ref={el => (panelRef = el.root())}
 				popover="auto"
 				disabled={props.disabled}
 				aria-haspopup

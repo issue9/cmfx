@@ -42,14 +42,7 @@ const items: Array<MenuItem> = [
 describe('Dropdown', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('Dropdown', props => (
-		<Root
-			{...props}
-			items={items}
-			onChange={() => {}}
-			ref={el => {
-				ref = el;
-			}}
-		/>
+		<Root {...props} items={items} onChange={() => {}} ref={el => (ref = el)} />
 	));
 
 	test('ref', () => {

@@ -43,15 +43,7 @@ const items: Array<MenuItem> = [
 describe('Menu', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('Menu', props => (
-		<Root
-			{...props}
-			multiple
-			items={items}
-			value={['v1', 'v233']}
-			ref={el => {
-				ref = el;
-			}}
-		/>
+		<Root {...props} multiple items={items} value={['v1', 'v233']} ref={el => (ref = el)} />
 	));
 
 	test('ref', async () => {

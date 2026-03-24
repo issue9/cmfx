@@ -10,13 +10,7 @@ import { type Ref, Root } from './basic';
 describe('BasicTable', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('BasicTable', props => (
-		<Root
-			{...props}
-			columns={[]}
-			ref={el => {
-				ref = el;
-			}}
-		/>
+		<Root {...props} columns={[]} ref={el => (ref = el)} />
 	));
 
 	test('props', () => ct.testProps());

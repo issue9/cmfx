@@ -123,15 +123,7 @@ export function Root<T extends Row, Q extends Query = Query>(props: Props<T, Q>)
 		}
 	});
 
-	return (
-		<LoaderTable.Root
-			ref={el => {
-				ref = el;
-			}}
-			{...tableProps}
-			load={load}
-		/>
-	);
+	return <LoaderTable.Root ref={el => (ref = el)} {...tableProps} load={load} />;
 }
 
 function buildPagingLoadFunc<T extends Row, Q extends Query>(

@@ -125,9 +125,7 @@ export function Root(props: Props): JSX.Element {
 
 				<YearPanel
 					popover="auto"
-					ref={el => {
-						yearRef = el;
-					}}
+					ref={el => (yearRef = el)}
 					palette={props.palette}
 					value={value()?.getFullYear()}
 					min={props.min ? props.min.getFullYear() : undefined}

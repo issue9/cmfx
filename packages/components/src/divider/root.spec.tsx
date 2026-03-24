@@ -14,13 +14,7 @@ describe('Divider', async () => {
 	let ref: Ref;
 	const [pos, setPos] = createSignal<Props['pos']>();
 	const ct = await ComponentTester.build('Divider', props => (
-		<Root
-			pos={pos()}
-			{...props}
-			ref={el => {
-				ref = el;
-			}}
-		>
+		<Root pos={pos()} {...props} ref={el => (ref = el)}>
 			abc
 		</Root>
 	));

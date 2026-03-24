@@ -15,15 +15,7 @@ const steps: Array<Step> = [
 
 describe('Tour', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('Tour', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			steps={steps}
-			{...props}
-		/>
-	));
+	const ct = await ComponentTester.build('Tour', props => <Root ref={el => (ref = el)} steps={steps} {...props} />);
 
 	test('props', () => ct.testProps());
 	test('ref', () => {

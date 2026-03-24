@@ -426,18 +426,14 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 								kind="fill"
 								palette="tertiary"
 								onclick={async () => await refetch()}
-								aria-label={l.t('_c.refresh')}
+								ref={el => {
+									el.root().ariaLabel = l.t('_c.refresh');
+								}}
 								title={l.t('_c.refresh')}
 							>
 								<IconRefresh />
 							</Button.Root>
-							<ToggleButton.FitScreen
-								rounded
-								kind="fill"
-								palette="tertiary"
-								container={ref!.root().root()}
-								aria-title={l.t('_c.table.fitScreen')}
-							/>
+							<ToggleButton.FitScreen rounded kind="fill" palette="tertiary" container={ref!.root().root()} />
 							<PrintButton.Root
 								rounded
 								kind="fill"

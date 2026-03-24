@@ -11,13 +11,7 @@ import type { Ref } from './types';
 describe('Tab', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('Tab', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			items={[{ id: 'id' }]}
-			{...props}
-		/>
+		<Root ref={el => (ref = el)} items={[{ id: 'id' }]} {...props} />
 	));
 
 	test('props', () => {
