@@ -177,7 +177,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 							</Button.Root>
 						</Dropdown.Root>
 
-						<ToggleButton.FullScreen kind="flat" square title={l.t('_c.fullscreen')} />
+						<ToggleButton.FullScreen kind="flat" />
 
 						<Button.Root type="a" kind="flat" square href={pkg.repository.url}>
 							<IconGithub />

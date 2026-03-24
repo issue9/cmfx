@@ -102,7 +102,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 				<Show when={props.max}>
 					<ToggleButton.FitScreen
-						square
 						container={ctx.dialog.root()}
 						onToggle={async v => {
 							if (v) {

@@ -8,6 +8,7 @@ const messages: Messages = {
 	_c: {
 		fullscreen: '全屏',
 		successful: '成功',
+		fitscreen: '扩大至整个浏览器',
 		ok: '确定',
 		os: '操作系统',
 		cpu: 'CPU',
@@ -100,7 +101,6 @@ const messages: Messages = {
 			striped: '条纹间隔 {num}',
 			noStriped: '无',
 			stickyHeader: '固定表格头',
-			fitScreen: '扩展至整个屏幕大小',
 			downloadFilename: '下载的文件名',
 			deleteRow: '删除',
 		},

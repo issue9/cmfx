@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, type MountProps } from '@cmfx/components';
+import { Button, ButtonGroup, type MountProps, PrintButton } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';
@@ -16,6 +16,8 @@ export default function (props: MountProps): JSX.Element {
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
+	let ref: HTMLElement;
+
 	return (
 		<div>
 			<Portal mount={props.mount}>
@@ -24,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 			</Portal>
 
-			<div class="flex flex-wrap items-center gap-2">
+			<div class="flex flex-wrap items-center gap-2" ref={el => (ref = el)}>
 				<ButtonGroup.Root rounded={rounded()} palette="primary" kind={kind()} disabled={disabled()}>
 					<Button.Root checked>abc</Button.Root>
 					<Button.Root>def</Button.Root>
@@ -41,6 +43,7 @@ export default function (props: MountProps): JSX.Element {
 					<Button.Root square>
 						<IconFace />
 					</Button.Root>
+					<PrintButton.Root element={() => ref} />
 					<Button.Root square>
 						<IconClose />
 					</Button.Root>

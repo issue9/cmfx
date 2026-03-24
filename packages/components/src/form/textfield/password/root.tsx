@@ -51,7 +51,6 @@ export function Root(props: Props): JSX.Element {
 			suffix={
 				<ToggleButton.Root
 					kind="flat"
-					square
 					disabled={props.disabled || props.readonly}
 					value={props.visible}
 					off={<IconVisibility />}

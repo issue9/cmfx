@@ -19,6 +19,9 @@
             - ButtonGroup.RootProps
             - ButtonGroup.RootRef
 
+            - PrintButton.RootProps
+            - PrintButton.RootRef
+
             - ToggleButton.RootProps
             - ToggleButton.RootRef
             - ToggleButton.FitScreenProps

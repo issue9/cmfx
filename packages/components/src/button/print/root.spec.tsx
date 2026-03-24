@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025-2026 caixw
+// SPDX-FileCopyrightText: 2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,15 +9,18 @@ import { type Ref, Root } from './root';
 
 describe('Button', async () => {
 	let ref: Ref;
+	let html!: HTMLElement;
 	const ct = await ComponentTester.build('Button', props => (
-		<Root
-			{...props}
-			ref={el => {
-				ref = el;
-			}}
-		>
-			button
-		</Root>
+		<div>
+			<div>elem</div>
+			<Root
+				{...props}
+				element={() => html}
+				ref={el => {
+					ref = el;
+				}}
+			/>
+		</div>
 	));
 
 	test('props', async () => ct.testProps());

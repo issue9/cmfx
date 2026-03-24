@@ -21,11 +21,7 @@ describe('FullScreen', async () => {
 describe('FitScreen', async () => {
 	let container: HTMLDivElement;
 	const ct = await ComponentTester.build('FitScreen', props => (
-		<div
-			ref={el => {
-				container = el;
-			}}
-		>
+		<div ref={el => (container = el)}>
 			<FitScreen container={container} {...props} />
 		</div>
 	));

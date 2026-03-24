@@ -20,8 +20,7 @@ import styles from './style.module.css';
  */
 export function createFullscreen(hk?: Hotkey): Component {
 	return () => {
-		const l = useLocale();
-		return <ToggleButton.FullScreen hotkey={hk} square type="button" kind="flat" title={l.t('_c.fullscreen')} />;
+		return <ToggleButton.FullScreen hotkey={hk} square type="button" kind="flat" />;
 	};
 }
 

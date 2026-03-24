@@ -11,13 +11,7 @@ import { type Ref, Root } from './root';
 describe('SplitButton', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('SplitButton', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			{...props}
-			items={[]}
-		>
+		<Root ref={el => (ref = el)} {...props} items={[]}>
 			<Button.Root>btn1</Button.Root>
 		</Root>
 	));

@@ -6,6 +6,7 @@ const messages = {
 	_c: {
 		fullscreen: 'Full screen',
 		successful: 'Successful',
+		fitscreen: 'Fit screen',
 		ok: 'OK',
 		os: 'OS',
 		cpu: 'CPU',
@@ -99,7 +100,6 @@ const messages = {
 			striped: 'Striped {num}',
 			noStriped: 'No striped',
 			stickyHeader: 'Sticky header',
-			fitScreen: 'Fit screen',
 			downloadFilename: 'The filename of download',
 			deleteRow: 'Delete row',
 		},

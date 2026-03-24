@@ -9,6 +9,9 @@ import styles from './style.module.css';
  *
  * @param elem - 该元素会被打印；
  * @param cls - 额外的 CSS 类；
+ *
+ * @remarks
+ * 这会通过 cloneNode 创建新的节点，cls 只会应用在新节点上。
  */
 export function printElement(elem: HTMLElement, cls?: string): void {
 	const node = document.createElement('div');

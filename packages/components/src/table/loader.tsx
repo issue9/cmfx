@@ -3,19 +3,18 @@
 // SPDX-License-Identifier: MIT
 
 import type { FlattenKeys, Page, Query } from '@cmfx/core';
-import { Exporter, printElement } from '@cmfx/core';
+import { Exporter } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, type JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconExcel from '~icons/icon-park-twotone/excel';
 import IconCSV from '~icons/material-symbols/csv';
 import IconODS from '~icons/material-symbols/ods';
-import IconPrint from '~icons/material-symbols/print';
 import IconRefresh from '~icons/material-symbols/refresh';
 import IconReset from '~icons/material-symbols/restart-alt';
 import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import type { Palette, RefProps } from '@components/base';
-import { Button, SplitButton, ToggleButton } from '@components/button';
+import { Button, PrintButton, SplitButton, ToggleButton } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
@@ -433,27 +432,19 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 								<IconRefresh />
 							</Button.Root>
 							<ToggleButton.FitScreen
-								square
 								rounded
 								kind="fill"
 								palette="tertiary"
 								container={ref!.root().root()}
 								aria-title={l.t('_c.table.fitScreen')}
-								title={l.t('_c.table.fitScreen')}
 							/>
-							<Button.Root
+							<PrintButton.Root
 								rounded
-								square
 								kind="fill"
 								palette="tertiary"
-								aria-label={l.t('_c.print')}
-								title={l.t('_c.print')}
-								onclick={() => {
-									printElement(ref.root().root().querySelector('table')!, styles.table);
-								}}
-							>
-								<IconPrint />
-							</Button.Root>
+								element={() => ref.root().root().querySelector('table')!}
+								printClass={styles.table}
+							/>
 						</div>
 					</Show>
 				</div>

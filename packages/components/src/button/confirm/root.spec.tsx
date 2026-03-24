@@ -16,6 +16,7 @@ describe('ConfirmButton', async () => {
 	));
 
 	test('props', () => ct.testProps(ref.button().root()));
+
 	test('ref', () => {
 		expect(ref).toBeDefined();
 		expect(ref.button()).toBeDefined();

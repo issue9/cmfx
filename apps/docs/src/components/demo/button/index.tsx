@@ -15,6 +15,8 @@ import { default as Confirm } from './confirm';
 import { default as confirm } from './confirm.tsx?raw';
 import { default as Group } from './group';
 import { default as group } from './group.tsx?raw';
+import { default as Print } from './print';
+import { default as print } from './print.tsx?raw';
 import { default as Split } from './split';
 import { default as split } from './split.tsx?raw';
 import { default as Toggle } from './toggle';
@@ -34,7 +36,8 @@ export default function (): Info {
 			{ component: Toggle, source: toggle, title: 'toggle button' },
 			{ component: Block, source: block, title: 'block' },
 			{ component: Group, source: group, title: 'group' },
-			{ component: Split, source: split, title: 'SplitMenu' },
+			{ component: Split, source: split, title: 'SplitButton' },
+			{ component: Print, source: print, title: 'PrintButton' },
 		],
 	};
 }

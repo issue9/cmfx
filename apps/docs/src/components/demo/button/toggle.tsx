@@ -30,7 +30,6 @@ export default function (props: MountProps): JSX.Element {
 
 			<div class="flex flex-wrap items-center gap-2">
 				<ToggleButton.Root
-					square
 					disabled={disabled()}
 					rounded={rounded()}
 					kind={kind()}
@@ -45,7 +44,6 @@ export default function (props: MountProps): JSX.Element {
 				/>
 
 				<ToggleButton.FullScreen
-					square
 					disabled={disabled()}
 					rounded={rounded()}
 					kind={kind()}
@@ -53,7 +51,6 @@ export default function (props: MountProps): JSX.Element {
 					hotkey={new Hotkey('a', 'alt')}
 				/>
 				<ToggleButton.FullScreen
-					square
 					disabled={disabled()}
 					rounded={rounded()}
 					kind={kind()}
@@ -65,7 +62,6 @@ export default function (props: MountProps): JSX.Element {
 
 				<div class="bg-palette-bg" ref={el => (screenElement = el)}>
 					<ToggleButton.FitScreen
-						square
 						disabled={disabled()}
 						rounded={rounded()}
 						kind={kind()}

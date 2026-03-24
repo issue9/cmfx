@@ -11,12 +11,7 @@ import { type Ref, Root } from './root';
 describe('ButtonGroup', async () => {
 	let ref: Ref;
 	const ct = await ComponentTester.build('ButtonGroup', props => (
-		<Root
-			ref={el => {
-				ref = el;
-			}}
-			{...props}
-		>
+		<Root ref={el => (ref = el)} {...props}>
 			<Button.Root>btn1</Button.Root>
 		</Root>
 	));

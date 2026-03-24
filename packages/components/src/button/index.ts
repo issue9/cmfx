@@ -5,5 +5,6 @@
 export * from './button';
 export * from './confirm';
 export * from './group';
+export * from './print';
 export * from './split';
 export * from './toggle';

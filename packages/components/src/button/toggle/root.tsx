@@ -11,6 +11,7 @@ import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 import type { RefProps } from '@components/base';
 import { Button } from '@components/button/button';
 import { presetProps } from '@components/button/common/types';
+import { useLocale } from '@components/context';
 import { IconSet } from '@components/icon';
 import styles from './style.module.css';
 
@@ -21,7 +22,7 @@ export interface Ref extends Button.RootRef<false> {
 	toggle(): Promise<void>;
 }
 
-export interface Props extends Omit<Button.ButtonProps, 'onclick' | 'children' | 'ref'>, RefProps<Ref> {
+export interface Props extends Omit<Button.ButtonProps, 'onclick' | 'children' | 'ref' | 'square'>, RefProps<Ref> {
 	/**
 	 * 指定按钮的状态
 	 *
@@ -88,6 +89,7 @@ export function Root(props: Props): JSX.Element {
 	return (
 		<Button.Root
 			{...btnProps}
+			square
 			onclick={toggle}
 			ref={el => {
 				if (props.ref) {
@@ -103,7 +105,7 @@ export function Root(props: Props): JSX.Element {
 	);
 }
 
-export type FullScreenProps = Omit<Props, 'on' | 'off' | 'value'>;
+export type FullScreenProps = Omit<Props, 'on' | 'off' | 'value' | 'title'>;
 
 /**
  * 切换全屏状态的按钮
@@ -113,6 +115,7 @@ export type FullScreenProps = Omit<Props, 'on' | 'off' | 'value'>;
  */
 export function FullScreen(props: FullScreenProps): JSX.Element {
 	props = mergeProps({ disabled: !document.fullscreenEnabled }, props);
+	const l = useLocale();
 	const [fs, setFS] = createSignal(!document.fullscreenElement);
 
 	// 有可能浏览器通过其它方式控制全屏功能
@@ -142,10 +145,19 @@ export function FullScreen(props: FullScreenProps): JSX.Element {
 		return undefined;
 	};
 
-	return <Root {...props} value={fs()} onToggle={toggle} on={<IconFullScreen />} off={<IconFullScreenExit />} />;
+	return (
+		<Root
+			{...props}
+			value={fs()}
+			title={l.t('_c.fullscreen')}
+			onToggle={toggle}
+			on={<IconFullScreen />}
+			off={<IconFullScreenExit />}
+		/>
+	);
 }
 
-export type FitScreenProps = Omit<Props, 'on' | 'off' | 'value'> & {
+export type FitScreenProps = Omit<Props, 'on' | 'off' | 'value' | 'title'> & {
 	/**
 	 * 指定需要扩展的容器
 	 */
@@ -158,6 +170,7 @@ export type FitScreenProps = Omit<Props, 'on' | 'off' | 'value'> & {
  * NOTE: 需要保证当前组件必须在 {@link FitScreenProps#container} 之内，否则可能会无法退回原来状态的可能。
  */
 export function FitScreen(props: FitScreenProps): JSX.Element {
+	const l = useLocale();
 	const [_, btnProps] = splitProps(props, ['container']);
 	const toggle = async (v: boolean): Promise<boolean | undefined> => {
 		v = props.container.classList.toggle(styles['fit-screen']);
@@ -172,5 +185,7 @@ export function FitScreen(props: FitScreenProps): JSX.Element {
 		return v;
 	};
 
-	return <Root {...btnProps} onToggle={toggle} on={<IconCollapse />} off={<IconExpand />} />;
+	return (
+		<Root {...btnProps} title={l.t('_c.fitscreen')} onToggle={toggle} on={<IconCollapse />} off={<IconExpand />} />
+	);
 }
