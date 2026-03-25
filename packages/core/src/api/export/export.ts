@@ -4,9 +4,9 @@
 
 import xlsx from 'xlsx';
 
-import type { Page, Query } from '@core/api';
 import type { CellRenderFunc, CellType, Column } from './column';
 import { presetCellRenderFunc } from './column';
+import type { Page, Query } from './query';
 
 /**
  * 从服务器获取数据的函数签名

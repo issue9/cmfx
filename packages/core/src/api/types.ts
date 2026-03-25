@@ -97,14 +97,3 @@ export type Return<R = never, PE = never> =
 			 */
 			ok: true;
 	  };
-
-/**
- * 分页接口返回的对象
- *
- * @typeParam T - 表示当前页的类型
- */
-export interface Page<T> {
-	count: number;
-	current: Array<T>;
-	more?: boolean;
-}

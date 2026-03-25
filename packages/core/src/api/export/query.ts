@@ -43,3 +43,14 @@ export function query2Search<Q extends Query>(q: Q): string {
 	const qs = s.toString();
 	return qs ? `?${qs}` : '';
 }
+
+/**
+ * 分页接口返回的对象
+ *
+ * @typeParam T - 表示当前页的类型
+ */
+export interface Page<T> {
+	count: number;
+	current: Array<T>;
+	more?: boolean;
+}
