@@ -16,6 +16,7 @@
 		"noEmit": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
+		"strictNullChecks": true,
 		"noFallthroughCasesInSwitch": true,
 		"composite": true
 	}
