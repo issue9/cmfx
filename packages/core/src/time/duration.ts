@@ -18,7 +18,7 @@ export const minute = 60 * second;
 export const hour = 60 * minute;
 export const day = 24 * hour;
 
-const nameValues: Array<[keyof Intl.DurationInput, number]> = [
+const nameValues: Array<[Intl.DurationFormatUnit, number]> = [
 	['nanoseconds', 1],
 	['microseconds', us],
 	['milliseconds', ms],
@@ -29,7 +29,7 @@ const nameValues: Array<[keyof Intl.DurationInput, number]> = [
 ] as const;
 
 // https://cs.opensource.google/go/go/+/refs/tags/go1.23.1:src/time/format.go;l=1601
-const unitNames: ReadonlyMap<string, keyof Intl.DurationInput> = new Map([
+const unitNames: ReadonlyMap<string, Intl.DurationFormatUnit> = new Map([
 	['ns', 'nanoseconds'],
 	['us', 'microseconds'],
 	['µs', 'microseconds'], // U+00B5 = micro symbol
@@ -99,12 +99,10 @@ export function parseDuration(val?: Duration): number {
 }
 
 /**
- * 将纳秒转换为 {@link Intl#DurationInput} 类型
- *
- * 该值可用于 {@link Intl#DurationFormat.format} 方法。
+ * 函数返回的值值可用于 {@link Intl#DurationFormat.format} 方法。
  */
-export function nano2IntlDuration(nano: number): Intl.DurationInput {
-	const obj: Intl.DurationInput = {};
+export function nano2IntlDuration(nano: number): Partial<Record<Intl.DurationFormatUnit, number>> {
+	const obj: Partial<Record<Intl.DurationFormatUnit, number>> = {};
 	let hasField = false; // 是否有字段已经设置过值
 	for (let i = 1; i < nameValues.length; i++) {
 		const curr = nameValues[i];

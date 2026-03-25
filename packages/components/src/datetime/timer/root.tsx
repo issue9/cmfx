@@ -106,7 +106,7 @@ const secondsInHour = 60 * 60;
 export function Root(props: Props): JSX.Element {
 	props = mergeProps(presetProps, props);
 
-	const [dur, setDur] = createSignal<Intl.DurationInput>(nano2IntlDuration(parseDuration(props.duration)));
+	const [dur, setDur] = createSignal(nano2IntlDuration(parseDuration(props.duration)));
 
 	let timer: Accessor<ReturnType<typeof createTimer>>;
 	timer = createMemo(() => {

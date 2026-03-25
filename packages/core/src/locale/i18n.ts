@@ -306,9 +306,7 @@ export class I18n implements Locale {
 			o.style = this.#durationStyle;
 		}
 
-		// https://github.com/microsoft/TypeScript/issues/60608
-		// biome-ignore lint/suspicious/noExplicitAny: TODO: DurationFormat 上线之后可删除。
-		return new (Intl as any).DurationFormat(this.locale, o);
+		return new Intl.DurationFormat(this.locale, o);
 	}
 
 	relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat {

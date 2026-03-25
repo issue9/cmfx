@@ -6,6 +6,7 @@
 		"noEmit": true,
 		"isolatedModules": true,
 		"rootDir": "./src",
+		"types": ["node"],
 		"outDir": "./lib"
 	},
 	"include": ["./src/**/*.ts", "../vite.config.common.ts"],

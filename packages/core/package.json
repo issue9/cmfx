@@ -39,7 +39,6 @@
 		"build": "vite build"
 	},
 	"dependencies": {
-		"@formatjs/intl-durationformat": "catalog:",
 		"bowser": "catalog:",
 		"cbor2": "^2.3.0",
 		"intl-messageformat": "catalog:",
