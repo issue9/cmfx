@@ -1,7 +1,6 @@
 {
 	"extends": "../../build/tsconfig.base.json",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"types": ["vite/client"],
 		"paths": {
 			"@core/*": ["src/*"]

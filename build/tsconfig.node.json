@@ -6,8 +6,6 @@
 		"target": "ESNext",
 		"moduleResolution": "bundler",
 		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true, // 更好的包兼容
-		"forceConsistentCasingInFileNames": true, // 区分文件名大小写
-		"strict": true
+		"forceConsistentCasingInFileNames": true // 区分文件名大小写
 	}
 }
