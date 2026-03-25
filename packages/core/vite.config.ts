@@ -20,8 +20,6 @@ export default defineConfig({
 		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),
 	],
 
-	define: { 'process.env': {} },
-
 	resolve: {
 		tsconfigPaths: true,
 	},

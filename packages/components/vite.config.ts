@@ -31,8 +31,6 @@ export default defineConfig({
 		tailwindcss(),
 	],
 
-	define: { 'process.env': {} },
-
 	resolve: {
 		tsconfigPaths: true,
 	},
