@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import '../../tailwind.css'; // 需要启用样式表
+import '@cmfx/theme/style.css'; // 需要启用样式表
 
 import { wcag } from './theme';
 

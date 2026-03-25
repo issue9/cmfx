@@ -7,10 +7,10 @@ import { describe, expect, test } from 'vitest';
 import { ComponentTester } from '@components/context/context.spec';
 import { type Ref, Root } from './root';
 
-describe('Button', async () => {
+describe('PrintButton', async () => {
 	let ref: Ref;
 	let html!: HTMLElement;
-	const ct = await ComponentTester.build('Button', props => (
+	const ct = await ComponentTester.build('PrintButton', props => (
 		<div>
 			<div>elem</div>
 			<Root {...props} element={() => html} ref={el => (ref = el)} />

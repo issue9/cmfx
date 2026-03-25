@@ -63,6 +63,7 @@ export function Root(props: Props): JSX.Element {
 
 	return (
 		<Button.Root
+			onclick={print}
 			square={props.display === 'icon'}
 			title={props.display === 'icon' ? l.t('_c.print') : undefined}
 			{...props}
@@ -76,7 +77,6 @@ export function Root(props: Props): JSX.Element {
 					});
 				}
 			}}
-			onclick={print}
 		>
 			<Switch fallback={<IconPrint />}>
 				<Match when={props.display === 'all'}>

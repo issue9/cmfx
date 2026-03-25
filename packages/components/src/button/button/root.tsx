@@ -129,6 +129,7 @@ export function Root(props: Props) {
 			'ref',
 			'type',
 			'href',
+			'hotkey',
 		]);
 
 		const aref = props.ref;
@@ -169,7 +170,17 @@ export function Root(props: Props) {
 	props = mergeProps(presetProps, props);
 
 	// btnProps 中包含了传递的 onclick 事件
-	const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'square', 'class', 'ref', 'type']);
+	const [_, btnProps] = splitProps(props, [
+		'kind',
+		'rounded',
+		'palette',
+		'children',
+		'square',
+		'class',
+		'ref',
+		'type',
+		'hotkey',
+	]);
 	return (
 		<button
 			{...btnProps}
