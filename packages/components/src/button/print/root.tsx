@@ -4,7 +4,7 @@
 
 import { printElement } from '@cmfx/core';
 import type { JSX } from 'solid-js';
-import { Match, mergeProps, Switch } from 'solid-js';
+import { Match, mergeProps, Switch, splitProps } from 'solid-js';
 import IconPrint from '~icons/material-symbols/print';
 
 import type { BaseRef, RefProps } from '@components/base';
@@ -54,6 +54,7 @@ export interface Props
  */
 export function Root(props: Props): JSX.Element {
 	props = mergeProps({ display: 'icon' as Display }, props);
+	const [, p] = splitProps(props, ['ref', 'element', 'printClass', 'display']);
 
 	const l = useLocale();
 
@@ -65,10 +66,12 @@ export function Root(props: Props): JSX.Element {
 		<Button.Root
 			onclick={print}
 			square={props.display === 'icon'}
-			title={props.display === 'icon' ? l.t('_c.print') : undefined}
-			{...props}
+			{...p}
 			ref={el => {
 				el.root().ariaLabel = l.t('_c.print');
+				if (props.display === 'icon' || !props.display) {
+					el.root().title = l.t('_c.print');
+				}
 
 				if (props.ref) {
 					props.ref({

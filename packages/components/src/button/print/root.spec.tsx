@@ -11,10 +11,10 @@ describe('PrintButton', async () => {
 	let ref: Ref;
 	let html!: HTMLElement;
 	const ct = await ComponentTester.build('PrintButton', props => (
-		<div>
-			<div>elem</div>
+		<>
 			<Root {...props} element={() => html} ref={el => (ref = el)} />
-		</div>
+			<div>elem</div>
+		</>
 	));
 
 	test('props', async () => ct.testProps());
