@@ -36,7 +36,7 @@ export function match(
 		let bestValue = 0; // 匹配程度，越高越匹配。
 
 		for (const a of available) {
-			const al = new Intl.Locale(Intl.getCanonicalLocales(a)[0]); // 不能直接转换整个 availables，需要保证元素项的值不变。
+			const al = new Intl.Locale(Intl.getCanonicalLocales(a)[0]); // 不能直接转换整个 available，需要保证元素项的值不变。
 
 			if (al.baseName === rl.baseName && bestValue < 6) {
 				best = a;

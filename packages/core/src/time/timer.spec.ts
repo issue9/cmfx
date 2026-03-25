@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
+import { sleep } from '@core/time';
 import { createTimer } from './timer';
 
 describe('createTimer', () => {
