@@ -8,10 +8,9 @@ import tailwindcss from '@tailwindcss/vite';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import customIcons from '../../build/unplugin-icons';
-import { buildPostBanner } from '../../build/vite.config.base';
+import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
 import pkg from './package.json' with { type: 'json' };
 
 // https://vitejs.dev/config/
@@ -70,18 +69,16 @@ export default defineConfig(({ mode }) => {
 				customCollections: customIcons,
 			}),
 			tailwindcss(),
-			viteStaticCopy({
-				targets: [
-					{ src: path.resolve(__dirname, '../../LICENSE'), dest: path.resolve(__dirname, './') },
-					{
-						src: path.resolve(__dirname, '../../assets/brand-static.svg'),
-						dest: path.resolve(__dirname, './public'),
-						transform: (content, _) => {
-							return content.replace(/currentColor/g, '#00a1f1');
-						},
+			vitePluginCopyFile([
+				{ src: '../../LICENSE', dest: '../../docs' },
+				{
+					src: '../../assets/brand-static.svg',
+					dest: './public',
+					transform: content => {
+						return content.replace(/currentColor/g, '#00a1f1');
 					},
-				],
-			}),
+				},
+			]),
 			solidPlugin(),
 		],
 	};

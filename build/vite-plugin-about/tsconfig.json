@@ -8,6 +8,6 @@
 		"rootDir": "./src",
 		"outDir": "./lib"
 	},
-	"include": ["./src/**/*.ts", "../vite.config.base.ts"],
+	"include": ["./src/**/*.ts", "../vite.config.common.ts"],
 	"exclude": ["lib", "node_modules"]
 }

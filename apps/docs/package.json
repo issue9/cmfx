@@ -45,7 +45,6 @@
 		"typescript": "catalog:",
 		"unplugin-icons": "catalog:",
 		"vite": "catalog:",
-		"vite-plugin-solid": "catalog:",
-		"vite-plugin-static-copy": "catalog:"
+		"vite-plugin-solid": "catalog:"
 	}
 }

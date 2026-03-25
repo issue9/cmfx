@@ -46,7 +46,6 @@
 		"@types/node": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-dts": "catalog:",
-		"vite-plugin-static-copy": "catalog:",
 		"vitest": "catalog:"
 	},
 	"dependencies": {

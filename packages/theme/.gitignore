@@ -1,0 +1,5 @@
+node_modules/
+lib/
+
+# 以下文件是从根目录复制的
+/LICENSE

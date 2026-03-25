@@ -2,18 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import path from 'node:path';
 import tailwindcss from '@tailwindcss/vite';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
 
-import { buildPostBanner } from '../../build/vite.config.base';
+import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
 import pkg from './package.json' with { type: 'json' };
-
-const outDir = './lib';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,9 +22,7 @@ export default defineConfig({
 			rollupTypes: true,
 			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts', './src/**/*.spec.tsx'],
 		}),
-		viteStaticCopy({
-			targets: [{ src: path.resolve(__dirname, '../../LICENSE'), dest: path.resolve(__dirname, outDir) }],
-		}),
+		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),
 		tailwindcss(),
 	],
 
@@ -40,7 +34,7 @@ export default defineConfig({
 
 	build: {
 		minify: true,
-		outDir: outDir,
+		outDir: './lib',
 		lib: {
 			entry: {
 				index: './src/index.ts',

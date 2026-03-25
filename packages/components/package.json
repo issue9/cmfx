@@ -70,7 +70,6 @@
 		"vite": "catalog:",
 		"vite-plugin-dts": "catalog:",
 		"vite-plugin-solid": "catalog:",
-		"vite-plugin-static-copy": "catalog:",
 		"vitest-fetch-mock": "catalog:",
 		"vitest": "catalog:"
 	}

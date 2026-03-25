@@ -44,7 +44,6 @@
 		"@tailwindcss/vite": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
-		"vite-plugin-solid": "catalog:",
-		"vite-plugin-static-copy": "catalog:"
+		"vite-plugin-solid": "catalog:"
 	}
 }

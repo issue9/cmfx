@@ -52,7 +52,6 @@
 		"typescript": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-dts": "catalog:",
-		"vite-plugin-static-copy": "catalog:",
 		"vitest-fetch-mock": "catalog:",
 		"vitest": "catalog:"
 	}

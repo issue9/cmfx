@@ -7,3 +7,4 @@
 - tsconfig.base.json 前端项目的基础配置；
 - tsconfig.node.json 前端项目中与 node 相关的基础配置，比如插件开发，或是 vite.config.ts 等；
 - unplugin-icons 前端项目中与自定义图标相关的 vite 插件配置；
+- vite.config.common.ts 为 vite.config.ts 提供一些公共的功能以及一些简单的插件；

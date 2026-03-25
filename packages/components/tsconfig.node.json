@@ -4,6 +4,6 @@
 		"vite.config.ts",
 		"./src/vitest_setup.ts",
 		"../../build/unplugin-icons.ts",
-		"../../build/vite.config.base.ts"
+		"../../build/vite.config.common.ts"
 	]
 }
