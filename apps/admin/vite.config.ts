@@ -70,6 +70,7 @@ export default defineConfig(({ mode }) => {
 			vitePluginCopyFile([
 				{ src: '../../LICENSE', dest: '' },
 				{
+					before: true, // 需要在打包之前完成复制
 					src: '../../assets/brand-static.svg',
 					dest: 'public',
 					transform: content => {
