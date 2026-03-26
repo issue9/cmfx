@@ -6,6 +6,11 @@ import type { JSX } from 'solid-js';
 
 import type { Palette } from './theme';
 
+/**
+ * 定义了可用于使用的枚举值类型，要求唯一且可比较。
+ */
+export type AvailableEnumType = string | number;
+
 export const layouts = ['horizontal', 'vertical'] as const;
 
 /**
@@ -27,7 +32,7 @@ export interface StyleProps {
 	 * 为组件的根元素指定 CSS 类名
 	 *
 	 * @remarks
-	 * 为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，
+	 * 为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，
 	 * 以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。
 	 *
 	 * @reactive
@@ -38,7 +43,7 @@ export interface StyleProps {
 	 * 组件根元素的样式
 	 *
 	 * @remarks
-	 * 相对于 {@link Props."class"}，一些简短的样式设置，直接使用此属性更方便，
+	 * 相对于 {@link class}，一些简短的样式设置，直接使用此属性更方便，
 	 * 还有一些自定义的样式变量也可以使用此属性设置。
 	 *
 	 * @reactive

@@ -4,6 +4,7 @@
 
 import './style.css';
 
+import type { Options } from '@cmfx/admin';
 import {
 	admins,
 	create,
@@ -12,7 +13,6 @@ import {
 	createSearch,
 	current,
 	members,
-	type Options,
 	roles,
 	system,
 } from '@cmfx/admin';

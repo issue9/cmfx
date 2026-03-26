@@ -2,9 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { AvailableEnumType } from './enum';
 export { PropsError } from './errors';
 export { classList, cloneElement, handleEvent, joinClass, style2String } from './func';
 export * from './theme';
-export type { ChangeFunc, Layout, MountProps, Props as BaseProps, Ref as BaseRef, RefProps, StyleProps } from './types';
+export type {
+	AvailableEnumType,
+	ChangeFunc,
+	Layout,
+	MountProps,
+	Props as BaseProps,
+	Ref as BaseRef,
+	RefProps,
+	StyleProps,
+} from './types';
 export { layouts } from './types';

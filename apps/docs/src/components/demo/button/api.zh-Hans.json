@@ -77,14 +77,14 @@
 					{
 						"name": "class",
 						"summary": "为组件的根元素指定 CSS 类名\n\n",
-						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 						"type": "string | undefined",
 						"reactive": true
 					},
 					{
 						"name": "style",
 						"summary": "组件根元素的样式\n\n",
-						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 						"type": "string | JSX.CSSProperties | undefined",
 						"reactive": true
 					},
@@ -173,14 +173,14 @@
 					{
 						"name": "class",
 						"summary": "为组件的根元素指定 CSS 类名\n\n",
-						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 						"type": "string | undefined",
 						"reactive": true
 					},
 					{
 						"name": "style",
 						"summary": "组件根元素的样式\n\n",
-						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 						"type": "string | JSX.CSSProperties | undefined",
 						"reactive": true
 					},
@@ -385,14 +385,14 @@
 							{
 								"name": "style",
 								"summary": "组件根元素的样式\n\n",
-								"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+								"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 								"type": "string | JSX.CSSProperties | undefined",
 								"reactive": true
 							},
 							{
 								"name": "class",
 								"summary": "为组件的根元素指定 CSS 类名\n\n",
-								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 								"type": "string | undefined",
 								"reactive": true
 							},
@@ -444,14 +444,14 @@
 							{
 								"name": "style",
 								"summary": "组件根元素的样式\n\n",
-								"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+								"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 								"type": "string | JSX.CSSProperties | undefined",
 								"reactive": true
 							},
 							{
 								"name": "class",
 								"summary": "为组件的根元素指定 CSS 类名\n\n",
-								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 								"type": "string | undefined",
 								"reactive": true
 							},
@@ -544,14 +544,14 @@
 							{
 								"name": "style",
 								"summary": "组件根元素的样式\n\n",
-								"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+								"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 								"type": "string | JSX.CSSProperties | undefined",
 								"reactive": true
 							},
 							{
 								"name": "class",
 								"summary": "为组件的根元素指定 CSS 类名\n\n",
-								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 								"type": "string | undefined",
 								"reactive": true
 							},
@@ -603,14 +603,14 @@
 							{
 								"name": "style",
 								"summary": "组件根元素的样式\n\n",
-								"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+								"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 								"type": "string | JSX.CSSProperties | undefined",
 								"reactive": true
 							},
 							{
 								"name": "class",
 								"summary": "为组件的根元素指定 CSS 类名\n\n",
-								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 								"type": "string | undefined",
 								"reactive": true
 							},
@@ -753,14 +753,14 @@
 			{
 				"name": "style",
 				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
 			},
 			{
 				"name": "class",
 				"summary": "为组件的根元素指定 CSS 类名\n\n",
-				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 				"type": "string | undefined",
 				"reactive": true
 			},
@@ -842,7 +842,7 @@
 			{
 				"name": "style",
 				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
 			},
@@ -860,7 +860,7 @@
 			{
 				"name": "class",
 				"summary": "为组件的根元素指定 CSS 类名\n\n",
-				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 				"type": "string | undefined",
 				"reactive": true
 			},
@@ -964,7 +964,7 @@
 			{
 				"name": "style",
 				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
 			},
@@ -988,7 +988,7 @@
 			{
 				"name": "class",
 				"summary": "为组件的根元素指定 CSS 类名\n\n",
-				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 				"type": "string | undefined",
 				"reactive": true
 			},
@@ -1070,7 +1070,7 @@
 					{
 						"name": "style",
 						"summary": "组件根元素的样式\n\n",
-						"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 						"type": "string | JSX.CSSProperties | undefined",
 						"reactive": true
 					},
@@ -1088,7 +1088,7 @@
 					{
 						"name": "class",
 						"summary": "为组件的根元素指定 CSS 类名\n\n",
-						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 						"type": "string | undefined",
 						"reactive": true
 					},
@@ -1161,7 +1161,7 @@
 			{
 				"name": "style",
 				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n`Props\nclass`\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
 			},
@@ -1179,7 +1179,7 @@
 			{
 				"name": "class",
 				"summary": "为组件的根元素指定 CSS 类名\n\n",
-				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 calss 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
 				"type": "string | undefined",
 				"reactive": true
 			},

@@ -92,7 +92,7 @@ export default function Stage(props: Props): JSX.Element {
 				<div class={styles.demo} ref={setDemoRef} style={{ height: props.height }}>
 					<div class={styles.toolbar}>
 						<div class={styles.left}>
-							<ToggleButton.FitScreen square container={demoRef()!} />
+							<ToggleButton.FitScreen container={demoRef()!} />
 
 							<ButtonGroup.Root>
 								<Button.Root square checked={dir() === 'rtl'} onclick={() => setDir('rtl')}>
