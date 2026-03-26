@@ -127,7 +127,7 @@ export function Root(props: Props): JSX.Element {
 					props.ref({
 						root: () => el,
 						echarts: () => inst,
-						update: inst.setOption,
+						update: o => inst.setOption(o),
 					});
 				}
 			}}

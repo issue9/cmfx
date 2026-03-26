@@ -71,7 +71,7 @@ export type ToggleButtonProps = Omit<TB.RootProps, 'onToggle' | 'value' | 'on' |
  * 生成一个用于显示和隐藏侧边栏的按钮组件
  */
 export function ToggleButton(p: ToggleButtonProps): JSX.Element {
-	const [hidden, setHidden] = createSignal(!!p.drawer); // 按钮的显示状态
+	const [hidden, setHidden] = createSignal(!p.drawer); // 按钮的显示状态
 
 	const ob = new ResizeObserver(e => {
 		setHidden(getComputedStyle(e[0].target).getPropertyValue('position') !== 'absolute');

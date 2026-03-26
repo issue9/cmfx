@@ -8,7 +8,7 @@ import * as echarts from 'echarts';
 /**
  * 创建用于加载 echarts 语言包的加载器
  * @param obj - 需要加载的内容，比如 `(await import(`../../node_modules/echarts/lib/i18n/langEN.js`)).default`；
- * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；
+ * @returns 返回的是一个 {@link DictLoader} 函数；
  */
 export function createChartLocaleLoader(obj: Parameters<typeof echarts.registerLocale>[1]): DictLoader {
 	return async (locale: string): Promise<Dict | undefined> => {
