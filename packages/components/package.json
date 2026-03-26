@@ -36,9 +36,9 @@
 		},
 		"./style.css": "./lib/style.css",
 		"./tailwind.css": "./lib/tailwind.css",
-		"./messages/": {
-			"require": "./lib/messages/",
-			"import": "./lib/messages/"
+		"./*.lang": {
+			"types": "./lib/*.lang.d.ts",
+			"import": "./lib/*.lang.js"
 		}
 	},
 	"scripts": {
@@ -46,7 +46,6 @@
 	},
 	"dependencies": {
 		"@cmfx/core": "workspace:*",
-		"@cmfx/theme": "workspace:*",
 		"@iconify/json": "catalog:",
 		"@iconsets/svg-morpheus-ts": "^1.4.12",
 		"@solidjs/router": "catalog:",

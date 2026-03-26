@@ -38,9 +38,17 @@ export default defineConfig(({ mode }) => {
 							{ find: '@cmfx/core', replacement: path.resolve(__dirname, '../../packages/core/src') },
 							{ find: '@core', replacement: path.resolve(__dirname, '../../packages/core/src') },
 
+							{
+								find: /^@cmfx\/admin\/(.*).lang/,
+								replacement: path.resolve(__dirname, `../../packages/admin/src/messages/$1.lang.ts`),
+							},
 							{ find: '@cmfx/admin', replacement: path.resolve(__dirname, '../../packages/admin/src') },
 							{ find: '@admin', replacement: path.resolve(__dirname, '../../packages/admin/src') }, // 解决 admin 中的 @admin 引用
 
+							{
+								find: /^@cmfx\/components\/(.*).lang/,
+								replacement: path.resolve(__dirname, `../../packages/components/src/messages/$1.lang.ts`),
+							},
 							{ find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
 							{ find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') }, // 解决 admin 中的 @admin 引用
 

@@ -134,9 +134,6 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../../packages/illustrations
-      '@cmfx/theme':
-        specifier: workspace:*
-        version: link:../../packages/theme
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.454
@@ -195,9 +192,6 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../../packages/illustrations
-      '@cmfx/theme':
-        specifier: workspace:*
-        version: link:../../packages/theme
       '@cmfx/vite-plugin-api':
         specifier: workspace:*
         version: link:../../build/vite-plugin-api
@@ -315,9 +309,6 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../illustrations
-      '@cmfx/theme':
-        specifier: workspace:*
-        version: link:../theme
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.454
@@ -373,9 +364,6 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core
-      '@cmfx/theme':
-        specifier: workspace:*
-        version: link:../theme
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.454
@@ -489,9 +477,6 @@ importers:
       '@cmfx/components':
         specifier: workspace:*
         version: link:../components
-      '@cmfx/theme':
-        specifier: workspace:*
-        version: link:../theme
       solid-js:
         specifier: 'catalog:'
         version: 1.9.12
@@ -517,8 +502,6 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.1(@types/node@25.5.0)(jsdom@29.0.1)(vite@8.0.2(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3))
-
-  packages/theme: {}
 
 packages:
 
@@ -2558,7 +2541,7 @@ packages:
     hasBin: true
 
   xlsx@https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz:
-    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz}
+    resolution: {integrity: sha512-oLDq3jw7AcLqKWH2AhCpVTZl8mf6X2YReP+Neh0SJUzV/BdZYjth94tG5toiMB1PPrYtxOCfaoUCkvtuH+3AJA==, tarball: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz}
     version: 0.20.3
     engines: {node: '>=0.8'}
     hasBin: true

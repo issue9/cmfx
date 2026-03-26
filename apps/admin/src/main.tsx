@@ -134,10 +134,10 @@ const o: Options = {
 	messages: {
 		en: [
 			async () => {
-				return (await import('@cmfx/components/messages/en.lang.js')).default;
+				return (await import('@cmfx/components/en.lang')).default;
 			},
 			async () => {
-				return (await import('@cmfx/admin/messages/en.lang.js')).default;
+				return (await import('@cmfx/admin/en.lang')).default;
 			},
 			async () => {
 				return (await import('./locales/en')).default;
@@ -147,10 +147,10 @@ const o: Options = {
 		],
 		'zh-Hans': [
 			async () => {
-				return (await import('@cmfx/components/messages/zh-Hans.lang.js')).default;
+				return (await import('@cmfx/components/zh-Hans.lang')).default;
 			},
 			async () => {
-				return (await import('@cmfx/admin/messages/zh-Hans.lang.js')).default;
+				return (await import('@cmfx/admin/zh-Hans.lang')).default;
 			},
 			async () => {
 				return (await import('./locales/zh-Hans')).default;

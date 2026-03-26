@@ -39,6 +39,10 @@ export default defineConfig(({ mode }) => {
 							{ find: '@cmfx/core', replacement: path.resolve(__dirname, '../../packages/core/src') },
 							{ find: '@core', replacement: path.resolve(__dirname, '../../packages/core/src') },
 
+							{
+								find: /^@cmfx\/components\/(.*).lang/,
+								replacement: path.resolve(__dirname, `../../packages/components/src/messages/$1.lang.ts`),
+							},
 							{ find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
 							{ find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') },
 
