@@ -12,11 +12,16 @@ import customIcons from '../../build/unplugin-icons';
 import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
 import pkg from './package.json' with { type: 'json' };
 
+const outDir = './lib';
+
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
 		solidPlugin(),
-		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),
+		vitePluginCopyFile([
+			{ src: '../../LICENSE', dest: '' },
+			{ src: './src/tailwind.css', dest: outDir },
+		]),
 		Icons({
 			compiler: 'solid',
 			scale: 1,
@@ -37,7 +42,7 @@ export default defineConfig({
 
 	build: {
 		minify: true,
-		outDir: './lib',
+		outDir: outDir,
 		lib: {
 			entry: {
 				index: './src/index.ts',

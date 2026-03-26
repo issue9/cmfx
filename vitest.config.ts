@@ -26,7 +26,6 @@ export default defineConfig({
 	],
 	test: {
 		projects: [
-			'packages/theme',
 			'packages/core',
 			'packages/components',
 			'packages/illustrations',

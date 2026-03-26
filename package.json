@@ -4,7 +4,7 @@
 	"type": "module",
 	"private": true,
 	"engines": {
-		"node": ">=23.0.0"
+		"node": ">=24.0.0"
 	},
 	"author": {
 		"name": "caixw",
@@ -24,7 +24,6 @@
 		"apps/docs",
 		"build/vite-plugin-about",
 		"build/vite-plugin-api",
-		"packages/theme",
 		"packages/core",
 		"packages/components",
 		"packages/illustrations",

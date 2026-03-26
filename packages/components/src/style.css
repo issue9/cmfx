@@ -6,7 +6,7 @@
 
 @import "tailwindcss";
 
-@import "@cmfx/theme/style.css";
+@import "./tailwind.css";
 @import "@cmfx/core/style.css";
 @import "./global.css";
 @import "./drawer/utility.css";

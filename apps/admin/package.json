@@ -25,7 +25,6 @@
 	"dependencies": {
 		"@cmfx/admin": "workspace:*",
 		"@cmfx/components": "workspace:*",
-		"@cmfx/theme": "workspace:*",
 		"@cmfx/illustrations": "workspace:*",
 		"@cmfx/core": "workspace:*",
 		"@iconify/json": "catalog:",

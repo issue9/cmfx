@@ -172,7 +172,7 @@ changelog:
 
 publish-npm: build-ts
 	pnpm publish --filter=./packages/core --filter=./packages/components \
-	--filter=./packages/admin --filter=./packages/illustrations --filter=./packages/theme \
+	--filter=./packages/admin --filter=./packages/illustrations \
 	--filter=./build/vite-plugin-about --filter=./build/vite-plugin-api \
 	--access=public --no-git-checks
 
