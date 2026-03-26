@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Amico from './amico';
+export * as amico from './amico';
 export type { Props, Ref } from './common/props';

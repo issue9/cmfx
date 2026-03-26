@@ -52,6 +52,10 @@ export default defineConfig(({ mode }) => {
 							{ find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
 							{ find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') }, // 解决 admin 中的 @admin 引用
 
+							{
+								find: /^@cmfx\/illustrations\/(.*).lang/,
+								replacement: path.resolve(__dirname, `../../packages/illustrations/src/messages/$1.lang.ts`),
+							},
 							{ find: '@cmfx/illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
 							{ find: '@illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
 						],

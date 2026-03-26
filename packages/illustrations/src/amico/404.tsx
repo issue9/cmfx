@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'Page Not Found';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示 404 错误的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'Page Not Found';
  * https://storyset.com/illustration/404-error/amico
  */
 export default function Error404(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function Error404(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.pageNotFound')}</title>
 			<defs>
 				<path
 					id="illustrations-404-1"
@@ -440,7 +439,7 @@ export default function Error404(props: Props): JSX.Element {
 					/>
 				</g>
 				<text x="232" y="420" text-anchor="middle" transform="skewY(-30)" style="font-size:.9rem;fill:#e0e0e0">
-					{props.text}
+					{props.text || l.t('_i.pageNotFound')}
 				</text>
 			</g>
 			<g id="freepik--speech-bubble--inject-79">

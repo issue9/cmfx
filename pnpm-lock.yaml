@@ -477,6 +477,9 @@ importers:
       '@cmfx/components':
         specifier: workspace:*
         version: link:../components
+      '@cmfx/core':
+        specifier: workspace:*
+        version: link:../core
       solid-js:
         specifier: 'catalog:'
         version: 1.9.12

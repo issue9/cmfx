@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'Service Unavailable';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示 503 错误的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'Service Unavailable';
  * https://storyset.com/illustration/503-error-service-unavailable/amico
  */
 export default function Error503(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function Error503(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.serviceUnavailable')}</title>
 			<defs>
 				<polygon
 					id="illustrations-503-1"
@@ -651,7 +650,7 @@ export default function Error503(props: Props): JSX.Element {
 								ERROR
 							</text>
 							<text x="355" y="-34" text-anchor="middle" transform="skewY(30)" style="font-size:.6rem;fill:#455a64">
-								{props.text}
+								{props.text || l.t('_i.serviceUnavailable')}
 							</text>
 						</g>
 					</g>

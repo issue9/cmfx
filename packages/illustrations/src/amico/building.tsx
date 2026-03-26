@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'building...';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示项目正在升级或是创建的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'building...';
  * https://storyset.com/illustration/under-construction/amico
  */
 export default function Building(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function Building(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.building')}</title>
 			<defs>
 				<path
 					id="illustrations-building-1"
@@ -1665,7 +1664,7 @@ export default function Building(props: Props): JSX.Element {
 					transform="skewY(-30)"
 					style="font-size:.7rem;font-weight:bold;fill:var(--palette-bg)"
 				>
-					{props.text}
+					{props.text || l.t('_i.building')}
 				</text>
 			</g>
 			<g id="freepik--Character--inject-143">

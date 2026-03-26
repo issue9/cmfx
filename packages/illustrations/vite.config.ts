@@ -34,6 +34,8 @@ export default defineConfig({
 		lib: {
 			entry: {
 				index: './src/index.ts',
+				'en.lang': './src/messages/en.lang.ts',
+				'zh-Hans.lang': './src/messages/zh-Hans.lang.ts',
 			},
 			formats: ['es'],
 			fileName: (_, name) => `${name}.js`,

@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@cmfx/components';
-import { mergeProps } from 'solid-js';
 
 import styles from './style.module.css';
 
@@ -16,10 +15,6 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @reactive
 	 */
 	text?: string;
-}
-
-export function mergeText(props: Props, text?: string): Props {
-	return mergeProps({ text }, props);
 }
 
 export function buildClass(props: Props): string | undefined {

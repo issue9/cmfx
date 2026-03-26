@@ -133,28 +133,18 @@ const o: Options = {
 
 	messages: {
 		en: [
-			async () => {
-				return (await import('@cmfx/components/en.lang')).default;
-			},
-			async () => {
-				return (await import('@cmfx/admin/en.lang')).default;
-			},
-			async () => {
-				return (await import('./locales/en')).default;
-			},
+			async () => (await import('@cmfx/components/en.lang')).default,
+			async () => (await import('@cmfx/admin/en.lang')).default,
+			async () => (await import('@cmfx/illustrations/en.lang')).default,
+			async () => (await import('./locales/en')).default,
 			createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langEN.js')).default),
 			createZodLocaleLoader((await import('../node_modules/zod/v4/locales/en.js')).default),
 		],
 		'zh-Hans': [
-			async () => {
-				return (await import('@cmfx/components/zh-Hans.lang')).default;
-			},
-			async () => {
-				return (await import('@cmfx/admin/zh-Hans.lang')).default;
-			},
-			async () => {
-				return (await import('./locales/zh-Hans')).default;
-			},
+			async () => (await import('@cmfx/components/zh-Hans.lang')).default,
+			async () => (await import('@cmfx/admin/zh-Hans.lang')).default,
+			async () => (await import('@cmfx/illustrations/zh-Hans.lang')).default,
+			async () => (await import('./locales/zh-Hans')).default,
 			createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langZH.js')).default),
 			createZodLocaleLoader((await import('../node_modules/zod/v4/locales/zh-CN.js')).default),
 		],

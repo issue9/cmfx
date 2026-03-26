@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'Bad Request';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示 400 错误的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'Bad Request';
  * https://storyset.com/illustration/400-error-bad-request/amico
  */
 export default function Error400(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function Error400(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.badRequest')}</title>
 			<defs>
 				<path
 					id="illustrations-400-1"
@@ -786,7 +785,7 @@ export default function Error400(props: Props): JSX.Element {
 
 			<g id="freepik--error-400--inject-112">
 				<text x="250" y="108" text-anchor="middle" style="font-size:1.2rem;font-weight:bold;fill:var(--palette-fg-low)">
-					{props.text}
+					{props.text || l.t('_i.badRequest')}
 				</text>
 				<text
 					x="253"

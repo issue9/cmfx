@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'BUG';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示未知错误的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'BUG';
  * https://storyset.com/illustration/bug-fixing/amico
  */
 export default function BUG(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function BUG(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.bug')}</title>
 			<defs>
 				<path
 					id="illustrations-bug-1"

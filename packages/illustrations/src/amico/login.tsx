@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'User Login';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示登录的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'User Login';
  * https://storyset.com/illustration/login/amico
  */
 export default function Login(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function Login(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.userLogin')}</title>
 			<defs>
 				<path
 					id="illustrations-login-1"
@@ -190,7 +189,7 @@ export default function Login(props: Props): JSX.Element {
 					transform="skewY(-30)"
 					style="font-size:.7rem;font-weight:bold;fill:currentColor"
 				>
-					{props.text}
+					{props.text || l.t('_i.userLogin')}
 				</text>
 				<path
 					d="M277.87,224.4,268.16,230l1.51-13.62c-1.17-.62-1.91-2.13-1.91-4.3,0-3.87,2.36-8.36,5.26-10s5.25.1,5.25,4a13.26,13.26,0,0,1-1.9,6.5Z"

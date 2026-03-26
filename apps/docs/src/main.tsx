@@ -22,7 +22,7 @@ import {
 	useTheme,
 } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
-import { Amico } from '@cmfx/illustrations';
+import { amico } from '@cmfx/illustrations';
 import { type RouteDefinition, type RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, type JSX, lazy } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
@@ -212,7 +212,7 @@ function NotFound(): JSX.Element {
 	});
 
 	return (
-		<Result.Root palette="error" title={text()} illustration={<Amico.Error404 text={text()} />}>
+		<Result.Root palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
 			<div class={styles['error-actions']}>
 				<Button.Root palette="primary" type="a" href="/">
 					{l.t('_d.error.backHome')}

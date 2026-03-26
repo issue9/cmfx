@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps } from '@cmfx/components';
-import { Amico } from '@cmfx/illustrations';
+import { amico } from '@cmfx/illustrations';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -11,7 +11,7 @@ import { boolSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
-	const [Custom, custom] = boolSelector('自定义文字内容', false);
+	const [Custom, custom] = boolSelector('自定义错误信息', false);
 
 	return (
 		<>
@@ -20,10 +20,10 @@ export default function (props: MountProps): JSX.Element {
 				<Custom />
 			</Portal>
 
-			<Amico.Error504
+			<amico.Error504
 				class="aspect-square w-full bg-palette-bg"
 				palette={palette()}
-				text={custom() ? '网 关 超 时' : undefined}
+				text={custom() ? '自定义错误信息' : undefined}
 			/>
 		</>
 	);

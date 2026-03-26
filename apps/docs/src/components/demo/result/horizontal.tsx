@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type MountProps, Result } from '@cmfx/components';
-import { Amico } from '@cmfx/illustrations';
+import { amico } from '@cmfx/illustrations';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -22,7 +22,7 @@ export default function (props: MountProps): JSX.Element {
 				layout="horizontal"
 				title="internal server error"
 				palette={palette()}
-				illustration={<Amico.Error404 />}
+				illustration={<amico.Error404 />}
 			>
 				自定义内容!
 			</Result.Root>

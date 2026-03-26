@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'Payment Required';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示 402 错误的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'Payment Required';
  * https://storyset.com/illustration/e-wallet/amico
  */
 export default function Error402(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function Error402(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.paymentRequired')}</title>
 			<defs>
 				<path
 					id="illustrations-402-1"
@@ -646,7 +645,7 @@ export default function Error402(props: Props): JSX.Element {
 					transform="skewY(-30) scale(1,1.5)"
 					style="font-size:.72rem;font-weight:bold;fill:var(--palette-fg-low)"
 				>
-					{props.text}
+					{props.text || l.t('_i.paymentRequired')}
 				</text>
 				<text
 					x="289"

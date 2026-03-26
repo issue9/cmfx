@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'Too Many Requests';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示 429 错误的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'Too Many Requests';
  * https://storyset.com/illustration/error-429/amico
  */
 export default function Error429(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function Error429(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.tooManyRequests')}</title>
 			<defs>
 				<path id="illustrations-429-1" d="M135.44,280.79,98,259.19l-.12,43.94,55.94,32.31.07-22.64Z" />
 				<path id="illustrations-429-2" d="M153.92,312.8l107.35-62.39-18.47-32L135.44,280.79Z" />
@@ -189,7 +188,7 @@ export default function Error429(props: Props): JSX.Element {
 					/>
 				</g>
 				<text x="167" y="235.5" text-anchor="middle" transform="skewY(-30)" style="font-size:.9rem;fill:#fafafa">
-					{props.text}
+					{props.text || l.t('_i.tooManyRequests')}
 				</text>
 				<use href="#illustrations-429-8" fill="currentColor" />
 				<use href="#illustrations-429-8" style="fill:#fff;opacity:.1" />

@@ -33,6 +33,10 @@
 			"types": "./lib/index.d.ts",
 			"import": "./lib/index.js"
 		},
+		"./*.lang": {
+			"types": "./lib/*.lang.d.ts",
+			"import": "./lib/*.lang.js"
+		},
 		"./style.css": "./lib/style.css"
 	},
 	"scripts": {
@@ -40,6 +44,7 @@
 	},
 	"dependencies": {
 		"@cmfx/components": "workspace:*",
+		"@cmfx/core": "workspace:*",
 		"solid-js": "catalog:",
 		"tailwindcss": "catalog:"
 	},

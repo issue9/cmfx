@@ -1,10 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, mergeText, type Props } from '../common/props';
-
-const presetText = 'Forbidden';
+import { buildClass, type Props } from '../common/props';
 
 /**
  * 表示 403 错误的 SVG 插画组件
@@ -12,7 +11,7 @@ const presetText = 'Forbidden';
  * https://storyset.com/illustration/403-error-forbidden/amico
  */
 export default function Error403(props: Props): JSX.Element {
-	props = mergeText(props, presetText);
+	const l = useLocale();
 
 	return (
 		<svg
@@ -24,7 +23,7 @@ export default function Error403(props: Props): JSX.Element {
 			aria-hidden={true}
 			ref={el => props.ref?.({ root: () => el })}
 		>
-			<title>{props.text}</title>
+			<title>{props.text || l.t('_i.forbidden')}</title>
 			<defs>
 				<polygon id="illustrations-403-1" points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" />
 				<polygon
@@ -535,7 +534,7 @@ export default function Error403(props: Props): JSX.Element {
 					transform="skewY(-30) scale(1,1.5)"
 					style="font-size:.8rem;font-weight:bold;fill:var(--palette-bg)"
 				>
-					{props.text}
+					{props.text || l.t('_i.forbidden')}
 				</text>
 			</g>
 			<g id="freepik--Plant--inject-121">
