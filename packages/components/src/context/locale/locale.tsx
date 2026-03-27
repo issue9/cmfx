@@ -7,8 +7,7 @@ import { I18n } from '@cmfx/core';
 import type { Accessor, JSX, ParentProps } from 'solid-js';
 import { createContext, createEffect, createSignal, useContext } from 'solid-js';
 
-import { useOptions } from './context';
-import { ContextNotFoundError } from './errors';
+import { ContextNotFoundError } from '@components/context/errors';
 
 export type Props = ParentProps<{
 	/**
@@ -97,14 +96,17 @@ export function useLocale(): Locale {
  * 除去 children 之外的可选属性，如果未指定，会尝试向上一层的 `<LocaleProvider>` 组件查找对应的值。
  */
 export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
-	const pl = useContext(localeContext);
-	const [accessor] = useOptions();
+	// 顶层的 LocaleProvider 由 OptionsProvider 调用，必须提供完整的参数，
+	// 所以后续所有属性都可以从顶层对象获取当前实例不存在的参数并合并入当前实例。
+
+	const p = useContext(localeContext);
+	const parent = p ? p() : undefined;
 
 	const [get, set] = createSignal<Locale>(
 		new I18n(
 			props.id,
-			props.displayStyle ?? (pl ? pl().displayStyle : accessor.getDisplayStyle()),
-			props.timezone ?? (pl ? pl().timezone : accessor.getTimezone()),
+			props.displayStyle ?? parent!.displayStyle, // 如果 props.displayStyle 为空，则必存在 parent.displayStyle
+			props.timezone ?? parent!.timezone,
 		),
 	);
 
@@ -112,8 +114,8 @@ export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
 		set(
 			new I18n(
 				props.id,
-				props.displayStyle ?? (pl ? pl().displayStyle : accessor.getDisplayStyle()),
-				props.timezone ?? (pl ? pl().timezone : accessor.getTimezone()),
+				props.displayStyle ?? parent!.displayStyle, // 如果 props.displayStyle 为空，则必存在 parent.displayStyle
+				props.timezone ?? parent!.timezone,
 			),
 		);
 	});

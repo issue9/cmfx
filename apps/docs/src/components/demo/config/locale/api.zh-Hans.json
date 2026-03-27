@@ -1,6 +1,6 @@
 [
 	{
-		"name": "LocaleProps",
+		"name": "LocaleProviderProps",
 		"kind": "intersection",
 		"types": [
 			{
