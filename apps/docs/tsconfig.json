@@ -5,7 +5,7 @@
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
 		"paths": {
-			"@docs/*": ["src/*"]
+			"@docs/*": ["./src/*"]
 		},
 		"outDir": "../../docs"
 	},

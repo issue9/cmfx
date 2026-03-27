@@ -5,7 +5,7 @@
 		"jsxImportSource": "solid-js",
 		"types": ["vite/client", "@testing-library/jest-dom", "unplugin-icons/types/solid"],
 		"paths": {
-			"@components/*": ["src/*"]
+			"@components/*": ["./src/*"]
 		},
 		"outDir": "./lib"
 	},

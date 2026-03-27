@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"types": ["vite/client"],
 		"paths": {
-			"@core/*": ["src/*"]
+			"@core/*": ["./src/*"]
 		},
 		"outDir": "./lib"
 	},

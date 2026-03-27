@@ -64,7 +64,7 @@ export type Props = ParentProps<
  * 除去 children 之外的可选属性，如果未指定，会尝试向上一层的 `<ThemeProvider>` 组件查找对应的值。
  *
  * 如果 {@link Props#children} 不是 HTMLElement 类型，将不启作用。
- * 只对被包含的元素起作用，如果是通过 Protal 将元素放到外层的，不会启作用，比如 notify 的通知框。
+ * 只对被包含的元素起作用，如果是通过 Portal 将元素放到外层的，不会启作用，比如 notify 的通知框。
  */
 export function ThemeProvider(props: Omit<Props, 'p'>): JSX.Element {
 	const [, theme] = splitProps(props, ['children']);
@@ -90,7 +90,7 @@ export function ThemeProvider(props: Omit<Props, 'p'>): JSX.Element {
 			<For each={children(() => props.children).toArray()}>
 				{(item, index) => {
 					if (index() === 0) {
-						// chindren 发生了变化，重置 list
+						// children 发生了变化，重置 list
 						list = [];
 					}
 					// 当两个 ThemeProvider 成包含关系时，子类会先于父类调用，所以要判断每个元素是不是已经设置了主题值。

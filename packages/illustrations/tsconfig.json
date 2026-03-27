@@ -3,9 +3,9 @@
 	"compilerOptions": {
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
-		"types": ["vite/client", "@testing-library/jest-dom"],
+		"types": ["vite/client"],
 		"paths": {
-			"@illustrations/*": ["src/*"]
+			"@illustrations/*": ["./src/*"]
 		},
 		"outDir": "./lib"
 	},
