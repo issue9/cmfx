@@ -6,14 +6,14 @@ packages:
   - apps/admin
 
 catalog:
-  '@iconify/json': ^2.2.454
+  '@iconify/json': ^2.2.455
   '@solidjs/router': ^0.16.1
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.2.2
   '@testing-library/jest-dom': ^6.9.1
   '@testing-library/user-event': ^14.6.1
   '@types/node': ^25.5.0
-  '@vitest/coverage-v8': ^4.1.1
+  '@vitest/coverage-v8': ^4.1.2
   autoprefixer: ^10.4.27
   bowser: ^2.14.1
   colorjs.io: ^0.6.1
@@ -24,10 +24,10 @@ catalog:
   tailwindcss: ^4.2.2
   typescript: ^6.0.2
   unplugin-icons: ^23.0.1
-  vite: ^8.0.2
+  vite: ^8.0.3
   vite-plugin-dts: ^4.5.4
   vite-plugin-solid: ^2.11.11
-  vitest: ^4.1.1
+  vitest: ^4.1.2
   vitest-fetch-mock: ^0.4.5
   yaml: ^2.8.3
   zod: ^4.3.6
