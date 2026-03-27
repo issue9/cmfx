@@ -726,9 +726,9 @@
 			{
 				"name": "menu",
 				"summary": "下拉菜单的元素\n\n",
-				"type": "menu(): Menu.RootRef",
+				"type": "menu(): Menu.RootRef<'menu'>",
 				"return": {
-					"type": "Ref_9"
+					"type": "Ref_9<\"menu\">"
 				}
 			},
 			{

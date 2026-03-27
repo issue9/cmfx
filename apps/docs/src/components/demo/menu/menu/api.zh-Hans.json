@@ -1,6 +1,7 @@
 [
 	{
 		"name": "Menu.RootProps",
+		"summary": "菜单组件的属性\n\n",
 		"kind": "union",
 		"types": [
 			{
@@ -12,6 +13,11 @@
 						"name": "T",
 						"type": "AvailableEnumType",
 						"init": "string"
+					},
+					{
+						"name": "TAG",
+						"type": "Tag",
+						"init": "'menu'"
 					}
 				],
 				"properties": [
@@ -47,8 +53,8 @@
 					{
 						"name": "tag",
 						"summary": "根元素的标签类型\n\n",
-						"type": "\"menu\" | \"nav\" | undefined",
-						"def": "'nav'\n\n"
+						"type": "TAG | undefined",
+						"def": "'menu'\n\n"
 					},
 					{
 						"name": "selectedClass",
@@ -101,6 +107,11 @@
 						"name": "T",
 						"type": "AvailableEnumType",
 						"init": "string"
+					},
+					{
+						"name": "TAG",
+						"type": "Tag",
+						"init": "'menu'"
 					}
 				],
 				"properties": [
@@ -137,8 +148,8 @@
 					{
 						"name": "tag",
 						"summary": "根元素的标签类型\n\n",
-						"type": "\"menu\" | \"nav\" | undefined",
-						"def": "'nav'\n\n"
+						"type": "TAG | undefined",
+						"def": "'menu'\n\n"
 					},
 					{
 						"name": "selectedClass",
@@ -189,6 +200,13 @@
 	{
 		"kind": "interface",
 		"name": "Menu.RootRef",
+		"typeParams": [
+			{
+				"name": "TAG",
+				"type": "Tag",
+				"init": "'menu'"
+			}
+		],
 		"methods": [
 			{
 				"name": "scrollSelectedIntoView",

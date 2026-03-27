@@ -30,7 +30,9 @@ import { IconSet } from '@components/icon';
 import { buildRenderItemType, type MenuItem, type RenderMenuItem } from './item';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLMenuElement | HTMLElement> {
+type Tag = 'nav' | 'menu';
+
+export interface Ref<TAG extends Tag = 'menu'> extends BaseRef<TAG extends 'menu' ? HTMLMenuElement : HTMLElement> {
 	/**
 	 * 将选中项滚动到可见范围
 	 *
@@ -40,7 +42,7 @@ export interface Ref extends BaseRef<HTMLMenuElement | HTMLElement> {
 	scrollSelectedIntoView(): void;
 }
 
-interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
+interface Base<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> extends BaseProps, RefProps<Ref<TAG>> {
 	/**
 	 * 组件布局方式
 	 *
@@ -64,9 +66,9 @@ interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps
 	/**
 	 * 根元素的标签类型
 	 *
-	 * @defaultValue 'nav'
+	 * @defaultValue 'menu'
 	 */
-	tag?: 'nav' | 'menu';
+	tag?: TAG;
 
 	/**
 	 * 选中项的样式
@@ -88,7 +90,7 @@ interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps
 /**
  * 多选菜单的属性
  */
-export interface MultipleProps<T extends AvailableEnumType = string> extends Base<T> {
+export interface MultipleProps<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> extends Base<T, TAG> {
 	/**
 	 * 是否多选
 	 *
@@ -113,7 +115,7 @@ export interface MultipleProps<T extends AvailableEnumType = string> extends Bas
 /**
  * 单选菜单的属性
  */
-export interface SingleProps<T extends AvailableEnumType = string> extends Base<T> {
+export interface SingleProps<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> extends Base<T, TAG> {
 	/**
 	 * 是否多选
 	 */
@@ -132,17 +134,26 @@ export interface SingleProps<T extends AvailableEnumType = string> extends Base<
 	onChange?: ChangeFunc<T>;
 }
 
-export type Props<T extends AvailableEnumType = string> = SingleProps<T> | MultipleProps<T>;
+/**
+ * 菜单组件的属性
+ *
+ * @typeParam T - 菜单项的值类型；
+ */
+export type Props<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> =
+	| SingleProps<T, TAG>
+	| MultipleProps<T, TAG>;
 
 /**
  * 菜单组件
  *
  * @typeParam T - 选项类型；
  */
-export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
+export function Root<T extends AvailableEnumType = string, TAG extends Tag = 'menu'>(
+	props: Props<T, TAG>,
+): JSX.Element {
 	props = mergeProps(
 		{
-			tag: 'nav' as Props<T>['tag'],
+			tag: 'menu' as Props<T, TAG>['tag'],
 			selectedClass: styles.selected,
 			disabledClass: styles.disabled,
 			layout: 'inline' as Layout,
@@ -157,12 +168,12 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 	createEffect(() => {
 		setSelected(props.multiple ? (props.value ?? []) : props.value ? [props.value] : []);
 	}); // 监视外部变化
-	let ref: HTMLElement;
+	let rootRef: TAG extends 'menu' ? HTMLMenuElement : HTMLElement;
 	const [opt] = useOptions();
 
 	const handleKeydown = (event: KeyboardEvent) => {
 		const active = document.activeElement as HTMLElement | null;
-		if (!ref || !active || !ref.contains(active)) {
+		if (!rootRef || !active || !rootRef.contains(active)) {
 			return;
 		}
 
@@ -470,12 +481,12 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 	return (
 		<Dynamic
 			data-menu-root
-			component={props.tag}
-			ref={(el: HTMLMenuElement | HTMLElement) => {
-				ref = el;
+			component={props.tag as Tag}
+			ref={(el: HTMLElement) => {
+				rootRef = el as TAG extends 'menu' ? HTMLMenuElement : HTMLElement;
 				if (props.ref) {
 					props.ref({
-						root: () => el,
+						root: () => rootRef,
 						scrollSelectedIntoView: () => {
 							sleep(opt.getTransitionDuration()).then(() => {
 								const els = selectedElements(el, true);

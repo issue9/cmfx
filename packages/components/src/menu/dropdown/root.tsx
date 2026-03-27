@@ -28,7 +28,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 下拉菜单的元素
 	 */
-	menu(): Menu.RootRef;
+	menu(): Menu.RootRef<'menu'>;
 }
 
 interface Base extends ParentProps, RefProps<Ref> {
@@ -48,7 +48,8 @@ interface Base extends ParentProps, RefProps<Ref> {
 	/**
 	 * 下拉菜单弹出时的回调函数
 	 *
-	 * @remarks 下拉菜单弹出时的回调函数，其原型为 `(visible: boolean): boolean`，
+	 * @remarks
+	 * 下拉菜单弹出时的回调函数，其原型为 `(visible: boolean): boolean`，
 	 * visible 参数表示当前是否为可见状态，返回值为 `true` 时，将阻止下拉菜单的弹出。
 	 */
 	onPopover?: (visible: boolean) => boolean | undefined;
@@ -107,7 +108,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 	]);
 
 	const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
-	let menuRef: Menu.RootRef;
+	let menuRef: Menu.RootRef<'menu'>;
 	let rootRef: HTMLDivElement;
 	let isOpen = false;
 	const isManual = props.trigger === 'contextmenu' || props.trigger === 'custom';
@@ -239,7 +240,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				layout="vertical"
 				tag="menu"
 				class={joinClass(undefined, styles.dropdown)}
-				ref={(el: Menu.RootRef) => {
+				ref={el => {
 					el.root().tabIndex = -1;
 					el.root().popover = isManual ? 'manual' : 'auto';
 					menuRef = el;
