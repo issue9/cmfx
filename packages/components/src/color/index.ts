@@ -3,3 +3,4 @@
 // SPDX-License-Identifier: MIT
 
 export * as ColorPanel from './mod';
+export { wcag } from './wcag';

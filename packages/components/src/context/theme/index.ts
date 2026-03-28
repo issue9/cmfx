@@ -4,3 +4,4 @@
 
 export type { Props as ThemeProviderProps, Theme } from './theme';
 export { ThemeProvider, useTheme } from './theme';
+export { isReducedMotion } from './utils';

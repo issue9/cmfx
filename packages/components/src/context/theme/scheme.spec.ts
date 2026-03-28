@@ -4,7 +4,8 @@
 
 import { expect, test } from 'vitest';
 
-import { readScheme, type Scheme, writeScheme } from './scheme';
+import type { Scheme } from '@components/base';
+import { readScheme, writeScheme } from './scheme';
 
 test('Scheme', () => {
 	const parent = document.createElement('div');

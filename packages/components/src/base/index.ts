@@ -4,7 +4,9 @@
 
 export { PropsError } from './errors';
 export { classList, cloneElement, handleEvent, joinClass, style2String } from './func';
+export type { Breakpoint, Mode, Palette, Radius, Scheme } from './theme';
 export * from './theme';
+export { breakpoints, modes, palettes } from './theme';
 export type {
 	AvailableEnumType,
 	ChangeFunc,

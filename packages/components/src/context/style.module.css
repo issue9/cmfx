@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference "../../style.css";
+@reference "../style.css";
 
 @layer components {
-	.loading {
-		@apply w-full h-full flex justify-center items-center text-7xl;
+	.root {
+		@apply @container/root;
 	}
 }

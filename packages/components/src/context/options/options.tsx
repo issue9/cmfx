@@ -7,7 +7,8 @@ import type { Component } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 
 import type { BaseProps, Mode, Scheme } from '@components/base';
-import { joinClass, readScheme } from '@components/base';
+import { joinClass } from '@components/base';
+import { readScheme } from '@components/context/theme/scheme';
 import styles from './style.module.css';
 
 /**

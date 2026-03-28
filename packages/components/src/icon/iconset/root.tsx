@@ -7,8 +7,8 @@ import { createEffect, createMemo, type JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import type { BaseProps, BaseRef, RefProps } from '@components/base';
-import { isReducedMotion, joinClass, style2String } from '@components/base';
-import { useOptions } from '@components/context';
+import { joinClass, style2String } from '@components/base';
+import { isReducedMotion, useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export interface Ref extends BaseRef<SVGSVGElement> {

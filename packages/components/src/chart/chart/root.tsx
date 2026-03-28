@@ -5,8 +5,8 @@
 import * as echarts from 'echarts';
 import { createEffect, type JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, isReducedMotion, joinClass, type RefProps } from '@components/base';
-import { useLocale, useOptions } from '@components/context';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { matchLocale } from './locale.ts';
 
 export type Option = echarts.EChartsOption;

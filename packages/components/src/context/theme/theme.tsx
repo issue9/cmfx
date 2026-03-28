@@ -5,8 +5,10 @@
 import type { JSX, ParentProps } from 'solid-js';
 import { children, createContext, createEffect, For, mergeProps, splitProps, useContext } from 'solid-js';
 
-import { changeMode, type Mode, type Scheme, writeScheme } from '@components/base';
+import type { Mode, Scheme } from '@components/base';
 import { ContextNotFoundError } from '@components/context/errors';
+import { changeMode } from './mode';
+import { writeScheme } from './scheme';
 
 const themeContext = createContext<Omit<Props, 'children'>>();
 
