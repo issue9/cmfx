@@ -8,8 +8,8 @@ import { render } from 'solid-js/web';
 
 import { DialogProvider } from '@components/dialog/system';
 import { NotifyProvider } from '@components/notify/notify/notify';
-import { OptionsProvider } from './context';
-import { type Options, requiredOptions } from './options';
+import { OptionsProvider } from './options/context';
+import { type Options, requiredOptions } from './options/options';
 import styles from './style.module.css';
 
 /**
