@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import type { Scheme } from '@components/base';
-import { ComponentTester } from '@components/context/context.spec';
+import { ComponentTester } from '@components/context/options/context.spec';
 import { type Ref, Root } from './root';
 
-describe('ThemeSelector', async () => {
+describe('SchemeSelector', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('ThemeSelector', props => (
+	const ct = await ComponentTester.build('SchemeSelector', props => (
 		<Root ref={el => (ref = el)} schemes={new Map<string, Scheme>()} value="def" {...props} />
 	));
 

@@ -150,7 +150,7 @@ const messages: typeof m = {
 			textarea: 'Textarea 文本域',
 			tooltip: 'Tooltip 提示',
 			themeConfig: 'Theme Config 主题配置',
-			themeSelector: 'Theme Selector 主题选择器',
+			schemeSelector: 'Scheme Selector 主题选择器',
 			time: 'Time 时间',
 			timepanel: 'Time Panel 时间面板',
 			timer: 'Timer 计时器',

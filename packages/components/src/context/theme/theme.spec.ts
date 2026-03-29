@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { schemes } from '@components/theme';
+import { schemes } from '@components/scheme';
 import { applyTheme, hasTheme, type Theme } from './theme';
 
 test('theme', () => {

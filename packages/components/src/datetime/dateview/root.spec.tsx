@@ -5,7 +5,7 @@
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/context.spec';
+import { ComponentTester } from '@components/context/options/context.spec';
 import { inRange, Root } from './root';
 import styles from './style.module.css';
 import type { Ref } from './types';

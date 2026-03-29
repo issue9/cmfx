@@ -4,7 +4,7 @@
 
 import { describe, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/context.spec';
+import { ComponentTester } from '@components/context/options/context.spec';
 import { Root } from './root';
 
 describe('Counter', async () => {

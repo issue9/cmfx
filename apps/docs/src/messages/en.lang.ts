@@ -148,7 +148,7 @@ const messages = {
 			textarea: 'Textarea',
 			tooltip: 'Tooltip',
 			themeConfig: 'Theme Config',
-			themeSelector: 'Theme Selector',
+			schemeSelector: 'Scheme Selector',
 			time: 'Time',
 			timepanel: 'Time Panel',
 			timer: 'Timer',

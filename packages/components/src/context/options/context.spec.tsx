@@ -9,7 +9,7 @@ import type { JSX, ParentProps } from 'solid-js';
 import { afterAll, expect, test } from 'vitest';
 
 import type { BaseProps } from '@components/base';
-import { schemes } from '@components/theme';
+import { schemes } from '@components/scheme';
 import { buildAccessor, OptionsProvider } from './context';
 import { type Options, requiredOptions } from './options';
 
