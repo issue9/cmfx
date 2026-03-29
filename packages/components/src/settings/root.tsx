@@ -26,7 +26,7 @@ import { Divider } from '@components/divider';
 import { Choice, Form, Numeric, RadioGroup, Slider } from '@components/form';
 import { Formatter } from '@components/formatter';
 import { Label } from '@components/label';
-import { SchemeSelector } from '@components/theme';
+import { SchemeSelector } from '@components/scheme';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
