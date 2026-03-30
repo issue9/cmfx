@@ -71,7 +71,7 @@ func TestObject(t *testing.T) {
 func TestGetFieldName(t *testing.T) {
 	a := assert.New(t, false)
 
-	rt := reflect.TypeOf(options{})
+	rt := reflect.TypeFor[options]()
 	a.Equal(getFieldName(rt.Field(0)), "f1").
 		Equal(getFieldName(rt.Field(1)), "F2").
 		Equal(getFieldName(rt.Field(2)), "").
