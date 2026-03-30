@@ -60,7 +60,7 @@ body 可选项，此次更改的具体信息，如果是多行，每行应该保
 
 footer 可选项，一般为关闭 issue 等附加的信息。
 
-BREAKING CHANGE: 如果此次变更对旧版本有破坏性变更，需要在 type 之后加上`!`，并在 body 中以 BREAKING CHANGE: 为开头注明每一项破坏性修改，比如：
+BREAKING CHANGE: 如果此次变更对旧版本有破坏性变更，需要在 type 之后加上`!`，且必须要在 body 中以 BREAKING CHANGE: 为开头注明每一项破坏性修改，比如：
 
 ```git-commit
 fix!: subject

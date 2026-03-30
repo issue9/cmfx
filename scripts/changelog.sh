@@ -31,7 +31,7 @@ function print_break_change() {
 
     LOG=$(git log "$FROM_TAG..$TO_TAG" --pretty=format:"%B" --no-merges \
         --regexp-ignore-case -E --grep='^.+(\([^)]*\))?!:' \
-        | sed -n '/^BREAKING CHANGE:/,/^$/p' | sed 's/^BREAKING CHANGE:[ ]*/- /')
+        | sed -n 's/^\([- ]*\)BREAKING CHANGE:[ ]*\(.*\)/- \2/p')
 
     if [ -n "$LOG" ]; then
         printf "### 破坏性变更\n\n" >> "$TMP_CHANGELOG"
@@ -47,7 +47,7 @@ function print_section() {
 
     LOG=$(git log "$FROM_TAG..$TO_TAG" --pretty=format:"- %s (%h)" --no-merges \
         --regexp-ignore-case -E --grep="^$TYPE(\([^)]*\))?!?:" \
-        | sed -E "s/- $TYPE(\(([^)]*)\))?!?:(.*)/\2:\3\n/; s/^:[[:space:]]//g")
+        | sed -E "s/- $TYPE(\(([^)]*)\))?!?: ?(.*)/- \2\3/")
 
     if [ -n "$LOG" ]; then
         printf "### %s\n\n" "$TITLE" >> "$TMP_CHANGELOG"
