@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# SPDX-FileCopyrightText: 2025-2026 caixw
+#
+# SPDX-License-Identifier: MIT
+
 # 获取当前提交的 commit msg
 commit_msg=$(cat "$1")
 msg_reg="^(feat|fix|docs|style|refactor|perf|test|ci|chore|revert|typo|community|build|release|deps)(\(.+\))?!?: .{1,80}"

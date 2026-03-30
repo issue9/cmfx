@@ -65,9 +65,9 @@ BREAKING CHANGE: 如果此次变更对旧版本有破坏性变更，需要在 ty
 ```git-commit
 fix!: subject
 
-BREAKING CHANGE: change1
+- BREAKING CHANGE: change1
 
-BREAKING CHANGE: change2
+- BREAKING CHANGE: change2
 ```
 
 或是

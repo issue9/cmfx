@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SPDX-FileCopyrightText: 2025 caixw
+# SPDX-FileCopyrightText: 2025-2026 caixw
 #
 # SPDX-License-Identifier: MIT
 
@@ -47,7 +47,7 @@ function print_section() {
 
     LOG=$(git log "$FROM_TAG..$TO_TAG" --pretty=format:"- %s (%h)" --no-merges \
         --regexp-ignore-case -E --grep="^$TYPE(\([^)]*\))?!?:" \
-        | sed -E "s/- $TYPE(\(([^)]*)\))?!?: ?(.*)/- \2\3/")
+        | sed -E "s/- $TYPE(\(([^)]*)\))?!?: ?(.*)/- \2: \3/" | sed -E 's/^- : /- /')
 
     if [ -n "$LOG" ]; then
         printf "### %s\n\n" "$TITLE" >> "$TMP_CHANGELOG"
