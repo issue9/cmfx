@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 
-import { ComponentTester } from '@components/context/context.spec';
+import { ComponentTester } from '@components/context/options/context.spec';
 import { type Ref, Root } from './root';
 
 describe('IconSet', async () => {

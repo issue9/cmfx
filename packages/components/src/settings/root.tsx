@@ -17,16 +17,16 @@ import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
 import type { BaseProps, BaseRef, Mode, RefProps } from '@components/base';
-import { isReducedMotion, joinClass } from '@components/base';
+import { joinClass } from '@components/base';
 import { Button } from '@components/button';
-import { useLocale, useOptions } from '@components/context';
+import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
 import { Choice, Form, Numeric, RadioGroup, Slider } from '@components/form';
 import { Formatter } from '@components/formatter';
 import { Label } from '@components/label';
-import { SchemeSelector } from '@components/theme';
+import { SchemeSelector } from '@components/scheme';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;

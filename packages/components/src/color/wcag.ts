@@ -3,14 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createSignal } from 'solid-js';
-
-export const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
-
-/**
- * 支持的屏幕类型
- */
-export type Breakpoint = (typeof breakpoints)[number];
 
 /**
  * 计算两个颜色值之间的 wcag 值
@@ -26,13 +18,3 @@ export function wcag(c1: string, c2: string, apca?: boolean): string {
 	// apca 中正数表示深色文字在浅色背景上，负数表示浅色文字在深色背景上，所以要做绝对值。
 	return apca ? Math.abs(cc1.contrastAPCA(cc2)).toFixed(0) : cc1.contrastWCAG21(cc2).toFixed(1);
 }
-
-const reducedMotionWatcher = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-const [isReducedMotion, setIsReducedMotion] = createSignal<boolean>(reducedMotionWatcher.matches);
-
-reducedMotionWatcher.addEventListener('change', e => {
-	setIsReducedMotion(e.matches);
-});
-
-export { isReducedMotion };

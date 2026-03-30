@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 
 import '@components/tailwind.css'; // 需要启用样式表
 
-import { wcag } from './theme';
+import { wcag } from './wcag';
 
 describe('wcag', () => {
 	test('2.1', () => {

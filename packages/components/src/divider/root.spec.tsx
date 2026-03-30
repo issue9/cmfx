@@ -6,7 +6,7 @@ import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { joinClass } from '@components/base';
-import { ComponentTester } from '@components/context/context.spec';
+import { ComponentTester } from '@components/context/options/context.spec';
 import { type Props, type Ref, Root } from './root';
 import styles from './style.module.css';
 

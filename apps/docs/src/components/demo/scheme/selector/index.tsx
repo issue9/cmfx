@@ -11,9 +11,9 @@ import { default as selector } from './selector.tsx?raw';
 export default function (): Info {
 	return {
 		kind: 'general',
-		title: '_d.demo.themeSelector',
+		title: '_d.demo.schemeSelector',
 		icon: IconTheme,
-		path: 'theme/selector',
+		path: 'scheme/selector',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		stages: [{ component: Selector, source: selector, title: 'basic' }],
 	};

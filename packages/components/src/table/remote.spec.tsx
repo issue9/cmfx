@@ -5,7 +5,7 @@
 import { API, type Query } from '@cmfx/core';
 import { beforeEach, describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/context.spec.tsx';
+import { ComponentTester } from '@components/context/options/context.spec';
 import { type Ref, Root } from './remote';
 
 describe('RemoteTable', async () => {

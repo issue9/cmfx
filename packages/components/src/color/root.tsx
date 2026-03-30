@@ -6,13 +6,14 @@ import Color from 'colorjs.io';
 import { createEffect, createSignal, type JSX, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 
-import { type BaseProps, type BaseRef, joinClass, PropsError, type RefProps, wcag } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, PropsError, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
 import { useLocale } from '@components/context';
 import { Choice, Form } from '@components/form';
 import type { PickerPanel } from './picker';
 import styles from './style.module.css';
+import { wcag } from './wcag';
 
 declare global {
 	interface Window {

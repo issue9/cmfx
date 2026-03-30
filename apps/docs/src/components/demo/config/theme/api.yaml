@@ -6,7 +6,7 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - ThemeProps
+            - ThemeProviderProps
             - useTheme
             - Theme
             - Scheme

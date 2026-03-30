@@ -9,9 +9,5 @@
 @layer components {
 	.root {
 		@apply @container/root;
-
-		.loading {
-			@apply w-full h-full flex justify-center items-center text-7xl;
-		}
 	}
 }

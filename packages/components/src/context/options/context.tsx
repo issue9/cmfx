@@ -8,10 +8,10 @@ import { createContext, createResource, Match, Switch, splitProps, useContext } 
 import { createStore } from 'solid-js/store';
 
 import type { Mode, Scheme } from '@components/base';
-import { ContextNotFoundError } from './errors';
-import { LocaleProvider } from './locale';
+import { ContextNotFoundError } from '@components/context/errors';
+import { LocaleProvider } from '@components/context/locale';
+import { ThemeProvider } from '@components/context/theme';
 import type { ReqOptions } from './options';
-import { ThemeProvider } from './theme';
 
 const localeKey = 'locale';
 const displayStyleKey = 'display-style';

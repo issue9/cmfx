@@ -1,13 +1,8 @@
-// SPDX-FileCopyrightText: 2024-2026 caixw
+// SPDX-FileCopyrightText: 2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export const modes = ['system', 'dark', 'light'] as const;
-
-/**
- * 主题模式，可用的取值为 {@link modes}
- */
-export type Mode = (typeof modes)[number];
+import type { Mode } from '@components/base';
 
 export const modeValues: ReadonlyMap<Mode, string> = new Map<Mode, string>([
 	['system', 'light dark'],

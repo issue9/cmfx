@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ColorPanel } from '@components/color';
-import { ComponentTester } from '@components/context/context.spec';
+import { ComponentTester } from '@components/context/options/context.spec';
 import { Form } from '@components/form/form';
 import { type Ref, Root } from './root';
 
