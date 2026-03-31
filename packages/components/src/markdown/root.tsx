@@ -14,6 +14,8 @@ export type Ref = BaseRef<HTMLElement>;
 export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * markdown 文本内容
+	 *
+	 * @reactive
 	 */
 	text?: string;
 }
