@@ -69,5 +69,11 @@
 		],
 		"name": "Badge.RootRef",
 		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "Badge.Corner",
+		"kind": "literal",
+		"type": "\"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\"",
+		"pkg": "@cmfx/components"
 	}
 ]

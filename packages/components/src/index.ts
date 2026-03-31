@@ -4,19 +4,7 @@
 
 import './style.css';
 
-// TODO: safari 不支持 requestIdleCallback，后期可删除。
-// https://caniuse.com/?search=requestIdleCallback
-window.requestIdleCallback =
-	window.requestIdleCallback ||
-	function reqIdleCallback(cb: IdleRequestCallback) {
-		const start = Date.now();
-		return setTimeout(() => {
-			cb({
-				didTimeout: false,
-				timeRemaining: () => Math.max(0, 50 - (Date.now() - start)),
-			});
-		}, 1);
-	};
+import './polyfill';
 
 export * from './appbar';
 export * from './avatar';
