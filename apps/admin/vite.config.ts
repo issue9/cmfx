@@ -6,6 +6,7 @@ import path from 'node:path';
 //import basicSsl from '@vitejs/plugin-basic-ssl';
 import { about } from '@cmfx/vite-plugin-about';
 import tailwindcss from '@tailwindcss/vite';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
@@ -23,6 +24,7 @@ export default defineConfig(({ mode }) => {
 		},
 
 		build: {
+			target: browserslistToEsbuild(),
 			sourcemap: true,
 			rolldownOptions: {
 				output: {

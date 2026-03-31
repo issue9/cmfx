@@ -5,7 +5,7 @@
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
-import { buildPostBanner, vitePluginCopyFile } from '../vite.config.common';
+import { buildPostBanner, pluginTarget, vitePluginCopyFile } from '../vite.config.common';
 import pkg from './package.json' with { type: 'json' };
 
 // https://vitejs.dev/config/
@@ -23,7 +23,7 @@ export default defineConfig({
 	build: {
 		minify: true,
 		outDir: './lib',
-		target: 'ESNext',
+		target: pluginTarget(),
 		lib: {
 			entry: {
 				index: './src/index.ts',

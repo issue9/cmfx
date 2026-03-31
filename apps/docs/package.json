@@ -41,6 +41,8 @@
 		"@tailwindcss/vite": "catalog:",
 		"@types/node": "catalog:",
 		"autoprefixer": "catalog:",
+		"browserslist": "catalog:",
+		"browserslist-to-esbuild": "catalog:",
 		"typescript": "catalog:",
 		"unplugin-icons": "catalog:",
 		"vite": "catalog:",

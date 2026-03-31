@@ -29,6 +29,8 @@
 		"@cmfx/core": "workspace:*",
 		"@iconify/json": "catalog:",
 		"@solidjs/router": "catalog:",
+		"browserslist": "catalog:",
+		"browserslist-to-esbuild": "catalog:",
 		"echarts": "catalog:",
 		"tailwindcss": "catalog:",
 		"solid-js": "catalog:",

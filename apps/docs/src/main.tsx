@@ -104,9 +104,9 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 				title={options.title}
 				actions={
 					<>
-						<Drawer.ToggleButton square kind="flat" drawer={docsRef()} />
-						<Drawer.ToggleButton square kind="flat" drawer={demoRef()} />
-						<Drawer.ToggleButton square kind="flat" drawer={themeRef()} />
+						<Drawer.ToggleButton kind="flat" drawer={docsRef()} />
+						<Drawer.ToggleButton kind="flat" drawer={demoRef()} />
+						<Drawer.ToggleButton kind="flat" drawer={themeRef()} />
 
 						<Dropdown.Root
 							trigger="hover"
@@ -125,9 +125,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 						</Dropdown.Root>
 
 						<Dropdown.Root
-							ref={el => {
-								themeDropdown = el;
-							}}
+							ref={el => (themeDropdown = el)}
 							trigger="hover"
 							multiple
 							value={modeValues()}
@@ -217,13 +215,7 @@ function NotFound(): JSX.Element {
 				<Button.Root palette="primary" type="a" href="/">
 					{l.t('_d.error.backHome')}
 				</Button.Root>
-				<Button.Root
-					palette="primary"
-					type="button"
-					onclick={() => {
-						nav(-1);
-					}}
-				>
+				<Button.Root palette="primary" type="button" onclick={() => nav(-1)}>
 					{l.t('_d.error.backPrev')}
 				</Button.Root>
 			</div>

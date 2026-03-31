@@ -48,6 +48,8 @@
 	},
 	"devDependencies": {
 		"@types/node": "catalog:",
+		"browserslist": "catalog:",
+		"browserslist-to-esbuild": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-dts": "catalog:",

@@ -7,6 +7,24 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import rootPkg from '../package.json' with { type: 'json' };
+
+/**
+ * 生成插件的 build.target
+ *
+ * @remarks
+ * 根据根目录下 package.json 中的 engines.node 字段的主版本号拼接而成
+ */
+export function pluginTarget(): string {
+	// 该正则会跳过开头的 ^, ~, >, <, =, v 等符号
+	const match = rootPkg.engines.node.trim().match(/^[^0-9]*?(\d+)/);
+
+	if (match?.[1]) {
+		return `node${parseInt(match[1], 10)}`;
+	}
+	throw new Error('无法正确解析根目录下的 package.json 中的 engines.node 字段');
+}
+
 /**
  * 生成产出文件的文件头
  *

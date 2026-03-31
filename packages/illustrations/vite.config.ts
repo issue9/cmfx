@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import tailwindcss from '@tailwindcss/vite';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
@@ -29,6 +30,7 @@ export default defineConfig({
 	},
 
 	build: {
+		target: browserslistToEsbuild(),
 		minify: true,
 		outDir: './lib',
 		lib: {

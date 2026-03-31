@@ -31,7 +31,7 @@ export function buildRoute(path: string, setDrawer: Setter<Drawer.RootRef | unde
 			const [act] = useOptions();
 
 			const t = useTheme();
-			const schemeFA = new Form.ObjectAccessor<Scheme>(convertSchemeVar2Color(unwrap(t.scheme)!));
+			const schemeFA = new Form.ObjectAccessor<Scheme>(convertSchemeVar2Color(unwrap(t.scheme)));
 
 			createEffect(() => {
 				act.setTitle(l.t('_d.theme.builder'));

@@ -5,6 +5,7 @@
 import path from 'node:path';
 import { api } from '@cmfx/vite-plugin-api';
 import tailwindcss from '@tailwindcss/vite';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
@@ -23,6 +24,7 @@ export default defineConfig(({ mode }) => {
 		},
 
 		build: {
+			target: browserslistToEsbuild(),
 			minify: true,
 			outDir: '../../docs',
 			rollupOptions: {
