@@ -8,3 +8,4 @@
         types:
             - Badge.RootProps
             - Badge.RootRef
+            - Badge.Corner
