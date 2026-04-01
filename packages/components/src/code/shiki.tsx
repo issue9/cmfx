@@ -125,7 +125,7 @@ function buildOptions(
 	style?: BaseProps['style'],
 	theme?: BundledTheme,
 ): CodeToHastOptions<BundledLanguage, BundledTheme> {
-	// 行号列的宽度，即使只有两行代码，但是从 9 开始计算行号，还是得有 2 位长度。
+	// 行号列的宽度，即使只有两行代码，但是从 9 开始计算行号，还是得有 2 位长度，所以得根据最后一行的行号确定行号的宽度。
 	const w = ln === undefined ? '0ch' : `${(code.split('\n').length + ln).toString().length}ch`;
 	const s = style2String(`;--line-number-start: ${ln ?? 0};--line-number-width: ${w}`, style);
 

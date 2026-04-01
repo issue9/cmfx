@@ -7,6 +7,7 @@ import { createEffect, createSignal, type JSX } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import type { BaseProps, BaseRef, RefProps } from '@components/base';
+import { joinClass } from '@components/base';
 import { Code } from '@components/code';
 import styles from './style.module.css';
 
@@ -45,8 +46,8 @@ export function Root(props: Props): JSX.Element {
 	const [html, setHTML] = createSignal(props.text);
 	let ref: HTMLElement;
 
-	createEffect(() => {
-		const ht = p.parse(props.text || '', { async: false });
+	createEffect(async () => {
+		const ht = await p.parse(props.text || '', { async: true });
 		setHTML(ht);
 
 		requestAnimationFrame(() => {
@@ -63,6 +64,8 @@ export function Root(props: Props): JSX.Element {
 
 	return (
 		<article
+			class={joinClass(props.palette, props.class)}
+			style={props.style}
 			innerHTML={html()}
 			ref={el => {
 				ref = el;
@@ -77,14 +80,13 @@ export function Root(props: Props): JSX.Element {
 function code() {
 	return async (token: Token) => {
 		switch (token.type) {
-			case 'code': {
+			case 'code':
 				Object.assign(token, {
 					type: 'html',
 					block: true,
 					text: await Code.highlight(token.text, token.lang, undefined, true, styles.code),
 				});
 				break;
-			}
 		}
 	};
 }
