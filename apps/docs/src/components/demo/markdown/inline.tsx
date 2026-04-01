@@ -22,6 +22,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<Markdown.Root
+				tag="div"
 				palette={palette()}
 				text={text}
 				components={{ icon1: () => <IconFace />, icon2: () => <IconPerson /> }}

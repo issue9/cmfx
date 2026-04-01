@@ -8,13 +8,13 @@ import { Dynamic } from 'solid-js/web';
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref<T extends keyof JSX.IntrinsicElements = 'div'> = BaseRef<
+export type Ref<T extends keyof HTMLElementTagNameMap = 'div'> = BaseRef<
 	T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement
 >;
 
-export type Props<T extends keyof JSX.IntrinsicElements = 'div'> = ParentProps &
+export type Props<T extends keyof HTMLElementTagNameMap = 'div'> = ParentProps &
 	BaseProps &
-	Omit<JSX.IntrinsicElements[T], 'ref' | 'children' | 'class' | 'style'> &
+	Omit<HTMLElementTagNameMap[T], 'ref' | 'children' | 'class' | 'style'> &
 	RefProps<Ref<T>> & {
 		/**
 		 * 自定义标签
@@ -54,7 +54,7 @@ export type Props<T extends keyof JSX.IntrinsicElements = 'div'> = ParentProps &
  * @remarks
  * 该组件可以作为任何具有加载状态的组件的容器。
  */
-export function Root<T extends keyof JSX.IntrinsicElements = 'div'>(props: Props<T>) {
+export function Root<T extends keyof HTMLElementTagNameMap = 'div'>(props: Props<T>) {
 	const [, p] = splitProps(props, [
 		'class',
 		'style',

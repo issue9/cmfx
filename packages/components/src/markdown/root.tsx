@@ -3,17 +3,20 @@
 // SPDX-License-Identifier: MIT
 
 import { Marked, type Token, type TokenizerAndRendererExtension } from 'marked';
-import { createEffect, createSignal, getOwner, type JSX, runWithOwner } from 'solid-js';
-import { render } from 'solid-js/web';
+import type { JSX, ValidComponent } from 'solid-js';
+import { createEffect, createSignal, getOwner, runWithOwner } from 'solid-js';
+import { Dynamic, render } from 'solid-js/web';
 
 import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { Code } from '@components/code';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLElement>;
+export type Ref<T extends keyof HTMLElementTagNameMap = 'article'> = BaseRef<
+	T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement
+>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface Props<T extends keyof HTMLElementTagNameMap = 'article'> extends BaseProps, RefProps<Ref<T>> {
 	/**
 	 * markdown 文本内容
 	 *
@@ -25,6 +28,13 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * 指定渲染的组件
 	 */
 	components?: Record<string, () => JSX.Element>;
+
+	/**
+	 * 自定义标签
+	 *
+	 * @defaultValue 'article'
+	 */
+	tag?: T;
 }
 
 /**
@@ -37,7 +47,8 @@ export interface Props extends BaseProps, RefProps<Ref> {
  *  - inline 为 @`id`@，最终会生成一个 `<span></span>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
  *  - block 为 `@```id```@`，最终会生成一个 `<div></div>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
  */
-export function Root(props: Props): JSX.Element {
+export function Root<T extends keyof HTMLElementTagNameMap = 'article'>(props: Props<T>): JSX.Element {
+	const tag = props.tag ?? 'article';
 	const owner = getOwner();
 	const p = new Marked({
 		extensions: [componentBlockExtension, componentInlineExtension],
@@ -66,11 +77,12 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<article
+		<Dynamic
+			component={tag as ValidComponent}
 			class={joinClass(props.palette, props.class)}
 			style={props.style}
 			innerHTML={html()}
-			ref={el => {
+			ref={(el: ReturnType<Ref<T>['root']>) => {
 				ref = el;
 				if (props.ref) {
 					props.ref({ root: () => el });
