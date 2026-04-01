@@ -11,6 +11,7 @@ import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
 
 import { type BaseProps, type BaseRef, joinClass, type Palette, type RefProps } from '@components/base';
+import { useLocale, useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;
@@ -92,14 +93,6 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * 在将当前组件从 DOM 中移除之前执行的操作，返回 true 将阻止后续的移除操作。
 	 */
 	onClose?: () => Promise<boolean | undefined>;
-
-	// 指定动画时间，因为在 notify 中使用了 render 渲染到 Portal 中，无法在 Message 中使用 useOptions 获取动画时长。
-	transitionDuration: number;
-
-	/**
-	 * 关闭按钮的 aria-label，与 transitionDuration 相同的理由，不能放在 Message 组件内部。
-	 */
-	closeAriaLabel?: string;
 }
 
 /**
@@ -107,6 +100,9 @@ export interface Props extends BaseProps, RefProps<Ref> {
  */
 export function Message(props: Props): JSX.Element {
 	props = mergeProps({ type: 'info' as Type }, props);
+
+	const l = useLocale();
+	const [opt] = useOptions();
 
 	let rootRef: HTMLDivElement;
 	let buttonRef: HTMLButtonElement;
@@ -116,12 +112,12 @@ export function Message(props: Props): JSX.Element {
 			return;
 		}
 
-		if (!props.transitionDuration) {
+		if (!opt.getTransitionDuration()) {
 			return;
 		}
 
 		rootRef.style.height = '0';
-		await sleep(props.transitionDuration); // 待动画结束
+		await sleep(opt.getTransitionDuration()); // 待动画结束
 		rootRef.remove();
 	};
 
@@ -219,7 +215,7 @@ export function Message(props: Props): JSX.Element {
 							type="button"
 							class={styles['close-wrap']}
 							ref={el => (buttonRef = el)}
-							aria-label={props.closeAriaLabel}
+							aria-label={l.t('_c.close')}
 						>
 							<IconClose onClick={close} class={styles.close} />
 						</button>

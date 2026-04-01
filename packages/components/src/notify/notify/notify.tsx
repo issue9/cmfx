@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
-import type { JSX, ParentProps } from 'solid-js';
+import { type JSX, type ParentProps, getOwner, runWithOwner } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
 import type { MountProps } from '@components/base';
 import { joinClass } from '@components/base';
-import { useLocale, useOptions } from '@components/context';
+import { useOptions } from '@components/context';
 import { Message, type Props as MessageProps, type Type } from '@components/notify/message';
 import styles from './style.module.css';
 
@@ -123,9 +123,9 @@ export function NotifyProvider(props: ParentProps & MountProps): JSX.Element {
 
 function init(): JSX.Element {
 	const [opt, origin] = useOptions();
-	const l = useLocale();
 	let topRef: HTMLDivElement;
 	let bottomRef: HTMLDivElement;
+	const owner = getOwner();
 
 	notifyInst = async (
 		title: string,
@@ -151,18 +151,14 @@ function init(): JSX.Element {
 			type,
 			duration: duration ?? opt.getStays(),
 			closable: true,
-
-			// 通知可能放在 ThemeProvider 之外，所以使用 useOptions 的值。
-			transitionDuration: opt.getTransitionDuration(),
-			closeAriaLabel: l.t('_c.close'),
 		};
 
 		switch (pos) {
 			case 'top':
-				render(() => <Message {...props} />, topRef);
+				runWithOwner(owner, () => render(() => <Message {...props} />, topRef));
 				break;
 			case 'bottom':
-				render(() => <Message {...props} />, bottomRef);
+				runWithOwner(owner, () => render(() => <Message {...props} />, bottomRef));
 		}
 	};
 
