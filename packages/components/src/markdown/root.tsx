@@ -34,8 +34,8 @@ export interface Props extends BaseProps, RefProps<Ref> {
  * 需要需要支持代码高亮，可参考 {@link Code} 的实现。
  *
  * 还支持将组件渲染到最终的输出结果中，分为代码一样，分为 inline 和 block。
- *  - inline 为 $id$，最终会生成一个 `<span></span>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
- *  - block 为 `$$$id$$$`，最终会生成一个 `<div></div>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
+ *  - inline 为 @`id`@，最终会生成一个 `<span></span>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
+ *  - block 为 `@```id```@`，最终会生成一个 `<div></div>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
  */
 export function Root(props: Props): JSX.Element {
 	const p = new Marked({
@@ -107,10 +107,10 @@ const componentBlockExtension: TokenizerAndRendererExtension = {
 	name: 'blockComponent',
 	level: 'block',
 	start(src: string) {
-		return src.match(/\$\$\$/)?.index;
+		return src.match(/@```/)?.index;
 	},
 	tokenizer(src: string) {
-		const match = src.match(/^\$\$\$([^$]+)\$\$\$/);
+		const match = src.match(/^@```(.+?)```@/);
 		if (match) {
 			return {
 				type: 'blockComponent',
@@ -128,10 +128,10 @@ const componentInlineExtension: TokenizerAndRendererExtension = {
 	name: 'inlineComponent',
 	level: 'inline',
 	start(src: string) {
-		return src.match(/\$/)?.index;
+		return src.match(/@`/)?.index;
 	},
 	tokenizer(src: string) {
-		const match = src.match(/^\$([^$]+)\$/);
+		const match = src.match(/^@`(.+?)`@/);
 		if (match) {
 			return {
 				type: 'inlineComponent',

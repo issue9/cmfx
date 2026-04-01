@@ -12,7 +12,7 @@ import { paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 
-	const text = '# Block组件\n\n## h2\n\n$$$btn1$$$\n$$$btn2$$$\n\n$$$btn1$$$\n$$$btn2$$$\n\n';
+	const text = '# Block组件\n\n## h2\n\n@```btn1```@\n@```btn2```@\n\n@```btn1```@\n@```btn2```@\n\n';
 
 	return (
 		<>

@@ -13,7 +13,7 @@ import { paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 
-	const text = '# inline组件\n\n## h2\n\n$icon1$$icon2$\n\n- icon2:$icon1$\n- icon2:$icon2$\n';
+	const text = '# inline组件\n\n## h2\n\n@`icon1`@@`icon2`@\n\n- icon1:@`icon1`@\n- icon2:@`icon2`@\n';
 
 	return (
 		<>

@@ -12,7 +12,7 @@
 			{
 				"name": "components",
 				"summary": "指定渲染的组件\n\n",
-				"type": "Record<string, JSX.Element> | undefined"
+				"type": "Record<string, () => JSX.Element> | undefined"
 			},
 			{
 				"name": "palette",
