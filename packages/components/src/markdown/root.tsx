@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Marked, type Token, type TokenizerAndRendererExtension, type Tokens } from 'marked';
+import { Marked, type Token, type TokenizerAndRendererExtension } from 'marked';
 import { createEffect, createSignal, type JSX } from 'solid-js';
 import { render } from 'solid-js/web';
 
@@ -37,19 +37,18 @@ export interface Props extends BaseProps, RefProps<Ref> {
  *  - block 为 `$$$id$$$`，最终会生成一个 `<div></div>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
  */
 export function Root(props: Props): JSX.Element {
-	const [html, setHTML] = createSignal(props.text);
 	const p = new Marked({
 		extensions: [componentBlockExtension, componentInlineExtension],
 		walkTokens: code(),
 	});
 
+	const [html, setHTML] = createSignal(props.text);
 	let ref: HTMLElement;
 
 	createEffect(() => {
 		const ht = p.parse(props.text || '', { async: false });
 		setHTML(ht);
 
-		//requestAnimationFrame
 		requestAnimationFrame(() => {
 			if (!props.components) {
 				return;
@@ -62,7 +61,17 @@ export function Root(props: Props): JSX.Element {
 		});
 	});
 
-	return <article ref={el => (ref = el)} innerHTML={html()} />;
+	return (
+		<article
+			innerHTML={html()}
+			ref={el => {
+				ref = el;
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+		/>
+	);
 }
 
 function code() {
@@ -80,13 +89,13 @@ function code() {
 	};
 }
 
-interface BlockComponentToken extends Tokens.Generic {
+interface BlockComponentToken {
 	type: 'blockComponent';
 	id: string; // 根据此值查找指定的组件
 	raw: string;
 }
 
-interface InlineComponentToken extends Tokens.Generic {
+interface InlineComponentToken {
 	type: 'inlineComponent';
 	id: string; // 根据此值查找指定的组件
 	raw: string;
@@ -108,7 +117,7 @@ const componentBlockExtension: TokenizerAndRendererExtension = {
 			} satisfies BlockComponentToken;
 		}
 	},
-	renderer(token: BlockComponentToken) {
+	renderer(token) {
 		return `<div class="${styles.contents}" data-markdown-component="${token.id}"></div>`;
 	},
 };
@@ -129,7 +138,7 @@ const componentInlineExtension: TokenizerAndRendererExtension = {
 			} satisfies InlineComponentToken;
 		}
 	},
-	renderer(token: InlineComponentToken) {
+	renderer(token) {
 		return `<span class="${styles.contents}" data-markdown-component="${token.id}"></span>`;
 	},
 };
