@@ -56,7 +56,10 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @reactive
 	 *
 	 * @remarks
-	 * 使用 \n 作为换行符。
+	 * 换行符会被替换的为 `<br />`。
+	 *
+	 * NOTE: 如果直接使用字符串属性，那么其内容中的 '\n' 不会被转义，
+	 * 只有字符串变量中的 '\n' 会被转义为 `<br />`。
 	 */
 	body?: string;
 
@@ -224,7 +227,7 @@ export function Message(props: Props): JSX.Element {
 				</div>
 
 				<Show when={props.body}>
-					{c => <div id={contentID} class={styles.body} innerHTML={c().replace(/\\n/g, '<br />')} />}
+					{c => <div id={contentID} class={styles.body} innerHTML={c().replace(/\n/g, '<br />')} />}
 				</Show>
 			</div>
 		</div>

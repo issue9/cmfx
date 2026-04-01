@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Choice, Form, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
+import { Alert, Button, Choice, Form, Notify, Numeric, TextField } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 
@@ -36,9 +36,18 @@ export default function (): JSX.Element {
 				/>
 				<Numeric.Root step={500} label="timeout" accessor={timeout} />
 				<TextField.Root label="title" accessor={title} />
-				<TextArea.Root label="body" accessor={body} />
+				<TextField.Root label="body" accessor={body} />
 				<Button.Root palette="primary" onclick={click}>
 					notify
+				</Button.Root>
+				<Button.Root
+					palette="primary"
+					onclick={() => {
+						body.setValue('body\nwith\nnewline');
+						click();
+					}}
+				>
+					带换行 notify
 				</Button.Root>
 			</div>
 

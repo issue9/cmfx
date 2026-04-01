@@ -16,6 +16,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Type, typ] = typeSelector();
 	const [Closable, closable] = boolSelector('closable');
+	const text = 'Alert Message Alert Message\nAlert Message Alert Message \n 使用 \\n 换行';
 
 	return (
 		<div class="flex w-full flex-col gap-3">
@@ -26,13 +27,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 			<Alert.Root closable={closable()} palette={palette()} type={typ()} title="Alert Title" body="Alert Message" />
 
-			<Alert.Root
-				closable={closable()}
-				palette={palette()}
-				type={typ()}
-				title="Alert Title"
-				body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \ n 换行"
-			/>
+			<Alert.Root closable={closable()} palette={palette()} type={typ()} title="Alert Title" body={text} />
 
 			<Alert.Root
 				closable={closable()}
@@ -40,7 +35,7 @@ export default function (props: MountProps): JSX.Element {
 				type={typ()}
 				icon={false}
 				title="Alert Title"
-				body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \ n 换行"
+				body="Alert Message Alert Message\nAlert Message Alert Message \n 使用 \\n 换行"
 			/>
 		</div>
 	);
