@@ -15,6 +15,6 @@ export default function (): Info {
 		icon: IconLabel,
 		path: 'label',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Label, source: label, title: 'label' }],
+		stages: [{ component: Label, source: label, title: '_d.demo.basicFunctions' }],
 	};
 }

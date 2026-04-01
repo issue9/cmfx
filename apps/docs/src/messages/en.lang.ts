@@ -125,6 +125,7 @@ const messages = {
 			input: 'Input',
 			label: 'Label',
 			localeConfig: 'Locale Config',
+			markdown: 'Markdown',
 			misc: 'Misc',
 			menu: 'Menu',
 			monthpanel: 'Month Panel',

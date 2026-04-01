@@ -127,6 +127,7 @@ const messages: typeof m = {
 			input: 'Input 输入框基础',
 			label: 'Label 标题',
 			localeConfig: 'Locale Config 国际化配置',
+			markdown: 'Markdown',
 			misc: 'Misc 其它',
 			menu: 'Menu 菜单',
 			monthpanel: 'Month Panel 月份面板',
