@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Marked, type Token, type TokenizerAndRendererExtension } from 'marked';
-import { createEffect, createSignal, type JSX } from 'solid-js';
+import { createEffect, createSignal, getOwner, type JSX, runWithOwner } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import type { BaseProps, BaseRef, RefProps } from '@components/base';
@@ -38,6 +38,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
  *  - block 为 `@```id```@`，最终会生成一个 `<div></div>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
  */
 export function Root(props: Props): JSX.Element {
+	const owner = getOwner();
 	const p = new Marked({
 		extensions: [componentBlockExtension, componentInlineExtension],
 		walkTokens: code(),
@@ -55,8 +56,10 @@ export function Root(props: Props): JSX.Element {
 				return;
 			}
 			Object.entries(props.components).forEach(([id, fn]) => {
-				ref.querySelectorAll(`[data-markdown-component=${id}]`)?.forEach(el => {
-					render(fn, el);
+				ref.querySelectorAll(`[data-markdown-component="${id}"]`)?.forEach(el => {
+					runWithOwner(owner, () => {
+						render(fn, el);
+					});
 				});
 			});
 		});
