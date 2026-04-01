@@ -2,16 +2,27 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Code, Drawer, joinClass, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Code, Drawer, joinClass, Markdown, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import type { ArrayElement, Locale } from '@cmfx/core';
-import type { Source } from '@cmfx/vite-plugin-api';
+import type { Type } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import { createEffect, createSignal, type JSX, onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
+import {
+	createEffect,
+	createMemo,
+	createSignal,
+	type JSX,
+	onCleanup,
+	onMount,
+	type ParentProps,
+	type Setter,
+} from 'solid-js';
 
-import { floatingWidth, type MarkdownFileObject, markdown } from '@docs/utils';
-import { default as advanceAPI } from './advance/api.zh-Hans.json' with { type: 'json' };
+import { APIDoc } from '@docs/apidoc';
+import { type APIFileObject, floatingWidth, type MarkdownFileObject } from '@docs/utils';
 import styles from './style.module.css';
-import { default as usageAPI } from './usage/api.zh-Hans.json' with { type: 'json' };
+
+const usageAPI = import.meta.glob('./usage/api.*.json', { eager: true, import: 'default' }) as APIFileObject;
+const advanceAPI = import.meta.glob('./advance/api.*.json', { eager: true, import: 'default' }) as APIFileObject;
 
 type Kind = 'intro' | 'usage' | 'advance';
 
@@ -25,9 +36,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: ['/', '/intro/readme'],
 		info: { title: '_d.docs.intro' },
 		component: () => (
-			<Markdown
-				articles={import.meta.glob('../../../../README.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
+			<MD articles={import.meta.glob('../../../../README.md', { eager: true, query: '?raw', import: 'default' })} />
 		),
 	},
 	{
@@ -35,9 +44,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/intro/changelog',
 		info: { title: '_d.docs.changelog' },
 		component: () => (
-			<Markdown
-				articles={import.meta.glob('../../../../CHANGELOG.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
+			<MD articles={import.meta.glob('../../../../CHANGELOG.md', { eager: true, query: '?raw', import: 'default' })} />
 		),
 	},
 
@@ -48,8 +55,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/usage/install',
 		info: { title: '_d.docs.install' },
 		component: () => (
-			<Markdown
-				types={usageAPI as Array<Source>}
+			<MD
+				types={structuredClone(usageAPI)}
 				articles={import.meta.glob('./usage/install.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -59,8 +66,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/usage/platform',
 		info: { title: '_d.docs.platform' },
 		component: () => (
-			<Markdown
-				types={usageAPI as Array<Source>}
+			<MD
+				types={structuredClone(usageAPI)}
 				articles={import.meta.glob('./usage/platform.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -70,8 +77,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/usage/svg',
 		info: { title: '_d.docs.svg' },
 		component: () => (
-			<Markdown
-				types={usageAPI as Array<Source>}
+			<MD
+				types={structuredClone(usageAPI)}
 				articles={import.meta.glob('./usage/svg.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -81,8 +88,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/usage/theme',
 		info: { title: '_d.docs.theme' },
 		component: () => (
-			<Markdown
-				types={usageAPI as Array<Source>}
+			<MD
+				types={structuredClone(usageAPI)}
 				articles={import.meta.glob('./usage/theme.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -92,8 +99,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/usage/faq',
 		info: { title: '_d.docs.faq' },
 		component: () => (
-			<Markdown
-				types={usageAPI as Array<Source>}
+			<MD
+				types={structuredClone(usageAPI)}
 				articles={import.meta.glob('./usage/faq.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -106,8 +113,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/advance/locale',
 		info: { title: '_d.docs.locale' },
 		component: () => (
-			<Markdown
-				types={advanceAPI as Array<Source>}
+			<MD
+				types={structuredClone(advanceAPI)}
 				articles={import.meta.glob('./advance/locale.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -117,8 +124,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/advance/validator',
 		info: { title: '_d.docs.validator' },
 		component: () => (
-			<Markdown
-				types={advanceAPI as Array<Source>}
+			<MD
+				types={structuredClone(advanceAPI)}
 				articles={import.meta.glob('./advance/validator.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -128,8 +135,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/advance/error',
 		info: { title: '_d.docs.error' },
 		component: () => (
-			<Markdown
-				types={advanceAPI as Array<Source>}
+			<MD
+				types={structuredClone(advanceAPI)}
 				articles={import.meta.glob('./advance/error.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -139,8 +146,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/advance/custom-theme',
 		info: { title: '_d.docs.customTheme' },
 		component: () => (
-			<Markdown
-				types={advanceAPI as Array<Source>}
+			<MD
+				types={structuredClone(advanceAPI)}
 				articles={import.meta.glob('./advance/custom-theme.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -150,8 +157,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		path: '/advance/plugins',
 		info: { title: '_d.docs.plugins' },
 		component: () => (
-			<Markdown
-				types={advanceAPI as Array<Source>}
+			<MD
+				types={structuredClone(advanceAPI)}
 				articles={import.meta.glob('./advance/plugins.*.md', { eager: true, query: '?raw', import: 'default' })}
 			/>
 		),
@@ -189,14 +196,17 @@ export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
 }
 
 interface MarkdownProps {
+	// 某一篇文章的所有语言以及对应的文章内容
+	// 键名为文章的地址，地址中包含了语言 ID，键值为文章内容。
 	articles: MarkdownFileObject;
-	types?: Array<Source>;
+
+	types?: APIFileObject;
 }
 
 // 加载 Markdown 文档
 //
 // article 对应的是 maps 中的文章 ID；
-function Markdown(props: MarkdownProps): JSX.Element {
+function MD(props: MarkdownProps): JSX.Element {
 	const l = useLocale();
 	const [, origin] = useOptions();
 
@@ -207,23 +217,23 @@ function Markdown(props: MarkdownProps): JSX.Element {
 		k.replace(/\.md$/, '').replace(/^\.\/(usage|advance)\/[^.]*\./, ''),
 		v,
 	]);
-	const articles = Object.fromEntries(articleObjs);
-	const keys = Object.keys(articles);
+	const articles = Object.fromEntries(articleObjs); // 键名为语言 ID
+	const locales = Object.keys(articles);
 
-	let articleRef!: HTMLElement;
+	let articleRef!: Markdown.RootRef;
 	let navRef: Nav.RootRef;
 
-	const [html, setHTML] = createSignal<string>(
-		articleObjs.length > 1
-			? markdown(articles[l.match(keys, origin.locale)], props.types)
-			: markdown(articleObjs[0][1], props.types),
+	const [text, setText] = createSignal<string>(
+		articleObjs.length > 1 // >1 表示有多种语言
+			? articles[l.match(locales, origin.locale)]
+			: articleObjs[0][1],
 	);
 
 	if (articleObjs.length > 1) {
 		createEffect(() => {
-			const data = articles[l.match(keys, origin.locale)];
+			const data = articles[l.match(locales, origin.locale)];
 			if (data) {
-				setHTML(markdown(data, props.types));
+				setText(data);
 				navRef.refresh();
 			}
 		});
@@ -235,14 +245,38 @@ function Markdown(props: MarkdownProps): JSX.Element {
 		Code.withCopyButton(page.root());
 	});
 
+	const types = createMemo(() => {
+		if (!props.types || Object.keys(props.types).length === 0) {
+			return;
+		}
+
+		const typeObjs = Object.entries(props.types).map(([k, v]) => [
+			k.replace(/\.md$/, '').replace(/^\.\/(usage|advance)\/[^.]*\./, ''),
+			v,
+		]);
+		const ts = Object.fromEntries(typeObjs); // 键名为语言 ID
+		const locales = Object.keys(ts);
+
+		const ret: Array<Type> =
+			typeObjs.length > 1 // >1 表示有多种语言
+				? ts[l.match(locales, origin.locale)]
+				: typeObjs[0][1];
+
+		const obj: Markdown.RootProps['components'] = {};
+		ret.forEach(t => {
+			obj[`${t.pkg}%${t.name}`] = () => <APIDoc api={t} />;
+		});
+		return obj;
+	});
+
 	return (
 		<Page.Root ref={el => (page = el)} title={title} class={styles.docs}>
-			<article ref={el => (articleRef = el)} class={styles.doc} innerHTML={html()} />
+			<Markdown.Root class={styles.doc} ref={el => (articleRef = el)} text={text()} components={types()} />
 			<Nav.Root
 				minHeaderCount={5}
 				class={styles.nav}
 				ref={el => (navRef = el)}
-				target={articleRef}
+				target={articleRef.root()}
 				query="h2,h3,h4,h5,h6"
 			/>
 		</Page.Root>

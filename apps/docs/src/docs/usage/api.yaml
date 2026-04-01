@@ -6,4 +6,4 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - printElement,source
+            - printElement

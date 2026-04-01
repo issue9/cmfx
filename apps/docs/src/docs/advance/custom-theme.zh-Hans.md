@@ -4,36 +4,6 @@
 
 主题对象的结构如下：
 
-```ts Scheme,Radius
-/**
- * 定义主题相关的各类变量
- */
-export type Scheme = {
-    primary: string;
-    secondary: string;
-    tertiary: string;
-    error: string;
-    surface: string;
+@```@cmfx/components%Scheme```@
 
-    // NOTE: 主题颜色值是必须要定义的，不能从父元素继承。
-
-    /**
-     * 表示 tailwind 中 --radius-* 的数值
-     */
-    radius?: Radius;
-};
-
-/**
- * 圆角参数的设置
- *
- * @remarks
- * 单位为 rem。属性名表示的是组件的大小。
- */
-export type Radius = {
-    xs: number;
-    sm: number;
-    md: number;
-    lg: number;
-    xl: number;
-};
-```
+@```@cmfx/components%Radius```@

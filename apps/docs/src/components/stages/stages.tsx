@@ -10,7 +10,7 @@ import IconGithub from '~icons/lineicons/github';
 
 import { type MarkdownFileObject, markdown } from '@docs/utils';
 import pkg from '../../../package.json';
-import { API } from './api';
+import { APIDoc } from '../../apidoc/api';
 import { default as Stage, type Props as StageProps } from './stage';
 import styles from './style.module.css';
 
@@ -129,7 +129,7 @@ export default function Stages(props: Props): JSX.Element {
 					{apis => (
 						<article class={styles.apis}>
 							<h3>{l.t('_d.stages.api')}</h3>
-							<For each={apis()}>{api => <API api={api} />}</For>
+							<For each={apis()}>{api => <APIDoc api={api} />}</For>
 						</article>
 					)}
 				</Show>

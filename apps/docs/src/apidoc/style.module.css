@@ -1,0 +1,51 @@
+/*
+ * SPDX-FileCopyrightText: 2025-2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../style.css";
+
+@layer components {
+	.api {
+		@apply flex flex-col gap-1;
+		@apply mb-4;
+
+		.title {
+			@apply flex gap-1 items-center justify-between;
+
+			.pkg {
+				@apply text-palette-fg-low/50;
+			}
+		}
+
+		.remarks {
+			@apply text-sm;
+		}
+
+		.dropdown {
+			@apply cursor-pointer border border-transparent hover:border-palette-border-actived;
+			@apply transition;
+		}
+
+		table tbody th {
+			@apply flex gap-1 items-center;
+			white-space: nowrap;
+
+			> kbd {
+				@apply px-1 font-mono aspect-square m-0! cursor-pointer;
+				@apply hover:border-palette-border-actived! hover:bg-palette-bg-actived! hover:text-palette-fg-actived!;
+			}
+		}
+
+		table th,
+		table td {
+			@apply text-left;
+		}
+
+		.func {
+			@apply mt-2;
+			@apply border border-palette-border px-1;
+		}
+	}
+}

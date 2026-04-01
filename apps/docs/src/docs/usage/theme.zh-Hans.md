@@ -47,5 +47,4 @@
 ### `.no-print`
 
 通过 `@cmfx/core` 下的 `printElement` 打印内容的，可通过为子元素添加此类名以达到不打印的目的。
-```ts printElement
-```
+@```@cmfx/core%printElement```@

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown, Table, useLocale } from '@cmfx/components';
+import { Dropdown, Markdown, Table, useLocale } from '@cmfx/components';
 import type {
 	Class,
 	ClassMethod,
@@ -19,21 +19,22 @@ import type {
 import { createSignal, For, type JSX, Match, Show, Switch } from 'solid-js';
 import IconDown from '~icons/material-symbols/arrow-drop-down';
 
-import { markdown } from '@docs/utils';
 import styles from './style.module.css';
 
 /**
- * 生成 API 表格
+ * 生成 API 文档的表格形式
  */
-export function API(props: { api: Type }): JSX.Element {
+export function APIDoc(props: { api: Type }): JSX.Element {
 	return (
 		<section class={styles.api}>
 			<div class={styles.title}>
 				<h4>{props.api.name}</h4>
 				<span class={styles.pkg}>{props.api.pkg}</span>
 			</div>
-			<Show when={props.api.summary}>{summary => <p innerHTML={markdown(summary())} />}</Show>
-			<Show when={props.api.remarks}>{remarks => <p class={styles.remarks} innerHTML={markdown(remarks())} />}</Show>
+			<Show when={props.api.summary}>{summary => <Markdown.Root tag="p" text={summary()} />}</Show>
+			<Show when={props.api.remarks}>
+				{remarks => <Markdown.Root tag="p" class={styles.remarks} text={remarks()} />}
+			</Show>
 
 			<Switch>
 				<Match when={props.api.kind === 'literal' ? props.api : undefined}>
@@ -58,7 +59,7 @@ export function API(props: { api: Type }): JSX.Element {
 }
 
 function LiteralBody(props: { literal: Literal }): JSX.Element {
-	return <p innerHTML={tscode(props.literal.type)} />;
+	return tscode(props.literal.type);
 }
 
 function UnionBody(props: { union: Union }): JSX.Element {
@@ -194,9 +195,11 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 						{p => (
 							<tr>
 								<th>{p.name}</th>
-								<td innerHTML={tscode(p.type)} />
-								<td innerHTML={tscode(p.init)} />
-								<td innerHTML={markdown(p.summary)} />
+								<td>{tscode(p.type)}</td>
+								<td>{tscode(p.init)}</td>
+								<td>
+									<Markdown.Root tag="p" text={p.summary} />
+								</td>
 							</tr>
 						)}
 					</For>
@@ -262,12 +265,12 @@ function Properties(props: PropertiesProps): JSX.Element {
 										</Dropdown.Root>
 									</Show>
 								</th>
-								<td innerHTML={tscode(field.type)} />
-								<td innerHTML={tscode(field.def)} />
+								<td>{tscode(field.type)}</td>
+								<td>{tscode(field.def)}</td>
 								<td>
-									<Show when={field.summary}>{summary => <p innerHTML={markdown(summary())} />}</Show>
+									<Show when={field.summary}>{summary => <Markdown.Root tag="p" text={summary()} />}</Show>
 									<Show when={field.remarks}>
-										{remarks => <p class={styles.remarks} innerHTML={markdown(remarks())} />}
+										{remarks => <Markdown.Root class={styles.remarks} tag="p" text={remarks()} />}
 									</Show>
 								</td>
 							</tr>
@@ -287,11 +290,13 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 
 	return (
 		<div class={styles.func}>
-			<p innerHTML={tscode(props.func.type)} />
+			{tscode(props.func.type)}
 
 			<Show when={props.isMethod}>
-				<Show when={props.func.summary}>{summary => <p innerHTML={markdown(summary())} />}</Show>
-				<Show when={props.func.remarks}>{remarks => <p class={styles.remarks} innerHTML={markdown(remarks())} />}</Show>
+				<Show when={props.func.summary}>{summary => <Markdown.Root tag="p" text={summary()} />}</Show>
+				<Show when={props.func.remarks}>
+					{remarks => <Markdown.Root tag="p" class={styles.remarks} text={remarks()} />}
+				</Show>
 			</Show>
 
 			<TypeParams typeParams={props.func.typeParams} />
@@ -310,15 +315,19 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 						{param => (
 							<tr>
 								<td>{param.name}</td>
-								<td innerHTML={tscode(param.type)} />
-								<td innerHTML={markdown(param.summary)} />
+								<td>{tscode(param.type)}</td>
+								<td>
+									<Markdown.Root tag="p" text={param.summary} />
+								</td>
 							</tr>
 						)}
 					</For>
 					<tr>
 						<td>{l.t('_d.stages.returnValue')}</td>
-						<td innerHTML={tscode(props.func.return.type)} />
-						<td innerHTML={markdown(props.func.return.summary)} />
+						<td>{tscode(props.func.return.type)}</td>
+						<td>
+							<Markdown.Root tag="p" text={props.func.return.summary} />
+						</td>
 					</tr>
 				</tbody>
 			</Table.Root>
@@ -347,6 +356,6 @@ function Chips(props: { reactive?: boolean; readonly?: boolean; getter?: boolean
 	);
 }
 
-function tscode(code?: string): string {
-	return code ? markdown(`\`\`\`ts\n${code.trim()}\n\`\`\``) : '';
+function tscode(code?: string, tag: keyof HTMLElementTagNameMap = 'p'): JSX.Element {
+	return code ? <Markdown.Root tag={tag} text={`\`\`\`ts\n${code.trim()}\n\`\`\``} /> : '';
 }

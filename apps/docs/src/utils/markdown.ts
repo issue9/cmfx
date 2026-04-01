@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Code } from '@cmfx/components';
-import type { Source } from '@cmfx/vite-plugin-api';
+import type { Source, Type } from '@cmfx/vite-plugin-api';
 import { parse, type Token } from 'marked';
 
 import styles from './style.module.css';
@@ -26,6 +26,8 @@ const highlighter = await Code.buildHighlighter([
  * 表示 markdown 文件加载后的对象
  */
 export type MarkdownFileObject = Record<string, string>;
+
+export type APIFileObject = Record<string, Array<Type>>;
 
 function markdownCode(types?: Array<Source>) {
 	return (token: Token) => {

@@ -6,23 +6,23 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Scheme,source
-            - Radius,source
-            - createChartLocaleLoader,source
+            - Scheme
+            - Radius
+            - createChartLocaleLoader
 
 - pkg: "@cmfx/core"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - createZodLocaleLoader,source
-            - Problem,source
-            - zodValidator,source
-            - Validator,source
-            - ValidResult,source
-            - APIError,source
+            - createZodLocaleLoader
+            - Problem
+            - zodValidator
+            - Validator
+            - ValidResult
+            - APIError
 
 - pkg: "@cmfx/admin"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - handleProblem,source
+            - handleProblem
