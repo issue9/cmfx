@@ -162,9 +162,13 @@ export function Root(props: Props): JSX.Element {
 			class={joinClass(undefined, styles.tour, props.class)}
 			style={props.style}
 			ref={el => (ref = el)}
-			header={<Label.Root icon={curr().icon}>{header()}</Label.Root>}
+			header={
+				<Dialog.Toolbar close>
+					<Label.Root icon={curr().icon}>{header()}</Label.Root>
+				</Dialog.Toolbar>
+			}
 			footer={
-				<>
+				<footer class={styles.actions}>
 					{index() > 0 && (
 						<Button.Root onclick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button.Root>
 					)}
@@ -183,7 +187,7 @@ export function Root(props: Props): JSX.Element {
 							{props.complete || l.t('_c.tour.complete')}
 						</Button.Root>
 					)}
-				</>
+				</footer>
 			}
 		>
 			{curr()!.content}

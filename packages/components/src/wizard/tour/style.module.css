@@ -14,4 +14,8 @@
 	.focus {
 		@apply outline-palette-fg-high outline-double;
 	}
+
+	.actions {
+		@apply flex justify-end gap-1;
+	}
 }
