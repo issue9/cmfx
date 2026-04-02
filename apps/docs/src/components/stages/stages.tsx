@@ -9,7 +9,7 @@ import { createEffect, createSignal, For, type JSX, Show } from 'solid-js';
 import IconGithub from '~icons/lineicons/github';
 
 import { APIDoc } from '@docs/apidoc';
-import type { MarkdownFileObject } from '@docs/utils';
+import type { APIFileObject, TextFileObject } from '@docs/utils';
 import pkg from '../../../package.json' with { type: 'json' };
 import { default as Stage, type Props as StageProps } from './stage';
 import styles from './style.module.css';
@@ -31,17 +31,19 @@ export interface Props {
 	/**
 	 * 演示页面的底部内容
 	 */
-	footer?: MarkdownFileObject;
+	footer?: TextFileObject;
 
 	/**
 	 * 演示页面的顶部内容
 	 */
-	header?: MarkdownFileObject;
+	header?: TextFileObject;
 
 	/**
 	 * API 内容
 	 */
-	api?: Record<string, Array<Type>>;
+	api?: APIFileObject;
+
+	doc?: TextFileObject;
 }
 
 /**

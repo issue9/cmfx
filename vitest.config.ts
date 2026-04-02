@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,8 +8,6 @@ import { defineConfig } from 'vitest/config';
 
 // 需要排除的文件，同时作用在 test.exclude 和 test.coverage.exclude 字段。
 const exclude = [
-	'**/index.ts',
-	'**/index.tsx',
 	'**/lib/**',
 	'**/node_modules/**',
 	'**/vite.config.ts',
@@ -31,6 +29,8 @@ export default defineConfig({
 			'packages/illustrations',
 			'packages/admin',
 
+			'apps/docs',
+
 			'build/vite-plugin-about',
 			'build/vite-plugin-api',
 		],
@@ -38,7 +38,7 @@ export default defineConfig({
 		exclude: exclude,
 		coverage: {
 			enabled: true,
-			include: ['packages/**/*.{ts,tsx}', 'build/vite-plugin-*/**/*.{ts,tsx}'],
+			include: ['packages/**/*.{ts,tsx}', 'apps/docs/**/.{ts,tsx}', 'build/vite-plugin-*/**/*.{ts,tsx}'],
 			clean: false,
 			reportsDirectory: './coverage',
 			provider: 'v8',

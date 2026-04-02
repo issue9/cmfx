@@ -10,7 +10,7 @@ import type { JSX, ParentProps, Setter } from 'solid-js';
 import { createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
 import { APIDoc } from '@docs/apidoc';
-import { type APIFileObject, floatingWidth, type MarkdownFileObject } from '@docs/utils';
+import { type APIFileObject, fileObject2Map, floatingWidth, type TextFileObject } from '@docs/utils';
 import styles from './style.module.css';
 
 const kinds = ['intro', 'usage', 'advance'] as const;
@@ -192,7 +192,7 @@ export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
 interface MarkdownProps {
 	// 某一篇文章的所有语言以及对应的文章内容
 	// 键名为文章的地址，地址中包含了语言 ID，键值为文章内容。
-	articles: MarkdownFileObject;
+	articles: TextFileObject;
 
 	types?: APIFileObject;
 }
@@ -207,25 +207,22 @@ function MD(props: MarkdownProps): JSX.Element {
 	const route = useCurrentMatches()();
 	const title = route[route.length - 1].route.info?.title;
 
-	const articleObjs = Object.entries(props.articles).map(([k, v]) => [
-		k.replace(/\.md$/, '').replace(/^\.\/(intro|usage|advance)\/[^.]*\./, ''),
-		v,
-	]);
-	const articles = Object.fromEntries(articleObjs); // 键名为语言 ID
-	const locales = Object.keys(articles);
+	const articles = fileObject2Map(props.articles);
+	const locales = Array.from(articles.keys());
 
 	let articleRef!: Markdown.RootRef;
 	let navRef: Nav.RootRef;
 
 	const [text, setText] = createSignal<string>(
-		articleObjs.length > 1 // >1 表示有多种语言
-			? articles[l.match(locales, origin.locale)]
-			: articleObjs[0][1],
+		articles.size > 1 // >1 表示有多种语言
+			? articles.get(l.match(locales, origin.locale))
+			: articles.values().next().value,
 	);
 
-	if (articleObjs.length > 1) {
+	// 监视语言切换
+	if (articles.size > 1) {
 		createEffect(() => {
-			const data = articles[l.match(locales, origin.locale)];
+			const data = articles.get(l.match(locales, origin.locale));
 			if (data) {
 				setText(data);
 				navRef.refresh();
@@ -244,17 +241,13 @@ function MD(props: MarkdownProps): JSX.Element {
 			return;
 		}
 
-		const typeObjs = Object.entries(props.types).map(([k, v]) => [
-			k.replace(/\.md$/, '').replace(/^\.\/(intro|usage|advance)\/[^.]*\./, ''),
-			v,
-		]);
-		const ts = Object.fromEntries(typeObjs); // 键名为语言 ID
-		const locales = Object.keys(ts);
+		const typeObj = fileObject2Map(props.types);
+		const locales = Array.from(typeObj.keys());
 
 		const ret: Array<Type> =
-			typeObjs.length > 1 // >1 表示有多种语言
-				? ts[l.match(locales, origin.locale)]
-				: typeObjs[0][1];
+			typeObj.size > 1 // >1 表示有多种语言
+				? typeObj.get(l.match(locales, origin.locale))
+				: typeObj.values().next().value;
 
 		const obj: Markdown.RootProps['components'] = {};
 		ret.forEach(t => {
