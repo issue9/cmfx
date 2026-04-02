@@ -22,7 +22,7 @@ import IconDown from '~icons/material-symbols/arrow-drop-down';
 import styles from './style.module.css';
 
 /**
- * 生成 API 文档的表格形式
+ * 根据 {@link Type} 生成文档内容
  */
 export function APIDoc(props: { api: Type }): JSX.Element {
 	return (

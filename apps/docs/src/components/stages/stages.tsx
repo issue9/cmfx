@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Markdown, Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
 import { createEffect, createSignal, For, type JSX, Show } from 'solid-js';
 import IconGithub from '~icons/lineicons/github';
 
-import { type MarkdownFileObject, markdown } from '@docs/utils';
-import pkg from '../../../package.json';
-import { APIDoc } from '../../apidoc/api';
+import { APIDoc } from '@docs/apidoc';
+import type { MarkdownFileObject } from '@docs/utils';
+import pkg from '../../../package.json' with { type: 'json' };
 import { default as Stage, type Props as StageProps } from './stage';
 import styles from './style.module.css';
 
@@ -112,7 +112,7 @@ export default function Stages(props: Props): JSX.Element {
 					</A>
 				</h2>
 
-				<Show when={header()}>{d => <article innerHTML={markdown(d())} />}</Show>
+				<Show when={header()}>{d => <Markdown.Root text={d()} />}</Show>
 
 				<Show when={props.stages}>
 					{stages => (
@@ -134,7 +134,7 @@ export default function Stages(props: Props): JSX.Element {
 					)}
 				</Show>
 
-				<Show when={footer()}>{f => <article innerHTML={markdown(f())} />}</Show>
+				<Show when={footer()}>{f => <Markdown.Root tag="article" text={f()} />}</Show>
 			</article>
 
 			<Nav.Root

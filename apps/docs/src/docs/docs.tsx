@@ -6,25 +6,19 @@ import { Code, Drawer, joinClass, Markdown, Menu, Nav, Page, useLocale, useOptio
 import type { ArrayElement, Locale } from '@cmfx/core';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import {
-	createEffect,
-	createMemo,
-	createSignal,
-	type JSX,
-	onCleanup,
-	onMount,
-	type ParentProps,
-	type Setter,
-} from 'solid-js';
+import type { JSX, ParentProps, Setter } from 'solid-js';
+import { createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
 import { APIDoc } from '@docs/apidoc';
 import { type APIFileObject, floatingWidth, type MarkdownFileObject } from '@docs/utils';
 import styles from './style.module.css';
 
+const kinds = ['intro', 'usage', 'advance'] as const;
+
+type Kind = (typeof kinds)[number];
+
 const usageAPI = import.meta.glob('./usage/api.*.json', { eager: true, import: 'default' }) as APIFileObject;
 const advanceAPI = import.meta.glob('./advance/api.*.json', { eager: true, import: 'default' }) as APIFileObject;
-
-type Kind = 'intro' | 'usage' | 'advance';
 
 // 定义了所有文章的路由
 //
@@ -214,7 +208,7 @@ function MD(props: MarkdownProps): JSX.Element {
 	const title = route[route.length - 1].route.info?.title;
 
 	const articleObjs = Object.entries(props.articles).map(([k, v]) => [
-		k.replace(/\.md$/, '').replace(/^\.\/(usage|advance)\/[^.]*\./, ''),
+		k.replace(/\.md$/, '').replace(/^\.\/(intro|usage|advance)\/[^.]*\./, ''),
 		v,
 	]);
 	const articles = Object.fromEntries(articleObjs); // 键名为语言 ID
@@ -251,7 +245,7 @@ function MD(props: MarkdownProps): JSX.Element {
 		}
 
 		const typeObjs = Object.entries(props.types).map(([k, v]) => [
-			k.replace(/\.md$/, '').replace(/^\.\/(usage|advance)\/[^.]*\./, ''),
+			k.replace(/\.md$/, '').replace(/^\.\/(intro|usage|advance)\/[^.]*\./, ''),
 			v,
 		]);
 		const ts = Object.fromEntries(typeObjs); // 键名为语言 ID
