@@ -7,7 +7,7 @@ import type { ArrayElement, Locale } from '@cmfx/core';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import type { JSX, ParentProps, Setter } from 'solid-js';
-import { createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
+import { createMemo, onCleanup, onMount } from 'solid-js';
 
 import { APIDoc } from '@docs/apidoc';
 import { type APIFileObject, fileObject2Map, floatingWidth, type TextFileObject } from '@docs/utils';
@@ -209,28 +209,17 @@ function Doc(props: DocProps): JSX.Element {
 	const route = useCurrentMatches()();
 	const title = route[route.length - 1].route.info?.title;
 
-	const articles = fileObject2Map(props.articles);
-	const locales = Array.from(articles.keys());
-
 	let articleRef!: Markdown.RootRef;
 	let navRef: Nav.RootRef;
 
-	const [text, setText] = createSignal<string>(
-		articles.size > 1 // >1 表示有多种语言
-			? articles.get(l.match(locales, origin.locale))
-			: articles.values().next().value,
-	);
+	const text = createMemo(() => {
+		const articles = fileObject2Map(props.articles);
+		const locales = Array.from(articles.keys());
 
-	// 监视语言切换
-	if (articles.size > 1) {
-		createEffect(() => {
-			const data = articles.get(l.match(locales, origin.locale));
-			if (data) {
-				setText(data);
-				navRef.refresh();
-			}
-		});
-	}
+		return articles.size > 1 // >1 表示有多种语言
+			? articles.get(l.match(locales, origin.locale))
+			: articles.values().next().value;
+	});
 
 	let page: Page.RootRef;
 
@@ -238,7 +227,7 @@ function Doc(props: DocProps): JSX.Element {
 		Code.withCopyButton(page.root());
 	});
 
-	const types = createMemo(() => {
+	const components = createMemo(() => {
 		if (!props.types || Object.keys(props.types).length === 0) {
 			return;
 		}
@@ -260,7 +249,13 @@ function Doc(props: DocProps): JSX.Element {
 
 	return (
 		<Page.Root ref={el => (page = el)} title={title} class={styles.docs}>
-			<Markdown.Root class={styles.doc} ref={el => (articleRef = el)} text={text()} components={types()} />
+			<Markdown.Root
+				class={styles.doc}
+				ref={el => (articleRef = el)}
+				text={text()}
+				components={components()}
+				onComplete={() => navRef.refresh()}
+			/>
 			<Nav.Root
 				minHeaderCount={5}
 				class={styles.nav}

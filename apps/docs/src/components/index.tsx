@@ -38,21 +38,12 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 				<Drawer.Root
 					initValue
 					floating={floatingWidth}
-					ref={el => {
-						ref = el;
-					}}
+					ref={el => (ref = el)}
 					palette="secondary"
 					mainClass={joinClass('surface', styles.main)}
 					main={props.children}
 				>
-					<Menu.Root
-						ref={el => {
-							menuRef = el;
-						}}
-						class="min-w-65"
-						layout="inline"
-						items={buildMenus(l, prefix)}
-					/>
+					<Menu.Root ref={el => (menuRef = el)} class="min-w-65" layout="inline" items={buildMenus(l, prefix)} />
 				</Drawer.Root>
 			);
 		},

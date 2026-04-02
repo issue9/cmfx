@@ -35,6 +35,11 @@ export interface Props<T extends keyof HTMLElementTagNameMap = 'article'> extend
 	 * @defaultValue 'article'
 	 */
 	tag?: T;
+
+	/**
+	 * 在完成渲染时的回调
+	 */
+	onComplete?: () => void;
 }
 
 /**
@@ -58,21 +63,29 @@ export function Root<T extends keyof HTMLElementTagNameMap = 'article'>(props: P
 	const [html, setHTML] = createSignal(props.text);
 	let ref: HTMLElement;
 
+	// 监视文本是否修改
 	createEffect(async () => {
 		const ht = await p.parse(props.text || '', { async: true });
 		setHTML(ht);
 
+		// 需要等待文本内容在 dom 已经渲染完了，再将组件挂载在对应在的位置
 		requestAnimationFrame(() => {
 			if (!props.components) {
+				if (props.onComplete) {
+					props.onComplete();
+				}
 				return;
 			}
+
 			Object.entries(props.components).forEach(([id, fn]) => {
 				ref.querySelectorAll(`[data-markdown-component="${id}"]`)?.forEach(el => {
-					runWithOwner(owner, () => {
-						render(fn, el);
-					});
+					runWithOwner(owner, () => render(fn, el));
 				});
 			});
+
+			if (props.onComplete) {
+				props.onComplete();
+			}
 		});
 	});
 

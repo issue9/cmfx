@@ -63,12 +63,8 @@ export function Root(props: Props): JSX.Element {
 					return;
 				}
 				props.ref({
-					root() {
-						return el;
-					},
-					refresh() {
-						refresh();
-					},
+					root: () => el,
+					refresh: () => refresh(),
 				});
 			}}
 		>

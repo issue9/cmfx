@@ -43,6 +43,7 @@ export type Info = {
 
 	header?: StagesProps['header']; // 页面的顶部
 	api?: StagesProps['api']; // 关联的接口文档
+	doc: StagesProps['doc'];
 	footer?: StagesProps['footer']; // 页面的底部
 };
 
