@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
-import { type JSX, type ParentProps, getOwner, runWithOwner } from 'solid-js';
+import { getOwner, type JSX, type ParentProps, runWithOwner } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
 import type { MountProps } from '@components/base';

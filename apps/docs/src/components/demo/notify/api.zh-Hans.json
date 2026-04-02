@@ -56,7 +56,7 @@
 			{
 				"name": "body",
 				"summary": "内容\n\n",
-				"remarks": "使用\nn 作为换行符。\n\n",
+				"remarks": "换行符会被替换的为\n`<br />`\n。\n\n\nNOTE: 如果直接使用字符串属性，那么其内容中的 '\nn' 不会被转义，\n只有字符串变量中的 '\nn' 会被转义为\n`<br />`\n。\n\n",
 				"type": "string | undefined",
 				"reactive": true
 			},

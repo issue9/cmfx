@@ -2,6 +2,13 @@
 	{
 		"kind": "interface",
 		"name": "Markdown.RootProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "keyof HTMLElementTagNameMap",
+				"init": "'article'"
+			}
+		],
 		"properties": [
 			{
 				"name": "text",
@@ -13,6 +20,17 @@
 				"name": "components",
 				"summary": "指定渲染的组件\n\n",
 				"type": "Record<string, () => JSX.Element> | undefined"
+			},
+			{
+				"name": "tag",
+				"summary": "自定义标签\n\n",
+				"type": "T | undefined",
+				"def": "'article'\n\n"
+			},
+			{
+				"name": "onComplete",
+				"summary": "在完成渲染时的回调\n\n",
+				"type": "(() => void) | undefined"
 			},
 			{
 				"name": "palette",

@@ -14,7 +14,6 @@ export type Ref<T extends keyof HTMLElementTagNameMap = 'div'> = BaseRef<
 
 export type Props<T extends keyof HTMLElementTagNameMap = 'div'> = ParentProps &
 	BaseProps &
-	Omit<HTMLElementTagNameMap[T], 'ref' | 'children' | 'class' | 'style'> &
 	RefProps<Ref<T>> & {
 		/**
 		 * 自定义标签

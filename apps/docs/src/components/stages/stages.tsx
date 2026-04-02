@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import { Markdown, Nav, Page, useLocale, useOptions } from '@cmfx/components';
-import type { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
 import { createMemo, For, type JSX } from 'solid-js';
 import IconGithub from '~icons/lineicons/github';
@@ -51,7 +50,7 @@ export default function Stages(props: Props): JSX.Element {
 	const url = baseURL + props.dir;
 
 	// 文档内容
-	const text = createMemo<string>(() => {
+	const text = createMemo(() => {
 		const apis = fileObject2Map(props.doc);
 		const locales = Array.from(apis.keys());
 
@@ -74,7 +73,7 @@ export default function Stages(props: Props): JSX.Element {
 			const apis = fileObject2Map(props.api);
 			const locales = Array.from(apis.keys());
 
-			const types: Array<Type> =
+			const types =
 				apis.size > 1 // >1 表示有多种语言
 					? apis.get(l.match(locales, origin.locale))
 					: apis.values().next().value;

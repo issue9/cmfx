@@ -166,17 +166,22 @@ export function Root<T extends Flattenable, R = never, P = never>(props: Props<T
 				palette={props.palette}
 				class={joinClass(undefined, props.class)}
 				style={props.style}
-				onSubmit={e => {
-					api.submit().catch(setError);
-					e.preventDefault();
-				}}
-				onReset={e => {
-					api.reset();
-					e.preventDefault();
-				}}
-				method={props.inDialog ? 'dialog' : undefined}
-				id={id}
 				ref={el => {
+					el.root().addEventListener('submit', e => {
+						api.submit().catch(setError);
+						e.preventDefault();
+					});
+
+					el.root().addEventListener('reset', e => {
+						api.reset();
+						e.preventDefault();
+					});
+
+					el.root().id = id;
+					if (props.inDialog) {
+						el.root().method = 'dialog';
+					}
+
 					if (props.ref) {
 						props.ref({
 							root: el.root,

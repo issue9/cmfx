@@ -175,7 +175,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_73"
+					"type": "Ref_74"
 				}
 			},
 			{
@@ -370,7 +370,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_73"
+					"type": "Ref_74"
 				}
 			},
 			{
@@ -452,12 +452,6 @@
 				"reactive": true
 			},
 			{
-				"name": "toolbar",
-				"summary": "工具栏的内容\n\n\n此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。\n\n",
-				"type": "JSX.Element",
-				"reactive": true
-			},
-			{
 				"name": "fixedLayout",
 				"summary": "是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，\n但是可能会造成空间的巨大浪费。具体可查看：\n\n",
 				"type": "boolean | undefined",
@@ -508,6 +502,12 @@
 				"name": "queries",
 				"summary": "查询参数的默认值\n\n\n如果没有查询参数可以使用\n`{}`\n代替。\n\n\nNOTE: 如果\n`inSearch`\n为 true，那么地址中的参数将覆盖此参数中的相同名称的字段。\n\n",
 				"type": "Q",
+				"reactive": true
+			},
+			{
+				"name": "toolbar",
+				"summary": "工具栏的内容\n\n\n此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。\n\n",
+				"type": "JSX.Element",
 				"reactive": true
 			},
 			{
@@ -575,7 +575,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_73"
+					"type": "Ref_74"
 				}
 			},
 			{
