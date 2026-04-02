@@ -29,16 +29,6 @@ export interface Props {
 	stages?: Array<StageProps>;
 
 	/**
-	 * 演示页面的底部内容
-	 */
-	footer?: TextFileObject;
-
-	/**
-	 * 演示页面的顶部内容
-	 */
-	header?: TextFileObject;
-
-	/**
 	 * API 内容
 	 */
 	api?: APIFileObject;

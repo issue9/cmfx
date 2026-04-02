@@ -39,12 +39,10 @@ export type Info = {
 	title: DictKeys<typeof messages>; // 演示组件的标题，同时也是页面的标题。
 	icon?: Component; // 演示组件的图标，需要多处使用，所以使用函数。如果为空会有默认图标。
 	path: string; // 相对于 components/demo 的路径，同时作为文件路径和导航的路由路径。
-	stages?: Array<StageProps>; // 演示内容
 
-	header?: StagesProps['header']; // 页面的顶部
+	stages?: Array<StageProps>; // 演示内容
 	api?: StagesProps['api']; // 关联的接口文档
 	doc: StagesProps['doc'];
-	footer?: StagesProps['footer']; // 页面的底部
 };
 
 /**
