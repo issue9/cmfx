@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconPage,
 		path: 'page',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Page, source: page, title: '基本用法' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Page, source: page, id: 'page' }],
 	};
 }

@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconCalendar,
 		path: 'datetime/calendar',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Calendar, source: calendar, layout: 'vertical', title: '_d.demo.basicFunctions' },
-			{ component: Lunar, source: lunar, layout: 'vertical', title: '农历' },
+			{ component: Calendar, source: calendar, layout: 'vertical', id: 'calendar' },
+			{ component: Lunar, source: lunar, layout: 'vertical', id: 'lunar' },
 		],
 	};
 }

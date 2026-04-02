@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconChoice,
 		path: 'form/choice',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, title: 'basic' },
-			{ component: Multiple, source: multiple, title: 'multiple' },
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: Multiple, source: multiple, id: 'multiple' },
 		],
 	};
 }

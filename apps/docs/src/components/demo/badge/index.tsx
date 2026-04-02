@@ -21,11 +21,12 @@ export default function (): Info {
 		icon: IconBadge,
 		path: 'badge',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, title: '_d.demo.basicFunctions' },
-			{ component: Text, source: text, title: '文本' },
-			{ component: Long, source: long, title: '长文本' },
-			{ component: Icon, source: icon, title: '图标' },
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: Text, source: text, id: 'text' },
+			{ component: Long, source: long, id: 'long' },
+			{ component: Icon, source: icon, id: 'icon' },
 		],
 	};
 }

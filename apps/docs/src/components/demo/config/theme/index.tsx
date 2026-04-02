@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconThemeConfig,
 		path: 'config/theme',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Theme, source: theme, title: 'ThemeProvider' },
-			{ component: Global, source: global, title: '修改全局主题' },
-			{ component: Nested, source: nested, title: '嵌套' },
+			{ component: Theme, source: theme, id: 'theme' },
+			{ component: Global, source: global, id: 'global' },
+			{ component: Nested, source: nested, id: 'nested' },
 		],
 	};
 }

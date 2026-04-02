@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconTextarea,
 		path: 'form/textarea',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Textarea, source: textarea, title: 'textarea' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Textarea, source: textarea, id: 'textarea' }],
 	};
 }

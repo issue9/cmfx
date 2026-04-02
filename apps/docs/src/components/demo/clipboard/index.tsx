@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconIcon,
 		path: 'icon',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Basic, source: basic, title: '_d.demo.basicFunctions' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Basic, source: basic, id: 'basic' }],
 	};
 }

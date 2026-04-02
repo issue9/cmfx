@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconColor,
 		path: 'form/color',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Picker, source: picker, title: 'picker' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Picker, source: picker, id: 'picker' }],
 	};
 }

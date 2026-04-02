@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconCard,
 		path: 'card',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Header, source: header, title: 'header' },
-			{ component: Footer, source: footer, title: 'footer' },
+			{ component: Header, source: header, id: 'header' },
+			{ component: Footer, source: footer, id: 'footer' },
 		],
 	};
 }

@@ -18,48 +18,6 @@
 		.apis {
 			@apply mt-2 flex flex-col gap-2;
 
-			.api {
-				@apply flex flex-col gap-1;
-				@apply mb-4;
-
-				.title {
-					@apply flex gap-1 items-center justify-between;
-
-					.pkg {
-						@apply text-palette-fg-low/50;
-					}
-				}
-
-				.remarks {
-					@apply text-sm;
-				}
-
-				.dropdown {
-					@apply cursor-pointer border border-transparent hover:border-palette-border-actived;
-					@apply transition;
-				}
-
-				table tbody th {
-					@apply flex gap-1 items-center;
-					white-space: nowrap;
-
-					> kbd {
-						@apply px-1 font-mono aspect-square m-0! cursor-pointer;
-						@apply hover:border-palette-border-actived! hover:bg-palette-bg-actived! hover:text-palette-fg-actived!;
-					}
-				}
-
-				table th,
-				table td {
-					@apply text-left;
-				}
-
-				.func {
-					@apply mt-2;
-					@apply border border-palette-border px-1;
-				}
-			}
-
 			code {
 				/* 文档中的类型名称等 codespan 类型的简要代码 */
 				@apply px-1 font-mono;
@@ -111,48 +69,44 @@
 				@apply ps-1 list-inside list-disc;
 			}
 
-			.stages {
-				@apply flex flex-col w-full;
+			.stage {
+				/* 单个展示舞台，包含演示区域和代码 */
+				@apply flex mb-4 rounded-lg bg-palette-bg-low overflow-clip;
+				@apply border border-palette-border;
 
-				.stage {
-					/* 单个展示舞台，包含演示区域和代码 */
-					@apply flex mb-4 rounded-lg bg-palette-bg-low overflow-clip;
-					@apply border border-palette-border;
+				.demo {
+					/* 演示区域，包含了常规的工具栏和演示组件 */
+					@apply flex flex-col justify-between p-2 flex-1 h-fit w-1/2;
+					@apply bg-palette-bg text-palette-fg;
 
-					.demo {
-						/* 演示区域，包含了常规的工具栏和演示组件 */
-						@apply flex flex-col justify-between p-2 flex-1 h-fit w-1/2;
-						@apply bg-palette-bg text-palette-fg;
+					> .toolbar {
+						@apply w-full pb-2 border border-transparent border-b-palette-border mb-4;
+						@apply flex gap-2 justify-start flex-wrap;
 
-						> .toolbar {
-							@apply w-full pb-2 border border-transparent border-b-palette-border mb-4;
-							@apply flex gap-2 justify-start flex-wrap;
-
-							> .left {
-								@apply flex gap-2 justify-start;
-							}
-
-							> .right {
-								@apply flex flex-wrap gap-2 justify-start items-center;
-
-								> div {
-									/* 这是由 Portal 额外添加的，需要将其内容进行过滤 */
-									@apply contents;
-								}
-							}
+						> .left {
+							@apply flex gap-2 justify-start;
 						}
 
-						.component {
-							/* 演示组件 */
-							@apply bg-palette-bg text-palette-fg p-2 border border-palette-border;
-							@apply min-h-fit grow;
-							@apply flex flex-wrap gap-2;
+						> .right {
+							@apply flex flex-wrap gap-2 justify-start items-center;
+
+							> div {
+								/* 这是由 Portal 额外添加的，需要将其内容进行过滤 */
+								@apply contents;
+							}
 						}
 					}
 
-					.code {
-						@apply border-transparent rounded-none! flex-1 w-1/2;
+					.component {
+						/* 演示组件 */
+						@apply bg-palette-bg text-palette-fg p-2 border border-palette-border;
+						@apply min-h-fit grow;
+						@apply flex flex-wrap gap-2;
 					}
+				}
+
+				.code {
+					@apply border-transparent rounded-none! flex-1 w-1/2;
 				}
 
 				.stage.vertical {

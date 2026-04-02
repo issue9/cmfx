@@ -21,11 +21,12 @@ export default function (): Info {
 		icon: IconCheckbox,
 		path: 'form/checkbox',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Checkbox, source: checkbox, title: 'checkbox' },
-			{ component: Group, source: group, title: 'checkbox group' },
-			{ component: Label, source: label, title: 'label' },
-			{ component: Indeterminate, source: indeterminate, title: 'indeterminate' },
+			{ component: Checkbox, source: checkbox, id: 'checkbox' },
+			{ component: Group, source: group, id: 'group' },
+			{ component: Label, source: label, id: 'label' },
+			{ component: Indeterminate, source: indeterminate, id: 'indeterminate' },
 		],
 	};
 }

@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconTheme,
 		path: 'scheme/selector',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Selector, source: selector, title: 'basic' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Selector, source: selector, id: 'basic' }],
 	};
 }

@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconTimezone,
 		path: 'datetime/timezone',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Timezone, source: timezone, layout: 'vertical', title: '_d.demo.basicFunctions' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Timezone, source: timezone, layout: 'vertical', id: 'timezone' }],
 	};
 }

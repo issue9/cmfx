@@ -78,7 +78,6 @@ const messages = {
 			componentLayout: 'Layout',
 			itemLayout: 'Item layout',
 			block: 'Block',
-			basicFunctions: 'Basic function',
 			charCount: 'Character count',
 
 			// 分类名称
@@ -125,6 +124,7 @@ const messages = {
 			input: 'Input',
 			label: 'Label',
 			localeConfig: 'Locale Config',
+			markdown: 'Markdown',
 			misc: 'Misc',
 			menu: 'Menu',
 			monthpanel: 'Month Panel',

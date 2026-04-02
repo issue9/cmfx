@@ -16,12 +16,12 @@ export default function (): Info {
 		title: '_d.demo.appbar',
 		icon: IconAppbar,
 		path: 'appbar',
-		footer: import.meta.glob('./FOOTER.*.md', { eager: true, query: '?raw', import: 'default' }),
-		header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw', import: 'default' }),
+
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Appbar, source: appbar, title: '_d.demo.basicFunctions' },
-			{ component: Anchor, source: anchor, title: '带链接' },
+			{ component: Appbar, source: appbar, id: 'appbar' },
+			{ component: Anchor, source: anchor, id: 'anchor' },
 		],
 	};
 }

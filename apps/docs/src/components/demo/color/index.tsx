@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconColorPanel,
 		path: 'color',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, layout: 'auto', title: '_d.demo.basicFunctions' },
-			{ component: WCAG, source: wcag, layout: 'auto', title: 'WCAG' },
-			{ component: Disabled, source: disabled, layout: 'auto', title: 'disabled' },
+			{ component: Basic, source: basic, layout: 'auto', id: 'basic' },
+			{ component: WCAG, source: wcag, layout: 'auto', id: 'wcag' },
+			{ component: Disabled, source: disabled, layout: 'auto', id: 'disabled' },
 		],
 	};
 }

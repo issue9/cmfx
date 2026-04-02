@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconPagination,
 		path: 'pagination',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Pagination, source: pagination, title: 'pagination' },
-			{ component: Bar, source: bar, title: 'pagination bar' },
+			{ component: Pagination, source: pagination, id: 'pagination' },
+			{ component: Bar, source: bar, id: 'bar' },
 		],
 	};
 }

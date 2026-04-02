@@ -29,6 +29,7 @@ export * from './formatter';
 export * from './icon';
 export * from './input';
 export * from './label';
+export * from './markdown';
 export * from './menu';
 export * from './messages';
 export * from './nav';

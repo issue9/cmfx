@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconStepper,
 		path: 'wizard/stepper',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Stepper, source: stepper, title: 'stepper' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Stepper, source: stepper, id: 'stepper' }],
 	};
 }

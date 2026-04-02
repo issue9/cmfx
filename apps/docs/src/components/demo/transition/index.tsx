@@ -14,6 +14,7 @@ export default function (): Info {
 		title: '_d.demo.transition',
 		icon: IconTransition,
 		path: 'transition',
-		stages: [{ component: Transition, source: transition, title: 'transition' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Transition, source: transition, id: 'transition' }],
 	};
 }

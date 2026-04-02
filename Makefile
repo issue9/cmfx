@@ -114,6 +114,7 @@ watch: watch-server watch-admin
 
 .PHONY: test test-go test-ts lint-ts
 .PHONY: test-ts-core test-ts-components test-ts-admin
+.PHONY: test-ts-docs
 .PHONY: test-ts-plugin-about test-ts-plugin-api
 
 lint-ts:
@@ -132,6 +133,9 @@ test-ts-plugin-api: mk-coverage
 
 test-ts-core: mk-coverage
 	pnpm run test --project=@cmfx/core
+
+test-ts-docs: mk-coverage
+	pnpm run test --project=@cmfx/docs
 
 test-ts-components: mk-coverage build-ts-core
 	pnpm run test --project=@cmfx/components

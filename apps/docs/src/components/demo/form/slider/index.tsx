@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconRange,
 		path: 'form/slider',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, title: 'basic' },
-			{ component: Step, source: step, title: 'step' },
-			{ component: Mark, source: mark, title: 'mark' },
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: Step, source: step, id: 'step' },
+			{ component: Mark, source: mark, id: 'mark' },
 		],
 	};
 }

@@ -51,6 +51,9 @@ catalogs:
     intl-messageformat:
       specifier: ^11.2.0
       version: 11.2.0
+    marked:
+      specifier: ^17.0.4
+      version: 17.0.4
     shiki:
       specifier: ^4.0.2
       version: 4.0.2
@@ -219,9 +222,6 @@ importers:
       echarts:
         specifier: 'catalog:'
         version: 6.0.0
-      marked:
-        specifier: ^17.0.4
-        version: 17.0.4
       shiki:
         specifier: 'catalog:'
         version: 4.0.2
@@ -262,6 +262,9 @@ importers:
       vite-plugin-solid:
         specifier: 'catalog:'
         version: 2.11.11(@testing-library/jest-dom@6.9.1)(solid-js@1.9.12)(vite@8.0.3(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3))
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.2(@types/node@25.5.0)(jsdom@29.0.1)(vite@8.0.3(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3))
 
   build/vite-plugin-about:
     dependencies:
@@ -406,6 +409,9 @@ importers:
       fast-deep-equal:
         specifier: ^3.1.3
         version: 3.1.3
+      marked:
+        specifier: 'catalog:'
+        version: 17.0.4
       qr-code-styling:
         specifier: ^1.9.2
         version: 1.9.2

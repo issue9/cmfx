@@ -80,7 +80,6 @@ const messages: typeof m = {
 			componentLayout: '布局',
 			itemLayout: '子项布局',
 			block: '方块',
-			basicFunctions: '基本功能',
 			charCount: '字符统计',
 
 			// 分类名称
@@ -127,6 +126,7 @@ const messages: typeof m = {
 			input: 'Input 输入框基础',
 			label: 'Label 标题',
 			localeConfig: 'Locale Config 国际化配置',
+			markdown: 'Markdown',
 			misc: 'Misc 其它',
 			menu: 'Menu 菜单',
 			monthpanel: 'Month Panel 月份面板',

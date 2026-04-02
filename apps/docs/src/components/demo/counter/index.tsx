@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconCounter,
 		path: 'counter',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, title: 'basic' },
-			{ component: Formatter, source: formatter, title: 'formatter' },
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: Formatter, source: formatter, id: 'formatter' },
 		],
 	};
 }

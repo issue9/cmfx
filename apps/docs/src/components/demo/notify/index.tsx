@@ -21,11 +21,12 @@ export default function (): Info {
 		icon: IconNotify,
 		path: 'notify',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Notify, source: notify, title: 'notify' },
-			{ component: Alert, source: alert, title: 'alert' },
-			{ component: Body, source: body, title: 'alert with body' },
-			{ component: Duration, source: duration, title: 'duration' },
+			{ component: Notify, source: notify, id: 'notify' },
+			{ component: Alert, source: alert, id: 'alert' },
+			{ component: Body, source: body, id: 'body' },
+			{ component: Duration, source: duration, id: 'duration' },
 		],
 	};
 }

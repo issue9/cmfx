@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconMonthPanel,
 		path: 'datetime/month',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Month, source: month, title: 'month' },
-			{ component: Year, source: year, title: 'year' },
+			{ component: Month, source: month, id: 'month' },
+			{ component: Year, source: year, id: 'year' },
 		],
 	};
 }

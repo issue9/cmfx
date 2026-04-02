@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconIcon,
 		path: 'icon',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Text, source: text, title: '与文本的排版' },
-			{ component: IconSet, source: iconSet, title: '图标集' },
+			{ component: Text, source: text, id: 'text' },
+			{ component: IconSet, source: iconSet, id: 'iconset' },
 		],
 	};
 }

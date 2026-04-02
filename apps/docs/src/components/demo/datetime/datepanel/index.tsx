@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconDatePanel,
 		path: '/datetime/datepanel',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Date1, source: date1, title: 'date' },
-			{ component: Range, source: range, title: 'range' },
+			{ component: Date1, source: date1, id: 'date' },
+			{ component: Range, source: range, id: 'range' },
 		],
 	};
 }

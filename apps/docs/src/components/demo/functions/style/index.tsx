@@ -13,5 +13,6 @@ export default function (): Info {
 		icon: IconStyle,
 		path: 'functions/style',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 	};
 }

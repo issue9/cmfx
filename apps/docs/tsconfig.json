@@ -1,7 +1,7 @@
 {
 	"extends": "../../build/tsconfig.base.json",
 	"compilerOptions": {
-		"types": ["vite/client", "unplugin-icons/types/solid"],
+		"types": ["vite/client", "@testing-library/jest-dom", "unplugin-icons/types/solid"],
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
 		"paths": {

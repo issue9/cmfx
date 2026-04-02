@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconFormatter,
 		path: 'formatter',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Bytes, source: bytes, title: 'bytes' },
-			{ component: Bits, source: bits, title: 'bits' },
+			{ component: Bytes, source: bytes, id: 'bytes' },
+			{ component: Bits, source: bits, id: 'bits' },
 		],
 	};
 }

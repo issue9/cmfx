@@ -2,27 +2,28 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, Page, useLocale } from '@cmfx/components';
+import { Markdown, Nav, Page, useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { markdown } from '@docs/utils';
 import txt from '../../../../CONTRIBUTING.md?raw';
 import styles from './style.module.css';
 
 export function Contribute(): JSX.Element {
 	const l = useLocale();
 
-	let articleRef: HTMLElement;
+	let articleRef: Markdown.RootRef;
+	let navRef: Nav.RootRef;
 
 	return (
 		<Page.Root title={l.t('_d.contribute.contribute')} class={styles.contribute}>
-			<article
-				ref={el => {
-					articleRef = el;
-				}}
-				innerHTML={markdown(txt)}
+			<Markdown.Root ref={el => (articleRef = el)} text={txt} onComplete={() => navRef.refresh()} />
+			<Nav.Root
+				ref={el => (navRef = el)}
+				minHeaderCount={5}
+				class={styles.nav}
+				target={articleRef!.root()}
+				query="h2,h3,h4,h5,h6"
 			/>
-			<Nav.Root minHeaderCount={5} class={styles.nav} target={articleRef!} query="h2,h3,h4,h5,h6" />
 		</Page.Root>
 	);
 }

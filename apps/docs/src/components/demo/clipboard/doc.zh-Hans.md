@@ -1,0 +1,5 @@
+
+#### clipboard
+@```demo-basic```@
+
+@```api```@

@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconRadio,
 		path: 'form/radio',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Radio, source: radio, title: 'radio' },
-			{ component: Group, source: group, title: 'group' },
+			{ component: Radio, source: radio, id: 'radio' },
+			{ component: Group, source: group, id: 'group' },
 		],
 	};
 }

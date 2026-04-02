@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Markdown, Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
-import { createEffect, createSignal, For, type JSX, Show } from 'solid-js';
+import { createMemo, For, type JSX } from 'solid-js';
 import IconGithub from '~icons/lineicons/github';
 
-import { type MarkdownFileObject, markdown } from '@docs/utils';
-import pkg from '../../../package.json';
-import { API } from './api';
+import { APIDoc } from '@docs/apidoc';
+import { type APIFileObject, fileObject2Map, type TextFileObject } from '@docs/utils';
+import pkg from '../../../package.json' with { type: 'json' };
 import { default as Stage, type Props as StageProps } from './stage';
 import styles from './style.module.css';
 
@@ -29,19 +29,11 @@ export interface Props {
 	stages?: Array<StageProps>;
 
 	/**
-	 * 演示页面的底部内容
-	 */
-	footer?: MarkdownFileObject;
-
-	/**
-	 * 演示页面的顶部内容
-	 */
-	header?: MarkdownFileObject;
-
-	/**
 	 * API 内容
 	 */
-	api?: Record<string, Array<Type>>;
+	api?: APIFileObject;
+
+	doc: TextFileObject;
 }
 
 /**
@@ -58,53 +50,49 @@ export default function Stages(props: Props): JSX.Element {
 	let navRef!: Nav.RootRef;
 	const url = baseURL + props.dir;
 
-	const [footer, setFooter] = createSignal<string>('');
-	if (props.footer) {
-		const arr = Object.entries(props.footer).map(([k, v]) => [k.replace(/^\.\/FOOTER\./, '').replace(/\.md$/, ''), v]);
-		const obj = Object.fromEntries(arr);
+	// 文档内容
+	const text = createMemo<string>(() => {
+		const apis = fileObject2Map(props.doc);
+		const locales = Array.from(apis.keys());
 
-		createEffect(() => {
-			const loc = l.match(Object.keys(obj), origin.locale);
-			setFooter(obj[loc]);
+		return apis.size > 1 // >1 表示有多种语言
+			? apis.get(l.match(locales, origin.locale))
+			: apis.values().next().value;
+	});
 
-			requestIdleCallback(() => navRef.refresh());
-		});
-	}
+	// 文档中的组件
+	const components = createMemo<Markdown.RootProps['components']>(() => {
+		const ret: Markdown.RootProps['components'] = {};
 
-	const [header, setHeader] = createSignal<string>('');
-	if (props.header) {
-		const arr = Object.entries(props.header).map(([k, v]) => [k.replace(/^\.\/HEADER\./, '').replace(/\.md$/, ''), v]);
-		const obj = Object.fromEntries(arr);
+		if (props.stages) {
+			for (const s of props.stages) {
+				ret[`demo-${s.id}`] = () => <Stage {...s} />;
+			}
+		}
 
-		createEffect(() => {
-			const loc = l.match(Object.keys(obj), origin.locale);
-			setHeader(obj[loc]);
+		if (props.api) {
+			const apis = fileObject2Map(props.api);
+			const locales = Array.from(apis.keys());
 
-			requestIdleCallback(() => navRef.refresh());
-		});
-	}
+			const types: Array<Type> =
+				apis.size > 1 // >1 表示有多种语言
+					? apis.get(l.match(locales, origin.locale))
+					: apis.values().next().value;
 
-	const [api, setAPI] = createSignal<Array<Type>>();
-	if (props.api) {
-		const arr = Object.entries(props.api).map(([k, v]) => [k.replace(/^\.\/api\./, '').replace(/\.json$/, ''), v]);
-		const obj = Object.fromEntries(arr);
+			ret.api = () => (
+				<article class={styles.apis}>
+					<h3>{l.t('_d.stages.api')}</h3>
+					<For each={types}>{api => <APIDoc api={api} />}</For>
+				</article>
+			);
+		}
 
-		createEffect(() => {
-			const loc = l.match(Object.keys(obj), origin.locale);
-			setAPI(obj[loc]);
-
-			requestIdleCallback(() => navRef.refresh());
-		});
-	}
+		return ret;
+	});
 
 	return (
 		<Page.Root class={styles['stages-page']} title={title}>
-			<article
-				class={styles.root}
-				ref={el => {
-					articleRef = el;
-				}}
-			>
+			<article class={styles.root} ref={el => (articleRef = el)}>
 				<h2>
 					{l.t(title)}
 					<A class={styles.edit} href={url} title={l.t('_d.stages.editOnGithub')}>
@@ -112,40 +100,10 @@ export default function Stages(props: Props): JSX.Element {
 					</A>
 				</h2>
 
-				<Show when={header()}>{d => <article innerHTML={markdown(d())} />}</Show>
-
-				<Show when={props.stages}>
-					{stages => (
-						<>
-							<h3>{l.t('_d.stages.codeDemo')}</h3>
-							<div class={styles.stages}>
-								<For each={stages()}>{stage => <Stage {...stage} />}</For>
-							</div>
-						</>
-					)}
-				</Show>
-
-				<Show when={api()}>
-					{apis => (
-						<article class={styles.apis}>
-							<h3>{l.t('_d.stages.api')}</h3>
-							<For each={apis()}>{api => <API api={api} />}</For>
-						</article>
-					)}
-				</Show>
-
-				<Show when={footer()}>{f => <article innerHTML={markdown(f())} />}</Show>
+				<Markdown.Root text={text()} components={components()} onComplete={() => navRef.refresh()} />
 			</article>
 
-			<Nav.Root
-				minHeaderCount={5}
-				ref={el => {
-					navRef = el;
-				}}
-				class={styles.nav}
-				target={articleRef}
-				query="h3,h4"
-			/>
+			<Nav.Root minHeaderCount={5} ref={el => (navRef = el)} class={styles.nav} target={articleRef} query="h3,h4" />
 		</Page.Root>
 	);
 }

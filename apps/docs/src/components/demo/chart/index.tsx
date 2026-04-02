@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconChart,
 		path: 'chart',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Chart, source: chart, title: 'chart' },
-			{ component: Pie, source: pie, title: 'pie' },
-			{ component: Axis, source: axis, title: 'axis' },
+			{ component: Chart, source: chart, id: 'chart' },
+			{ component: Pie, source: pie, id: 'pie' },
+			{ component: Axis, source: axis, id: 'axis' },
 		],
 	};
 }

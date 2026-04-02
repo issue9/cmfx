@@ -14,8 +14,8 @@ export default function (): Info {
 		title: '_d.demo.tooltip',
 		icon: IconTooltip,
 		path: 'tooltip',
-		header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw', import: 'default' }),
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Tooltip, source: tooltip, title: 'tooltip' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Tooltip, source: tooltip, id: 'tooltip' }],
 	};
 }

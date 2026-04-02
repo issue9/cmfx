@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Layout, MountProps } from '@cmfx/components';
-import { Button, ButtonGroup, Code, joinClass, ThemeProvider, ToggleButton, useLocale } from '@cmfx/components';
+import { Button, ButtonGroup, Code, joinClass, ThemeProvider, ToggleButton } from '@cmfx/components';
 import { type Component, createMemo, createSignal, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';
@@ -28,14 +28,9 @@ export interface Props {
 	component: Component<MountProps>;
 
 	/**
-	 * 标题的翻译 ID
+	 * 该组件的 ID，在 markdown 中通过此值引用此组件
 	 */
-	title?: string;
-
-	/**
-	 * 对当前演示代码描述的翻译 ID
-	 */
-	desc?: string;
+	id: string;
 
 	/**
 	 * 组件内的演示内容高度
@@ -52,8 +47,6 @@ export interface Props {
  * 用于展示组件的舞台
  */
 export default function Stage(props: Props): JSX.Element {
-	const l = useLocale();
-
 	props = mergeProps({ layout: 'auto' as Layout }, props);
 
 	const initDir = window.getComputedStyle(document.body).direction === 'rtl' ? 'rtl' : 'ltr';
@@ -83,59 +76,48 @@ export default function Stage(props: Props): JSX.Element {
 	let settingRef: HTMLElement;
 
 	return (
-		<>
-			<Show when={props.title}>{title => <h4>{l.t(title())}</h4>}</Show>
+		<div class={stageCls()} id={`demo-${props.id}`}>
+			<div class={styles.demo} ref={setDemoRef} style={{ height: props.height }}>
+				<div class={styles.toolbar}>
+					<div class={styles.left}>
+						<ToggleButton.FitScreen container={demoRef()!} />
 
-			<Show when={props.desc}>{desc => <article class={styles.desc}>{l.t(desc())}</article>}</Show>
+						<ButtonGroup.Root>
+							<Button.Root square checked={dir() === 'rtl'} onclick={() => setDir('rtl')}>
+								<IconRTL />
+							</Button.Root>
+							<Button.Root square checked={dir() === 'ltr'} onclick={() => setDir('ltr')}>
+								<IconLTR />
+							</Button.Root>
+						</ButtonGroup.Root>
 
-			<div class={stageCls()}>
-				<div class={styles.demo} ref={setDemoRef} style={{ height: props.height }}>
-					<div class={styles.toolbar}>
-						<div class={styles.left}>
-							<ToggleButton.FitScreen container={demoRef()!} />
-
-							<ButtonGroup.Root>
-								<Button.Root square checked={dir() === 'rtl'} onclick={() => setDir('rtl')}>
-									<IconRTL />
-								</Button.Root>
-								<Button.Root square checked={dir() === 'ltr'} onclick={() => setDir('ltr')}>
-									<IconLTR />
-								</Button.Root>
-							</ButtonGroup.Root>
-
-							<ButtonGroup.Root>
-								<Button.Root square checked={mode() === 'dark'} onclick={() => setMode('dark')}>
-									<IconDark />
-								</Button.Root>
-								<Button.Root square checked={mode() === 'light'} onclick={() => setMode('light')}>
-									<IconLight />
-								</Button.Root>
-							</ButtonGroup.Root>
-						</div>
-
-						<div
-							class={styles.right}
-							ref={el => {
-								settingRef = el;
-							}}
-						/>
+						<ButtonGroup.Root>
+							<Button.Root square checked={mode() === 'dark'} onclick={() => setMode('dark')}>
+								<IconDark />
+							</Button.Root>
+							<Button.Root square checked={mode() === 'light'} onclick={() => setMode('light')}>
+								<IconLight />
+							</Button.Root>
+						</ButtonGroup.Root>
 					</div>
 
-					<ThemeProvider mode={mode()}>
-						<div dir={dir()} class={joinClass(undefined, styles.component)}>
-							{props.component({ mount: settingRef! })}
-						</div>
-					</ThemeProvider>
+					<div class={styles.right} ref={el => (settingRef = el)} />
 				</div>
 
-				<Show when={props.source}>
-					{s => (
-						<Code.Root wrap ln={0} lang="tsx" class={styles.code} style={{ height: codeHeight() }}>
-							{s()}
-						</Code.Root>
-					)}
-				</Show>
+				<ThemeProvider mode={mode()}>
+					<div dir={dir()} class={joinClass(undefined, styles.component)}>
+						{props.component({ mount: settingRef! })}
+					</div>
+				</ThemeProvider>
 			</div>
-		</>
+
+			<Show when={props.source}>
+				{s => (
+					<Code.Root wrap ln={0} lang="tsx" class={styles.code} style={{ height: codeHeight() }}>
+						{s()}
+					</Code.Root>
+				)}
+			</Show>
+		</div>
 	);
 }

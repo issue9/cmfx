@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconBacktop,
 		path: 'backtop',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Preset, source: preset, title: '_d.demo.basicFunctions' },
-			{ component: Custom, source: custom, title: '自定义图标' },
+			{ component: Preset, source: preset, id: 'preset' },
+			{ component: Custom, source: custom, id: 'custom' },
 		],
 	};
 }

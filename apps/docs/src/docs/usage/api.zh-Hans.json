@@ -1,10 +1,25 @@
 [
 	{
-		"kind": "source",
-		"name": "printElement,source",
+		"kind": "function",
+		"name": "printElement",
 		"summary": "打印指定元素的内容\n\n",
 		"remarks": "这会通过 cloneNode 创建新的节点，cls 只会应用在新节点上。\n\n",
-		"source": "/**\r\n * 打印指定元素的内容\r\n *\r\n * @param elem - 该元素会被打印；\r\n * @param cls - 额外的 CSS 类；\r\n *\r\n * @remarks\r\n * 这会通过 cloneNode 创建新的节点，cls 只会应用在新节点上。\r\n */\r\nexport declare function printElement(elem: HTMLElement, cls?: string): void",
+		"type": "function printElement(elem: HTMLElement, cls?: string): void",
+		"params": [
+			{
+				"name": "elem",
+				"summary": "该元素会被打印；\n\n",
+				"type": "HTMLElement"
+			},
+			{
+				"name": "cls",
+				"summary": "额外的 CSS 类；\n\n",
+				"type": "string | undefined"
+			}
+		],
+		"return": {
+			"type": "void"
+		},
 		"pkg": "@cmfx/core"
 	}
 ]
