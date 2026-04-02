@@ -39,7 +39,7 @@
 	"devDependencies": {
 		"unplugin-icons": "catalog:",
 		"@types/node": "catalog:",
-		"@vitejs/plugin-basic-ssl": "^2.2.0",
+		"@vitejs/plugin-basic-ssl": "catalog:",
 		"autoprefixer": "catalog:",
 		"@cmfx/vite-plugin-about": "workspace:*",
 		"@tailwindcss/vite": "catalog:",

@@ -40,7 +40,7 @@
 	},
 	"dependencies": {
 		"bowser": "catalog:",
-		"cbor2": "^2.3.0",
+		"cbor2": "catalog:",
 		"intl-messageformat": "catalog:",
 		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
 		"yaml": "catalog:",

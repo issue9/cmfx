@@ -6,9 +6,21 @@ settings:
 
 catalogs:
   default:
+    '@biomejs/biome':
+      specifier: ^2.4.10
+      version: 2.4.10
     '@iconify/json':
-      specifier: ^2.2.455
-      version: 2.2.455
+      specifier: ^2.2.458
+      version: 2.2.458
+    '@iconsets/svg-morpheus-ts':
+      specifier: ^1.4.12
+      version: 1.4.12
+    '@microsoft/tsdoc':
+      specifier: ^0.16.0
+      version: 0.16.0
+    '@scure/base':
+      specifier: ^2.0.0
+      version: 2.0.0
     '@solidjs/router':
       specifier: ^0.16.1
       version: 0.16.1
@@ -27,6 +39,9 @@ catalogs:
     '@types/node':
       specifier: ^25.5.0
       version: 25.5.0
+    '@vitejs/plugin-basic-ssl':
+      specifier: ^2.3.0
+      version: 2.3.0
     '@vitest/coverage-v8':
       specifier: ^4.1.2
       version: 4.1.2
@@ -37,32 +52,53 @@ catalogs:
       specifier: ^2.14.1
       version: 2.14.1
     browserslist:
-      specifier: ^4.28.1
-      version: 4.28.1
+      specifier: ^4.28.2
+      version: 4.28.2
     browserslist-to-esbuild:
       specifier: ^2.1.1
       version: 2.1.1
+    cbor2:
+      specifier: ^2.3.0
+      version: 2.3.0
     colorjs.io:
       specifier: ^0.6.1
       version: 0.6.1
     echarts:
       specifier: ^6.0.0
       version: 6.0.0
+    fast-deep-equal:
+      specifier: ^3.1.3
+      version: 3.1.3
     intl-messageformat:
       specifier: ^11.2.0
       version: 11.2.0
+    jsdom:
+      specifier: ^29.0.1
+      version: 29.0.1
     marked:
-      specifier: ^17.0.4
-      version: 17.0.4
+      specifier: ^17.0.5
+      version: 17.0.5
+    qr-code-styling:
+      specifier: ^1.9.2
+      version: 1.9.2
+    quill:
+      specifier: ^2.0.3
+      version: 2.0.3
     shiki:
       specifier: ^4.0.2
       version: 4.0.2
     solid-js:
       specifier: ^1.9.12
       version: 1.9.12
+    solid-transition-group:
+      specifier: ^0.3.0
+      version: 0.3.0
     tailwindcss:
       specifier: ^4.2.2
       version: 4.2.2
+    ts-morph:
+      specifier: ^27.0.2
+      version: 27.0.2
     typescript:
       specifier: ^6.0.2
       version: 6.0.2
@@ -96,11 +132,11 @@ importers:
   .:
     devDependencies:
       '@biomejs/biome':
-        specifier: 2.4.9
-        version: 2.4.9
+        specifier: 'catalog:'
+        version: 2.4.10
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.455
+        version: 2.2.458
       '@solidjs/testing-library':
         specifier: 'catalog:'
         version: 0.8.10(@solidjs/router@0.16.1(solid-js@1.9.12))(solid-js@1.9.12)
@@ -114,7 +150,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.2(vitest@4.1.2(@types/node@25.5.0)(jsdom@29.0.1)(vite@8.0.3(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3)))
       jsdom:
-        specifier: ^29.0.1
+        specifier: 'catalog:'
         version: 29.0.1
       unplugin-icons:
         specifier: 'catalog:'
@@ -145,16 +181,16 @@ importers:
         version: link:../../packages/illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.455
+        version: 2.2.458
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.16.1(solid-js@1.9.12)
       browserslist:
         specifier: 'catalog:'
-        version: 4.28.1
+        version: 4.28.2
       browserslist-to-esbuild:
         specifier: 'catalog:'
-        version: 2.1.1(browserslist@4.28.1)
+        version: 2.1.1(browserslist@4.28.2)
       echarts:
         specifier: 'catalog:'
         version: 6.0.0
@@ -178,8 +214,8 @@ importers:
         specifier: 'catalog:'
         version: 25.5.0
       '@vitejs/plugin-basic-ssl':
-        specifier: ^2.2.0
-        version: 2.2.0(vite@8.0.3(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3))
+        specifier: 'catalog:'
+        version: 2.3.0(vite@8.0.3(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3))
       autoprefixer:
         specifier: 'catalog:'
         version: 10.4.27(postcss@8.5.8)
@@ -212,7 +248,7 @@ importers:
         version: link:../../build/vite-plugin-api
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.455
+        version: 2.2.458
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.16.1(solid-js@1.9.12)
@@ -246,10 +282,10 @@ importers:
         version: 10.4.27(postcss@8.5.8)
       browserslist:
         specifier: 'catalog:'
-        version: 4.28.1
+        version: 4.28.2
       browserslist-to-esbuild:
         specifier: 'catalog:'
-        version: 2.1.1(browserslist@4.28.1)
+        version: 2.1.1(browserslist@4.28.2)
       typescript:
         specifier: 'catalog:'
         version: 6.0.2
@@ -294,10 +330,10 @@ importers:
   build/vite-plugin-api:
     dependencies:
       '@microsoft/tsdoc':
-        specifier: ^0.16.0
+        specifier: 'catalog:'
         version: 0.16.0
       ts-morph:
-        specifier: ^27.0.2
+        specifier: 'catalog:'
         version: 27.0.2
       typescript:
         specifier: 'catalog:'
@@ -332,9 +368,9 @@ importers:
         version: link:../illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.455
+        version: 2.2.458
       '@scure/base':
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.0.0
       '@solidjs/router':
         specifier: 'catalog:'
@@ -344,10 +380,10 @@ importers:
         version: 2.14.1
       browserslist:
         specifier: 'catalog:'
-        version: 4.28.1
+        version: 4.28.2
       browserslist-to-esbuild:
         specifier: 'catalog:'
-        version: 2.1.1(browserslist@4.28.1)
+        version: 2.1.1(browserslist@4.28.2)
       solid-js:
         specifier: 'catalog:'
         version: 1.9.12
@@ -393,9 +429,9 @@ importers:
         version: link:../core
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.455
+        version: 2.2.458
       '@iconsets/svg-morpheus-ts':
-        specifier: ^1.4.12
+        specifier: 'catalog:'
         version: 1.4.12
       '@solidjs/router':
         specifier: 'catalog:'
@@ -407,16 +443,16 @@ importers:
         specifier: 'catalog:'
         version: 6.0.0
       fast-deep-equal:
-        specifier: ^3.1.3
+        specifier: 'catalog:'
         version: 3.1.3
       marked:
         specifier: 'catalog:'
-        version: 17.0.4
+        version: 17.0.5
       qr-code-styling:
-        specifier: ^1.9.2
+        specifier: 'catalog:'
         version: 1.9.2
       quill:
-        specifier: ^2.0.3
+        specifier: 'catalog:'
         version: 2.0.3
       shiki:
         specifier: 'catalog:'
@@ -425,7 +461,7 @@ importers:
         specifier: 'catalog:'
         version: 1.9.12
       solid-transition-group:
-        specifier: ^0.3.0
+        specifier: 'catalog:'
         version: 0.3.0(solid-js@1.9.12)
       tailwindcss:
         specifier: 'catalog:'
@@ -442,10 +478,10 @@ importers:
         version: 10.4.27(postcss@8.5.8)
       browserslist:
         specifier: 'catalog:'
-        version: 4.28.1
+        version: 4.28.2
       browserslist-to-esbuild:
         specifier: 'catalog:'
-        version: 2.1.1(browserslist@4.28.1)
+        version: 2.1.1(browserslist@4.28.2)
       typescript:
         specifier: 'catalog:'
         version: 6.0.2
@@ -474,7 +510,7 @@ importers:
         specifier: 'catalog:'
         version: 2.14.1
       cbor2:
-        specifier: ^2.3.0
+        specifier: 'catalog:'
         version: 2.3.0
       intl-messageformat:
         specifier: 'catalog:'
@@ -494,10 +530,10 @@ importers:
         version: 25.5.0
       browserslist:
         specifier: 'catalog:'
-        version: 4.28.1
+        version: 4.28.2
       browserslist-to-esbuild:
         specifier: 'catalog:'
-        version: 2.1.1(browserslist@4.28.1)
+        version: 2.1.1(browserslist@4.28.2)
       typescript:
         specifier: 'catalog:'
         version: 6.0.2
@@ -537,10 +573,10 @@ importers:
         version: 25.5.0
       browserslist:
         specifier: 'catalog:'
-        version: 4.28.1
+        version: 4.28.2
       browserslist-to-esbuild:
         specifier: 'catalog:'
-        version: 2.1.1(browserslist@4.28.1)
+        version: 2.1.1(browserslist@4.28.2)
       typescript:
         specifier: 'catalog:'
         version: 6.0.2
@@ -562,8 +598,8 @@ packages:
   '@antfu/install-pkg@1.1.0':
     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
 
-  '@asamuzakjp/css-color@5.0.1':
-    resolution: {integrity: sha512-2SZFvqMyvboVV1d15lMf7XiI3m7SDqXUuKaTymJYLN6dSGadqp+fVojqJlVoMlbZnlTmu3S0TLwLTJpvBMO1Aw==}
+  '@asamuzakjp/css-color@5.1.1':
+    resolution: {integrity: sha512-iGWN8E45Ws0XWx3D44Q1t6vX2LqhCKcwfmwBYCDsFrYFS6m4q/Ks61L2veETaLv+ckDC6+dTETJoaAAb7VjLiw==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   '@asamuzakjp/dom-selector@7.0.4':
@@ -667,55 +703,55 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@biomejs/biome@2.4.9':
-    resolution: {integrity: sha512-wvZW92FrwitTcacvCBT8xdAbfbxWfDLwjYMmU3djjqQTh7Ni4ZdiWIT/x5VcZ+RQuxiKzIOzi5D+dcyJDFZMsA==}
+  '@biomejs/biome@2.4.10':
+    resolution: {integrity: sha512-xxA3AphFQ1geij4JTHXv4EeSTda1IFn22ye9LdyVPoJU19fNVl0uzfEuhsfQ4Yue/0FaLs2/ccVi4UDiE7R30w==}
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/cli-darwin-arm64@2.4.9':
-    resolution: {integrity: sha512-d5G8Gf2RpH5pYwiHLPA+UpG3G9TLQu4WM+VK6sfL7K68AmhcEQ9r+nkj/DvR/GYhYox6twsHUtmWWWIKfcfQQA==}
+  '@biomejs/cli-darwin-arm64@2.4.10':
+    resolution: {integrity: sha512-vuzzI1cWqDVzOMIkYyHbKqp+AkQq4K7k+UCXWpkYcY/HDn1UxdsbsfgtVpa40shem8Kax4TLDLlx8kMAecgqiw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@2.4.9':
-    resolution: {integrity: sha512-LNCLNgqDMG7BLdc3a8aY/dwKPK7+R8/JXJoXjCvZh2gx8KseqBdFDKbhrr7HCWF8SzNhbTaALhTBoh/I6rf9lA==}
+  '@biomejs/cli-darwin-x64@2.4.10':
+    resolution: {integrity: sha512-14fzASRo+BPotwp7nWULy2W5xeUyFnTaq1V13Etrrxkrih+ez/2QfgFm5Ehtf5vSjtgx/IJycMMpn5kPd5ZNaA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-linux-arm64-musl@2.4.9':
-    resolution: {integrity: sha512-8RCww5xnPn2wpK4L/QDGDOW0dq80uVWfppPxHIUg6mOs9B6gRmqPp32h1Ls3T8GnW8Wo5A8u7vpTwz4fExN+sw==}
+  '@biomejs/cli-linux-arm64-musl@2.4.10':
+    resolution: {integrity: sha512-WrJY6UuiSD/Dh+nwK2qOTu8kdMDlLV3dLMmychIghHPAysWFq1/DGC1pVZx8POE3ZkzKR3PUUnVrtZfMfaJjyQ==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
 
-  '@biomejs/cli-linux-arm64@2.4.9':
-    resolution: {integrity: sha512-4adnkAUi6K4C/emPRgYznMOcLlUqZdXWM6aIui4VP4LraE764g6Q4YguygnAUoxKjKIXIWPteKMgRbN0wsgwcg==}
+  '@biomejs/cli-linux-arm64@2.4.10':
+    resolution: {integrity: sha512-7MH1CMW5uuxQ/s7FLST63qF8B3Hgu2HRdZ7tA1X1+mk+St4JOuIrqdhIBnnyqeyWJNI+Bww7Es5QZ0wIc1Cmkw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
 
-  '@biomejs/cli-linux-x64-musl@2.4.9':
-    resolution: {integrity: sha512-5TD+WS9v5vzXKzjetF0hgoaNFHMcpQeBUwKKVi3JbG1e9UCrFuUK3Gt185fyTzvRdwYkJJEMqglRPjmesmVv4A==}
+  '@biomejs/cli-linux-x64-musl@2.4.10':
+    resolution: {integrity: sha512-kDTi3pI6PBN6CiczsWYOyP2zk0IJI08EWEQyDMQWW221rPaaEz6FvjLhnU07KMzLv8q3qSuoB93ua6inSQ55Tw==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
 
-  '@biomejs/cli-linux-x64@2.4.9':
-    resolution: {integrity: sha512-L10na7POF0Ks/cgLFNF1ZvIe+X4onLkTi5oP9hY+Rh60Q+7fWzKDDCeGyiHUFf1nGIa9dQOOUPGe2MyYg8nMSQ==}
+  '@biomejs/cli-linux-x64@2.4.10':
+    resolution: {integrity: sha512-tZLvEEi2u9Xu1zAqRjTcpIDGVtldigVvzug2fTuPG0ME/g8/mXpRPcNgLB22bGn6FvLJpHHnqLnwliOu8xjYrg==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
 
-  '@biomejs/cli-win32-arm64@2.4.9':
-    resolution: {integrity: sha512-aDZr0RBC3sMGJOU10BvG7eZIlWLK/i51HRIfScE2lVhfts2dQTreowLiJJd+UYg/tHKxS470IbzpuKmd0MiD6g==}
+  '@biomejs/cli-win32-arm64@2.4.10':
+    resolution: {integrity: sha512-umwQU6qPzH+ISTf/eHyJ/QoQnJs3V9Vpjz2OjZXe9MVBZ7prgGafMy7yYeRGnlmDAn87AKTF3Q6weLoMGpeqdQ==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-x64@2.4.9':
-    resolution: {integrity: sha512-NS4g/2G9SoQ4ktKtz31pvyc/rmgzlcIDCGU/zWbmHJAqx6gcRj2gj5Q/guXhoWTzCUaQZDIqiCQXHS7BcGYc0w==}
+  '@biomejs/cli-win32-x64@2.4.10':
+    resolution: {integrity: sha512-aW/JU5GuyH4uxMrNYpoC2kjaHlyJGLgIa3XkhPEZI0uKhZhJZU8BuEyJmvgzSPQNGozBwWjC972RaNdcJ9KyJg==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -956,8 +992,8 @@ packages:
   '@formatjs/intl-localematcher@0.8.2':
     resolution: {integrity: sha512-q05KMYGJLyqFNFtIb8NhWLF5X3aK/k0wYt7dnRFuy6aLQL+vUwQ1cg5cO4qawEiINybeCPXAWlprY2mSBjSXAQ==}
 
-  '@iconify/json@2.2.455':
-    resolution: {integrity: sha512-ruOl4ZTLW/qNDjuEE8Zb+LQPbRiLdRu4JEnewX8OhWDevAjrTY6UyqJdW0o2umOqcg8WmKJBihVI7YwBUCH7/Q==}
+  '@iconify/json@2.2.458':
+    resolution: {integrity: sha512-YcJx5EjyRU3O+qpYNjx0BX/Uewxao9uSF0gd9Xa+d8YzCGGbMXosaANQ5aQV/lptnToqpu/PDTQ1c883GhvGRA==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1482,8 +1518,8 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
-  '@vitejs/plugin-basic-ssl@2.2.0':
-    resolution: {integrity: sha512-nmyQ1HGRkfUxjsv3jw0+hMhEdZdrtkvMTdkzRUaRWfiO6PCWw2V2Pz3gldCq96Tn9S8htcgdTxw/gmbLLEbfYw==}
+  '@vitejs/plugin-basic-ssl@2.3.0':
+    resolution: {integrity: sha512-bdyo8rB3NnQbikdMpHaML9Z1OZPBu6fFOBo+OtxsBlvMJtysWskmBcnbIDhUqgC8tcxNv/a+BcV5U+2nQMm1OQ==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     peerDependencies:
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -1634,6 +1670,11 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
+  baseline-browser-mapping@2.10.13:
+    resolution: {integrity: sha512-BL2sTuHOdy0YT1lYieUxTw/QMtPBC3pmlJC6xk8BBYVv6vcw3SGdKemQ+Xsx9ik2F/lYDO9tqsFQH1r9PFuHKw==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   baseline-browser-mapping@2.9.7:
     resolution: {integrity: sha512-k9xFKplee6KIio3IDbwj+uaCLpqzOwakOgmqzPezM0sFJlFKcg30vk2wOiAJtkTSfx0SSQDSe8q+mWA/fSH5Zg==}
     hasBin: true
@@ -1662,8 +1703,16 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
+  browserslist@4.28.2:
+    resolution: {integrity: sha512-48xSriZYYg+8qXna9kwqjIVzuQxi+KYWp2+5nCYnYKPTr0LvD89Jqk2Or5ogxz0NUMfIjhh2lIUX/LyX9B4oIg==}
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+
   caniuse-lite@1.0.30001774:
     resolution: {integrity: sha512-DDdwPGz99nmIEv216hKSgLD+D4ikHQHjBC/seF98N9CPqRX4M5mSxT9eTV6oyisnJcuzxtZy4n17yKKQYmYQOA==}
+
+  caniuse-lite@1.0.30001784:
+    resolution: {integrity: sha512-WU346nBTklUV9YfUl60fqRbU5ZqyXlqvo1SgigE1OAXK5bFL8LL9q1K7aap3N739l4BvNqnkm3YrGHiY9sfUQw==}
 
   cbor2@2.3.0:
     resolution: {integrity: sha512-76WB3hq8BoaGkMkBVJ27fW5LJU+qqDLEpgRNCG/SYKhODWXpVPOTD4UcUto3IEzYLA52nsvbhb0wabhHDn3qXg==}
@@ -1757,6 +1806,9 @@ packages:
 
   electron-to-chromium@1.5.267:
     resolution: {integrity: sha512-0Drusm6MVRXSOJpGbaSVgcQsuB4hEkMpHXaVstcPmhu5LIedxs1xNK/nIxmQIU/RPC0+1/o0AVZfBTkTNJOdUw==}
+
+  electron-to-chromium@1.5.331:
+    resolution: {integrity: sha512-IbxXrsTlD3hRodkLnbxAPP4OuJYdWCeM3IOdT+CpcMoIwIoDfCmRpEtSPfwBXxVkg9xmBeY7Lz2Eo2TDn/HC3Q==}
 
   enhanced-resolve@5.19.0:
     resolution: {integrity: sha512-phv3E1Xl4tQOShqSte26C7Fl84EwUdZsyOuSSk9qtAGyyQs2s3jJzComh+Abf4g187lUUAvH+H26omrqia2aGg==}
@@ -2056,8 +2108,8 @@ packages:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
 
-  marked@17.0.4:
-    resolution: {integrity: sha512-NOmVMM+KAokHMvjWmC5N/ZOvgmSWuqJB8FoYI019j4ogb/PeRMKoKIjReZ2w3376kkA8dSJIP8uD993Kxc0iRQ==}
+  marked@17.0.5:
+    resolution: {integrity: sha512-6hLvc0/JEbRjRgzI6wnT2P1XuM1/RrrDEX0kPt0N7jGm1133g6X7DlxFasUIx+72aKAr904GTxhSLDrd5DIlZg==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -2121,6 +2173,9 @@ packages:
 
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
+
+  node-releases@2.0.37:
+    resolution: {integrity: sha512-1h5gKZCF+pO/o3Iqt5Jp7wc9rH3eJJ0+nh/CIoiRwjRxde/hAHyLPXYN4V3CqKAbiZPSeJFSWHmJsbkicta0Eg==}
 
   obug@2.1.1:
     resolution: {integrity: sha512-uTqF9MuPraAQ+IsnPf366RG4cP9RtUi7MLO1N3KEc+wb0a6yKpeL0lmk2IB1jY5KHPAlTc6T/JRdC/YqxHNwkQ==}
@@ -2409,8 +2464,8 @@ packages:
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
-  undici@7.24.6:
-    resolution: {integrity: sha512-Xi4agocCbRzt0yYMZGMA6ApD7gvtUFaxm4ZmeacWI4cZxaF6C+8I8QfofC20NAePiB/IcvZmzkJ7XPa471AEtA==}
+  undici@7.24.7:
+    resolution: {integrity: sha512-H/nlJ/h0ggGC+uRL3ovD+G0i4bqhvsDOpbDv7At5eFLlj2b41L8QliGbnl2H7SnDiYhENphh1tQFJZf+MyfLsQ==}
     engines: {node: '>=20.18.1'}
 
   unist-util-is@6.0.1:
@@ -2455,6 +2510,12 @@ packages:
 
   update-browserslist-db@1.2.2:
     resolution: {integrity: sha512-E85pfNzMQ9jpKkA7+TJAi4TJN+tBCuWh5rUcS/sv6cFi+1q9LYDwDI5dpUL0u/73EElyQ8d3TEaeW4sPedBqYA==}
+    hasBin: true
+    peerDependencies:
+      browserslist: '>= 4.21.0'
+
+  update-browserslist-db@1.2.3:
+    resolution: {integrity: sha512-Js0m9cx+qOgDxo0eMiFGEueWztz+d4+M3rGlmKPT+T4IS/jP4ylw3Nwpu6cpTTP8R1MAC1kF4VbdLt3ARf209w==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
@@ -2648,7 +2709,7 @@ snapshots:
       package-manager-detector: 1.6.0
       tinyexec: 1.0.2
 
-  '@asamuzakjp/css-color@5.0.1':
+  '@asamuzakjp/css-color@5.1.1':
     dependencies:
       '@csstools/css-calc': 3.1.1(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-color-parser': 4.0.2(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
@@ -2785,39 +2846,39 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@biomejs/biome@2.4.9':
+  '@biomejs/biome@2.4.10':
     optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 2.4.9
-      '@biomejs/cli-darwin-x64': 2.4.9
-      '@biomejs/cli-linux-arm64': 2.4.9
-      '@biomejs/cli-linux-arm64-musl': 2.4.9
-      '@biomejs/cli-linux-x64': 2.4.9
-      '@biomejs/cli-linux-x64-musl': 2.4.9
-      '@biomejs/cli-win32-arm64': 2.4.9
-      '@biomejs/cli-win32-x64': 2.4.9
+      '@biomejs/cli-darwin-arm64': 2.4.10
+      '@biomejs/cli-darwin-x64': 2.4.10
+      '@biomejs/cli-linux-arm64': 2.4.10
+      '@biomejs/cli-linux-arm64-musl': 2.4.10
+      '@biomejs/cli-linux-x64': 2.4.10
+      '@biomejs/cli-linux-x64-musl': 2.4.10
+      '@biomejs/cli-win32-arm64': 2.4.10
+      '@biomejs/cli-win32-x64': 2.4.10
 
-  '@biomejs/cli-darwin-arm64@2.4.9':
+  '@biomejs/cli-darwin-arm64@2.4.10':
     optional: true
 
-  '@biomejs/cli-darwin-x64@2.4.9':
+  '@biomejs/cli-darwin-x64@2.4.10':
     optional: true
 
-  '@biomejs/cli-linux-arm64-musl@2.4.9':
+  '@biomejs/cli-linux-arm64-musl@2.4.10':
     optional: true
 
-  '@biomejs/cli-linux-arm64@2.4.9':
+  '@biomejs/cli-linux-arm64@2.4.10':
     optional: true
 
-  '@biomejs/cli-linux-x64-musl@2.4.9':
+  '@biomejs/cli-linux-x64-musl@2.4.10':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.4.9':
+  '@biomejs/cli-linux-x64@2.4.10':
     optional: true
 
-  '@biomejs/cli-win32-arm64@2.4.9':
+  '@biomejs/cli-win32-arm64@2.4.10':
     optional: true
 
-  '@biomejs/cli-win32-x64@2.4.9':
+  '@biomejs/cli-win32-x64@2.4.10':
     optional: true
 
   '@bramus/specificity@2.4.2':
@@ -2969,7 +3030,7 @@ snapshots:
     dependencies:
       '@formatjs/fast-memoize': 3.1.1
 
-  '@iconify/json@2.2.455':
+  '@iconify/json@2.2.458':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 2.0.3
@@ -3444,7 +3505,7 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@vitejs/plugin-basic-ssl@2.2.0(vite@8.0.3(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3))':
+  '@vitejs/plugin-basic-ssl@2.3.0(vite@8.0.3(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3))':
     dependencies:
       vite: 8.0.3(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.6.1)(yaml@2.8.3)
 
@@ -3598,7 +3659,7 @@ snapshots:
 
   autoprefixer@10.4.27(postcss@8.5.8):
     dependencies:
-      browserslist: 4.28.1
+      browserslist: 4.28.2
       caniuse-lite: 1.0.30001774
       fraction.js: 5.3.4
       picocolors: 1.1.1
@@ -3623,6 +3684,8 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
+  baseline-browser-mapping@2.10.13: {}
+
   baseline-browser-mapping@2.9.7: {}
 
   bidi-js@1.0.3:
@@ -3640,9 +3703,9 @@ snapshots:
     dependencies:
       balanced-match: 1.0.2
 
-  browserslist-to-esbuild@2.1.1(browserslist@4.28.1):
+  browserslist-to-esbuild@2.1.1(browserslist@4.28.2):
     dependencies:
-      browserslist: 4.28.1
+      browserslist: 4.28.2
       meow: 13.2.0
 
   browserslist@4.28.1:
@@ -3653,7 +3716,17 @@ snapshots:
       node-releases: 2.0.27
       update-browserslist-db: 1.2.2(browserslist@4.28.1)
 
+  browserslist@4.28.2:
+    dependencies:
+      baseline-browser-mapping: 2.10.13
+      caniuse-lite: 1.0.30001784
+      electron-to-chromium: 1.5.331
+      node-releases: 2.0.37
+      update-browserslist-db: 1.2.3(browserslist@4.28.2)
+
   caniuse-lite@1.0.30001774: {}
+
+  caniuse-lite@1.0.30001784: {}
 
   cbor2@2.3.0:
     dependencies:
@@ -3725,6 +3798,8 @@ snapshots:
       zrender: 6.0.0
 
   electron-to-chromium@1.5.267: {}
+
+  electron-to-chromium@1.5.331: {}
 
   enhanced-resolve@5.19.0:
     dependencies:
@@ -3885,7 +3960,7 @@ snapshots:
 
   jsdom@29.0.1:
     dependencies:
-      '@asamuzakjp/css-color': 5.0.1
+      '@asamuzakjp/css-color': 5.1.1
       '@asamuzakjp/dom-selector': 7.0.4
       '@bramus/specificity': 2.4.2
       '@csstools/css-syntax-patches-for-csstree': 1.1.2(css-tree@3.2.1)
@@ -3900,7 +3975,7 @@ snapshots:
       saxes: 6.0.0
       symbol-tree: 3.2.4
       tough-cookie: 6.0.1
-      undici: 7.24.6
+      undici: 7.24.7
       w3c-xmlserializer: 5.0.0
       webidl-conversions: 8.0.1
       whatwg-mimetype: 5.0.0
@@ -4016,7 +4091,7 @@ snapshots:
     dependencies:
       semver: 7.7.4
 
-  marked@17.0.4: {}
+  marked@17.0.5: {}
 
   mdast-util-to-hast@13.2.1:
     dependencies:
@@ -4083,6 +4158,8 @@ snapshots:
   nanoid@3.3.11: {}
 
   node-releases@2.0.27: {}
+
+  node-releases@2.0.37: {}
 
   obug@2.1.1: {}
 
@@ -4391,7 +4468,7 @@ snapshots:
 
   undici-types@7.18.2: {}
 
-  undici@7.24.6: {}
+  undici@7.24.7: {}
 
   unist-util-is@6.0.1:
     dependencies:
@@ -4436,6 +4513,12 @@ snapshots:
   update-browserslist-db@1.2.2(browserslist@4.28.1):
     dependencies:
       browserslist: 4.28.1
+      escalade: 3.2.0
+      picocolors: 1.1.1
+
+  update-browserslist-db@1.2.3(browserslist@4.28.2):
+    dependencies:
+      browserslist: 4.28.2
       escalade: 3.2.0
       picocolors: 1.1.1
 
