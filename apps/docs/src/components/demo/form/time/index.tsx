@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconTime,
 		path: 'form/time',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Time, source: time, title: 'time' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Time, source: time, id: 'time' }],
 	};
 }

@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconForm,
 		path: 'form/form',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Form, source: form, title: 'form' },
-			{ component: Label, source: label, title: 'label' },
-			{ component: Cols, source: cols, title: '多列' },
+			{ component: Form, source: form, id: 'form' },
+			{ component: Label, source: label, id: 'label' },
+			{ component: Cols, source: cols, id: 'cols' },
 		],
 	};
 }

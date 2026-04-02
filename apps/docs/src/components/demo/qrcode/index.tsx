@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconQRCode,
 		path: 'qrcode',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, title: '_d.demo.basicFunctions' },
-			{ component: Download, source: download, title: '下载' },
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: Download, source: download, id: 'download' },
 		],
 	};
 }

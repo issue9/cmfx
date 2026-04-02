@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconMenu,
 		path: 'menu/menu',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Layout, source: layout, title: '布局' },
-			{ component: Multiple, source: multiple, title: '多选' },
-			{ component: Anchor, source: anchor, title: '链接' },
+			{ component: Layout, source: layout, id: 'layout' },
+			{ component: Multiple, source: multiple, id: 'multiple' },
+			{ component: Anchor, source: anchor, id: 'anchor' },
 		],
 	};
 }

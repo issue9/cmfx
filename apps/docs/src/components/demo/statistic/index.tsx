@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconStatistic,
 		path: 'statistic',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Basic, source: basic, title: 'basic' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Basic, source: basic, id: 'basic' }],
 	};
 }

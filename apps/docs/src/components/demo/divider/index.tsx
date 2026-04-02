@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconDivider,
 		path: 'divider',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Divider, source: divider, title: 'basic' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Divider, source: divider, id: 'basic' }],
 	};
 }

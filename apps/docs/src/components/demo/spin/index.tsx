@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconSpin,
 		path: 'spin',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Spin, source: spin, title: '_d.demo.basicFunctions' },
-			{ component: Indicator, source: indicator, title: 'indicator' },
-			{ component: Overlay, source: overlay, title: 'overlay' },
+			{ component: Spin, source: spin, id: 'spin' },
+			{ component: Indicator, source: indicator, id: 'indicator' },
+			{ component: Overlay, source: overlay, id: 'overlay' },
 		],
 	};
 }

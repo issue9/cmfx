@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconTimer,
 		path: 'datetime/timer',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Timer, source: timer, title: 'timer' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Timer, source: timer, id: 'timer' }],
 	};
 }

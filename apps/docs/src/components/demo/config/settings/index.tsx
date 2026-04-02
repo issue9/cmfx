@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconSettings,
 		path: 'config/settings',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Settings, source: settings, layout: 'vertical', title: '设置页面' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Settings, source: settings, layout: 'vertical', id: 'settings' }],
 	};
 }

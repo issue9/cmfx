@@ -78,7 +78,6 @@ const messages = {
 			componentLayout: 'Layout',
 			itemLayout: 'Item layout',
 			block: 'Block',
-			basicFunctions: 'Basic function',
 			charCount: 'Character count',
 
 			// 分类名称

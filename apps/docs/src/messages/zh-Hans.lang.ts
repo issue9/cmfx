@@ -80,7 +80,6 @@ const messages: typeof m = {
 			componentLayout: '布局',
 			itemLayout: '子项布局',
 			block: '方块',
-			basicFunctions: '基本功能',
 			charCount: '字符统计',
 
 			// 分类名称

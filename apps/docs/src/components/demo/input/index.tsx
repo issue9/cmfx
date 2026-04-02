@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconInput,
 		path: 'input',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Input, source: input, title: 'input' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Input, source: input, id: 'input' }],
 	};
 }

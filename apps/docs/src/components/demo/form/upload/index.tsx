@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconUpload,
 		path: 'form/upload',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Upload, source: upload, title: 'upload' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Upload, source: upload, id: 'upload' }],
 	};
 }

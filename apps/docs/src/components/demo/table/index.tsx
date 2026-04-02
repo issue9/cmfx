@@ -21,35 +21,12 @@ export default function (): Info {
 		icon: IconTable,
 		path: 'table',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{
-				component: Basic,
-				source: basic,
-				layout: 'vertical',
-				title: '数据表格',
-				desc: '用于展示数据，但是不支持分页。',
-			},
-			{
-				component: Table,
-				source: table,
-				layout: 'vertical',
-				title: '表格',
-				desc: '基本的表格功能，与 HTML 的 table 相同，加上了部分控制功能。',
-			},
-			{
-				component: Loader,
-				source: loader,
-				layout: 'vertical',
-				title: '动态加载',
-				desc: '用于展示数据，可通过方法加载数据内容，支持分页。',
-			},
-			{
-				component: Paging,
-				source: paging,
-				layout: 'vertical',
-				title: '分页',
-				desc: '用于展示数据，可通过方法加载数据内容，支持分页。',
-			},
+			{ component: Basic, source: basic, layout: 'vertical', id: 'basic' },
+			{ component: Table, source: table, layout: 'vertical', id: 'table' },
+			{ component: Loader, source: loader, layout: 'vertical', id: 'loader' },
+			{ component: Paging, source: paging, layout: 'vertical', id: 'paging' },
 		],
 	};
 }

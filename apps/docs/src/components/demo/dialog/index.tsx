@@ -21,11 +21,12 @@ export default function (): Info {
 		icon: IconDialog,
 		path: 'dialog',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, title: '_d.demo.basicFunctions' },
-			{ component: System, source: system, title: '替换系统对话框' },
-			{ component: Dialog, source: dialog, title: '对话框' },
-			{ component: Scroller, source: scroller, title: '可滚动' },
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: System, source: system, id: 'system' },
+			{ component: Dialog, source: dialog, id: 'dialog' },
+			{ component: Scroller, source: scroller, id: 'scroller' },
 		],
 	};
 }

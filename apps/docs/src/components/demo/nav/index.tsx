@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconNav,
 		path: 'nav',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Nav, source: nav, layout: 'vertical', title: 'nav' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Nav, source: nav, layout: 'vertical', id: 'nav' }],
 	};
 }

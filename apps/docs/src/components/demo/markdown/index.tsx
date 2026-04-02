@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconMarkdown,
 		path: 'markdown',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, title: '_d.demo.basicFunctions' },
-			{ component: Inline, source: inline, title: '内联图标' },
-			{ component: Block, source: block, title: '组件' },
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: Inline, source: inline, id: 'inline' },
+			{ component: Block, source: block, id: 'block' },
 		],
 	};
 }

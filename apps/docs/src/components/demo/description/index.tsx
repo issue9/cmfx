@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconDescription,
 		path: 'description',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Desc, source: desc, title: 'description' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Desc, source: desc, id: 'description' }],
 	};
 }

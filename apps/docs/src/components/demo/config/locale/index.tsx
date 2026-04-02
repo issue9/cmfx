@@ -21,16 +21,12 @@ export default function (): Info {
 		icon: IconLocaleConfig,
 		path: 'config/locale',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{
-				component: Locale,
-				source: locale,
-				title: 'LocaleProvider',
-				desc: '可通过 `LocaleProvider` 的属性修改所包含内容的语言。',
-			},
-			{ component: Global, source: global, title: 'setLocale', desc: '可通过 `setLocale` 修改全局的本地化内容。' },
-			{ component: Other, source: other, title: '其它属性' },
-			{ component: Nested, source: nested, title: '嵌套使用' },
+			{ component: Locale, source: locale, id: 'locale' },
+			{ component: Global, source: global, id: 'global' },
+			{ component: Other, source: other, id: 'other' },
+			{ component: Nested, source: nested, id: 'nested' },
 		],
 	};
 }

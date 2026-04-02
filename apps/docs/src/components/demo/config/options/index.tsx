@@ -5,8 +5,8 @@
 import IconOptionsConfig from '~icons/eva/options-2-fill';
 
 import type { Info } from '@docs/components/base';
-import { default as C1 } from './options';
-import { default as s1 } from './options.tsx?raw';
+import { default as Options } from './options';
+import { default as options } from './options.tsx?raw';
 
 export default function (): Info {
 	return {
@@ -16,6 +16,7 @@ export default function (): Info {
 		path: 'config/options',
 		header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw', import: 'default' }),
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: C1, source: s1, title: 'config' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Options, source: options, id: 'options' }],
 	};
 }

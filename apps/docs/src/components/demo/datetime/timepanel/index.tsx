@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconTimePanel,
 		path: 'datetime/timepanel',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Timepanel, source: timepanel, title: 'timepanel' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Timepanel, source: timepanel, id: 'timepanel' }],
 	};
 }

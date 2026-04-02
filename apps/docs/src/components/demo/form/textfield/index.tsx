@@ -19,10 +19,11 @@ export default function (): Info {
 		icon: IconTextfield,
 		path: 'form/textfield',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: TextField, source: textField, title: 'textfield' },
-			{ component: Numeric, source: numeric, title: 'number' },
-			{ component: Password, source: password, title: 'password' },
+			{ component: TextField, source: textField, id: 'textfield' },
+			{ component: Numeric, source: numeric, id: 'number' },
+			{ component: Password, source: password, id: 'password' },
 		],
 	};
 }

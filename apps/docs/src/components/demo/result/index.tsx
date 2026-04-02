@@ -22,14 +22,14 @@ export default function (): Info {
 		title: '_d.demo.result',
 		icon: IconResult,
 		path: 'result',
-		header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw', import: 'default' }),
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: H, source: h, title: 'horizontal' },
-			{ component: V, source: v, title: 'vertical' },
-			{ component: Auto, source: auto, title: 'auto' },
-			{ component: Empty, source: empty, height: '250px', title: 'empty' },
-			{ component: Custom, source: custom, height: '300px', title: 'custom-empty' },
+			{ component: H, source: h, id: 'horizontal' },
+			{ component: V, source: v, id: 'vertical' },
+			{ component: Auto, source: auto, id: 'auto' },
+			{ component: Empty, source: empty, height: '250px', id: 'empty' },
+			{ component: Custom, source: custom, height: '300px', id: 'custom' },
 		],
 	};
 }

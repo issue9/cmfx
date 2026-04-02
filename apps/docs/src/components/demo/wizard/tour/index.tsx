@@ -15,6 +15,7 @@ export default function (): Info {
 		icon: IconTour,
 		path: 'wizard/tour',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		stages: [{ component: Tour, source: tour, title: 'tour' }],
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [{ component: Tour, source: tour, id: 'tour' }],
 	};
 }

@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconEditor,
 		path: 'form/editor',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Snow, source: snow, title: '默认的编辑器' },
-			{ component: Bubble, source: bubble, title: '简单的编辑器' },
+			{ component: Snow, source: snow, id: 'snow' },
+			{ component: Bubble, source: bubble, id: 'bubble' },
 		],
 	};
 }

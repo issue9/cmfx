@@ -17,9 +17,10 @@ export default function (): Info {
 		icon: IconDrawer,
 		path: 'drawer',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Basic, source: basic, title: 'basic' },
-			{ component: Float, source: float, title: 'float' },
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: Float, source: float, id: 'float' },
 		],
 	};
 }

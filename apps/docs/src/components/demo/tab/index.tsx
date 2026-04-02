@@ -23,12 +23,13 @@ export default function (): Info {
 		icon: IconTab,
 		path: 'tab',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: H, source: h, layout: 'horizontal', title: '横向' },
-			{ component: V, source: v, layout: 'horizontal', title: '纵向' },
-			{ component: Panel, source: panel, layout: 'horizontal', title: '带面板' },
-			{ component: ScrollV, source: scrollV, layout: 'horizontal', title: '纵向滚动' },
-			{ component: ScrollH, source: scrollH, layout: 'horizontal', title: '横向滚动' },
+			{ component: H, source: h, layout: 'horizontal', id: 'horizontal' },
+			{ component: V, source: v, layout: 'horizontal', id: 'vertical' },
+			{ component: Panel, source: panel, layout: 'horizontal', id: 'panel' },
+			{ component: ScrollV, source: scrollV, layout: 'horizontal', id: 'scrollv' },
+			{ component: ScrollH, source: scrollH, layout: 'horizontal', id: 'scrollh' },
 		],
 	};
 }
