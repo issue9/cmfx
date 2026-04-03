@@ -121,45 +121,38 @@ export class Extractor {
 		pkg: string,
 		entry: string,
 	): Type {
-		const ns = name.split(',');
-		const isSource = ns.length > 1 ? ns[1].toLowerCase() === 'source' : false;
-
-		const items = ns[0].split('.');
+		const items = name.split('.');
 		let decls = exps.get(items[0]);
 
 		if (!decls || decls.length === 0) {
-			throw new Error(`${pkg}/${entry} 中找不到类型 ${ns[0]}`);
+			throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
 		} else if (decls.length > 1) {
-			throw new Error(`${pkg}/${entry} 中有多个类型 ${ns[0]}`);
+			throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
 		}
 		let decl = decls[0];
 
 		for (const item of items.slice(1)) {
 			if (!Node.isModuleDeclaration(decl)) {
-				throw new Error(`${ns[0]} 不是一个有效的命名空间`);
+				throw new Error(`${name} 不是一个有效的命名空间`);
 			}
 
 			decls = decl.getExportedDeclarations().get(item);
 			if (!decls || decls.length === 0) {
-				throw new Error(`${pkg}/${entry} 中找不到类型 ${ns[0]}`);
+				throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
 			} else if (decls.length > 1) {
-				throw new Error(`${pkg}/${entry} 中有多个类型 ${ns[0]}`);
+				throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
 			}
 			decl = decls[0];
 		}
 
-		const t = this.conv(decl, project.checker, isSource);
+		const t = this.conv(decl, project.checker);
 		t.pkg = pkg;
 		//t.name = items[items.length - 1]; // 防止 Props as RootProps 等方式的导出导致的 name 被污染。
 		t.name = name; // 直接使用包含命名空间的全名
 		return t;
 	}
 
-	private conv(decl: Node, chk: TypeChecker, isSource?: boolean): Type {
-		if (isSource) {
-			return this.convSource(decl);
-		}
-
+	private conv(decl: Node, chk: TypeChecker): Type {
 		if (Node.isInterfaceDeclaration(decl)) {
 			return this.fromInterfaceDeclaration(decl);
 		} else if (Node.isClassDeclaration(decl)) {

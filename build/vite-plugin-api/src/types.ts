@@ -11,7 +11,7 @@ interface Named extends Doc {
 	name: string;
 }
 
-interface Pakcage {
+interface Package {
 	/**
 	 * 所在的包名称
 	 */
@@ -75,7 +75,7 @@ export interface ClassMethod extends InterfaceMethod {
 /**
  * 定义类的结构
  */
-export interface Class extends Doc, Pakcage {
+export interface Class extends Doc, Package {
 	kind: 'class';
 	name?: string;
 	typeParams?: Array<TypeParameter>;
@@ -86,7 +86,7 @@ export interface Class extends Doc, Pakcage {
 /**
  * 定义接口
  */
-export interface Interface extends Doc, Pakcage {
+export interface Interface extends Doc, Package {
 	kind: 'interface';
 	name?: string; // 作为别名后部分时，该值为空。
 	typeParams?: Array<TypeParameter>;
@@ -100,7 +100,7 @@ export interface Interface extends Doc, Pakcage {
  * @remarks
  * 所有未指定的类型，也放在此类型上。
  */
-export interface Source extends Named, Pakcage {
+export interface Source extends Named, Package {
 	kind: 'source';
 	source?: string;
 }
@@ -108,19 +108,19 @@ export interface Source extends Named, Pakcage {
 /**
  * 定义函数
  */
-export interface Func extends InterfaceMethod, Pakcage {
+export interface Func extends InterfaceMethod, Package {
 	kind: 'function';
 }
 
 /**
  * 字面量类型
  */
-export interface Literal extends Named, Pakcage {
+export interface Literal extends Named, Package {
 	kind: 'literal';
 	type: string;
 }
 
-export interface Union extends Named, Pakcage {
+export interface Union extends Named, Package {
 	kind: 'union';
 
 	typeParams?: Array<TypeParameter>;
@@ -128,7 +128,7 @@ export interface Union extends Named, Pakcage {
 	types: Array<Type>;
 }
 
-export interface Intersection extends Named, Pakcage {
+export interface Intersection extends Named, Package {
 	kind: 'intersection';
 
 	typeParams?: Array<TypeParameter>;
