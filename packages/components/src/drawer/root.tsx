@@ -7,7 +7,7 @@ import { createEffect, createSignal, mergeProps, onCleanup, onMount, splitProps 
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, Breakpoint, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { ToggleButton as TB } from '@components/button';
 import { Transition } from '@components/transition';
@@ -125,7 +125,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	 * @reactive
 	 * @defaultValue false
 	 */
-	floating?: boolean | '3xs' | 'xs' | 'sm' | 'md' | 'lg' | '2xl' | '4xl' | '6xl' | '8xl';
+	floating?: boolean | Breakpoint;
 
 	/**
 	 * 位置，默认值为 start
@@ -189,9 +189,7 @@ export function Root(props: Props) {
 		<div
 			class={joinClass(props.palette, props.pos === 'end' ? styles.end : '', styles.drawer, props.class)}
 			style={props.style}
-			ref={el => {
-				rootRef = el;
-			}}
+			ref={el => rootRef = el}
 		>
 			<aside
 				ref={el => (asideRef = el)}

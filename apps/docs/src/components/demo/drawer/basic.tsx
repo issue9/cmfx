@@ -45,7 +45,7 @@ export default function (props: MountProps): JSX.Element {
 				</div>
 			</Drawer.Root>
 
-			<Drawer.ToggleButton square class="grow-0" drawer={ref!} />
+			<Drawer.ToggleButton class="grow-0" drawer={ref!} />
 			<Button.Root
 				onclick={() => {
 					ref.toggle();

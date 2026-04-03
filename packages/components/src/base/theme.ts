@@ -9,10 +9,14 @@ export const modes = ['system', 'dark', 'light'] as const;
  */
 export type Mode = (typeof modes)[number];
 
-export const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
+export const breakpoints = ['3xs', 'xs', 'sm', 'md', 'lg', '2xl', '4xl', '6xl', '8xl'] as const;
 
 /**
- * 支持的屏幕类型
+ * 容器查询能用的类型
+ *
+ * @remarks
+ * 不建议使用 @media (width>500) 等基于浏览器宽度的媒体查询。
+ * 而是使用最新的容器查询。
  */
 export type Breakpoint = (typeof breakpoints)[number];
 

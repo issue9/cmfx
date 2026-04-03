@@ -12,7 +12,7 @@
 			{
 				"name": "striped",
 				"summary": "指定条纹色的间隔\n\n",
-				"type": "0 | 5 | 4 | 3 | 2 | 1 | 7 | 6 | 8 | 9 | 10 | undefined",
+				"type": "0 | 5 | 4 | 3 | 2 | 1 | 7 | 6 | 9 | 8 | 10 | undefined",
 				"reactive": true
 			},
 			{
@@ -149,7 +149,7 @@
 			{
 				"name": "striped",
 				"summary": "指定条纹色的间隔\n\n",
-				"type": "0 | 5 | 4 | 3 | 2 | 1 | 7 | 6 | 8 | 9 | 10 | undefined",
+				"type": "0 | 5 | 4 | 3 | 2 | 1 | 7 | 6 | 9 | 8 | 10 | undefined",
 				"reactive": true
 			},
 			{
@@ -460,7 +460,7 @@
 			{
 				"name": "striped",
 				"summary": "指定条纹色的间隔\n\n",
-				"type": "0 | 5 | 4 | 3 | 2 | 1 | 7 | 6 | 8 | 9 | 10 | undefined",
+				"type": "0 | 5 | 4 | 3 | 2 | 1 | 7 | 6 | 9 | 8 | 10 | undefined",
 				"reactive": true
 			},
 			{
