@@ -9,15 +9,28 @@
 @layer components {
 	.shiki {
 		@apply font-mono leading-5 overflow-clip relative;
-		@apply rounded-lg border border-palette-border/50 p-1;
+		@apply rounded-lg;
 		@apply text-palette-fg bg-palette-bg;
+		@apply flex flex-col;
 
 		> code {
 			@apply block overflow-auto w-full h-full;
 		}
 
-		> .action {
+		> .copy {
 			@apply absolute top-0 inset-e-0 p-1!;
+		}
+
+		> .toolbar {
+			@apply flex justify-between items-center border-b-palette-border border-b p-1!;
+
+			.actions {
+				@apply flex;
+
+				.btn {
+					@apply p-1!;
+				}
+			}
 		}
 	}
 

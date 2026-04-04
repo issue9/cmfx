@@ -8,6 +8,11 @@
         types:
             - Code.RootProps
             - Code.RootRef
+
             - Code.Highlighter
             - Code.buildHighlighter
             - Code.highlight
+
+            - Code.decorates
+            - Code.registerDecorate
+            - Code.withDecorate

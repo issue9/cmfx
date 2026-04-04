@@ -138,3 +138,62 @@ export function arraySelector<T extends string | number>(
 
 	return [elem, signal[0], signal[1]];
 }
+
+/**
+ * 可多选的下拉框
+ */
+export function arrayMultipleSelector<T extends string | number>(
+	label: string,
+	array: ReadonlyArray<T> | ReadonlyMap<T, string>,
+	preset?: Array<T>,
+	appendUndefined = false,
+): [Component, Accessor<Array<T> | undefined>, Setter<Array<T> | undefined>] {
+	const signal = createSignal<Array<T> | undefined>(preset);
+
+	let options: Array<Choice.Option<T>>;
+
+	if (Array.isArray(array)) {
+		options = array.map(item => {
+			return {
+				type: 'item',
+				value: item,
+				label: item,
+			};
+		});
+	} else {
+		const m = array as ReadonlyMap<T, string>;
+		options = Array.from(m.entries()).map(([key, val]) => {
+			return {
+				type: 'item',
+				value: key,
+				label: val,
+			};
+		});
+	}
+
+	if (appendUndefined) {
+		options.push({
+			type: 'item',
+			value: undefined,
+			label: 'undefined',
+		});
+	}
+
+	const name = createUniqueId(); // 保证一组 radio 一个独立的名称
+
+	const elem = () => {
+		const l = useLocale();
+		return (
+			<Choice.Root
+				closable
+				multiple
+				layout="horizontal"
+				placeholder={l.t(label)}
+				accessor={Form.fieldAccessor(name, signal)}
+				options={options}
+			/>
+		);
+	};
+
+	return [elem, signal[0], signal[1]];
+}

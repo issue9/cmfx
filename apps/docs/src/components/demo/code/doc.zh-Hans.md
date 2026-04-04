@@ -10,4 +10,7 @@
 #### oninput
 @```demo-oninput```@
 
+#### decorate
+@```demo-decorate```@
+
 @```api```@

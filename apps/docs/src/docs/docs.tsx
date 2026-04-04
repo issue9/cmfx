@@ -224,7 +224,7 @@ function Doc(props: DocProps): JSX.Element {
 	let page: Page.RootRef;
 
 	onMount(() => {
-		Code.withCopyButton(page.root());
+		Code.withDecorate(page.root());
 	});
 
 	const components = createMemo(() => {

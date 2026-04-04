@@ -7,7 +7,8 @@ import { createEffect, createSignal, type JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
-import { highlight, withCopyButton } from './shiki';
+import { withDecorate } from './decorate';
+import { highlight } from './shiki';
 
 export type Ref = BaseRef<HTMLElement>;
 
@@ -63,6 +64,14 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @reactive
 	 */
 	theme?: BundledTheme;
+
+	/**
+	 * 装饰器名称
+	 *
+	 * @remarks
+	 * 该值可由 {@link getDecorates} 获取。
+	 */
+	decorates?: Array<string>;
 }
 
 /**
@@ -77,7 +86,16 @@ export function Root(props: Props): JSX.Element {
 
 	createEffect(async () => {
 		const cls = joinClass(props.palette, props.class);
-		const pre = await highlight(props.children, props.lang, props.ln, props.wrap, cls, props.style, props.theme);
+		const pre = await highlight(
+			props.children,
+			props.lang,
+			props.ln,
+			props.wrap,
+			cls,
+			props.style,
+			props.theme,
+			props.decorates?.join(','),
+		);
 		setHTML(template(pre)() as HTMLElement);
 
 		if (props.ref) {
@@ -102,7 +120,7 @@ export function Root(props: Props): JSX.Element {
 			}
 		});
 
-		withCopyButton(el);
+		withDecorate(el);
 	});
 
 	return <>{html()}</>;

@@ -11,11 +11,8 @@ import type {
 	ThemeInput,
 } from 'shiki/bundle/full';
 import { codeToHtml, createHighlighter } from 'shiki/bundle/full';
-import { render } from 'solid-js/web';
 
 import { type BaseProps, joinClass, style2String } from '@components/base';
-import { Button } from '@components/button';
-import { ClipboardAPI } from '@components/clipboard';
 import styles from './style.module.css';
 import { shikiTheme } from './theme';
 
@@ -80,8 +77,9 @@ export async function buildHighlighter(
 			cls?: string,
 			style?: BaseProps['style'],
 			theme?: BundledTheme,
+			decorate?: string,
 		): string {
-			return h.codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, theme));
+			return h.codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, theme, decorate));
 		},
 
 		dispose: () => h.dispose(),
@@ -98,6 +96,7 @@ export async function buildHighlighter(
  * @param cls - 传递给 pre 标签的 CSS 类名；
  * @param style - 传递给 pre 标签的 CSS 样式；
  * @param theme - 主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；
+ * @param decorate - 装饰器名称，仅作记录，需要后续调用 withDecorate 才能在内容上有所显示，如果要指定多个，可以使用半角逗号分隔；
  * @returns 高亮后的 HTML 代码；
  *
  * @remarks
@@ -112,8 +111,9 @@ export async function highlight(
 	cls?: string,
 	style?: BaseProps['style'],
 	theme?: BundledTheme,
+	decorate?: string,
 ): Promise<string> {
-	return await codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, theme));
+	return await codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, theme, decorate));
 }
 
 function buildOptions(
@@ -124,6 +124,7 @@ function buildOptions(
 	cls?: string,
 	style?: BaseProps['style'],
 	theme?: BundledTheme,
+	decorate?: string,
 ): CodeToHastOptions<BundledLanguage, BundledTheme> {
 	// 行号列的宽度，即使只有两行代码，但是从 9 开始计算行号，还是得有 2 位长度，所以得根据最后一行的行号确定行号的宽度。
 	const w = ln === undefined ? '0ch' : `${(code.split('\n').length + ln).toString().length}ch`;
@@ -144,40 +145,12 @@ function buildOptions(
 					);
 					node.properties.style += s;
 					node.properties['data-code'] = code;
+					node.properties['data-lang'] = lang;
+					if (decorate) {
+						node.properties['data-decorate'] = decorate;
+					}
 				},
 			},
 		],
 	};
-}
-
-/**
- * 为 elem 及其子元素中的所有 shiki 代码块添加复制按钮
- */
-export function withCopyButton(elem: HTMLElement) {
-	if (elem.matches('[data-code]')) {
-		mountCopyButton(elem);
-		return;
-	}
-
-	const elems = elem.querySelectorAll('[data-code]');
-	for (const elem of elems) {
-		mountCopyButton(elem as HTMLElement);
-	}
-}
-
-function mountCopyButton(el: HTMLElement) {
-	let clipboardRef: ClipboardAPI.RootRef;
-	render(
-		() => (
-			<Button.Root
-				class={styles.action}
-				square
-				kind="flat"
-				onclick={() => clipboardRef.writeText(el.dataset.code ?? '')}
-			>
-				<ClipboardAPI.Root ref={el => (clipboardRef = el)} />
-			</Button.Root>
-		),
-		el,
-	);
 }
