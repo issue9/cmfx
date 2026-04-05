@@ -13,7 +13,7 @@
 
 为了减少库的体积，打包时并未包含 [shiki](https://shiki.tmrs.site/)，需要在自己的 `package.json` 中添加以下配置：
 
-```json
+```json border,toolbar
 {
   "devDependencies": {
     "shiki": "^3.12.0"

@@ -26,6 +26,7 @@ export interface Highlighter {
 	 * @param cls - 传递给 pre 标签的 CSS 类名；
 	 * @param style - 传递给 pre 标签的 CSS 样式；
 	 * @param theme - 主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；
+	 * @param decorate - 装饰器名称，仅作记录，需要后续调用 withDecorate 才能在内容上有所显示，如果要指定多个，可以使用半角逗号分隔；
 	 * @returns 高亮处理之后的 html 代码；
 	 */
 	html(
@@ -36,6 +37,7 @@ export interface Highlighter {
 		cls?: string,
 		style?: BaseProps['style'],
 		theme?: BundledTheme,
+		decorate?: string,
 	): string;
 
 	/**

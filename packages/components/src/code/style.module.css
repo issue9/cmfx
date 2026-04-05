@@ -11,10 +11,15 @@
 		@apply font-mono leading-5 overflow-clip relative;
 		@apply rounded-lg;
 		@apply text-palette-fg bg-palette-bg;
-		@apply flex flex-col;
+		@apply flex flex-col justify-end;
+		@apply transition;
 
 		> code {
-			@apply block overflow-auto w-full h-full;
+			@apply block overflow-auto w-full h-full py-1;
+
+			> span {
+				@apply px-1;
+			}
 		}
 
 		> .copy {
@@ -25,7 +30,7 @@
 			@apply flex justify-between items-center border-b-palette-border border-b p-1!;
 
 			.actions {
-				@apply flex;
+				@apply flex gap-1;
 
 				.btn {
 					@apply p-1!;

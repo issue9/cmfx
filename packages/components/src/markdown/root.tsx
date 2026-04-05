@@ -86,6 +86,10 @@ export function Root<T extends keyof HTMLElementTagNameMap = 'article'>(props: P
 			if (props.onComplete) {
 				props.onComplete();
 			}
+
+			if (ref) {
+				runWithOwner(owner, () => Code.withDecorate(ref));
+			}
 		});
 	});
 
@@ -109,11 +113,24 @@ function code() {
 	return async (token: Token) => {
 		switch (token.type) {
 			case 'code':
-				Object.assign(token, {
-					type: 'html',
-					block: true,
-					text: await Code.highlight(token.text, token.lang, undefined, true, styles.code),
-				});
+				{
+					const langs = token.lang.split(' ');
+					Object.assign(token, {
+						type: 'html',
+						block: true,
+						lang: langs[0],
+						text: await Code.highlight(
+							token.text,
+							langs[0],
+							undefined,
+							true,
+							undefined,
+							undefined,
+							undefined,
+							langs[1],
+						),
+					});
+				}
 				break;
 		}
 	};

@@ -86,11 +86,6 @@
 			a:hover::after {
 				width: 100%;
 			}
-
-			pre {
-				/* 代码块的样式 */
-				@apply bg-palette-bg-low! text-palette-fg! rounded-md p-2;
-			}
 		}
 	}
 }

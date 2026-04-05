@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { BundledLanguage, BundledTheme } from 'shiki/bundle/full';
-import { createEffect, createSignal, type JSX } from 'solid-js';
+import { createEffect, createSignal, getOwner, type JSX, runWithOwner } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
@@ -83,6 +83,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
  */
 export function Root(props: Props): JSX.Element {
 	const [html, setHTML] = createSignal<HTMLElement>();
+	const owner = getOwner();
 
 	createEffect(async () => {
 		const cls = joinClass(props.palette, props.class);
@@ -120,7 +121,7 @@ export function Root(props: Props): JSX.Element {
 			}
 		});
 
-		withDecorate(el);
+		runWithOwner(owner, () => withDecorate(el));
 	});
 
 	return <>{html()}</>;

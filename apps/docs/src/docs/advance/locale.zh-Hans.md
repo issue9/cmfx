@@ -10,7 +10,7 @@
 
 前端需要定义翻译文件，经由配置对象的 `messages` 进行加载。该字段的原型为：
 
-```ts
+```ts border,toolbar
 Record<string, Array<{(): Promise<Dict>;}>>
 ```
 

@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { getOwner, type JSX, runWithOwner } from 'solid-js';
+import type { JSX } from 'solid-js';
 import { render } from 'solid-js/web';
+import IconDown from '~icons/material-symbols/keyboard-arrow-down-rounded';
+import IconUp from '~icons/material-symbols/keyboard-arrow-up-rounded';
 
-import { Button } from '@components/button';
+import { Button, ToggleButton } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
 import styles from './style.module.css';
 
@@ -54,6 +56,7 @@ export function getDecorates(): Array<string> {
  *
  * @remarks
  * 装饰器根据 {@link highlight} 的 decorate 参数而定。
+ * 此操作会改变上下文环境，如果需要使用 Context 的相关信息，请使用 runWithOwner 创建上下文环境。
  */
 export function withDecorate(elem: HTMLElement): void {
 	// 当前元素匹配
@@ -77,13 +80,13 @@ function mount(pre: HTMLPreElement) {
 		return;
 	}
 
-	const owner = getOwner();
-
 	for (const name of names.split(',')) {
-		const d = decorates.get(name);
-		if (d) {
-			runWithOwner(owner, () => render(() => d(pre), pre));
+		if (!decorates.has(name)) {
+			throw new Error(`装饰器 ${name} 不存在`);
 		}
+
+		const d = decorates.get(name)!;
+		render(() => d(pre), pre);
 	}
 }
 
@@ -106,8 +109,11 @@ registerDecorate('toolbar', pre => {
 	// 因为生成的代码就已经固定了 decorate 属性，不会动态切换。
 	pre.style.flexDirection = 'column-reverse';
 
+	const h = pre.offsetHeight;
+	let toolbarRef: HTMLElement;
+
 	return (
-		<header class={styles.toolbar}>
+		<header class={styles.toolbar} ref={el => (toolbarRef = el)}>
 			<span>{pre.dataset.lang}</span>
 			<div class={styles.actions}>
 				<Button.Root
@@ -118,6 +124,17 @@ registerDecorate('toolbar', pre => {
 				>
 					<ClipboardAPI.Root ref={el => (clipboardRef = el)} />
 				</Button.Root>
+
+				<ToggleButton.Root
+					off={<IconUp />}
+					on={<IconDown />}
+					kind="flat"
+					class={styles.btn}
+					onToggle={async v => {
+						pre.style.height = `${v ? toolbarRef.offsetHeight : h + toolbarRef.offsetHeight}px`;
+						return v;
+					}}
+				/>
 			</div>
 		</header>
 	);

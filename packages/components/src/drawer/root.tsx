@@ -189,7 +189,7 @@ export function Root(props: Props) {
 		<div
 			class={joinClass(props.palette, props.pos === 'end' ? styles.end : '', styles.drawer, props.class)}
 			style={props.style}
-			ref={el => rootRef = el}
+			ref={el => (rootRef = el)}
 		>
 			<aside
 				ref={el => (asideRef = el)}

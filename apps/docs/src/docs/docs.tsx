@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Code, Drawer, joinClass, Markdown, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Drawer, joinClass, Markdown, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import type { ArrayElement, Locale } from '@cmfx/core';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
@@ -221,12 +221,6 @@ function Doc(props: DocProps): JSX.Element {
 			: articles.values().next().value;
 	});
 
-	let page: Page.RootRef;
-
-	onMount(() => {
-		Code.withDecorate(page.root());
-	});
-
 	const components = createMemo(() => {
 		if (!props.types || Object.keys(props.types).length === 0) {
 			return;
@@ -248,7 +242,7 @@ function Doc(props: DocProps): JSX.Element {
 	});
 
 	return (
-		<Page.Root ref={el => (page = el)} title={title} class={styles.docs}>
+		<Page.Root title={title} class={styles.docs}>
 			<Markdown.Root
 				class={styles.doc}
 				ref={el => (articleRef = el)}
