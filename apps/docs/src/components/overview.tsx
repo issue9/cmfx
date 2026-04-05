@@ -63,8 +63,12 @@ export default function Overview(prefix: string): JSX.Element {
 
 // 生成 Drawer 组件的侧边栏菜单
 export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
+	if (!prefix.endsWith('/')) {
+		prefix += '/';
+	}
+
 	const menus: Array<Menu.MenuItem> = [
-		{ type: 'a', label: l.t('_d.demo.overview'), value: `${prefix}/`, suffix: routes.length }, // 指向 overview
+		{ type: 'a', label: l.t('_d.demo.overview'), value: prefix, suffix: routes.length }, // 指向 overview
 		{ type: 'group', label: l.t('_d.demo.general'), items: [] },
 		{ type: 'group', label: l.t('_d.demo.layout'), items: [] },
 		{ type: 'group', label: l.t('_d.demo.navigation'), items: [] },

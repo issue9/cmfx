@@ -27,7 +27,7 @@ const advanceAPI = import.meta.glob('./advance/api.*.json', { eager: true, impor
 const routes: Array<RouteDefinition & { kind: Kind }> = [
 	{
 		kind: 'intro',
-		path: ['/', '/intro/readme'],
+		path: ['', 'intro/readme'],
 		info: { title: '_d.docs.intro' },
 		component: () => (
 			<Doc articles={import.meta.glob('../../../../README.md', { eager: true, query: '?raw', import: 'default' })} />
@@ -35,7 +35,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'intro',
-		path: '/intro/changelog',
+		path: 'intro/changelog',
 		info: { title: '_d.docs.changelog' },
 		component: () => (
 			<Doc articles={import.meta.glob('../../../../CHANGELOG.md', { eager: true, query: '?raw', import: 'default' })} />
@@ -46,7 +46,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 
 	{
 		kind: 'usage',
-		path: '/usage/install',
+		path: 'usage/install',
 		info: { title: '_d.docs.install' },
 		component: () => (
 			<Doc
@@ -57,7 +57,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'usage',
-		path: '/usage/platform',
+		path: 'usage/platform',
 		info: { title: '_d.docs.platform' },
 		component: () => (
 			<Doc
@@ -68,7 +68,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'usage',
-		path: '/usage/svg',
+		path: 'usage/svg',
 		info: { title: '_d.docs.svg' },
 		component: () => (
 			<Doc
@@ -79,7 +79,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'usage',
-		path: '/usage/theme',
+		path: 'usage/theme',
 		info: { title: '_d.docs.theme' },
 		component: () => (
 			<Doc
@@ -90,7 +90,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'usage',
-		path: '/usage/faq',
+		path: 'usage/faq',
 		info: { title: '_d.docs.faq' },
 		component: () => (
 			<Doc
@@ -104,7 +104,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 
 	{
 		kind: 'advance',
-		path: '/advance/locale',
+		path: 'advance/locale',
 		info: { title: '_d.docs.locale' },
 		component: () => (
 			<Doc
@@ -115,7 +115,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'advance',
-		path: '/advance/validator',
+		path: 'advance/validator',
 		info: { title: '_d.docs.validator' },
 		component: () => (
 			<Doc
@@ -126,7 +126,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'advance',
-		path: '/advance/error',
+		path: 'advance/error',
 		info: { title: '_d.docs.error' },
 		component: () => (
 			<Doc
@@ -137,7 +137,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'advance',
-		path: '/advance/custom-theme',
+		path: 'advance/custom-theme',
 		info: { title: '_d.docs.customTheme' },
 		component: () => (
 			<Doc
@@ -148,7 +148,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 	},
 	{
 		kind: 'advance',
-		path: '/advance/plugins',
+		path: 'advance/plugins',
 		info: { title: '_d.docs.plugins' },
 		component: () => (
 			<Doc
@@ -161,6 +161,10 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 
 // 生成 Drawer 组件的侧边栏菜单
 export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
+	if (!prefix.endsWith('/')) {
+		prefix += '/';
+	}
+
 	const menus: Array<Menu.Group> = [
 		{ type: 'group', label: l.t('_d.docs.intro'), items: [] },
 		{ type: 'group', label: l.t('_d.docs.usage'), items: [] },
@@ -265,6 +269,10 @@ function Doc(props: DocProps): JSX.Element {
  * 提供了文档浏览的路由定义
  */
 export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | undefined>): RouteDefinition {
+	if (!prefix.endsWith('/')) {
+		prefix += '/';
+	}
+
 	return {
 		path: prefix,
 		component: (props: ParentProps) => {
