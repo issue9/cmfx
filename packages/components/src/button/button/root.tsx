@@ -102,11 +102,7 @@ export function Root(props: Props) {
 	let ref: HTMLElement;
 
 	if (props.hotkey && props.onclick) {
-		onMount(() => {
-			Hotkey.bind(props.hotkey!, () => {
-				ref!.click();
-			});
-		});
+		onMount(() => Hotkey.bind(props.hotkey!, () => ref!.click()));
 		onCleanup(() => Hotkey.unbind(props.hotkey!));
 	}
 

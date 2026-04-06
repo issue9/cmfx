@@ -47,6 +47,12 @@
 				"reactive": true
 			},
 			{
+				"name": "decorates",
+				"summary": "装饰器名称\n\n",
+				"remarks": "该值可由\n`getDecorates`\n获取。\n\n",
+				"type": "string[] | undefined"
+			},
+			{
 				"name": "palette",
 				"summary": "指定当前组件采用的色盘\n\n",
 				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
@@ -97,7 +103,7 @@
 			{
 				"name": "html",
 				"summary": "高亮代码\n\n",
-				"type": "html(code: string, lang: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], theme?: BundledTheme): string",
+				"type": "html(code: string, lang: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], theme?: BundledTheme, decorate?: string): string",
 				"params": [
 					{
 						"name": "code",
@@ -133,6 +139,11 @@
 						"name": "theme",
 						"summary": "主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；\n\n",
 						"type": "BundledTheme | undefined"
+					},
+					{
+						"name": "decorate",
+						"summary": "装饰器名称，仅作记录，需要后续调用 withDecorate 才能在内容上有所显示，如果要指定多个，可以使用半角逗号分隔；\n\n",
+						"type": "string | undefined"
 					}
 				],
 				"return": {
@@ -180,7 +191,7 @@
 		"name": "Code.highlight",
 		"summary": "高亮代码\n\n",
 		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
-		"type": "declare function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], theme?: BundledTheme): Promise<string>",
+		"type": "declare function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], theme?: BundledTheme, decorate?: string): Promise<string>",
 		"params": [
 			{
 				"name": "code",
@@ -216,11 +227,65 @@
 				"name": "theme",
 				"summary": "主题名称。可以为空，表示使用默认主题，默认主题会根据整个框架的主题而变化；\n\n",
 				"type": "BundledTheme | undefined"
+			},
+			{
+				"name": "decorate",
+				"summary": "装饰器名称，仅作记录，需要后续调用 withDecorate 才能在内容上有所显示，如果要指定多个，可以使用半角逗号分隔；\n\n",
+				"type": "string | undefined"
 			}
 		],
 		"return": {
 			"summary": "高亮后的 HTML 代码；\n\n",
 			"type": "Promise<string>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Code.decorates",
+		"summary": "获取装饰器的名称列表\n\n",
+		"type": "declare function getDecorates(): Array<string>",
+		"return": {
+			"type": "string[]"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Code.registerDecorate",
+		"summary": "注册装饰器\n\n",
+		"type": "declare function registerDecorate(name: string, decorate: Decorate): void",
+		"params": [
+			{
+				"name": "name",
+				"summary": "装饰器的名称；\n\n",
+				"type": "string"
+			},
+			{
+				"name": "decorate",
+				"summary": "装饰器的实例；\n\n",
+				"type": "Decorate"
+			}
+		],
+		"return": {
+			"type": "void"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Code.withDecorate",
+		"summary": "为 elem 及其子元素中的所有 shiki 代码块添加指定的组件\n\n",
+		"remarks": "装饰器根据\n`highlight`\n的 decorate 参数而定。\n此操作会改变上下文环境，如果需要使用 Context 的相关信息，请使用 runWithOwner 创建上下文环境。\n\n",
+		"type": "declare function withDecorate(elem: HTMLElement): void",
+		"params": [
+			{
+				"name": "elem",
+				"type": "HTMLElement"
+			}
+		],
+		"return": {
+			"type": "void"
 		},
 		"pkg": "@cmfx/components"
 	}

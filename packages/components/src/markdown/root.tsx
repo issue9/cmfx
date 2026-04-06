@@ -4,7 +4,7 @@
 
 import { Marked, type Token, type TokenizerAndRendererExtension } from 'marked';
 import type { JSX, ValidComponent } from 'solid-js';
-import { createEffect, createSignal, getOwner, runWithOwner } from 'solid-js';
+import { createEffect, createSignal, getOwner, onCleanup, runWithOwner } from 'solid-js';
 import { Dynamic, render } from 'solid-js/web';
 
 import type { BaseProps, BaseRef, RefProps } from '@components/base';
@@ -63,8 +63,24 @@ export function Root<T extends keyof HTMLElementTagNameMap = 'article'>(props: P
 	const [html, setHTML] = createSignal(props.text);
 	let ref: HTMLElement;
 
+	const disposes: Array<() => void> = [];
+	const cancel = () => {
+		if (disposes.length === 0) {
+			return;
+		}
+
+		for (const d of disposes) {
+			d();
+		}
+		disposes.length = 0;
+	};
+
+	onCleanup(() => cancel());
+
 	// 监视文本是否修改
 	createEffect(async () => {
+		cancel();
+
 		const ht = await p.parse(props.text || '', { async: true });
 		setHTML(ht);
 
@@ -79,7 +95,7 @@ export function Root<T extends keyof HTMLElementTagNameMap = 'article'>(props: P
 
 			Object.entries(props.components).forEach(([id, fn]) => {
 				ref.querySelectorAll(`[data-markdown-component="${id}"]`)?.forEach(el => {
-					runWithOwner(owner, () => render(fn, el));
+					runWithOwner(owner, () => disposes.push(render(fn, el)));
 				});
 			});
 
@@ -88,7 +104,7 @@ export function Root<T extends keyof HTMLElementTagNameMap = 'article'>(props: P
 			}
 
 			if (ref) {
-				runWithOwner(owner, () => Code.withDecorate(ref));
+				runWithOwner(owner, () => disposes.push(Code.withDecorate(ref)));
 			}
 		});
 	});

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { BundledLanguage, BundledTheme } from 'shiki/bundle/full';
-import { createEffect, createSignal, getOwner, type JSX, runWithOwner } from 'solid-js';
+import { createEffect, createSignal, getOwner, type JSX, onCleanup, runWithOwner } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
@@ -85,6 +85,20 @@ export function Root(props: Props): JSX.Element {
 	const [html, setHTML] = createSignal<HTMLElement>();
 	const owner = getOwner();
 
+	const disposes: Array<() => void> = [];
+	const cancel = () => {
+		if (disposes.length === 0) {
+			return;
+		}
+
+		for (const d of disposes) {
+			d();
+		}
+		disposes.length = 0;
+	};
+
+	onCleanup(() => cancel());
+
 	createEffect(async () => {
 		const cls = joinClass(props.palette, props.class);
 		const pre = await highlight(
@@ -107,6 +121,8 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	createEffect(() => {
+		cancel();
+
 		const el = html();
 		if (!el) {
 			return;
@@ -121,7 +137,7 @@ export function Root(props: Props): JSX.Element {
 			}
 		});
 
-		runWithOwner(owner, () => withDecorate(el));
+		runWithOwner(owner, () => disposes.push(withDecorate(el)));
 	});
 
 	return <>{html()}</>;

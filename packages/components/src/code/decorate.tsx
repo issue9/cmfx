@@ -52,41 +52,50 @@ export function getDecorates(): Array<string> {
 }
 
 /**
- * 为 elem 及其子元素中的所有 shiki 代码块添加指定的组件
+ * 为 elem 及其子元素中的所有 shiki 代码块添加指定的装饰组件
  *
+ * @param elem - 要装饰的元素；
+ * @returns 装饰组件的注销方法；
  * @remarks
  * 装饰器根据 {@link highlight} 的 decorate 参数而定。
  * 此操作会改变上下文环境，如果需要使用 Context 的相关信息，请使用 runWithOwner 创建上下文环境。
  */
-export function withDecorate(elem: HTMLElement): void {
+export function withDecorate(elem: HTMLElement): () => void {
+	const disposes: Array<() => void> = [];
+
 	// 当前元素匹配
 	if (elem.matches('[data-code]')) {
-		mount(elem as HTMLPreElement);
-		return;
+		mount(elem as HTMLPreElement, disposes);
+	} else {
+		const elems = elem.querySelectorAll('[data-code]');
+		for (const elem of elems) {
+			mount(elem as HTMLPreElement, disposes);
+		}
 	}
 
-	const elems = elem.querySelectorAll('[data-code]');
-	for (const elem of elems) {
-		mount(elem as HTMLPreElement);
-	}
+	const cancel = () => {
+		for (const d of disposes) {
+			d();
+		}
+	};
+
+	return cancel;
 }
 
 /**
  * 根据 pre 上的 data-decorate 属性挂载相应的装饰器
  */
-function mount(pre: HTMLPreElement) {
+function mount(pre: HTMLPreElement, disposes: Array<() => void>): void {
 	const names = pre.dataset.decorate;
-	if (!names) {
-		return;
-	}
+	if (names) {
+		for (const name of names.split(',')) {
+			if (!decorates.has(name)) {
+				throw new Error(`装饰器 ${name} 不存在`);
+			}
 
-	for (const name of names.split(',')) {
-		if (!decorates.has(name)) {
-			throw new Error(`装饰器 ${name} 不存在`);
+			const d = decorates.get(name)!;
+			disposes.push(render(() => d(pre), pre));
 		}
-
-		const d = decorates.get(name)!;
-		render(() => d(pre), pre);
 	}
 }
 

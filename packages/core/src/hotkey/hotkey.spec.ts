@@ -11,15 +11,15 @@ describe('HotKey', () => {
 	Hotkey.init(); // 多次调用
 
 	test('static', async () => {
-		expect(Hotkey.hasKeys('f', 'control')).toBeFalsy();
+		expect(Hotkey.hasKeys('f', 'control')).toBe(false);
 
 		Hotkey.bindKeys(() => {}, 'f', 'control');
-		expect(Hotkey.hasKeys('f', 'control')).toBeTruthy();
+		expect(Hotkey.hasKeys('f', 'control')).toBe(true);
 
 		expect(() => Hotkey.bindKeys(() => {}, 'f', 'control')).toThrow('快捷键 control+f 已经存在');
 
 		Hotkey.unbind(new Hotkey('F', 'control'));
-		expect(Hotkey.hasKeys('f', 'control')).toBeFalsy();
+		expect(Hotkey.hasKeys('f', 'control')).toBe(false);
 	});
 
 	test('construct', () => {
@@ -37,9 +37,9 @@ describe('HotKey', () => {
 	test('match', () => {
 		const hk = new Hotkey('F', 'shift', 'meta');
 
-		expect(hk.match(new KeyboardEvent('keydown', { code: 'KeyF', shiftKey: true, metaKey: true }))).toBeTruthy();
+		expect(hk.match(new KeyboardEvent('keydown', { code: 'KeyF', shiftKey: true, metaKey: true }))).toBe(true);
 
-		expect(hk.match(new KeyboardEvent('keydown', { code: 'KeyF', metaKey: true }))).toBeFalsy();
+		expect(hk.match(new KeyboardEvent('keydown', { code: 'KeyF', metaKey: true }))).toBe(false);
 		expect(
 			hk.match(new KeyboardEvent('keydown', { code: 'KeyF', shiftKey: true, metaKey: true, altKey: true })),
 		).toBeFalsy();
