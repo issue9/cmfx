@@ -122,8 +122,6 @@ const o: Options = {
 
 	routes,
 
-	systemNotify: true,
-
 	mode: 'system',
 	scheme: 'green',
 	schemes: new Map<string, Scheme>([

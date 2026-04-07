@@ -193,7 +193,13 @@ function Horizontal(props: ParentProps): JSX.Element {
 				</ErrorBoundary>
 			}
 		>
-			<Appbar.Root ref={el => (asideBar = el)} logo={opt.logo} title={opt.title} class={styles.toolbar} />
+			<Appbar.Root
+				ref={el => (asideBar = el)}
+				logo={<Appbar.Image src={opt.logo} alt={opt.title} />}
+				title={opt.title}
+				href={opt.routes.private.home}
+				class={styles.toolbar}
+			/>
 			<Menu.Root class={styles.menu} ref={el => (menuRef = el)} layout="inline" items={buildItems(l, opt.menus)} />
 		</Drawer.Root>
 	);
@@ -232,10 +238,11 @@ function Vertical(props: ParentProps): JSX.Element {
 	return (
 		<div class={cls()} style={style()}>
 			<Appbar.Root
-				logo={opt.logo}
+				logo={<Appbar.Image src={opt.logo} alt={opt.title} />}
 				title={opt.title}
 				class={styles.toolbar}
 				palette={bgPalette}
+				href={opt.routes.private.home}
 				actions={
 					<>
 						<For each={opt.toolbar}>{Item => <Item />}</For>

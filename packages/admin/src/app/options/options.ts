@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseProps, Drawer, Layout, Mode, Scheme } from '@cmfx/components';
+import type { BaseProps, Breakpoint, Layout, Mode, Scheme } from '@cmfx/components';
 import { presetOptions as xpo } from '@cmfx/components';
 import type { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import type { Component } from 'solid-js';
@@ -93,16 +93,6 @@ export interface Options {
 	loading?: Component<BaseProps>;
 
 	/**
-	 * 采用系统通知
-	 *
-	 * @remarks
-	 * 该功能需要在 https 下才有效，否则依然会采用内部的通知界面。当在配置项中存在时，当前值将被忽略。
-	 *
-	 * @defaultValue false
-	 */
-	systemNotify?: boolean;
-
-	/**
 	 * 后台需要用到的 API 地址
 	 */
 	api: API;
@@ -129,7 +119,7 @@ export interface Options {
 	 *
 	 * @defaultValue 'lg'
 	 */
-	floatingMinWidth?: Exclude<Drawer.RootProps['floating'], boolean>;
+	floatingMinWidth?: Breakpoint;
 
 	/**
 	 * 定义了工具栏上的按钮

@@ -49,7 +49,6 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 		config: new Config(opt.id, presetConfigName, localStorage),
 		logo: opt.logo,
 		loading: opt.loading,
-		systemNotify: opt.systemNotify,
 
 		scheme: opt.scheme,
 		schemes: opt.schemes,

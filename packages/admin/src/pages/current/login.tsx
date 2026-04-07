@@ -54,6 +54,7 @@ function LoginBox(props: Props): JSX.Element {
 	const l = useLocale();
 	const [q, setQ] = useSearchParams<{ type: string }>();
 	const [, opt] = useOptions();
+	const adminOpt = useAdminOptions();
 
 	rest.api().cache('/passports');
 
@@ -74,8 +75,9 @@ function LoginBox(props: Props): JSX.Element {
 			<Appbar.Root
 				class={styles.toolbar}
 				title={opt.title}
-				logo={opt.logo}
+				logo={<Appbar.Image src={opt.logo} alt={opt.title} />}
 				actionsClass={styles.actions}
+				href={adminOpt.routes.public.home}
 				actions={<Actions />}
 			/>
 
