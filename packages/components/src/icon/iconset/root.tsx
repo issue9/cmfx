@@ -63,7 +63,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @remarks
 	 * 如果需要自定义缓动函数，可以通过使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
 	 */
-	easing?: keyof typeof easings;
+	easing?: string;
 
 	/**
 	 * 旋转方式
@@ -97,14 +97,14 @@ export function Root(props: Props): JSX.Element {
 
 	const getDuration = createMemo(() => (isReducedMotion() ? 0 : opt.getTransitionDuration()));
 
+	// 监视样式和主题变化
 	createEffect(() => {
-		// 监视样式和主题变化
 		icons.setAttribute('class', joinClass(props.palette, styles.iconset, props.class)!);
 		icons.setAttribute('style', style2String(props.style));
 	});
 
+	// 监视 props.value
 	createEffect(() => {
-		// 监视 props.value
 		const toid = props.value;
 		if (morpheus && toid) {
 			morpheus.to(toid, { duration: getDuration() });
@@ -119,7 +119,6 @@ export function Root(props: Props): JSX.Element {
 				duration: getDuration(),
 				easing: props.easing,
 				rotation: props.rotation,
-				lite: true,
 			},
 			() => {
 				if (!props.ref) {

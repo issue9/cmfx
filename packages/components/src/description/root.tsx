@@ -23,7 +23,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	 *
 	 * @reactive
 	 */
-	title?: string;
+	title?: JSX.Element;
 }
 
 /**

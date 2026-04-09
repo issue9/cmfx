@@ -13,9 +13,7 @@ describe('QRCode', async () => {
 	const ct = await ComponentTester.build('QRCode', props => (
 		<Root
 			{...props}
-			ref={el => {
-				ref = el;
-			}}
+			ref={el => (ref = el)}
 			cornerDotType="square"
 			errorCorrectionLevel="L"
 			cornerSquareType="dots"
