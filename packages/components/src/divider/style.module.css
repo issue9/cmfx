@@ -8,12 +8,12 @@
 
 @layer components {
 	.divider {
-		@apply flex items-center justify-center text-palette-fg whitespace-nowrap w-full h-[1px];
+		@apply flex items-center justify-center text-palette-fg whitespace-nowrap w-full h-px;
 	}
 
 	.divider::before,
 	.divider::after {
-		@apply w-full grow-1 h-[1px] bg-palette-bg-low;
+		@apply w-full grow h-px bg-palette-bg-low;
 	}
 
 	.divider.pos-start::after,
@@ -43,12 +43,12 @@
 	/*************************** vertical ********************************/
 
 	.divider.vertical {
-		@apply flex-col h-full w-[1px];
+		@apply flex-col h-full w-px;
 	}
 
 	.divider.vertical::before,
 	.divider.vertical::after {
-		@apply h-full grow-1 w-[1px];
+		@apply h-full grow w-px;
 	}
 
 	.divider.vertical.pos-start::after,

@@ -14,10 +14,8 @@ export type Props = ParentProps<
 		/**
 		 * 如果存在文字，表示文字的位置，否则该值无意义。
 		 *
-		 * @remarks
-		 * 在 children 不为空的情况下，如果未指定 pos，会初始化 'start'。
-		 *
 		 * @reactive
+		 * @defaultValue 'start'
 		 */
 		pos?: 'start' | 'center' | 'end';
 
@@ -69,9 +67,9 @@ export function Root(props: Props): JSX.Element {
 				props.palette,
 				{
 					[styles.vertical]: props.layout !== 'horizontal',
-					[styles[`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]]: true,
+					[styles[`pos-${props.children ? props.pos : 'none'}`]]: true,
+					[styles.divider]: true,
 				},
-				styles.divider,
 				props.class,
 			)}
 		>

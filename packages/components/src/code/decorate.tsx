@@ -7,7 +7,7 @@ import { render } from 'solid-js/web';
 import IconDown from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import IconUp from '~icons/material-symbols/keyboard-arrow-up-rounded';
 
-import { Button, ToggleButton } from '@components/button';
+import { Button, PrintButton, ToggleButton } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
 import styles from './style.module.css';
 
@@ -133,6 +133,10 @@ registerDecorate('toolbar', pre => {
 				>
 					<ClipboardAPI.Root ref={el => (clipboardRef = el)} />
 				</Button.Root>
+
+				<ToggleButton.FitScreen kind='flat' class={styles.btn} container={pre} />
+
+				<PrintButton.Root kind='flat' class={styles.btn} element={() => pre} />
 
 				<ToggleButton.Root
 					off={<IconUp />}
