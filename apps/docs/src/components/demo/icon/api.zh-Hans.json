@@ -19,7 +19,7 @@
 				"name": "easing",
 				"summary": "缓动函数\n\n",
 				"remarks": "如果需要自定义缓动函数，可以通过使用\n`registerEasing`\n方法进行注册。\n\n",
-				"type": "\"circ-in\" | \"circ-out\" | \"circ-in-out\" | \"cubic-in\" | \"cubic-out\" | \"cubic-in-out\" | \"elastic-in\" | \"elastic-out\" | \"elastic-in-out\" | \"expo-in\" | \"expo-out\" | \"expo-in-out\" | \"linear\" | \"quad-in\" | \"quad-out\" | \"quad-in-out\" | \"quart-in\" | \"quart-out\" | \"quart-in-out\" | \"quint-in\" | \"quint-out\" | \"quint-in-out\" | \"sine-in\" | \"sine-out\" | \"sine-in-out\" | undefined"
+				"type": "string | undefined"
 			},
 			{
 				"name": "rotation",

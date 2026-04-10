@@ -26,9 +26,7 @@ export default function (props: MountProps): JSX.Element {
 			<Button.Root palette={palette()}>
 				<IconSet.Root
 					class="aspect-square w-8!"
-					ref={el => {
-						aref = el;
-					}}
+					ref={el => (aref = el)}
 					icons={{
 						face: <IconFace />,
 						close: <IconClose />,

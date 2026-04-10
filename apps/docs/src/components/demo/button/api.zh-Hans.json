@@ -833,13 +833,6 @@
 				"reactive": true
 			},
 			{
-				"name": "display",
-				"summary": "按钮上的显示内容\n\n",
-				"type": "\"icon\" | \"text\" | \"all\" | undefined",
-				"def": "'all'\n\n",
-				"reactive": true
-			},
-			{
 				"name": "style",
 				"summary": "组件根元素的样式\n\n",
 				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
