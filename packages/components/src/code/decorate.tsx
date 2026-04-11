@@ -134,9 +134,9 @@ registerDecorate('toolbar', pre => {
 					<ClipboardAPI.Root ref={el => (clipboardRef = el)} />
 				</Button.Root>
 
-				<ToggleButton.FitScreen kind='flat' class={styles.btn} container={pre} />
+				<ToggleButton.FitScreen kind="flat" class={styles.btn} container={pre} />
 
-				<PrintButton.Root kind='flat' class={styles.btn} element={() => pre} />
+				<PrintButton.Root kind="flat" class={styles.btn} element={() => pre} />
 
 				<ToggleButton.Root
 					off={<IconUp />}

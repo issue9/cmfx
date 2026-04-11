@@ -6,8 +6,8 @@ packages:
   - apps/admin
 
 catalog:
-  '@biomejs/biome': ^2.4.10
-  '@iconify/json': ^2.2.460
+  '@biomejs/biome': ^2.4.11
+  '@iconify/json': ^2.2.461
   '@iconsets/svg-morpheus-ts': ^1.4.13
   '@microsoft/tsdoc': ^0.16.0
   '@scure/base': ^2.0.0
@@ -16,9 +16,9 @@ catalog:
   '@tailwindcss/vite': ^4.2.2
   '@testing-library/jest-dom': ^6.9.1
   '@testing-library/user-event': ^14.6.1
-  '@types/node': ^25.5.2
+  '@types/node': ^25.6.0
   '@vitejs/plugin-basic-ssl': ^2.3.0
-  '@vitest/coverage-v8': ^4.1.3
+  '@vitest/coverage-v8': ^4.1.4
   autoprefixer: ^10.4.27
   bowser: ^2.14.1
   browserslist: ^4.28.2
@@ -42,7 +42,7 @@ catalog:
   vite: ^8.0.8
   vite-plugin-dts: ^4.5.4
   vite-plugin-solid: ^2.11.12
-  vitest: ^4.1.3
+  vitest: ^4.1.4
   vitest-fetch-mock: ^0.4.5
   yaml: ^2.8.3
   zod: ^4.3.6
