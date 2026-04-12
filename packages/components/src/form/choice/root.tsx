@@ -6,7 +6,7 @@ import { createMemo, createUniqueId, For, type JSX, Match, mergeProps, Show, Swi
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type AvailableEnumType, type BaseRef, cloneElement, joinClass, type RefProps } from '@components/base';
+import { type AvailableEnumType, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Form } from '@components/form/form';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
@@ -258,5 +258,21 @@ function walk<T extends AvailableEnumType = string>(
 				break;
 			// NOTE: 自动忽略 a
 		}
+	}
+}
+
+/**
+ * 复制整个 {@link JSX#Element} 元素
+ *
+ * NOTE: 仅复制元素，但是对于通过 addEventListener 等方式绑定的事件处理函数，不会被复制。
+ */
+function cloneElement(e: JSX.Element): JSX.Element {
+	if (e instanceof Node) {
+		return e.cloneNode(true);
+	} else if (Array.isArray(e)) {
+		return e.map(e => cloneElement(e));
+	} else {
+		// 其它的均为普通类型，直接返回。
+		return e;
 	}
 }

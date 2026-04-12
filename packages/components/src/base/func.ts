@@ -8,22 +8,6 @@ import type { Palette } from './theme';
 import type { Props } from './types';
 
 /**
- * 复制整个 {@link JSX#Element} 元素
- *
- * NOTE: 仅复制元素，对于响应方式可能并不会有效果。
- */
-export function cloneElement(e: JSX.Element): JSX.Element {
-	if (e instanceof Node) {
-		return e.cloneNode(true);
-	} else if (Array.isArray(e)) {
-		return e.map(e => cloneElement(e));
-	} else {
-		// 其它的均为普通类型，直接返回。
-		return e;
-	}
-}
-
-/**
  * 处理事件
  *
  * solidjs 可以处理像 `onClick={[handler, item.id]}` 这种非标准的事件类型，

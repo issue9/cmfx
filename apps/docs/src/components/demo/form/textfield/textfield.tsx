@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, cloneElement, Form, type MountProps, TextField } from '@cmfx/components';
+import { Button, Form, type MountProps, TextField } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -19,8 +19,8 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 	const [Count, count] = boolSelector('_d.demo.charCount', false);
 
-	const prefix = <div class="flex items-center bg-red-500">prefix</div>;
-	const suffix = <div class="flex items-center bg-red-500">suffix</div>;
+	const prefix = () => <div class="flex items-center bg-red-500">prefix</div>;
+	const suffix = () => <div class="flex items-center bg-red-500">suffix</div>;
 
 	return (
 		<>
@@ -84,8 +84,8 @@ export default function (props: MountProps): JSX.Element {
 					layout={layout()}
 					placeholder="placeholder"
 					label="prefix+suffix"
-					prefix={cloneElement(prefix)}
-					suffix={cloneElement(suffix)}
+					prefix={prefix()}
+					suffix={suffix()}
 					palette={palette()}
 					disabled={disabled()}
 					rounded={rounded()}
@@ -101,8 +101,8 @@ export default function (props: MountProps): JSX.Element {
 					placeholder="placeholder"
 					label="onsearch"
 					class="w-100"
-					prefix={cloneElement(prefix)}
-					suffix={cloneElement(suffix)}
+					prefix={prefix()}
+					suffix={suffix()}
 					palette={palette()}
 					disabled={disabled()}
 					rounded={rounded()}
