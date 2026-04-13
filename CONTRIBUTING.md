@@ -119,6 +119,9 @@ close #1
 
 在 windows 环境下，部分 `make` 命令需要 `bash` 环境，默认情况下，Git 自带了 `bash` 环境。
 
+如果不需要执行依赖，直接执当前的 make 命令，可以使用 -W 参数，比如 `make -W build-ts-core test-ts-components`，
+会直接执行 test-ts-components 而忽略其依赖的项目 `build-ts-core`。
+
 ## 开发
 
 ### 目录结构

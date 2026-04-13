@@ -6,7 +6,7 @@ export async function newCache(id: string): Promise<Cache> {
 	if ('caches' in window) {
 		return await caches.open(id);
 	}
-	console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
+	console.warn('无法启用 API 缓存功能！');
 	return new CacheImplement();
 }
 
