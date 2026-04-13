@@ -9,8 +9,8 @@
 					{
 						"name": "pos",
 						"summary": "如果存在文字，表示文字的位置，否则该值无意义。\n\n",
-						"remarks": "在 children 不为空的情况下，如果未指定 pos，会初始化 'start'。\n\n",
 						"type": "\"start\" | \"center\" | \"end\" | undefined",
+						"def": "'start'\n\n",
 						"reactive": true
 					},
 					{

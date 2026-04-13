@@ -5,6 +5,9 @@
 import { vi } from 'vitest';
 import createFetchMock from 'vitest-fetch-mock';
 
+import './style.css';
+import './polyfill';
+
 const fetchMocker = createFetchMock(vi);
 fetchMocker.enableMocks();
 
@@ -32,6 +35,8 @@ window.matchMedia =
 			matches: false,
 			media: '',
 			onchange: null,
+			addListener: vi.fn(),
+			removeListener: vi.fn(),
 			addEventListener: vi.fn(),
 			removeEventListener: vi.fn(),
 			dispatchEvent: vi.fn(),

@@ -153,8 +153,6 @@ export function Root(props: Props): JSX.Element {
 				});
 			},
 		);
-
-		morpheus.to(morpheus.currIconId(), { rotation: 'none' });
 	});
 
 	return <>{icons}</>;

@@ -7,8 +7,8 @@ packages:
 
 catalog:
   '@biomejs/biome': ^2.4.11
-  '@iconify/json': ^2.2.461
-  '@iconsets/svg-morpheus-ts': ^1.4.13
+  '@iconify/json': ^2.2.462
+  '@iconsets/svg-morpheus-ts': ^1.4.14
   '@microsoft/tsdoc': ^0.16.0
   '@scure/base': ^2.0.0
   '@solidjs/router': ^0.16.1
@@ -36,7 +36,7 @@ catalog:
   solid-js: ^1.9.12
   solid-transition-group: ^0.3.0
   tailwindcss: ^4.2.2
-  ts-morph: ^27.0.2
+  ts-morph: ^28.0.0
   typescript: ^6.0.2
   unplugin-icons: ^23.0.1
   vite: ^8.0.8

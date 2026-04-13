@@ -10,11 +10,11 @@ catalogs:
       specifier: ^2.4.11
       version: 2.4.11
     '@iconify/json':
-      specifier: ^2.2.461
-      version: 2.2.461
+      specifier: ^2.2.462
+      version: 2.2.462
     '@iconsets/svg-morpheus-ts':
-      specifier: ^1.4.13
-      version: 1.4.13
+      specifier: ^1.4.14
+      version: 1.4.14
     '@microsoft/tsdoc':
       specifier: ^0.16.0
       version: 0.16.0
@@ -97,8 +97,8 @@ catalogs:
       specifier: ^4.2.2
       version: 4.2.2
     ts-morph:
-      specifier: ^27.0.2
-      version: 27.0.2
+      specifier: ^28.0.0
+      version: 28.0.0
     typescript:
       specifier: ^6.0.2
       version: 6.0.2
@@ -136,7 +136,7 @@ importers:
         version: 2.4.11
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.461
+        version: 2.2.462
       '@solidjs/testing-library':
         specifier: 'catalog:'
         version: 0.8.10(@solidjs/router@0.16.1(solid-js@1.9.12))(solid-js@1.9.12)
@@ -181,7 +181,7 @@ importers:
         version: link:../../packages/illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.461
+        version: 2.2.462
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.16.1(solid-js@1.9.12)
@@ -248,7 +248,7 @@ importers:
         version: link:../../build/vite-plugin-api
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.461
+        version: 2.2.462
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.16.1(solid-js@1.9.12)
@@ -334,7 +334,7 @@ importers:
         version: 0.16.0
       ts-morph:
         specifier: 'catalog:'
-        version: 27.0.2
+        version: 28.0.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.2
@@ -368,7 +368,7 @@ importers:
         version: link:../illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.461
+        version: 2.2.462
       '@scure/base':
         specifier: 'catalog:'
         version: 2.0.0
@@ -429,10 +429,10 @@ importers:
         version: link:../core
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.461
+        version: 2.2.462
       '@iconsets/svg-morpheus-ts':
         specifier: 'catalog:'
-        version: 1.4.13
+        version: 1.4.14
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.16.1(solid-js@1.9.12)
@@ -992,8 +992,8 @@ packages:
   '@formatjs/intl-localematcher@0.8.2':
     resolution: {integrity: sha512-q05KMYGJLyqFNFtIb8NhWLF5X3aK/k0wYt7dnRFuy6aLQL+vUwQ1cg5cO4qawEiINybeCPXAWlprY2mSBjSXAQ==}
 
-  '@iconify/json@2.2.461':
-    resolution: {integrity: sha512-UiujJDldh6bD5v0EDbB6aKgye1tW3mteqmjHAwXi1bLQm9OYnHAWBIe8ogVZB2ttEFFraOBFkpe3VFwtxRSKSQ==}
+  '@iconify/json@2.2.462':
+    resolution: {integrity: sha512-QyVED2ObaVWKgNZu3ikcCyK63GgZ6voobyJrNgTAyoI5xRXff0VHs2UxvWYvqqBJNaPGNqEQDmcJWo7uHdWOkg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1001,8 +1001,8 @@ packages:
   '@iconify/utils@3.1.0':
     resolution: {integrity: sha512-Zlzem1ZXhI1iHeeERabLNzBHdOa4VhQbqAcOQaMKuTuyZCpwKbC2R4Dd0Zo3g9EAc+Y4fiarO8HIHRAth7+skw==}
 
-  '@iconsets/svg-morpheus-ts@1.4.13':
-    resolution: {integrity: sha512-gKt1J7skdXKMmtXe9bMzSVLyFY0R9pW2fSBqObTqLG1ab0U3rl/rhBRoedF3t0QdryVXH7LSkzko/1XXNhce+g==}
+  '@iconsets/svg-morpheus-ts@1.4.14':
+    resolution: {integrity: sha512-Zj4ZkpZ3P4EpynyFo0HmKlBbOspL0iyjufSnI37Mnb5du2wwTMRMWGndH3BfAkNhKvDTCOpJKsoCyDH0RL17Sg==}
     engines: {node: '>=20.19.0', pnpm: '>=9.0.0'}
 
   '@isaacs/balanced-match@4.0.1':
@@ -1473,8 +1473,8 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@ts-morph/common@0.28.1':
-    resolution: {integrity: sha512-W74iWf7ILp1ZKNYXY5qbddNaml7e9Sedv5lvU1V8lftlitkc9Pq1A+jlH23ltDgWYeZFFEqGCD1Ies9hqu3O+g==}
+  '@ts-morph/common@0.29.0':
+    resolution: {integrity: sha512-35oUmphHbJvQ/+UTwFNme/t2p3FoKiGJ5auTjjpNTop2dyREspirjMy82PLSC1pnDJ8ah1GU98hwpVt64YXQsg==}
 
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
@@ -2427,8 +2427,8 @@ packages:
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
 
-  ts-morph@27.0.2:
-    resolution: {integrity: sha512-fhUhgeljcrdZ+9DZND1De1029PrE+cMkIP7ooqkLRTrRLTqcki2AstsyJm0vRNbTbVCNJ0idGlbBrfqc7/nA8w==}
+  ts-morph@28.0.0:
+    resolution: {integrity: sha512-Wp3tnZ2bzwxyTZMtgWVzXDfm7lB1Drz+y9DmmYH/L702PQhPyVrp3pkou3yIz4qjS14GY9kcpmLiOOMvl8oG1g==}
 
   tslib@2.3.0:
     resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==}
@@ -3016,7 +3016,7 @@ snapshots:
     dependencies:
       '@formatjs/fast-memoize': 3.1.1
 
-  '@iconify/json@2.2.461':
+  '@iconify/json@2.2.462':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 2.0.3
@@ -3029,7 +3029,7 @@ snapshots:
       '@iconify/types': 2.0.0
       mlly: 1.8.0
 
-  '@iconsets/svg-morpheus-ts@1.4.13':
+  '@iconsets/svg-morpheus-ts@1.4.14':
     dependencies:
       colorjs.io: 0.6.1
 
@@ -3432,7 +3432,7 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.1
 
-  '@ts-morph/common@0.28.1':
+  '@ts-morph/common@0.29.0':
     dependencies:
       minimatch: 10.0.3
       path-browserify: 1.0.1
@@ -4424,9 +4424,9 @@ snapshots:
 
   trim-lines@3.0.1: {}
 
-  ts-morph@27.0.2:
+  ts-morph@28.0.0:
     dependencies:
-      '@ts-morph/common': 0.28.1
+      '@ts-morph/common': 0.29.0
       code-block-writer: 13.0.3
 
   tslib@2.3.0: {}

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, IconSet, type MountProps } from '@cmfx/components';
+import { Button, IconSet, type MountProps, Notify } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';
@@ -23,7 +23,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Button.Root palette={palette()}>
+			<Button.Root palette={palette()} onclick={() => aref.next()}>
 				<IconSet.Root
 					class="aspect-square w-8!"
 					ref={el => (aref = el)}
@@ -36,20 +36,29 @@ export default function (props: MountProps): JSX.Element {
 				/>
 			</Button.Root>
 
-			<Button.Root palette={palette()} onclick={() => aref?.to('face')}>
+			<Button.Root palette={palette()} onclick={() => aref.to('face')}>
 				face
 			</Button.Root>
-			<Button.Root palette={palette()} onclick={() => aref?.to('close')}>
+			<Button.Root palette={palette()} onclick={() => aref.to('close')}>
 				close
 			</Button.Root>
-			<Button.Root palette={palette()} onclick={() => aref?.to('not-exists')}>
+			<Button.Root
+				palette={palette()}
+				onclick={() => {
+					try {
+						aref.to('not-exists');
+					} catch (e) {
+						Notify.notify(e.message);
+					}
+				}}
+			>
 				not-exists
 			</Button.Root>
 
-			<Button.Root palette={palette()} onclick={() => aref?.next()}>
+			<Button.Root palette={palette()} onclick={() => aref.next()}>
 				next
 			</Button.Root>
-			<Button.Root palette={palette()} onclick={() => aref?.prev()}>
+			<Button.Root palette={palette()} onclick={() => aref.prev()}>
 				prev
 			</Button.Root>
 		</div>

@@ -12,7 +12,7 @@
 			{
 				"name": "title",
 				"summary": "标题\n\n",
-				"type": "string | undefined",
+				"type": "JSX.Element",
 				"reactive": true
 			},
 			{

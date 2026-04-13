@@ -8,7 +8,7 @@ window.requestIdleCallback =
 	window.requestIdleCallback ||
 	function reqIdleCallback(cb: IdleRequestCallback) {
 		const start = Date.now();
-		return setTimeout(() => {
+		return window.setTimeout(() => {
 			cb({
 				didTimeout: false,
 				timeRemaining: () => Math.max(0, 50 - (Date.now() - start)),

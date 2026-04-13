@@ -3,6 +3,7 @@
 	"include": [
 		"vite.config.ts",
 		"./src/vitest_setup.ts",
+		"./src/polyfill.ts",
 		"../../build/unplugin-icons.ts",
 		"../../build/vite.config.common.ts"
 	]
