@@ -8,6 +8,7 @@ import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, type JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconExcel from '~icons/icon-park-twotone/excel';
 import IconCSV from '~icons/material-symbols/csv';
+import IconMarkdown from '~icons/material-symbols/markdown';
 import IconODS from '~icons/material-symbols/ods';
 import IconRefresh from '~icons/material-symbols/refresh';
 import IconReset from '~icons/material-symbols/restart-alt';
@@ -25,6 +26,8 @@ import { PaginationBar } from '@components/pagination';
 import * as BasicTable from './basic.mod';
 import { fromSearch, type Params, saveSearch } from './search';
 import styles from './style.module.css';
+
+type ExportType = (typeof Exporter.exts)[number];
 
 export interface Ref<T extends object> extends BasicTable.RootRef {
 	/**
@@ -196,7 +199,7 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 		});
 	}
 
-	const exports = async (ext: Parameters<Exporter<T, Q>['export']>[1]) => {
+	const exports = async (ext: ExportType) => {
 		const e = new Exporter<T, Q>(props.columns);
 		const qq = await queries.object();
 		if (!qq) {
@@ -210,7 +213,7 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 		await e.fetch(load, q);
 		const filename = await Dialog.prompt(l.t('_c.table.downloadFilename'), props.filename);
 		if (filename) {
-			e.export(filename, ext, l.locale.language);
+			await e.export(`${filename}${ext}`);
 		}
 	};
 
@@ -279,6 +282,13 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 									type: 'item',
 									value: '.ods',
 									label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
+								},
+								{
+									type: 'item',
+									value: '.md',
+									label: (
+										<Label.Root icon={<IconMarkdown />}>{l.t('_c.table.exportTo', { type: 'Markdown' })}</Label.Root>
+									),
 								},
 								{ type: 'divider' },
 								{

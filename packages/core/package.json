@@ -41,8 +41,8 @@
 	"dependencies": {
 		"bowser": "catalog:",
 		"cbor2": "catalog:",
+		"hucre": "catalog:",
 		"intl-messageformat": "catalog:",
-		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
 		"yaml": "catalog:",
 		"zod": "catalog:"
 	},
