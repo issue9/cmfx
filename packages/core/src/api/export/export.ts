@@ -10,6 +10,8 @@ import { presetCellRenderFunc } from './column';
 import { createDownloadLink } from './download';
 import type { Page, Query } from './query';
 
+type ExtsType = (typeof Exporter.exts)[number];
+
 /**
  * 从服务器获取数据的函数签名
  *
@@ -102,37 +104,23 @@ export class Exporter<T extends object, Q extends Query> {
 		}
 	}
 
-	#buildHeader(): Array<ColumnDef> {
-		return this.#header.map(h => ({ header: h }));
-	}
-
 	/**
-	 * 导出数据
+	 * 导出由 {@link Exporter#fetch} 获取的数据
 	 *
-	 * 将 {@link Exporter#fetch} 下载的数据导出给用户。
+	 * @param filename - 文件名，包含扩展名，根据扩展名决定导出类型。如果是 excel 和 ods，文件名部分也作为工作表的名称；
 	 *
-	 * @param filename - 文件名，如果是 excel 和 ods，文件名部分也作为工作表的名称；
-	 *
+	 * @remarks
 	 * NOTE: 这将通过浏览器创建一个自动下载的功能。
 	 */
-	async export(filename: `${string}${(typeof Exporter.exts)[number]}`): Promise<void> {
+	async export(filename: `${string}${ExtsType}`): Promise<void> {
 		const index = filename.lastIndexOf('.');
-		const ext = filename.slice(index);
+		const ext = filename.slice(index) as (typeof Exporter.exts)[number];
 		const basename = filename.slice(0, index);
 
 		switch (ext) {
 			case '.csv': {
 				const content = writeCsv(this.#rows, { headers: this.#header });
 				createDownloadLink(content, filename, 'text/csv');
-				break;
-			}
-			case '.xlsx': {
-				const content = await writeXlsx(this.buildWriteOptions(basename));
-				createDownloadLink(
-					content.buffer as ArrayBuffer,
-					filename,
-					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-				);
 				break;
 			}
 			case '.md': {
@@ -145,15 +133,24 @@ export class Exporter<T extends object, Q extends Query> {
 				createDownloadLink(content, filename, 'text/markdown');
 				break;
 			}
+			case '.xlsx': {
+				const content = await writeXlsx(this.#buildWriteOptions(basename));
+				createDownloadLink(
+					content.buffer as ArrayBuffer,
+					filename,
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+				);
+				break;
+			}
 			case '.ods': {
-				const content = await writeOds(this.buildWriteOptions(basename));
+				const content = await writeOds(this.#buildWriteOptions(basename));
 				createDownloadLink(content.buffer as ArrayBuffer, filename, 'application/vnd.oasis.opendocument.spreadsheet');
 				break;
 			}
 		}
 	}
 
-	buildWriteOptions(basename: string): WriteOptions {
+	#buildWriteOptions(basename: string): WriteOptions {
 		const now = new Date();
 		return {
 			sheets: [
@@ -169,5 +166,9 @@ export class Exporter<T extends object, Q extends Query> {
 				modified: now,
 			},
 		};
+	}
+
+	#buildHeader(): Array<ColumnDef> {
+		return this.#header.map(h => ({ header: h }));
 	}
 }

@@ -270,11 +270,6 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 							items={[
 								{
 									type: 'item',
-									value: '.csv',
-									label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
-								},
-								{
-									type: 'item',
 									value: '.xlsx',
 									label: <Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>,
 								},
@@ -282,6 +277,12 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 									type: 'item',
 									value: '.ods',
 									label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
+								},
+								{ type: 'divider' },
+								{
+									type: 'item',
+									value: '.csv',
+									label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
 								},
 								{
 									type: 'item',
