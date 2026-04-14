@@ -16,6 +16,8 @@ import { Toolbar } from './toolbar';
 
 export type Props = BaseProps & ParentProps & MountProps;
 
+const acceptValue = 'accept';
+
 /**
  * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
  */
@@ -46,7 +48,12 @@ function AlertProvider(props: BaseProps): JSX.Element {
 		dlg.root().showModal();
 
 		return new Promise<void>(resolve => {
-			dlg.root().addEventListener('close', () => resolve());
+			const close = () => {
+				resolve();
+				dlg.root().removeEventListener('close', close);
+			};
+
+			dlg.root().addEventListener('close', close);
 		});
 	};
 
@@ -95,9 +102,12 @@ function ConfirmProvider(props: BaseProps): JSX.Element {
 		dlg.root().showModal();
 
 		return new Promise<boolean>(resolve => {
-			dlg.root().addEventListener('close', () => {
-				resolve(dlg.root().returnValue === 'true');
-			});
+			const close = () => {
+				resolve(dlg.root().returnValue === acceptValue);
+				dlg.root().removeEventListener('close', close);
+			};
+
+			dlg.root().addEventListener('close', close);
 		});
 	};
 
@@ -111,7 +121,7 @@ function ConfirmProvider(props: BaseProps): JSX.Element {
 			}
 			class="min-w-60"
 			ref={el => (dlg = el)}
-			footer={<Actions />}
+			footer={<Actions acceptValue={acceptValue} />}
 		>
 			<p>{msg()}</p>
 		</Root>
@@ -144,10 +154,16 @@ function PromptProvider(props: BaseProps): JSX.Element {
 		dlg.root().showModal();
 
 		return new Promise<string | null>(resolve => {
-			dlg.root().addEventListener('close', () => {
-				resolve(dlg.root().returnValue ?? null);
+			const close = () => {
+				if (dlg.root().returnValue === acceptValue) {
+					const v = access.getValue();
+					resolve(v);
+				}
 				access.setValue('');
-			});
+				dlg.root().removeEventListener('close', close);
+			};
+
+			dlg.root().addEventListener('close', close);
 		});
 	};
 
@@ -161,7 +177,7 @@ function PromptProvider(props: BaseProps): JSX.Element {
 			}
 			ref={el => (dlg = el)}
 			class="min-w-60"
-			footer={<Actions />}
+			footer={<Actions acceptValue={acceptValue} />}
 		>
 			<TextField.Root class="w-full" layout="vertical" label={msg()} accessor={access} />
 		</Root>

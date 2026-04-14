@@ -62,6 +62,10 @@ export function AcceptButton(props: ButtonProps): JSX.Element {
 export function CancelButton(props: ButtonProps): JSX.Element {
 	const ref = useDialog();
 	const [_, p] = splitProps(props, ['children', 'palette', 'onclick']);
+
+	// 注册 cancel 事件的返回值
+	ref.dialog.root().addEventListener('cancel', () => (ref.dialog.root().returnValue = props.value ?? ''));
+
 	return (
 		<Button.Root
 			{...p}
@@ -85,10 +89,39 @@ export function CancelButton(props: ButtonProps): JSX.Element {
 }
 
 export interface ActionsProps {
+	/**
+	 * 所有按钮是否都圆角
+	 */
 	rounded?: boolean;
+
+	/**
+	 * 所有的按钮是否都是方形
+	 */
 	square?: boolean;
+
+	/**
+	 * OK 按钮上的点击事件
+	 */
 	accept?: ButtonProps['onclick'];
+
+	/**
+	 * cancel 按钮上的占击事件
+	 */
 	cancel?: ButtonProps['onclick'];
+
+	/**
+	 * OK 按钮上的值
+	 *
+	 * @defaultValue 'accept'
+	 */
+	acceptValue?: string;
+
+	/**
+	 * cancel 按钮上的值
+	 *
+	 * @defaultValue 'cancel'
+	 */
+	cancelValue?: string;
 }
 
 /**
@@ -98,10 +131,20 @@ export function Actions(props: ActionsProps): JSX.Element {
 	const l = useLocale();
 	return (
 		<footer class={styles.footer}>
-			<CancelButton rounded={props.rounded} square={props.square} onclick={props.cancel} value="cancel">
+			<CancelButton
+				rounded={props.rounded}
+				square={props.square}
+				onclick={props.cancel}
+				value={props.cancelValue ?? 'cancel'}
+			>
 				{l.t('_c.cancel')}
 			</CancelButton>
-			<AcceptButton rounded={props.rounded} square={props.square} onclick={props.accept} value="accept">
+			<AcceptButton
+				rounded={props.rounded}
+				square={props.square}
+				onclick={props.accept}
+				value={props.acceptValue ?? 'accept'}
+			>
 				{l.t('_c.ok')}
 			</AcceptButton>
 		</footer>
