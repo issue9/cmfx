@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -40,7 +40,7 @@ func Exec(id, version string) error {
 		Version:        version,
 		NewServer:      initServer,
 		ConfigDir:      "./",
-		ConfigFilename: "web.xml",
+		ConfigFilename: "web.yaml",
 		ServeActions:   []string{"serve"},
 		ErrorHandling:  flag.ExitOnError,
 		Daemon: &service.Config{

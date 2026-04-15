@@ -9,7 +9,7 @@ import { Webauthn } from './webauthn';
 
 export type { PassportComponents, RefreshFunc } from './passports';
 
-export const components = new Map<string, PassportComponents>([
+export const components: ReadonlyMap<string, PassportComponents> = new Map<string, PassportComponents>([
 	['password', new Pwd('password')],
 	['totp', new TOTP('totp')],
 	['webauthn', new Webauthn('webauthn')],

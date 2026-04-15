@@ -23,7 +23,7 @@ import { Settings } from './settings';
  * 提供了与当前登录用户直接相关的页面
  */
 export class current implements Pages {
-	static #passports: Map<string, PassportComponents> = components;
+	static #passports: Map<string, PassportComponents>;
 
 	/**
 	 * 会员统计信息面板
@@ -72,15 +72,27 @@ export class current implements Pages {
 
 	/**
 	 * 初始化登录方式的组件
+	 *
+	 * @param p - 登录方式的组件映射表，键为登录方式的标识，值为组件或组件的标识（在 {@link components} 中查找）
+	 *
+	 * @remarks
+	 * 必须要调用此方法初始化数据，否则会报错。
 	 */
-	static initPassports(p: Map<string, PassportComponents | string>) {
-		const c = components;
-		p.forEach((v, k) => {
-			if (typeof v === 'string') {
-				v = c.get(v)!;
-			}
-			c.set(k, v);
-		});
+	static initPassports(p?: Map<string, PassportComponents | string>) {
+		const c: Map<string, PassportComponents> = new Map();
+
+		if (p) {
+			p.forEach((v, k) => {
+				if (typeof v === 'string') {
+					v = components.get(v)!;
+				}
+				c.set(k, v);
+			});
+		} else {
+			components.forEach((v, k) => {
+				c.set(k, v);
+			});
+		}
 
 		current.#passports = c;
 	}

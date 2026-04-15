@@ -18,14 +18,19 @@ import {
 } from '@cmfx/admin';
 import { Card, createChartLocaleLoader, Label, type Scheme, schemes, useLocale } from '@cmfx/components';
 import { createZodLocaleLoader, Hotkey } from '@cmfx/core';
+import YAML from 'yaml';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';
 import IconDashboard from '~icons/material-symbols/dashboard';
 import IconHost from '~icons/material-symbols/host';
 import IconAccount from '~icons/material-symbols/supervisor-account';
 
+import { default as webYaml } from '../../server/web.yaml?raw';
 import { default as Test } from './pages/test';
 
-const urlBase = 'http://localhost:8080/admin';
+const y = YAML.parse(webYaml);
+const urlBase = y.http.url + y.user.admin.user.urlPrefix;
+
+current.initPassports();
 
 const rolesPage = roles.build('/roles');
 const adminsPage = admins.build('/admins');

@@ -36,7 +36,7 @@ fileSerializers: [json, xml, yaml, toml]
 
 http:
     port: ":8080"
-    url: "http://192.168.10.10:8080"
+    url: "https://localhost:8080"
     cors:
         maxAge: 3600
         origins: ["*"]

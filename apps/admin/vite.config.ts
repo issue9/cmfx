@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import path from 'node:path';
-//import basicSsl from '@vitejs/plugin-basic-ssl';
 import { about } from '@cmfx/vite-plugin-about';
 import tailwindcss from '@tailwindcss/vite';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
@@ -91,13 +91,11 @@ export default defineConfig(({ mode }) => {
 				},
 			]),
 			solidPlugin(),
-			/*
-            basicSsl({
-                name: 'test',
-                domains: ['localhost'],
-                certDir: './ssl'
-            })
-            */
+			basicSsl({
+				name: 'test',
+				domains: ['localhost'],
+				certDir: '../ssl',
+			}),
 		],
 	};
 });

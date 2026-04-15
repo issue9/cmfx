@@ -161,7 +161,7 @@
 			{
 				"name": "s",
 				"summary": "zod schema；\n\n",
-				"type": "z.ZodObject<z.z.core.$ZodLooseShape, z.z.core.$strip>"
+				"type": "z.ZodObject<z.core.$ZodLooseShape, z.core.$strip>"
 			},
 			{
 				"name": "l",
