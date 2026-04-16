@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -102,7 +102,7 @@ func TestModule_Handle(t *testing.T) {
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
-			a.True(bytes.Index(body, []byte(`"count":1`)) >= 0)
+			a.True(bytes.Contains(body, []byte(`"count":1`)))
 		})
 
 	s.Get("/targets/1").
@@ -110,7 +110,7 @@ func TestModule_Handle(t *testing.T) {
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
-			a.True(bytes.Index(body, []byte(`"count":1`)) >= 0)
+			a.True(bytes.Contains(body, []byte(`"count":1`)))
 		})
 
 	s.Get("/comments/1").

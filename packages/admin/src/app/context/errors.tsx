@@ -29,12 +29,7 @@ export function NotFound(): JSX.Element {
 				<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 					{l.t('_p.error.backHome')}
 				</Button.Root>
-				<Button.Root
-					palette="primary"
-					onclick={() => {
-						nav(-1);
-					}}
-				>
+				<Button.Root palette="primary" onclick={() => nav(-1)}>
 					{l.t('_p.error.backPrev')}
 				</Button.Root>
 			</div>
@@ -45,9 +40,10 @@ export function NotFound(): JSX.Element {
 /**
  * 错误处理方法
  *
+ * @param err - 错误信息，如果是 {@LINK APIError}，则会显示专门的插画页面；
+ * @param reset - 重置方法；
  * @remarks
- * 尽可能地抛出 {@link APIError} 对象，可以显示更明确的错误页面。
- * 这是 ErrorBoundary 的 fallback 类型。
+ * 这是 {@link ErrorBoundary} 的 fallback 类型。
  */
 export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// NOTE: APIError 错误，需要重新刷新整个页面才有效果，而其它错误，可能仅仅是 UI 问题，使用 reset 就可以了。
@@ -64,12 +60,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 						{l.t('_p.error.backHome')}
 					</Button.Root>
-					<Button.Root
-						palette="primary"
-						onclick={() => {
-							nav(-1);
-						}}
-					>
+					<Button.Root palette="primary" onclick={() => nav(-1)}>
 						{l.t('_p.error.backPrev')}
 					</Button.Root>
 					<Button.Root palette="primary" onclick={reset}>
@@ -90,12 +81,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result.Root palette="error" title={text} illustration={<amico.Error400 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root
-								palette="primary"
-								onclick={() => {
-									nav(-1);
-								}}
-							>
+							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
@@ -112,12 +98,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result.Root palette="error" title={text} illustration={<amico.Error401 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root
-								palette="primary"
-								onclick={() => {
-									nav(-1);
-								}}
-							>
+							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
@@ -133,12 +114,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
 							</Button.Root>
-							<Button.Root
-								palette="primary"
-								onclick={() => {
-									nav(-1);
-								}}
-							>
+							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
@@ -152,12 +128,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result.Root palette="error" title={text} illustration={<amico.Error429 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root
-								palette="primary"
-								onclick={() => {
-									nav(-1);
-								}}
-							>
+							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
@@ -172,12 +143,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
 							</Button.Root>
-							<Button.Root
-								palette="primary"
-								onclick={() => {
-									nav(-1);
-								}}
-							>
+							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
@@ -192,12 +158,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
 							</Button.Root>
-							<Button.Root
-								palette="primary"
-								onclick={() => {
-									nav(-1);
-								}}
-							>
+							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
 							<Button.Root palette="primary" onclick={() => window.location.reload()}>
@@ -215,12 +176,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
 							</Button.Root>
-							<Button.Root
-								palette="primary"
-								onclick={() => {
-									nav(-1);
-								}}
-							>
+							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
 							<RetryButton retry={err.headers?.get('Retry-After')} />
