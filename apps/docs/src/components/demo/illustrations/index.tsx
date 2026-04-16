@@ -29,6 +29,8 @@ import { default as Building } from './building';
 import { default as building } from './building.tsx?raw';
 import { default as Login } from './login';
 import { default as login } from './login.tsx?raw';
+import { default as Offline } from './offline';
+import { default as offline } from './offline.tsx?raw';
 
 export default function (): Info {
 	return {
@@ -51,6 +53,7 @@ export default function (): Info {
 			{ component: BUG, source: bug, id: 'bug' },
 			{ component: Building, source: building, id: 'building' },
 			{ component: Login, source: login, id: 'login' },
+			{ component: Offline, source: offline, id: 'offline' },
 		],
 	};
 }

@@ -14,3 +14,4 @@ export { default as Error504 } from './504';
 export { default as BUG } from './bug';
 export { default as Building } from './building';
 export { default as Login } from './login';
+export { default as Offline } from './offline';

@@ -18,6 +18,7 @@ const messages: typeof m = {
 		bug: 'BUG',
 		building: '建设中...',
 		userLogin: '欢迎回来',
+		offline: '无网络',
 	},
 };
 

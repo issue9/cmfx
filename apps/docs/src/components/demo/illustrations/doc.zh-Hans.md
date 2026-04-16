@@ -35,4 +35,7 @@
 #### login
 @```demo-login```@
 
+#### offline
+@```demo-offline```@
+
 @```api```@

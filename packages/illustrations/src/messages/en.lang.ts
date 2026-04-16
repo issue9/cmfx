@@ -16,6 +16,7 @@ const messages = {
 		bug: 'BUG',
 		building: 'Building...',
 		userLogin: 'User Login',
+		offline: 'Offline',
 	},
 };
 
