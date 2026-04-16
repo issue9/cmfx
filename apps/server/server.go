@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	if err := cmd.Exec("cmfx", cmfx.Version()); err != nil {
+	if err := cmd.Exec("cmfx", cmfx.Version(), "web.yaml"); err != nil {
 		panic(err)
 	}
 }

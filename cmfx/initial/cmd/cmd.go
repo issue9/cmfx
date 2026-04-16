@@ -34,13 +34,16 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/totp"
 )
 
-func Exec(id, version string) error {
+// 运行服务
+//
+// config 相对于工作目录的配置文件；
+func Exec(id, version string, config string) error {
 	return app.NewCLI(&app.CLIOptions[*Config]{
 		ID:             id,
 		Version:        version,
 		NewServer:      initServer,
 		ConfigDir:      "./",
-		ConfigFilename: "web.yaml",
+		ConfigFilename: config,
 		ServeActions:   []string{"serve"},
 		ErrorHandling:  flag.ExitOnError,
 		Daemon: &service.Config{
