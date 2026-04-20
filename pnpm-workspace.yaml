@@ -7,7 +7,7 @@ packages:
 
 catalog:
   '@biomejs/biome': ^2.4.12
-  '@iconify/json': ^2.2.462
+  '@iconify/json': ^2.2.463
   '@iconsets/svg-morpheus-ts': ^1.4.14
   '@microsoft/tsdoc': ^0.16.0
   '@scure/base': ^2.0.0
@@ -17,6 +17,10 @@ catalog:
   '@testing-library/jest-dom': ^6.9.1
   '@testing-library/user-event': ^14.6.1
   '@types/node': ^25.6.0
+  '@tiptap/core': ^3.22.4
+  '@tiptap/extension-bubble-menu': ^3.22.4
+  '@tiptap/pm': ^3.22.4
+  '@tiptap/starter-kit': ^3.22.4
   '@vitejs/plugin-basic-ssl': ^2.3.0
   '@vitest/coverage-v8': ^4.1.4
   autoprefixer: ^10.5.0
@@ -30,7 +34,7 @@ catalog:
   hucre: ^0.3.0
   intl-messageformat: ^11.2.1
   jsdom: ^29.0.2
-  marked: ^18.0.0
+  marked: ^18.0.1
   qr-code-styling: ^1.9.2
   quill: ^2.0.3
   shiki: ^4.0.2
@@ -38,7 +42,7 @@ catalog:
   solid-transition-group: ^0.3.0
   tailwindcss: ^4.2.2
   ts-morph: ^28.0.0
-  typescript: ^6.0.2
+  typescript: ^6.0.3
   unplugin-icons: ^23.0.1
   vite: ^8.0.8
   vite-plugin-dts: ^4.5.4

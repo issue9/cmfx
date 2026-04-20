@@ -11,38 +11,23 @@
 		.editor-wrap {
 			@apply w-full h-full flex flex-col justify-stretch;
 		}
-
-		:global(.ql-toolbar) {
-			@apply border-palette-border!;
-			@apply rounded-t-md;
-			@apply transition;
-		}
-
-		:global(.ql-container) {
-			@apply border-palette-border! border;
-			@apply rounded-b-md;
-			@apply transition;
-		}
 	}
 
 	.editor:has([contenteditable="true"]):hover,
 	.editor:focus-within {
-		:global(.ql-toolbar) {
+		.container {
 			@apply border-palette-border-focused!;
-		}
-
-		:global(.ql-container) {
-			@apply border-palette-border-focused!;
+			@apply h-300 border border-red;
 		}
 	}
 
 	.editor[aria-disabled="true"] {
 		:global(.ql-toolbar) {
-			@apply cursor-not-allowed !border-palette-border-disabled;
+			@apply cursor-not-allowed border-palette-border-disabled!;
 		}
 
 		:global(.ql-container) {
-			@apply cursor-not-allowed !border-palette-border-disabled;
+			@apply cursor-not-allowed border-palette-border-disabled!;
 		}
 	}
 }

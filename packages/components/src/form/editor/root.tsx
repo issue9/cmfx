@@ -2,32 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { QuillOptions } from 'quill';
-import Quill from 'quill';
-import 'quill/dist/quill.bubble.css';
-import 'quill/dist/quill.snow.css';
-import { createEffect, createMemo, createUniqueId, type JSX, mergeProps, onMount, Show } from 'solid-js';
+import { Editor } from '@tiptap/core';
+import StarterKit from '@tiptap/starter-kit';
+import { createEffect, createMemo, type JSX, mergeProps, onMount, Show } from 'solid-js';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Form } from '@components/form/form';
 import styles from './style.module.css';
+import { Toolbar } from './toolbar';
 
 export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
-	 * 向外暴露的 quill 对象
+	 * 向外暴露的 {@link Editor} 对象
 	 */
-	quill(): Quill;
+	editor(): Editor;
 }
 
 export interface Props extends Omit<Form.FieldBaseProps, 'rounded'>, RefProps<Ref> {
-	/**
-	 * 简单样式
-	 *
-	 * @remarks
-	 * 如果为 true，将使用 bubble 主题，否则使用 snow 主题。
-	 */
-	simple?: boolean;
-
 	placeholder?: string;
 
 	/**
@@ -43,72 +34,27 @@ export function Root(props: Props): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps(form, props);
 
-	const options: QuillOptions = {
-		theme: props.simple ? 'bubble' : 'snow',
-
-		modules: {
-			clipboard: true,
-			toolbar: [
-				[{ header: [1, 2, 3, false] }],
-				[{ list: 'ordered' }, { list: 'bullet' }],
-
-				['bold', 'italic', 'underline', 'strike'],
-				[{ color: [] }, { background: [] }, 'blockquote', 'code-block'],
-				['link', 'image', 'video'],
-			],
-			history: true,
-		},
-		formats: [
-			'header',
-			'list',
-			'bold',
-			'italic',
-			'underline',
-			'strike',
-			'color',
-			'background',
-			'blockquote',
-			'code-block',
-			'link',
-			'image',
-			'video',
-		],
-
-		placeholder: props.placeholder,
-		readOnly: props.readonly,
-	};
-
-	let root: HTMLDivElement;
 	let ref: HTMLDivElement;
-	let editor: Quill;
-	onMount(() => {
-		editor = new Quill(ref, options);
 
-		editor.on(Quill.events.TEXT_CHANGE, () => {
-			props.accessor.setValue(editor.getSemanticHTML());
-			props.accessor.setError();
+	const editor = new Editor({
+		extensions: [StarterKit],
+		content: props.accessor.getValue(),
+		autofocus: true,
+		editable: true,
+		injectCSS: false,
+	});
+
+	onMount(() => {
+		editor.mount({ mount: ref });
+
+		editor.on('update', () => {
+			props.accessor.setValue(editor.getHTML());
 		});
 	});
 
 	createEffect(() => {
-		// 监视状态变化
-		const d = props.disabled;
-		const r = props.readonly;
-		if (editor) {
-			editor.enable(!d && !r);
-		}
-
-		root.ariaReadOnly = props.readonly ? 'true' : 'false';
-		root.ariaDisabled = props.disabled ? 'true' : 'false';
-	});
-
-	props.accessor.onChange(txt => {
-		// 监视外部变化
-		if (!editor || txt === editor.getSemanticHTML()) {
-			return;
-		}
-		editor.clipboard.dangerouslyPasteHTML(txt);
-		editor.setSelection(editor.getLength()); // 光标定位末尾
+		const v = props.accessor.getValue();
+		editor.chain().setContent(v);
 	});
 
 	const areas = createMemo(() => Form.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
@@ -119,21 +65,19 @@ export function Root(props: Props): JSX.Element {
 			title={props.title}
 			palette={props.palette}
 			ref={el => {
-				root = el;
-
 				if (!props.ref) {
 					return;
 				}
 				props.ref({
 					root: () => el,
-					quill: () => editor,
+					editor: () => editor,
 				});
 			}}
 		>
 			<Show when={areas().labelArea}>
 				{area => (
-					// biome-ignore lint/a11y/useKeyWithClickEvents: 无须键盘事件
-					// biome-ignore lint/a11y/noStaticElementInteractions: 需要点击事件
+					// biome-ignore lint/a11y/useKeyWithClickEvents: onclick
+					// biome-ignore lint/a11y/noStaticElementInteractions: nostatic
 					<span
 						style={{
 							...Form.fieldArea2Style(area()),
@@ -141,7 +85,7 @@ export function Root(props: Props): JSX.Element {
 							'text-align': props.labelAlign,
 							cursor: 'default',
 						}}
-						onClick={() => editor.focus()}
+						onClick={() => editor.chain().focus()}
 					>
 						{props.label}
 					</span>
@@ -149,7 +93,8 @@ export function Root(props: Props): JSX.Element {
 			</Show>
 
 			<div class={styles['editor-wrap']} style={Form.fieldArea2Style(areas().inputArea)}>
-				<div ref={el => (ref = el)} id={`editor-${createUniqueId()}`} />
+				<Toolbar editor={editor} />
+				<div ref={el => (ref = el)} class={styles.container} />
 			</div>
 
 			<Show when={areas().helpArea}>
