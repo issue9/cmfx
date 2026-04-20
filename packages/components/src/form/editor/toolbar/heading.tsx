@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Editor } from '@tiptap/core';
 import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import IconH1 from '~icons/material-symbols/format-h1-rounded';
 import IconH2 from '~icons/material-symbols/format-h2-rounded';
@@ -17,6 +16,7 @@ import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dropdown } from '@components/menu';
 import styles from './style.module.css';
+import type { Props as ItemProps } from './types';
 
 const icons: ReadonlyMap<number, () => JSX.Element> = new Map([
 	[0, () => <IconH />],
@@ -28,9 +28,7 @@ const icons: ReadonlyMap<number, () => JSX.Element> = new Map([
 	[6, () => <IconH6 />],
 ]);
 
-interface Props extends ParentProps {
-	editor: Editor;
-}
+type Props = ParentProps & ItemProps;
 
 export function Heading(props: Props): JSX.Element {
 	const l = useLocale();

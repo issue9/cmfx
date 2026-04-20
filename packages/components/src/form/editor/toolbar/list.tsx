@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Editor } from '@tiptap/core';
 import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import IconBulleted from '~icons/material-symbols/format-list-bulleted-rounded';
 import IconNumbered from '~icons/material-symbols/format-list-numbered-rounded';
@@ -13,6 +12,7 @@ import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dropdown } from '@components/menu';
 import styles from './style.module.css';
+import type { Props as ItemProps } from './types';
 
 const keys = ['list', 'numbered', 'bulleted'] as const;
 
@@ -24,9 +24,7 @@ const icons: ReadonlyMap<Key, () => JSX.Element> = new Map([
 	['bulleted', () => <IconBulleted />],
 ]);
 
-interface Props extends ParentProps {
-	editor: Editor;
-}
+type Props = ParentProps & ItemProps;
 
 export function List(props: Props): JSX.Element {
 	const l = useLocale();

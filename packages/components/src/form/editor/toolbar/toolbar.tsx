@@ -7,22 +7,15 @@ import type { Editor } from '@tiptap/core';
 import { type JSX, onMount } from 'solid-js';
 import IconCodeBlock from '~icons/material-symbols/code-blocks-outline-rounded';
 import IconCode from '~icons/material-symbols/code-xml-rounded';
-import IconAlignCenter from '~icons/material-symbols/format-align-center-rounded';
-import IconAlignJustify from '~icons/material-symbols/format-align-justify-rounded';
-import IconAlignLeft from '~icons/material-symbols/format-align-left-rounded';
-import IconAlignRight from '~icons/material-symbols/format-align-right-rounded';
-import IconHighlight from '~icons/material-symbols/format-ink-highlighter-rounded';
-import IconSubscript from '~icons/material-symbols/subscript-rounded';
-import IconSuperscript from '~icons/material-symbols/superscript-rounded';
 import IconBold from '~icons/material-symbols/format-bold-rounded';
 import IconItalic from '~icons/material-symbols/format-italic-rounded';
 import IconBlockQuote from '~icons/material-symbols/format-quote-rounded';
 import IconUnderline from '~icons/material-symbols/format-underlined-rounded';
-import IconLink from '~icons/material-symbols/link-2-rounded';
 import IconStrike from '~icons/material-symbols/strikethrough-s-rounded';
 
 import { Divider } from '@components/divider';
 import { Heading } from './heading';
+import { Link } from './link';
 import { List } from './list';
 import styles from './style.module.css';
 import { ToggleButton } from './toggle';
@@ -118,14 +111,7 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 				<IconUnderline />
 			</ToggleButton>
 
-			<ToggleButton
-				isActive={() => props.editor.isActive('link')}
-				key="link"
-				editor={props.editor}
-				toggle={() => props.editor.chain().focus().toggleLink().run()}
-			>
-				<IconLink />
-			</ToggleButton>
+			<Link editor={props.editor} />
 		</header>
 	);
 }
