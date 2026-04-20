@@ -26,6 +26,11 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	toggle(): void;
 
 	/**
+	 * 触发元素
+	 */
+	trigger(): HTMLDivElement;
+
+	/**
 	 * 下拉菜单的元素
 	 */
 	menu(): Menu.RootRef<'menu'>;
@@ -187,15 +192,8 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			};
 
 	return (
-		<div
-			class={joinClass(props.palette, props.class)}
-			style={props.style}
-			ref={el => {
-				rootRef = el;
-			}}
-		>
+		<div class={joinClass(props.palette, props.class)} style={props.style} aria-haspopup ref={el => (rootRef = el)}>
 			<div
-				aria-haspopup
 				ref={el => setTriggerRef(el)}
 				onmouseenter={() => {
 					if (props.trigger !== 'hover' || !menuRef) {
@@ -268,6 +266,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 							hide: hide,
 							toggle: toggle,
 							root: () => rootRef,
+							trigger: () => triggerRef()!,
 							menu: () => el,
 						});
 					}
