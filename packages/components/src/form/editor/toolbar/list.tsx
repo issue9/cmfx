@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, type JSX, type ParentProps } from 'solid-js';
+import { createSignal, type JSX, onCleanup, onMount, type ParentProps } from 'solid-js';
 import IconBulleted from '~icons/material-symbols/format-list-bulleted-rounded';
 import IconNumbered from '~icons/material-symbols/format-list-numbered-rounded';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down-rounded';
@@ -30,7 +30,7 @@ export function List(props: Props): JSX.Element {
 	const l = useLocale();
 	const [val, setVal] = createSignal<Key>('list');
 
-	props.editor.on('transaction', () => {
+	const transaction = () => {
 		if (props.editor.isActive('orderedList')) {
 			setVal('numbered');
 		} else if (props.editor.isActive('bulletList')) {
@@ -38,7 +38,9 @@ export function List(props: Props): JSX.Element {
 		} else {
 			setVal('list');
 		}
-	});
+	};
+	onMount(() => props.editor.on('transaction', transaction));
+	onCleanup(() => props.editor.off('transaction', transaction));
 
 	return (
 		<Dropdown.Root

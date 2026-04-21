@@ -12,7 +12,6 @@ import IconAlignJustify from '~icons/material-symbols/format-align-justify-round
 import IconAlignLeft from '~icons/material-symbols/format-align-left-rounded';
 import IconAlignRight from '~icons/material-symbols/format-align-right-rounded';
 import IconBold from '~icons/material-symbols/format-bold-rounded';
-import IconHighlight from '~icons/material-symbols/format-ink-highlighter-rounded';
 import IconItalic from '~icons/material-symbols/format-italic-rounded';
 import IconBlockQuote from '~icons/material-symbols/format-quote-rounded';
 import IconUnderline from '~icons/material-symbols/format-underlined-rounded';
@@ -56,7 +55,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 			<List editor={props.editor} />
 			<ToggleButton
 				isActive={() => props.editor.isActive('blockquote')}
-				key="blockquote"
 				editor={props.editor}
 				toggle={() => props.editor.chain().focus().toggleBlockquote().run()}
 			>
@@ -64,7 +62,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 			</ToggleButton>
 			<ToggleButton
 				isActive={() => props.editor.isActive('codeBlock')}
-				key="codeBlock"
 				editor={props.editor}
 				toggle={() => props.editor.chain().focus().toggleCodeBlock().run()}
 			>
@@ -75,7 +72,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 			<ToggleButton
 				isActive={() => props.editor.isActive('bold')}
-				key="bold"
 				editor={props.editor}
 				toggle={() => props.editor.chain().focus().toggleBold().run()}
 			>
@@ -84,7 +80,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 			<ToggleButton
 				isActive={() => props.editor.isActive('italic')}
-				key="italic"
 				editor={props.editor}
 				toggle={() => props.editor.chain().focus().toggleItalic().run()}
 			>
@@ -93,7 +88,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 			<ToggleButton
 				isActive={() => props.editor.isActive('strike')}
-				key="strike"
 				editor={props.editor}
 				toggle={() => props.editor.chain().focus().toggleStrike().run()}
 			>
@@ -102,7 +96,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 			<ToggleButton
 				isActive={() => props.editor.isActive('code')}
-				key="code"
 				editor={props.editor}
 				toggle={() => props.editor.chain().focus().toggleCode().run()}
 			>
@@ -111,7 +104,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 			<ToggleButton
 				isActive={() => props.editor.isActive('underline')}
-				key="underline"
 				editor={props.editor}
 				toggle={() => props.editor.chain().focus().toggleUnderline().run()}
 			>

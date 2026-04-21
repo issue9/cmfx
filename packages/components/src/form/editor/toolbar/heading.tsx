@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, type JSX, type ParentProps } from 'solid-js';
+import { createSignal, type JSX, onCleanup, onMount, type ParentProps } from 'solid-js';
 import IconH1 from '~icons/material-symbols/format-h1-rounded';
 import IconH2 from '~icons/material-symbols/format-h2-rounded';
 import IconH3 from '~icons/material-symbols/format-h3-rounded';
@@ -34,7 +34,7 @@ export function Heading(props: Props): JSX.Element {
 	const l = useLocale();
 	const [val, setVal] = createSignal(0);
 
-	props.editor.on('transaction', () => {
+	const transaction = () => {
 		if (props.editor.isActive('heading', { level: 1 })) {
 			setVal(1);
 		} else if (props.editor.isActive('heading', { level: 2 })) {
@@ -50,7 +50,9 @@ export function Heading(props: Props): JSX.Element {
 		} else {
 			setVal(0);
 		}
-	});
+	};
+	onMount(() => props.editor.on('transaction', transaction));
+	onCleanup(() => props.editor.off('transaction', transaction));
 
 	return (
 		<Dropdown.Root

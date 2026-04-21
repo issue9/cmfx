@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, type JSX, Show } from 'solid-js';
+import { createSignal, type JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClear from '~icons/material-symbols/cancel-rounded';
 import IconOK from '~icons/material-symbols/check-circle-unread-outline-rounded';
 import IconLink from '~icons/material-symbols/link-2-rounded';
@@ -14,7 +14,6 @@ import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
 import { Input } from '@components/input';
 import styles from './style.module.css';
-import { ToggleButton } from './toggle';
 import type { Props } from './types';
 
 export function Link(props: Props): JSX.Element {
@@ -22,16 +21,15 @@ export function Link(props: Props): JSX.Element {
 	let dialogRef: Dialog.RootRef;
 	const [href, setHref] = createSignal(props.editor.getAttributes('link').href);
 
+	const transaction = () => setHref(props.editor.getAttributes('link').href);
+	onMount(() => props.editor.on('transaction', transaction));
+	onCleanup(() => props.editor.off('transaction', transaction));
+
 	return (
 		<>
-			<ToggleButton
-				isActive={() => props.editor.isActive('link')}
-				key="link"
-				editor={props.editor}
-				toggle={() => dialogRef.root().showModal()}
-			>
+			<Button.Root checked={href()} class={styles.item} square kind="flat" onclick={() => dialogRef.root().showModal()}>
 				<IconLink />
-			</ToggleButton>
+			</Button.Root>
 
 			<Dialog.Root ref={el => (dialogRef = el)}>
 				<div class={styles.link}>
@@ -61,7 +59,7 @@ export function Link(props: Props): JSX.Element {
 						onclick={() => {
 							dialogRef.root().close('ok');
 							const h = href() || props.editor.getAttributes('link').href;
-							if (h) {
+							if (h && href() !== props.editor.getAttributes('link').href) {
 								props.editor.chain().focus().toggleLink({ href: h }).run();
 							}
 						}}
