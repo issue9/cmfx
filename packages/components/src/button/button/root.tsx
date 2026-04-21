@@ -135,7 +135,6 @@ export function Root(props: Props) {
 			<A
 				{...btnProps}
 				href={props.href!}
-				onClick={!props.disabled ? undefined : e => e.preventDefault()}
 				ref={el => {
 					ref = el;
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createUniqueId, type JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { createMemo, createUniqueId, type JSX, mergeProps, type ParentProps, Show, splitProps } from 'solid-js';
 
 import { type BaseRef, classList, type RefProps } from '@components/base';
 import { ColorPanel } from '@components/color';
@@ -16,8 +16,16 @@ export type Ref = BaseRef<HTMLDivElement>;
 export interface Props
 	extends Omit<ColorPanel.RootProps, 'value' | 'onChange' | 'ref'>,
 		Form.FieldBaseProps,
+		ParentProps,
 		RefProps<Ref> {
 	accessor: Form.Accessor<string>;
+
+	/**
+	 * 作用在显示元素上的样式
+	 *
+	 * @reactive
+	 */
+	activatorClass?: string;
 }
 
 export function Root(props: Props): JSX.Element {
@@ -60,39 +68,33 @@ export function Root(props: Props): JSX.Element {
 
 			<div style={Form.fieldArea2Style(areas().inputArea)}>
 				<div
-					class={classList(undefined, {
-						[styles.activator]: true,
-						[styles.rounded]: props.rounded,
-						[styles.readonly]: props.readonly,
-						[styles.disabled]: props.disabled,
-					})}
-					onclick={() => {
-						if (props.disabled) {
-							return;
-						}
-
-						dlgRef.root().showModal();
-					}}
+					class={classList(
+						undefined,
+						{
+							[styles.activator]: true,
+							[styles.rounded]: props.rounded,
+							[styles.readonly]: props.readonly,
+							[styles.disabled]: props.disabled,
+						},
+						props.activatorClass,
+					)}
+					onclick={() => dlgRef.root().showModal()}
 					style={{
-						background: props.accessor.getValue(),
-						color: props.wcag ?? 'var(--primary-fg)',
+						color: props.accessor.getValue(),
+						background: props.wcag,
 					}}
 				>
-					{props.accessor.getValue()}
-					<input
-						id={id}
-						onClick={e => e.preventDefault()}
-						type="color"
-						class="hidden"
-						disabled={props.disabled}
-						readOnly={props.readonly}
-					/>
+					{props.children ?? props.accessor.getValue()}
 				</div>
 			</div>
 
 			<Dialog.Root
 				ref={el => (dlgRef = el)}
-				header={<Dialog.Toolbar close>{l.t('_c.color.pickColor')}</Dialog.Toolbar>}
+				header={
+					<Dialog.Toolbar close movable>
+						{l.t('_c.color.pickColor')}
+					</Dialog.Toolbar>
+				}
 			>
 				<ColorPanel.Root {...panelProps} onChange={v => props.accessor.setValue(v)} value={props.accessor.getValue()} />
 			</Dialog.Root>

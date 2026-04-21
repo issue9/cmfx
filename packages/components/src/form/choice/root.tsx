@@ -120,7 +120,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 											<IconClose
 												class={styles.close}
 												onclick={(e: MouseEvent) => {
-													if (props.disabled || props.readonly) {
+													if (props.readonly) {
 														return;
 													}
 
@@ -149,13 +149,13 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 
 	const onchange = props.multiple
 		? (v: Array<T>) => {
-				if (props.disabled || props.readonly) {
+				if (props.readonly) {
 					return;
 				}
 				props.accessor.setValue(v);
 			}
 		: (v: T | undefined) => {
-				if (props.disabled || props.readonly) {
+				if (props.readonly) {
 					return;
 				}
 				props.accessor.setValue(v);

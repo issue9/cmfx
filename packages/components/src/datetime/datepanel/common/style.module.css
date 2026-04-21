@@ -88,6 +88,6 @@
 	}
 
 	fieldset.panel:disabled {
-		@apply cursor-not-allowed text-palette-fg-disabled bg-palette-bg-disabled;
+		@apply pointer-events-none text-palette-fg-disabled bg-palette-bg-disabled;
 	}
 }

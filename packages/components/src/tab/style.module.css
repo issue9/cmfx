@@ -28,8 +28,7 @@
 					}
 
 					.item:disabled {
-						@apply cursor-not-allowed;
-						@apply text-palette-fg-low;
+						@apply pointer-events-none text-palette-fg-low;
 					}
 
 					.item:enabled {

@@ -14,7 +14,6 @@
 		@apply checked:border-palette-fg-selected;
 		@apply focus:border-palette-fg-focused;
 		@apply active:border-palette-fg-actived;
-		@apply disabled:cursor-not-allowed disabled:border-palette-fg-disabled;
 		@apply transition;
 
 		vertical-align: middle;
@@ -22,6 +21,10 @@
 
 	input[type="radio"].rounded {
 		@apply rounded-full!;
+	}
+
+	input[type="radio"]:disabled {
+		@apply pointer-events-none border-palette-fg-disabled text-palette-fg-disabled;
 	}
 
 	/* 内部实心圆 */
@@ -42,7 +45,7 @@
 	}
 
 	input[type="radio"]:disabled:after {
-		@apply cursor-not-allowed bg-palette-fg-disabled;
+		@apply pointer-events-none bg-palette-fg-disabled;
 	}
 
 	/* 以上代码重定义了默认的 radio 样式 */
@@ -105,6 +108,6 @@
 
 	.radio:has(:disabled),
 	.radio.block:has(:disabled) {
-		@apply cursor-not-allowed text-palette-fg-disabled;
+		@apply pointer-events-none text-palette-fg-disabled;
 	}
 }

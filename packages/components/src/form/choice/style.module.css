@@ -51,10 +51,10 @@
 		}
 
 		.activator-container:has(:disabled) {
-			@apply cursor-not-allowed border-palette-border-disabled;
+			@apply pointer-events-none border-palette-border-disabled;
 
 			.input {
-				@apply cursor-not-allowed text-palette-bg-low;
+				@apply text-palette-bg-low;
 			}
 
 			.expand {

@@ -5,6 +5,8 @@
 import IconColor from '~icons/streamline/color-picker-remix';
 
 import type { Info } from '@docs/components/base';
+import { default as Icon } from './icon';
+import { default as icon } from './icon.tsx?raw';
 import { default as Picker } from './picker';
 import { default as picker } from './picker.tsx?raw';
 
@@ -16,6 +18,9 @@ export default function (): Info {
 		path: 'form/color',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Picker, source: picker, id: 'picker' }],
+		stages: [
+			{ component: Picker, source: picker, id: 'picker' },
+			{ component: Icon, source: icon, id: 'icon' },
+		],
 	};
 }

@@ -52,12 +52,12 @@
 	}
 
 	fieldset.dateview:disabled {
-		@apply text-palette-fg-disabled bg-palette-bg-disabled border-palette-bg-disabled cursor-not-allowed;
+		@apply text-palette-fg-disabled bg-palette-bg-disabled border-palette-bg-disabled pointer-events-none;
 
 		> table {
 			tbody td,
 			tbody * {
-				@apply cursor-not-allowed;
+				@apply pointer-events-none;
 			}
 		}
 	}

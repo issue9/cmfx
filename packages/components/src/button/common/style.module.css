@@ -84,7 +84,7 @@
 
 	.button.link-disabled,
 	.button:disabled {
-		@apply cursor-not-allowed;
+		@apply pointer-events-none;
 		@apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
 	}
 
@@ -186,9 +186,8 @@
 		@apply bg-palette-bg-focused text-palette-fg-focused;
 	}
 
-	.button.link-disabled,
 	.group:disabled {
-		@apply cursor-not-allowed;
+		@apply pointer-events-none;
 		@apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
 	}
 }

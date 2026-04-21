@@ -57,7 +57,7 @@
 
 		li.item.disabled > .title {
 			@apply bg-palette-bg-disabled text-palette-fg-disabled;
-			@apply cursor-not-allowed;
+			@apply pointer-events-none;
 		}
 
 		li.item.selected > .title {

@@ -56,7 +56,7 @@
 				}
 
 				.color.disabled {
-					@apply border-palette-border-disabled text-palette-fg-disabled bg-palette-bg-disabled cursor-not-allowed;
+					@apply border-palette-border-disabled text-palette-fg-disabled bg-palette-bg-disabled pointer-events-none;
 				}
 			}
 
@@ -72,7 +72,7 @@
 		> main {
 			.vars {
 				.color {
-					@apply cursor-not-allowed;
+					@apply pointer-events-none;
 				}
 			}
 		}

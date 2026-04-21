@@ -8,17 +8,13 @@
 
 @layer components {
 	.activator {
-		@apply rounded-sm cursor-pointer border border-palette-border;
-		@apply flex justify-center items-center;
-		@apply w-20 overflow-hidden overflow-ellipsis whitespace-nowrap;
-
-		@apply transition;
-		@apply hover:border-palette-border-focused;
-		@apply active:border-palette-border-actived;
+		@apply rounded-sm cursor-pointer;
+		@apply overflow-clip;
+		@apply cursor-pointer;
 	}
 
 	.activator.readonly {
-		@apply cursor-default;
+		@apply cursor-default pointer-events-none;
 	}
 
 	.activator.rounded {
@@ -26,6 +22,6 @@
 	}
 
 	.activator.disabled {
-		@apply cursor-not-allowed;
+		@apply pointer-events-none;
 	}
 }

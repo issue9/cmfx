@@ -17,7 +17,7 @@
 			@apply transition;
 
 			.close {
-				@apply absolute end-1 top-1 text-palette-fg;
+				@apply absolute inset-e-1 top-1 text-palette-fg;
 				@apply hover:text-palette-fg-focused hover:cursor-pointer;
 			}
 		}
@@ -34,21 +34,13 @@
 		}
 	}
 
-	.upload-content[aria-disabled="false"] {
+	.upload-content:enabled {
 		.preview:hover {
 			@apply border-palette-border-focused;
 		}
 	}
 
-	.upload-content[aria-disabled="true"] {
-		@apply cursor-not-allowed text-palette-fg-disabled border-palette-border-disabled;
-
-		.preview {
-			@apply cursor-not-allowed;
-		}
-
-		.action {
-			@apply cursor-not-allowed;
-		}
+	.upload-content:disabled {
+		@apply pointer-events-none text-palette-fg-disabled border-palette-border-disabled;
 	}
 }

@@ -25,7 +25,6 @@
 
 		> input {
 			@apply p-1 outline-none bg-transparent flex-1 w-full text-left;
-			@apply disabled:cursor-not-allowed;
 
 			-webkit-appearance: textfield;
 			-moz-appearance: textfield;
@@ -40,7 +39,7 @@
 	}
 
 	.input:has(:disabled) {
-		@apply border-palette-border-disabled text-palette-fg-disabled cursor-not-allowed;
+		@apply border-palette-border-disabled text-palette-fg-disabled pointer-events-none;
 	}
 
 	.input.rounded {

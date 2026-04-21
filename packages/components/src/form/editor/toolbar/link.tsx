@@ -11,7 +11,6 @@ import IconVisit from '~icons/material-symbols/pip-exit-outline-rounded';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
-import { Divider } from '@components/divider';
 import { Input } from '@components/input';
 import styles from './style.module.css';
 import type { Props } from './types';
@@ -66,8 +65,6 @@ export function Link(props: Props): JSX.Element {
 					>
 						<IconOK />
 					</Button.Root>
-
-					<Divider.Root layout="vertical" />
 
 					<Button.Root
 						square

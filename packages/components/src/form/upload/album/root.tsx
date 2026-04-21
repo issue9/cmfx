@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, For, type JSX, mergeProps, onMount, Show } from 'solid-js';
+import { createMemo, For, type JSX, mergeProps, onMount, Show } from 'solid-js';
 import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
@@ -78,11 +78,6 @@ export function Root(props: Props): JSX.Element {
 		}
 	});
 
-	createEffect(() => {
-		rootRef.ariaDisabled = props.disabled ? 'true' : 'false';
-		rootRef.ariaReadOnly = props.readonly ? 'true' : 'false';
-	});
-
 	const size = createMemo((): JSX.CSSProperties => {
 		return { height: props.itemSize, width: props.itemSize };
 	});
@@ -115,6 +110,7 @@ export function Root(props: Props): JSX.Element {
 				style={Form.fieldArea2Style(areas().inputArea)}
 				ref={el => (dropRef = el)}
 				class={styles['upload-content']}
+				disabled={props.disabled}
 			>
 				<Upload.Root
 					ref={el => {
@@ -138,24 +134,14 @@ export function Root(props: Props): JSX.Element {
 						<PreviewURL
 							size={props.itemSize!}
 							url={item}
-							del={() => {
-								access.setValue(access.getValue().filter(v => v !== item));
-							}}
+							del={() => access.setValue(access.getValue().filter(v => v !== item))}
 						/>
 					)}
 				</For>
 
 				<For each={uploadRef!.files()}>
 					{(item, index) => {
-						return (
-							<PreviewFile
-								size={props.itemSize!}
-								file={item}
-								del={() => {
-									uploadRef.delete(index());
-								}}
-							/>
-						);
+						return <PreviewFile size={props.itemSize!} file={item} del={() => uploadRef.delete(index())} />;
 					}}
 				</For>
 				<Show when={props.auto && (props.multiple || access.getValue().length + uploadRef!.files().length === 0)}>

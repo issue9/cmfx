@@ -76,7 +76,7 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	const change = (v?: Date) => {
-		if (props.disabled || props.readonly) {
+		if (props.readonly) {
 			return;
 		}
 

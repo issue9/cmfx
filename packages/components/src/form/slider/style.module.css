@@ -14,7 +14,7 @@ input[type="range"] {
 	@apply hover:border-palette-border-focused;
 	@apply focus:border-palette-border-focused;
 	@apply active:border-palette-border-actived;
-	@apply disabled:cursor-not-allowed disabled:border-palette-border-disabled;
+	@apply disabled:pointer-events-none disabled:border-palette-border-disabled;
 
 	@apply transition;
 }

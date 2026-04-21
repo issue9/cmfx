@@ -7,10 +7,13 @@ import IconClose from '~icons/material-symbols/close';
 
 import styles from './style.module.css';
 
-export interface URLProps {
+interface BaseProps {
 	size: string;
-	url: string;
 	del: () => void;
+}
+
+interface URLProps extends BaseProps {
+	url: string;
 }
 
 /**
@@ -27,15 +30,13 @@ export function PreviewURL(props: URLProps): JSX.Element {
 				'background-size': '100% 100%',
 			}}
 		>
-			<IconClose class={styles.close} onClick={props.del} />
+			<button type="button" class={styles.close} onClick={()=>props.del()}><IconClose /></button>
 		</div>
 	);
 }
 
-export interface FileProps {
-	size: string;
+interface FileProps extends BaseProps {
 	file: File;
-	del: () => void;
 }
 
 /**
@@ -62,7 +63,7 @@ export function PreviewFile(props: FileProps): JSX.Element {
 				'background-size': '100% 100%',
 			}}
 		>
-			<IconClose class={styles.close} onClick={props.del} />
+			<button type="button" class={styles.close} onClick={()=>props.del()}><IconClose /></button>
 		</div>
 	);
 }
