@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, type JSX } from 'solid-js';
-import IconCancel from '~icons/material-symbols/cancel-rounded';
+import { createSignal, type JSX, Show } from 'solid-js';
+import IconClear from '~icons/material-symbols/cancel-rounded';
 import IconOK from '~icons/material-symbols/check-circle-unread-outline-rounded';
-import IconClear from '~icons/material-symbols/delete';
 import IconLink from '~icons/material-symbols/link-2-rounded';
 import IconVisit from '~icons/material-symbols/pip-exit-outline-rounded';
 
@@ -18,8 +17,8 @@ import { ToggleButton } from './toggle';
 import type { Props } from './types';
 
 export function Link(props: Props): JSX.Element {
-	const [href, setHref] = createSignal('');
 	let dialogRef: Dialog.RootRef;
+	const [href, setHref] = createSignal(props.editor.getAttributes('link').href);
 
 	return (
 		<>
@@ -34,32 +33,30 @@ export function Link(props: Props): JSX.Element {
 
 			<Dialog.Root ref={el => (dialogRef = el)}>
 				<div class={styles.link}>
-					<Input.Root value={href()} onChange={v => setHref(v ?? '')} />
+					<Input.Root
+						value={href()}
+						onChange={v => setHref(v)}
+						suffix={
+							<Show when={href()}>
+								<Button.Root class="p-1" square kind="flat" palette="error" onclick={() => setHref()}>
+									<IconClear />
+								</Button.Root>
+							</Show>
+						}
+					/>
 					<Button.Root
 						square
 						kind="flat"
 						palette="primary"
 						onclick={() => {
-							dialogRef.root().returnValue = 'ok';
-							dialogRef.root().close();
-							props.editor.chain().focus().toggleLink({ href: href() }).run();
+							dialogRef.root().close('ok');
+							const h = href() || props.editor.getAttributes('link').href;
+							if (h) {
+								props.editor.chain().focus().toggleLink({ href: h }).run();
+							}
 						}}
 					>
 						<IconOK />
-					</Button.Root>
-
-					<Button.Root
-						square
-						kind="flat"
-						palette="error"
-						onclick={() => {
-							dialogRef.root().returnValue = 'clear';
-							dialogRef.root().close();
-							setHref('');
-							props.editor.chain().focus().toggleLink({ href: '' }).run();
-						}}
-					>
-						<IconClear />
 					</Button.Root>
 
 					<Divider.Root layout="vertical" />
@@ -69,11 +66,10 @@ export function Link(props: Props): JSX.Element {
 						kind="flat"
 						palette="error"
 						onclick={() => {
-							dialogRef.root().returnValue = 'cancel';
-							dialogRef.root().close();
+							dialogRef.root().close('cancel');
 						}}
 					>
-						<IconCancel />
+						<IconClear />
 					</Button.Root>
 
 					<Button.Root square kind="flat" disabled={!href()} onclick={() => window.open(href())}>

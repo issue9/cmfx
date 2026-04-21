@@ -24,7 +24,7 @@
 		}
 
 		.link {
-			@apply flex items-center gap-1;
+			@apply flex items-center gap-1 w-100;
 		}
 	}
 }
