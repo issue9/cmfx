@@ -55,7 +55,7 @@ export function Heading(props: Props): JSX.Element {
 	return (
 		<Dropdown.Root
 			align="start"
-			onChange={v => props.editor.chain().focus().setHeading({ level: v }).run()}
+			onChange={v => props.editor.chain().focus().toggleHeading({ level: v }).run()}
 			ref={el => el.trigger().classList.add(styles.trigger)}
 			items={[
 				{ type: 'item', value: 1, prefix: icons.get(1)!(), label: l.t('_c.editor.header1') },
