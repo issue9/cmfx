@@ -60,6 +60,16 @@ const messages = {
 			websafe: 'Web safe',
 			pickColor: 'Pick color',
 		},
+		editor: {
+			header1: 'H1',
+			header2: 'H2',
+			header3: 'H3',
+			header4: 'H4',
+			header5: 'H5',
+			header6: 'H6',
+			clear: 'clear',
+			visit: 'Visit the URL',
+		},
 		pagination: {
 			prev: 'Prev',
 			next: 'Next',

@@ -62,6 +62,16 @@ const messages: Messages = {
 			websafe: 'Web 安全色',
 			pickColor: '请选择颜色',
 		},
+		editor: {
+			header1: 'H1',
+			header2: 'H2',
+			header3: 'H3',
+			header4: 'H4',
+			header5: 'H5',
+			header6: 'H6',
+			clear: '清除内容',
+			visit: '打开地址',
+		},
 		pagination: {
 			prev: '前一页',
 			next: '下一页',

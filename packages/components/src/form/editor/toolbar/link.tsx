@@ -9,6 +9,7 @@ import IconLink from '~icons/material-symbols/link-2-rounded';
 import IconVisit from '~icons/material-symbols/pip-exit-outline-rounded';
 
 import { Button } from '@components/button';
+import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
 import { Input } from '@components/input';
@@ -17,6 +18,7 @@ import { ToggleButton } from './toggle';
 import type { Props } from './types';
 
 export function Link(props: Props): JSX.Element {
+	const l = useLocale();
 	let dialogRef: Dialog.RootRef;
 	const [href, setHref] = createSignal(props.editor.getAttributes('link').href);
 
@@ -38,7 +40,14 @@ export function Link(props: Props): JSX.Element {
 						onChange={v => setHref(v)}
 						suffix={
 							<Show when={href()}>
-								<Button.Root class="p-1" square kind="flat" palette="error" onclick={() => setHref()}>
+								<Button.Root
+									title={l.t('_c.editor.clear')}
+									class="p-1"
+									square
+									kind="flat"
+									palette="error"
+									onclick={() => setHref()}
+								>
 									<IconClear />
 								</Button.Root>
 							</Show>
@@ -48,6 +57,7 @@ export function Link(props: Props): JSX.Element {
 						square
 						kind="flat"
 						palette="primary"
+						title={l.t('_c.ok')}
 						onclick={() => {
 							dialogRef.root().close('ok');
 							const h = href() || props.editor.getAttributes('link').href;
@@ -65,6 +75,7 @@ export function Link(props: Props): JSX.Element {
 						square
 						kind="flat"
 						palette="error"
+						title={l.t('_c.cancel')}
 						onclick={() => {
 							dialogRef.root().close('cancel');
 						}}
@@ -72,7 +83,13 @@ export function Link(props: Props): JSX.Element {
 						<IconClear />
 					</Button.Root>
 
-					<Button.Root square kind="flat" disabled={!href()} onclick={() => window.open(href())}>
+					<Button.Root
+						title={l.t('_c.editor.visit')}
+						square
+						kind="flat"
+						disabled={!href()}
+						onclick={() => window.open(href())}
+					>
 						<IconVisit class="-scale-x-100" />
 					</Button.Root>
 				</div>
