@@ -29,5 +29,5 @@ export interface PickerPanel {
 	/**
 	 * 实现实例的面板
 	 */
-	panel(s: Signal<string>): JSX.Element;
+	panel(s: Signal<string | undefined>): JSX.Element;
 }

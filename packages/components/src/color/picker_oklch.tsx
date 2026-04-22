@@ -55,7 +55,7 @@ export class OKLCHPickerPanel implements PickerPanel {
 		return value.startsWith('oklch(');
 	}
 
-	panel(signal: Signal<string>): JSX.Element {
+	panel(signal: Signal<string | undefined>): JSX.Element {
 		let rl: Slider.RootRef;
 		let rc: Slider.RootRef;
 		let rh: Slider.RootRef;

@@ -55,7 +55,7 @@ export class HSLPickerPanel implements PickerPanel {
 		return value.startsWith('hsl(');
 	}
 
-	panel(signal: Signal<string>): JSX.Element {
+	panel(signal: Signal<string | undefined>): JSX.Element {
 		let hRef: Slider.RootRef;
 		let sRef: Slider.RootRef;
 		let lRef: Slider.RootRef;

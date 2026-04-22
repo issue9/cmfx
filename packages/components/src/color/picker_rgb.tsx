@@ -55,7 +55,7 @@ export class RGBPickerPanel implements PickerPanel {
 		return value.startsWith('rgb(');
 	}
 
-	panel(signal: Signal<string>): JSX.Element {
+	panel(signal: Signal<string | undefined>): JSX.Element {
 		let rRef: Slider.RootRef;
 		let gRef: Slider.RootRef;
 		let bRef: Slider.RootRef;

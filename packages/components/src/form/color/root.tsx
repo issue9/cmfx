@@ -18,7 +18,7 @@ export interface Props
 		Form.FieldBaseProps,
 		ParentProps,
 		RefProps<Ref> {
-	accessor: Form.Accessor<string>;
+	accessor: Form.Accessor<string | undefined>;
 
 	/**
 	 * 作用在显示元素上的样式

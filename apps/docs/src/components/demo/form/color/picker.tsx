@@ -36,6 +36,7 @@ export default function (props: MountProps): JSX.Element {
 				accessor={color}
 				label="picker label"
 				rounded={rounded()}
+				activatorClass="border border-palette-border min-w-8 min-h-8"
 				pickers={[
 					new ColorPanel.TailwindVarsPickerPanel(),
 					new ColorPanel.OKLCHPickerPanel(),

@@ -5,6 +5,7 @@
 import Color from 'colorjs.io';
 import { createEffect, createSignal, type JSX, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
+import IconClose from '~icons/material-symbols/cancel';
 
 import { type BaseProps, type BaseRef, joinClass, PropsError, type RefProps } from '@components/base';
 import { Button } from '@components/button';
@@ -53,7 +54,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 颜色值发生变化时触发的事件
 	 */
-	onChange?: (value: string) => void;
+	onChange?: (value: string | undefined) => void;
 
 	/**
 	 * 指定的颜色拾取面板的类型
@@ -82,7 +83,7 @@ export function Root(props: Props): JSX.Element {
 		label: l.t(space.localeID),
 	}));
 
-	const signal = createSignal<string>('#000');
+	const signal = createSignal<string | undefined>();
 
 	// 监视 signal 变化，用以触发 onchange
 	createEffect(() => {
@@ -125,29 +126,9 @@ export function Root(props: Props): JSX.Element {
 			}}
 		>
 			<header>
-				<Show when={'EyeDropper' in window}>
-					<Button.Root
-						kind="border"
-						square
-						onclick={async () => {
-							const eye = new window.EyeDropper();
-							const color = new Color((await eye.open()).sRGBHex).toString();
-							signal[1](color);
-
-							// 切换到符合当前颜色的拾取色板
-							const picker = props.pickers.find(v => v.include(color));
-							if (picker) {
-								idFA.setValue(picker.id);
-							}
-						}}
-					>
-						<IconPicker />
-					</Button.Root>
-				</Show>
-
-				<div class={styles.middle}>
+				<div class={styles.start}>
 					<div
-						onclick={() => clipboardRef.writeText(signal[0]())}
+						onclick={() => clipboardRef.writeText(signal[0]() ?? '')}
 						class={styles.value}
 						ref={el => (contentRef = el)}
 						style={{
@@ -155,7 +136,7 @@ export function Root(props: Props): JSX.Element {
 							color: props.wcag ?? 'var(--palette-fg)',
 						}}
 					>
-						<ClipboardAPI.Root class="mr-2 self-center" ref={el => (clipboardRef = el)} />
+						<ClipboardAPI.Root class="self-center" ref={el => (clipboardRef = el)} />
 						{signal[0]()}
 					</div>
 					<Show when={props.wcag}>
@@ -166,9 +147,9 @@ export function Root(props: Props): JSX.Element {
 								title={apca() ? 'WCAG 3.X(APCA)' : 'WCAG 2.X'}
 							>
 								{wcag(
-									signal[0]().startsWith('var(--')
+									signal[0]()?.startsWith('var(--')
 										? getComputedStyle(contentRef).getPropertyValue('background-color')
-										: signal[0](),
+										: (signal[0]() ?? 'transparent'),
 									val(),
 									apca(),
 								)}
@@ -177,7 +158,31 @@ export function Root(props: Props): JSX.Element {
 					</Show>
 				</div>
 
-				<Choice.Root options={choiceOptions} accessor={idFA} />
+				<div class={styles.end}>
+					<Show when={'EyeDropper' in window}>
+						<Button.Root
+							kind="border"
+							square
+							onclick={async () => {
+								const eye = new window.EyeDropper();
+								const color = new Color((await eye.open()).sRGBHex).toString();
+								signal[1](color);
+
+								// 切换到符合当前颜色的拾取色板
+								const picker = props.pickers.find(v => v.include(color));
+								if (picker) {
+									idFA.setValue(picker.id);
+								}
+							}}
+						>
+							<IconPicker />
+						</Button.Root>
+					</Show>
+					<Button.Root kind="border" square onclick={() => signal[1](undefined)}>
+						<IconClose />
+					</Button.Root>
+					<Choice.Root options={choiceOptions} accessor={idFA} />
+				</div>
 			</header>
 
 			<main>{props.pickers.find(p => p.id === idFA.getValue())?.panel(signal)}</main>

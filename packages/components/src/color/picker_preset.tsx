@@ -35,7 +35,7 @@ export class PresetPickerPanel implements PickerPanel {
 		return this.#values.includes(value);
 	}
 
-	panel(signal: Signal<string>): JSX.Element {
+	panel(signal: Signal<string | undefined>): JSX.Element {
 		return (
 			<div class={styles.presets}>
 				<For each={this.#values}>

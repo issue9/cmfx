@@ -302,7 +302,7 @@ export class TailwindVarsPickerPanel implements PickerPanel {
 		return vars.includes(value);
 	}
 
-	panel(s: Signal<string>): JSX.Element {
+	panel(s: Signal<string | undefined>): JSX.Element {
 		return (
 			<div class={styles.vars}>
 				<For each={vars}>
