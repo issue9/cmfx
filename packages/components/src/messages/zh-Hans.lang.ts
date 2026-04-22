@@ -71,6 +71,10 @@ const messages: Messages = {
 			header6: 'H6',
 			clear: '清除内容',
 			visit: '打开地址',
+			link: '链接',
+			textColor: '文字颜色',
+			backgroundColor: '背景色',
+			lineHeight: '行高',
 		},
 		pagination: {
 			prev: '前一页',

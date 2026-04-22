@@ -24,6 +24,7 @@ import { Heading } from './heading';
 import { Link } from './link';
 import { List } from './list';
 import styles from './style.module.css';
+import { BackgroundColor, Color, LineHeight } from './textstyle';
 import { ToggleButton } from './toggle';
 
 export interface ToolbarProps {
@@ -111,6 +112,12 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 			</ToggleButton>
 
 			<Link editor={props.editor} />
+
+			<Divider.Root layout="vertical" />
+
+			<Color editor={props.editor} />
+			<BackgroundColor editor={props.editor} />
+			<LineHeight editor={props.editor} />
 		</header>
 	);
 }

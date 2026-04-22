@@ -26,6 +26,9 @@ const icons: ReadonlyMap<Key, () => JSX.Element> = new Map([
 
 type Props = ParentProps & ItemProps;
 
+/**
+ * 列表
+ */
 export function List(props: Props): JSX.Element {
 	const l = useLocale();
 	const [val, setVal] = createSignal<Key>('list');

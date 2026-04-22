@@ -17,7 +17,7 @@
 	.editor:focus-within {
 		.container {
 			@apply border-palette-border-focused!;
-			@apply h-300 border border-red;
+			@apply h-300 border border-palette-border;
 		}
 	}
 

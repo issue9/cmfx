@@ -26,68 +26,72 @@ export function Link(props: Props): JSX.Element {
 
 	return (
 		<>
-			<Button.Root checked={href()} class={styles.item} square kind="flat" onclick={() => dialogRef.root().showModal()}>
+			<Button.Root
+				title={l.t('_c.editor.link')}
+				checked={href()}
+				class={styles.item}
+				square
+				kind="flat"
+				onclick={() => dialogRef.root().showModal()}
+			>
 				<IconLink />
 			</Button.Root>
 
-			<Dialog.Root ref={el => (dialogRef = el)}>
-				<div class={styles.link}>
-					<Input.Root
-						value={href()}
-						onChange={v => setHref(v)}
-						suffix={
-							<Show when={href()}>
-								<Button.Root
-									title={l.t('_c.editor.clear')}
-									class="p-1"
-									square
-									kind="flat"
-									palette="error"
-									onclick={() => setHref()}
-								>
-									<IconClear />
-								</Button.Root>
-							</Show>
+			<Dialog.Root ref={el => (dialogRef = el)} mainClass={styles.link}>
+				<Input.Root
+					class="flex-1"
+					value={href()}
+					onChange={v => setHref(v)}
+					suffix={
+						<Show when={href()}>
+							<Button.Root
+								title={l.t('_c.editor.clear')}
+								class="p-1"
+								square
+								kind="flat"
+								palette="error"
+								onclick={() => setHref()}
+							>
+								<IconClear />
+							</Button.Root>
+						</Show>
+					}
+				/>
+				<Button.Root
+					square
+					kind="flat"
+					palette="primary"
+					title={l.t('_c.ok')}
+					onclick={() => {
+						dialogRef.root().close('ok');
+						const h = href() || props.editor.getAttributes('link').href;
+						if (h && href() !== props.editor.getAttributes('link').href) {
+							props.editor.chain().focus().toggleLink({ href: h }).run();
 						}
-					/>
-					<Button.Root
-						square
-						kind="flat"
-						palette="primary"
-						title={l.t('_c.ok')}
-						onclick={() => {
-							dialogRef.root().close('ok');
-							const h = href() || props.editor.getAttributes('link').href;
-							if (h && href() !== props.editor.getAttributes('link').href) {
-								props.editor.chain().focus().toggleLink({ href: h }).run();
-							}
-						}}
-					>
-						<IconOK />
-					</Button.Root>
+					}}
+				>
+					<IconOK />
+				</Button.Root>
 
-					<Button.Root
-						square
-						kind="flat"
-						palette="error"
-						title={l.t('_c.cancel')}
-						onclick={() => {
-							dialogRef.root().close('cancel');
-						}}
-					>
-						<IconClear />
-					</Button.Root>
+				<Button.Root
+					square
+					kind="flat"
+					palette="error"
+					title={l.t('_c.cancel')}
+					onclick={() => dialogRef.root().close('cancel')}
+				>
+					<IconClear />
+				</Button.Root>
 
-					<Button.Root
-						title={l.t('_c.editor.visit')}
-						square
-						kind="flat"
-						disabled={!href()}
-						onclick={() => window.open(href())}
-					>
-						<IconVisit class="-scale-x-100" />
-					</Button.Root>
-				</div>
+				<Button.Root
+					title={l.t('_c.editor.visit')}
+					square
+					kind="flat"
+					disabled={!href()}
+					onclick={() => window.open(href())}
+				>
+					<IconVisit class="-scale-x-100" />
+				</Button.Root>
 			</Dialog.Root>
 		</>
 	);

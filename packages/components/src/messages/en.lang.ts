@@ -69,6 +69,10 @@ const messages = {
 			header6: 'H6',
 			clear: 'clear',
 			visit: 'Visit the URL',
+			link: 'Link',
+			textColor: 'Text color',
+			backgroundColor: 'Background color',
+			lineHeight: 'Line height',
 		},
 		pagination: {
 			prev: 'Prev',

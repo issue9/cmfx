@@ -3,8 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { Editor } from '@tiptap/core';
+import { TextStyleKit } from '@tiptap/extension-text-style';
 import StarterKit from '@tiptap/starter-kit';
-import { createEffect, createMemo, type JSX, mergeProps, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Form } from '@components/form/form';
@@ -37,7 +38,7 @@ export function Root(props: Props): JSX.Element {
 	let ref: HTMLDivElement;
 
 	const editor = new Editor({
-		extensions: [StarterKit],
+		extensions: [StarterKit, TextStyleKit],
 		content: props.accessor.getValue(),
 		autofocus: true,
 		editable: true,
@@ -51,6 +52,8 @@ export function Root(props: Props): JSX.Element {
 			props.accessor.setValue(editor.getHTML());
 		});
 	});
+
+	onCleanup(() => editor.destroy());
 
 	createEffect(() => {
 		const v = props.accessor.getValue();

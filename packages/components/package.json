@@ -51,6 +51,7 @@
 		"@solidjs/router": "catalog:",
 		"@tiptap/core": "catalog:",
 		"@tiptap/extension-bubble-menu": "catalog:",
+		"@tiptap/extension-text-style": "catalog:",
 		"@tiptap/pm": "catalog:",
 		"@tiptap/starter-kit": "catalog:",
 		"colorjs.io": "catalog:",

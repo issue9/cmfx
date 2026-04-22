@@ -4,7 +4,7 @@
 
 import type { JSX, ParentProps } from 'solid-js';
 
-import { type BaseProps, joinClass } from '@components/base';
+import { type BaseProps, classList, joinClass } from '@components/base';
 import type { Ref } from './context';
 import { DialogProvider } from './context';
 import styles from './style.module.css';
@@ -35,6 +35,8 @@ export interface Props extends BaseProps, ParentProps {
 	 * @reactive
 	 */
 	scrollable?: boolean;
+
+	mainClass?: string;
 }
 
 function buildRef(ref: HTMLDialogElement): Ref {
@@ -77,7 +79,9 @@ export function Root(props: Props): JSX.Element {
 		>
 			<DialogProvider dialog={ref}>
 				{props.header}
-				<main class={props.scrollable ? styles.scrollable : ''}>{props.children}</main>
+				<main class={classList(undefined, { [styles.scrollable]: props.scrollable }, props.mainClass)}>
+					{props.children}
+				</main>
 				{props.footer}
 			</DialogProvider>
 		</dialog>

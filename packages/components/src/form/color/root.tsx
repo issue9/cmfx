@@ -11,7 +11,9 @@ import { Dialog } from '@components/dialog';
 import { Form } from '@components/form/form';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export interface Ref extends BaseRef<HTMLDivElement> {
+	showPicker(): void;
+}
 
 export interface Props
 	extends Omit<ColorPanel.RootProps, 'value' | 'onChange' | 'ref'>,
@@ -47,7 +49,12 @@ export function Root(props: Props): JSX.Element {
 			style={props.style}
 			ref={el => {
 				if (props.ref) {
-					props.ref({ root: () => el });
+					props.ref({
+						root: () => el,
+						showPicker: () => {
+							dlgRef?.root().showModal();
+						},
+					});
 				}
 			}}
 		>

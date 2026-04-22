@@ -12,7 +12,12 @@
 		@apply flex gap-1;
 
 		.item {
-			@apply px-0;
+			@apply px-0 flex justify-center items-center;
+
+			/* item 中的用于激活弹出框的项 */
+			.color-activator {
+				@apply rounded-none w-full h-full;
+			}
 		}
 
 		.trigger {
@@ -23,6 +28,7 @@
 			}
 		}
 
+		.line-height,
 		.link {
 			@apply flex items-center gap-1 w-100;
 		}
