@@ -13,7 +13,7 @@
 			@apply border border-palette-border rounded-md overflow-clip;
 
 			.container {
-				@apply min-h-100 w-full;
+				@apply min-h-100 w-full p-1;
 				@apply outline-none;
 			}
 		}

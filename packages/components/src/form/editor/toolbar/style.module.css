@@ -9,22 +9,14 @@
 @layer components {
 	.toolbar {
 		@apply border-b border-palette-border bg-palette-bg text-palette-fg p-1;
-		@apply flex gap-1 flex-wrap;
+		@apply flex gap-1;
 
 		.item {
-			@apply px-0 flex justify-center items-center;
+			@apply px-0 flex justify-center items-center h-8;
 
 			/* item 中的用于激活弹出框的项 */
 			.color-activator {
 				@apply rounded-none w-full h-full;
-			}
-		}
-
-		.dropdown-activator {
-			@apply h-full flex items-center;
-
-			.item {
-				@apply px-0 h-full;
 			}
 		}
 

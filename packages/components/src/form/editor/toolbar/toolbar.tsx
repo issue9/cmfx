@@ -16,7 +16,7 @@ import IconSubscript from '~icons/material-symbols/subscript-rounded';
 import IconSuperscript from '~icons/material-symbols/superscript-rounded';
 
 import { Divider } from '@components/divider';
-import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from './align';
+import { Align } from './align';
 import { Heading } from './heading';
 import { Redo, Undo } from './history';
 import { Link } from './link';
@@ -116,6 +116,8 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 			<Link editor={props.editor} />
 
+			<Align editor={props.editor} />
+
 			<Divider.Root layout="vertical" />
 
 			<ToggleButton
@@ -139,12 +141,6 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 			<Color editor={props.editor} />
 			<BackgroundColor editor={props.editor} />
 			<LineHeight editor={props.editor} />
-
-			<Divider.Root layout="vertical" />
-			<AlignLeft editor={props.editor} />
-			<AlignCenter editor={props.editor} />
-			<AlignRight editor={props.editor} />
-			<AlignJustify editor={props.editor} />
 		</header>
 	);
 }

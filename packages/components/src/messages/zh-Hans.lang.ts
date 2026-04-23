@@ -77,6 +77,10 @@ const messages: Messages = {
 			lineHeight: '行高',
 			redo: '重做',
 			undo: '撤销',
+			alignLeft: '左对齐',
+			alignCenter: '居中对齐',
+			alignRight: '右对齐',
+			alignJustify: '两端对齐',
 		},
 		pagination: {
 			prev: '前一页',

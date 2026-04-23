@@ -14,12 +14,11 @@ import { Dropdown } from '@components/menu';
 import styles from './style.module.css';
 import type { Props as ItemProps } from './types';
 
-const keys = ['list', 'numbered', 'bulleted'] as const;
+const keys = ['numbered', 'bulleted'] as const;
 
 type Key = (typeof keys)[number];
 
 const icons: ReadonlyMap<Key, () => JSX.Element> = new Map([
-	['list', () => <IconList />],
 	['numbered', () => <IconNumbered />],
 	['bulleted', () => <IconBulleted />],
 ]);
@@ -31,7 +30,7 @@ type Props = ParentProps & ItemProps;
  */
 export function List(props: Props): JSX.Element {
 	const l = useLocale();
-	const [val, setVal] = createSignal<Key>('list');
+	const [val, setVal] = createSignal<Key>();
 
 	const transaction = () => {
 		if (props.editor.isActive('orderedList')) {
@@ -39,7 +38,7 @@ export function List(props: Props): JSX.Element {
 		} else if (props.editor.isActive('bulletList')) {
 			setVal('bulleted');
 		} else {
-			setVal('list');
+			setVal();
 		}
 	};
 	onMount(() => props.editor.on('transaction', transaction));
@@ -47,6 +46,7 @@ export function List(props: Props): JSX.Element {
 
 	return (
 		<Dropdown.Root
+			value={val()}
 			align="start"
 			onChange={v => {
 				switch (v) {
@@ -58,14 +58,14 @@ export function List(props: Props): JSX.Element {
 						break;
 				}
 			}}
-			ref={el => el.trigger().classList.add(styles['dropdown-activator'])}
+			ref={el => el.trigger().classList.add(styles.item)}
 			items={[
 				{ type: 'item', value: 'numbered', prefix: icons.get('numbered')!(), label: l.t('_c.editor.numberedList') },
 				{ type: 'item', value: 'bulleted', prefix: icons.get('bulleted')!(), label: l.t('_c.editor.bulletedList') },
 			]}
 		>
-			<Button.Root kind="flat" square checked={val() !== 'list'} class={styles.item}>
-				{icons.get(val())!()}
+			<Button.Root kind="flat" square checked={!!val()} class={styles.item}>
+				{val() ? icons.get(val()!)!() : <IconList />}
 				<IconArrowDown class="-ms-1" />
 			</Button.Root>
 		</Dropdown.Root>

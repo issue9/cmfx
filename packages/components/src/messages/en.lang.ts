@@ -75,6 +75,10 @@ const messages = {
 			lineHeight: 'Line height',
 			redo: 'Redo',
 			undo: 'Undo',
+			alignLeft: 'Align left',
+			alignCenter: 'Align center',
+			alignRight: 'Align right',
+			alignJustify: 'Align justify',
 		},
 		pagination: {
 			prev: 'Prev',

@@ -18,8 +18,9 @@ import { Dropdown } from '@components/menu';
 import styles from './style.module.css';
 import type { Props as ItemProps } from './types';
 
-const icons: ReadonlyMap<number, () => JSX.Element> = new Map([
-	[0, () => <IconH />],
+type Level = 1 | 2 | 3 | 4 | 5 | 6;
+
+const icons: ReadonlyMap<Level, () => JSX.Element> = new Map([
 	[1, () => <IconH1 />],
 	[2, () => <IconH2 />],
 	[3, () => <IconH3 />],
@@ -32,7 +33,7 @@ type Props = ParentProps & ItemProps;
 
 export function Heading(props: Props): JSX.Element {
 	const l = useLocale();
-	const [val, setVal] = createSignal(0);
+	const [val, setVal] = createSignal<Level>();
 
 	const transaction = () => {
 		if (props.editor.isActive('heading', { level: 1 })) {
@@ -48,7 +49,7 @@ export function Heading(props: Props): JSX.Element {
 		} else if (props.editor.isActive('heading', { level: 6 })) {
 			setVal(6);
 		} else {
-			setVal(0);
+			setVal();
 		}
 	};
 	onMount(() => props.editor.on('transaction', transaction));
@@ -57,8 +58,9 @@ export function Heading(props: Props): JSX.Element {
 	return (
 		<Dropdown.Root
 			align="start"
+			value={val()}
 			onChange={v => props.editor.chain().focus().toggleHeading({ level: v }).run()}
-			ref={el => el.trigger().classList.add(styles['dropdown-activator'])}
+			ref={el => el.trigger().classList.add(styles.item)}
 			items={[
 				{ type: 'item', value: 1, prefix: icons.get(1)!(), label: l.t('_c.editor.header1') },
 				{ type: 'item', value: 2, prefix: icons.get(2)!(), label: l.t('_c.editor.header2') },
@@ -68,8 +70,8 @@ export function Heading(props: Props): JSX.Element {
 				{ type: 'item', value: 6, prefix: icons.get(6)!(), label: l.t('_c.editor.header6') },
 			]}
 		>
-			<Button.Root kind="flat" square checked={val() !== 0} class={styles.item}>
-				{icons.get(val())!()}
+			<Button.Root kind="flat" square checked={!!val()} class={styles.item}>
+				{val() ? icons.get(val()!)!() : <IconH />}
 				<IconArrowDown class="-ms-1" />
 			</Button.Root>
 		</Dropdown.Root>
