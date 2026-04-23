@@ -5,10 +5,8 @@
 import IconEditor from '~icons/material-symbols/wysiwyg';
 
 import type { Info } from '@docs/components/base';
-import { default as Bubble } from './bubble';
-import { default as bubble } from './bubble.tsx?raw';
-import { default as Snow } from './snow';
-import { default as snow } from './snow.tsx?raw';
+import { default as Editor } from './editor';
+import { default as editor } from './editor.tsx?raw';
 
 export default function (): Info {
 	return {
@@ -18,9 +16,6 @@ export default function (): Info {
 		path: 'form/editor',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: Snow, source: snow, id: 'snow' },
-			{ component: Bubble, source: bubble, id: 'bubble' },
-		],
+		stages: [{ component: Editor, source: editor, id: 'editor' }],
 	};
 }

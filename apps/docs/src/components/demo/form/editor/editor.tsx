@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025-2026 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,7 +9,7 @@ import { Portal } from 'solid-js/web';
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const txt = Form.fieldAccessor('name', '<p style="color:red">red</p><br />line2');
+	const txt = Form.fieldAccessor('name', '');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Palette, palette] = paletteSelector();
@@ -28,7 +28,6 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<Editor.Root
-				simple
 				hasHelp
 				help="help text"
 				layout={layout()}
@@ -38,6 +37,7 @@ export default function (props: MountProps): JSX.Element {
 				readonly={readonly()}
 				disabled={disabled()}
 				accessor={txt}
+				placeholder="placeholder text"
 			/>
 			<pre>{txt.getValue()}</pre>
 		</div>

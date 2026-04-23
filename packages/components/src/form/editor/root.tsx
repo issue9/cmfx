@@ -7,7 +7,7 @@ import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { TextStyleKit } from '@tiptap/extension-text-style';
-import StarterKit from '@tiptap/starter-kit';
+import { StarterKit } from '@tiptap/starter-kit';
 import { createEffect, createMemo, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
