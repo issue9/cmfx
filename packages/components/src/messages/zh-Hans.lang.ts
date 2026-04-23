@@ -75,6 +75,8 @@ const messages: Messages = {
 			textColor: '文字颜色',
 			backgroundColor: '背景色',
 			lineHeight: '行高',
+			redo: '重做',
+			undo: '撤销',
 		},
 		pagination: {
 			prev: '前一页',

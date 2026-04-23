@@ -8,8 +8,8 @@
 
 @layer components {
 	.toolbar {
-		@apply border border-palette-border bg-palette-bg text-palette-fg p-1;
-		@apply flex gap-1;
+		@apply border-b border-palette-border bg-palette-bg text-palette-fg p-1;
+		@apply flex gap-1 flex-wrap;
 
 		.item {
 			@apply px-0 flex justify-center items-center;
@@ -20,7 +20,7 @@
 			}
 		}
 
-		.trigger {
+		.dropdown-activator {
 			@apply h-full flex items-center;
 
 			.item {

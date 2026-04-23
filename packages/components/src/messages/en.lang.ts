@@ -73,6 +73,8 @@ const messages = {
 			textColor: 'Text color',
 			backgroundColor: 'Background color',
 			lineHeight: 'Line height',
+			redo: 'Redo',
+			undo: 'Undo',
 		},
 		pagination: {
 			prev: 'Prev',

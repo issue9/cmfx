@@ -18,6 +18,7 @@ import IconSuperscript from '~icons/material-symbols/superscript-rounded';
 import { Divider } from '@components/divider';
 import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from './align';
 import { Heading } from './heading';
+import { Redo, Undo } from './history';
 import { Link } from './link';
 import { List } from './list';
 import styles from './style.module.css';
@@ -49,6 +50,11 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 	return (
 		<header ref={el => (ref = el)} class={styles.toolbar}>
+			<Undo editor={props.editor} />
+			<Redo editor={props.editor} />
+
+			<Divider.Root layout="vertical" />
+
 			<Heading editor={props.editor} />
 			<List editor={props.editor} />
 			<ToggleButton

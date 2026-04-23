@@ -58,7 +58,7 @@ export function List(props: Props): JSX.Element {
 						break;
 				}
 			}}
-			ref={el => el.trigger().classList.add(styles.trigger)}
+			ref={el => el.trigger().classList.add(styles['dropdown-activator'])}
 			items={[
 				{ type: 'item', value: 'numbered', prefix: icons.get('numbered')!(), label: l.t('_c.editor.numberedList') },
 				{ type: 'item', value: 'bulleted', prefix: icons.get('bulleted')!(), label: l.t('_c.editor.bulletedList') },

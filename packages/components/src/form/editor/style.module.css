@@ -10,24 +10,23 @@
 	.editor {
 		.editor-wrap {
 			@apply w-full h-full flex flex-col justify-stretch;
+			@apply border border-palette-border rounded-md overflow-clip;
+
+			.container {
+				@apply min-h-100 w-full;
+				@apply outline-none;
+			}
+		}
+
+		.editor-wrap[aria-disabled="true"] {
+			@apply pointer-events-none;
 		}
 	}
 
 	.editor:has([contenteditable="true"]):hover,
 	.editor:focus-within {
-		.container {
-			@apply border-palette-border-focused!;
-			@apply h-300 border border-palette-border;
-		}
-	}
-
-	.editor[aria-disabled="true"] {
-		:global(.ql-toolbar) {
-			@apply cursor-not-allowed border-palette-border-disabled!;
-		}
-
-		:global(.ql-container) {
-			@apply cursor-not-allowed border-palette-border-disabled!;
+		.editor-wrap {
+			@apply border-palette-border-focused;
 		}
 	}
 }

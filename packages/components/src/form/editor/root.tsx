@@ -38,7 +38,10 @@ export function Root(props: Props): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps(form, props);
 
-	let ref: HTMLDivElement;
+	let containerRef: HTMLDivElement;
+
+	let wrapRef: HTMLDivElement;
+	createEffect(() => (wrapRef.ariaDisabled = props.disabled ? 'true' : 'false'));
 
 	const editor = new Editor({
 		extensions: [
@@ -57,11 +60,11 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	onMount(() => {
-		editor.mount({ mount: ref });
+		editor.mount({ mount: containerRef });
 
-		editor.on('update', () => {
-			props.accessor.setValue(editor.getHTML());
-		});
+		const update = () => props.accessor.setValue(editor.getHTML());
+		editor.on('update', update);
+		onCleanup(() => editor.off('update', update));
 	});
 
 	onCleanup(() => editor.destroy());
@@ -106,9 +109,9 @@ export function Root(props: Props): JSX.Element {
 				)}
 			</Show>
 
-			<div class={styles['editor-wrap']} style={Form.fieldArea2Style(areas().inputArea)}>
+			<div class={styles['editor-wrap']} style={Form.fieldArea2Style(areas().inputArea)} ref={el => (wrapRef = el)}>
 				<Toolbar editor={editor} />
-				<div ref={el => (ref = el)} class={styles.container} />
+				<div ref={el => (containerRef = el)} class={styles.container} />
 			</div>
 
 			<Show when={areas().helpArea}>
