@@ -96,6 +96,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 							toggle: () => dropdownRef.toggle(),
 							root: () => dropdownRef.root(),
 							menu: () => dropdownRef.menu(),
+							trigger: () => dropdownRef.trigger(),
 							group: () => el,
 						});
 					}

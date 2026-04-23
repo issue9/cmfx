@@ -18,15 +18,6 @@ import { Numeric } from '@components/form/textfield';
 import styles from './style.module.css';
 import type { Props } from './types';
 
-const pickers = [
-	new ColorPanel.TailwindVarsPickerPanel(),
-	new ColorPanel.HSLPickerPanel(),
-	new ColorPanel.OKLCHPickerPanel(),
-	new ColorPanel.PresetPickerPanel(),
-	new ColorPanel.RGBPickerPanel(),
-	new ColorPanel.WebSafePickerPanel(),
-];
-
 /**
  * 指定文本的颜色
  *
@@ -55,6 +46,8 @@ export function Color(props: Props): JSX.Element {
 		if (accessor.getValue() === color) {
 			return;
 		}
+
+		isSelectUpdate = true;
 		accessor.setValue(color);
 	};
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
@@ -77,7 +70,13 @@ export function Color(props: Props): JSX.Element {
 			<ColorPicker.Root
 				ref={el => (picker = el)}
 				accessor={accessor}
-				pickers={pickers}
+				pickers={[
+					new ColorPanel.TailwindVarsPickerPanel(),
+					new ColorPanel.HSLPickerPanel(),
+					new ColorPanel.OKLCHPickerPanel(),
+					new ColorPanel.RGBPickerPanel(),
+					new ColorPanel.WebSafePickerPanel(),
+				]}
 				activatorClass={styles['color-activator']}
 			>
 				<IconColor />
@@ -95,7 +94,7 @@ export function BackgroundColor(props: Props): JSX.Element {
 	const l = useLocale();
 
 	const accessor = fieldAccessor<string | undefined>(
-		'bgcolor',
+		'backgroundColor',
 		props.editor.getAttributes('textStyle').backgroundColor,
 	);
 	let isSelectUpdate = false; // 是否来自 selectionUpdate 事件，如果是来自该事件，不需要执行 setColor 操作
@@ -117,6 +116,8 @@ export function BackgroundColor(props: Props): JSX.Element {
 		if (accessor.getValue() === color) {
 			return;
 		}
+
+		isSelectUpdate = true;
 		accessor.setValue(color);
 	};
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
@@ -139,7 +140,13 @@ export function BackgroundColor(props: Props): JSX.Element {
 			<ColorPicker.Root
 				ref={el => (picker = el)}
 				accessor={accessor}
-				pickers={pickers}
+				pickers={[
+					new ColorPanel.TailwindVarsPickerPanel(),
+					new ColorPanel.HSLPickerPanel(),
+					new ColorPanel.OKLCHPickerPanel(),
+					new ColorPanel.RGBPickerPanel(),
+					new ColorPanel.WebSafePickerPanel(),
+				]}
 				activatorClass={styles['color-activator']}
 			>
 				<IconBackgroundColor />
@@ -159,7 +166,6 @@ export function LineHeight(props: Props): JSX.Element {
 	const lh = props.editor.getAttributes('textStyle').lineHeight;
 	const accessor = fieldAccessor<number | undefined>('lineHeight', lh ? parseFloat(lh) : undefined);
 	accessor.onChange(v => {
-		// TODO
 		if (v) {
 			props.editor.chain().setLineHeight(v.toString()).run();
 		} else {

@@ -59,7 +59,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 指定的颜色拾取面板的类型
 	 */
-	pickers: Array<PickerPanel>;
+	pickers: ReadonlyArray<PickerPanel>;
 }
 
 /**

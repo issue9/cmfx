@@ -16,7 +16,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 
 	return (
-		<div>
+		<>
 			<Portal mount={props.mount}>
 				<Palette />
 				<Disabled />
@@ -40,6 +40,6 @@ export default function (props: MountProps): JSX.Element {
 				placeholder="placeholder text"
 			/>
 			<pre>{txt.getValue()}</pre>
-		</div>
+		</>
 	);
 }

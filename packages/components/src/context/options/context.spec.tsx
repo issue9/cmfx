@@ -54,7 +54,7 @@ type Result = ReturnType<typeof render>;
  * NOTE: 实例需要放在 describe 方法中。
  */
 export class ComponentTester {
-	readonly #component;
+	readonly #component: string;
 	readonly #result: Result;
 
 	private constructor(component: string, result: Result) {
