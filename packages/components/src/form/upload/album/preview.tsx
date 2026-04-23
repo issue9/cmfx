@@ -30,7 +30,9 @@ export function PreviewURL(props: URLProps): JSX.Element {
 				'background-size': '100% 100%',
 			}}
 		>
-			<button type="button" class={styles.close} onClick={()=>props.del()}><IconClose /></button>
+			<button type="button" class={styles.close} onClick={() => props.del()}>
+				<IconClose />
+			</button>
 		</div>
 	);
 }
@@ -63,7 +65,9 @@ export function PreviewFile(props: FileProps): JSX.Element {
 				'background-size': '100% 100%',
 			}}
 		>
-			<button type="button" class={styles.close} onClick={()=>props.del()}><IconClose /></button>
+			<button type="button" class={styles.close} onClick={() => props.del()}>
+				<IconClose />
+			</button>
 		</div>
 	);
 }

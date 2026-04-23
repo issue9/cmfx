@@ -63,7 +63,7 @@ export function Color(props: Props): JSX.Element {
 	let picker: ColorPicker.RootRef;
 	return (
 		<Button.Root
-			title={ l.t('_c.editor.textColor')}
+			title={l.t('_c.editor.textColor')}
 			square
 			kind="flat"
 			class={styles.item}
