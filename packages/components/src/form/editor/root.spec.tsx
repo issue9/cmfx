@@ -18,6 +18,6 @@ describe('Editor', async () => {
 	test('ref', () => {
 		expect(ref).toBeDefined();
 		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
-		expect(ref.quill()).toBeDefined();
+		expect(ref.editor()).toBeDefined();
 	});
 });
