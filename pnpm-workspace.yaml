@@ -19,6 +19,8 @@ catalog:
   '@types/node': ^25.6.0
   '@tiptap/core': ^3.22.4
   '@tiptap/extension-bubble-menu': ^3.22.4
+  '@tiptap/extension-subscript': ^3.22.4
+  '@tiptap/extension-superscript': ^3.22.4
   '@tiptap/extension-text-align': ^3.22.4
   '@tiptap/extension-text-style': ^3.22.4
   '@tiptap/pm': ^3.22.4

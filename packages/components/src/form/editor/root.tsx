@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { Editor } from '@tiptap/core';
-import TextAlign from '@tiptap/extension-text-align';
+import { Subscript } from '@tiptap/extension-subscript';
+import { Superscript } from '@tiptap/extension-superscript';
+import { TextAlign } from '@tiptap/extension-text-align';
 import { TextStyleKit } from '@tiptap/extension-text-style';
 import StarterKit from '@tiptap/starter-kit';
 import { createEffect, createMemo, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
@@ -45,6 +47,8 @@ export function Root(props: Props): JSX.Element {
 			TextAlign.configure({
 				types: ['heading', 'paragraph'],
 			}),
+			Superscript,
+			Subscript,
 		],
 		content: props.accessor.getValue(),
 		autofocus: true,

@@ -112,6 +112,24 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 			<Divider.Root layout="vertical" />
 
+			<ToggleButton
+				isActive={() => props.editor.isActive('superscript')}
+				editor={props.editor}
+				toggle={() => props.editor.chain().focus().toggleSuperscript().run()}
+			>
+				<IconSuperscript />
+			</ToggleButton>
+
+			<ToggleButton
+				isActive={() => props.editor.isActive('subscript')}
+				editor={props.editor}
+				toggle={() => props.editor.chain().focus().toggleSubscript().run()}
+			>
+				<IconSubscript />
+			</ToggleButton>
+
+			<Divider.Root layout="vertical" />
+
 			<Color editor={props.editor} />
 			<BackgroundColor editor={props.editor} />
 			<LineHeight editor={props.editor} />

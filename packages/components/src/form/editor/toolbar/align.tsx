@@ -36,10 +36,7 @@ function buildAlign(align: 'left' | 'center' | 'right' | 'justify', icon: JSX.El
 	return (props: Props): JSX.Element => {
 		return (
 			<ToggleButton
-				isActive={() => {
-					console.log(props.editor.isActive({ textAlign: align }));
-					return props.editor.isActive({ textAlign: align });
-				}}
+				isActive={() => props.editor.isActive({ textAlign: align })}
 				editor={props.editor}
 				toggle={() => props.editor.chain().focus().toggleTextAlign(align).run()}
 			>
