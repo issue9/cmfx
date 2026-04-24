@@ -29,4 +29,9 @@
 			@apply border-palette-border-focused;
 		}
 	}
+
+	p.nodeEmpty.editorEmpty:first-child::before {
+		@apply text-palette-fg-low float-left h-0 pointer-events-none;
+		content: attr(data-placeholder);
+	}
 }

@@ -8,6 +8,7 @@ import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { TextStyleKit } from '@tiptap/extension-text-style';
+import { Placeholder } from '@tiptap/extensions';
 import { StarterKit } from '@tiptap/starter-kit';
 import { createEffect, createMemo, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
@@ -54,6 +55,11 @@ export function Root(props: Props): JSX.Element {
 			Superscript,
 			Subscript,
 			Image,
+			Placeholder.configure({
+				emptyNodeClass: styles.nodeEmpty,
+				emptyEditorClass: styles.editorEmpty,
+				placeholder: props.placeholder,
+			}),
 		],
 		content: props.accessor.getValue(),
 		autofocus: true,

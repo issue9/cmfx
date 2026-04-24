@@ -57,6 +57,9 @@ catalogs:
     '@tiptap/extension-text-style':
       specifier: ^3.22.4
       version: 3.22.4
+    '@tiptap/extensions':
+      specifier: ^3.22.4
+      version: 3.22.4
     '@tiptap/pm':
       specifier: ^3.22.4
       version: 3.22.4
@@ -487,6 +490,9 @@ importers:
       '@tiptap/extension-text-style':
         specifier: 'catalog:'
         version: 3.22.4(@tiptap/core@3.22.4(@tiptap/pm@3.22.4))
+      '@tiptap/extensions':
+        specifier: 'catalog:'
+        version: 3.22.4(@tiptap/core@3.22.4(@tiptap/pm@3.22.4))(@tiptap/pm@3.22.4)
       '@tiptap/pm':
         specifier: 'catalog:'
         version: 3.22.4
