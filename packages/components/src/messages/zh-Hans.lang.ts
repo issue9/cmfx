@@ -81,6 +81,7 @@ const messages: Messages = {
 			alignCenter: '居中对齐',
 			alignRight: '右对齐',
 			alignJustify: '两端对齐',
+			addImage: '添加图片',
 		},
 		pagination: {
 			prev: '前一页',

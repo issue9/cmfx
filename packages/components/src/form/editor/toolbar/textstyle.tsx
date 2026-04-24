@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type JSX, onCleanup, onMount } from 'solid-js';
-import IconClear from '~icons/material-symbols/cancel-rounded';
+import IconClose from '~icons/material-symbols/cancel-rounded';
 import IconColor from '~icons/material-symbols/colors-rounded';
 import IconLineHeight from '~icons/material-symbols/fit-page-height-outline-rounded';
 import IconBackgroundColor from '~icons/material-symbols/format-color-fill-rounded';
@@ -207,7 +207,7 @@ export function LineHeight(props: Props): JSX.Element {
 					title={l.t('_c.close')}
 					onclick={() => dialogRef.root().close('close')}
 				>
-					<IconClear />
+					<IconClose />
 				</Button.Root>
 			</Dialog.Root>
 		</>

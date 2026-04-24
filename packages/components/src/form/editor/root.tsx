@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Editor } from '@tiptap/core';
+import { Image } from '@tiptap/extension-image';
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { TextAlign } from '@tiptap/extension-text-align';
@@ -52,6 +53,7 @@ export function Root(props: Props): JSX.Element {
 			}),
 			Superscript,
 			Subscript,
+			Image,
 		],
 		content: props.accessor.getValue(),
 		autofocus: true,

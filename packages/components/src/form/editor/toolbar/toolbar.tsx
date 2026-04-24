@@ -3,8 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Editor } from '@tiptap/core';
-//import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu';
-import { type JSX, onMount } from 'solid-js';
+import type { JSX } from 'solid-js';
 import IconCodeBlock from '~icons/material-symbols/code-blocks-outline-rounded';
 import IconCode from '~icons/material-symbols/code-xml-rounded';
 import IconBold from '~icons/material-symbols/format-bold-rounded';
@@ -19,6 +18,7 @@ import { Divider } from '@components/divider';
 import { Align } from './align';
 import { Heading } from './heading';
 import { Redo, Undo } from './history';
+import { Image } from './image';
 import { Link } from './link';
 import { List } from './list';
 import styles from './style.module.css';
@@ -30,26 +30,8 @@ export interface ToolbarProps {
 }
 
 export function Toolbar(props: ToolbarProps): JSX.Element {
-	let ref!: HTMLElement;
-
-	onMount(() => {
-		/*
-		props.editor.registerPlugin(
-			BubbleMenuPlugin({
-				editor: props.editor,
-				element: ref,
-				pluginKey: 'bubble-menu',
-				options: {
-					strategy: 'fixed',
-					placement: 'top',
-				},
-			}),
-		);
-		*/
-	});
-
 	return (
-		<header ref={el => (ref = el)} class={styles.toolbar}>
+		<header class={styles.toolbar}>
 			<Undo editor={props.editor} />
 			<Redo editor={props.editor} />
 
@@ -141,6 +123,10 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 			<Color editor={props.editor} />
 			<BackgroundColor editor={props.editor} />
 			<LineHeight editor={props.editor} />
+
+			<Divider.Root layout="vertical" />
+
+			<Image editor={props.editor} />
 		</header>
 	);
 }

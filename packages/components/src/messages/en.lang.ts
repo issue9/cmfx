@@ -79,6 +79,7 @@ const messages = {
 			alignCenter: 'Align center',
 			alignRight: 'Align right',
 			alignJustify: 'Align justify',
+			addImage: 'Add image',
 		},
 		pagination: {
 			prev: 'Prev',

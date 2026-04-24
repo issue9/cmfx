@@ -25,4 +25,12 @@
 			@apply flex items-center gap-1 w-100;
 		}
 	}
+
+	.image-main {
+		@apply flex flex-col items-stretch gap-2;
+
+		footer {
+			@apply flex justify-between;
+		}
+	}
 }
