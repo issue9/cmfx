@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
@@ -9,7 +10,7 @@ import { Form } from '@components/form/form';
 import { type Ref, Root } from './root';
 
 describe('Editor', async () => {
-	let ref: Ref;
+	let ref!: Ref;
 	const fa = Form.fieldAccessor('chk', 'string');
 	const ct = await ComponentTester.build('Editor', props => <Root ref={el => (ref = el)} accessor={fa} {...props} />);
 
@@ -19,5 +20,11 @@ describe('Editor', async () => {
 		expect(ref).toBeDefined();
 		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
 		expect(ref.editor()).toBeDefined();
+	});
+
+	test('type', async () => {
+		const user = userEvent.setup();
+		await user.type(ref.root().querySelector('.tiptap') as HTMLElement, 'caixw');
+		expect(ref.editor().getHTML()).toContain('caixw');
 	});
 });

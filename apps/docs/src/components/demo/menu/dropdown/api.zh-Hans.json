@@ -247,6 +247,14 @@
 				}
 			},
 			{
+				"name": "trigger",
+				"summary": "触发元素\n\n",
+				"type": "trigger(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
+				}
+			},
+			{
 				"name": "menu",
 				"summary": "下拉菜单的元素\n\n",
 				"type": "menu(): Menu.RootRef<'menu'>",

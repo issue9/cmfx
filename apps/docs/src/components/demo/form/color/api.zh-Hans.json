@@ -5,7 +5,13 @@
 		"properties": [
 			{
 				"name": "accessor",
-				"type": "Accessor_2<string, string>"
+				"type": "Accessor_2<string | undefined, string>"
+			},
+			{
+				"name": "activatorClass",
+				"summary": "作用在显示元素上的样式\n\n",
+				"type": "string | undefined",
+				"reactive": true
 			},
 			{
 				"name": "style",
@@ -38,7 +44,7 @@
 			{
 				"name": "pickers",
 				"summary": "指定的颜色拾取面板的类型\n\n",
-				"type": "PickerPanel[]"
+				"type": "readonly PickerPanel[]"
 			},
 			{
 				"name": "title",
@@ -106,6 +112,10 @@
 				"type": "JSX.Element"
 			},
 			{
+				"name": "children",
+				"type": "JSX.Element"
+			},
+			{
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
 				"type": "((m: REF) => void) | undefined"
@@ -115,7 +125,15 @@
 	},
 	{
 		"kind": "interface",
+		"name": "ColorPicker.RootRef",
 		"methods": [
+			{
+				"name": "showPicker",
+				"type": "showPicker(): void",
+				"return": {
+					"type": "void"
+				}
+			},
 			{
 				"name": "root",
 				"summary": "返回组件的根元素\n\n",
@@ -125,7 +143,6 @@
 				}
 			}
 		],
-		"name": "ColorPicker.RootRef",
 		"pkg": "@cmfx/components"
 	}
 ]

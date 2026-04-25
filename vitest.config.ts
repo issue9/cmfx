@@ -15,6 +15,8 @@ const exclude = [
 	'**/vitest_setup.ts',
 	'**/*.{test,spec}.ts',
 	'**/*.{test,spec}.tsx',
+	'**/mod.ts',
+	'**/index.ts',
 ];
 
 export default defineConfig({

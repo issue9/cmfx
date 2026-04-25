@@ -4,12 +4,6 @@
 		"name": "Editor.RootProps",
 		"properties": [
 			{
-				"name": "simple",
-				"summary": "简单样式\n\n",
-				"remarks": "如果为 true，将使用 bubble 主题，否则使用 snow 主题。\n\n",
-				"type": "boolean | undefined"
-			},
-			{
 				"name": "placeholder",
 				"type": "string | undefined"
 			},
@@ -111,11 +105,11 @@
 		"name": "Editor.RootRef",
 		"methods": [
 			{
-				"name": "quill",
-				"summary": "向外暴露的 quill 对象\n\n",
-				"type": "quill(): default_2",
+				"name": "editor",
+				"summary": "向外暴露的\n`Editor`\n对象\n\n",
+				"type": "editor(): Editor_2",
 				"return": {
-					"type": "default_2"
+					"type": "Editor_2"
 				}
 			},
 			{
