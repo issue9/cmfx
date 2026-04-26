@@ -13,11 +13,11 @@ import type { Pages } from '@admin/pages/pages';
 import { Dashboard } from './dashboard';
 import { Login, type Props as LoginProps } from './login';
 import { Logout } from './logout';
-import { MemStatistic } from './memstatistic';
 import { components, type PassportComponents } from './passports';
 import { Profile } from './profile';
 import { SecurityLogs } from './securitylogs';
 import { Settings } from './settings';
+import { Statistic } from './statistic';
 
 /**
  * 提供了与当前登录用户直接相关的页面
@@ -28,7 +28,7 @@ export class current implements Pages {
 	/**
 	 * 会员统计信息面板
 	 */
-	static MemberStatisticPanel = MemStatistic;
+	static Statistic = Statistic;
 
 	/**
 	 * 提供当前用户的仪表盘
@@ -68,7 +68,7 @@ export class current implements Pages {
 	static SecurityLogs = SecurityLogs;
 
 	readonly #prefix: string;
-	readonly #dashboardChildren?: Component;
+	readonly #dashboard?: Component;
 
 	/**
 	 * 初始化登录方式的组件
@@ -100,16 +100,16 @@ export class current implements Pages {
 	/**
 	 * 生成 {@link Pages} 对象
 	 *
-	 * @param prefix - 路由前缀
-	 * @param dashboardChildren - 仪表盘内的组件
+	 * @param prefix - 路由前缀；
+	 * @param dashboard - 仪表盘内的组件；
 	 */
-	static build(prefix: string, dashboardChildren?: Component) {
-		return new current(prefix, dashboardChildren);
+	static build(prefix: string, dashboard?: Component) {
+		return new current(prefix, dashboard);
 	}
 
-	private constructor(prefix: string, dashboardChild?: Component) {
+	private constructor(prefix: string, dashboard?: Component) {
 		this.#prefix = prefix;
-		this.#dashboardChildren = dashboardChild;
+		this.#dashboard = dashboard;
 	}
 
 	/**
@@ -117,7 +117,7 @@ export class current implements Pages {
 	 */
 	routes(): ReturnType<Pages['routes']> {
 		return [
-			{ path: `${this.#prefix}/dashboard`, component: () => <Dashboard>{this.#dashboardChildren!({})}</Dashboard> },
+			{ path: `${this.#prefix}/dashboard`, component: () => <Dashboard>{this.#dashboard!({})}</Dashboard> },
 			{ path: `${this.#prefix}/profile`, component: current.Profile },
 			{ path: `${this.#prefix}/settings`, component: Settings },
 			{ path: `${this.#prefix}/securitylogs`, component: SecurityLogs },

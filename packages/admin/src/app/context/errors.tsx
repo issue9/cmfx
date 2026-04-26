@@ -84,7 +84,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
-							<RetryButton retry={err.headers?.get('Retry-After')} />
+							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result.Root>
 				);
@@ -101,7 +101,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
-							<RetryButton retry={err.headers?.get('Retry-After')} />
+							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result.Root>
 				);
@@ -117,7 +117,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
-							<RetryButton retry={err.headers?.get('Retry-After')} />
+							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result.Root>
 				);
@@ -131,7 +131,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
-							<RetryButton retry={err.headers?.get('Retry-After')} />
+							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result.Root>
 				);
@@ -146,7 +146,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
-							<RetryButton retry={err.headers?.get('Retry-After')} />
+							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result.Root>
 				);
@@ -164,7 +164,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" onclick={() => window.location.reload()}>
 								{l.t('_c.refresh')}
 							</Button.Root>
-							<RetryButton retry={err.headers?.get('Retry-After')} />
+							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result.Root>
 				);
@@ -179,7 +179,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 							<Button.Root palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
 							</Button.Root>
-							<RetryButton retry={err.headers?.get('Retry-After')} />
+							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result.Root>
 				);
@@ -197,9 +197,12 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 }
 
 /**
- * 根据 Retry-After 头部信息显示重试按钮
+ * 刷新按钮
+ *
+ * @remarks
+ * 如果存在 Retry-After 头部信息显示重试按钮
  */
-function RetryButton(props: { retry?: string | null }): JSX.Element {
+function RefreshButton(props: { retry?: string | null }): JSX.Element {
 	const l = useLocale();
 
 	if (!props.retry) {

@@ -14,7 +14,7 @@ import IconRecord from '~icons/material-symbols/record-voice-over';
 import { handleProblem, useREST } from '@admin/app';
 import styles from './style.module.css';
 
-export function MemStatistic(): JSX.Element {
+export function Statistic(): JSX.Element {
 	const [s, setStatistic] = createSignal<Statistic>({
 		online: 0,
 		active: 0,

@@ -99,7 +99,7 @@ function LoginBox(props: Props): JSX.Element {
 						{item => (
 							<Switch fallback={<p innerHTML={item.title} />}>
 								<Match when={item.link}>
-									<a href={item.link}>{item.title}</a>
+									<a href={item.link} innerHTML={item.title} />
 								</Match>
 							</Switch>
 						)}
