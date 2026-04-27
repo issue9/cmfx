@@ -62,6 +62,7 @@ interface Options<T extends Flattenable, R = never, PE = never> {
 	 *
 	 * @remarks
 	 * 如果为空，{@link API#load} 将无实际用处。
+	 * 加载的数据将作为 {@link API} 的默认数据；
 	 */
 	readonly load?: () => Promise<Return<T, PE>>;
 }
@@ -85,6 +86,7 @@ export class API<T extends Flattenable, R = never, P = never> extends ObjectAcce
 
 	constructor(options: Options<T, R, P>) {
 		super(options.initValue, options.validator, options.validOnChange);
+		this.#load = options.load;
 		this.#onProblem = options.onProblem;
 		this.#submit = options.submit;
 		this.#onSuccess = options.onSuccess;
@@ -121,6 +123,7 @@ export class API<T extends Flattenable, R = never, P = never> extends ObjectAcce
 			if (ret.ok) {
 				if (ret.body) {
 					this.setValue(ret.body);
+					this.setPreset(ret.body);
 				}
 			} else {
 				if (this.#onProblem) {

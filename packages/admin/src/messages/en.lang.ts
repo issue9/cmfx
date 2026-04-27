@@ -152,6 +152,18 @@ const messages = {
 			srvDeps: 'Server dependencies',
 			devDeps: 'Development dependencies',
 			prodDeps: 'Production dependencies',
+
+			settings: {
+				settings: 'Settings',
+				general: 'General',
+				audit: 'Audit',
+				name: 'Name',
+				shortName: 'Short name',
+				description: 'Description',
+				logo: 'Logo',
+				keywords: 'Keywords',
+				urlBlacklist: 'URL blacklist',
+			},
 		},
 		admin: {
 			admin: 'Administrator',

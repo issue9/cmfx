@@ -1,0 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../../../style.css";
+
+@layer components {
+	.tab {
+		@apply mx-auto;
+	}
+
+	.tabpanel {
+		@apply p-2 w-150;
+
+		.actions {
+			@apply flex justify-between gap-2;
+		}
+	}
+}

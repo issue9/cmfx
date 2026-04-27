@@ -154,6 +154,18 @@ const messages: typeof m = {
 			srvDeps: '服务端环境依赖',
 			devDeps: '开发环境依赖',
 			prodDeps: '生产环境依赖',
+
+			settings: {
+				settings: '设置',
+				general: '普通',
+				audit: '审核',
+				name: '网站名称',
+				shortName: '网站短名称',
+				description: '描述信息',
+				logo: 'LOGO',
+				keywords: '关键字',
+				urlBlacklist: '地址黑名单',
+			},
 		},
 		admin: {
 			admin: '管理员',
