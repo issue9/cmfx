@@ -35,5 +35,5 @@ func (g *generalSettings) Filter(f *web.FilterContext) {
 	f.Add(filters.NotEmpty("name", &g.Name)).
 		Add(filters.NotEmpty("shortName", &g.ShortName)).
 		Add(filters.NotEmpty("description", &g.Description)).
-		Add(filters.URL("url", &g.LOGO))
+		Add(filters.URL("logo", &g.LOGO))
 }

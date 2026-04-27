@@ -41,6 +41,9 @@ http:
         maxAge: 3600
         origins: ["*"]
         allowHeaders: ["*"]
+    certificates:
+        - key: ../ssl/key.pem
+          cert: ../ssl/cert.pem
 
 logs:
     created: "15:04:05.000"
