@@ -11,6 +11,10 @@
 		@apply flex flex-wrap flex-row! gap-5 justify-between content-center box-border @container/info;
 		@apply max-w-4xl!;
 
+		.tabs {
+			@apply m-auto mb-4 grow-0 border border-palette-border;
+		}
+
 		.panel {
 			@apply flex flex-col border border-palette-border p-2 rounded-md grow;
 

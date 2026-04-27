@@ -254,6 +254,18 @@ export class ObjectAccessor<T extends Flattenable> {
 		const changes: Array<ChangeFunc<FT>> = [];
 		const path = name.split('.');
 
+		const getValue = (): FT => {
+			if (path.length === 1) {
+				return parent.#valGetter[name] as FT;
+			}
+
+			const v = path.reduce<FT | T>((acc, key) => {
+				return key && acc ? ((acc as T)[key] as FT) : acc;
+			}, parent.#valGetter);
+
+			return (v ?? '') as FT;
+		};
+
 		const a: Accessor<FT, K> = {
 			kind(): K | undefined {
 				return kind;
@@ -277,19 +289,11 @@ export class ObjectAccessor<T extends Flattenable> {
 			},
 
 			getValue(): FT {
-				if (path.length === 1) {
-					return parent.#valGetter[name] as FT;
-				}
-
-				const v = path.reduce<FT | T>((acc, key) => {
-					return key && acc ? ((acc as T)[key] as FT) : acc;
-				}, parent.#valGetter);
-
-				return (v ?? '') as FT;
+				return getValue();
 			},
 
 			setValue(val: FT) {
-				const old = untrack(this.getValue);
+				const old = untrack(getValue);
 				if (old !== val) {
 					changes.forEach(f => {
 						f(val, old);

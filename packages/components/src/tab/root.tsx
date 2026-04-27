@@ -7,6 +7,7 @@ import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
 
 import { joinClass, type Layout } from '@components/base';
+import { Button } from '@components/button';
 import styles from './style.module.css';
 import type { Item, Props } from './types';
 
@@ -31,8 +32,8 @@ export function Root(props: Props) {
 		setVal(() => v);
 	};
 
+	// 监视 props.value 的变化
 	createEffect(() => {
-		// 监视 props.value 的变化
 		const v = props.value;
 		const old = untrack(val);
 		if (old === v) {
@@ -63,9 +64,7 @@ export function Root(props: Props) {
 		});
 
 		observer.observe(tabsRef);
-		onCleanup(() => {
-			observer.disconnect();
-		});
+		onCleanup(() => observer.disconnect());
 	});
 
 	// 组件根元素的 css
@@ -121,59 +120,43 @@ export function Root(props: Props) {
 				rootRef = el;
 				if (props.ref) {
 					props.ref({
-						root() {
-							return el;
-						},
-						switch(id: Item['id']) {
-							click(id);
-						},
-						scroll(delta: number) {
-							scroll(new MouseEvent('click'), delta);
-						},
+						root: () => el,
+						switch: (id: Item['id']) => click(id),
+						scroll: (delta: number) => scroll(new MouseEvent('click'), delta),
 					});
 				}
 			}}
 		>
-			<div
-				ref={el => (tabsRef = el)}
-				class={joinClass(undefined, styles.tabs, props.children ? styles['has-panel'] : '')}
-			>
+			<div ref={el => (tabsRef = el)} class={joinClass(undefined, styles.tabs, props.tabsClass)}>
 				<Show when={isOverflow()}>
-					<button type="button" class={styles.prev} onclick={e => scroll(e, -40)}>
+					<Button.Root kind="flat" class={styles.prev} onclick={e => scroll(e, -40)}>
 						<IconPrev class={layout === 'vertical' ? 'rotate-90' : undefined} />
-					</button>
+					</Button.Root>
 				</Show>
 
-				<div
-					ref={el => {
-						scrollerRef = el;
-					}}
-					class={styles.scroller}
-					onwheel={wheel}
-				>
+				<div ref={el => (scrollerRef = el)} class={styles.scroller} onwheel={wheel}>
 					<div>
 						<For each={props.items}>
 							{item => (
-								<button
-									type="button"
-									role="tab"
+								<Button.Root
+									kind="flat"
+									ref={el => (el.root().role = 'tab')}
 									aria-selected={val() === item.id}
 									disabled={item.disabled}
-									class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
-									onClick={() => {
-										click(item.id);
-									}}
+									checked={val() === item.id}
+									class={styles.item}
+									onclick={() => click(item.id)}
 								>
 									{item.label}
-								</button>
+								</Button.Root>
 							)}
 						</For>
 					</div>
 				</div>
 				<Show when={isOverflow()}>
-					<button type="button" class={styles.next} onclick={e => scroll(e, 40)}>
+					<Button.Root kind="flat" class={styles.next} onclick={e => scroll(e, 40)}>
 						<IconNext class={layout === 'vertical' ? 'rotate-90' : undefined} />
-					</button>
+					</Button.Root>
 				</Show>
 			</div>
 

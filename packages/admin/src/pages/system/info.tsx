@@ -280,7 +280,7 @@ export function Info(): JSX.Element {
 				</Label.Root>
 				<Tab.Root
 					onChange={changeTab}
-					class="m-auto mb-4 grow-0"
+					class={styles.tabs}
 					items={[
 						{ id: 'cpu', label: `${l.t('_c.cpu')} (%)` },
 						{ id: 'memory', label: `${l.t('_c.memory')} (MB)` },

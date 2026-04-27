@@ -60,6 +60,13 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	value?: Item['id'];
 
 	/**
+	 * 标签列表的样式
+	 *
+	 * @reactive
+	 */
+	tabsClass?: string;
+
+	/**
 	 * 应用在标签面板上的样式
 	 *
 	 * @reactive

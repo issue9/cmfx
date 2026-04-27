@@ -11,7 +11,8 @@
 		@apply w-full!;
 
 		.panel {
-			@apply mt-2 p-2 gap-1 h-50 overflow-y-auto;
+			@apply p-2 gap-1 h-50 overflow-y-auto;
+			@apply border-t border-t-palette-border;
 			@apply grid content-start;
 			grid-template-columns: repeat(auto-fill, minmax(--spacing(50), 1fr));
 

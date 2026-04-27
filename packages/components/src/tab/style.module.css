@@ -8,16 +8,14 @@
 
 @layer components {
 	.tab {
-		@apply flex flex-col border border-palette-border rounded-lg overflow-clip text-palette-fg bg-palette-bg;
+		@apply flex flex-col rounded-lg overflow-clip text-palette-fg bg-palette-bg;
 
 		> .tabs {
 			@apply flex gap-0;
 
-			> button.prev,
-			> button.next {
-				@apply cursor-pointer flex justify-center items-center shrink-0;
-				@apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
-				@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+			> .prev,
+			> .next {
+				@apply cursor-pointer;
 			}
 
 			> .scroller {
@@ -37,16 +35,8 @@
 						@apply focus:bg-palette-bg-focused focus:text-palette-fg-focused;
 						@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
 					}
-
-					.item.select {
-						@apply bg-palette-bg-high text-palette-fg-high;
-					}
 				}
 			}
-		}
-
-		> .tabs.has-panel {
-			@apply border-b border-b-palette-border;
 		}
 	}
 
@@ -56,17 +46,9 @@
 		> .tabs {
 			@apply max-w-fit w-full;
 
-			> button.prev,
-			> button.next {
-				@apply flex justify-center w-4;
-			}
-
-			> button.prev {
-				@apply border-e border-e-palette-border;
-			}
-
-			> button.next {
-				@apply border-s border-s-palette-border;
+			> .prev,
+			> .next {
+				@apply w-4 px-0;
 			}
 
 			> .scroller {
@@ -74,10 +56,6 @@
 
 				> div {
 					@apply flex w-fit;
-
-					.item:not(:last-child) {
-						@apply border-e border-e-palette-border;
-					}
 				}
 			}
 		}
@@ -91,17 +69,9 @@
 		> .tabs {
 			@apply flex-col h-full max-h-fit;
 
-			> button.prev,
-			> button.next {
-				@apply flex justify-center h-4;
-			}
-
-			> button.prev {
-				@apply border-b border-b-palette-border;
-			}
-
-			> button.next {
-				@apply border-t border-t-palette-border;
+			> .prev,
+			> .next {
+				@apply h-4 py-0;
 			}
 
 			> .scroller {
@@ -113,16 +83,8 @@
 					.item {
 						@apply text-start;
 					}
-
-					.item:not(:last-child) {
-						@apply border-b border-b-palette-border;
-					}
 				}
 			}
-		}
-
-		> .tabs.has-panel {
-			@apply border-e border-e-palette-border;
 		}
 	}
 }

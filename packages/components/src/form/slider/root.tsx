@@ -150,9 +150,7 @@ export function Root(props: Props): JSX.Element {
 			title={props.title}
 			palette={props.palette}
 			style={props.style}
-			ref={el => {
-				rootRef = el;
-			}}
+			ref={el => (rootRef = el)}
 		>
 			<Show when={areas().labelArea}>
 				{area => (
