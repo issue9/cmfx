@@ -411,3 +411,45 @@ export class ObjectAccessor<T extends Flattenable> {
 		this.#checkPreset();
 	}
 }
+
+export function string2ArrayAccessor<K extends string = string>(
+	key: string,
+	v: Accessor<string>,
+	kind?: K,
+): Accessor<Array<string>, K> {
+	return {
+		kind: () => kind,
+		name: () => v.name(),
+		reset: () => v.reset(),
+		getError: () => v.getError(),
+		setError: (err?: string) => v.setError(err),
+
+		getValue: () => v.getValue().split(key),
+		setValue: vv => v.setValue(vv.join(key)),
+
+		onChange(change) {
+			v.onChange(val => change(val.split(key)));
+		},
+	};
+}
+
+export function array2StringAccessor<K extends string = string>(
+	key: string,
+	v: Accessor<Array<string>>,
+	kind?: K,
+): Accessor<string, K> {
+	return {
+		kind: () => kind,
+		name: () => v.name(),
+		reset: () => v.reset(),
+		getError: () => v.getError(),
+		setError: (err?: string) => v.setError(err),
+
+		getValue: () => v.getValue().join(key),
+		setValue: vv => v.setValue(vv.split(key)),
+
+		onChange(change) {
+			v.onChange(val => change(val.join(key)));
+		},
+	};
+}

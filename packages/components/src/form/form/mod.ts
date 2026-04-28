@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 export type { Accessor } from './access';
-export { fieldAccessor, ObjectAccessor } from './access';
+export { array2StringAccessor, fieldAccessor, ObjectAccessor, string2ArrayAccessor } from './access';
 export { API } from './api';
 export type { Context } from './context';
 export { Provider, useForm } from './context';
