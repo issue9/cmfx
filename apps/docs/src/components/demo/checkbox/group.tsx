@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, CheckboxGroup, Form1, type MountProps } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { CheckboxGroup, Form, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, labelAlignSelector, layoutSelector } from '@docs/components/base';
+import { boolSelector, layoutSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
@@ -15,10 +15,9 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Block, block] = boolSelector('_d.demo.block');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
-	const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
-	const groupFA = Form1.fieldAccessor('checkbox', ['1']);
-	const groupOptions: Form1.FieldOptions<string> = [
+	const [group, setGroup] = createSignal('');
+	const groupOptions: CheckboxGroup.Options = [
 		{ value: '1', label: <div>abc</div> },
 		{ value: '2', label: <div style="color:red">red</div> },
 		{
@@ -44,31 +43,30 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 				<Layout />
 				<ItemLayout />
-				<LabelAlign />
-
-				<Button.Root palette="primary" onclick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>
-					toggle error
-				</Button.Root>
 			</Portal>
 
 			<div>
-				<CheckboxGroup.Root
-					hasHelp
-					help="help text"
-					layout={layout()}
-					itemLayout={itemLayout()}
-					rounded={rounded()}
-					block={block()}
-					disabled={disabled()}
-					readonly={readonly()}
-					label="group"
-					palette="primary"
-					options={groupOptions}
-					accessor={groupFA}
-					labelAlign={labelAlign()}
-					labelWidth="100px"
-				/>
-				<pre>{groupFA.getValue().toString()}</pre>
+				<Form.Root api={new Form.API({ initValue: { a: ['1'] } })}>
+					<Form.Field
+						palette="primary"
+						label="group"
+						layout={layout()}
+						help="help text"
+						rounded={rounded()}
+						disabled={disabled()}
+						readonly={readonly()}
+						name="a"
+					>
+						<CheckboxGroup.Root
+							itemLayout={itemLayout()}
+							block={block()}
+							options={groupOptions}
+							value={['1']}
+							onChange={(n, o) => setGroup(`new:${n}, old:${o}`)}
+						/>
+					</Form.Field>
+				</Form.Root>
+				<pre>{group()}</pre>
 			</div>
 		</div>
 	);

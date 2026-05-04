@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { CheckboxGroup, Form, type Form1, type MountProps } from '@cmfx/components';
+import { CheckboxGroup, Form, type MountProps } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector } from '@docs/components/base';
+import { boolSelector, labelAlignSelector, layoutSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
@@ -15,9 +15,10 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Block, block] = boolSelector('_d.demo.block');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+	const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
 	const [group, setGroup] = createSignal('');
-	const groupOptions: Form1.FieldOptions = [
+	const groupOptions: CheckboxGroup.Options<string> = [
 		{ value: '1', label: <div>abc</div> },
 		{ value: '2', label: <div style="color:red">red</div> },
 		{
@@ -43,6 +44,7 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 				<Layout />
 				<ItemLayout />
+				<LabelAlign />
 			</Portal>
 
 			<div>
@@ -55,7 +57,9 @@ export default function (props: MountProps): JSX.Element {
 						rounded={rounded()}
 						disabled={disabled()}
 						readonly={readonly()}
-						field="a"
+						labelAlign={labelAlign()}
+						labelWidth="100px"
+						name="a"
 					>
 						<CheckboxGroup.Root
 							itemLayout={itemLayout()}

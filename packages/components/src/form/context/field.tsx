@@ -11,6 +11,7 @@ import type { API } from '@components/form/api';
 export interface FieldContext<T> {
 	id(): string;
 	name(): string;
+	tabindex(): number | undefined;
 
 	reset(): void;
 
@@ -51,6 +52,7 @@ export function buildFieldContext<T extends Flattenable, R = never, P = never>(
 	id: string,
 	name: FlattenKeys<T>,
 	api: API<T, R, P>,
+	tabindex?: number,
 ): FieldContext<Flatten<T>[FlattenKeys<T>]> {
 	const access = api.createFieldAccessor<Flatten<T>[FlattenKeys<T>]>(name);
 	const extra = createSignal<JSX.Element>();
@@ -58,6 +60,7 @@ export function buildFieldContext<T extends Flattenable, R = never, P = never>(
 	return {
 		id: () => id,
 		name: () => name,
+		tabindex: () => tabindex,
 
 		reset: () => access.reset(),
 
@@ -75,7 +78,7 @@ export function buildFieldContext<T extends Flattenable, R = never, P = never>(
 /**
  * 将 val 包装成 {@link FieldContext} 对象
  */
-export function buildFakeFieldContext<T>(val: T): FieldContext<T> {
+export function buildFakeFieldContext<T>(val: T, tabindex?: number): FieldContext<T> {
 	const preset = structuredClone(val);
 	const [v, sv] = createSignal<T>(val);
 	const id = createUniqueId();
@@ -83,6 +86,7 @@ export function buildFakeFieldContext<T>(val: T): FieldContext<T> {
 	return {
 		id: () => id,
 		name: () => id,
+		tabindex: () => tabindex,
 
 		reset: () => sv(() => preset),
 

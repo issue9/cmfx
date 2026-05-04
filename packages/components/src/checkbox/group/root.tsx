@@ -4,16 +4,73 @@
 
 import { createMemo, For, type JSX, mergeProps, splitProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
+import { Checkbox } from '@components/checkbox/checkbox';
 import { Form } from '@components/form';
-import { Checkbox } from '@components/form1/checkbox/checkbox';
-import type { Form1 } from '@components/form1/form';
+import type { Options } from './options';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
-export interface Props<T extends AvailableEnumType = string> extends Form1.FieldBaseProps, RefProps<Ref> {
+export interface Props<T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
+	/**
+	 * 禁用组件
+	 *
+	 * @reactive
+	 */
+	disabled?: boolean;
+
+	/**
+	 * 只读属性
+	 *
+	 * @reactive
+	 */
+	readonly?: boolean;
+
+	/**
+	 * 表单组件的 layout 属性的默认值
+	 *
+	 * @remarks 同时也影响整个 Form 组件的布局。
+	 * @reactive
+	 * @defaultValue 'horizontal'
+	 */
+	layout?: Layout;
+
+	/**
+	 * 表单组件的 rounded 属性的默认值
+	 *
+	 * @reactive
+	 */
+	rounded?: boolean;
+
+	/**
+	 * 表单组件中 label 宽度的默认值
+	 *
+	 * @reactive
+	 */
+	labelWidth?: string;
+
+	/**
+	 * 表单组件中 label 的对齐方式
+	 *
+	 * @remarks
+	 * 只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的 {@link labelWidth}。
+	 *
+	 * @reactive
+	 * @defaultValue layout === 'horizontal' ? 'end' : 'start'
+	 */
+	labelAlign?: Form.LabelAlignment;
+
+	tabindex?: number;
+
+	label?: JSX.Element;
+
+	/**
+	 * 提示信息
+	 */
+	help?: JSX.Element;
+
 	/**
 	 * 值
 	 *
@@ -42,7 +99,7 @@ export interface Props<T extends AvailableEnumType = string> extends Form1.Field
 	 *
 	 * @reactive
 	 */
-	options: Form1.FieldOptions<T>;
+	options: Options<T>;
 }
 
 export function Root<T extends string | number>(props: Props<T>): JSX.Element {
@@ -76,7 +133,7 @@ export function Root<T extends string | number>(props: Props<T>): JSX.Element {
 					<Checkbox.Root
 						{...chkProps}
 						label={item.label}
-						rounded={props.rounded}
+						tabindex={field.tabindex()}
 						checked={!!field.getValue()?.find(v => v === item.value)}
 						onChange={v => {
 							const oldVal = field.getValue();

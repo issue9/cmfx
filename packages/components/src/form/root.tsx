@@ -76,7 +76,7 @@ export function Root<T extends Flattenable, R = never, P = never>(props: Props<T
 			readonly={props.readonly}
 			labelAlign={props.labelAlign}
 			labelWidth={props.labelWidth}
-			createField={(id, key) => buildFieldContext<T, R, P>(id, key, api)}
+			createField={(id, key, tabindex) => buildFieldContext<T, R, P>(id, key, api, tabindex)}
 			id={id}
 		>
 			<Spin.Root

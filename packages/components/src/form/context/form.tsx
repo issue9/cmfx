@@ -20,7 +20,7 @@ export type FormContext<T extends Flattenable> = CommonProps & {
 	 * @param id 字段的唯一标识；
 	 * @param key 字段名，如果是子属性，需要用 . 进行分隔，比如 parent.child；
 	 */
-	createField: (id: string, key: FlattenKeys<T>) => FieldContext<Flatten<T>[FlattenKeys<T>]>;
+	createField: (id: string, key: FlattenKeys<T>, tabindex?: number) => FieldContext<Flatten<T>[FlattenKeys<T>]>;
 };
 
 // biome-ignore lint/complexity/noBannedTypes: 顶层元素是空的对象

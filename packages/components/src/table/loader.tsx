@@ -16,10 +16,11 @@ import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import type { Palette, RefProps } from '@components/base';
 import { Button, PrintButton, SplitButton, ToggleButton } from '@components/button';
+import { Checkbox } from '@components/checkbox';
 import { useLocale, useOptions } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
-import { Checkbox, Form1, Radio } from '@components/form1';
+import { Form1, Radio } from '@components/form1';
 import { Label } from '@components/label';
 import { Dropdown } from '@components/menu';
 import { PaginationBar } from '@components/pagination';

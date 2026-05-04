@@ -16,10 +16,12 @@ export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProp
 
 	help?: JSX.Element;
 
+	tabindex?: number;
+
 	/**
 	 * 字段名
 	 */
-	field: FlattenKeys<T>;
+	name: FlattenKeys<T>;
 }
 
 export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element {
@@ -51,7 +53,7 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 
 	const areas = createMemo(() => calcAreas(props.layout!));
 
-	const ctx = f.createField(id, props.field);
+	const ctx = f.createField(id, props.name, props.tabindex);
 
 	return (
 		<div class={joinClass(props.palette, styles.field, props.class)} style={props.style}>
