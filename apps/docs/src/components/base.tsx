@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Layout, Palette } from '@cmfx/components';
-import { Button, Checkbox, Choice, Form, layouts, palettes, useLocale } from '@cmfx/components';
+import { Button, Checkbox, Choice, Form1, layouts, palettes, useLocale } from '@cmfx/components';
 import type { DictKeys, PopoverPosition } from '@cmfx/core';
 import { type Accessor, type Component, createSignal, createUniqueId, type Setter } from 'solid-js';
 
@@ -14,8 +14,8 @@ export function posSelector(preset?: PopoverPosition) {
 	return arraySelector('_d.demo.tooltipPos', ['left', 'right', 'top', 'bottom'], preset ?? 'left');
 }
 
-export function labelAlignSelector(preset: Form.LabelAlignment) {
-	return arraySelector('_d.demo.labelAlign', Form.labelAlignments, preset);
+export function labelAlignSelector(preset: Form1.LabelAlignment) {
+	return arraySelector('_d.demo.labelAlign', Form1.labelAlignments, preset);
 }
 
 /**
@@ -130,7 +130,7 @@ export function arraySelector<T extends string | number>(
 				closable
 				layout="horizontal"
 				placeholder={l.t(label)}
-				accessor={Form.fieldAccessor(name, signal)}
+				accessor={Form1.fieldAccessor(name, signal)}
 				options={options}
 			/>
 		);
@@ -189,7 +189,7 @@ export function arrayMultipleSelector<T extends string | number>(
 				multiple
 				layout="horizontal"
 				placeholder={l.t(label)}
-				accessor={Form.fieldAccessor(name, signal)}
+				accessor={Form1.fieldAccessor(name, signal)}
 				options={options}
 			/>
 		);

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, Avatar, Button, Divider, Form, Page, Table, TextField, Upload, useLocale } from '@cmfx/components';
+import { Album, Avatar, Button, Divider, Form1, Page, Table, TextField, Upload, useLocale } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
@@ -31,7 +31,7 @@ export function Profile(props: Props): JSX.Element {
 	const l = useLocale();
 	let uploadRef: Upload.RootRef;
 
-	const api = new Form.API({
+	const api = new Form1.API({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
 		onProblem: async p => handleProblem(p),
 		submit: async obj => {
@@ -58,7 +58,7 @@ export function Profile(props: Props): JSX.Element {
 		const nameA = api.accessor('name');
 		const nicknameA = api.accessor('nickname');
 		const sexA = api.accessor('sex');
-		const passportA = Form.fieldAccessor('passports', info.passports);
+		const passportA = Form1.fieldAccessor('passports', info.passports);
 
 		nameA.setValue(info.name!);
 		nicknameA.setValue(info.nickname!);
@@ -146,20 +146,20 @@ export function Profile(props: Props): JSX.Element {
 
 			<Divider.Root padding="4px" />
 
-			<Form.Root class={styles.form} api={api}>
+			<Form1.Root class={styles.form} api={api}>
 				<TextField.Root class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
 				<TextField.Root class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
 				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={api.accessor<Sex>('sex')} />
 
 				<div class={styles.actions}>
-					<Form.Reset palette="secondary" disabled={api.isPreset()}>
+					<Form1.Reset palette="secondary" disabled={api.isPreset()}>
 						{l.t('_c.reset')}
-					</Form.Reset>
-					<Form.Submit palette="primary" disabled={api.isPreset()}>
+					</Form1.Reset>
+					<Form1.Submit palette="primary" disabled={api.isPreset()}>
 						{l.t('_p.save')}
-					</Form.Submit>
+					</Form1.Submit>
 				</div>
-			</Form.Root>
+			</Form1.Root>
 
 			<Divider.Root padding="8px">{l.t('_p.admin.passport')}</Divider.Root>
 

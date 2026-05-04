@@ -10,7 +10,7 @@ import {
 	ButtonGroup,
 	Card,
 	DatePanel,
-	Form,
+	Form1,
 	joinClass,
 	Menu,
 	Password,
@@ -44,12 +44,12 @@ const contrasts: ReadonlyMap<Contrast, Record<string, string>> = new Map([
 /**
  * 组件演示
  */
-export function Demo(props: { s: Form.ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
+export function Demo(props: { s: Form1.ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
 	const l = useLocale();
 
 	const [contrast, setContrast] = createSignal<Contrast>('none');
 	const [typ, setTyp] = createSignal<'components' | 'palettes'>('components');
-	const mode = Form.fieldAccessor<Mode>('mode', 'light');
+	const mode = Form1.fieldAccessor<Mode>('mode', 'light');
 
 	// NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
 	// 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
@@ -148,7 +148,7 @@ export function Demo(props: { s: Form.ObjectAccessor<ExpandType<Scheme>> }): JSX
 	);
 }
 
-function Palettes(props: { s: Form.ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
+function Palettes(props: { s: Form1.ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
 	return (
 		<div class={styles.palettes}>
 			<For each={palettes}>{p => <PaletteBlocks p={p} s={props.s} c={props.c} />}</For>
@@ -156,7 +156,7 @@ function Palettes(props: { s: Form.ObjectAccessor<ExpandType<Scheme>>; c: Contra
 	);
 }
 
-function PaletteBlocks(props: { p: Palette; s: Form.ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
+function PaletteBlocks(props: { p: Palette; s: Form1.ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
 	const raw = props.s.getValue();
 
 	let baseRef: HTMLDivElement;
@@ -289,7 +289,7 @@ function Components(): JSX.Element {
 		},
 	];
 
-	const api = new Form.API({
+	const api = new Form1.API({
 		initValue: {
 			username: '',
 			password: '',
@@ -313,10 +313,10 @@ function Components(): JSX.Element {
 					</>
 				}
 			>
-				<Form.Root layout="vertical" api={api}>
+				<Form1.Root layout="vertical" api={api}>
 					<TextField.Root accessor={api.accessor<string>('username')} label="用户名" placeholder="请输入用户名" />
 					<Password.Root accessor={api.accessor<string>('password')} label="密码" placeholder="请输入密码" />
-				</Form.Root>
+				</Form1.Root>
 			</Card.Root>
 
 			<Menu.Root

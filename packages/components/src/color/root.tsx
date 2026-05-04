@@ -11,7 +11,7 @@ import { type BaseProps, type BaseRef, joinClass, PropsError, type RefProps } fr
 import { Button } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
 import { useLocale } from '@components/context';
-import { Choice, Form } from '@components/form';
+import { Choice, Form1 } from '@components/form1';
 import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 import { wcag } from './wcag';
@@ -76,7 +76,7 @@ export function Root(props: Props): JSX.Element {
 
 	const l = useLocale();
 
-	const idFA = Form.fieldAccessor('id', props.pickers[0].id);
+	const idFA = Form1.fieldAccessor('id', props.pickers[0].id);
 	const choiceOptions: Array<Choice.Option> = props.pickers.map(space => ({
 		type: 'item',
 		value: space.id,

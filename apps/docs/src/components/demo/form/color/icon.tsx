@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ColorPanel, ColorPicker, Form, type MountProps } from '@cmfx/components';
+import { ColorPanel, ColorPicker, Form1, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconPerson from '~icons/material-symbols/person';
@@ -16,7 +16,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
-	const color = Form.fieldAccessor('color', 'oklch(1% 0.3 100)');
+	const color = Form1.fieldAccessor('color', 'oklch(1% 0.3 100)');
 
 	return (
 		<>

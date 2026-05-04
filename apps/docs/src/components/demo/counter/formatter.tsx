@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Counter, Form, type MountProps, Numeric } from '@cmfx/components';
+import { Button, Counter, Form1, type MountProps, Numeric } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -11,7 +11,7 @@ import { paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	let ref: Counter.RootRef;
-	const fa = Form.fieldAccessor('freq', 20);
+	const fa = Form1.fieldAccessor('freq', 20);
 
 	return (
 		<div>

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, CheckboxGroup, Form, type MountProps } from '@cmfx/components';
+import { Button, CheckboxGroup, Form1, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -17,8 +17,8 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
-	const groupFA = Form.fieldAccessor('checkbox', ['1']);
-	const groupOptions: Form.FieldOptions<string> = [
+	const groupFA = Form1.fieldAccessor('checkbox', ['1']);
+	const groupOptions: Form1.FieldOptions<string> = [
 		{ value: '1', label: <div>abc</div> },
 		{ value: '2', label: <div style="color:red">red</div> },
 		{

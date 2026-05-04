@@ -25,6 +25,7 @@ export * from './dialog';
 export * from './divider';
 export * from './drawer';
 export * from './form';
+export * from './form1';
 export * from './formatter';
 export * from './icon';
 export * from './input';

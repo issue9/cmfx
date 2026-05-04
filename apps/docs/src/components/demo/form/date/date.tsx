@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker, Form, type MountProps, type Week, weeks } from '@cmfx/components';
+import { DatePicker,  Form1, type MountProps, type Week, weeks } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const dateFA = Form.fieldAccessor<Date | undefined, 'date'>('dp', new Date('2024-01-02T15:34'), 'date');
-	const numberFA = Form.fieldAccessor<number | undefined, 'number'>('dp', undefined, 'number');
+	const dateFA = Form1.fieldAccessor<Date | undefined, 'date'>('dp', new Date('2024-01-02T15:34'), 'date');
+	const numberFA = Form1.fieldAccessor<number | undefined, 'number'>('dp', undefined, 'number');
 
 	const min = new Date('2023-12-02T15:34');
 	const max = new Date('2025-12-02T15:34');

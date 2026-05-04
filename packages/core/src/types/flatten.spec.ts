@@ -136,3 +136,19 @@ type I4Key1 = I4ActualKeys extends I4ExpectedKeys ? true : false; // 应为 true
 type I4Key2 = I4ExpectedKeys extends I4ActualKeys ? true : false; // 应为 true
 assertType<I4Key1>(true);
 assertType<I4Key2>(true);
+
+// any
+
+type I5ExpectedKeys = 'a' | 'abc' | 'abc.def';
+// biome-ignore lint/suspicious/noExplicitAny: 测试用
+type I5ActualKeys = Keys<any>;
+type I5Key1 = I5ActualKeys extends I5ExpectedKeys ? true : false; // 应为 true
+assertType<I5Key1>(true);
+
+// {}
+
+type I6ExpectedKeys = 'a' | 'abc' | 'abc.def';
+// biome-ignore lint/complexity/noBannedTypes: 测试用
+type I6ActualKeys = Keys<{}>;
+type I6Key1 = I6ActualKeys extends I6ExpectedKeys ? true : false; // 应为 true
+assertType<I6Key1>(true);

@@ -23,7 +23,7 @@ import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Choice, Form, Numeric, RadioGroup, Slider } from '@components/form';
+import { Choice, Form1, Numeric, RadioGroup, Slider } from '@components/form1';
 import { Formatter } from '@components/formatter';
 import { Label } from '@components/label';
 import { SchemeSelector } from '@components/scheme';
@@ -101,22 +101,22 @@ export function Root(props: Props) {
 	const [accessor, origin] = useOptions();
 	const l = useLocale();
 
-	const fontSizeFA = Form.fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2), 10));
+	const fontSizeFA = Form1.fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2), 10));
 	fontSizeFA.onChange(v => accessor.setFontSize(`${v}px`));
 
-	const modeFA = Form.fieldAccessor<Mode>('mode', accessor.getMode());
+	const modeFA = Form1.fieldAccessor<Mode>('mode', accessor.getMode());
 	modeFA.onChange(m => accessor.setMode(m));
 
-	const localeFA = Form.fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
+	const localeFA = Form1.fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
 	localeFA.onChange(v => accessor.setLocale(v));
 
-	const unitFA = Form.fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
+	const unitFA = Form1.fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
 	unitFA.onChange(v => accessor.setDisplayStyle(v));
 
-	const staysFA = Form.fieldAccessor<number>('stays', accessor.getStays());
+	const staysFA = Form1.fieldAccessor<number>('stays', accessor.getStays());
 	staysFA.onChange(v => accessor.setStays(v));
 
-	const transitionDurationFA = Form.fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
+	const transitionDurationFA = Form1.fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
 	transitionDurationFA.onChange(v => accessor.setTransitionDuration(v));
 
 	return (

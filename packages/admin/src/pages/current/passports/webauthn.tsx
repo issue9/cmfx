@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, Dialog, Form, Label, RemoteTable, TextField, useLocale } from '@cmfx/components';
+import { Button, ConfirmButton, Dialog, Form1, Label, RemoteTable, TextField, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { type JSX, Show } from 'solid-js';
@@ -43,7 +43,7 @@ export class Webauthn implements PassportComponents {
 		const rest = useREST();
 		const l = useLocale();
 		const usr = useAdmin();
-		const account = Form.fieldAccessor('account', '');
+		const account = Form1.fieldAccessor('account', '');
 		const opt = useOptions();
 		const nav = useNavigate();
 
@@ -51,7 +51,7 @@ export class Webauthn implements PassportComponents {
 			account: usernameSchema.clone(),
 		});
 
-		const api = new Form.API<z.infer<typeof accountSchema>, Token>({
+		const api = new Form1.API<z.infer<typeof accountSchema>, Token>({
 			initValue: { account: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -103,7 +103,7 @@ export class Webauthn implements PassportComponents {
 		});
 
 		return (
-			<Form.Root class={styles.webauthn} api={api}>
+			<Form1.Root class={styles.webauthn} api={api}>
 				<TextField.Root
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
@@ -116,10 +116,10 @@ export class Webauthn implements PassportComponents {
 					placeholder={l.t('_p.current.username')}
 					accessor={account}
 				/>
-				<Form.Submit palette="secondary" disabled={account.getValue() === ''}>
+				<Form1.Submit palette="secondary" disabled={account.getValue() === ''}>
 					{l.t('_c.ok')}
-				</Form.Submit>
-			</Form.Root>
+				</Form1.Submit>
+			</Form1.Root>
 		);
 	}
 

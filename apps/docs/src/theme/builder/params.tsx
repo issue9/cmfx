@@ -10,7 +10,7 @@ import {
 	Dialog,
 	Divider,
 	Dropdown,
-	Form,
+	Form1,
 	joinClass,
 	Label,
 	Notify,
@@ -36,7 +36,7 @@ import { convertSchemeVar2Color } from './utils';
 /**
  * 参数面板
  */
-export function params(s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+export function params(s: Form1.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 	const l = useLocale();
 	const [act, opt] = useOptions();
 	let dlg: Dialog.RootRef;
@@ -106,7 +106,7 @@ export function params(s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element 
 /**
  * 生成随机参数
  */
-export function random(s: Form.ObjectAccessor<ExpandType<Scheme>>) {
+export function random(s: Form1.ObjectAccessor<ExpandType<Scheme>>) {
 	batch(() => {
 		let h = rand(0, 360, 2);
 		s.accessor<string>('error').setValue(fmtColor(1, 0.4, h));
@@ -132,7 +132,7 @@ export function random(s: Form.ObjectAccessor<ExpandType<Scheme>>) {
 }
 
 // 设置圆角孤度参数面板
-function radiusParams(l: Locale, s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+function radiusParams(l: Locale, s: Form1.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 	return (
 		<div class={styles.param}>
 			<Divider.Root>
@@ -151,7 +151,7 @@ function radiusParams(l: Locale, s: Form.ObjectAccessor<ExpandType<Scheme>>): JS
 // 可用的圆角值
 const radiusValues = [0, 0.25, 0.5, 1, 1.5, 2] as const;
 
-function radius(title: string, a: Form.Accessor<number>): JSX.Element {
+function radius(title: string, a: Form1.Accessor<number>): JSX.Element {
 	const radiusLabel = (radius: number): JSX.Element => {
 		return (
 			<div class={styles.btns}>
@@ -174,7 +174,7 @@ function radius(title: string, a: Form.Accessor<number>): JSX.Element {
 }
 
 // 颜色选择参数面板
-function colorsParams(l: Locale, s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+function colorsParams(l: Locale, s: Form1.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
 	return (
 		<div class={styles.param}>
 			<Divider.Root>
@@ -190,12 +190,12 @@ function colorsParams(l: Locale, s: Form.ObjectAccessor<ExpandType<Scheme>>): JS
 	);
 }
 
-function PalettePicker(props: { palette: Palette; schemes: Form.ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
+function PalettePicker(props: { palette: Palette; schemes: Form1.ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
 	let rangeRef: Slider.RootRef;
 	const schemesFA = props.schemes.accessor<string>(props.palette);
 
 	const c = new Color(props.schemes.getValue()[props.palette]);
-	const hueFA = Form.fieldAccessor<number>('hue', c.h!);
+	const hueFA = Form1.fieldAccessor<number>('hue', c.h!);
 	hueFA.onChange(v => {
 		const c = new Color(schemesFA.getValue());
 		schemesFA.setValue(fmtColor(c.l, c.c, v));
