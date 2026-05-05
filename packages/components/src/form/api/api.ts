@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Flatten, Flattenable, FlattenKeys, Params, Problem, Validator } from '@cmfx/core';
-import { flatten } from '@cmfx/core';
+import equal from 'fast-deep-equal';
 import { createSignal, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
@@ -28,7 +28,6 @@ export class API<T extends Flattenable, R = never, P = never> {
 	readonly #onSuccess?: Options<T, R, P>['onSuccess'];
 	readonly #spinning = createSignal<boolean>(false);
 
-	#flattenPreset: Flatten<T>; // 默认值的展开数据，方便检测是否为默认值
 	#preset: T; // 保存当前数据的默认值，用于在表单重置时恢复默认值
 	readonly #isPreset = createSignal(true);
 	readonly #value: StoreX<T>;
@@ -49,7 +48,6 @@ export class API<T extends Flattenable, R = never, P = never> {
 		this.#onSuccess = options.onSuccess;
 
 		// NOTE: 如果 options.initValue 是一个 createStore 创建的对象，无法复制其中的值作为默认值。
-		this.#flattenPreset = flatten(options.initValue);
 		this.#preset = options.initValue;
 		this.#value = createStore<T>(structuredClone(options.initValue)); // 复制对象，防止与默认对象冲突。
 
@@ -61,7 +59,6 @@ export class API<T extends Flattenable, R = never, P = never> {
 	 * 指定默认值
 	 */
 	setPreset(v: T) {
-		this.#flattenPreset = flatten(v);
 		this.#preset = v;
 		this.#checkPreset();
 	}
@@ -79,16 +76,8 @@ export class API<T extends Flattenable, R = never, P = never> {
 	 * 检测 #signal 中的值是否与默认值一致
 	 */
 	#checkPreset() {
-		const keys = Object.keys(this.#flattenPreset);
 		const vals = unwrap(this.#value[0]);
-
-		for (const k of keys) {
-			if (this.#flattenPreset[k] !== vals[k]) {
-				this.#isPreset[1](false);
-				return;
-			}
-		}
-		this.#isPreset[1](true);
+		this.#isPreset[1](equal(vals, this.#preset));
 	}
 
 	/**
@@ -176,7 +165,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 	 */
 	reset() {
 		this.setError();
-		this.#value[1](() => structuredClone(this.#preset));
+		this.#value[1](reconcile(structuredClone(this.#preset)));
 		this.#checkPreset();
 	}
 
@@ -230,7 +219,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 			parent.#checkPreset();
 		};
 
-		const a = {
+		return {
 			name(): string {
 				return name as string;
 			},
@@ -256,8 +245,6 @@ export class API<T extends Flattenable, R = never, P = never> {
 				setValue(parent.#preset[name] as FT);
 			},
 		};
-
-		return a;
 	}
 
 	/**

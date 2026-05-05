@@ -16,6 +16,12 @@ export interface FieldContext<T> {
 	reset(): void;
 
 	setError(err?: string): void;
+
+	/**
+	 * 获取当前字段的错误信息，如果没有错误则返回 undefined
+	 *
+	 * @returns 返回的是由 {@link createStore} 创建的对象属性，是一个可响应的属性。
+	 */
 	getError(): string | undefined;
 
 	getValue(): T;

@@ -29,8 +29,8 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 	// 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
 	// help 应该与 input 左对齐，而不是与 label 左对齐。
 
-	const f = useForm<T>();
-	if (!f) {
+	const form = useForm<T>();
+	if (!form) {
 		throw new ContextNotFoundError('formContext');
 	}
 
@@ -38,22 +38,22 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 	props = mergeProps(
 		{
 			layout: 'horizontal',
-			labelAlign: (f?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
+			labelAlign: (form?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
 		} as FieldProps<T>,
 		{
-			layout: f?.layout,
-			disabled: f?.disabled,
-			readonly: f?.readonly,
-			rounded: f?.rounded,
-			labelWidth: f?.labelWidth,
-			labelAlign: (f?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
+			layout: form?.layout,
+			disabled: form?.disabled,
+			readonly: form?.readonly,
+			rounded: form?.rounded,
+			labelWidth: form?.labelWidth,
+			labelAlign: (form?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
 		} as FieldProps<T>,
 		props,
 	);
 
 	const areas = createMemo(() => calcAreas(props.layout!));
 
-	const ctx = f.createField(id, props.name, props.tabindex);
+	const field = form.createField(id, props.name, props.tabindex);
 
 	return (
 		<div class={joinClass(props.palette, styles.field, props.class)} style={props.style}>
@@ -72,16 +72,16 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 			<p
 				style={area2Style(areas().help)}
 				role="alert"
-				class={joinClass(undefined, styles.help, ctx.getError() ? styles.error : '')}
+				class={joinClass(undefined, styles.help, field.getError() ? styles.error : '')}
 			>
-				{ctx.getError() ?? props.help}
+				{field.getError() ?? props.help}
 			</p>
 
 			<div style={area2Style(areas().input)}>
-				<FieldProvider ctx={ctx}>{props.children}</FieldProvider>
+				<FieldProvider ctx={field}>{props.children}</FieldProvider>
 			</div>
 
-			<div style={area2Style(areas().extra)}>{ctx.getExtra()}</div>
+			<div style={area2Style(areas().extra)}>{field.getExtra()}</div>
 		</div>
 	);
 }
