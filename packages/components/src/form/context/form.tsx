@@ -2,25 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
+import type { Flattenable } from '@cmfx/core';
 import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 
-import type { FieldContext } from './field';
+import type { API } from '@components/form/api';
 import type { CommonProps } from './types';
 
-export type FormContext<T extends Flattenable> = CommonProps & {
+export type FormContext<T extends Flattenable, R = never, P = never> = CommonProps & {
 	/**
 	 * 表单的 id 属性
 	 */
 	id?: string;
 
-	/**
-	 * 为子属性创建 FieldContext 实例
-	 *
-	 * @param id 字段的唯一标识；
-	 * @param key 字段名，如果是子属性，需要用 . 进行分隔，比如 parent.child；
-	 */
-	createField: (id: string, key: FlattenKeys<T>, tabindex?: number) => FieldContext<Flatten<T>[FlattenKeys<T>]>;
+	api: API<T, R, P>;
 };
 
 // biome-ignore lint/complexity/noBannedTypes: 顶层元素是空的对象
@@ -31,7 +25,9 @@ const formContext = createContext<TopFormContext>();
 /**
  * 表单的实现者需要调用此组件用于给表单的组件提供上下文环境。
  */
-export function FormProvider<T extends Flattenable>(props: ParentProps<FormContext<T>>): JSX.Element {
+export function FormProvider<T extends Flattenable, R = never, P = never>(
+	props: ParentProps<FormContext<T, R, P>>,
+): JSX.Element {
 	const [, val] = splitProps(props, ['children']);
 	return <formContext.Provider value={val as TopFormContext}>{props.children}</formContext.Provider>;
 }

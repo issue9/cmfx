@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Flattenable, FlattenKeys } from '@cmfx/core';
-import { createMemo, createUniqueId, type JSX, mergeProps, type ParentProps } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, type ParentProps } from 'solid-js';
 
 import { type BaseProps, joinClass } from '@components/base';
 import { ContextNotFoundError } from '@components/context';
@@ -14,9 +14,9 @@ import styles from './style.module.css';
 export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProps, ParentProps {
 	label?: JSX.Element;
 
-	help?: JSX.Element;
-
 	tabindex?: number;
+
+	help?: JSX.Element;
 
 	/**
 	 * 字段名
@@ -34,26 +34,20 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 		throw new ContextNotFoundError('formContext');
 	}
 
-	const id = createUniqueId();
 	props = mergeProps(
 		{
 			layout: 'horizontal',
 			labelAlign: (form?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
 		} as FieldProps<T>,
-		{
-			layout: form?.layout,
-			disabled: form?.disabled,
-			readonly: form?.readonly,
-			rounded: form?.rounded,
-			labelWidth: form?.labelWidth,
-			labelAlign: (form?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
-		} as FieldProps<T>,
+		form,
 		props,
 	);
 
 	const areas = createMemo(() => calcAreas(props.layout!));
 
-	const field = form.createField(id, props.name, props.tabindex);
+	const id = createUniqueId();
+	const field = form.api.createFieldAccessor(props.name);
+	const [extra, setExtra] = createSignal<JSX.Element>();
 
 	return (
 		<div class={joinClass(props.palette, styles.field, props.class)} style={props.style}>
@@ -78,10 +72,26 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 			</p>
 
 			<div style={area2Style(areas().input)}>
-				<FieldProvider ctx={field}>{props.children}</FieldProvider>
+				<FieldProvider
+					id={id}
+					name={field.name}
+					tabindex={props.tabindex}
+					rounded={props.rounded}
+					disabled={props.disabled}
+					readonly={props.readonly}
+					reset={field.reset}
+					getError={field.getError}
+					setError={field.setError}
+					getValue={field.getValue}
+					setValue={field.setValue}
+					getExtra={extra}
+					setExtra={setExtra}
+				>
+					{props.children}
+				</FieldProvider>
 			</div>
 
-			<div style={area2Style(areas().extra)}>{field.getExtra()}</div>
+			<div style={area2Style(areas().extra)}>{extra()}</div>
 		</div>
 	);
 }

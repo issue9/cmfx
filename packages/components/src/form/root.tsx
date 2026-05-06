@@ -4,19 +4,20 @@
 
 import type { Flattenable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
-import { createEffect, createSignal, createUniqueId, mergeProps, onMount } from 'solid-js';
+import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show } from 'solid-js';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
-import { useLocale } from '@components/context';
+import { Button as Btn } from '@components/button';
+import { ContextNotFoundError, useLocale } from '@components/context';
+import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
-import type { API } from './api';
-import { buildFieldContext, type FormContext, FormProvider } from './context';
+import { type FormContext, FormProvider, useForm } from './context';
 
 export type Ref = BaseRef<HTMLFormElement>;
 
 export interface Props<T extends Flattenable, R = never, P = never>
 	extends BaseProps,
-		Omit<FormContext<T>, 'createField'>,
+		FormContext<T, R, P>,
 		ParentProps,
 		RefProps<Ref> {
 	/**
@@ -28,11 +29,6 @@ export interface Props<T extends Flattenable, R = never, P = never>
 	 * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
 	 */
 	inDialog?: boolean;
-
-	/**
-	 * 指定操作表单的 api
-	 */
-	api: API<T, R, P>;
 }
 
 export function Root<T extends Flattenable, R = never, P = never>(props: Props<T, R, P>): JSX.Element {
@@ -69,14 +65,14 @@ export function Root<T extends Flattenable, R = never, P = never>(props: Props<T
 	const id = createUniqueId();
 
 	return (
-		<FormProvider<T>
+		<FormProvider<T, R, P>
 			layout={props.layout}
 			rounded={props.rounded}
 			disabled={props.disabled}
 			readonly={props.readonly}
 			labelAlign={props.labelAlign}
 			labelWidth={props.labelWidth}
-			createField={(id, key, tabindex) => buildFieldContext<T, R, P>(id, key, api, tabindex)}
+			api={props.api}
 			id={id}
 		>
 			<Spin.Root
@@ -112,4 +108,79 @@ export function Root<T extends Flattenable, R = never, P = never>(props: Props<T
 			</Spin.Root>
 		</FormProvider>
 	);
+}
+
+export interface MessageProps extends BaseProps {
+	/**
+	 * 是否显示关闭按钮
+	 *
+	 * @reactive
+	 */
+	closable?: boolean;
+
+	/**
+	 * 非空值表示组件展示的时长
+	 *
+	 * @reactive
+	 */
+	duration?: number;
+}
+
+/**
+ * 显示整个表单的错误信息
+ */
+export function Message(props: MessageProps): JSX.Element {
+	const f = useForm();
+	if (!f) {
+		throw new ContextNotFoundError('formContext');
+	}
+
+	return (
+		<Show when={f.api.getError()}>
+			{err => (
+				<Alert.Root
+					closable={props.closable}
+					duration={props.duration}
+					type="error"
+					title={err()}
+					class={props.class}
+					style={props.style}
+					onClose={async () => {
+						f.api.setError();
+						return undefined;
+					}}
+				/>
+			)}
+		</Show>
+	);
+}
+
+/**
+ * 普通的按钮，但是可以跟随 {@link Context#rounded} 属性变化
+ */
+export function Button(props: Btn.ButtonProps): JSX.Element {
+	const f = useForm();
+	return <Btn.Root {...mergeProps({ disabled: f?.disabled, rounded: f?.rounded, form: f?.id }, props)} />;
+}
+
+/**
+ * 重置按钮
+ *
+ * @remarks
+ * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
+ */
+export function Reset(props: Omit<Btn.ButtonProps, 'onclick' | 'type'>): JSX.Element {
+	return <Button {...props} type="reset" />;
+}
+
+/**
+ * 提交按钮
+ *
+ * @remarks
+ * 如果指定了 {@link Props#inDialog} 属性，那么表单的 submit 按钮将会关闭所在的对话框，
+ * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
+ * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
+ */
+export function Submit(props: Omit<Btn.ButtonProps, 'onclick' | 'type'>): JSX.Element {
+	return <Button {...props} type="submit" />;
 }

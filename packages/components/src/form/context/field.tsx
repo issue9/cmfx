@@ -2,44 +2,50 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
 import type { Context, JSX, ParentProps } from 'solid-js';
 import { createContext, createSignal, createUniqueId, splitProps, useContext } from 'solid-js';
 
-import type { API } from '@components/form/api';
+import type { FieldAccessor } from '@components/form/api';
 
-export interface FieldContext<T> {
-	id(): string;
-	name(): string;
-	tabindex(): number | undefined;
+export interface FieldContext<T> extends FieldAccessor<T> {
+	id: string;
 
-	reset(): void;
-
-	setError(err?: string): void;
+	tabindex?: number;
 
 	/**
-	 * 获取当前字段的错误信息，如果没有错误则返回 undefined
-	 *
-	 * @returns 返回的是由 {@link createStore} 创建的对象属性，是一个可响应的属性。
+	 * 禁用组件
 	 */
-	getError(): string | undefined;
+	disabled?: boolean;
 
-	getValue(): T;
-	setValue(value: T): void;
+	/**
+	 * 只读属性
+	 */
+	readonly?: boolean;
 
+	/**
+	 * 表单组件的 rounded 属性的默认值
+	 */
+	rounded?: boolean;
+
+	/**
+	 * 获取当前元素关联的扩展字段
+	 *
+	 * @remarks
+	 * 这是一个可响应的值
+	 */
 	getExtra(): JSX.Element | undefined;
-	setExtra(extra: JSX.Element | undefined): void;
-}
 
-interface FieldContextProps<T> {
-	ctx: FieldContext<T>;
+	/**
+	 * 修改当前元素关联的扩展字段
+	 */
+	setExtra(extra: JSX.Element | undefined): void;
 }
 
 const fieldContext = createContext<FieldContext<unknown>>();
 
-export function FieldProvider(props: ParentProps<FieldContextProps<unknown>>): JSX.Element {
+export function FieldProvider(props: ParentProps<FieldContext<unknown>>): JSX.Element {
 	const [, val] = splitProps(props, ['children']);
-	return <fieldContext.Provider value={val.ctx}>{props.children}</fieldContext.Provider>;
+	return <fieldContext.Provider value={val}>{props.children}</fieldContext.Provider>;
 }
 
 /**
@@ -52,48 +58,15 @@ export function useField<T>(): FieldContext<T> | undefined {
 }
 
 /**
- * 多 api 中提取字段 name 包装成 {@link FieldContext} 对象
- */
-export function buildFieldContext<T extends Flattenable, R = never, P = never>(
-	id: string,
-	name: FlattenKeys<T>,
-	api: API<T, R, P>,
-	tabindex?: number,
-): FieldContext<Flatten<T>[FlattenKeys<T>]> {
-	const access = api.createFieldAccessor<Flatten<T>[FlattenKeys<T>]>(name);
-	const extra = createSignal<JSX.Element>();
-
-	return {
-		id: () => id,
-		name: () => name,
-		tabindex: () => tabindex,
-
-		reset: () => access.reset(),
-
-		getError: () => access.getError(),
-		setError: err => access.setError(err),
-
-		getValue: () => access.getValue(),
-		setValue: val => access.setValue(val),
-
-		getExtra: () => extra[0](),
-		setExtra: e => extra[1](e),
-	};
-}
-
-/**
  * 将 val 包装成 {@link FieldContext} 对象
  */
-export function buildFakeFieldContext<T>(val: T, tabindex?: number): FieldContext<T> {
+export function buildFakeFieldContext<T>(val: T): FieldAccessor<T> {
 	const preset = structuredClone(val);
 	const [v, sv] = createSignal<T>(val);
 	const id = createUniqueId();
 
 	return {
-		id: () => id,
 		name: () => id,
-		tabindex: () => tabindex,
-
 		reset: () => sv(() => preset),
 
 		setError: () => {},
@@ -101,8 +74,5 @@ export function buildFakeFieldContext<T>(val: T, tabindex?: number): FieldContex
 
 		getValue: v,
 		setValue: sv,
-
-		getExtra: () => undefined,
-		setExtra: () => {},
 	};
 }

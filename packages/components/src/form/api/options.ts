@@ -4,6 +4,13 @@
 
 import type { Flattenable, Problem, Return, Validator } from '@cmfx/core';
 
+/**
+ * 初始化 API 的参数
+ *
+ * @typeParam T - 表示需要提交的对象类型；
+ * @typeParam R - 表示服务端返回的类型；
+ * @typeParam PE - 表示服务端出错是返回的 {@link Problem#extension} 类型；
+ */
 export interface Options<T extends Flattenable, R = never, PE = never> {
 	/**
 	 * 初始值

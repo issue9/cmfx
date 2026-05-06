@@ -7,6 +7,7 @@ import equal from 'fast-deep-equal';
 import { createSignal, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
+import type { FieldAccessor } from './accessor';
 import type { Options } from './options';
 
 // 用于在 API 中保存错误数据的类型
@@ -154,7 +155,9 @@ export class API<T extends Flattenable, R = never, P = never> {
 	}
 
 	/**
-	 * 返回表示当前整个对象的错误信息
+	 * 返回指定字段名称的错误
+	 *
+	 * @param k - 字段名称，如果为空表示要返回整个接口全局性的错误；
 	 */
 	getError(k?: FlattenKeys<T>): string | undefined {
 		return k ? this.#errs[0][k] : this.#globalErr[0]();
@@ -174,7 +177,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 	 *
 	 * @param name - 字段名；
 	 */
-	createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>) {
+	createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): FieldAccessor<FT> {
 		const parent = this;
 		const path = name.split('.');
 

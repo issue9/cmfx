@@ -34,7 +34,6 @@ describe('API', async () => {
 
 	test('createFieldAccessor', async () => {
 		const age = api.createFieldAccessor('age');
-		//expect(age).toEqual(oa.createFieldAccessor('age')); // 同一个 Accessor 接口只有一个对象
 
 		expect(age.getError()).toBeUndefined();
 		expect(age.getValue()).toEqual<number>(20);

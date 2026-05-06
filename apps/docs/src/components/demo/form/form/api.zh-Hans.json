@@ -3,7 +3,6 @@
 		"kind": "class",
 		"name": "Form.API",
 		"summary": "用于操作表单的 API\n\n",
-		"remarks": "相对于\n`ObjectAccessor`\n，当前对象提供了一些额外的接口用于以方便与表单进行配合操作。\n\n",
 		"typeParams": [
 			{
 				"name": "T",
@@ -24,6 +23,137 @@
 			}
 		],
 		"methods": [
+			{
+				"name": "setPreset",
+				"summary": "指定默认值\n\n",
+				"type": "setPreset(v: T): void",
+				"params": [
+					{
+						"name": "v",
+						"type": "T"
+					}
+				],
+				"return": {
+					"type": "void"
+				},
+				"static": false
+			},
+			{
+				"name": "isPreset",
+				"summary": "判断当前保存的值是否为默认值\n\n\n这是一个响应式的值\n\n",
+				"type": "isPreset(): boolean",
+				"return": {
+					"type": "boolean"
+				},
+				"static": false
+			},
+			{
+				"name": "validator",
+				"summary": "返回当前关联的验证器\n\n",
+				"type": "validator(): Validator<T> | undefined",
+				"return": {
+					"type": "Validator<T> | undefined"
+				},
+				"static": false
+			},
+			{
+				"name": "validValue",
+				"summary": "验证数据并返回\n\n",
+				"type": "validValue(): Promise<T | undefined>",
+				"return": {
+					"summary": "在 validator 不为空且验证出错的情况下，会返回 undefined，\n其它情况下都将返回当前表单的最新值。\n与\n`getValue`\n的区别在于当前方法的返回值由\n`unwrap`\n进行了解绑。\n\n",
+					"type": "Promise<T | undefined>"
+				},
+				"static": false
+			},
+			{
+				"name": "getValue",
+				"summary": "返回原始的存储对象\n\n",
+				"remarks": "是一个由\n`createStore`\n创建的对象。是一个可响应式的对象。\n\n",
+				"type": "getValue(): Store<T>",
+				"return": {
+					"type": "T"
+				},
+				"static": false
+			},
+			{
+				"name": "setValue",
+				"summary": "修改整个对象的值\n\n",
+				"type": "setValue(obj: T): void",
+				"params": [
+					{
+						"name": "obj",
+						"type": "T"
+					}
+				],
+				"return": {
+					"type": "void"
+				},
+				"static": false
+			},
+			{
+				"name": "setError",
+				"summary": "将错误信息设置到指定的字段上\n\n",
+				"type": "setError(errs?: Params<FlattenKeys<T>> | string): void",
+				"params": [
+					{
+						"name": "errs",
+						"summary": "错误列表，为空表示取消所有的错误显示，如果是字符串，表示未匹配的具体字段的错误；\n\n",
+						"type": "string | Params<FlattenKeys<T>> | undefined"
+					}
+				],
+				"return": {
+					"type": "void"
+				},
+				"static": false
+			},
+			{
+				"name": "getError",
+				"summary": "返回表示当前整个对象的错误信息\n\n",
+				"type": "getError(k?: FlattenKeys<T>): string | undefined",
+				"params": [
+					{
+						"name": "k",
+						"type": "FlattenKeys<T> | undefined"
+					}
+				],
+				"return": {
+					"type": "string | undefined"
+				},
+				"static": false
+			},
+			{
+				"name": "reset",
+				"summary": "重置所有字段的状态和值\n\n",
+				"type": "reset(): void",
+				"return": {
+					"type": "void"
+				},
+				"static": false
+			},
+			{
+				"name": "createFieldAccessor",
+				"summary": "创建对当前对象中某个字段的存取接口\n\n",
+				"type": "createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): {\r\n        name(): string;\r\n        getError(): string | undefined;\r\n        setError(err?: string): void;\r\n        getValue(): FT;\r\n        setValue(val: FT): void;\r\n        reset(): void;\r\n    }",
+				"typeParams": [
+					{
+						"name": "FT",
+						"type": "any",
+						"init": "Flatten<T>[FlattenKeys<T>]"
+					}
+				],
+				"params": [
+					{
+						"name": "name",
+						"summary": "字段名；\n\n",
+						"type": "FlattenKeys<T>"
+					}
+				],
+				"return": {
+					"type": "{ name(): string; getError(): string | undefined; setError(err?: string): void; getValue(): FT; setValue(val: FT): void; reset(): void; }"
+				},
+				"static": false
+			},
 			{
 				"name": "spinning",
 				"summary": "指示是否处于交互状态\n\n",
@@ -56,6 +186,12 @@
 				"static": false
 			}
 		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "Form.LabelAlignment",
+		"kind": "literal",
+		"type": "\"start\" | \"center\" | \"end\"",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -103,7 +239,7 @@
 			{
 				"name": "api",
 				"summary": "指定操作表单的 api\n\n",
-				"type": "API_2<T, R, P>"
+				"type": "API<T, R, P>"
 			},
 			{
 				"name": "palette",
@@ -127,14 +263,19 @@
 				"reactive": true
 			},
 			{
+				"name": "id",
+				"summary": "表单的 id 属性\n\n",
+				"type": "string | undefined"
+			},
+			{
 				"name": "disabled",
 				"summary": "禁用组件\n\n",
 				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{
-				"name": "readonly",
-				"summary": "只读属性\n\n",
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
 				"type": "boolean | undefined",
 				"reactive": true
 			},
@@ -147,10 +288,115 @@
 				"reactive": true
 			},
 			{
-				"name": "hasHelp",
-				"summary": "表单组件的 hasHelp 属性的默认值\n\n",
+				"name": "readonly",
+				"summary": "只读属性\n\n",
 				"type": "boolean | undefined",
-				"def": "true\n\n",
+				"reactive": true
+			},
+			{
+				"name": "labelWidth",
+				"summary": "表单组件中 label 宽度的默认值\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "labelAlign",
+				"summary": "表单组件中 label 的对齐方式\n\n",
+				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+				"type": "\"start\" | \"center\" | \"end\" | undefined",
+				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Form.useForm",
+		"summary": "获取最近一个表单的上下文环境\n\n\nT - 表单的数据类型；\n\n",
+		"type": "declare function useForm<T extends Flattenable>(): FormContext<T> | undefined",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "Flattenable"
+			}
+		],
+		"return": {
+			"type": "FormContext<T> | undefined"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "Form.useField",
+		"summary": "获取可以用于操作父元素\nForm.Field\n组件的接口\n\n",
+		"type": "declare function useField<T>(): FieldContext<T> | undefined",
+		"typeParams": [
+			{
+				"name": "T",
+				"summary": "表单项的值类型；\n\n",
+				"type": "any"
+			}
+		],
+		"return": {
+			"type": "FieldContext<T> | undefined"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Form.FieldProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "Flattenable"
+			}
+		],
+		"properties": [
+			{
+				"name": "label",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "help",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "tabindex",
+				"type": "number | undefined"
+			},
+			{
+				"name": "name",
+				"summary": "字段名\n\n",
+				"type": "FlattenKeys<T>"
+			},
+			{
+				"name": "layout",
+				"summary": "表单组件的 layout 属性的默认值\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{
@@ -174,59 +420,6 @@
 				"reactive": true
 			},
 			{
-				"name": "formID",
-				"summary": "表单的 id 属性\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "children",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "ref",
-				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined"
-			}
-		],
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "interface",
-		"name": "Form.MessageProps",
-		"typeParams": [
-			{
-				"name": "T",
-				"type": "Flattenable"
-			},
-			{
-				"name": "R",
-				"type": "any",
-				"init": "never"
-			},
-			{
-				"name": "P",
-				"type": "any",
-				"init": "never"
-			}
-		],
-		"properties": [
-			{
-				"name": "closable",
-				"summary": "是否显示关闭按钮\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "duration",
-				"summary": "非空值表示组件展示的时长\n\n",
-				"type": "number | undefined",
-				"reactive": true
-			},
-			{
-				"name": "api",
-				"type": "API_2<T, R, P>"
-			},
-			{
 				"name": "palette",
 				"summary": "指定当前组件采用的色盘\n\n",
 				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
@@ -246,377 +439,12 @@
 				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
 			}
 		],
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "interface",
-		"name": "Form.Accessor",
-		"summary": "每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制\n\n",
-		"typeParams": [
-			{
-				"name": "T",
-				"summary": "关联的值类型；\n\n",
-				"type": "any"
-			},
-			{
-				"name": "K",
-				"summary": "这是对 T 的描述，当 T 的实际值为 undefined 等时，\n无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；\n\n",
-				"type": "string",
-				"init": "string"
-			}
-		],
-		"methods": [
-			{
-				"name": "kind",
-				"summary": "这是对类型 T 的补充说明\n\n",
-				"remarks": "当 T 无法说明类型时，比如 undefined，由 kind 返回具体的类型说明。\n\n\nNOTE: 当 Accessor 支持多种类型时，比如\n`Accessor<string|date|undefined>`\n，\n在初始化时传递的是 undefined，就无法真正确定类型是什么，此时可以通过此方法进行类型识别。\n\n",
-				"type": "kind(): K | undefined",
-				"return": {
-					"type": "K | undefined"
-				}
-			},
-			{
-				"name": "name",
-				"summary": "字段的名称\n\n\n该字段会被用在 input 的 name 属性中。\n\n",
-				"type": "name(): string",
-				"return": {
-					"type": "string"
-				}
-			},
-			{
-				"name": "getValue",
-				"summary": "获取关联的值，这是一个响应式的值。\n\n",
-				"type": "getValue(): T",
-				"return": {
-					"type": "T"
-				}
-			},
-			{
-				"name": "setValue",
-				"summary": "修改值，如果与旧值相同，则不会触发修改。\n\n",
-				"type": "setValue(val: T): void",
-				"params": [
-					{
-						"name": "val",
-						"type": "T"
-					}
-				],
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "onChange",
-				"summary": "注册值发生改变时的触发函数\n\n",
-				"type": "onChange(change: ChangeFunc<T>): void",
-				"params": [
-					{
-						"name": "change",
-						"type": "ChangeFunc<T>"
-					}
-				],
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "getError",
-				"summary": "返回当前组件的错误信息\n\n",
-				"type": "getError(): string | undefined",
-				"return": {
-					"type": "string | undefined"
-				}
-			},
-			{
-				"name": "setError",
-				"summary": "设置当前组件的错误信息\n\n",
-				"type": "setError(err?: string): void",
-				"params": [
-					{
-						"name": "err",
-						"summary": "错误信息，undefined 表示清除错误；\n\n",
-						"type": "string | undefined"
-					}
-				],
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "reset",
-				"summary": "重置为初始状态\n\n",
-				"type": "reset(): void",
-				"return": {
-					"type": "void"
-				}
-			}
-		],
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "function",
-		"name": "Form.useForm",
-		"summary": "获取最近一个表单的上下文环境\n\n",
-		"type": "declare function useForm(): Context_2 | undefined",
-		"return": {
-			"type": "Context_2 | undefined"
-		},
-		"pkg": "@cmfx/components"
-	},
-	{
-		"name": "Form.Context",
-		"summary": "提供了表单的上下文环境\n\n",
-		"remarks": "在表单中的组件，部分属性可以通过此上下文环境进行设置。\n\n",
-		"kind": "intersection",
-		"types": [
-			{
-				"kind": "interface",
-				"properties": [
-					{
-						"name": "disabled",
-						"summary": "禁用组件\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
-						"name": "readonly",
-						"summary": "只读属性\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
-						"name": "layout",
-						"summary": "表单组件的 layout 属性的默认值\n\n",
-						"remarks": "同时也影响整个 Form 组件的布局。\n\n",
-						"type": "\"horizontal\" | \"vertical\" | undefined",
-						"def": "'horizontal'\n\n",
-						"reactive": true
-					},
-					{
-						"name": "hasHelp",
-						"summary": "表单组件的 hasHelp 属性的默认值\n\n",
-						"type": "boolean | undefined",
-						"def": "true\n\n",
-						"reactive": true
-					},
-					{
-						"name": "rounded",
-						"summary": "表单组件的 rounded 属性的默认值\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
-						"name": "labelWidth",
-						"summary": "表单组件中 label 宽度的默认值\n\n",
-						"type": "string | undefined",
-						"reactive": true
-					},
-					{
-						"name": "labelAlign",
-						"summary": "表单组件中 label 的对齐方式\n\n",
-						"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
-						"type": "\"start\" | \"center\" | \"end\" | undefined",
-						"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
-						"reactive": true
-					}
-				]
-			},
-			{
-				"kind": "interface",
-				"properties": [
-					{
-						"name": "formID",
-						"summary": "表单的 id 属性\n\n",
-						"type": "string | undefined"
-					}
-				]
-			}
-		],
-		"pkg": "@cmfx/components"
-	},
-	{
-		"name": "Form.FieldProps",
-		"summary": "组件 Field 的属性\n\n",
-		"kind": "intersection",
-		"types": [
-			{
-				"kind": "interface",
-				"properties": [
-					{
-						"name": "title",
-						"summary": "鼠标提示内容\n\n",
-						"type": "string | undefined"
-					},
-					{
-						"name": "palette",
-						"summary": "指定当前组件采用的色盘\n\n",
-						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-						"reactive": true
-					},
-					{
-						"name": "class",
-						"summary": "为组件的根元素指定 CSS 类名\n\n",
-						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
-						"type": "string | undefined",
-						"reactive": true
-					},
-					{
-						"name": "style",
-						"summary": "组件根元素的样式\n\n",
-						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
-						"type": "string | JSX.CSSProperties | undefined",
-						"reactive": true
-					}
-				]
-			},
-			{
-				"kind": "interface",
-				"properties": [
-					{
-						"name": "palette",
-						"summary": "指定当前组件采用的色盘\n\n",
-						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-						"reactive": true
-					},
-					{
-						"name": "class",
-						"summary": "为组件的根元素指定 CSS 类名\n\n",
-						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
-						"type": "string | undefined",
-						"reactive": true
-					},
-					{
-						"name": "style",
-						"summary": "组件根元素的样式\n\n",
-						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
-						"type": "string | JSX.CSSProperties | undefined",
-						"reactive": true
-					}
-				]
-			},
-			{
-				"kind": "interface",
-				"properties": [
-					{
-						"name": "ref",
-						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-						"type": "((m: REF) => void) | undefined"
-					}
-				]
-			},
-			{
-				"kind": "interface",
-				"properties": [
-					{
-						"name": "children",
-						"type": "JSX.Element"
-					}
-				]
-			}
-		],
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "interface",
-		"name": "Form.FieldArea",
-		"summary": "子组件所处的位置\n\n",
-		"properties": [
-			{
-				"name": "pos",
-				"summary": "指定位置\n\n",
-				"type": "\"top-start\" | \"top-center\" | \"top-end\" | \"middle-start\" | \"middle-center\" | \"middle-end\" | \"bottom-start\" | \"bottom-center\" | \"bottom-end\""
-			},
-			{
-				"name": "cols",
-				"summary": "向后跨的列数\n\n",
-				"type": "3 | 2 | 1 | undefined"
-			},
-			{
-				"name": "rows",
-				"summary": "向下跨的行数\n\n",
-				"type": "3 | 2 | 1 | undefined"
-			}
-		],
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "function",
-		"name": "Form.calcLayoutFieldAreas",
-		"summary": "根据布局 l 生成通用的各个字段位置\n\n",
-		"type": "declare function calcLayoutFieldAreas(l: Layout, hasHelp?: boolean, hasLabel?: boolean): FieldAreas",
-		"params": [
-			{
-				"name": "l",
-				"summary": "布局方式；\n\n",
-				"type": "\"horizontal\" | \"vertical\""
-			},
-			{
-				"name": "hasHelp",
-				"summary": "是否需要计算显示帮助信息的区域；\n\n",
-				"type": "boolean | undefined"
-			},
-			{
-				"name": "hasLabel",
-				"summary": "是否需要计算标题区域；\n\n",
-				"type": "boolean | undefined"
-			}
-		],
-		"return": {
-			"type": "FieldAreas"
-		},
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "function",
-		"name": "Form.fieldArea2Style",
-		"summary": "将\n`FieldArea`\n转换为 CSS 样式\n\n",
-		"type": "declare function fieldArea2Style(area: FieldArea): JSX.CSSProperties",
-		"params": [
-			{
-				"name": "area",
-				"type": "FieldArea"
-			}
-		],
-		"return": {
-			"type": "JSX.CSSProperties"
-		},
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "function",
-		"name": "Form.Field",
-		"summary": "表单字段的基本结构\n\n",
-		"remarks": "所有的表单字段可基于此组件作二次开发，以达到样式上的统一。\n\n\n组件内的各个子组件，需要通过 style 属性指定位置，可指定的位置如下：\ntop-start    | top-center    | top-end\nmiddle-start | middle-center | middle-end\nbottom-start | bottom-center | bottom-end\n\n",
-		"type": "declare function Field_2(props: FieldProps): JSX.Element",
-		"params": [
-			{
-				"name": "props",
-				"type": "FieldProps"
-			}
-		],
-		"return": {
-			"type": "JSX.Element"
-		},
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "function",
-		"name": "Form.FieldHelpArea",
-		"summary": "可在\n`Field`\n中显示帮助和错误信息的子组件\n\n",
-		"type": "declare function HelpArea(props: HelpAreaProps): JSX.Element",
-		"params": [
-			{
-				"name": "props",
-				"type": "HelpAreaProps"
-			}
-		],
-		"return": {
-			"type": "JSX.Element"
-		},
 		"pkg": "@cmfx/components"
 	}
 ]

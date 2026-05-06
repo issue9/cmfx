@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps } from '@cmfx/components';
-import { Button, DatePicker, Form, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
+import { Button, DatePicker, Form1, Notify, Numeric, TextArea, TextField } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 
-	const api = new Form.API({
+	const api = new Form1.API({
 		initValue: {
 			f1: 'f1',
 			f2: 5,
@@ -46,7 +46,7 @@ export default function (props: MountProps): JSX.Element {
 				</Button.Root>
 			</Portal>
 
-			<Form.Root
+			<Form1.Root
 				palette={palette()}
 				rounded={rounded()}
 				layout={layout()}
@@ -56,7 +56,7 @@ export default function (props: MountProps): JSX.Element {
 				class="flex flex-col gap-4"
 				api={api}
 			>
-				<Form.Message api={api} />
+				<Form1.Message api={api} />
 				<TextField.Root label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
 				<Numeric.Root label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
 				<DatePicker.Root label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
@@ -66,10 +66,10 @@ export default function (props: MountProps): JSX.Element {
 					accessor={api.accessor<string>('textarea')}
 					help="这是一个帮助文本"
 				/>
-			</Form.Root>
+			</Form1.Root>
 			<div class="flex w-full justify-between">
-				<Form.Reset>reset</Form.Reset>
-				<Form.Submit>submit</Form.Submit>
+				<Form1.Reset>reset</Form1.Reset>
+				<Form1.Submit>submit</Form1.Submit>
 			</div>
 		</>
 	);

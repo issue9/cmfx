@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { renderHook } from '@solidjs/testing-library';
-import type { ParentProps } from 'solid-js';
+import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import { afterAll, describe, expect, test } from 'vitest';
 
 import { API } from '@components/form/api';
-import { buildFakeFieldContext, buildFieldContext, FieldProvider, useField } from './field';
+import { buildFakeFieldContext, FieldProvider, useField } from './field';
 
 type Obj = {
 	age: number;
@@ -16,16 +16,34 @@ type Obj = {
 
 describe('FieldProvider', async () => {
 	const api = new API<Obj>({ initValue: { age: 20, name: 'f2' } });
+	const f = api.createFieldAccessor('age');
+	const [extra, setExtra] = createSignal<JSX.Element>();
 
 	const { result, cleanup } = renderHook(() => useField<number>(), {
 		wrapper: (props: ParentProps) => (
-			<FieldProvider ctx={buildFieldContext('id', 'age', api)}>{props.children}</FieldProvider>
+			<FieldProvider
+				id="id"
+				getError={f.getError}
+				setError={f.setError}
+				name={f.name}
+				getValue={f.getValue}
+				setValue={f.setValue}
+				reset={f.reset}
+				getExtra={extra}
+				setExtra={setExtra}
+			>
+				{props.children}
+			</FieldProvider>
 		),
 	});
 
 	test('useField', () => {
-		expect(result?.id()).toEqual('id');
-		expect(result?.name()).toEqual('age');
+		expect(result?.id).toEqual('id');
+		expect(result?.name).toEqual('age');
+		expect(result?.tabindex).toEqual(200);
+		expect(result?.rounded).toBe(true);
+		expect(result?.readonly).toBeUndefined();
+		expect(result?.disabled).toBe(false);
 
 		expect(result?.getValue()).toEqual(20);
 		result?.setValue(25);
@@ -50,9 +68,8 @@ describe('FieldProvider', async () => {
 describe('buildFakeFieldContext', () => {
 	const ctx = buildFakeFieldContext(20);
 
-	test('id/name', () => {
-		expect(ctx.id()).toBeDefined();
-		expect(ctx.name()).toBeDefined();
+	test('name', () => {
+		expect(ctx.name).toBeDefined();
 	});
 
 	test('value', () => {
@@ -70,11 +87,5 @@ describe('buildFakeFieldContext', () => {
 		expect(ctx.getError()).toBeUndefined();
 		ctx.setError('error');
 		expect(ctx.getError()).toBeUndefined();
-	});
-
-	test('extra', () => {
-		expect(ctx.getExtra()).toBeUndefined();
-		ctx.setExtra('extra');
-		expect(ctx.getExtra()).toBeUndefined();
 	});
 });

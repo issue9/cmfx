@@ -29,9 +29,8 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 	readonly?: boolean;
 
 	/**
-	 * 表单组件的 layout 属性的默认值
+	 * 子项的布局方式
 	 *
-	 * @remarks 同时也影响整个 Form 组件的布局。
 	 * @reactive
 	 * @defaultValue 'horizontal'
 	 */
@@ -43,24 +42,6 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 	 * @reactive
 	 */
 	rounded?: boolean;
-
-	/**
-	 * 表单组件中 label 宽度的默认值
-	 *
-	 * @reactive
-	 */
-	labelWidth?: string;
-
-	/**
-	 * 表单组件中 label 的对齐方式
-	 *
-	 * @remarks
-	 * 只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的 {@link labelWidth}。
-	 *
-	 * @reactive
-	 * @defaultValue layout === 'horizontal' ? 'end' : 'start'
-	 */
-	labelAlign?: Form.LabelAlignment;
 
 	tabindex?: number;
 
@@ -88,13 +69,6 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 	block?: boolean;
 
 	/**
-	 * 子项的布局方式
-	 *
-	 * @reactive
-	 */
-	itemLayout?: Layout;
-
-	/**
 	 * 下拉选择项
 	 *
 	 * @reactive
@@ -103,10 +77,8 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 }
 
 export function Root<T extends string | number>(props: Props<T>): JSX.Element {
-	const form = Form.useForm();
-	props = mergeProps(form, props);
 	const field = Form.useField<Array<T>>() ?? Form.buildFakeFieldContext(props.value);
-
+	props = mergeProps(field, props);
 	const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block', 'rounded']);
 
 	const cls = createMemo(() => {
@@ -114,7 +86,7 @@ export function Root<T extends string | number>(props: Props<T>): JSX.Element {
 			props.palette,
 			styles['group-content'],
 			props.class,
-			props.itemLayout === 'vertical' ? 'flex-col' : '',
+			props.layout === 'vertical' ? 'flex-col' : '',
 		);
 	});
 
@@ -133,7 +105,6 @@ export function Root<T extends string | number>(props: Props<T>): JSX.Element {
 					<Checkbox.Root
 						{...chkProps}
 						label={item.label}
-						tabindex={field.tabindex()}
 						checked={!!field.getValue()?.find(v => v === item.value)}
 						onChange={v => {
 							const oldVal = field.getValue();

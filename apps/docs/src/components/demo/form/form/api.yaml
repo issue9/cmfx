@@ -7,15 +7,9 @@
       - entrypoint: "index.d.ts"
         types:
             - Form.API
+            - Form.LabelAlignment
             - Form.RootRef
             - Form.RootProps
-            - Form.MessageProps
-            - Form.Accessor
             - Form.useForm
-            - Form.Context
+            - Form.useField
             - Form.FieldProps
-            - Form.FieldArea
-            - Form.calcLayoutFieldAreas
-            - Form.fieldArea2Style
-            - Form.Field
-            - Form.FieldHelpArea
