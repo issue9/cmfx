@@ -49,17 +49,11 @@ export default function (props: MountProps): JSX.Element {
 
 			<div>
 				<F>
-					<Field
-						palette="primary"
-						label="group"
-						layout={layout()}
-						help="help text"
-						rounded={rounded()}
-						disabled={disabled()}
-						readonly={readonly()}
-						name="a"
-					>
+					<Field palette="primary" label="group" layout={layout()} help="help text" name="a">
 						<CheckboxGroup.Root
+							rounded={rounded()}
+							disabled={disabled()}
+							readonly={readonly()}
 							layout={itemLayout()}
 							block={block()}
 							options={groupOptions}

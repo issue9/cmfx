@@ -29,7 +29,7 @@ export function FormProvider<T extends Flattenable, R = never, P = never>(
 	props: ParentProps<FormContext<T, R, P>>,
 ): JSX.Element {
 	const [, val] = splitProps(props, ['children']);
-	return <formContext.Provider value={val as TopFormContext}>{props.children}</formContext.Provider>;
+	return <formContext.Provider value={val as unknown as TopFormContext}>{props.children}</formContext.Provider>;
 }
 
 /**
@@ -37,7 +37,7 @@ export function FormProvider<T extends Flattenable, R = never, P = never>(
  *
  * @paramType T - 表单的数据类型；
  */
-export function useForm<T extends Flattenable>(): FormContext<T> | undefined {
+export function useForm<T extends Flattenable, R = never, P = never>(): FormContext<T, R, P> | undefined {
 	// biome-ignore lint/suspicious/noExplicitAny: TopFormContext 不符合 FormContext<T> 的要求
-	return useContext<FormContext<T>>(formContext as any);
+	return useContext<FormContext<T, R, P>>(formContext as any);
 }

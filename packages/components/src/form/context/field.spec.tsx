@@ -40,10 +40,6 @@ describe('FieldProvider', async () => {
 	test('useField', () => {
 		expect(result?.id).toEqual('id');
 		expect(result?.name).toEqual('age');
-		expect(result?.tabindex).toEqual(200);
-		expect(result?.rounded).toBe(true);
-		expect(result?.readonly).toBeUndefined();
-		expect(result?.disabled).toBe(false);
 
 		expect(result?.getValue()).toEqual(20);
 		result?.setValue(25);

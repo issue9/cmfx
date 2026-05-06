@@ -10,6 +10,8 @@ import { Field, type FieldProps } from './field';
 import type { Props } from './root';
 import { Root } from './root';
 
+type FormProps<T extends Flattenable, R = never, P = never> = Omit<Props<T, R, P>, 'api'>;
+
 /**
  * 创建指定类型的 Form 和 Filed 组件
  *
@@ -18,8 +20,8 @@ import { Root } from './root';
  */
 export function create<T extends Flattenable, R = never, P = never>(
 	opt: Options<T, R, P>,
-): [Form: Component<Props<T, R, P>>, Field: Component<FieldProps<T>>] {
-	const form = (props: Props<T, R, P>): JSX.Element => {
+): [Form: Component<FormProps<T, R, P>>, Field: Component<FieldProps<T>>] {
+	const form = (props: FormProps<T, R, P>): JSX.Element => {
 		return Root<T, R, P>(mergeProps({ api: new API(opt) }, props));
 	};
 

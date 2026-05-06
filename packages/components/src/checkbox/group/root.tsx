@@ -43,6 +43,12 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 	 */
 	rounded?: boolean;
 
+	/**
+	 * tabindex 属性
+	 *
+	 * @reactive
+	 * @defaultValue 0
+	 */
 	tabindex?: number;
 
 	label?: JSX.Element;
@@ -78,7 +84,8 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 
 export function Root<T extends string | number>(props: Props<T>): JSX.Element {
 	const field = Form.useField<Array<T>>() ?? Form.buildFakeFieldContext(props.value);
-	props = mergeProps(field, props);
+	const form = Form.useForm();
+	props = mergeProps(form, props);
 	const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block', 'rounded']);
 
 	const cls = createMemo(() => {

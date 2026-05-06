@@ -10,23 +10,6 @@ import type { FieldAccessor } from '@components/form/api';
 export interface FieldContext<T> extends FieldAccessor<T> {
 	id: string;
 
-	tabindex?: number;
-
-	/**
-	 * 禁用组件
-	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读属性
-	 */
-	readonly?: boolean;
-
-	/**
-	 * 表单组件的 rounded 属性的默认值
-	 */
-	rounded?: boolean;
-
 	/**
 	 * 获取当前元素关联的扩展字段
 	 *

@@ -14,8 +14,6 @@ import styles from './style.module.css';
 export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProps, ParentProps {
 	label?: JSX.Element;
 
-	tabindex?: number;
-
 	help?: JSX.Element;
 
 	/**
@@ -75,10 +73,6 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 				<FieldProvider
 					id={id}
 					name={field.name}
-					tabindex={props.tabindex}
-					rounded={props.rounded}
-					disabled={props.disabled}
-					readonly={props.readonly}
 					reset={field.reset}
 					getError={field.getError}
 					setError={field.setError}
