@@ -47,23 +47,21 @@ export default function (props: MountProps): JSX.Element {
 				<ItemLayout />
 			</Portal>
 
-			<div>
-				<F>
-					<Field palette="primary" label="group" layout={layout()} help="help text" name="a">
-						<CheckboxGroup.Root
-							rounded={rounded()}
-							disabled={disabled()}
-							readonly={readonly()}
-							layout={itemLayout()}
-							block={block()}
-							options={groupOptions}
-							value={['1']}
-							onChange={(n, o) => setGroup(`new:${n}, old:${o}`)}
-						/>
-					</Field>
-				</F>
-				<pre>{group()}</pre>
-			</div>
+			<F>
+				<Field palette="primary" label="group" layout={layout()} help="help text" name="a">
+					<CheckboxGroup.Root
+						rounded={rounded()}
+						disabled={disabled()}
+						readonly={readonly()}
+						layout={itemLayout()}
+						block={block()}
+						options={groupOptions}
+						value={['1']}
+						onChange={(n, o) => setGroup(`new:${n}, old:${o}`)}
+					/>
+				</Field>
+			</F>
+			<pre>{group()}</pre>
 		</div>
 	);
 }

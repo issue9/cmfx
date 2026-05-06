@@ -30,7 +30,7 @@
 					{
 						"name": "options",
 						"summary": "选择项\n\n",
-						"type": "Option_4<T>[]",
+						"type": "Option_5<T>[]",
 						"reactive": true
 					},
 					{
@@ -160,7 +160,7 @@
 					{
 						"name": "options",
 						"summary": "选择项\n\n",
-						"type": "Option_4<T>[]",
+						"type": "Option_5<T>[]",
 						"reactive": true
 					},
 					{

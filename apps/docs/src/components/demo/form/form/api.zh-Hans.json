@@ -109,11 +109,12 @@
 			},
 			{
 				"name": "getError",
-				"summary": "返回表示当前整个对象的错误信息\n\n",
+				"summary": "返回指定字段名称的错误\n\n",
 				"type": "getError(k?: FlattenKeys<T>): string | undefined",
 				"params": [
 					{
 						"name": "k",
+						"summary": "字段名称，如果为空表示要返回整个接口全局性的错误；\n\n",
 						"type": "FlattenKeys<T> | undefined"
 					}
 				],
@@ -134,7 +135,7 @@
 			{
 				"name": "createFieldAccessor",
 				"summary": "创建对当前对象中某个字段的存取接口\n\n",
-				"type": "createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): {\r\n        name(): string;\r\n        getError(): string | undefined;\r\n        setError(err?: string): void;\r\n        getValue(): FT;\r\n        setValue(val: FT): void;\r\n        reset(): void;\r\n    }",
+				"type": "createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): FieldAccessor<FT>",
 				"typeParams": [
 					{
 						"name": "FT",
@@ -150,7 +151,7 @@
 					}
 				],
 				"return": {
-					"type": "{ name(): string; getError(): string | undefined; setError(err?: string): void; getValue(): FT; setValue(val: FT): void; reset(): void; }"
+					"type": "FieldAccessor<FT>"
 				},
 				"static": false
 			},
@@ -237,11 +238,6 @@
 				"reactive": true
 			},
 			{
-				"name": "api",
-				"summary": "指定操作表单的 api\n\n",
-				"type": "API<T, R, P>"
-			},
-			{
 				"name": "palette",
 				"summary": "指定当前组件采用的色盘\n\n",
 				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
@@ -263,23 +259,6 @@
 				"reactive": true
 			},
 			{
-				"name": "id",
-				"summary": "表单的 id 属性\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "rounded",
-				"summary": "表单组件的 rounded 属性的默认值\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
 				"name": "layout",
 				"summary": "表单组件的 layout 属性的默认值\n\n",
 				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
@@ -288,8 +267,20 @@
 				"reactive": true
 			},
 			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
 				"name": "readonly",
 				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
 				"type": "boolean | undefined",
 				"reactive": true
 			},
@@ -308,6 +299,15 @@
 				"reactive": true
 			},
 			{
+				"name": "id",
+				"summary": "表单的 id 属性\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "api",
+				"type": "API_2<T, R, P>"
+			},
+			{
 				"name": "children",
 				"type": "JSX.Element"
 			},
@@ -323,15 +323,25 @@
 		"kind": "function",
 		"name": "Form.useForm",
 		"summary": "获取最近一个表单的上下文环境\n\n\nT - 表单的数据类型；\n\n",
-		"type": "declare function useForm<T extends Flattenable>(): FormContext<T> | undefined",
+		"type": "declare function useForm<T extends Flattenable, R = never, P = never>(): FormContext<T, R, P> | undefined",
 		"typeParams": [
 			{
 				"name": "T",
 				"type": "Flattenable"
+			},
+			{
+				"name": "R",
+				"type": "any",
+				"init": "never"
+			},
+			{
+				"name": "P",
+				"type": "any",
+				"init": "never"
 			}
 		],
 		"return": {
-			"type": "FormContext<T> | undefined"
+			"type": "FormContext<T, R, P> | undefined"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -369,10 +379,6 @@
 			{
 				"name": "help",
 				"type": "JSX.Element"
-			},
-			{
-				"name": "tabindex",
-				"type": "number | undefined"
 			},
 			{
 				"name": "name",

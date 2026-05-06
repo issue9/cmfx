@@ -2,16 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form1, type MountProps, type Palette, RadioGroup } from '@cmfx/components';
+import { Form, type MountProps, type Palette, RadioGroup } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const [change, setChange] = createSignal<string>('');
-	const f = Form1.fieldAccessor<Palette>('name', 'secondary');
-	f.onChange((v, o) => setChange(`new: ${v}, old: ${o}`));
+	const [palette, setPalette] = createSignal<Palette>('error');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
@@ -19,12 +17,14 @@ export default function (props: MountProps): JSX.Element {
 	const [ItemLayout, itemLayout] = layoutSelector('_d.demo.itemLayout', 'horizontal');
 	const [Block, block] = boolSelector('_d.demo.block');
 
-	const options: Form1.FieldOptions<Palette | 'undefined'> = [
+	const options: RadioGroup.Options<Palette> = [
 		{ value: 'error', label: 'error' },
 		{ value: 'secondary', label: 'secondary' },
-		{ value: 'undefined', label: 'undefined' },
+		{ value: 'primary', label: 'primary' },
 		{ value: 'surface', label: 'surface' },
 	];
+
+	const [F, Field] = Form.create({ initValue: { a: 'error' } });
 
 	return (
 		<>
@@ -35,27 +35,22 @@ export default function (props: MountProps): JSX.Element {
 				<ItemLayout />
 				<Block />
 				<Rounded />
-				<Button.Root palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>
-					toggle error
-				</Button.Root>
 			</Portal>
 
-			<div>
-				<RadioGroup.Root
-					hasHelp
-					rounded={rounded()}
-					label="test"
-					block={block()}
-					itemLayout={itemLayout()}
-					layout={layout()}
-					palette={f.getValue()}
-					disabled={disabled()}
-					readonly={readonly()}
-					accessor={f}
-					options={options}
-				/>
-				<span>{change()}</span>
-			</div>
+			<F>
+				<Field label="test" layout={layout()} palette={palette()} name="a">
+					<RadioGroup.Root
+						layout={itemLayout()}
+						options={options}
+						onChange={v => setPalette(v)}
+						rounded={rounded()}
+						block={block()}
+						disabled={disabled()}
+						readonly={readonly()}
+					/>
+				</Field>
+			</F>
+			<span>{palette()}</span>
 		</>
 	);
 }

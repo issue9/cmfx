@@ -4,8 +4,7 @@
 
 import { createMemo, type JSX, mergeProps } from 'solid-js';
 
-import { type AvailableEnumType, type BaseRef, joinClass, type RefProps } from '@components/base';
-import type { Form1 } from '@components/form1/form';
+import { type AvailableEnumType, type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface Ref extends BaseRef<HTMLLabelElement> {
@@ -15,9 +14,32 @@ export interface Ref extends BaseRef<HTMLLabelElement> {
 	input(): HTMLInputElement;
 }
 
-export interface Props<T extends AvailableEnumType = string>
-	extends Omit<Form1.FieldBaseProps, 'layout' | 'hasHelp'>,
-		RefProps<Ref> {
+export interface Props<T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
+	tabindex?: number;
+
+	label?: JSX.Element;
+
+	/**
+	 * 表单组件的 rounded 属性的默认值
+	 *
+	 * @reactive
+	 */
+	rounded?: boolean;
+
+	/**
+	 * 禁用组件
+	 *
+	 * @reactive
+	 */
+	disabled?: boolean;
+
+	/**
+	 * 只读属性
+	 *
+	 * @reactive
+	 */
+	readonly?: boolean;
+
 	/**
 	 * 是否显示为块
 	 *
@@ -36,13 +58,6 @@ export interface Props<T extends AvailableEnumType = string>
 	checked?: boolean;
 
 	onChange?: (v?: boolean) => void;
-
-	/**
-	 * 圆角
-	 *
-	 * @reactive
-	 */
-	rounded?: boolean;
 
 	/**
 	 * 字段名称
@@ -72,15 +87,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 
 	let rootRef: HTMLLabelElement;
 	return (
-		<label
-			title={props.title}
-			class={cls()}
-			style={props.style}
-			tabindex={props.block ? props.tabindex : -1}
-			ref={el => {
-				rootRef = el;
-			}}
-		>
+		<label class={cls()} style={props.style} tabindex={props.block ? props.tabindex : -1} ref={el => (rootRef = el)}>
 			<input
 				type="radio"
 				checked={props.checked}

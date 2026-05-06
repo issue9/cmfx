@@ -39,6 +39,7 @@ export * from './notify';
 export * from './page';
 export * from './pagination';
 export * from './qrcode';
+export * from './radio';
 export * from './result';
 export * from './scheme';
 export * from './search';

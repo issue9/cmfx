@@ -23,9 +23,10 @@ import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Choice, Form1, Numeric, RadioGroup, Slider } from '@components/form1';
+import { Choice, Form1, Numeric, Slider } from '@components/form1';
 import { Formatter } from '@components/formatter';
 import { Label } from '@components/label';
+import { RadioGroup } from '@components/radio';
 import { SchemeSelector } from '@components/scheme';
 import styles from './style.module.css';
 
@@ -143,7 +144,7 @@ export function Root(props: Props) {
 			<Separator />
 			<Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
 				<RadioGroup.Root
-					itemLayout="horizontal"
+					layout="horizontal"
 					accessor={modeFA}
 					block={/*@once*/ false}
 					class={styles.radios}
@@ -212,7 +213,7 @@ export function Root(props: Props) {
 				desc={l.t('_c.settings.displayStyleDesc')}
 			>
 				<RadioGroup.Root
-					itemLayout="horizontal"
+					layout="horizontal"
 					accessor={unitFA}
 					block={/*@once*/ false}
 					class={styles.radios}

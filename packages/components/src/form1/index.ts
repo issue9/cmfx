@@ -7,7 +7,6 @@ export * from './color';
 export * from './date';
 export * from './editor';
 export * from './form';
-export * from './radio';
 export * from './slider';
 export * from './textarea';
 export * from './textfield';

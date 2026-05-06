@@ -15,7 +15,7 @@ export default function (): Info {
 		kind: 'data-input',
 		title: '_d.demo.radio',
 		icon: IconRadio,
-		path: 'form/radio',
+		path: 'radio',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [

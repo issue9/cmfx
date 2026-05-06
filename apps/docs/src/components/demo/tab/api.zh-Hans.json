@@ -22,6 +22,12 @@
 				"reactive": true
 			},
 			{
+				"name": "tabsClass",
+				"summary": "标签列表的样式\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
 				"name": "panelClass",
 				"summary": "应用在标签面板上的样式\n\n",
 				"type": "string | undefined",
