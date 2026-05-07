@@ -5,10 +5,11 @@
 		"types": [
 			{
 				"kind": "interface",
-				"name": "PickerProps",
+				"name": "ActivatorProps",
 				"properties": [
 					{
-						"name": "picker",
+						"name": "activator",
+						"summary": "显示激活选择面板的组件\n\n",
 						"type": "true"
 					},
 					{
@@ -36,9 +37,9 @@
 						"type": "ChangeFunc<string | undefined> | undefined"
 					},
 					{
-						"name": "pickers",
+						"name": "spaces",
 						"summary": "指定的颜色拾取面板的类型\n\n",
-						"type": "readonly PickerPanel[]"
+						"type": "readonly Space[]"
 					},
 					{
 						"name": "disabled",
@@ -102,7 +103,8 @@
 				"name": "PanelProps",
 				"properties": [
 					{
-						"name": "picker",
+						"name": "activator",
+						"summary": "直接显示颜色面板\n\n",
 						"type": "false | undefined"
 					},
 					{
@@ -124,9 +126,9 @@
 						"type": "ChangeFunc<string | undefined> | undefined"
 					},
 					{
-						"name": "pickers",
+						"name": "spaces",
 						"summary": "指定的颜色拾取面板的类型\n\n",
-						"type": "readonly PickerPanel[]"
+						"type": "readonly Space[]"
 					},
 					{
 						"name": "disabled",
@@ -182,7 +184,7 @@
 				]
 			}
 		],
-		"discriminant": "picker",
+		"discriminant": "activator",
 		"pkg": "@cmfx/components"
 	},
 	{

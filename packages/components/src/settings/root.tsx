@@ -5,7 +5,7 @@
 import type { DisplayStyle } from '@cmfx/core';
 import { formatDuration, I18n } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
-import { Show } from 'solid-js';
+import { createEffect, createSignal, on, Show } from 'solid-js';
 import IconTransitionDuration from '~icons/material-symbols/animated-images-rounded';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
@@ -23,12 +23,13 @@ import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Form1, Numeric, Slider } from '@components/form1';
+import { Form1, Numeric } from '@components/form1';
 import { Formatter } from '@components/formatter';
 import { Label } from '@components/label';
 import { Choice } from '@components/menu';
 import { RadioGroup } from '@components/radio';
 import { SchemeSelector } from '@components/scheme';
+import { Slider } from '@components/slider';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
@@ -103,8 +104,8 @@ export function Root(props: Props) {
 	const [accessor, origin] = useOptions();
 	const l = useLocale();
 
-	const fontSizeFA = Form1.fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2), 10));
-	fontSizeFA.onChange(v => accessor.setFontSize(`${v}px`));
+	const [fontSize, setFontSize] = createSignal<number | undefined>(parseInt(accessor.getFontSize().slice(0, -2), 10));
+	createEffect(on(fontSize, v => accessor.setFontSize(`${v}px`)));
 
 	const modeFA = Form1.fieldAccessor<Mode>('mode', accessor.getMode());
 	modeFA.onChange(m => accessor.setMode(m));
@@ -118,8 +119,8 @@ export function Root(props: Props) {
 	const staysFA = Form1.fieldAccessor<number>('stays', accessor.getStays());
 	staysFA.onChange(v => accessor.setStays(v));
 
-	const transitionDurationFA = Form1.fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
-	transitionDurationFA.onChange(v => accessor.setTransitionDuration(v));
+	const [transitionDuration, setTransitionDuration] = createSignal<number>(accessor.getTransitionDuration());
+	createEffect(on(transitionDuration, v => accessor.setTransitionDuration(v)));
 
 	return (
 		<div
@@ -138,7 +139,15 @@ export function Root(props: Props) {
 			{/***************************** font *******************************/}
 
 			<Item icon={<IconFontSize />} title={l.t('_c.settings.fontSize')} desc={l.t('_c.settings.fontSizeDesc')}>
-				<Slider.Root class={styles.range} value={v => `${v}px`} min={12} max={32} step={1} accessor={fontSizeFA} />
+				<Slider.Root
+					class={styles.range}
+					format={v => `${v}px`}
+					min={12}
+					max={32}
+					step={1}
+					value={fontSize()}
+					onChange={v => setFontSize(v)}
+				/>
 			</Item>
 
 			{/***************************** mode *******************************/}
@@ -183,11 +192,12 @@ export function Root(props: Props) {
 				<Slider.Root
 					disabled={isReducedMotion()}
 					class={styles.range}
-					value={v => `${v}ms`}
+					format={v => `${v}ms`}
 					min={100}
 					max={3000}
 					step={100}
-					accessor={transitionDurationFA}
+					value={transitionDuration()}
+					onChange={v => setTransitionDuration(v)}
 				/>
 			</Item>
 
@@ -260,7 +270,7 @@ export function Root(props: Props) {
 					palette="error"
 					onclick={() => {
 						accessor.reset();
-						fontSizeFA.setValue(parseInt(accessor.getFontSize().slice(0, -2), 10));
+						setFontSize(parseInt(accessor.getFontSize().slice(0, -2), 10));
 						modeFA.setValue(accessor.getMode());
 						localeFA.setValue(accessor.getLocale());
 						unitFA.setValue(accessor.getDisplayStyle());

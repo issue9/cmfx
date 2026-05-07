@@ -5,13 +5,11 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { Form1 } from '@components/form1/form';
 import { type Ref, Root } from './root';
 
 describe('Slider', async () => {
 	let ref: Ref;
-	const fa = Form1.fieldAccessor<number>('tf', 0);
-	const ct = await ComponentTester.build('Slider', props => <Root accessor={fa} {...props} ref={el => (ref = el)} />);
+	const ct = await ComponentTester.build('Slider', props => <Root {...props} ref={el => (ref = el)} />);
 
 	test('ref', async () => {
 		expect(ref.root()).toBeInstanceOf(HTMLDivElement);

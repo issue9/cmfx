@@ -44,6 +44,7 @@ export * from './result';
 export * from './scheme';
 export * from './search';
 export * from './settings';
+export * from './slider';
 export * from './spin';
 export * from './statistic';
 export * from './tab';

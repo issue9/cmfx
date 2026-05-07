@@ -6,7 +6,8 @@ import Color from 'colorjs.io';
 import { createEffect, type JSX } from 'solid-js';
 
 import { useLocale } from '@components/context';
-import { Form1, Slider } from '@components/form1';
+import { Form } from '@components/form';
+import { Slider } from '@components/slider';
 import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
@@ -21,7 +22,6 @@ type OKLCH = {
  * OKLCH 的 {@link Space} 实现
  */
 export class OKLCHSpace implements Space {
-	readonly #oklch: Form1.ObjectAccessor<OKLCH>;
 	readonly #l?: number;
 	readonly #c?: number;
 	readonly #h?: number;
@@ -36,7 +36,6 @@ export class OKLCHSpace implements Space {
 	 * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
 	 */
 	constructor(l?: number, c?: number, h?: number, a?: number) {
-		this.#oklch = new Form1.ObjectAccessor<OKLCH>({ l: l ?? 1, c: c ?? 0.4, h: h ?? 1, a: a ?? 1 });
 		this.#l = l;
 		this.#c = c;
 		this.#h = h;
@@ -61,9 +60,13 @@ export class OKLCHSpace implements Space {
 		let rh: Slider.RootRef;
 		let ra: Slider.RootRef;
 
+		const [F, Field, api] = Form.create<OKLCH>({
+			initValue: { l: this.#l ?? 1, c: this.#c ?? 0.4, h: this.#h ?? 1, a: this.#a ?? 1 },
+		});
+
 		createEffect(() => {
 			// 根据值改变背景颜色
-			const store = this.#oklch.getValue();
+			const store = api.getValue();
 			const ll = store.l;
 			const cc = store.c;
 			const hh = store.h;
@@ -104,60 +107,55 @@ export class OKLCHSpace implements Space {
 		const l = useLocale();
 
 		return (
-			<div class={styles.oklch}>
-				<Slider.Root
-					fitHeight
-					accessor={this.#oklch.accessor('l')}
-					label={l.t('_c.color.lightness')}
-					ref={el => {
-						rl = el;
-					}}
-					disabled={!!this.#l}
-					value={v => `${(v * 100).toFixed(2)}%`}
-					min={0}
-					max={1}
-					step={0.0001}
-				/>
-				<Slider.Root
-					fitHeight
-					accessor={this.#oklch.accessor('c')}
-					label={l.t('_c.color.chroma')}
-					ref={el => {
-						rc = el;
-					}}
-					disabled={!!this.#c}
-					value={v => `${v.toFixed(2)}`}
-					min={0}
-					max={0.4}
-					step={0.01}
-				/>
-				<Slider.Root
-					fitHeight
-					accessor={this.#oklch.accessor('h')}
-					label={l.t('_c.color.hue')}
-					ref={el => {
-						rh = el;
-					}}
-					disabled={!!this.#h}
-					value={v => `${v.toFixed(2)}`}
-					min={0}
-					max={360}
-					step={0.01}
-				/>
-				<Slider.Root
-					fitHeight
-					accessor={this.#oklch.accessor('a')}
-					label={l.t('_c.color.alpha')}
-					ref={el => {
-						ra = el;
-					}}
-					disabled={!!this.#a}
-					value={v => `${v.toFixed(2)}`}
-					min={0}
-					max={1}
-					step={0.01}
-				/>
-			</div>
+			<F class={styles.oklch}>
+				<Field label={l.t('_c.color.lightness')} name="l">
+					<Slider.Root
+						fitHeight
+						ref={el => (rl = el)}
+						disabled={!!this.#l}
+						format={v => `${(v * 100).toFixed(4)}%`}
+						min={0}
+						max={1}
+						step={0.0001}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.chroma')} name="c">
+					<Slider.Root
+						fitHeight
+						ref={el => (rc = el)}
+						disabled={!!this.#c}
+						format={v => `${v.toFixed(2)}`}
+						min={0}
+						max={0.4}
+						step={0.01}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.hue')} name="h">
+					<Slider.Root
+						fitHeight
+						ref={el => (rh = el)}
+						disabled={!!this.#h}
+						format={v => `${v.toFixed(2)}`}
+						min={0}
+						max={360}
+						step={0.01}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.alpha')} name="a">
+					<Slider.Root
+						fitHeight
+						ref={el => (ra = el)}
+						disabled={!!this.#a}
+						format={v => `${v.toFixed(2)}`}
+						min={0}
+						max={1}
+						step={0.01}
+					/>
+				</Field>
+			</F>
 		);
 	}
 }

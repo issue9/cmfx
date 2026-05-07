@@ -6,7 +6,8 @@ import Color from 'colorjs.io';
 import { createEffect, type JSX } from 'solid-js';
 
 import { useLocale } from '@components/context';
-import { Form1, Slider } from '@components/form1';
+import { Form } from '@components/form';
+import { Slider } from '@components/slider';
 import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
@@ -21,7 +22,6 @@ type HSL = {
  * HSL 的 {@link Space} 实现
  */
 export class HSLSpace implements Space {
-	readonly #hsl: Form1.ObjectAccessor<HSL>;
 	readonly #h?: number;
 	readonly #s?: number;
 	readonly #l?: number;
@@ -36,7 +36,6 @@ export class HSLSpace implements Space {
 	 * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
 	 */
 	constructor(h?: number, s?: number, l?: number, a?: number) {
-		this.#hsl = new Form1.ObjectAccessor<HSL>({ h: h ?? 180, s: s ?? 50, l: l ?? 50, a: a ?? 1 });
 		this.#h = h;
 		this.#s = s;
 		this.#l = l;
@@ -61,8 +60,12 @@ export class HSLSpace implements Space {
 		let lRef: Slider.RootRef;
 		let aRef: Slider.RootRef;
 
+		const [F, Field, api] = Form.create<HSL>({
+			initValue: { h: this.#h ?? 180, s: this.#s ?? 50, l: this.#l ?? 50, a: this.#a ?? 1 },
+		});
+
 		createEffect(() => {
-			const store = this.#hsl.getValue();
+			const store = api.getValue();
 			const hh = store.h;
 			const ss = store.s;
 			const ll = store.l;
@@ -98,61 +101,57 @@ export class HSLSpace implements Space {
 		});
 
 		const l = useLocale();
+
 		return (
-			<div class={styles.hsl}>
-				<Slider.Root
-					disabled={!!this.#h}
-					fitHeight
-					accessor={this.#hsl.accessor('h')}
-					label={l.t('_c.color.hue')}
-					ref={el => {
-						hRef = el;
-					}}
-					value={v => `${v.toFixed(2)}`}
-					min={0}
-					max={360}
-					step={1}
-				/>
-				<Slider.Root
-					disabled={!!this.#s}
-					fitHeight
-					accessor={this.#hsl.accessor('s')}
-					label={l.t('_c.color.saturation')}
-					ref={el => {
-						sRef = el;
-					}}
-					value={v => `${v.toFixed(2)}%`}
-					min={0}
-					max={100}
-					step={0.01}
-				/>
-				<Slider.Root
-					disabled={!!this.#l}
-					fitHeight
-					accessor={this.#hsl.accessor('l')}
-					label={l.t('_c.color.lightness')}
-					ref={el => {
-						lRef = el;
-					}}
-					value={v => `${v.toFixed(2)}%`}
-					min={0}
-					max={100}
-					step={0.01}
-				/>
-				<Slider.Root
-					disabled={!!this.#a}
-					fitHeight
-					accessor={this.#hsl.accessor('a')}
-					label={l.t('_c.color.alpha')}
-					ref={el => {
-						aRef = el;
-					}}
-					value={v => `${v.toFixed(2)}`}
-					min={0}
-					max={1}
-					step={0.01}
-				/>
-			</div>
+			<F class={styles.hsl}>
+				<Field label={l.t('_c.color.hue')} name="h">
+					<Slider.Root
+						disabled={!!this.#h}
+						fitHeight
+						ref={el => (hRef = el)}
+						format={v => `${v.toFixed(2)}`}
+						min={0}
+						max={360}
+						step={1}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.saturation')} name="s">
+					<Slider.Root
+						disabled={!!this.#s}
+						fitHeight
+						ref={el => (sRef = el)}
+						format={v => `${v.toFixed(2)}%`}
+						min={0}
+						max={100}
+						step={0.01}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.lightness')} name="l">
+					<Slider.Root
+						disabled={!!this.#l}
+						fitHeight
+						ref={el => (lRef = el)}
+						format={v => `${v.toFixed(2)}%`}
+						min={0}
+						max={100}
+						step={0.01}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.alpha')} name="a">
+					<Slider.Root
+						disabled={!!this.#a}
+						fitHeight
+						ref={el => (aRef = el)}
+						format={v => `${v.toFixed(2)}`}
+						min={0}
+						max={1}
+						step={0.01}
+					/>
+				</Field>
+			</F>
 		);
 	}
 }

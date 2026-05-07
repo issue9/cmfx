@@ -20,7 +20,7 @@
 			},
 			{
 				"name": "ref",
-				"type": "(el: Ref_53) => void"
+				"type": "(el: Ref_52) => void"
 			},
 			{
 				"name": "dropzone",
@@ -330,7 +330,7 @@
 				"name": "uploader",
 				"type": "uploader(): Upload.RootRef",
 				"return": {
-					"type": "Ref_53"
+					"type": "Ref_52"
 				}
 			},
 			{

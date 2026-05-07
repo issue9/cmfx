@@ -43,12 +43,13 @@ export function useField<T>(): FieldContext<T> | undefined {
 /**
  * 将 val 包装成 {@link FieldContext} 对象
  */
-export function buildFakeFieldContext<T>(val: T): FieldAccessor<T> {
+export function buildFakeFieldContext<T>(val: T): FieldContext<T> {
 	const preset = structuredClone(val);
 	const [v, sv] = createSignal<T>(val);
 	const id = createUniqueId();
 
 	return {
+		id: id,
 		name: () => id,
 		reset: () => sv(() => preset),
 
@@ -57,5 +58,8 @@ export function buildFakeFieldContext<T>(val: T): FieldAccessor<T> {
 
 		getValue: v,
 		setValue: sv,
+
+		getExtra: () => undefined,
+		setExtra: () => {},
 	};
 }

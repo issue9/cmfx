@@ -1,0 +1,127 @@
+[
+	{
+		"kind": "interface",
+		"name": "Slider.RootProps",
+		"properties": [
+			{
+				"name": "min",
+				"summary": "最小值\n\n",
+				"type": "number | undefined",
+				"reactive": true
+			},
+			{
+				"name": "max",
+				"summary": "最大值\n\n",
+				"type": "number | undefined",
+				"reactive": true
+			},
+			{
+				"name": "step",
+				"summary": "步长\n\n",
+				"type": "number | undefined",
+				"reactive": true
+			},
+			{
+				"name": "fitHeight",
+				"summary": "滑轨和滑块拥有相同的调度\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "marks",
+				"summary": "可以在滑轨上作一些标记\n\n",
+				"remarks": "要求这些标记点必须在\n`min`\n和\n`max`\n之间。\n所以 marks 不为空时，min 和 max 是不能为空的。\n\n",
+				"type": "[number, string][] | undefined"
+			},
+			{
+				"name": "format",
+				"summary": "对内容进行格式化并显示在 extra 区别\n\n",
+				"type": "((value: number) => JSX.Element) | undefined",
+				"reactive": true
+			},
+			{
+				"name": "value",
+				"type": "number | undefined"
+			},
+			{
+				"name": "onChange",
+				"type": "ChangeFunc<number | undefined> | undefined"
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "tabindex",
+				"summary": "tabindex 属性\n\n",
+				"type": "number | undefined",
+				"def": "0\n\n",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Slider.RootRef",
+		"methods": [
+			{
+				"name": "input",
+				"summary": "组件中实际用于输入的 input 元素\n\n",
+				"type": "input(): HTMLInputElement",
+				"return": {
+					"type": "HTMLInputElement"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	}
+]

@@ -4,10 +4,10 @@
 
 import Color from 'colorjs.io';
 import { createEffect, type JSX } from 'solid-js';
-import { createStore, unwrap } from 'solid-js/store';
 
 import { useLocale } from '@components/context';
-import { Slider } from '@components/form1';
+import { Form } from '@components/form';
+import { Slider } from '@components/slider';
 import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
@@ -22,7 +22,6 @@ type RGB = {
  * RGB 的 {@link Space} 实现
  */
 export class RGBSpace implements Space {
-	readonly #rgb: ReturnType<typeof createStore<RGB>>;
 	readonly #r?: number;
 	readonly #g?: number;
 	readonly #b?: number;
@@ -37,7 +36,6 @@ export class RGBSpace implements Space {
 	 * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
 	 */
 	constructor(r?: number, g?: number, b?: number, a?: number) {
-		this.#rgb = createStore<RGB>({ r: r ?? 1, g: g ?? 1, b: b ?? 1, a: a ?? 1 });
 		this.#r = r;
 		this.#g = g;
 		this.#b = b;
@@ -62,8 +60,12 @@ export class RGBSpace implements Space {
 		let bRef: Slider.RootRef;
 		let aRef: Slider.RootRef;
 
+		const [F, Field, api] = Form.create<RGB>({
+			initValue: { r: this.#r ?? 1, g: this.#g ?? 1, b: this.#b ?? 1, a: this.#a ?? 1 },
+		});
+
 		createEffect(() => {
-			const store = unwrap(this.#rgb[0]);
+			const store = api.getValue();
 			const rr = store.r;
 			const gg = store.g;
 			const bb = store.b;
@@ -97,59 +99,66 @@ export class RGBSpace implements Space {
 
 		const l = useLocale();
 		return (
-			<div class={styles.rgb}>
-				<Slider.Root
-					fitHeight
-					label={l.t('_c.color.red')}
-					accessor={this.#rgb[0].r}
-					disabled={!!this.#r}
-					ref={el => {
-						rRef = el;
-					}}
-					min={0}
-					max={1}
-					step={0.01}
-				/>
-				<Slider.Root
-					fitHeight
-					label={l.t('_c.color.green')}
-					accessor={this.#rgb[0].g}
-					disabled={!!this.#g}
-					ref={el => {
-						el.input().classList.add(styles.bg);
-						gRef = el;
-					}}
-					min={0}
-					max={1}
-					step={0.01}
-				/>
-				<Slider.Root
-					fitHeight
-					label={l.t('_c.color.blue')}
-					accessor={this.#rgb[0].b}
-					disabled={!!this.#b}
-					ref={el => {
-						el.input().classList.add(styles.bg);
-						bRef = el;
-					}}
-					min={0}
-					max={1}
-					step={0.01}
-				/>
-				<Slider.Root
-					fitHeight
-					label={l.t('_c.color.alpha')}
-					accessor={this.#rgb[0].a}
-					disabled={!!this.#a}
-					ref={el => {
-						el.input().classList.add(styles.bg);
-						aRef = el;
-					}}
-					min={0}
-					max={1}
-					step={0.01}
-				/>
-			</div>
+			<F class={styles.rgb}>
+				<Field label={l.t('_c.color.red')} name="r">
+					<Slider.Root
+						fitHeight
+						disabled={!!this.#r}
+						ref={el => {
+							rRef = el;
+						}}
+						format={v => `${v.toFixed(2)}%`}
+						min={0}
+						max={1}
+						step={0.01}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.green')} name="g">
+					<Slider.Root
+						fitHeight
+						disabled={!!this.#g}
+						ref={el => {
+							el.input().classList.add(styles.bg);
+							gRef = el;
+						}}
+						format={v => `${v.toFixed(2)}%`}
+						min={0}
+						max={1}
+						step={0.01}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.blue')} name="b">
+					<Slider.Root
+						fitHeight
+						disabled={!!this.#b}
+						ref={el => {
+							el.input().classList.add(styles.bg);
+							bRef = el;
+						}}
+						format={v => `${v.toFixed(2)}%`}
+						min={0}
+						max={1}
+						step={0.01}
+					/>
+				</Field>
+
+				<Field label={l.t('_c.color.alpha')} name="a">
+					<Slider.Root
+						fitHeight
+						disabled={!!this.#a}
+						ref={el => {
+							el.input().classList.add(styles.bg);
+							aRef = el;
+						}}
+						format={v => `${v.toFixed(2)}%`}
+						min={0}
+						max={1}
+						step={0.01}
+					/>
+				</Field>
+			</F>
 		);
 	}
 }
