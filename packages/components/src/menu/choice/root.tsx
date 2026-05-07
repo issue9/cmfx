@@ -167,7 +167,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				field.setValue(v);
 
 				if (props.onChange) {
-					props.onChange(v, old);
+					props.onChange(v, old as Array<T>);
 				}
 			}
 		: (v: T | undefined) => {
@@ -180,7 +180,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				field.setValue(v);
 
 				if (props.onChange) {
-					props.onChange(v, old);
+					props.onChange(v as T, old as T);
 				}
 			};
 

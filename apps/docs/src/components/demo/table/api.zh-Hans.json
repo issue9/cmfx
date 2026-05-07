@@ -175,7 +175,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_75"
+					"type": "Ref_74"
 				}
 			},
 			{
@@ -370,7 +370,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_75"
+					"type": "Ref_74"
 				}
 			},
 			{
@@ -575,7 +575,7 @@
 				"summary": "组件中的表格元素\n\n",
 				"type": "table(): Table.RootRef",
 				"return": {
-					"type": "Ref_75"
+					"type": "Ref_74"
 				}
 			},
 			{

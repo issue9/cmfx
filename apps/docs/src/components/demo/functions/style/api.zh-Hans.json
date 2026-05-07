@@ -74,32 +74,5 @@
 		"kind": "literal",
 		"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\"",
 		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "function",
-		"name": "wcag",
-		"summary": "计算两个颜色值之间的 wcag 值\n\n",
-		"type": "function wcag(c1: string, c2: string, apca?: boolean): string",
-		"params": [
-			{
-				"name": "c1",
-				"summary": "第一个颜色值；\n\n",
-				"type": "string"
-			},
-			{
-				"name": "c2",
-				"summary": "第二个颜色值；\n\n",
-				"type": "string"
-			},
-			{
-				"name": "apca",
-				"summary": "是否使用 APCA 算法计算；\n\n",
-				"type": "boolean | undefined"
-			}
-		],
-		"return": {
-			"type": "string"
-		},
-		"pkg": "@cmfx/components"
 	}
 ]

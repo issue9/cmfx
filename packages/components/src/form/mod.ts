@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+export type { FieldAccessor } from './api';
 export { API } from './api';
 export type { LabelAlignment } from './context';
 export { buildFakeFieldContext, labelAlignments, useField, useForm } from './context';

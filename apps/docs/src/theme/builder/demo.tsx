@@ -9,6 +9,7 @@ import {
 	Button,
 	ButtonGroup,
 	Card,
+	Color,
 	DatePanel,
 	Form1,
 	joinClass,
@@ -18,7 +19,6 @@ import {
 	TextField,
 	ThemeProvider,
 	useLocale,
-	wcag,
 } from '@cmfx/components';
 import type { ExpandType } from '@cmfx/core';
 import { createEffect, createSignal, For, type JSX, Match, Switch } from 'solid-js';
@@ -179,83 +179,60 @@ function PaletteBlocks(props: { p: Palette; s: Form1.ObjectAccessor<ExpandType<S
 		void props.c;
 
 		const baseS = window.getComputedStyle(baseRef);
-		setBaseWCAG(wcag(baseS.getPropertyValue('background-color'), baseS.getPropertyValue('color')));
+		setBaseWCAG(Color.wcag(baseS.getPropertyValue('background-color'), baseS.getPropertyValue('color')));
 
 		const lowS = window.getComputedStyle(lowRef);
-		setLowWCAG(wcag(lowS.getPropertyValue('background-color'), lowS.getPropertyValue('color')));
+		setLowWCAG(Color.wcag(lowS.getPropertyValue('background-color'), lowS.getPropertyValue('color')));
 
 		const highS = window.getComputedStyle(highRef);
-		setHighWCAG(wcag(highS.getPropertyValue('background-color'), highS.getPropertyValue('color')));
+		setHighWCAG(Color.wcag(highS.getPropertyValue('background-color'), highS.getPropertyValue('color')));
 
 		const disabledS = window.getComputedStyle(disabledRef);
-		setDisabledWCAG(wcag(disabledS.getPropertyValue('background-color'), disabledS.getPropertyValue('color')));
+		setDisabledWCAG(Color.wcag(disabledS.getPropertyValue('background-color'), disabledS.getPropertyValue('color')));
 
 		const focusedS = window.getComputedStyle(focusedRef);
-		setFocusedWCAG(wcag(focusedS.getPropertyValue('background-color'), focusedS.getPropertyValue('color')));
+		setFocusedWCAG(Color.wcag(focusedS.getPropertyValue('background-color'), focusedS.getPropertyValue('color')));
 
 		const activedS = window.getComputedStyle(activedRef);
-		setActivedWCAG(wcag(activedS.getPropertyValue('background-color'), activedS.getPropertyValue('color')));
+		setActivedWCAG(Color.wcag(activedS.getPropertyValue('background-color'), activedS.getPropertyValue('color')));
 
 		const selectedS = window.getComputedStyle(selectedRef);
-		setSelectedWCAG(wcag(selectedS.getPropertyValue('background-color'), selectedS.getPropertyValue('color')));
+		setSelectedWCAG(Color.wcag(selectedS.getPropertyValue('background-color'), selectedS.getPropertyValue('color')));
 	});
 
 	return (
 		<div class={styles.palette}>
 			<p class={styles.name}>{props.p}</p>
-			<div
-				ref={el => {
-					baseRef = el;
-				}}
-				class={joinClass(undefined, styles.color, styles[props.p])}
-			>
+			<div ref={el => (baseRef = el)} class={joinClass(undefined, styles.color, styles[props.p])}>
 				base:{baseWCAG()}
 			</div>
-			<div
-				ref={el => {
-					lowRef = el;
-				}}
-				class={joinClass(undefined, styles.color, styles[`${props.p}-low`])}
-			>
+			<div ref={el => (lowRef = el)} class={joinClass(undefined, styles.color, styles[`${props.p}-low`])}>
 				low:{lowWCAG()}
 			</div>
-			<div
-				ref={el => {
-					highRef = el;
-				}}
-				class={joinClass(undefined, styles.color, styles[`${props.p}-high`])}
-			>
+			<div ref={el => (highRef = el)} class={joinClass(undefined, styles.color, styles[`${props.p}-high`])}>
 				high:{highWCAG()}
 			</div>
 			<div class={styles.exts}>
 				<div
-					ref={el => {
-						disabledRef = el;
-					}}
+					ref={el => (disabledRef = el)}
 					class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-disabled`])}
 				>
 					disabled:{disabledWCAG()}
 				</div>
 				<div
-					ref={el => {
-						focusedRef = el;
-					}}
+					ref={el => (focusedRef = el)}
 					class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-focused`])}
 				>
 					focused:{focusedWCAG()}
 				</div>
 				<div
-					ref={el => {
-						activedRef = el;
-					}}
+					ref={el => (activedRef = el)}
 					class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-actived`])}
 				>
 					actived:{activedWCAG()}
 				</div>
 				<div
-					ref={el => {
-						selectedRef = el;
-					}}
+					ref={el => (selectedRef = el)}
 					class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-selected`])}
 				>
 					selected:{selectedWCAG()}

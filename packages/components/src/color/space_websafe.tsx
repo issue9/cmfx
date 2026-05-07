@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, type JSX, type Signal } from 'solid-js';
+import { For, type JSX } from 'solid-js';
 
 import { joinClass } from '@components/base';
-import type { PickerPanel } from './picker';
+import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
 const chars = ['0', '3', '6', '9', 'c', 'f'] as const;
@@ -13,9 +13,9 @@ const chars = ['0', '3', '6', '9', 'c', 'f'] as const;
 const values = chars.flatMap(v1 => chars.flatMap(v2 => chars.map(v3 => `#${v1}${v2}${v3}`)));
 
 /**
- * web 安全色的 {@link PickerPanel} 实现
+ * web 安全色的 {@link Space} 实现
  */
-export class WebSafePickerPanel implements PickerPanel {
+export class WebSafeSpace implements Space {
 	readonly #disabled: Array<string> = [];
 
 	/**
@@ -39,7 +39,7 @@ export class WebSafePickerPanel implements PickerPanel {
 		return values.includes(value);
 	}
 
-	panel(s: Signal<string | undefined>): JSX.Element {
+	panel(access: Accessor): JSX.Element {
 		return (
 			<div class={styles.vars}>
 				<For each={values}>
@@ -47,7 +47,7 @@ export class WebSafePickerPanel implements PickerPanel {
 						const cls = joinClass(
 							undefined,
 							styles.color,
-							v === s[0]() ? styles.selected : '',
+							v === access.getValue() ? styles.selected : '',
 							this.#disabled.includes(v) ? styles.disabled : '',
 						);
 
@@ -60,7 +60,7 @@ export class WebSafePickerPanel implements PickerPanel {
 									if (this.#disabled.includes(v)) {
 										return;
 									}
-									s[1](v);
+									access.setValue(v);
 								}}
 							/>
 						);

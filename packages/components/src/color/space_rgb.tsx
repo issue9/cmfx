@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, type JSX, type Signal } from 'solid-js';
+import { createEffect, type JSX } from 'solid-js';
+import { createStore, unwrap } from 'solid-js/store';
 
 import { useLocale } from '@components/context';
-import { Form1, Slider } from '@components/form1';
-import type { PickerPanel } from './picker';
+import { Slider } from '@components/form1';
+import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
 type RGB = {
@@ -18,10 +19,10 @@ type RGB = {
 };
 
 /**
- * RGB 的 {@link PickerPanel} 实现
+ * RGB 的 {@link Space} 实现
  */
-export class RGBPickerPanel implements PickerPanel {
-	readonly #rgb: Form1.ObjectAccessor<RGB>;
+export class RGBSpace implements Space {
+	readonly #rgb: ReturnType<typeof createStore<RGB>>;
 	readonly #r?: number;
 	readonly #g?: number;
 	readonly #b?: number;
@@ -36,7 +37,7 @@ export class RGBPickerPanel implements PickerPanel {
 	 * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
 	 */
 	constructor(r?: number, g?: number, b?: number, a?: number) {
-		this.#rgb = new Form1.ObjectAccessor<RGB>({ r: r ?? 1, g: g ?? 1, b: b ?? 1, a: a ?? 1 });
+		this.#rgb = createStore<RGB>({ r: r ?? 1, g: g ?? 1, b: b ?? 1, a: a ?? 1 });
 		this.#r = r;
 		this.#g = g;
 		this.#b = b;
@@ -55,19 +56,19 @@ export class RGBPickerPanel implements PickerPanel {
 		return value.startsWith('rgb(');
 	}
 
-	panel(signal: Signal<string | undefined>): JSX.Element {
+	panel(access: Accessor): JSX.Element {
 		let rRef: Slider.RootRef;
 		let gRef: Slider.RootRef;
 		let bRef: Slider.RootRef;
 		let aRef: Slider.RootRef;
 
 		createEffect(() => {
-			const store = this.#rgb.getValue();
+			const store = unwrap(this.#rgb[0]);
 			const rr = store.r;
 			const gg = store.g;
 			const bb = store.b;
 			const aa = store.a;
-			signal[1](fmtRGB(rr, gg, bb, aa));
+			access.setValue(fmtRGB(rr, gg, bb, aa));
 
 			rRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, 0, 0, 1)},
                 ${fmtRGB(0.1, 0, 0, 1)},${fmtRGB(0.2, 0, 0, 1)},${fmtRGB(0.3, 0, 0, 1)},${fmtRGB(0.4, 0, 0, 1)},
@@ -100,7 +101,7 @@ export class RGBPickerPanel implements PickerPanel {
 				<Slider.Root
 					fitHeight
 					label={l.t('_c.color.red')}
-					accessor={this.#rgb.accessor('r')}
+					accessor={this.#rgb[0].r}
 					disabled={!!this.#r}
 					ref={el => {
 						rRef = el;
@@ -112,7 +113,7 @@ export class RGBPickerPanel implements PickerPanel {
 				<Slider.Root
 					fitHeight
 					label={l.t('_c.color.green')}
-					accessor={this.#rgb.accessor('g')}
+					accessor={this.#rgb[0].g}
 					disabled={!!this.#g}
 					ref={el => {
 						el.input().classList.add(styles.bg);
@@ -125,7 +126,7 @@ export class RGBPickerPanel implements PickerPanel {
 				<Slider.Root
 					fitHeight
 					label={l.t('_c.color.blue')}
-					accessor={this.#rgb.accessor('b')}
+					accessor={this.#rgb[0].b}
 					disabled={!!this.#b}
 					ref={el => {
 						el.input().classList.add(styles.bg);
@@ -138,7 +139,7 @@ export class RGBPickerPanel implements PickerPanel {
 				<Slider.Root
 					fitHeight
 					label={l.t('_c.color.alpha')}
-					accessor={this.#rgb.accessor('a')}
+					accessor={this.#rgb[0].a}
 					disabled={!!this.#a}
 					ref={el => {
 						el.input().classList.add(styles.bg);

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ColorPanel, ColorPicker, Form1, type MountProps } from '@cmfx/components';
+import { Color, Form, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconPerson from '~icons/material-symbols/person';
@@ -16,7 +16,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
-	const color = Form1.fieldAccessor('color', 'oklch(1% 0.3 100)');
+	const [F, Field] = Form.create({ initValue: { a: 'oklch(1% 0.3 100)' } });
 
 	return (
 		<>
@@ -28,23 +28,20 @@ export default function (props: MountProps): JSX.Element {
 				<Layout />
 			</Portal>
 
-			<ColorPicker.Root
-				readonly={readonly()}
-				disabled={disabled()}
-				palette={palette()}
-				layout={layout()}
-				accessor={color}
-				label="picker label"
-				rounded={rounded()}
-				pickers={[
-					new ColorPanel.TailwindVarsPickerPanel(),
-					new ColorPanel.OKLCHPickerPanel(),
-					new ColorPanel.HSLPickerPanel(),
-					new ColorPanel.RGBPickerPanel(),
-				]}
-			>
-				<IconPerson />
-			</ColorPicker.Root>
+			<F>
+				<Field name="a" label="picker label" layout={layout()}>
+					<Color.Root
+						activator
+						readonly={readonly()}
+						disabled={disabled()}
+						palette={palette()}
+						rounded={rounded()}
+						spaces={[new Color.TailwindVarsSpace(), new Color.OKLCHSpace(), new Color.HSLSpace(), new Color.RGBSpace()]}
+					>
+						<IconPerson />
+					</Color.Root>
+				</Field>
+			</F>
 		</>
 	);
 }

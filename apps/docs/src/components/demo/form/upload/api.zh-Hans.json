@@ -20,7 +20,7 @@
 			},
 			{
 				"name": "ref",
-				"type": "(el: Ref_54) => void"
+				"type": "(el: Ref_53) => void"
 			},
 			{
 				"name": "dropzone",
@@ -200,7 +200,7 @@
 			{
 				"name": "accessor",
 				"summary": "保存着所有已经上传的文件列表\n\n",
-				"type": "Accessor_2<string[], string>"
+				"type": "Accessor_3<string[], string>"
 			},
 			{
 				"name": "itemSize",
@@ -330,7 +330,7 @@
 				"name": "uploader",
 				"type": "uploader(): Upload.RootRef",
 				"return": {
-					"type": "Ref_54"
+					"type": "Ref_53"
 				}
 			},
 			{

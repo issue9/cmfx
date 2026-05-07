@@ -2,17 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type JSX, onCleanup, onMount } from 'solid-js';
+import { createEffect, createSignal, type JSX, on, onCleanup, onMount } from 'solid-js';
 import IconClose from '~icons/material-symbols/cancel-rounded';
 import IconColor from '~icons/material-symbols/colors-rounded';
 import IconLineHeight from '~icons/material-symbols/fit-page-height-outline-rounded';
 import IconBackgroundColor from '~icons/material-symbols/format-color-fill-rounded';
 
 import { Button } from '@components/button';
-import { ColorPanel } from '@components/color';
+import { Color as XColor } from '@components/color';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
-import { ColorPicker } from '@components/form1/color';
 import { fieldAccessor } from '@components/form1/form/access';
 import { Numeric } from '@components/form1/textfield';
 import styles from './style.module.css';
@@ -26,61 +25,66 @@ import type { Props } from './types';
 export function Color(props: Props): JSX.Element {
 	const l = useLocale();
 
-	const accessor = fieldAccessor<string | undefined>('color', props.editor.getAttributes('textStyle').color);
+	const [val, setVal] = createSignal<string | undefined>('color', props.editor.getAttributes('textStyle').color);
 	let isSelectUpdate = false; // 是否来自 selectionUpdate 事件，如果是来自该事件，不需要执行 setColor 操作
-	accessor.onChange(v => {
-		if (isSelectUpdate) {
-			isSelectUpdate = false;
-			return;
-		}
 
-		if (v) {
-			props.editor.chain().setColor(v).run();
-		} else {
-			props.editor.chain().unsetColor().run();
-		}
-	});
+	createEffect(
+		on(val, v => {
+			if (isSelectUpdate) {
+				isSelectUpdate = false;
+				return;
+			}
+
+			if (v) {
+				props.editor.chain().setColor(v).run();
+			} else {
+				props.editor.chain().unsetColor().run();
+			}
+		}),
+	);
 
 	const selectionUpdate = () => {
 		const color = props.editor.getAttributes('textStyle').color;
-		if (accessor.getValue() === color) {
+		if (val() === color) {
 			return;
 		}
 
 		isSelectUpdate = true;
-		accessor.setValue(color);
+		setVal(color);
 	};
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
 	onCleanup(() => props.editor.off('selectionUpdate', selectionUpdate));
 
-	let picker: ColorPicker.RootRef;
+	let picker: XColor.RootRef<true>;
 	return (
 		<Button.Root
 			title={l.t('_c.editor.textColor')}
 			square
 			kind="flat"
 			class={styles.item}
-			checked={!!accessor.getValue()}
+			checked={!!val()}
 			onclick={e => {
 				if (e.currentTarget === e.target) {
 					picker.showPicker();
 				}
 			}}
 		>
-			<ColorPicker.Root
+			<XColor.Root
+				picker
 				ref={el => (picker = el)}
-				accessor={accessor}
-				pickers={[
-					new ColorPanel.TailwindVarsPickerPanel(),
-					new ColorPanel.HSLPickerPanel(),
-					new ColorPanel.OKLCHPickerPanel(),
-					new ColorPanel.RGBPickerPanel(),
-					new ColorPanel.WebSafePickerPanel(),
+				value={val()}
+				spaces={[
+					new XColor.TailwindVarsSpace(),
+					new XColor.HSLSpace(),
+					new XColor.OKLCHSpace(),
+					new XColor.RGBSpace(),
+					new XColor.WebSafeSpace(),
 				]}
 				activatorClass={styles['color-activator']}
+				onChange={v => setVal(v)}
 			>
 				<IconColor />
-			</ColorPicker.Root>
+			</XColor.Root>
 		</Button.Root>
 	);
 }
@@ -93,64 +97,67 @@ export function Color(props: Props): JSX.Element {
 export function BackgroundColor(props: Props): JSX.Element {
 	const l = useLocale();
 
-	const accessor = fieldAccessor<string | undefined>(
-		'backgroundColor',
-		props.editor.getAttributes('textStyle').backgroundColor,
-	);
-	let isSelectUpdate = false; // 是否来自 selectionUpdate 事件，如果是来自该事件，不需要执行 setColor 操作
-	accessor.onChange(v => {
-		if (isSelectUpdate) {
-			isSelectUpdate = false;
-			return;
-		}
+	const [val, setVal] = createSignal<string | undefined>(props.editor.getAttributes('textStyle').backgroundColor);
 
-		if (v) {
-			props.editor.chain().setBackgroundColor(v).run();
-		} else {
-			props.editor.chain().unsetBackgroundColor().run();
-		}
-	});
+	let isSelectUpdate = false; // 是否来自 selectionUpdate 事件，如果是来自该事件，不需要执行 setColor 操作
+
+	createEffect(
+		on(val, v => {
+			if (isSelectUpdate) {
+				isSelectUpdate = false;
+				return;
+			}
+
+			if (v) {
+				props.editor.chain().setBackgroundColor(v).run();
+			} else {
+				props.editor.chain().unsetBackgroundColor().run();
+			}
+		}),
+	);
 
 	const selectionUpdate = () => {
 		const color = props.editor.getAttributes('textStyle').backgroundColor;
-		if (accessor.getValue() === color) {
+		if (val() === color) {
 			return;
 		}
 
 		isSelectUpdate = true;
-		accessor.setValue(color);
+		setVal(color);
 	};
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
 	onCleanup(() => props.editor.off('selectionUpdate', selectionUpdate));
 
-	let picker: ColorPicker.RootRef;
+	let picker: XColor.RootRef<true>;
 	return (
 		<Button.Root
 			title={l.t('_c.editor.backgroundColor')}
 			square
 			kind="flat"
 			class={styles.item}
-			checked={!!accessor.getValue()}
+			checked={!!val()}
 			onclick={e => {
 				if (e.currentTarget === e.target) {
 					picker.showPicker();
 				}
 			}}
 		>
-			<ColorPicker.Root
+			<XColor.Root
+				picker
 				ref={el => (picker = el)}
-				accessor={accessor}
-				pickers={[
-					new ColorPanel.TailwindVarsPickerPanel(),
-					new ColorPanel.HSLPickerPanel(),
-					new ColorPanel.OKLCHPickerPanel(),
-					new ColorPanel.RGBPickerPanel(),
-					new ColorPanel.WebSafePickerPanel(),
+				value={val()}
+				onChange={v => setVal(v)}
+				spaces={[
+					new XColor.TailwindVarsSpace(),
+					new XColor.HSLSpace(),
+					new XColor.OKLCHSpace(),
+					new XColor.RGBSpace(),
+					new XColor.WebSafeSpace(),
 				]}
 				activatorClass={styles['color-activator']}
 			>
 				<IconBackgroundColor />
-			</ColorPicker.Root>
+			</XColor.Root>
 		</Button.Root>
 	);
 }

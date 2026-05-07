@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, type JSX, type Signal } from 'solid-js';
+import { For, type JSX } from 'solid-js';
 
 import { joinClass } from '@components/base';
-import type { PickerPanel } from './picker';
+import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
 /**
- * 用户自己提供一系列颜色的 {@link PickerPanel} 实现
+ * 用户自己提供一系列颜色的 {@link Space} 实现
  */
-export class PresetPickerPanel implements PickerPanel {
+export class PresetSpace implements Space {
 	readonly #values: Array<string>;
 
 	/**
@@ -35,17 +35,17 @@ export class PresetPickerPanel implements PickerPanel {
 		return this.#values.includes(value);
 	}
 
-	panel(signal: Signal<string | undefined>): JSX.Element {
+	panel(access: Accessor): JSX.Element {
 		return (
 			<div class={styles.presets}>
 				<For each={this.#values}>
 					{v => (
 						<span
-							class={joinClass(undefined, styles.color, signal[0]() === v ? styles.selected : '')}
+							class={joinClass(undefined, styles.color, access.getValue() === v ? styles.selected : '')}
 							style={{ background: v }}
 							title={v}
 							onclick={() => {
-								signal[1](v);
+								access.setValue(v);
 							}}
 						/>
 					)}

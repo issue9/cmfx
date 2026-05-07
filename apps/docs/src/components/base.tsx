@@ -5,7 +5,7 @@
 import type { Layout, Palette } from '@cmfx/components';
 import { Button, Checkbox, Choice, Form1, layouts, palettes, useLocale } from '@cmfx/components';
 import type { DictKeys, PopoverPosition } from '@cmfx/core';
-import { type Accessor, type Component, createSignal, createUniqueId, type Setter } from 'solid-js';
+import { type Accessor, type Component, createSignal, type Setter } from 'solid-js';
 
 import type messages from '@docs/messages/en.lang';
 import type { StageProps, StagesProps } from './stages';
@@ -121,17 +121,15 @@ export function arraySelector<T extends string | number>(
 		});
 	}
 
-	const name = createUniqueId(); // 保证一组 radio 一个独立的名称
-
 	const elem = () => {
 		const l = useLocale();
 		return (
 			<Choice.Root
 				closable
-				layout="horizontal"
 				placeholder={l.t(label)}
-				accessor={Form1.fieldAccessor(name, signal)}
+				value={signal[0]()}
 				options={options}
+				onChange={v => signal[1](() => v)}
 			/>
 		);
 	};
@@ -179,17 +177,15 @@ export function arrayMultipleSelector<T extends string | number>(
 		});
 	}
 
-	const name = createUniqueId(); // 保证一组 radio 一个独立的名称
-
 	const elem = () => {
 		const l = useLocale();
 		return (
 			<Choice.Root
 				closable
 				multiple
-				layout="horizontal"
 				placeholder={l.t(label)}
-				accessor={Form1.fieldAccessor(name, signal)}
+				value={signal[0]()}
+				onChange={v => signal[1](v)}
 				options={options}
 			/>
 		);

@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, type JSX, type Signal } from 'solid-js';
+import { createEffect, type JSX } from 'solid-js';
 
 import { useLocale } from '@components/context';
 import { Form1, Slider } from '@components/form1';
-import type { PickerPanel } from './picker';
+import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
 type OKLCH = {
@@ -18,9 +18,9 @@ type OKLCH = {
 };
 
 /**
- * OKLCH 的 {@link PickerPanel} 实现
+ * OKLCH 的 {@link Space} 实现
  */
-export class OKLCHPickerPanel implements PickerPanel {
+export class OKLCHSpace implements Space {
 	readonly #oklch: Form1.ObjectAccessor<OKLCH>;
 	readonly #l?: number;
 	readonly #c?: number;
@@ -55,7 +55,7 @@ export class OKLCHPickerPanel implements PickerPanel {
 		return value.startsWith('oklch(');
 	}
 
-	panel(signal: Signal<string | undefined>): JSX.Element {
+	panel(access: Accessor): JSX.Element {
 		let rl: Slider.RootRef;
 		let rc: Slider.RootRef;
 		let rh: Slider.RootRef;
@@ -68,7 +68,7 @@ export class OKLCHPickerPanel implements PickerPanel {
 			const cc = store.c;
 			const hh = store.h;
 			const aa = store.a;
-			signal[1](fmtOKLCH(ll, cc, hh, aa));
+			access.setValue(fmtOKLCH(ll, cc, hh, aa));
 
 			rl.input().style.background = `linear-gradient(to right, ${fmtOKLCH(0, cc, hh, aa)},
                         ${fmtOKLCH(0.1, cc, hh, aa)}, ${fmtOKLCH(0.2, cc, hh, aa)}, ${fmtOKLCH(0.3, cc, hh, aa)},

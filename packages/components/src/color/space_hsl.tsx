@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, type JSX, type Signal } from 'solid-js';
+import { createEffect, type JSX } from 'solid-js';
 
 import { useLocale } from '@components/context';
 import { Form1, Slider } from '@components/form1';
-import type { PickerPanel } from './picker';
+import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
 type HSL = {
@@ -18,9 +18,9 @@ type HSL = {
 };
 
 /**
- * HSL 的 {@link PickerPanel} 实现
+ * HSL 的 {@link Space} 实现
  */
-export class HSLPickerPanel implements PickerPanel {
+export class HSLSpace implements Space {
 	readonly #hsl: Form1.ObjectAccessor<HSL>;
 	readonly #h?: number;
 	readonly #s?: number;
@@ -55,7 +55,7 @@ export class HSLPickerPanel implements PickerPanel {
 		return value.startsWith('hsl(');
 	}
 
-	panel(signal: Signal<string | undefined>): JSX.Element {
+	panel(access: Accessor): JSX.Element {
 		let hRef: Slider.RootRef;
 		let sRef: Slider.RootRef;
 		let lRef: Slider.RootRef;
@@ -67,7 +67,7 @@ export class HSLPickerPanel implements PickerPanel {
 			const ss = store.s;
 			const ll = store.l;
 			const aa = store.a;
-			signal[1](fmtHSL(hh, ss, ll, aa));
+			access.setValue(fmtHSL(hh, ss, ll, aa));
 
 			hRef.input().style.background = `linear-gradient(to right, ${fmtHSL(0, ss, ll, aa)},
                 ${fmtHSL(20, ss, ll, aa)}, ${fmtHSL(40, ss, ll, aa)}, ${fmtHSL(60, ss, ll, aa)},

@@ -9,6 +9,10 @@ import { default as Basic } from './basic';
 import { default as basic } from './basic.tsx?raw';
 import { default as Disabled } from './disabled';
 import { default as disabled } from './disabled.tsx?raw';
+import { default as Icon } from './icon';
+import { default as icon } from './icon.tsx?raw';
+import { default as Picker } from './picker';
+import { default as picker } from './picker.tsx?raw';
 import { default as WCAG } from './wcag';
 import { default as wcag } from './wcag.tsx?raw';
 
@@ -24,6 +28,8 @@ export default function (): Info {
 			{ component: Basic, source: basic, layout: 'auto', id: 'basic' },
 			{ component: WCAG, source: wcag, layout: 'auto', id: 'wcag' },
 			{ component: Disabled, source: disabled, layout: 'auto', id: 'disabled' },
+			{ component: Picker, source: picker, id: 'picker' },
+			{ component: Icon, source: icon, id: 'icon' },
 		],
 	};
 }

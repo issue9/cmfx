@@ -127,36 +127,11 @@
 		],
 		"properties": [
 			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "readonly",
-				"summary": "只读属性\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
 				"name": "layout",
 				"summary": "所有 checkbox 项的布局\n\n",
 				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
 				"type": "\"horizontal\" | \"vertical\" | undefined",
 				"def": "'horizontal'\n\n",
-				"reactive": true
-			},
-			{
-				"name": "rounded",
-				"summary": "表单组件的 rounded 属性的默认值\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "tabindex",
-				"summary": "tabindex 属性\n\n",
-				"type": "number | undefined",
-				"def": "0\n\n",
 				"reactive": true
 			},
 			{
@@ -179,7 +154,7 @@
 			{
 				"name": "options",
 				"summary": "选择项\n\n",
-				"type": "Options_6<T>",
+				"type": "Options_7<T>",
 				"reactive": true
 			},
 			{
@@ -201,6 +176,31 @@
 				"summary": "组件根元素的样式\n\n",
 				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
 				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "tabindex",
+				"summary": "tabindex 属性\n\n",
+				"type": "number | undefined",
+				"def": "0\n\n",
 				"reactive": true
 			},
 			{

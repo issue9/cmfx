@@ -2,12 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { JSX, Signal } from 'solid-js';
+import type { JSX } from 'solid-js';
+
+import type { Form } from '@components/form';
+
+export type Accessor = Form.FieldAccessor<string | undefined>;
 
 /**
- * 表示颜色选择面板的类型
+ * 定义了颜色空间需要实现的接口
  */
-export interface PickerPanel {
+export interface Space {
 	/**
 	 * 表示当前拾取框的唯一 ID
 	 */
@@ -29,5 +33,5 @@ export interface PickerPanel {
 	/**
 	 * 实现实例的面板
 	 */
-	panel(s: Signal<string | undefined>): JSX.Element;
+	panel(s: Accessor): JSX.Element;
 }

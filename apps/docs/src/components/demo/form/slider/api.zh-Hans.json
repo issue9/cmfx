@@ -35,7 +35,7 @@
 			},
 			{
 				"name": "accessor",
-				"type": "Accessor_2<number, string>"
+				"type": "Accessor_3<number, string>"
 			},
 			{
 				"name": "value",

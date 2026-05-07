@@ -2,20 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ColorPanel, ColorPicker, Form1, type MountProps } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { Color, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
-	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
-	const color = Form1.fieldAccessor('color', 'oklch(1% 0.3 100)');
+	const [color, setColor] = createSignal<string | undefined>('oklch(1% 0.3 100)');
 
 	return (
 		<>
@@ -24,25 +23,19 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Readonly />
 				<Rounded />
-				<Layout />
 			</Portal>
 
-			<ColorPicker.Root
+			<Color.Root
+				activator
 				readonly={readonly()}
 				disabled={disabled()}
 				wcag="oklch(1 0 0)"
 				palette={palette()}
-				layout={layout()}
-				accessor={color}
-				label="picker label"
+				value={color()}
+				onChange={v => setColor(v)}
 				rounded={rounded()}
 				activatorClass="border border-palette-border min-w-8 min-h-8"
-				pickers={[
-					new ColorPanel.TailwindVarsPickerPanel(),
-					new ColorPanel.OKLCHPickerPanel(),
-					new ColorPanel.HSLPickerPanel(),
-					new ColorPanel.RGBPickerPanel(),
-				]}
+				spaces={[new Color.TailwindVarsSpace(), new Color.OKLCHSpace(), new Color.HSLSpace(), new Color.RGBSpace()]}
 			/>
 		</>
 	);

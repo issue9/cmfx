@@ -22,7 +22,7 @@
 			{
 				"name": "accessor",
 				"summary": "NOTE: 非响应式属性\n\n",
-				"type": "Accessor_2<string, string>"
+				"type": "Accessor_3<string, string>"
 			},
 			{
 				"name": "inputMode",

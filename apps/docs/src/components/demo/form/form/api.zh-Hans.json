@@ -305,7 +305,7 @@
 			},
 			{
 				"name": "api",
-				"type": "API_2<T, R, P>"
+				"type": "API<T, R, P>"
 			},
 			{
 				"name": "children",

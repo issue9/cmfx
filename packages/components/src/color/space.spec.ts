@@ -4,23 +4,23 @@
 
 import { describe, expect, test } from 'vitest';
 
-import type { PickerPanel } from './picker';
-import { HSLPickerPanel } from './picker_hsl';
-import { OKLCHPickerPanel } from './picker_oklch';
-import { PresetPickerPanel } from './picker_preset';
-import { RGBPickerPanel } from './picker_rgb';
-import { TailwindVarsPickerPanel } from './picker_vars';
-import { WebSafePickerPanel } from './picker_websafe';
+import type { Space } from './space';
+import { HSLSpace } from './space_hsl';
+import { OKLCHSpace } from './space_oklch';
+import { PresetSpace } from './space_preset';
+import { RGBSpace } from './space_rgb';
+import { TailwindVarsSpace } from './space_vars';
+import { WebSafeSpace } from './space_websafe';
 
-function testPanel(p: PickerPanel) {
+function testPanel(p: Space) {
 	expect(p.id).toBeDefined();
 	expect(p.localeID).toBeDefined();
 	expect(p.panel).toBeDefined();
 	expect(p.include).toBeDefined();
 }
 
-describe('PickerPanel', () => {
-	const hsl = new HSLPickerPanel(30);
+describe('Space', () => {
+	const hsl = new HSLSpace(30);
 	test('hsl', () => testPanel(hsl));
 	test('hsl.include', () => {
 		expect(hsl.include('')).toBe(false);
@@ -28,7 +28,7 @@ describe('PickerPanel', () => {
 		expect(hsl.include('var(--color-not-exists)')).toBe(false);
 	});
 
-	const oklch = new OKLCHPickerPanel();
+	const oklch = new OKLCHSpace();
 	test('oklch', () => testPanel(oklch));
 	test('oklch.include', () => {
 		expect(oklch.include('')).toBe(false);
@@ -36,7 +36,7 @@ describe('PickerPanel', () => {
 		expect(oklch.include('var(--color-not-exists)')).toBe(false);
 	});
 
-	const rgb = new RGBPickerPanel();
+	const rgb = new RGBSpace();
 	test('rgb', () => testPanel(rgb));
 	test('rgb.include', () => {
 		expect(rgb.include('')).toBe(false);
@@ -44,7 +44,7 @@ describe('PickerPanel', () => {
 		expect(rgb.include('var(--color-not-exists)')).toBe(false);
 	});
 
-	const websafe = new WebSafePickerPanel();
+	const websafe = new WebSafeSpace();
 	test('websafe', () => testPanel(websafe));
 	test('websafe.include', () => {
 		expect(websafe.include('')).toBe(false);
@@ -52,7 +52,7 @@ describe('PickerPanel', () => {
 		expect(websafe.include('#341')).toBe(false);
 	});
 
-	const vars = new TailwindVarsPickerPanel();
+	const vars = new TailwindVarsSpace();
 	test('vars', () => testPanel(vars));
 	test('vars.include', () => {
 		expect(vars.include('')).toBe(false);
@@ -60,7 +60,7 @@ describe('PickerPanel', () => {
 		expect(vars.include('var(--color-not-exists)')).toBe(false);
 	});
 
-	const preset = new PresetPickerPanel('var(--color)', 'rgb(1,1,1)');
+	const preset = new PresetSpace('var(--color)', 'rgb(1,1,1)');
 	test('preset', () => testPanel(preset));
 	test('preset.include', () => {
 		expect(preset.include('')).toBe(false);

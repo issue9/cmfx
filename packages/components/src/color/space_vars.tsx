@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, type JSX, type Signal } from 'solid-js';
+import { For, type JSX } from 'solid-js';
 
 import { joinClass } from '@components/base';
-import type { PickerPanel } from './picker';
+import type { Accessor, Space } from './space';
 import styles from './style.module.css';
 
 // NOTE: 如果是动态生成，tailwind 不会将这些变量编译到最终生成的 css 中。
@@ -276,9 +276,9 @@ const vars: Array<string> = [
 ] as const;
 
 /**
- * tailwind 提供的颜色列表 {@link PickerPanel} 实现
+ * tailwind 提供的颜色列表 {@link Space} 实现
  */
-export class TailwindVarsPickerPanel implements PickerPanel {
+export class TailwindVarsSpace implements Space {
 	readonly #disabled: Array<string> = [];
 
 	/**
@@ -302,7 +302,7 @@ export class TailwindVarsPickerPanel implements PickerPanel {
 		return vars.includes(value);
 	}
 
-	panel(s: Signal<string | undefined>): JSX.Element {
+	panel(access: Accessor): JSX.Element {
 		return (
 			<div class={styles.vars}>
 				<For each={vars}>
@@ -310,7 +310,7 @@ export class TailwindVarsPickerPanel implements PickerPanel {
 						const cls = joinClass(
 							undefined,
 							styles.color,
-							v === s[0]() ? styles.selected : '',
+							v === access.getValue() ? styles.selected : '',
 							this.#disabled.includes(v) ? styles.disabled : '',
 						);
 
@@ -323,7 +323,7 @@ export class TailwindVarsPickerPanel implements PickerPanel {
 									if (this.#disabled.includes(v)) {
 										return;
 									}
-									s[1](v);
+									access.setValue(v);
 								}}
 							/>
 						);
