@@ -11,7 +11,8 @@ import { type BaseProps, type BaseRef, joinClass, PropsError, type RefProps } fr
 import { Button } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
 import { useLocale } from '@components/context';
-import { Choice, Form1 } from '@components/form1';
+import { Form1 } from '@components/form1';
+import { Choice } from '@components/menu/choice';
 import type { PickerPanel } from './picker';
 import styles from './style.module.css';
 import { wcag } from './wcag';

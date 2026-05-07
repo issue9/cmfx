@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * from './choice';
 export * from './color';
 export * from './date';
 export * from './editor';

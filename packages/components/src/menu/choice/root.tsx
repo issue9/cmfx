@@ -6,8 +6,9 @@ import { createMemo, createUniqueId, For, type JSX, Match, mergeProps, Show, Swi
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type AvailableEnumType, type BaseRef, joinClass, type RefProps } from '@components/base';
-import { Form1 } from '@components/form1/form';
+import type { AvailableEnumType, BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
+import { joinClass } from '@components/base';
+import { Form } from '@components/form';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
 
@@ -21,7 +22,9 @@ export type Ref = BaseRef<HTMLDivElement>;
  */
 export type Option<T extends AvailableEnumType = string> = Menu.MenuItem<T>;
 
-interface Base<T extends AvailableEnumType = string> extends Form1.FieldBaseProps, RefProps<Ref> {
+export type Options<T extends AvailableEnumType = string> = Array<Option<T>>;
+
+interface Base<T extends AvailableEnumType = string> extends Form.InputProps, BaseProps, RefProps<Ref> {
 	placeholder?: string;
 
 	/**
@@ -29,7 +32,7 @@ interface Base<T extends AvailableEnumType = string> extends Form1.FieldBaseProp
 	 *
 	 * @reactive
 	 */
-	options: Array<Option<T>>;
+	options: Options<T>;
 
 	/**
 	 * 选项是否可关闭
@@ -49,7 +52,9 @@ export interface MultipleProps<T extends AvailableEnumType = string> extends Bas
 	 */
 	multiple: true;
 
-	accessor: Form1.Accessor<Array<T> | undefined>;
+	value?: Array<T>;
+
+	onChange?: ChangeFunc<Array<T>>;
 }
 
 export interface SingleProps<T extends AvailableEnumType = string> extends Base<T> {
@@ -58,7 +63,9 @@ export interface SingleProps<T extends AvailableEnumType = string> extends Base<
 	 */
 	multiple?: false;
 
-	accessor: Form1.Accessor<T | undefined>;
+	value?: T;
+
+	onChange?: ChangeFunc<T>;
 }
 
 export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | SingleProps<T>;
@@ -67,8 +74,10 @@ export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | Sin
  * 用以替代 select 组件
  */
 export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-	const form = Form1.useForm();
-	props = mergeProps(form, props);
+	const field = Form.useField<Array<T>>() ?? Form.buildFakeFieldContext(props.value);
+	const form = Form.useForm();
+	props = mergeProps({ tabindex: 0 }, form, props);
+
 	const id = createUniqueId();
 
 	const getSelectedMenuItems = (vals: Array<T>): Array<Menu.Item<T>> => {
@@ -91,16 +100,17 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 		return items;
 	};
 
-	const areas = createMemo(() => Form1.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-
+	// 生成下拉菜单的选中项
 	const value = createMemo(() => {
-		// 生成下拉菜单的选中项
-		const v = props.accessor.getValue();
+		const v = field.getValue();
 		return v !== undefined ? (Array.isArray(v) ? v : [v]) : undefined;
 	});
 
 	const trigger = (
-		<div class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}>
+		<div
+			class={joinClass(props.palette, props.class, styles.activator, props.rounded ? styles.rounded : '')}
+			style={props.style}
+		>
 			<input
 				id={id}
 				tabIndex={props.tabindex}
@@ -125,11 +135,11 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 													}
 
 													if (props.multiple) {
-														const v = props.accessor.getValue() as Array<T>;
+														const v = field.getValue() as Array<T>;
 														const vals = v.filter(vv => vv !== item.value);
-														props.accessor.setValue(vals);
+														field.setValue(vals);
 													} else {
-														props.accessor.setValue(undefined);
+														field.setValue(undefined);
 													}
 													e.stopPropagation();
 													e.preventDefault();
@@ -152,79 +162,57 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				if (props.readonly) {
 					return;
 				}
-				props.accessor.setValue(v);
+				const old = field.getValue();
+
+				field.setValue(v);
+
+				if (props.onChange) {
+					props.onChange(v, old);
+				}
 			}
 		: (v: T | undefined) => {
 				if (props.readonly) {
 					return;
 				}
-				props.accessor.setValue(v);
+
+				const old = field.getValue();
+
+				field.setValue(v);
+
+				if (props.onChange) {
+					props.onChange(v, old);
+				}
 			};
 
 	let dropdownRef: Dropdown.RootRef;
 	return (
-		<Form1.Field
-			class={joinClass(undefined, styles.activator, props.class)}
-			style={props.style}
-			title={props.title}
-			palette={props.palette}
+		<Dropdown.Root
+			multiple={props.multiple}
+			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
+			value={field.getValue() as any}
+			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
+			onChange={onchange as any}
+			items={props.options}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
+				const s = el.menu().root().style;
+				s.maxHeight = '240px';
+				s.overflowY = 'auto';
+
+				dropdownRef = el;
+			}}
+			onPopover={e => {
+				if (props.disabled) {
+					return true;
+				} // disabled 模式下不弹出菜单
+
+				if (e) {
+					dropdownRef.menu().scrollSelectedIntoView();
 				}
+				return false;
 			}}
 		>
-			<Show when={areas().labelArea}>
-				{area => (
-					<label
-						style={{
-							...Form1.fieldArea2Style(area()),
-							width: props.labelWidth,
-							'text-align': props.labelAlign,
-						}}
-						for={id}
-					>
-						{props.label}
-					</label>
-				)}
-			</Show>
-
-			<div style={Form1.fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}>
-				<Dropdown.Root
-					multiple={props.multiple}
-					// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
-					value={(props.accessor as Props<T>['accessor']).getValue() as any}
-					// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
-					onChange={onchange as any}
-					items={props.options}
-					ref={el => {
-						const s = el.menu().root().style;
-						s.maxHeight = '240px';
-						s.overflowY = 'auto';
-
-						dropdownRef = el;
-					}}
-					onPopover={e => {
-						if (props.disabled) {
-							return true;
-						} // disabled 模式下不弹出菜单
-
-						if (e) {
-							dropdownRef.menu().scrollSelectedIntoView();
-						}
-						return false;
-					}}
-				>
-					{trigger}
-				</Dropdown.Root>
-			</div>
-
-			<Show when={areas().helpArea}>
-				{area => <Form1.FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
-			</Show>
-		</Form1.Field>
+			{trigger}
+		</Dropdown.Root>
 	);
 }
 

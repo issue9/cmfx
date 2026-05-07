@@ -7,7 +7,8 @@ import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
 import { joinClass, PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
-import { Choice, Form1 } from '@components/form1';
+import { Form1 } from '@components/form1/form';
+import { Choice } from '@components/menu';
 import { Pagination } from '@components/pagination/pagination';
 import styles from './style.module.css';
 

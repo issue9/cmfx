@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Choice, Form1, type MountProps, TextField } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { Choice, Form1, type MountProps, TextField } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const fa = Form1.fieldAccessor<string | undefined>('choice', '1');
+	const [val, setVal] = createSignal('1');
 	const options: Array<Choice.Option> = [
 		{ type: 'item', value: '1', label: <div>abc</div> },
 		{ type: 'item', value: '2', label: <div style="color:green">green</div> },
@@ -30,7 +30,6 @@ export default function (props: MountProps): JSX.Element {
 
 	const [Palette, palette] = paletteSelector();
 	const [Closable, closable] = boolSelector('closable');
-	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
@@ -43,35 +42,22 @@ export default function (props: MountProps): JSX.Element {
 				<Readonly />
 				<Closable />
 				<Rounded />
-				<Layout />
-
-				<Button.Root
-					palette="primary"
-					onclick={() => {
-						fa.setError(fa.getError() ? undefined : 'error');
-					}}
-				>
-					toggle error
-				</Button.Root>
 			</Portal>
 
 			<div class="flex items-start justify-start gap-5">
 				<Choice.Root
 					closable={closable()}
-					hasHelp
-					layout={layout()}
 					tabindex={0}
 					placeholder="placeholder"
 					disabled={disabled()}
 					rounded={rounded()}
 					readonly={readonly()}
 					palette={palette()}
-					label="label+tabindex"
-					accessor={fa}
+					value={val()}
+					onChange={v => setVal(v)}
 					options={options}
 				/>
 				<TextField.Root
-					layout={layout()}
 					placeholder="placeholder"
 					disabled={disabled()}
 					rounded={rounded()}
@@ -79,6 +65,7 @@ export default function (props: MountProps): JSX.Element {
 					palette={palette()}
 					accessor={tf}
 				/>
+				<p>{val()}</p>
 			</div>
 		</div>
 	);

@@ -2,15 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Choice, Form1, type MountProps, TextField } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { Choice, Form, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const mfa = Form1.fieldAccessor<Array<number>>('choice', [1, 2]);
-	const multipleOptions: Array<Choice.Option<number>> = [
+	const [val, setVal] = createSignal([1]);
+	const [F, Field] = Form.create({ initValue: { a: [1, 2] } });
+
+	const multipleOptions: Choice.Options<number> = [
 		{ type: 'item', value: 1, label: <div>abc</div> },
 		{ type: 'item', value: 2, label: <div style="color:green">green</div> },
 		{ type: 'divider' },
@@ -48,8 +50,6 @@ export default function (props: MountProps): JSX.Element {
 		},
 	];
 
-	const tf = Form1.fieldAccessor('textfield', '');
-
 	const [Palette, palette] = paletteSelector();
 	const [Closable, closable] = boolSelector('closable');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
@@ -66,40 +66,28 @@ export default function (props: MountProps): JSX.Element {
 				<Closable />
 				<Rounded />
 				<Layout />
-
-				<Button.Root
-					palette="primary"
-					onclick={() => {
-						mfa.setError(mfa.getError() ? undefined : 'error');
-					}}
-				>
-					toggle error
-				</Button.Root>
 			</Portal>
 
-			<div class="flex flex-row gap-5">
-				<Choice.Root
-					layout={layout()}
-					placeholder="placeholder"
-					disabled={disabled()}
-					rounded={rounded()}
-					readonly={readonly()}
-					palette={palette()}
-					accessor={mfa}
-					multiple
-					options={multipleOptions}
-					closable={closable()}
-				/>
-				<TextField.Root
-					layout={layout()}
-					placeholder="placeholder"
-					disabled={disabled()}
-					rounded={rounded()}
-					readonly={readonly()}
-					palette={palette()}
-					accessor={tf}
-				/>
-			</div>
+			<F>
+				<div class="flex flex-row gap-5">
+					<Field name="a" layout={layout()}>
+						<Choice.Root
+							placeholder="placeholder"
+							disabled={disabled()}
+							rounded={rounded()}
+							readonly={readonly()}
+							palette={palette()}
+							value={val()}
+							multiple
+							options={multipleOptions}
+							closable={closable()}
+							onChange={v => setVal(v)}
+						/>
+					</Field>
+
+					<p>{val()}</p>
+				</div>
+			</F>
 		</div>
 	);
 }

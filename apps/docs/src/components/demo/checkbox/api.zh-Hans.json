@@ -148,17 +148,9 @@
 				"reactive": true
 			},
 			{
-				"name": "label",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "help",
-				"summary": "提示信息\n\n",
-				"type": "JSX.Element"
-			},
-			{
 				"name": "value",
 				"summary": "值\n\n",
+				"remarks": "如果使用了 Form 组件，则该属性会覆盖由 useField 获取的值。\n\n",
 				"type": "T[] | undefined",
 				"reactive": true
 			},
