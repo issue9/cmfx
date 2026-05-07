@@ -31,7 +31,6 @@ export default function (props: MountProps): JSX.Element {
 			<div class="flex flex-col justify-start">
 				<Checkbox.Root
 					rounded={rounded()}
-					title="primary"
 					label="primary"
 					block={block()}
 					palette="primary"
@@ -41,7 +40,6 @@ export default function (props: MountProps): JSX.Element {
 
 				<Checkbox.Root
 					rounded={rounded()}
-					title="error"
 					label="error"
 					block={block()}
 					palette="error"
@@ -52,7 +50,6 @@ export default function (props: MountProps): JSX.Element {
 				<Checkbox.Root
 					rounded={rounded()}
 					indeterminate
-					title="onchange"
 					label="事件：onchange"
 					onChange={onchange}
 					block={block()}

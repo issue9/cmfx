@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, For, type JSX, mergeProps } from 'solid-js';
+import { createEffect, createMemo, For, type JSX, mergeProps } from 'solid-js';
 
 import type { AvailableEnumType, BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
@@ -13,21 +13,7 @@ import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
-export interface Props<T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
-	/**
-	 * 禁用组件
-	 *
-	 * @reactive
-	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读属性
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
-
+export interface Props<T extends AvailableEnumType = string> extends BaseProps, Form.InputProps, RefProps<Ref> {
 	/**
 	 * 所有 checkbox 项的布局
 	 *
@@ -38,29 +24,10 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 	layout?: Layout;
 
 	/**
-	 * 表单组件的 rounded 属性的默认值
-	 *
-	 * @reactive
-	 */
-	rounded?: boolean;
-
-	/**
-	 * tabindex 属性
-	 *
-	 * @reactive
-	 * @defaultValue 0
-	 */
-	tabindex?: number;
-
-	label?: JSX.Element;
-
-	/**
-	 * 提示信息
-	 */
-	help?: JSX.Element;
-
-	/**
 	 * 值
+	 *
+	 * @remarks
+	 * 如果使用了 Form 组件，则该属性会覆盖由 useField 获取的值。
 	 *
 	 * @reactive
 	 */
@@ -98,6 +65,12 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			props.class,
 			props.layout === 'vertical' ? 'flex-col' : '',
 		);
+	});
+
+	createEffect(() => {
+		if (props.value !== undefined) {
+			field.setValue(props.value);
+		}
 	});
 
 	return (

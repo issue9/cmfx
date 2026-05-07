@@ -27,7 +27,6 @@ export default function (props: MountProps): JSX.Element {
 
 			<Checkbox.Root
 				indeterminate={i()}
-				title="indeterminate"
 				rounded={rounded()}
 				label="indeterminate"
 				block={block()}

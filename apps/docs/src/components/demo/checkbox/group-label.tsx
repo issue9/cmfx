@@ -35,6 +35,8 @@ export default function (props: MountProps): JSX.Element {
 		},
 	];
 
+	const [F, Field] = Form.create({ initValue: { a: ['1'] } });
+
 	return (
 		<div>
 			<Portal mount={props.mount}>
@@ -48,28 +50,28 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div>
-				<Form.Root api={new Form.API({ initValue: { a: ['1'] } })}>
-					<Form.Field
+				<F>
+					<Field
 						palette="primary"
 						label="group"
 						layout={layout()}
 						help="help text"
-						rounded={rounded()}
-						disabled={disabled()}
-						readonly={readonly()}
 						labelAlign={labelAlign()}
 						labelWidth="100px"
 						name="a"
 					>
 						<CheckboxGroup.Root
-							itemLayout={itemLayout()}
+							rounded={rounded()}
+							disabled={disabled()}
+							readonly={readonly()}
+							layout={itemLayout()}
 							block={block()}
 							options={groupOptions}
 							value={['1']}
 							onChange={(n, o) => setGroup(`new:${n}, old:${o}`)}
 						/>
-					</Form.Field>
-				</Form.Root>
+					</Field>
+				</F>
 				<pre>{group()}</pre>
 			</div>
 		</div>
