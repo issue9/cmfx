@@ -25,6 +25,7 @@ export * from './description';
 export * from './dialog';
 export * from './divider';
 export * from './drawer';
+export * from './editor';
 export * from './form';
 export * from './form1';
 export * from './formatter';

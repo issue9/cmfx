@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Editor,  Form1, type MountProps } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { Editor, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const txt = Form1.fieldAccessor('name', '');
+	const [txt, setTxt] = createSignal('');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Palette, palette] = paletteSelector();
@@ -22,9 +22,6 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Readonly />
 				<Layout />
-				<Button.Root palette="primary" onclick={() => txt.setError(txt.getError() ? undefined : 'error')}>
-					toggle error
-				</Button.Root>
 			</Portal>
 
 			<Editor.Root
@@ -36,10 +33,11 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				readonly={readonly()}
 				disabled={disabled()}
-				accessor={txt}
+				value={txt()}
+				onChange={v => setTxt(v)}
 				placeholder="placeholder text"
 			/>
-			<pre>{txt.getValue()}</pre>
+			<pre>{txt()}</pre>
 		</>
 	);
 }
