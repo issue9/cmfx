@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker,  Form1, type MountProps, type Week, weeks } from '@cmfx/components';
+import { DatePicker, type MountProps, type Week, weeks } from '@cmfx/components';
 import type { JSX } from 'solid-js';
+import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const dateFA = Form1.fieldAccessor<Date | undefined, 'date'>('dp', new Date('2024-01-02T15:34'), 'date');
-	const numberFA = Form1.fieldAccessor<number | undefined, 'number'>('dp', undefined, 'number');
+	const dateFA = createSignal<Date | undefined>(new Date('2024-01-02T15:34'));
+	const numberFA = createSignal<number | undefined>(undefined);
 
 	const min = new Date('2023-12-02T15:34');
 	const max = new Date('2025-12-02T15:34');
@@ -50,11 +51,12 @@ export default function (props: MountProps): JSX.Element {
 				rounded={rounded()}
 				readonly={readonly()}
 				disabled={disabled()}
-				accessor={dateFA}
+				value={dateFA[0]()}
+				onChange={dateFA[1]}
 				weekBase={week()}
 				time={time()}
 			/>
-			<p>{dateFA?.getValue()?.toString() ?? 'undefined'}</p>
+			<p>{dateFA[0]() ?? 'undefined'}</p>
 
 			<DatePicker.Root
 				class="w-[200px]"
@@ -68,11 +70,12 @@ export default function (props: MountProps): JSX.Element {
 				rounded={rounded()}
 				readonly={readonly()}
 				disabled={disabled()}
-				accessor={numberFA}
+				value={numberFA[0]()}
+				onChange={numberFA[1]}
 				weekBase={week()}
 				time={time()}
 			/>
-			<p>{numberFA?.getValue() ?? 'undefined'}</p>
+			<p>{numberFA[0]() ?? 'undefined'}</p>
 		</div>
 	);
 }

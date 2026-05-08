@@ -17,7 +17,7 @@ export default function (): Info {
 		kind: 'data-input',
 		title: '_d.demo.date',
 		icon: IconDate,
-		path: 'form/date',
+		path: 'date',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [

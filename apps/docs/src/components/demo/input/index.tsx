@@ -16,7 +16,7 @@ import { default as text } from './text.tsx?raw';
 
 export default function (): Info {
 	return {
-		kind: 'general',
+		kind: 'data-input',
 		title: '_d.demo.input',
 		icon: IconInput,
 		path: 'input',

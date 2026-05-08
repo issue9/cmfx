@@ -2,49 +2,46 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {  Form1, type MountProps, type Week, WeekPicker, type WeekValueType } from '@cmfx/components';
+import { DateRangePicker, type MountProps, type Week, weeks } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const weekNum = Form1.fieldAccessor<WeekValueType>('week', [2025, 7]);
+	const dateFA = createSignal<[Date, Date] | undefined>([new Date('2024-01-02T15:34'), new Date('2025-01-02T15:34')]);
+	const numberFA = createSignal<[number | undefined, number | undefined]>([undefined, 1765000000000]);
 
 	const min = new Date('2023-12-02T15:34');
 	const max = new Date('2025-12-02T15:34');
-	const [week, setWeek] = createSignal<Week>(0);
 
 	const [Palette, palette] = paletteSelector('primary');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Weekend, weekend] = boolSelector('weekend');
+	const [Time, time] = boolSelector('time');
 	const [Minmax, minmax] = boolSelector('minmax');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
+	const [Week, week] = arraySelector<Week>('weekBase', weeks);
+	const [Shortcut, shortcut] = boolSelector('shortcuts(range)');
 
 	return (
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
+				<Time />
 				<Disabled />
 				<Readonly />
 				<Weekend />
 				<Rounded />
 				<Minmax />
 				<Layout />
-				<input
-					type="number"
-					min="0"
-					max="6"
-					class="w-40"
-					placeholder="每周起始于"
-					value={week()}
-					onChange={e => setWeek(parseInt(e.target.value, 10) as Week)}
-				/>
+				<Week />
+				<Shortcut />
 			</Portal>
 
-			<WeekPicker.Root
+			<DateRangePicker.Root
 				class="w-[400px]"
 				placeholder="placeholder"
 				layout={layout()}
@@ -54,13 +51,17 @@ export default function (props: MountProps): JSX.Element {
 				weekend={weekend()}
 				palette={palette()}
 				rounded={rounded()}
+				shortcuts={shortcut()}
 				readonly={readonly()}
 				disabled={disabled()}
-				accessor={weekNum}
+				value={dateFA[0]()}
+				onChange={dateFA[1]}
 				weekBase={week()}
+				time={time()}
 			/>
+			<p>{dateFA[0]()?.join('-') ?? ''}</p>
 
-			<WeekPicker.Root
+			<DateRangePicker.Root
 				class="w-[200px]"
 				placeholder="placeholder"
 				layout={layout()}
@@ -70,11 +71,15 @@ export default function (props: MountProps): JSX.Element {
 				weekend={weekend()}
 				palette={palette()}
 				rounded={rounded()}
+				shortcuts={shortcut()}
 				readonly={readonly()}
 				disabled={disabled()}
-				accessor={weekNum}
+				value={numberFA[0]()}
+				onChange={numberFA[1]}
 				weekBase={week()}
+				time={time()}
 			/>
+			<p>{numberFA[0]()?.join('-') ?? ''}</p>
 		</>
 	);
 }

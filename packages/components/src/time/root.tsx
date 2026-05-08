@@ -7,24 +7,24 @@ import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show, u
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type BaseRef, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, type ChangeFunc, joinClass, type RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { TimePanel } from '@components/datetime';
-import { Form1 } from '@components/form1/form';
+import { Form } from '@components/form';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props
-	extends Form1.FieldBaseProps,
+	extends Form.InputProps,
+		BaseProps,
 		Omit<TimePanel.RootProps, 'onChange' | 'value' | 'popover' | 'ref'>,
 		RefProps<Ref> {
 	placeholder?: string;
 
-	/**
-	 * NOTE: 非响应式属性
-	 */
-	accessor: Form1.Accessor<Date | undefined>;
+	value?: Date;
+
+	onChange?: ChangeFunc<Date | undefined>;
 }
 
 function togglePop(anchor: Element, popElem: HTMLElement): boolean {
@@ -35,18 +35,18 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 }
 
 export function Root(props: Props): JSX.Element {
-	const form = Form1.useForm();
-	props = mergeProps(form, props);
 	const l = useLocale();
 
-	const ac = props.accessor;
+	const field = Form.useField<Date>() ?? Form.buildFakeFieldContext(props.value);
+	const form = Form.useForm();
+	props = mergeProps({ tabindex: 0 }, form, props);
+
 	const [hover, setHover] = createSignal(false);
 
 	let panelRef: TimePanel.RootRef;
 	let anchorRef: HTMLElement;
 
 	const id = createUniqueId();
-	const areas = createMemo(() => Form1.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
 	const formatter = createMemo(
 		() =>
@@ -58,36 +58,9 @@ export function Root(props: Props): JSX.Element {
 	);
 
 	return (
-		<Form1.Field
-			class={joinClass(undefined, styles.activator, props.class)}
-			style={props.style}
-			title={props.title}
-			palette={props.palette}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
-			aria-haspopup
-		>
-			<Show when={areas().labelArea}>
-				{area => (
-					<label
-						style={{
-							...Form1.fieldArea2Style(area()),
-							width: props.labelWidth,
-							'text-align': props.labelAlign,
-						}}
-						for={id}
-					>
-						{props.label}
-					</label>
-				)}
-			</Show>
-
+		<>
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: Mouse 事件上是为了达到 label 效果 */}
 			<div
-				style={Form1.fieldArea2Style(areas().inputArea)}
 				ref={el => {
 					anchorRef = el;
 				}}
@@ -95,6 +68,7 @@ export function Root(props: Props): JSX.Element {
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef.root())}
 				class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}
+				aria-haspopup
 			>
 				<input
 					id={id}
@@ -103,13 +77,13 @@ export function Root(props: Props): JSX.Element {
 					disabled={props.disabled}
 					readOnly
 					placeholder={props.placeholder}
-					value={ac.getValue() ? formatter().format(ac.getValue()) : ''}
+					value={field.getValue() ? formatter().format(field.getValue()) : ''}
 				/>
-				<Show when={hover() && ac.getValue()} fallback={<IconExpandAll />}>
+				<Show when={hover() && field.getValue()} fallback={<IconExpandAll />}>
 					<IconClose
 						onClick={(e: MouseEvent) => {
 							e.stopPropagation();
-							ac.setValue(undefined);
+							field.setValue(undefined);
 						}}
 					/>
 				</Show>
@@ -120,18 +94,18 @@ export function Root(props: Props): JSX.Element {
 				ref={el => (panelRef = el)}
 				disabled={props.disabled}
 				readonly={props.readonly}
-				value={ac.getValue()}
+				value={field.getValue()}
 				onChange={val => {
-					if (untrack(ac.getValue) === val) {
+					const old = untrack(field.getValue);
+					if (old === val) {
 						return;
 					}
-					ac.setValue(val);
+					field.setValue(val);
+					if (props.onChange) {
+						props.onChange(val, old);
+					}
 				}}
 			/>
-
-			<Show when={areas().helpArea}>
-				{area => <Form1.FieldHelpArea area={area()} getError={ac.getError} help={props.help} />}
-			</Show>
-		</Form1.Field>
+		</>
 	);
 }

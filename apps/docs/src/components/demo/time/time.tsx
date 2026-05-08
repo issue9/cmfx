@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form1, type MountProps, TimePicker } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { type MountProps, TimePicker } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const ac = Form1.fieldAccessor('time', new Date('2024-01-02T15:34'));
+	const ac = createSignal(new Date('2024-01-02T15:34'));
 
 	const [Palette, palette] = paletteSelector();
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
@@ -25,9 +25,6 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 				<Disabled />
 				<Layout />
-				<Button.Root palette="primary" onclick={() => ac.setError(ac.getError() ? undefined : 'error')}>
-					toggle error
-				</Button.Root>
 			</Portal>
 
 			<TimePicker.Root
@@ -39,8 +36,10 @@ export default function (props: MountProps): JSX.Element {
 				rounded={rounded()}
 				readonly={readonly()}
 				disabled={disabled()}
-				accessor={ac}
+				value={ac[0]()}
+				onChange={val => ac[1](val)}
 			/>
+			<p>{ac[0]()}</p>
 		</div>
 	);
 }
