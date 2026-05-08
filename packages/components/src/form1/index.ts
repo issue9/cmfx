@@ -5,6 +5,5 @@
 export * from './date';
 export * from './editor';
 export * from './form';
-export * from './textarea';
 export * from './time';
 export * from './upload';

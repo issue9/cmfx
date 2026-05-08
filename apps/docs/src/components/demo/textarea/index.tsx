@@ -13,7 +13,7 @@ export default function (): Info {
 		kind: 'data-input',
 		title: '_d.demo.textarea',
 		icon: IconTextarea,
-		path: 'form/textarea',
+		path: 'textarea',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Textarea, source: textarea, id: 'textarea' }],

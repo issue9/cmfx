@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show } from 'solid-js';
+import { createEffect, createSignal, type JSX, mergeProps } from 'solid-js';
 
-import { type BaseRef, joinClass, type RefProps } from '@components/base';
-import { Form1 } from '@components/form1/form';
+import { type BaseProps, type BaseRef, type ChangeFunc, joinClass, type RefProps } from '@components/base';
+import { Form } from '@components/form';
 import type { InputBase } from '@components/input';
 import styles from './style.module.css';
 
@@ -16,7 +16,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	textarea(): HTMLTextAreaElement;
 }
 
-export interface Props extends Form1.FieldBaseProps, RefProps<Ref> {
+export interface Props extends BaseProps, Form.InputProps, RefProps<Ref> {
 	/**
 	 * 最小的字符数量
 	 *
@@ -32,11 +32,6 @@ export interface Props extends Form1.FieldBaseProps, RefProps<Ref> {
 	minLength?: number;
 
 	placeholder?: string;
-
-	/**
-	 * NOTE: 非响应式属性
-	 */
-	accessor: Form1.Accessor<string>;
 
 	/**
 	 * 指定输入键盘的模式
@@ -57,6 +52,10 @@ export interface Props extends Form1.FieldBaseProps, RefProps<Ref> {
 	 * 如果为 false 或是为空表示不需要展示统计数据。
 	 */
 	count?: boolean | ((val: number, max?: number) => string);
+
+	value?: string;
+
+	onChange?: ChangeFunc<string | undefined>;
 }
 
 function countFormater(val: number, max?: number): string {
@@ -69,14 +68,15 @@ function countFormater(val: number, max?: number): string {
  * @typeParam T - 文本框内容的类型
  */
 export function Root(props: Props): JSX.Element {
-	const form = Form1.useForm();
-	props = mergeProps(form, props);
+	const field = Form.useField<string>() ?? Form.buildFakeFieldContext(props.value);
+	const form = Form.useForm();
+	props = mergeProps({ tabindex: 0 }, form, props);
 
 	const [count, setCount] = createSignal('');
 	createEffect(() => {
 		if (props.count) {
 			const formatter = props.count === true ? countFormater : props.count;
-			setCount(formatter(props.accessor.getValue()?.toString().length ?? 0, props.maxLength));
+			setCount(formatter(field.getValue()?.toString().length ?? 0, props.maxLength));
 		} else {
 			setCount('');
 		}
@@ -84,80 +84,39 @@ export function Root(props: Props): JSX.Element {
 
 	let textareaRef: HTMLTextAreaElement;
 	let rootRef: HTMLDivElement;
-	const [helpRef, setHelpRef] = createSignal<HTMLParagraphElement | undefined>();
-
-	const id = createUniqueId();
-	const areas = createMemo(() => Form1.calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
 	return (
-		<Form1.Field
-			ref={el => {
-				rootRef = el;
-			}}
-			class={joinClass(undefined, props.class, styles.ta)}
-			style={props.style}
-			title={props.title}
-			palette={props.palette}
-		>
-			<Show when={areas().labelArea}>
-				{area => (
-					<label
-						style={{
-							...Form1.fieldArea2Style(area()),
-							width: props.labelWidth,
-							'text-align': props.labelAlign,
-						}}
-						for={id}
-					>
-						{props.label}
-					</label>
-				)}
-			</Show>
-
+		<div class={joinClass(props.palette, styles.ta, props.class)} style={props.style} ref={el => (rootRef = el)}>
 			<textarea
-				style={Form1.fieldArea2Style(areas().inputArea)}
-				id={id}
+				id={field.id}
 				inputMode={props.inputMode}
 				class={joinClass(undefined, styles.textarea, props.rounded ? styles.rounded : '')}
 				tabIndex={props.tabindex}
 				disabled={props.disabled}
 				readOnly={props.readonly}
 				placeholder={props.placeholder}
-				value={props.accessor.getValue()}
+				value={field.getValue()}
 				ref={el => {
 					textareaRef = el;
 
 					if (props.ref) {
 						props.ref({
-							root() {
-								return rootRef;
-							},
-							textarea() {
-								return textareaRef;
-							},
+							root: () => rootRef,
+							textarea: () => textareaRef,
 						});
 					}
 				}}
 				onInput={e => {
-					props.accessor.setValue(e.target.value);
-					props.accessor.setError();
+					const old = field.getValue();
+					field.setValue(e.target.value);
+					if (props.onChange) {
+						props.onChange(e.target.value, old);
+					}
+					field.setError();
 				}}
 			/>
 
-			<span
-				class={styles.count}
-				style={{
-					bottom: helpRef() ? `${helpRef()!.getBoundingClientRect().height}px` : '0',
-				}}
-			>
-				{count()}
-			</span>
-
-			<Show when={areas().helpArea}>
-				{area => (
-					<Form1.FieldHelpArea ref={setHelpRef} area={area()} getError={props.accessor.getError} help={props.help} />
-				)}
-			</Show>
-		</Form1.Field>
+			<span class={styles.count}>{count()}</span>
+		</div>
 	);
 }

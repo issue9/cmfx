@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form1, type MountProps, TextArea } from '@cmfx/components';
+import { Form1, type MountProps, TextArea } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -22,9 +22,6 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Layout />
 				<Count />
-				<Button.Root palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>
-					toggle error
-				</Button.Root>
 			</Portal>
 			<TextArea.Root
 				count={count()}

@@ -49,6 +49,7 @@ export * from './spin';
 export * from './statistic';
 export * from './tab';
 export * from './table';
+export * from './textarea';
 export * from './tooltip';
 export * from './transition';
 export * from './wizard';
