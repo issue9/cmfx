@@ -11,7 +11,7 @@ import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Form1 } from '@components/form1/form';
-import { TextField } from '@components/form1/textfield';
+import { InputText } from '@components/input';
 import styles from './style.module.css';
 import type { Props } from './types';
 
@@ -76,8 +76,8 @@ export function Image(props: Props): JSX.Element {
 					</footer>
 				}
 			>
-				<TextField.Root label="src" accessor={img.accessor('src')} />
-				<TextField.Root label="alt" accessor={img.accessor('alt')} />
+				<InputText.Root label="src" accessor={img.accessor('src')} />
+				<InputText.Root label="alt" accessor={img.accessor('alt')} />
 			</Dialog.Root>
 		</>
 	);

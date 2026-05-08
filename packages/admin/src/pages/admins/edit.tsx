@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, Page, Table, TextField, useLocale } from '@cmfx/components';
+import { Button, Divider, Form, InputText, Page, Table, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, type JSX, onMount } from 'solid-js';
 import * as z from 'zod';
@@ -69,8 +69,8 @@ export function Edit(props: Props): JSX.Element {
 	return (
 		<Page.Root title="_p.admin.admin" class="max-w-2xl">
 			<Form.Root class="flex flex-col" api={api}>
-				<TextField.Root class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<TextField.Root class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+				<InputText.Root class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
+				<InputText.Root class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
 				<roles.Selector
 					class="w-full"
 					multiple

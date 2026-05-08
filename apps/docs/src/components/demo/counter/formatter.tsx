@@ -2,22 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Counter, Form1, type MountProps, Numeric } from '@cmfx/components';
+import { Button, Counter, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { paletteSelector } from '@docs/components/base';
+import { numeric, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
+	const [Num, num] = numeric('freq', 20);
 	let ref: Counter.RootRef;
-	const fa = Form1.fieldAccessor('freq', 20);
 
 	return (
 		<div>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Numeric.Root class="w-20" accessor={fa} />
+				<Num />
 			</Portal>
 			<Counter.Root
 				start={999}
@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				value={500}
 				formatter={(v: number) => `${v.toFixed(2)}%`}
-				frequency={fa.getValue()}
+				frequency={num()}
 			/>
 			<Button.Root onclick={() => ref.play()}>play</Button.Root>
 		</div>

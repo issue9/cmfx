@@ -7,9 +7,9 @@ import { describe, expect, test } from 'vitest';
 import { ComponentTester } from '@components/context/options/context.spec';
 import { type Ref, Root } from './root';
 
-describe('Input', async () => {
+describe('InputBase', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('Input', props => (
+	const ct = await ComponentTester.build('InputBase', props => (
 		<Root {...props} onChange={() => {}} ref={el => (ref = el)} />
 	));
 

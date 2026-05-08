@@ -107,7 +107,7 @@ export class RGBSpace implements Space {
 						ref={el => {
 							rRef = el;
 						}}
-						format={v => `${v.toFixed(2)}%`}
+						format={v => `${v ? v.toFixed(2) : 0}%`}
 						min={0}
 						max={1}
 						step={0.01}
@@ -122,7 +122,7 @@ export class RGBSpace implements Space {
 							el.input().classList.add(styles.bg);
 							gRef = el;
 						}}
-						format={v => `${v.toFixed(2)}%`}
+						format={v => `${v ? v.toFixed(2) : 0}%`}
 						min={0}
 						max={1}
 						step={0.01}
@@ -137,7 +137,7 @@ export class RGBSpace implements Space {
 							el.input().classList.add(styles.bg);
 							bRef = el;
 						}}
-						format={v => `${v.toFixed(2)}%`}
+						format={v => `${v ? v.toFixed(2) : 0}%`}
 						min={0}
 						max={1}
 						step={0.01}
@@ -152,7 +152,7 @@ export class RGBSpace implements Space {
 							el.input().classList.add(styles.bg);
 							aRef = el;
 						}}
-						format={v => `${v.toFixed(2)}%`}
+						format={v => `${v ? v.toFixed(2) : 0}%`}
 						min={0}
 						max={1}
 						step={0.01}

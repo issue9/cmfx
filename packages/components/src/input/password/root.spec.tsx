@@ -5,20 +5,16 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { Form1 } from '@components/form1/form';
 import { type Ref, Root } from './root';
 
-describe('TextField', async () => {
+describe('InputPassword', async () => {
 	let ref: Ref;
-	const fa = Form1.fieldAccessor('tf', 'textfield');
-	const ct = await ComponentTester.build('TextField', props => (
-		<Root accessor={fa} {...props} ref={el => (ref = el)} />
-	));
+	const ct = await ComponentTester.build('InputPassword', props => <Root {...props} ref={el => (ref = el)} />);
+
+	test('props', () => ct.testProps());
 
 	test('ref', async () => {
 		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
 		expect(ref.input()).toBeInstanceOf(HTMLInputElement);
 	});
-
-	test('props', () => ct.testProps());
 });

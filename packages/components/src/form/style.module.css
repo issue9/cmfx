@@ -26,5 +26,9 @@
 		.help.error {
 			@apply text-error-fg;
 		}
+
+		.input {
+			@apply w-full h-full;
+		}
 	}
 }

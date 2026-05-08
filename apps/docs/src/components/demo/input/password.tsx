@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form1, type MountProps, Password } from '@cmfx/components';
+import { Button, Form1, type MountProps, InputPassword } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -38,9 +38,8 @@ export default function (props: MountProps): JSX.Element {
 				</Button.Root>
 			</Portal>
 
-			<Password.Root
+			<InputPassword.Root
 				count={count()}
-				hasHelp
 				layout={layout()}
 				placeholder="placeholder"
 				label="password"

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form1, type MountProps, Numeric } from '@cmfx/components';
+import { Button, Form1, InputNumber, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -37,8 +37,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
-				<Numeric.Root
-					hasHelp
+				<InputNumber.Root
 					layout={layout()}
 					placeholder="placeholder"
 					palette={palette()}
@@ -47,8 +46,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={num}
 				/>
-				<Numeric.Root
-					hasHelp
+				<InputNumber.Root
 					layout={layout()}
 					placeholder="placeholder"
 					label="icon"
@@ -59,8 +57,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={num}
 				/>
-				<Numeric.Root
-					hasHelp
+				<InputNumber.Root
 					layout={layout()}
 					placeholder="placeholder"
 					label="range:[1,10]"

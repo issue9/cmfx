@@ -7,7 +7,8 @@ import { Portal } from 'solid-js/web';
 
 import type { BaseProps, MountProps } from '@components/base';
 import { useLocale } from '@components/context';
-import { Form1, TextField } from '@components/form1';
+import { Form1 } from '@components/form1';
+import { InputText } from '@components/input';
 import { AcceptButton, Actions } from './buttons';
 import type { Ref } from './context';
 import { Root } from './root';
@@ -179,7 +180,7 @@ function PromptProvider(props: BaseProps): JSX.Element {
 			class="min-w-60"
 			footer={<Actions acceptValue={acceptValue} />}
 		>
-			<TextField.Root class="w-full" layout="vertical" label={msg()} accessor={access} />
+			<InputText.Root class="w-full" layout="vertical" label={msg()} accessor={access} />
 		</Root>
 	);
 }

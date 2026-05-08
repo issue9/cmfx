@@ -12,8 +12,7 @@ import { Button } from '@components/button';
 import { Color as XColor } from '@components/color';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
-import { fieldAccessor } from '@components/form1/form/access';
-import { Numeric } from '@components/form1/textfield';
+import { InputNumber } from '@components/input';
 import styles from './style.module.css';
 import type { Props } from './types';
 
@@ -65,12 +64,12 @@ export function Color(props: Props): JSX.Element {
 			checked={!!val()}
 			onclick={e => {
 				if (e.currentTarget === e.target) {
-					picker.showPicker();
+					picker.showPanel();
 				}
 			}}
 		>
 			<XColor.Root
-				picker
+				activator
 				ref={el => (picker = el)}
 				value={val()}
 				spaces={[
@@ -138,12 +137,12 @@ export function BackgroundColor(props: Props): JSX.Element {
 			checked={!!val()}
 			onclick={e => {
 				if (e.currentTarget === e.target) {
-					picker.showPicker();
+					picker.showPanel();
 				}
 			}}
 		>
 			<XColor.Root
-				picker
+				activator
 				ref={el => (picker = el)}
 				value={val()}
 				onChange={v => setVal(v)}
@@ -171,22 +170,24 @@ export function LineHeight(props: Props): JSX.Element {
 	const l = useLocale();
 
 	const lh = props.editor.getAttributes('textStyle').lineHeight;
-	const accessor = fieldAccessor<number | undefined>('lineHeight', lh ? parseFloat(lh) : undefined);
-	accessor.onChange(v => {
-		if (v) {
-			props.editor.chain().setLineHeight(v.toString()).run();
-		} else {
-			props.editor.chain().unsetLineHeight().run();
-		}
-	});
+	const [height, setHeight] = createSignal<number | undefined>(lh ? parseFloat(lh) : undefined);
+	createEffect(
+		on(height, v => {
+			if (v) {
+				props.editor.chain().setLineHeight(v.toString()).run();
+			} else {
+				props.editor.chain().unsetLineHeight().run();
+			}
+		}),
+	);
 
 	const selectionUpdate = () => {
 		const lh = props.editor.getAttributes('textStyle').lineHeight;
-		const color = lh ? parseFloat(lh) : undefined;
-		if (accessor.getValue() === color) {
+		const h = lh ? parseFloat(lh) : undefined;
+		if (height() === h) {
 			return;
 		}
-		accessor.setValue(color);
+		setHeight(h);
 	};
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
 	onCleanup(() => props.editor.off('selectionUpdate', selectionUpdate));
@@ -199,14 +200,14 @@ export function LineHeight(props: Props): JSX.Element {
 				square
 				kind="flat"
 				class={styles.item}
-				checked={!!accessor.getValue()}
+				checked={!!height()}
 				onclick={() => dialogRef.root().showModal()}
 			>
 				<IconLineHeight />
 			</Button.Root>
 
 			<Dialog.Root ref={el => (dialogRef = el)} mainClass={styles['line-height']}>
-				<Numeric.Root class="flex-1" accessor={accessor} />
+				<InputNumber.Root class="flex-1" value={height()} onChange={v => setHeight(v)} />
 				<Button.Root
 					square
 					kind="flat"

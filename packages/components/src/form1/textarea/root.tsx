@@ -6,7 +6,7 @@ import { createEffect, createMemo, createSignal, createUniqueId, type JSX, merge
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Form1 } from '@components/form1/form';
-import type { Input } from '@components/input';
+import type { InputBase } from '@components/input';
 import styles from './style.module.css';
 
 export interface Ref extends BaseRef<HTMLDivElement> {
@@ -43,7 +43,7 @@ export interface Props extends Form1.FieldBaseProps, RefProps<Ref> {
 	 *
 	 * @reactive
 	 */
-	inputMode?: Input.TextProps['inputMode'];
+	inputMode?: InputBase.TextProps['inputMode'];
 
 	/**
 	 * 指定显示字符串统计的格式化方法

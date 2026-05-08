@@ -23,8 +23,9 @@ import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Form1, Numeric } from '@components/form1';
+import { Form1 } from '@components/form1';
 import { Formatter } from '@components/formatter';
+import { InputNumber } from '@components/input';
 import { Label } from '@components/label';
 import { Choice } from '@components/menu';
 import { RadioGroup } from '@components/radio';
@@ -205,7 +206,7 @@ export function Root(props: Props) {
 
 			<Separator />
 			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
-				<Numeric.Root accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
+				<InputNumber.Root accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
 			</Item>
 
 			{/***************************** locale *******************************/}

@@ -69,7 +69,7 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 				{field.getError() ?? props.help}
 			</p>
 
-			<div style={area2Style(areas().input)}>
+			<div style={area2Style(areas().input)} class={styles.input}>
 				<FieldProvider
 					id={id}
 					name={field.name}

@@ -12,11 +12,11 @@ import {
 	Color,
 	DatePanel,
 	Form1,
+	InputPassword,
+	InputText,
 	joinClass,
 	Menu,
-	Password,
 	palettes,
-	TextField,
 	ThemeProvider,
 	useLocale,
 } from '@cmfx/components';
@@ -291,8 +291,8 @@ function Components(): JSX.Element {
 				}
 			>
 				<Form1.Root layout="vertical" api={api}>
-					<TextField.Root accessor={api.accessor<string>('username')} label="用户名" placeholder="请输入用户名" />
-					<Password.Root accessor={api.accessor<string>('password')} label="密码" placeholder="请输入密码" />
+					<InputText.Root accessor={api.accessor<string>('username')} label="用户名" placeholder="请输入用户名" />
+					<InputPassword.Root accessor={api.accessor<string>('password')} label="密码" placeholder="请输入密码" />
 				</Form1.Root>
 			</Card.Root>
 

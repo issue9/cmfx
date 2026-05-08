@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BasicTable, Button, LoaderTable, type MountProps, TextField } from '@cmfx/components';
+import { type BasicTable, Button, InputText, LoaderTable, type MountProps } from '@cmfx/components';
 import { type Page, type Query, sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -90,7 +90,7 @@ export default function (props: MountProps): JSX.Element {
 				queries={{ txt: 'abc', page: 1, size: 10 }}
 				queryForm={oa => (
 					<>
-						<TextField.Root accessor={oa.accessor<string>('txt')} />
+						<InputText.Root accessor={oa.accessor<string>('txt')} />
 					</>
 				)}
 				load={pagingLoader}

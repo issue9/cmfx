@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, Avatar, Button, Divider, Form1, Page, Table, TextField, Upload, useLocale } from '@cmfx/components';
+import { Album, Avatar, Button, Divider, Form1, Page, Table, InputText, Upload, useLocale } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
@@ -147,8 +147,8 @@ export function Profile(props: Props): JSX.Element {
 			<Divider.Root padding="4px" />
 
 			<Form1.Root class={styles.form} api={api}>
-				<TextField.Root class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
-				<TextField.Root class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
+				<InputText.Root class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
+				<InputText.Root class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
 				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={api.accessor<Sex>('sex')} />
 
 				<div class={styles.actions}>

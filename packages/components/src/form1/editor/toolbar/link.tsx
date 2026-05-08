@@ -11,7 +11,7 @@ import IconVisit from '~icons/material-symbols/pip-exit-outline-rounded';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
-import { Input } from '@components/input';
+import { InputBase } from '@components/input';
 import styles from './style.module.css';
 import type { Props } from './types';
 
@@ -38,7 +38,7 @@ export function Link(props: Props): JSX.Element {
 			</Button.Root>
 
 			<Dialog.Root ref={el => (dialogRef = el)} mainClass={styles.link}>
-				<Input.Root
+				<InputBase.Root
 					class="flex-1"
 					value={href()}
 					onChange={v => setHref(v)}

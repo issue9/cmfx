@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Numeric from './mod';
+export * as InputText from './mod';

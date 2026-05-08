@@ -113,7 +113,7 @@ export class OKLCHSpace implements Space {
 						fitHeight
 						ref={el => (rl = el)}
 						disabled={!!this.#l}
-						format={v => `${(v * 100).toFixed(4)}%`}
+						format={v => `${(v ?? 0 * 100).toFixed(4)}%`}
 						min={0}
 						max={1}
 						step={0.0001}
@@ -125,7 +125,7 @@ export class OKLCHSpace implements Space {
 						fitHeight
 						ref={el => (rc = el)}
 						disabled={!!this.#c}
-						format={v => `${v.toFixed(2)}`}
+						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={0.4}
 						step={0.01}
@@ -137,7 +137,7 @@ export class OKLCHSpace implements Space {
 						fitHeight
 						ref={el => (rh = el)}
 						disabled={!!this.#h}
-						format={v => `${v.toFixed(2)}`}
+						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={360}
 						step={0.01}
@@ -149,7 +149,7 @@ export class OKLCHSpace implements Space {
 						fitHeight
 						ref={el => (ra = el)}
 						disabled={!!this.#a}
-						format={v => `${v.toFixed(2)}`}
+						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={1}
 						step={0.01}

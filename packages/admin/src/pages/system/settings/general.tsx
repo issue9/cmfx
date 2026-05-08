@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Form, TextField, useLocale } from '@cmfx/components';
+import { Form, InputText, useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { z } from 'zod';
 
@@ -39,10 +39,10 @@ export function General(): JSX.Element {
 
 	return (
 		<Form.Root api={api} layout="vertical">
-			<TextField.Root label={l.t('_p.system.settings.name')} accessor={api.accessor('name')} />
-			<TextField.Root label={l.t('_p.system.settings.shortName')} accessor={api.accessor('shortName')} />
-			<TextField.Root label={l.t('_p.system.settings.description')} accessor={api.accessor('description')} />
-			<TextField.Root label={l.t('_p.system.settings.logo')} accessor={api.accessor('logo')} />
+			<InputText.Root label={l.t('_p.system.settings.name')} accessor={api.accessor('name')} />
+			<InputText.Root label={l.t('_p.system.settings.shortName')} accessor={api.accessor('shortName')} />
+			<InputText.Root label={l.t('_p.system.settings.description')} accessor={api.accessor('description')} />
+			<InputText.Root label={l.t('_p.system.settings.logo')} accessor={api.accessor('logo')} />
 
 			<footer class={styles.actions}>
 				<Form.Reset>{l.t('_c.reset')}</Form.Reset>

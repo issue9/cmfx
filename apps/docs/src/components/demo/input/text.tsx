@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form1, type MountProps, TextField } from '@cmfx/components';
+import { Button, Form1, InputText, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -42,7 +42,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
-				<TextField.Root
+				<InputText.Root
 					count={count() ? (v, m) => `${v}-${m}` : undefined}
 					hasHelp
 					layout={layout()}
@@ -53,7 +53,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={txt}
 				/>
-				<TextField.Root
+				<InputText.Root
 					maxLength={10}
 					count={count()}
 					layout={layout()}
@@ -65,7 +65,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={txt}
 				/>
-				<TextField.Root
+				<InputText.Root
 					count={count()}
 					hasHelp
 					layout={layout()}
@@ -78,7 +78,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					accessor={txt}
 				/>
-				<TextField.Root
+				<InputText.Root
 					count={count()}
 					hasHelp
 					layout={layout()}
@@ -93,7 +93,7 @@ export default function (props: MountProps): JSX.Element {
 					accessor={txt}
 				/>
 
-				<TextField.Root
+				<InputText.Root
 					maxLength={10}
 					count={count()}
 					hasHelp

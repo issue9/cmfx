@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as TextField from './mod';
+export * as InputNumber from './mod';

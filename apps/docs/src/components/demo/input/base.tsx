@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Input, type MountProps } from '@cmfx/components';
+import { InputBase, type MountProps } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -29,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
-				<Input.Root
+				<InputBase.Root
 					placeholder="placeholder"
 					palette={palette()}
 					value={val()}
@@ -39,7 +39,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 				/>
 
-				<Input.Root
+				<InputBase.Root
 					placeholder="placeholder"
 					palette={palette()}
 					prefix={prefix}
@@ -48,9 +48,7 @@ export default function (props: MountProps): JSX.Element {
 					rounded={rounded()}
 					readonly={readonly()}
 					value={val()}
-					onChange={v => {
-						setVal(v as string);
-					}}
+					onChange={v => setVal(v as string)}
 				/>
 
 				<p>{val()}</p>

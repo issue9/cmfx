@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import type { Layout, Palette } from '@cmfx/components';
-import { Button, Checkbox, Choice, Form1, layouts, palettes, useLocale } from '@cmfx/components';
+import { Button, Checkbox, Choice, Form1, InputNumber, layouts, palettes, useLocale } from '@cmfx/components';
 import type { DictKeys, PopoverPosition } from '@cmfx/core';
-import { type Accessor, type Component, createSignal, type Setter } from 'solid-js';
+import { type Accessor, type Component, createSignal, type JSX, type Setter } from 'solid-js';
 
 import type messages from '@docs/messages/en.lang';
 import type { StageProps, StagesProps } from './stages';
@@ -44,6 +44,32 @@ export type Info = {
 	api?: StagesProps['api']; // 关联的接口文档
 	doc: StagesProps['doc'];
 };
+
+export function numeric<T extends number = number>(
+	label: string,
+	preset: T,
+	min?: number,
+	max?: number,
+	step?: number,
+): [Component, Accessor<T | undefined>, Setter<T | undefined>] {
+	const [get, set] = createSignal<T | undefined>(preset);
+
+	const num = (): JSX.Element => {
+		const l = useLocale();
+		return (
+			<InputNumber.Root
+				class="w-20"
+				label={l.t(label)}
+				min={min}
+				max={max}
+				step={step}
+				value={get()}
+				onChange={v => set(v)}
+			/>
+		);
+	};
+	return [num, get, set];
+}
 
 /**
  * 创建一个 bool 选择项

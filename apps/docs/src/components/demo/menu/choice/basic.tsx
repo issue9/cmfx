@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, Form1, type MountProps, TextField } from '@cmfx/components';
+import { Choice, Form1, type MountProps,  InputText } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -57,7 +57,7 @@ export default function (props: MountProps): JSX.Element {
 					onChange={v => setVal(v)}
 					options={options}
 				/>
-				<TextField.Root
+				<InputText.Root
 					placeholder="placeholder"
 					disabled={disabled()}
 					rounded={rounded()}

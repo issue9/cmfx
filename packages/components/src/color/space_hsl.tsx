@@ -109,7 +109,7 @@ export class HSLSpace implements Space {
 						disabled={!!this.#h}
 						fitHeight
 						ref={el => (hRef = el)}
-						format={v => `${v.toFixed(2)}`}
+						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={360}
 						step={1}
@@ -121,7 +121,7 @@ export class HSLSpace implements Space {
 						disabled={!!this.#s}
 						fitHeight
 						ref={el => (sRef = el)}
-						format={v => `${v.toFixed(2)}%`}
+						format={v => `${v ? v.toFixed(2) : 0}%`}
 						min={0}
 						max={100}
 						step={0.01}
@@ -133,7 +133,7 @@ export class HSLSpace implements Space {
 						disabled={!!this.#l}
 						fitHeight
 						ref={el => (lRef = el)}
-						format={v => `${v.toFixed(2)}%`}
+						format={v => `${v ? v.toFixed(2) : 0}%`}
 						min={0}
 						max={100}
 						step={0.01}
@@ -145,7 +145,7 @@ export class HSLSpace implements Space {
 						disabled={!!this.#a}
 						fitHeight
 						ref={el => (aRef = el)}
-						format={v => `${v.toFixed(2)}`}
+						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={1}
 						step={0.01}

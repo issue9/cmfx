@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps, Week } from '@cmfx/components';
-import { Calendar, datetimePluginLunar, Form1, Notify, Numeric } from '@cmfx/components';
+import { Calendar, datetimePluginLunar, Notify } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, numeric, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const now = new Date();
@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Weekend, weekend] = boolSelector('weekend');
 	const [Minmax, minmax] = boolSelector('minmax');
-	const week = Form1.fieldAccessor<Week>('weekbase', 0);
+	const [Num, num] = numeric<Week>('每周起始于', 0, 0, 6);
 
 	return (
 		<>
@@ -25,13 +25,13 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Weekend />
 				<Minmax />
-				<Numeric.Root min={0} max={6} class="w-20" placeholder="每周起始于" accessor={week} />
+				<Num />
 			</Portal>
 
 			<div class="h-[600px] w-full">
 				<Calendar.Root
 					weekend={weekend()}
-					weekBase={week.getValue()}
+					weekBase={num()}
 					palette={palette()}
 					plugins={[datetimePluginLunar]}
 					min={minmax() ? min : undefined}

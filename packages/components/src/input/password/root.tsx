@@ -8,13 +8,13 @@ import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
 import type { RefProps } from '@components/base';
 import { ToggleButton } from '@components/button';
-import { Form1 } from '@components/form1/form';
-import { TextField } from '@components/form1/textfield/textfield';
+import { Form } from '@components/form';
+import { InputText } from '@components/input/text';
 
-export type Ref = TextField.RootRef;
+export type Ref = InputText.RootRef;
 
 type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete';
-export interface Props extends Omit<TextField.RootProps, omitFields>, RefProps<Ref> {
+export interface Props extends Omit<InputText.RootProps, omitFields>, RefProps<Ref> {
 	autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
 
 	/**
@@ -29,17 +29,17 @@ export interface Props extends Omit<TextField.RootProps, omitFields>, RefProps<R
  * 密码输入组件
  */
 export function Root(props: Props): JSX.Element {
-	const form = Form1.useForm(); // Password 在 textfield 的外层，所以得保证 useForm 是可用的。
-	props = mergeProps(form, props);
+	const form = Form.useForm();
+	props = mergeProps({ tabindex: 0 }, form, props);
 
-	let ref: TextField.RootRef;
+	let ref: InputText.RootRef;
 
 	onMount(() => {
 		ref.input().type = props.visible ? 'text' : 'password';
 	});
 
 	return (
-		<TextField.Root
+		<InputText.Root
 			{...props}
 			type="password"
 			ref={el => {

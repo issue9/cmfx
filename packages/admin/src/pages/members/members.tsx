@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Page, RemoteTable, TextField, useLocale } from '@cmfx/components';
+import { Button, InputText, Page, RemoteTable, useLocale } from '@cmfx/components';
 import type { Query } from '@cmfx/core';
 import { type Component, createMemo, type JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';
@@ -86,7 +86,7 @@ export function Members(props: Props): JSX.Element {
 				systemToolbar
 				queryForm={qa => (
 					<>
-						<TextField.Root accessor={qa.accessor<string>('text')} />
+						<InputText.Root accessor={qa.accessor<string>('text')} />
 						<StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
 						<SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
 					</>

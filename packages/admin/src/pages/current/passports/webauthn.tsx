@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, Dialog, Form1, Label, RemoteTable, TextField, useLocale } from '@cmfx/components';
+import { Button, ConfirmButton, Dialog, Form1, InputText, Label, RemoteTable, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { type JSX, Show } from 'solid-js';
@@ -104,7 +104,7 @@ export class Webauthn implements PassportComponents {
 
 		return (
 			<Form1.Root class={styles.webauthn} api={api}>
-				<TextField.Root
+				<InputText.Root
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"

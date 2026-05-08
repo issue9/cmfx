@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Choice, Form1, Notify, Numeric, TextField } from '@cmfx/components';
+import { Alert, Button, Choice, Form1, InputNumber, InputText, Notify } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 
@@ -34,9 +34,9 @@ export default function (): JSX.Element {
 						return { type: 'item', value: v, label: v };
 					})}
 				/>
-				<Numeric.Root step={500} label="timeout" accessor={timeout} />
-				<TextField.Root label="title" accessor={title} />
-				<TextField.Root label="body" accessor={body} />
+				<InputNumber.Root step={500} label="timeout" accessor={timeout} />
+				<InputText.Root label="title" accessor={title} />
+				<InputText.Root label="body" accessor={body} />
 				<Button.Root palette="primary" onclick={click}>
 					notify
 				</Button.Root>

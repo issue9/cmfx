@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, Notify, Page, Password, TextField, useLocale } from '@cmfx/components';
+import { Button, Form, InputPassword, InputText, Notify, Page, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import * as z from 'zod';
@@ -48,10 +48,10 @@ export function New(props: Props): JSX.Element {
 	return (
 		<Page.Root title="_p.admin.admin" class="max-w-2xl">
 			<Form.Root class="flex flex-col" api={api}>
-				<TextField.Root class="w-full" accessor={api.accessor<string>('username')} label={l.t('_p.current.username')} />
-				<TextField.Root class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<TextField.Root class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
-				<Password.Root
+				<InputText.Root class="w-full" accessor={api.accessor<string>('username')} label={l.t('_p.current.username')} />
+				<InputText.Root class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
+				<InputText.Root class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+				<InputPassword.Root
 					class="w-full"
 					autocomplete="new-password"
 					accessor={api.accessor<string>('password')}

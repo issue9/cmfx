@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Form, TextField, useLocale } from '@cmfx/components';
+import { Form, InputText, useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { z } from 'zod';
 
@@ -32,11 +32,11 @@ export function Audit(): JSX.Element {
 
 	return (
 		<Form.Root api={api} layout="vertical">
-			<TextField.Root
+			<InputText.Root
 				label={l.t('_p.system.settings.keywords')}
 				accessor={Form.array2StringAccessor(',', api.accessor('keywords'))}
 			/>
-			<TextField.Root
+			<InputText.Root
 				label={l.t('_p.system.settings.urlBlacklist')}
 				accessor={Form.array2StringAccessor(',', api.accessor('urlBlacklist'))}
 			/>

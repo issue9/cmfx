@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, RemoteTable, TextField, useLocale } from '@cmfx/components';
+import { InputText, Page, RemoteTable, useLocale } from '@cmfx/components';
 import type { Query as Q } from '@cmfx/core';
 import Bowser from 'bowser';
 import type { JSX } from 'solid-js';
@@ -72,7 +72,7 @@ export function SecurityLogs(): JSX.Element {
 				]}
 				queryForm={qa => (
 					<>
-						<TextField.Root accessor={qa.accessor<string>('text')} />
+						<InputText.Root accessor={qa.accessor<string>('text')} />
 					</>
 				)}
 			/>
