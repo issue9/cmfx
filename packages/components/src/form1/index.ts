@@ -6,4 +6,3 @@ export * from './date';
 export * from './editor';
 export * from './form';
 export * from './time';
-export * from './upload';

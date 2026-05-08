@@ -52,4 +52,5 @@ export * from './table';
 export * from './textarea';
 export * from './tooltip';
 export * from './transition';
+export * from './upload';
 export * from './wizard';

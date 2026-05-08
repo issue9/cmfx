@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, Button,  Form1, type MountProps } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { Album, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
@@ -15,7 +15,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 
-	const basicA = Form1.fieldAccessor('upload', ['../../../../../../apps/admin/public/icon.svg', './test.jpg']);
+	const basicA = createSignal(['../../../../../../apps/admin/public/icon.svg', './test.jpg']);
 
 	return (
 		<>
@@ -25,9 +25,6 @@ export default function (props: MountProps): JSX.Element {
 				<Reverse />
 				<Auto />
 				<Layout />
-				<Button.Root palette="primary" onclick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>
-					toggle error
-				</Button.Root>
 			</Portal>
 
 			<div title="basic">
@@ -41,7 +38,8 @@ export default function (props: MountProps): JSX.Element {
 					disabled={disabled()}
 					palette={palette()}
 					auto={auto()}
-					accessor={basicA}
+					value={basicA[0]()}
+					onChange={v => basicA[1](v)}
 					upload={async () => []}
 				/>
 			</div>
@@ -57,7 +55,8 @@ export default function (props: MountProps): JSX.Element {
 					palette={palette()}
 					droppable
 					auto={auto()}
-					accessor={basicA}
+					value={basicA[0]()}
+					onChange={v => basicA[1](v)}
 					upload={async () => []}
 				/>
 			</div>
