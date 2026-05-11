@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { BaseProps, Mode } from '@cmfx/components';
-import { Appbar, Choice, Form1, joinClass, modes, Page, Transition, useLocale, useOptions } from '@cmfx/components';
+import { Appbar, Choice, Form, joinClass, modes, Page, Transition, useLocale, useOptions } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createResource, ErrorBoundary, For, type JSX, Match, Show, Switch } from 'solid-js';

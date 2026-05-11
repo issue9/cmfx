@@ -4,11 +4,8 @@
 
 export type { FieldAccessor } from './api';
 export { API } from './api';
-export type { LabelAlignment } from './context';
-export { buildFakeFieldContext, labelAlignments, useField, useForm } from './context';
 export { create } from './create';
-export type { FieldProps } from './field';
-export { Field } from './field';
-export type { InputProps } from './input';
-export type { MessageProps, Props as RootProps, Ref as RootRef } from './root';
-export { Button, Message, Reset, Root, Submit } from './root';
+export type { DataProps, FieldProps, ValueProps } from './field';
+export { Field, useFakeField, useField } from './field';
+export type { LabelAlignment, MessageProps, Props as RootProps, Ref as RootRef } from './form';
+export { Button, Form as Root, labelAlignments, Message, Reset, Submit, useForm } from './form';

@@ -6,7 +6,7 @@ import { type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
-import { type BaseProps, type ChangeFunc, PropsError, type RefProps } from '@components/base';
+import { type BaseProps, PropsError, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { Form } from '@components/form';
 import { InputBase } from '@components/input/base';
@@ -14,7 +14,7 @@ import styles from './style.module.css';
 
 export type Ref = InputBase.RootRef;
 
-export interface Props extends Form.InputProps, BaseProps, RefProps<Ref> {
+export interface Props extends Form.DataProps<number>, BaseProps, RefProps<Ref> {
 	/**
 	 * 最小值
 	 */
@@ -50,15 +50,6 @@ export interface Props extends Form.InputProps, BaseProps, RefProps<Ref> {
 	 * @reactive
 	 */
 	inputMode?: InputBase.NumberProps['inputMode'];
-
-	/**
-	 * 关联的值
-	 *
-	 * @reactive
-	 */
-	value?: number;
-
-	onChange?: ChangeFunc<number | undefined>;
 }
 
 const presetProps: Partial<Props> = {
@@ -71,7 +62,7 @@ const presetProps: Partial<Props> = {
  * 数字输入组件
  */
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<number>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<number>(props, true);
 	const form = Form.useForm();
 	props = mergeProps(presetProps, form, props);
 

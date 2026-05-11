@@ -12,7 +12,7 @@ import { Placeholder } from '@tiptap/extensions';
 import { StarterKit } from '@tiptap/starter-kit';
 import { createEffect, type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 import { Toolbar } from './toolbar';
@@ -24,19 +24,15 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	editor(): Editor;
 }
 
-export interface Props extends Omit<Form.InputProps, 'rounded'>, BaseProps, RefProps<Ref> {
+export interface Props extends Omit<Form.DataProps<string>, 'rounded'>, BaseProps, RefProps<Ref> {
 	placeholder?: string;
-
-	value?: string;
-
-	onChange?: ChangeFunc<string | undefined>;
 }
 
 /**
  * WYSIWYG 编辑器
  */
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<string>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<string>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 

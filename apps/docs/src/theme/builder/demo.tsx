@@ -11,7 +11,7 @@ import {
 	Card,
 	Color,
 	DatePanel,
-	Form1,
+	Form,
 	InputPassword,
 	InputText,
 	joinClass,

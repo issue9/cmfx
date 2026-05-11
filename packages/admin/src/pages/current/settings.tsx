@@ -5,7 +5,7 @@
 import {
 	Alert,
 	Checkbox,
-	Form1,
+	Form,
 	joinClass,
 	Page,
 	RadioGroup,

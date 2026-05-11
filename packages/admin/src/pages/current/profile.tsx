@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, Avatar, Button, Divider, Form1, Page, Table, InputText, Upload, useLocale } from '@cmfx/components';
+import { Album, Avatar, Button, Divider, Form, Page, Table, InputText, Upload, useLocale } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';

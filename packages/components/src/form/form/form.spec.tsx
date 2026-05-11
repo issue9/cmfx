@@ -5,8 +5,8 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { API } from './api';
-import { type Ref, Root } from './root';
+import { API } from '@components/form/api';
+import { Form, type Ref } from './form';
 
 describe('Form', async () => {
 	let ref: Ref;
@@ -16,9 +16,9 @@ describe('Form', async () => {
 	});
 
 	const ct = await ComponentTester.build('Form', props => (
-		<Root {...props} api={api} ref={el => (ref = el)}>
+		<Form {...props} api={api} ref={el => (ref = el)}>
 			abc
-		</Root>
+		</Form>
 	));
 
 	test('props', () => ct.testProps());

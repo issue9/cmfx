@@ -7,7 +7,7 @@ import type { ParentProps } from 'solid-js';
 import { afterAll, describe, expect, test } from 'vitest';
 
 import { API } from '@components/form/api';
-import { FormProvider, useForm } from './form';
+import { FormProvider, useForm } from './context';
 
 type Obj = {
 	age: number;

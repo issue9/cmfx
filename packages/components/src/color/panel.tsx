@@ -7,7 +7,7 @@ import { createEffect, createSignal, type JSX, mergeProps, Show } from 'solid-js
 import IconPicker from '~icons/circum/picker-half';
 import IconClose from '~icons/material-symbols/cancel';
 
-import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { joinClass, PropsError } from '@components/base';
 import { Button } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
@@ -34,14 +34,7 @@ export interface PanelRef extends BaseRef<HTMLDivElement> {
 	switchSpace(id: string): void;
 }
 
-export interface Base extends Form.InputProps, BaseProps {
-	/**
-	 * 初始的颜色值
-	 *
-	 * @reactive
-	 */
-	value?: string;
-
+export interface Base extends Form.DataProps<string>, BaseProps {
 	/**
 	 * 指定一个用于计算 WCAG 值的颜色
 	 *
@@ -52,11 +45,6 @@ export interface Base extends Form.InputProps, BaseProps {
 	 * @reactive
 	 */
 	wcag?: string;
-
-	/**
-	 * 颜色值发生变化时触发的事件
-	 */
-	onChange?: ChangeFunc<string | undefined>;
 
 	/**
 	 * 指定的颜色拾取面板的类型
@@ -83,7 +71,7 @@ export function Panel(props: PanelProps): JSX.Element {
 		}
 	}
 
-	const field = Form.useField<string>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<string>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -97,11 +85,7 @@ export function Panel(props: PanelProps): JSX.Element {
 	}));
 
 	const change = (v?: string) => {
-		const old = field.getValue();
 		field.setValue(v);
-		if (props.onChange) {
-			props.onChange(v, old);
-		}
 	};
 
 	// 监视 props.value 变化

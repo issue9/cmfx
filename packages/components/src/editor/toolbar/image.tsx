@@ -10,7 +10,7 @@ import IconImage from '~icons/material-symbols/image-inset-outline-rounded';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
-import { Form1 } from '@components/form1/form';
+import { Form } from '@components/form';
 import { InputText } from '@components/input';
 import styles from './style.module.css';
 import type { Props } from './types';

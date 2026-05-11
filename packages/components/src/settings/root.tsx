@@ -23,7 +23,7 @@ import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Form1 } from '@components/form1';
+import { Form } from '@components/form';
 import { Formatter } from '@components/formatter';
 import { InputNumber } from '@components/input';
 import { Label } from '@components/label';

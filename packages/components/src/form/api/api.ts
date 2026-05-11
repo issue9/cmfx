@@ -7,6 +7,7 @@ import equal from 'fast-deep-equal';
 import { createSignal, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
+import type { ChangeFunc } from '@components/base';
 import type { FieldAccessor } from './accessor';
 import type { Options } from './options';
 
@@ -32,6 +33,8 @@ export class API<T extends Flattenable, R = never, P = never> {
 	#preset: T; // 保存当前数据的默认值，用于在表单重置时恢复默认值
 	readonly #isPreset = createSignal(true);
 	readonly #value: StoreX<T>;
+	readonly #filedChanges: Map<FlattenKeys<T>, Array<ChangeFunc<unknown>>> = new Map();
+	readonly #changes: Array<ChangeFunc<T>> = [];
 
 	readonly #errs = createStore<Err<T>>({} as Err<T>); // 各个字段的错误信息存取
 	readonly #globalErr = createSignal<string>(); // 全局错误信息
@@ -120,16 +123,45 @@ export class API<T extends Flattenable, R = never, P = never> {
 
 	/**
 	 * 修改整个对象的值
+	 *
+	 * @remarks
+	 * 修改之后会调用 {@link #validator} 进行验证。
 	 */
 	setValue(obj: T) {
+		const old = unwrap(this.#value[0]);
 		const copy = structuredClone(obj);
-		this.#value[1](copy);
+		this.#value[1](reconcile(copy));
+
+		// 验证
 		if (this.#validator) {
 			this.#validator.valid(copy).then(rslt => {
 				this.setError(rslt[1]);
 			});
 		}
+
+		// field onchange
+		this.#filedChanges.entries().forEach(v => {
+			const o = getFieldValue(old, v[0].split('.')); // 旧值
+			const n = getFieldValue(this.#value[0], v[0].split('.')); // 新值
+
+			v[1].forEach(f => {
+				f(n, o);
+			});
+		});
+
+		// onchange
+		this.#changes.forEach(f => {
+			f(this.#value[0], old);
+		});
+
 		this.#checkPreset();
+	}
+
+	/**
+	 * 注册全局对象改变的回调事件
+	 */
+	onChange(f: ChangeFunc<T>) {
+		this.#changes.push(f);
 	}
 
 	/**
@@ -168,8 +200,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 	 */
 	reset() {
 		this.setError();
-		this.#value[1](reconcile(structuredClone(this.#preset)));
-		this.#checkPreset();
+		this.setValue(this.#preset);
 	}
 
 	/**
@@ -181,17 +212,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 		const parent = this;
 		const path = name.split('.');
 
-		const getValue = (): FT => {
-			if (path.length === 1) {
-				return parent.#value[0][name] as FT;
-			}
-
-			const v = path.reduce<FT | T>((acc, key) => {
-				return key && acc ? ((acc as T)[key] as FT) : acc;
-			}, parent.#value[0]);
-
-			return (v ?? '') as FT;
-		};
+		const getValue = (): FT | undefined => getFieldValue(this.#value[0], path);
 
 		const setError = (err?: string): void => {
 			parent.setError(err ? [{ name, reason: err }] : undefined);
@@ -200,23 +221,29 @@ export class API<T extends Flattenable, R = never, P = never> {
 		const setValue = (val: FT): void => {
 			const old = untrack(getValue);
 			if (old !== val) {
-				parent.#value[1](
-					produce(draft => {
-						// biome-ignore lint/suspicious/noExplicitAny: any
-						let target = draft as any;
-						for (let i = 0; i < path.length - 1; i++) {
-							target[path[i]] ??= {};
-							target = target[path[i]];
-						}
-						target[path[path.length - 1]] = val;
-					}),
-				);
+				const oldObj = unwrap(parent.#value[0]);
 
+				setFieldValue(parent.#value[1], path, val);
+
+				// 验证数据
 				if (parent.#validOnChange && parent.#validator) {
 					parent.#validator.valid(unwrap(parent.getValue()), name).then(rslt => {
 						setError(rslt[1] ? rslt[1][0].reason : undefined);
 					});
 				}
+
+				// 触发 field change 回调
+				const list = parent.#filedChanges.get(name);
+				if (list) {
+					for (const f of list) {
+						f(val, old);
+					}
+				}
+
+				// onchange
+				this.#changes.forEach(f => {
+					f(this.#value[0], oldObj);
+				});
 			}
 
 			parent.#checkPreset();
@@ -235,7 +262,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 				setError(err);
 			},
 
-			getValue(): FT {
+			getValue(): FT | undefined {
 				return getValue();
 			},
 
@@ -243,11 +270,20 @@ export class API<T extends Flattenable, R = never, P = never> {
 				setValue(val);
 			},
 
+			onChange(f: ChangeFunc<FT>): void {
+				const list = parent.#filedChanges.get(name);
+				if (list) {
+					list.push(f);
+				} else {
+					parent.#filedChanges.set(name, [f]);
+				}
+			},
+
 			reset() {
 				setError();
 				setValue(parent.#preset[name] as FT);
 			},
-		};
+		} satisfies FieldAccessor<FT>;
 	}
 
 	/**
@@ -347,4 +383,30 @@ export class API<T extends Flattenable, R = never, P = never> {
 			this.#spinning[1](false);
 		}
 	}
+}
+
+export function getFieldValue<T extends Flattenable, FT = Flatten<T>[FlattenKeys<T>]>(
+	obj: T,
+	path: Array<string>,
+): FT | undefined {
+	const v = path.length === 1 ? obj[path[0]] : path.reduce((acc, key) => (key && acc ? acc[key] : acc), obj);
+	return v as FT | undefined;
+}
+
+export function setFieldValue<T extends Flattenable, FT = Flatten<T>[FlattenKeys<T>]>(
+	obj: SetStoreFunction<T>,
+	path: Array<string>,
+	val: FT,
+): void {
+	obj(
+		produce(draft => {
+			// biome-ignore lint/suspicious/noExplicitAny: any
+			let target = draft as any;
+			for (let i = 0; i < path.length - 1; i++) {
+				target[path[i]] ??= {};
+				target = target[path[i]];
+			}
+			target[path[path.length - 1]] = val;
+		}),
+	);
 }

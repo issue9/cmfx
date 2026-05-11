@@ -7,8 +7,9 @@ import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, type Pa
 
 import { type BaseProps, joinClass } from '@components/base';
 import { ContextNotFoundError } from '@components/context';
+import { type CommonProps, useForm } from '@components/form/form';
 import { area2Style, calcAreas } from './area';
-import { type CommonProps, FieldProvider, useForm } from './context';
+import { FieldProvider } from './context';
 import styles from './style.module.css';
 
 export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProps, ParentProps {
@@ -69,7 +70,7 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 				{field.getError() ?? props.help}
 			</p>
 
-			<div style={area2Style(areas().input)} class={styles.input}>
+			<div style={area2Style(areas().data)} class={styles.input}>
 				<FieldProvider
 					id={id}
 					name={field.name}
@@ -78,6 +79,7 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 					setError={field.setError}
 					getValue={field.getValue}
 					setValue={field.setValue}
+					onChange={field.onChange}
 					getExtra={extra}
 					setExtra={setExtra}
 				>

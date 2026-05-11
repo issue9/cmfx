@@ -31,7 +31,7 @@ export interface Props<T extends Flattenable, R = never, P = never>
 	inDialog?: boolean;
 }
 
-export function Root<T extends Flattenable, R = never, P = never>(props: Props<T, R, P>): JSX.Element {
+export function Form<T extends Flattenable, R = never, P = never>(props: Props<T, R, P>): JSX.Element {
 	const l = useLocale();
 
 	props = mergeProps(

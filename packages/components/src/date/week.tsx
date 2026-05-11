@@ -7,27 +7,26 @@ import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
-import { type Week, WeekPanel } from '@components/datetime';
+import { type DatePanel, type Week, WeekPanel } from '@components/datetime';
 import type { WeekValueType } from '@components/datetime/dateview';
 import { Form } from '@components/form';
-import type { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props
-	extends Omit<PickerProps, 'value' | 'onChange' | 'accentPalette' | 'time' | 'ref'>,
+	extends Omit<DatePanel.RootProps, 'value' | 'onChange' | 'accentPalette' | 'time' | 'ref'>,
+		Form.DataProps<WeekValueType>,
 		RefProps<Ref> {
-	value: WeekValueType | undefined;
-	onChange: (val: WeekValueType | undefined) => void;
+	placeholder?: string;
 }
 
 /**
  * 周数选择组件
  */
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<WeekValueType>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<WeekValueType>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week }, form, props);
 

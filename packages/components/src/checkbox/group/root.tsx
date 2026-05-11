@@ -4,7 +4,7 @@
 
 import { createEffect, createMemo, For, type JSX, mergeProps, splitProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { Checkbox } from '@components/checkbox/checkbox';
 import { Form } from '@components/form';
@@ -13,7 +13,10 @@ import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
-export interface Props<T extends AvailableEnumType = string> extends BaseProps, Form.InputProps, RefProps<Ref> {
+export interface Props<T extends AvailableEnumType = string>
+	extends BaseProps,
+		Form.DataProps<Array<T>>,
+		RefProps<Ref> {
 	/**
 	 * 子项的布局方式
 	 *
@@ -21,18 +24,6 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 	 * @defaultValue 'horizontal'
 	 */
 	layout?: Layout;
-
-	/**
-	 * 值
-	 *
-	 * @remarks
-	 * 如果使用了 Form 组件，则该属性会覆盖由 useField 获取的值。
-	 *
-	 * @reactive
-	 */
-	value?: Array<T>;
-
-	onChange?: ChangeFunc<Array<T>>;
 
 	/**
 	 * 是否显示为块
@@ -50,7 +41,7 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 }
 
 export function Root<T extends string | number>(props: Props<T>): JSX.Element {
-	const field = Form.useField<Array<T>>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<Array<T>>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 	const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block', 'rounded']);
@@ -93,7 +84,6 @@ export function Root<T extends string | number>(props: Props<T>): JSX.Element {
 							const vals = v ? [...old, item.value] : old.filter(v => v !== item.value);
 
 							field.setValue(vals);
-							if (props.onChange) props.onChange(vals, old);
 						}}
 					/>
 				)}

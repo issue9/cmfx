@@ -6,7 +6,7 @@ import { createMemo, createUniqueId, For, type JSX, Match, mergeProps, Show, Swi
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import type { AvailableEnumType, BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { Form } from '@components/form';
 import { Dropdown, type Menu } from '@components/menu';
@@ -24,7 +24,7 @@ export type Option<T extends AvailableEnumType = string> = Menu.MenuItem<T>;
 
 export type Options<T extends AvailableEnumType = string> = Array<Option<T>>;
 
-interface Base<T extends AvailableEnumType = string> extends Form.InputProps, BaseProps, RefProps<Ref> {
+interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
 	placeholder?: string;
 
 	/**
@@ -46,26 +46,18 @@ interface Base<T extends AvailableEnumType = string> extends Form.InputProps, Ba
 	closable?: boolean;
 }
 
-export interface MultipleProps<T extends AvailableEnumType = string> extends Base<T> {
+export interface MultipleProps<T extends AvailableEnumType = string> extends Form.DataProps<Array<T>>, Base<T> {
 	/**
 	 * 是否多选
 	 */
 	multiple: true;
-
-	value?: Array<T>;
-
-	onChange?: ChangeFunc<Array<T>>;
 }
 
-export interface SingleProps<T extends AvailableEnumType = string> extends Base<T> {
+export interface SingleProps<T extends AvailableEnumType = string> extends Form.DataProps<T>, Base<T> {
 	/**
 	 * 是否多选
 	 */
 	multiple?: false;
-
-	value?: T;
-
-	onChange?: ChangeFunc<T>;
 }
 
 export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | SingleProps<T>;
@@ -74,7 +66,7 @@ export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | Sin
  * 用以替代 select 组件
  */
 export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-	const field = Form.useField<Array<T>>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<Array<T>>() ?? Form.useFakeField(props.value, props.onChange);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -162,26 +154,14 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				if (props.readonly) {
 					return;
 				}
-				const old = field.getValue();
-
 				field.setValue(v);
-
-				if (props.onChange) {
-					props.onChange(v, old as Array<T>);
-				}
 			}
 		: (v: T | undefined) => {
 				if (props.readonly) {
 					return;
 				}
 
-				const old = field.getValue();
-
 				field.setValue(v);
-
-				if (props.onChange) {
-					props.onChange(v as T, old as T);
-				}
 			};
 
 	let dropdownRef: Dropdown.RootRef;

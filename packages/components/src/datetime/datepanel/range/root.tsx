@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import equal from 'fast-deep-equal';
+import type { JSX } from 'solid-js';
 import {
 	createEffect,
 	createMemo,
 	createSignal,
-	type JSX,
 	Match,
 	onCleanup,
 	onMount,

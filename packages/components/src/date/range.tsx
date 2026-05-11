@@ -7,18 +7,22 @@ import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type BaseRef, type ChangeFunc, joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
-import { DateRangePanel, type Week } from '@components/datetime';
+import { type DatePanel, DateRangePanel, type Week } from '@components/datetime';
 import { Form } from '@components/form';
-import type { Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
-export interface Props extends Omit<PickerProps, 'value' | 'onChange'>, RefProps<Ref> {
+export interface Props
+	extends Form.DataProps<DateRangePanel.ValueType>,
+		Omit<DatePanel.RootProps, 'onChange' | 'value' | 'popover' | 'ref'>,
+		RefProps<Ref> {
+	placeholder?: string;
+
 	/**
 	 * 中间的箭头
 	 *
@@ -32,14 +36,10 @@ export interface Props extends Omit<PickerProps, 'value' | 'onChange'>, RefProps
 	 * @reactive
 	 */
 	shortcuts?: boolean;
-
-	value?: DateRangePanel.ValueType;
-
-	onChange?: ChangeFunc<DateRangePanel.ValueType | undefined>;
 }
 
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<DateRangePanel.ValueType>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<DateRangePanel.ValueType>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week, arrowIcon: <IconArrowRight /> }, form, props);
 

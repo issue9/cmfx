@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { Form1 } from '@components/form1/form';
+import { Form } from '@components/form';
 import { type Ref, Root } from './root';
 
 describe('Editor', async () => {

@@ -5,14 +5,14 @@
 import type { JSX } from 'solid-js';
 import { createEffect, createSignal, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 
-import type { BaseProps, ChangeFunc, RefProps } from '@components/base';
+import type { BaseProps, RefProps } from '@components/base';
 import { Form } from '@components/form';
 import { InputBase } from '@components/input/base';
 import { Dropdown, type Menu } from '@components/menu';
 
 export type Ref = InputBase.RootRef;
 
-export interface Props extends Form.InputProps, BaseProps, RefProps<Ref> {
+export interface Props extends Form.DataProps<string>, BaseProps, RefProps<Ref> {
 	/**
 	 * 最小的字符数量
 	 *
@@ -96,15 +96,6 @@ export interface Props extends Form.InputProps, BaseProps, RefProps<Ref> {
 	 * 当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。
 	 */
 	onSearch?: (text?: string) => Array<string>;
-
-	/**
-	 * 关联的值
-	 *
-	 * @reactive
-	 */
-	value?: string;
-
-	onChange?: ChangeFunc<string | undefined>;
 }
 
 function countFormater(val: number, max?: number): string {
@@ -117,7 +108,7 @@ function countFormater(val: number, max?: number): string {
  * @typeParam T - 文本框内容的类型
  */
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<string>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<string>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -166,18 +157,12 @@ export function Root(props: Props): JSX.Element {
 				placeholder={props.placeholder}
 				value={field.getValue()}
 				onChange={v => {
-					const old = field.getValue();
-
 					field.setValue(v);
 					field.setError();
 
 					if (props.onSearch) {
 						setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
 						dropdownRef.show();
-					}
-
-					if (props.onChange) {
-						props.onChange(v, old);
 					}
 				}}
 				ref={el => {

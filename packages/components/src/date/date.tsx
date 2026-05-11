@@ -6,7 +6,7 @@ import { createMemo, createSignal, type JSX, mergeProps, Show, splitProps } from
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type BaseRef, type ChangeFunc, joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { DatePanel, type Week } from '@components/datetime';
@@ -17,17 +17,14 @@ import { togglePop } from './utils';
 export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props
-	extends Form.InputProps,
+	extends Form.DataProps<Date>,
 		Omit<DatePanel.RootProps, 'onChange' | 'value' | 'popover' | 'ref'>,
 		RefProps<Ref> {
 	placeholder?: string;
-
-	value: Date | undefined;
-	onChange: ChangeFunc<Date | undefined>;
 }
 
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<Date>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<Date>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week }, form, props);
 
@@ -91,11 +88,7 @@ export function Root(props: Props): JSX.Element {
 					{...panelProps}
 					value={field.getValue()}
 					onChange={val => {
-						const old = field.getValue();
 						field.setValue(val);
-						if (props.onChange) {
-							props.onChange(val, old);
-						}
 					}}
 				/>
 
@@ -109,11 +102,7 @@ export function Root(props: Props): JSX.Element {
 								if ((props.min && props.min > now) || (props.max && props.max < now)) {
 									return;
 								}
-								const old = field.getValue();
 								field.setValue(now);
-								if (props.onChange) {
-									props.onChange(now, old);
-								}
 								panelRef.hidePopover();
 							}}
 						>
@@ -126,11 +115,7 @@ export function Root(props: Props): JSX.Element {
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
-								const old = field.getValue();
 								field.setValue(undefined);
-								if (props.onChange) {
-									props.onChange(undefined, old);
-								}
 								panelRef.hidePopover();
 							}}
 						>

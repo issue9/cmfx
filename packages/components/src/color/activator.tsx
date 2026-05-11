@@ -37,7 +37,7 @@ export interface ActivatorProps extends Base, ParentProps, RefProps<ActivatorRef
 export function Activator(props: ActivatorProps): JSX.Element {
 	const l = useLocale();
 
-	const field = Form.useField<string>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<string>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 

@@ -10,7 +10,7 @@ import {
 	Dialog,
 	Divider,
 	Dropdown,
-	Form1,
+	Form,
 	joinClass,
 	Label,
 	Notify,

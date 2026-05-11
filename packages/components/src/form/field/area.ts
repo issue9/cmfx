@@ -7,7 +7,7 @@ import type { JSX } from 'solid-js';
 import type { Layout } from '@components/base';
 
 /**
- * 子组件所处的位置
+ * 表单元素的各个插槽的位置信息
  */
 export interface Area {
 	/**
@@ -36,10 +36,10 @@ export interface Area {
 }
 
 export interface Areas {
-	help: Area;
-	label: Area;
-	input: Area;
-	extra: Area;
+	help: Area; // 显示帮助信息的区域
+	label: Area; // 显示标签的区域
+	data: Area; // 显示数据交换的区域
+	extra: Area; // 显示额外内容的区域
 }
 
 /**
@@ -54,9 +54,7 @@ export function area2Style(area: Area): JSX.CSSProperties {
 }
 
 /**
- * 根据布局 l 生成通用的各个字段位置
- *
- * @param l - 布局方式；
+ * 根据布局 l 生成通用的各个插槽的位置
  */
 export function calcAreas(l: Layout): Areas {
 	// NOTE: grid 中如果一个列或是行，即使其宽或是高度为 0，gap 也不会消失，
@@ -65,13 +63,13 @@ export function calcAreas(l: Layout): Areas {
 	return l === 'horizontal'
 		? {
 				label: { pos: 'top-start', rows: 2 }, // label 只需要与 input 横向对齐，所以 rows 应该保持与 input 一样。
-				input: { pos: 'top-center', cols: 2, rows: 2 },
+				data: { pos: 'top-center', cols: 2, rows: 2 },
 				help: { pos: 'bottom-center' },
 				extra: { pos: 'bottom-end' },
 			}
 		: {
 				label: { pos: 'top-start', cols: 2 },
-				input: { pos: 'middle-start', cols: 3 },
+				data: { pos: 'middle-start', cols: 3 },
 				help: { pos: 'bottom-start', cols: 3 },
 				extra: { pos: 'top-end' },
 			};

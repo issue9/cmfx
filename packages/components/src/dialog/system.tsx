@@ -7,7 +7,6 @@ import { Portal } from 'solid-js/web';
 
 import type { BaseProps, MountProps } from '@components/base';
 import { useLocale } from '@components/context';
-import { Form1 } from '@components/form1';
 import { InputText } from '@components/input';
 import { AcceptButton, Actions } from './buttons';
 import type { Ref } from './context';
@@ -146,21 +145,21 @@ let promptInst: typeof prompt;
 function PromptProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
-	const access = Form1.fieldAccessor('prompt', '');
+	const [value, setValue] = createSignal('');
 	const l = useLocale();
 
 	promptInst = (msg?: string, val?: string): Promise<string | null> => {
 		setMsg(msg);
-		access.setValue(val ?? '');
+		setValue(val ?? '');
 		dlg.root().showModal();
 
 		return new Promise<string | null>(resolve => {
 			const close = () => {
 				if (dlg.root().returnValue === acceptValue) {
-					const v = access.getValue();
+					const v = value();
 					resolve(v);
 				}
-				access.setValue('');
+				setValue('');
 				dlg.root().removeEventListener('close', close);
 			};
 
@@ -180,7 +179,7 @@ function PromptProvider(props: BaseProps): JSX.Element {
 			class="min-w-60"
 			footer={<Actions acceptValue={acceptValue} />}
 		>
-			<InputText.Root class="w-full" layout="vertical" label={msg()} accessor={access} />
+			<InputText.Root class="w-full" layout="vertical" label={msg()} accessor={value()} />
 		</Root>
 	);
 }

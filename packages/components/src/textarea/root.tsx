@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, type JSX, mergeProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, type ChangeFunc, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Form } from '@components/form';
 import type { InputBase } from '@components/input';
 import styles from './style.module.css';
@@ -16,7 +16,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	textarea(): HTMLTextAreaElement;
 }
 
-export interface Props extends BaseProps, Form.InputProps, RefProps<Ref> {
+export interface Props extends BaseProps, Form.DataProps<string>, RefProps<Ref> {
 	/**
 	 * 最小的字符数量
 	 *
@@ -52,10 +52,6 @@ export interface Props extends BaseProps, Form.InputProps, RefProps<Ref> {
 	 * 如果为 false 或是为空表示不需要展示统计数据。
 	 */
 	count?: boolean | ((val: number, max?: number) => string);
-
-	value?: string;
-
-	onChange?: ChangeFunc<string | undefined>;
 }
 
 function countFormater(val: number, max?: number): string {
@@ -68,7 +64,7 @@ function countFormater(val: number, max?: number): string {
  * @typeParam T - 文本框内容的类型
  */
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<string>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -107,11 +103,7 @@ export function Root(props: Props): JSX.Element {
 					}
 				}}
 				onInput={e => {
-					const old = field.getValue();
 					field.setValue(e.target.value);
-					if (props.onChange) {
-						props.onChange(e.target.value, old);
-					}
 					field.setError();
 				}}
 			/>

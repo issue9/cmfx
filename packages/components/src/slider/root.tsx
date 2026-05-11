@@ -5,7 +5,7 @@
 import type { JSX } from 'solid-js';
 import { createEffect, createSignal, For, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, type ChangeFunc, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 
@@ -16,7 +16,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	input(): HTMLInputElement;
 }
 
-export interface Props extends Form.InputProps, BaseProps, RefProps<Ref> {
+export interface Props extends Form.DataProps<number>, BaseProps, RefProps<Ref> {
 	/**
 	 * 最小值
 	 *
@@ -58,17 +58,13 @@ export interface Props extends Form.InputProps, BaseProps, RefProps<Ref> {
 	 * 对内容进行格式化并显示在 extra 区别
 	 */
 	format?: (value: number | undefined) => JSX.Element;
-
-	value?: number;
-
-	onChange?: ChangeFunc<number | undefined>;
 }
 
 /**
  * 相当于 <input type="range" />
  */
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<number>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<number>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 

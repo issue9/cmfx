@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Choice, Form1, InputNumber, InputText, Notify } from '@cmfx/components';
+import { Alert, Button, Choice, Form, InputNumber, InputText, Notify } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 

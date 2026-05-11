@@ -20,7 +20,7 @@ import { Checkbox } from '@components/checkbox';
 import { useLocale, useOptions } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
-import { Form1 } from '@components/form1';
+import { Form } from '@components/form';
 import { Label } from '@components/label';
 import { Dropdown } from '@components/menu';
 import { PaginationBar } from '@components/pagination';

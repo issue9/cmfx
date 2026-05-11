@@ -4,7 +4,7 @@
 
 import { createEffect, createMemo, For, type JSX, mergeProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { Form } from '@components/form';
 import * as Radio from '@components/radio/radio/mod';
@@ -13,7 +13,7 @@ import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
-export interface Props<T extends AvailableEnumType = string> extends BaseProps, Form.InputProps, RefProps<Ref> {
+export interface Props<T extends AvailableEnumType = string> extends BaseProps, Form.DataProps<T>, RefProps<Ref> {
 	/**
 	 * 所有 checkbox 项的布局
 	 *
@@ -22,18 +22,6 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 	 * @defaultValue 'horizontal'
 	 */
 	layout?: Layout;
-
-	/**
-	 * 值
-	 *
-	 * @remarks
-	 * 如果使用了 Form 组件，则该属性会覆盖由 useField 获取的值。
-	 *
-	 * @reactive
-	 */
-	value?: T;
-
-	onChange?: ChangeFunc<T>;
 
 	/**
 	 * 是否显示为块
@@ -54,7 +42,7 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
  * 单选框组
  */
 export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-	const field = Form.useField<T>() ?? Form.buildFakeFieldContext(props.value);
+	const field = Form.useField<T>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -119,10 +107,6 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 							if (!props.readonly && !props.disabled && field.getValue() !== item.value) {
 								field.setValue(item.value);
 								field.setError();
-
-								if (props.onChange) {
-									props.onChange(item.value);
-								}
 							}
 						}}
 					/>
