@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type MountProps, Slider } from '@cmfx/components';
-import { createSignal, type JSX } from 'solid-js';
+import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector } from '@docs/components/base';
@@ -29,7 +29,7 @@ export default function (props: MountProps) {
 				<Slider.Root
 					rounded={rounded()}
 					value={val()}
-					onChange={v => setVal(v)}
+					onChange={setVal}
 					fitHeight={fitHeight()}
 					palette="primary"
 					disabled={disabled()}
@@ -53,7 +53,7 @@ export default function (props: MountProps) {
 					class="min-w-90"
 					fitHeight={fitHeight()}
 					value={val()}
-					onChange={v => setVal(v)}
+					onChange={setVal}
 					palette="primary"
 					disabled={disabled()}
 					readonly={readonly()}

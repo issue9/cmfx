@@ -20,7 +20,7 @@ import { Checkbox } from '@components/checkbox';
 import { useLocale, useOptions } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
-import { Form } from '@components/form';
+import type { Form } from '@components/form';
 import { Label } from '@components/label';
 import { Dropdown } from '@components/menu';
 import { PaginationBar } from '@components/pagination';
@@ -65,7 +65,7 @@ type BaseTableProps<T extends object, Q extends Query> = OBP<T> &
 		 *
 		 * @reactive
 		 */
-		queryForm?: (oa: Form1.ObjectAccessor<Q>) => JSX.Element;
+		queryForm?: (oa: Form.ObjectAccessor<Q>) => JSX.Element;
 
 		/**
 		 * 查询参数的默认值
@@ -255,59 +255,61 @@ export function Root<T extends object, Q extends Query = Query>(props: Props<T, 
 	const header = (
 		<header class={styles.header}>
 			<Show when={props.queryForm}>
-				<form class={styles.search}>
-					{props.queryForm!(queries)}
-					<div class={styles.actions}>
-						<SplitButton.Root
-							align="end"
-							onChange={async v => {
-								switch (v) {
-									case 'reset':
-										queries.reset();
-										break;
-									default:
-										await exports(v);
-								}
-							}}
-							items={[
-								{
-									type: 'item',
-									value: '.xlsx',
-									label: <Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>,
-								},
-								{
-									type: 'item',
-									value: '.ods',
-									label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
-								},
-								{ type: 'divider' },
-								{
-									type: 'item',
-									value: '.csv',
-									label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
-								},
-								{
-									type: 'item',
-									value: '.md',
-									label: (
-										<Label.Root icon={<IconMarkdown />}>{l.t('_c.table.exportTo', { type: 'Markdown' })}</Label.Root>
-									),
-								},
-								{ type: 'divider' },
-								{
-									type: 'item',
-									value: 'reset',
-									disabled: queries.isPreset(),
-									label: <Label.Root icon={<IconReset />}>{l.t('_c.reset')}</Label.Root>,
-								},
-							]}
-						>
-							<Button.Root type="submit" palette="primary" onclick={async () => await refetch()}>
-								{l.t('_c.search')}
-							</Button.Root>
-						</SplitButton.Root>
-					</div>
-				</form>
+				{qf => (
+					<form class={styles.search}>
+						{qf()(queries)}
+						<div class={styles.actions}>
+							<SplitButton.Root
+								align="end"
+								onChange={async v => {
+									switch (v) {
+										case 'reset':
+											queries.reset();
+											break;
+										default:
+											await exports(v);
+									}
+								}}
+								items={[
+									{
+										type: 'item',
+										value: '.xlsx',
+										label: <Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>,
+									},
+									{
+										type: 'item',
+										value: '.ods',
+										label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
+									},
+									{ type: 'divider' },
+									{
+										type: 'item',
+										value: '.csv',
+										label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
+									},
+									{
+										type: 'item',
+										value: '.md',
+										label: (
+											<Label.Root icon={<IconMarkdown />}>{l.t('_c.table.exportTo', { type: 'Markdown' })}</Label.Root>
+										),
+									},
+									{ type: 'divider' },
+									{
+										type: 'item',
+										value: 'reset',
+										disabled: queries.isPreset(),
+										label: <Label.Root icon={<IconReset />}>{l.t('_c.reset')}</Label.Root>,
+									},
+								]}
+							>
+								<Button.Root type="submit" palette="primary" onclick={async () => await refetch()}>
+									{l.t('_c.search')}
+								</Button.Root>
+							</SplitButton.Root>
+						</div>
+					</form>
+				)}
 			</Show>
 
 			<Show when={props.queryForm && (props.toolbar || props.systemToolbar)}>

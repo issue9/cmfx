@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, type JSX, mergeProps, Show, splitProps, untrack } from 'solid-js';
+import { createMemo, createSignal, type JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
@@ -46,8 +46,6 @@ export function Root(props: Props): JSX.Element {
 	const l = useLocale();
 
 	const [panelProps, _] = splitProps(props, [
-		'value',
-		'onChange',
 		'time',
 		'weekBase',
 		'weekend',
@@ -111,10 +109,8 @@ export function Root(props: Props): JSX.Element {
 				<DateRangePanel.Root
 					class={styles['dt-panel']}
 					{...panelProps}
-					value={untrack(field.getValue)}
-					onChange={v => {
-						field.setValue(v);
-					}}
+					value={field.getValue()}
+					onChange={v => field.setValue(v)}
 				/>
 
 				<div class={joinClass(undefined, styles.actions, 'justify-end!')}>

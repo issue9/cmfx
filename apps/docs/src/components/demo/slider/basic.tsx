@@ -32,7 +32,7 @@ export default function (props: MountProps) {
 					rounded={rounded()}
 					fitHeight={fitHeight()}
 					value={val()}
-					onChange={v => setVal(v)}
+					onChange={setVal}
 					palette="primary"
 					disabled={disabled()}
 					readonly={readonly()}
@@ -41,7 +41,7 @@ export default function (props: MountProps) {
 				<Slider.Root
 					rounded={rounded()}
 					value={val()}
-					onChange={v => setVal(v)}
+					onChange={setVal}
 					fitHeight={fitHeight()}
 					palette={palette()}
 					disabled={disabled()}

@@ -26,9 +26,8 @@ type Image = {
 export function Image(props: Props): JSX.Element {
 	const l = useLocale();
 
-	const img = new Form1.ObjectAccessor<Image>({
-		src: '',
-		alt: '',
+	const [F, Field, api] = Form.create<Image>({
+		initValue: { src: '', alt: '' },
 	});
 
 	let dlg: Dialog.RootRef;
@@ -39,7 +38,7 @@ export function Image(props: Props): JSX.Element {
 				kind="flat"
 				square
 				onclick={() => {
-					img.setValue({ src: '', alt: '' });
+					api.setValue({ src: '', alt: '' });
 					dlg.root().showModal();
 				}}
 			>
@@ -51,7 +50,7 @@ export function Image(props: Props): JSX.Element {
 				mainClass={styles['image-main']}
 				footer={
 					<footer>
-						<Button.Root
+						<Form.Button
 							square
 							kind="flat"
 							palette="error"
@@ -59,25 +58,31 @@ export function Image(props: Props): JSX.Element {
 							onclick={() => dlg.root().close('close')}
 						>
 							<IconClose />
-						</Button.Root>
+						</Form.Button>
 
-						<Button.Root
+						<Form.Button
 							square
 							kind="flat"
-							palette="error"
 							title={l.t('_c.ok')}
 							onclick={() => {
-								props.editor.chain().focus().setImage(img.getValue()).run();
+								props.editor.chain().focus().setImage(api.getValue()).run();
 								dlg.root().close('ok');
 							}}
 						>
 							<IconOK />
-						</Button.Root>
+						</Form.Button>
 					</footer>
 				}
 			>
-				<InputText.Root label="src" accessor={img.accessor('src')} />
-				<InputText.Root label="alt" accessor={img.accessor('alt')} />
+				<F inDialog>
+					<Field label="src" name="src">
+						<InputText.Root />
+					</Field>
+
+					<Field label="alt" name="alt">
+						<InputText.Root />
+					</Field>
+				</F>
 			</Dialog.Root>
 		</>
 	);

@@ -70,7 +70,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<F>
 				<div class="flex flex-row gap-5">
-					<Field name="a" layout={layout()}>
+					<Field label="label" name="a" layout={layout()}>
 						<Choice.Root
 							placeholder="placeholder"
 							disabled={disabled()}
@@ -85,7 +85,7 @@ export default function (props: MountProps): JSX.Element {
 						/>
 					</Field>
 
-					<p>{val()}</p>
+					<p>{val().join(',')}</p>
 				</div>
 			</F>
 		</div>

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, Form, type MountProps,  InputText } from '@cmfx/components';
+import { Choice, InputText, type MountProps } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -26,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 		},
 	];
 
-	const tf = Form1.fieldAccessor('textfield', '');
+	const [txt, setTxt] = createSignal('');
 
 	const [Palette, palette] = paletteSelector();
 	const [Closable, closable] = boolSelector('closable');
@@ -63,7 +63,8 @@ export default function (props: MountProps): JSX.Element {
 					rounded={rounded()}
 					readonly={readonly()}
 					palette={palette()}
-					accessor={tf}
+					value={txt()}
+					onChange={setTxt}
 				/>
 				<p>{val()}</p>
 			</div>

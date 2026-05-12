@@ -140,6 +140,7 @@ export function Root(props: Props): JSX.Element {
 				step={props.step}
 				value={field.getValue()}
 				readOnly={props.readonly}
+				disabled={props.disabled}
 				classList={{
 					[styles['fit-height']]: props.fitHeight,
 					[styles.rounded]: props.rounded,
@@ -154,7 +155,6 @@ export function Root(props: Props): JSX.Element {
 					}
 				}}
 				onwheel={wheel}
-				disabled={props.disabled}
 				name={field.name()}
 				onChange={e => {
 					if (!props.readonly && !props.disabled) {

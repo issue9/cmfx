@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import { Form, type MountProps, TextArea } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const f = Form1.fieldAccessor('name', '5');
+	const [txt, setTxt] = createSignal('5');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
@@ -25,26 +25,25 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 			<TextArea.Root
 				count={count()}
-				hasHelp
-				layout={layout()}
 				palette="primary"
-				label="primary"
-				title="primary"
 				disabled={disabled()}
 				readonly={readonly()}
-				accessor={f}
+				value={txt()}
+				onChange={setTxt}
 			/>
-			<TextArea.Root
-				count={count()}
-				hasHelp
-				layout={layout()}
-				palette="error"
-				label="error"
-				title="error"
-				disabled={disabled()}
-				readonly={readonly()}
-				accessor={f}
-			/>
+
+			<Form.Root api={new Form.API({ initValue: {} })}>
+				<Form.Field layout={layout()} label="error" help="help">
+					<TextArea.Root
+						count={count()}
+						palette="error"
+						disabled={disabled()}
+						readonly={readonly()}
+						value={txt()}
+						onChange={setTxt}
+					/>
+				</Form.Field>
+			</Form.Root>
 		</div>
 	);
 }

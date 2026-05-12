@@ -66,7 +66,8 @@ export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | Sin
  * 用以替代 select 组件
  */
 export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-	const field = Form.useField<Array<T>>() ?? Form.useFakeField(props.value, props.onChange);
+	// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
+	const field = Form.useField(props as any, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -149,21 +150,6 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 		</div>
 	);
 
-	const onchange = props.multiple
-		? (v: Array<T>) => {
-				if (props.readonly) {
-					return;
-				}
-				field.setValue(v);
-			}
-		: (v: T | undefined) => {
-				if (props.readonly) {
-					return;
-				}
-
-				field.setValue(v);
-			};
-
 	let dropdownRef: Dropdown.RootRef;
 	return (
 		<Dropdown.Root
@@ -171,7 +157,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
 			value={field.getValue() as any}
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
-			onChange={onchange as any}
+			onChange={field.setValue as any}
 			items={props.options}
 			ref={el => {
 				const s = el.menu().root().style;
