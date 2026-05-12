@@ -85,9 +85,16 @@ describe('API.createFieldAccessor', async () => {
 	const api = new API({ initValue: { age: 20, name: 'f2' }, validator: new ObjectValidator(), validOnChange: true });
 	const age = api.createFieldAccessor('age');
 
-	test('name', () => {
+	test('id/name', () => {
+		expect(age.id()).toBeDefined();
 		expect(age.name()).toEqual('age');
 		expect(api.createFieldAccessor('obj1.obj-2.age').name()).toEqual('obj1.obj-2.age');
+	});
+
+	test('extra', () => {
+		expect(age.getExtra()).toBeUndefined();
+		age.setExtra('abc');
+		expect(age.getExtra()).toEqual('abc');
 	});
 
 	test('error', () => {

@@ -94,7 +94,7 @@ export function Root(props: Props): JSX.Element {
 
 		e.preventDefault();
 		const stepV = props.step ?? 1;
-		step(e.deltaY > 0 ? stepV : -stepV);
+		step(e.deltaY > 0 ? -stepV : stepV);
 	};
 
 	const suffix = (
@@ -132,7 +132,7 @@ export function Root(props: Props): JSX.Element {
 			style={props.style}
 			palette={props.palette}
 			type="number"
-			id={field.id}
+			id={field.id()}
 			prefix={props.prefix}
 			suffix={suffix}
 			rounded={props.rounded}

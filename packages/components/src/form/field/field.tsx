@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import type { Flattenable, FlattenKeys } from '@cmfx/core';
-import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, type ParentProps } from 'solid-js';
+import { createMemo, type JSX, mergeProps, type ParentProps } from 'solid-js';
 
 import { type BaseProps, joinClass } from '@components/base';
 import { ContextNotFoundError } from '@components/context';
 import { type CommonProps, useForm } from '@components/form/form';
 import { area2Style, calcAreas } from './area';
-import { FieldProvider } from './context';
+import { FieldProvider, useFakeField } from './context';
 import styles from './style.module.css';
 
 export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProps, ParentProps {
@@ -19,8 +19,12 @@ export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProp
 
 	/**
 	 * 字段名
+	 *
+	 * @remarks
+	 * 如果指定了该值，则必须要套在 Form 之内，会从 Form 中获取对应名称的字段值。
+	 * 否则表示一个类似 label 的组件，用于包含一个带有数据的字段。
 	 */
-	name: FlattenKeys<T>;
+	readonly name?: FlattenKeys<T>;
 }
 
 export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element {
@@ -29,7 +33,9 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 	// help 应该与 input 左对齐，而不是与 label 左对齐。
 
 	const form = useForm<T>();
-	if (!form) {
+
+	// 有 name 的情况下，必须要有 form
+	if (!form && props.name) {
 		throw new ContextNotFoundError('formContext');
 	}
 
@@ -44,14 +50,12 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 
 	const areas = createMemo(() => calcAreas(props.layout!));
 
-	const id = createUniqueId();
-	const field = form.api.createFieldAccessor(props.name);
-	const [extra, setExtra] = createSignal<JSX.Element>();
+	const field = props.name ? form!.api.createFieldAccessor(props.name) : useFakeField(undefined);
 
 	return (
 		<div class={joinClass(props.palette, styles.field, props.class)} style={props.style}>
 			<label
-				for={id}
+				for={field.id()}
 				style={{
 					...area2Style(areas().label),
 					width: props.labelWidth,
@@ -72,7 +76,7 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 
 			<div style={area2Style(areas().data)} class={styles.input}>
 				<FieldProvider
-					id={id}
+					id={field.id}
 					name={field.name}
 					reset={field.reset}
 					getError={field.getError}
@@ -80,14 +84,14 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 					getValue={field.getValue}
 					setValue={field.setValue}
 					onChange={field.onChange}
-					getExtra={extra}
-					setExtra={setExtra}
+					getExtra={field.getExtra}
+					setExtra={field.setExtra}
 				>
 					{props.children}
 				</FieldProvider>
 			</div>
 
-			<div style={area2Style(areas().extra)}>{extra()}</div>
+			<div style={area2Style(areas().extra)}>{field.getExtra()}</div>
 		</div>
 	);
 }

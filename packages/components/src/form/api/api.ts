@@ -4,7 +4,7 @@
 
 import type { Flatten, Flattenable, FlattenKeys, Params, Problem, Validator } from '@cmfx/core';
 import equal from 'fast-deep-equal';
-import { createSignal, untrack } from 'solid-js';
+import { createSignal, createUniqueId, type JSX, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
 import type { ChangeFunc } from '@components/base';
@@ -218,6 +218,9 @@ export class API<T extends Flattenable, R = never, P = never> {
 			parent.setError(err ? [{ name, reason: err }] : undefined);
 		};
 
+		const [extra, setExtra] = createSignal<JSX.Element | undefined>(undefined);
+		const id = createUniqueId();
+
 		const setValue = (val: FT): void => {
 			const old = untrack(getValue);
 			if (old !== val) {
@@ -250,9 +253,8 @@ export class API<T extends Flattenable, R = never, P = never> {
 		};
 
 		return {
-			name(): string {
-				return name as string;
-			},
+			id: () => id,
+			name: () => name as string,
 
 			getError(): string | undefined {
 				return parent.getError(name);
@@ -283,6 +285,9 @@ export class API<T extends Flattenable, R = never, P = never> {
 				setError();
 				setValue(parent.#preset[name] as FT);
 			},
+
+			getExtra: () => extra(),
+			setExtra: (e: JSX.Element | undefined) => setExtra(e),
 		} satisfies FieldAccessor<FT>;
 	}
 

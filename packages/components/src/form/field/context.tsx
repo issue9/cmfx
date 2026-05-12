@@ -9,22 +9,7 @@ import type { ChangeFunc } from '@components/base';
 import type { FieldAccessor } from '@components/form/api';
 import type { ValueProps } from './data';
 
-export interface FieldContext<T> extends FieldAccessor<T> {
-	id: string;
-
-	/**
-	 * 获取当前元素关联的扩展字段
-	 *
-	 * @remarks
-	 * 这是一个可响应的值
-	 */
-	getExtra(): JSX.Element | undefined;
-
-	/**
-	 * 修改当前元素关联的扩展字段
-	 */
-	setExtra(extra: JSX.Element | undefined): void;
-}
+export type FieldContext<T> = FieldAccessor<T>;
 
 const fieldContext = createContext<FieldContext<unknown>>();
 
@@ -71,6 +56,7 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FieldContext<T>
 export function useFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T | undefined>): FieldContext<T> {
 	const preset = structuredClone(val);
 	const [v, sv] = createSignal<T | undefined>(val);
+	const [extra, setExtra] = createSignal<JSX.Element | undefined>();
 	const id = createUniqueId();
 
 	const changes: Array<ChangeFunc<T | undefined>> = [];
@@ -88,7 +74,7 @@ export function useFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T | un
 	};
 
 	return {
-		id: id,
+		id: () => id,
 		name: () => id,
 		reset: () => setValue(structuredClone(preset)),
 
@@ -99,7 +85,7 @@ export function useFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T | un
 		setValue: setValue,
 		onChange: (cb: ChangeFunc<T | undefined>) => changes.push(cb),
 
-		getExtra: () => undefined,
-		setExtra: () => {},
+		getExtra: extra,
+		setExtra: setExtra,
 	};
 }

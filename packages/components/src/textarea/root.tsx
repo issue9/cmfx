@@ -84,7 +84,7 @@ export function Root(props: Props): JSX.Element {
 	return (
 		<div class={joinClass(props.palette, styles.ta, props.class)} style={props.style} ref={el => (rootRef = el)}>
 			<textarea
-				id={field.id}
+				id={field.id()}
 				inputMode={props.inputMode}
 				class={joinClass(undefined, styles.textarea, props.rounded ? styles.rounded : '')}
 				tabIndex={props.tabindex}

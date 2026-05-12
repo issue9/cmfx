@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
-	const [group, setGroup] = createSignal('');
+	const [group, setGroup] = createSignal(['1']);
 	const groupOptions: CheckboxGroup.Options<string> = [
 		{ value: '1', label: <div>abc</div> },
 		{ value: '2', label: <div style="color:red">red</div> },
@@ -58,7 +58,6 @@ export default function (props: MountProps): JSX.Element {
 						help="help text"
 						labelAlign={labelAlign()}
 						labelWidth="100px"
-						name="a"
 					>
 						<CheckboxGroup.Root
 							rounded={rounded()}
@@ -67,12 +66,12 @@ export default function (props: MountProps): JSX.Element {
 							layout={itemLayout()}
 							block={block()}
 							options={groupOptions}
-							value={['1']}
-							onChange={(n, o) => setGroup(`new:${n}, old:${o}`)}
+							value={group()}
+							onChange={n => setGroup(n)}
 						/>
 					</Field>
 				</F>
-				<pre>{group()}</pre>
+				<pre>{group().join(',')}</pre>
 			</div>
 		</div>
 	);

@@ -2,12 +2,27 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { JSX } from 'solid-js';
+
 import type { ChangeFunc } from '@components/base';
 
 /**
- * 定义了对对象中某个字段的存取接口
+ * 定义了访问表单中某个字段的接口
+ *
+ * @typeParam T - 字段的值类型；
  */
 export interface FieldAccessor<T> {
+	/**
+	 * 字段的唯一标识
+	 */
+	id(): string;
+
+	/**
+	 * 字段的名称
+	 *
+	 * @remarks
+	 * 在某些场合下可能用到，比如可能会用在 radio group 中 input 的 name 属性。
+	 */
 	name(): string;
 
 	/**
@@ -45,4 +60,17 @@ export interface FieldAccessor<T> {
 	 * 重置为默认值
 	 */
 	reset(): void;
+
+	/**
+	 * 获取当前元素关联的扩展字段
+	 *
+	 * @remarks
+	 * 这是一个可响应的值
+	 */
+	getExtra(): JSX.Element | undefined;
+
+	/**
+	 * 修改当前元素关联的扩展字段
+	 */
+	setExtra(extra: JSX.Element | undefined): void;
 }

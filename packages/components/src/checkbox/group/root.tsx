@@ -61,6 +61,8 @@ export function Root<T extends string | number>(props: Props<T>): JSX.Element {
 		);
 	});
 
+	const vals = createMemo(() => field.getValue() ?? []);
+
 	return (
 		<div
 			class={cls()}
@@ -76,14 +78,11 @@ export function Root<T extends string | number>(props: Props<T>): JSX.Element {
 					<Checkbox.Root
 						{...chkProps}
 						label={item.label}
-						checked={!!field.getValue()?.find(v => v === item.value)}
+						checked={!!vals().find(v => v === item.value)}
 						onChange={v => {
-							const oldVal = field.getValue();
-							const old = oldVal ?? [];
-
-							const vals = v ? [...old, item.value] : old.filter(v => v !== item.value);
-
-							field.setValue(vals);
+							const old = vals();
+							const values = v ? [...old, item.value] : old.filter(v => v !== item.value);
+							field.setValue(values);
 						}}
 					/>
 				)}

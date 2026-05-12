@@ -145,7 +145,7 @@ export function Root(props: Props): JSX.Element {
 		return (
 			<InputBase.Root
 				{...p}
-				id={field.id}
+				id={field.id()}
 				prefix={props.prefix}
 				suffix={props.suffix}
 				rounded={props.rounded}

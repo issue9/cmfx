@@ -64,7 +64,7 @@ export function Root(props: Props): JSX.Element {
 				aria-haspopup
 			>
 				<input
-					id={field.id}
+					id={field.id()}
 					class={styles.input}
 					tabIndex={props.tabindex}
 					disabled={props.disabled}

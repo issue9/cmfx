@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { renderHook } from '@solidjs/testing-library';
-import { createSignal, type JSX, type ParentProps } from 'solid-js';
+import type { ParentProps } from 'solid-js';
 import { afterAll, describe, expect, test } from 'vitest';
 
 import { API } from '@components/form/api';
@@ -17,12 +17,11 @@ type Obj = {
 describe('FieldProvider', async () => {
 	const api = new API<Obj>({ initValue: { age: 20, name: 'f2' } });
 	const f = api.createFieldAccessor('age');
-	const [extra, setExtra] = createSignal<JSX.Element>();
 
 	const { result, cleanup } = renderHook(() => useField<number>(), {
 		wrapper: (props: ParentProps) => (
 			<FieldProvider
-				id="id"
+				id={() => 'id'}
 				getError={f.getError}
 				setError={f.setError}
 				name={f.name}
@@ -30,8 +29,8 @@ describe('FieldProvider', async () => {
 				setValue={f.setValue}
 				onChange={f.onChange}
 				reset={f.reset}
-				getExtra={extra}
-				setExtra={setExtra}
+				getExtra={f.getExtra}
+				setExtra={f.setExtra}
 			>
 				{props.children}
 			</FieldProvider>

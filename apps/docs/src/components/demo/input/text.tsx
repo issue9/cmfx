@@ -3,14 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Form, InputText, type MountProps } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const txt = Form1.fieldAccessor('name', 'text');
+	const [txt, setTxt] = createSignal('text');
 
 	const [Palette, palette] = paletteSelector();
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
@@ -31,88 +31,92 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Layout />
 				<Count />
-				<Button.Root
-					palette="primary"
-					onclick={() => {
-						txt.setError(txt.getError() ? undefined : 'error');
-					}}
-				>
-					toggle error
-				</Button.Root>
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
 				<InputText.Root
 					count={count() ? (v, m) => `${v}-${m}` : undefined}
-					hasHelp
-					layout={layout()}
 					placeholder="placeholder"
 					palette={palette()}
 					disabled={disabled()}
 					rounded={rounded()}
 					readonly={readonly()}
-					accessor={txt}
-				/>
-				<InputText.Root
-					maxLength={10}
-					count={count()}
-					layout={layout()}
-					placeholder="placeholder"
-					label="label+no help"
-					palette={palette()}
-					disabled={disabled()}
-					rounded={rounded()}
-					readonly={readonly()}
-					accessor={txt}
-				/>
-				<InputText.Root
-					count={count()}
-					hasHelp
-					layout={layout()}
-					placeholder="placeholder"
-					label="prefix"
-					prefix={<IconFace class="self-center" />}
-					palette={palette()}
-					disabled={disabled()}
-					rounded={rounded()}
-					readonly={readonly()}
-					accessor={txt}
-				/>
-				<InputText.Root
-					count={count()}
-					hasHelp
-					layout={layout()}
-					placeholder="placeholder"
-					label="prefix+suffix"
-					prefix={prefix()}
-					suffix={suffix()}
-					palette={palette()}
-					disabled={disabled()}
-					rounded={rounded()}
-					readonly={readonly()}
-					accessor={txt}
+					value={txt()}
+					onChange={setTxt}
 				/>
 
-				<InputText.Root
-					maxLength={10}
-					count={count()}
-					hasHelp
-					layout={layout()}
-					placeholder="placeholder"
-					label="onsearch"
-					class="w-100"
-					prefix={prefix()}
-					suffix={suffix()}
-					palette={palette()}
-					disabled={disabled()}
-					rounded={rounded()}
-					readonly={readonly()}
-					accessor={txt}
-					onSearch={v => {
-						if (!v) return [];
-						return ['abc@gmail.com', 'def@qq.com', 'ghi@126.com'].filter(item => item.includes(v));
-					}}
-				/>
+				<Form.Field label="label+no help" layout={layout()}>
+					<InputText.Root
+						suffix={
+							<Button.Root square kind="flat">
+								<IconFace />
+							</Button.Root>
+						}
+						maxLength={10}
+						count={count()}
+						placeholder="placeholder"
+						palette={palette()}
+						disabled={disabled()}
+						rounded={rounded()}
+						readonly={readonly()}
+						value={txt()}
+						onChange={setTxt}
+					/>
+				</Form.Field>
+
+				<Form.Field label="prefix" layout={layout()} help="这是显示帮助内容">
+					<InputText.Root
+						count={count()}
+						placeholder="placeholder"
+						prefix={
+							<Button.Root square kind="flat">
+								<IconFace />
+							</Button.Root>
+						}
+						palette={palette()}
+						disabled={disabled()}
+						rounded={rounded()}
+						readonly={readonly()}
+						value={txt()}
+						onChange={setTxt}
+					/>
+				</Form.Field>
+
+				<Form.Field label="prefix+suffix" layout={layout()} help="这是显示帮助内容">
+					<InputText.Root
+						count={count()}
+						placeholder="placeholder"
+						prefix={prefix()}
+						suffix={suffix()}
+						palette={palette()}
+						disabled={disabled()}
+						rounded={rounded()}
+						readonly={readonly()}
+						value={txt()}
+						onChange={setTxt}
+					/>
+				</Form.Field>
+
+				<Form.Field label="onsearch" layout={layout()} help="这是显示帮助内容">
+					<InputText.Root
+						maxLength={10}
+						count={count()}
+						placeholder="placeholder"
+						class="w-100"
+						prefix={prefix()}
+						suffix={suffix()}
+						palette={palette()}
+						disabled={disabled()}
+						rounded={rounded()}
+						readonly={readonly()}
+						value={txt()}
+						onChange={setTxt}
+						onSearch={v => {
+							if (!v) return [];
+							return ['abc@gmail.com', 'def@qq.com', 'ghi@126.com'].filter(item => item.includes(v));
+						}}
+					/>
+				</Form.Field>
 			</div>
 		</>
 	);

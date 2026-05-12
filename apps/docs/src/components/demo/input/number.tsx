@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, InputNumber, type MountProps } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { Form, InputNumber, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const num = Form1.fieldAccessor('name', 5);
+	const [num, setNum] = createSignal(5);
 
 	const [Palette, palette] = paletteSelector();
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
@@ -26,50 +26,47 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 				<Disabled />
 				<Layout />
-				<Button.Root
-					palette="primary"
-					onclick={() => {
-						num.setError(num.getError() ? undefined : 'error');
-					}}
-				>
-					toggle error
-				</Button.Root>
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
 				<InputNumber.Root
-					layout={layout()}
 					placeholder="placeholder"
 					palette={palette()}
 					disabled={disabled()}
 					rounded={rounded()}
 					readonly={readonly()}
-					accessor={num}
+					value={num()}
+					onChange={setNum}
 				/>
-				<InputNumber.Root
-					layout={layout()}
-					placeholder="placeholder"
-					label="icon"
-					prefix={<IconFace class="self-center" />}
-					palette={palette()}
-					disabled={disabled()}
-					rounded={rounded()}
-					readonly={readonly()}
-					accessor={num}
-				/>
-				<InputNumber.Root
-					layout={layout()}
-					placeholder="placeholder"
-					label="range:[1,10]"
-					prefix={<IconFace class="self-center" />}
-					min={1}
-					max={10}
-					palette={palette()}
-					disabled={disabled()}
-					rounded={rounded()}
-					readonly={readonly()}
-					accessor={num}
-				/>
+
+				<Form.Field label="icon" layout={layout()}>
+					<InputNumber.Root
+						placeholder="placeholder"
+						prefix={<IconFace class="self-center" />}
+						palette={palette()}
+						disabled={disabled()}
+						rounded={rounded()}
+						readonly={readonly()}
+						value={num()}
+						onChange={setNum}
+					/>
+				</Form.Field>
+
+				<Form.Field label="icon" layout={layout()}>
+					<InputNumber.Root
+						placeholder="placeholder"
+						label="range:[1,10]"
+						prefix={<IconFace class="self-center" />}
+						min={1}
+						max={10}
+						palette={palette()}
+						disabled={disabled()}
+						rounded={rounded()}
+						readonly={readonly()}
+						value={num()}
+						onChange={setNum}
+					/>
+				</Form.Field>
 			</div>
 		</>
 	);

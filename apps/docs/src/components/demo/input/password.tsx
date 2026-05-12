@@ -2,20 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, type MountProps, InputPassword } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { InputPassword, type MountProps } from '@cmfx/components';
+import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const pwd = Form1.fieldAccessor('name', 'pwd');
+	const [pwd] = createSignal('pwd');
 
 	const [Palette, palette] = paletteSelector();
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
-	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 	const [Count, count] = boolSelector('_d.demo.charCount', false);
 
@@ -26,29 +25,18 @@ export default function (props: MountProps): JSX.Element {
 				<Readonly />
 				<Rounded />
 				<Disabled />
-				<Layout />
 				<Count />
-				<Button.Root
-					palette="primary"
-					onclick={() => {
-						pwd.setError(pwd.getError() ? undefined : 'error');
-					}}
-				>
-					toggle error
-				</Button.Root>
 			</Portal>
 
 			<InputPassword.Root
 				count={count()}
-				layout={layout()}
 				placeholder="placeholder"
-				label="password"
 				prefix={<IconFace class="self-center" />}
 				palette={palette()}
 				disabled={disabled()}
 				rounded={rounded()}
 				readonly={readonly()}
-				accessor={pwd}
+				value={pwd()}
 			/>
 		</div>
 	);
