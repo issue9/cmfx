@@ -5,15 +5,15 @@
 import { createEffect, createSignal, type JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
-import { DateView } from '@components/datetime/dateview';
-import type { DatetimePlugin } from '@components/datetime/plugin';
 import { TimePanel } from '@components/datetime/timepanel';
 import type { Week } from '@components/datetime/utils';
+import { MonthView } from '@components/datetime/view/month';
+import type { DatetimePlugin } from '@components/datetime/view/plugin';
 import styles from './style.module.css';
 
 export interface Ref extends BaseRef<HTMLFieldSetElement> {
-	// DateView.RootRef 中的 jump 等方法无法精准到时间部分，不对外公开。
-	dateview(): DateView.RootRef;
+	// MonthView.RootRef 中的 jump 等方法无法精准到时间部分，不对外公开。
+	dateview(): MonthView.RootRef;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
@@ -77,7 +77,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @param week - 周数；
 	 * @param range - 周数范围；
 	 */
-	onWeekClick?: DateView.RootProps['onWeekClick'];
+	onWeekClick?: MonthView.RootProps['onWeekClick'];
 
 	popover?: boolean | 'manual' | 'auto';
 
@@ -104,10 +104,10 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @param val - 新页面的日期；
 	 * @param old - 旧页面的日期；
 	 */
-	onPaging?: DateView.RootProps['onPaging'];
+	onPaging?: MonthView.RootProps['onPaging'];
 
-	onEnter?: DateView.RootProps['onEnter'];
-	onLeave?: DateView.RootProps['onLeave'];
+	onEnter?: MonthView.RootProps['onEnter'];
+	onLeave?: MonthView.RootProps['onLeave'];
 
 	/**
 	 * 插件列表
@@ -128,7 +128,7 @@ export function CommonPanel(props: Props): JSX.Element {
 	props = mergeProps(presetProps, props);
 
 	const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
-	const [dateViewRef, setDateViewRef] = createSignal<DateView.RootRef>();
+	const [dateViewRef, setDateViewRef] = createSignal<MonthView.RootRef>();
 
 	// 改变值且触发 onchange 事件
 	const change = (val?: Date, time?: boolean) => {
@@ -201,7 +201,7 @@ export function CommonPanel(props: Props): JSX.Element {
 			style={props.style}
 			ref={el => (dateRef = el)}
 		>
-			<DateView.Root
+			<MonthView.Root
 				initValue={value() ?? new Date()}
 				min={props.min}
 				max={props.max}

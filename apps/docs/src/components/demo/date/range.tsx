@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DateRangePicker, type MountProps, type Week, weeks } from '@cmfx/components';
+import { DateRangePicker, Form, type MountProps, type Week, weeks } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -44,8 +44,6 @@ export default function (props: MountProps): JSX.Element {
 			<DateRangePicker.Root
 				class="w-[400px]"
 				placeholder="placeholder"
-				layout={layout()}
-				label="label"
 				min={minmax() ? min : undefined}
 				max={minmax() ? max : undefined}
 				weekend={weekend()}
@@ -61,24 +59,24 @@ export default function (props: MountProps): JSX.Element {
 			/>
 			<p>{dateFA[0]()?.join('-') ?? ''}</p>
 
-			<DateRangePicker.Root
-				class="w-[200px]"
-				placeholder="placeholder"
-				layout={layout()}
-				label="label"
-				min={minmax() ? min : undefined}
-				max={minmax() ? max : undefined}
-				weekend={weekend()}
-				palette={palette()}
-				rounded={rounded()}
-				shortcuts={shortcut()}
-				readonly={readonly()}
-				disabled={disabled()}
-				value={numberFA[0]()}
-				onChange={numberFA[1]}
-				weekBase={week()}
-				time={time()}
-			/>
+			<Form.Field layout={layout()} label="label">
+				<DateRangePicker.Root
+					class="w-[200px]"
+					placeholder="placeholder"
+					min={minmax() ? min : undefined}
+					max={minmax() ? max : undefined}
+					weekend={weekend()}
+					palette={palette()}
+					rounded={rounded()}
+					shortcuts={shortcut()}
+					readonly={readonly()}
+					disabled={disabled()}
+					value={numberFA[0]()}
+					onChange={numberFA[1]}
+					weekBase={week()}
+					time={time()}
+				/>
+			</Form.Field>
 			<p>{numberFA[0]()?.join('-') ?? ''}</p>
 		</>
 	);

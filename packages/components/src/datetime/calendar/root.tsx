@@ -5,12 +5,12 @@
 import { createSignal, type JSX, mergeProps } from 'solid-js';
 
 import { type BaseProps, joinClass, type RefProps } from '@components/base';
-import { DateView } from '@components/datetime/dateview';
-import type { DatetimePlugin } from '@components/datetime/plugin';
 import type { Week } from '@components/datetime/utils';
+import { MonthView } from '@components/datetime/view/month';
+import type { DatetimePlugin } from '@components/datetime/view/plugin';
 import styles from './style.module.css';
 
-export type Ref = DateView.RootRef;
+export type Ref = MonthView.RootRef;
 
 /**
  * 日历 {@link Calendar} 的属性值
@@ -85,7 +85,7 @@ export function Root(props: Props): JSX.Element {
 	const [selected, setSelected] = createSignal<Date>();
 
 	return (
-		<DateView.Root
+		<MonthView.Root
 			ref={el => {
 				ref = el;
 				if (props.ref) {

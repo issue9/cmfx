@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as DateView from './mod';
+export * as MonthView from './mod';
 export type { WeekValueType } from './types';

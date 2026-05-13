@@ -110,7 +110,7 @@ export function Root(props: Props): JSX.Element {
 					class={styles['dt-panel']}
 					{...panelProps}
 					value={field.getValue()}
-					onChange={v => field.setValue(v)}
+					onChange={field.setValue}
 				/>
 
 				<div class={joinClass(undefined, styles.actions, 'justify-end!')}>

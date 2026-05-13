@@ -33,8 +33,6 @@ export function Root(props: Props): JSX.Element {
 	const [panelProps, _] = splitProps(props, [
 		'time',
 		'weekBase',
-		'value',
-		'onChange',
 		'weekend',
 		'disabled',
 		'readonly',
@@ -87,9 +85,7 @@ export function Root(props: Props): JSX.Element {
 					class={styles['dt-panel']}
 					{...panelProps}
 					value={field.getValue()}
-					onChange={val => {
-						field.setValue(val);
-					}}
+					onChange={val => field.setValue(val)}
 				/>
 
 				<div class={styles.actions}>

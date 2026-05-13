@@ -3,10 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import type { BaseProps, Mode } from '@cmfx/components';
-import { Appbar, Choice, Form, joinClass, modes, Page, Transition, useLocale, useOptions } from '@cmfx/components';
+import { Appbar, Choice, joinClass, modes, Page, Transition, useLocale, useOptions } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
-import { createResource, ErrorBoundary, For, type JSX, Match, Show, Switch } from 'solid-js';
+import type { JSX } from 'solid-js';
+import { createEffect, createResource, createSignal, ErrorBoundary, For, Match, Show, Switch } from 'solid-js';
 
 import { handleProblem, useAdmin, useOptions as useAdminOptions, useREST } from '@admin/app';
 import { errorHandler } from '@admin/app/context';
@@ -58,8 +59,10 @@ function LoginBox(props: Props): JSX.Element {
 
 	rest.api().cache('/passports');
 
-	const passport = Form1.fieldAccessor('passport', q.type ?? 'password');
-	passport.onChange(n => setQ({ type: n }));
+	const [passport, setPassport] = createSignal(q.type ?? 'password');
+	createEffect(() => {
+		setQ({ type: passport() });
+	});
 
 	const [passports] = createResource<Array<Choice.Option>>(async () => {
 		const r = await rest.get<Array<Passport>>('/passports');
@@ -85,10 +88,10 @@ function LoginBox(props: Props): JSX.Element {
 				<div class={styles.form}>
 					<div class={styles.title}>
 						<p>{l.t('_p.current.login')}</p>
-						<Choice.Root accessor={passport} options={!passports.loading ? passports()! : []} />
+						<Choice.Root value={passport()} onChange={setPassport} options={!passports.loading ? passports()! : []} />
 					</div>
 					<div>
-						<Transition>{props.passports.get(passport.getValue())?.Login()}</Transition>
+						<Transition>{props.passports.get(passport())?.Login()}</Transition>
 					</div>
 				</div>
 			</ErrorBoundary>
@@ -114,18 +117,27 @@ function Actions(): JSX.Element {
 	const l = useLocale();
 	const [accessor] = useOptions();
 
-	const localeFA = Form1.fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
-	localeFA.onChange(v => accessor.setLocale(v));
+	const [localeFA, setLocaleFA] = createSignal<string>(I18n.matchLanguage(accessor.getLocale()));
+	createEffect(() => {
+		accessor.setLocale(localeFA());
+	});
 
-	const modeFA = Form1.fieldAccessor<Mode>('mode', accessor.getMode());
-	modeFA.onChange(m => accessor.setMode(m));
+	const [modeFA, setModeFA] = createSignal<Mode>(accessor.getMode());
+	createEffect(() => {
+		accessor.setMode(modeFA());
+	});
 
 	return (
 		<>
-			<Choice.Root accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
+			<Choice.Root
+				value={localeFA()}
+				onChange={setLocaleFA}
+				options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))}
+			/>
 
 			<Choice.Root
-				accessor={modeFA}
+				value={modeFA()}
+				onChange={setModeFA}
 				options={modes.map(v => ({ type: 'item', value: v, label: l.t(`_c.settings.${v}`) }))}
 			/>
 		</>

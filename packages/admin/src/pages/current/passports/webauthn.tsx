@@ -5,7 +5,7 @@
 import { Button, ConfirmButton, Dialog, Form, InputText, Label, RemoteTable, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
-import { type JSX, Show } from 'solid-js';
+import { createSignal, type JSX, Show } from 'solid-js';
 import { z } from 'zod';
 import IconAddLink from '~icons/material-symbols/add-link';
 import IconClose from '~icons/material-symbols/close';
@@ -43,7 +43,7 @@ export class Webauthn implements PassportComponents {
 		const rest = useREST();
 		const l = useLocale();
 		const usr = useAdmin();
-		const account = Form1.fieldAccessor('account', '');
+		const [account, setAccount] = createSignal('');
 		const opt = useOptions();
 		const nav = useNavigate();
 
@@ -51,7 +51,7 @@ export class Webauthn implements PassportComponents {
 			account: usernameSchema.clone(),
 		});
 
-		const api = new Form1.API<z.infer<typeof accountSchema>, Token>({
+		const [F, , api] = Form.create({
 			initValue: { account: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -83,7 +83,7 @@ export class Webauthn implements PassportComponents {
 						userHandle: resp.userHandle ? encodeBase64(resp.userHandle) : null,
 					},
 				};
-				const token = await rest.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
+				const token = await rest.post<Token>(`/passports/${this.#id}/login/${account()}`, pc);
 				if (!token.ok) {
 					return token;
 				}
@@ -103,23 +103,23 @@ export class Webauthn implements PassportComponents {
 		});
 
 		return (
-			<Form1.Root class={styles.webauthn} api={api}>
+			<F class={styles.webauthn}>
 				<InputText.Root
-					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					suffix={
-						<Show when={account.getValue() !== ''}>
-							<IconClose class={styles['text-field']} onClick={() => account.setValue('')} />
+						<Show when={account() !== ''}>
+							<IconClose class={styles['text-field']} onClick={() => setAccount('')} />
 						</Show>
 					}
 					placeholder={l.t('_p.current.username')}
-					accessor={account}
+					value={account()}
+					onChange={setAccount}
 				/>
-				<Form1.Submit palette="secondary" disabled={account.getValue() === ''}>
+				<Form.Submit palette="secondary" disabled={account() === ''}>
 					{l.t('_c.ok')}
-				</Form1.Submit>
-			</Form1.Root>
+				</Form.Submit>
+			</F>
 		);
 	}
 

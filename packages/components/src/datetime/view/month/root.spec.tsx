@@ -50,12 +50,12 @@ describe('inRange', () => {
 	});
 });
 
-describe('DateView', async () => {
+describe('MonthView', async () => {
 	const user = userEvent.setup();
 	let curr: Date | undefined;
 	let ref: Ref;
 
-	const ct = await ComponentTester.build('DateView', props => (
+	const ct = await ComponentTester.build('MonthView', props => (
 		<Root
 			{...props}
 			ref={el => (ref = el)}

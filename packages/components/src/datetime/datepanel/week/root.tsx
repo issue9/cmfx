@@ -8,7 +8,7 @@ import { createEffect, createSignal, type JSX, splitProps, untrack } from 'solid
 import type { BaseRef, ChangeFunc, RefProps } from '@components/base';
 import type { Props as CommonProps, Ref as CommonRef } from '@components/datetime/datepanel/common/common.tsx';
 import { CommonPanel } from '@components/datetime/datepanel/common/common.tsx';
-import type { WeekValueType } from '@components/datetime/dateview';
+import type { WeekValueType } from '@components/datetime/view/month';
 
 export type Ref = BaseRef<HTMLFieldSetElement>;
 

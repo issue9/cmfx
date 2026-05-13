@@ -8,7 +8,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { type DatePanel, type Week, WeekPanel } from '@components/datetime';
-import type { WeekValueType } from '@components/datetime/dateview';
+import type { WeekValueType } from '@components/datetime/view/month';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 import { togglePop } from './utils';

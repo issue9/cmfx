@@ -42,7 +42,7 @@ export function inRange(positive: boolean, val: Date, min?: Date, max?: Date): b
 }
 
 /**
- * 以月份展示的日期选择面板
+ * 月视图
  *
  * 返回的是一个 table 组件，其中 thead 中包含了星期名称，而 tbody 中包含了日期，大致结构如下：
  * ```html
