@@ -139,36 +139,99 @@ describe('API.onchange', () => {
 	});
 
 	let changeValue: Object = { age: 0, name: '' };
+	let changeCount = 0;
 	api.onChange(v => {
-		changeValue = v;
+		changeValue = { ...v };
+		changeCount++;
 	});
 
 	test('age.setValue', () => {
 		age.setValue(25);
 		expect(fieldChangeValue).toEqual(25);
-		expect(changeValue).toEqual({ age: 25, name: 'f2' });
 		expect(fieldChangeCount).toEqual(1);
+		expect(changeValue).toEqual({ age: 25, name: 'f2' });
+		expect(changeCount).toEqual(1);
+
+		// silence
+		age.setValue(35, true);
+		expect(fieldChangeValue).toEqual(25);
+		expect(fieldChangeCount).toEqual(1);
+		expect(changeValue).toEqual({ age: 25, name: 'f2' });
+		expect(changeCount).toEqual(1);
 	});
 
 	test('age.reset', () => {
+		// silence
+		age.reset(true);
+		expect(fieldChangeValue).toEqual(25);
+		expect(fieldChangeCount).toEqual(1);
+		expect(changeValue).toEqual({ age: 25, name: 'f2' });
+		expect(changeCount).toEqual(1);
+
+		age.setValue(30, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
+
 		age.reset();
+		expect(fieldChangeCount).toEqual(2);
 		expect(fieldChangeValue).toEqual(20);
 		expect(changeValue).toEqual({ age: 20, name: 'f2' });
+		expect(changeCount).toEqual(2);
+
+		age.setValue(30, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
+
+		// silence
+		age.reset(true);
+		expect(fieldChangeValue).toEqual(20);
 		expect(fieldChangeCount).toEqual(2);
+		expect(changeValue).toEqual({ age: 20, name: 'f2' });
+		expect(changeCount).toEqual(2);
 	});
 
 	test('setValue', () => {
+		// silence
+		api.setValue({ age: 40, name: 'f2' }, true);
+		expect(fieldChangeValue).toEqual(20);
+		expect(fieldChangeCount).toEqual(2);
+		expect(changeValue).toEqual({ age: 20, name: 'f2' });
+		expect(changeCount).toEqual(2);
+
 		api.setValue({ age: 35, name: 'f2' });
 		expect(fieldChangeValue).toEqual(35);
-		expect(changeValue).toEqual({ age: 35, name: 'f2' });
 		expect(fieldChangeCount).toEqual(3);
+		expect(changeValue).toEqual({ age: 35, name: 'f2' });
+		expect(changeCount).toEqual(3);
+
+		// silence
+		api.setValue({ age: 40, name: 'f2' }, true);
+		expect(fieldChangeValue).toEqual(35);
+		expect(fieldChangeCount).toEqual(3);
+		expect(changeValue).toEqual({ age: 35, name: 'f2' });
+		expect(changeCount).toEqual(3);
 	});
 
 	test('reset', () => {
+		// silence
+		api.reset(true);
+		expect(fieldChangeValue).toEqual(35);
+		expect(fieldChangeCount).toEqual(3);
+		expect(changeValue).toEqual({ age: 35, name: 'f2' });
+		expect(changeCount).toEqual(3);
+
+		api.setValue({ age: 35, name: 'f2' }, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
+
 		api.reset();
 		expect(fieldChangeValue).toEqual(20);
-		expect(changeValue).toEqual({ age: 20, name: 'f2' });
 		expect(fieldChangeCount).toEqual(4);
+		expect(changeValue).toEqual({ age: 20, name: 'f2' });
+		expect(changeCount).toEqual(4);
+
+		api.setValue({ age: 35, name: 'f2' }, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
+
+		// silence
+		api.reset(true);
+		expect(fieldChangeValue).toEqual(20);
+		expect(fieldChangeCount).toEqual(4);
+		expect(changeValue).toEqual({ age: 20, name: 'f2' });
+		expect(changeCount).toEqual(4);
 	});
 });
 
