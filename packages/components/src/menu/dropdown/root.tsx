@@ -3,7 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition, Hotkey, type PopoverAlign, pointInElement } from '@cmfx/core';
-import { createSignal, type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
+import { createSignal, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { type AvailableEnumType, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Menu } from '@components/menu/menu';

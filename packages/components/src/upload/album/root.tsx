@@ -7,7 +7,7 @@ import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
-import { type BaseRef, joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import { Upload } from '@components/upload/upload';
 import { PreviewFile, PreviewURL } from './preview.tsx';
@@ -17,10 +17,7 @@ export interface Ref extends BaseRef<HTMLFieldSetElement> {
 	uploader(): Upload.RootRef;
 }
 
-export interface Props
-	extends Omit<Upload.RootProps, 'dropzone' | 'ref'>,
-		Form.ValueProps<Array<string>>,
-		RefProps<Ref> {
+export interface Props extends Omit<Upload.RootProps, 'dropzone' | 'ref'>, ValueProps<Array<string>>, RefProps<Ref> {
 	/**
 	 * 是否接受直接拖入文件
 	 */

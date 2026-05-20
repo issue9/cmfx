@@ -5,7 +5,8 @@
 import type { JSX } from 'solid-js';
 import { createEffect, createSignal, For, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
+import { joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 
@@ -16,7 +17,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	input(): HTMLInputElement;
 }
 
-export interface Props extends Form.DataProps<number>, BaseProps, RefProps<Ref> {
+export interface Props extends Form.DataProps, ValueProps<number>, BaseProps, RefProps<Ref> {
 	/**
 	 * 最小值
 	 *
@@ -73,10 +74,6 @@ export function Root(props: Props): JSX.Element {
 	let inputRef: HTMLInputElement;
 
 	createEffect(() => {
-		field.setValue(props.value);
-	});
-
-	createEffect(() => {
 		if (props.format) {
 			field.setExtra(props.format(field.getValue()));
 		}
@@ -90,13 +87,14 @@ export function Root(props: Props): JSX.Element {
 		e.preventDefault();
 		const step = props.step ?? 1;
 
-		let v = field.getValue() ?? 0 + (e.deltaY > 0 ? step : -step);
+		let v = (field.getValue() ?? 0) + (e.deltaY > 0 ? step : -step);
 		if (props.max !== undefined && v > props.max) {
 			v = props.max;
 		}
 		if (props.min !== undefined && v < props.min) {
 			v = props.min;
 		}
+
 		field.setValue(v);
 		field.setError();
 	};
@@ -132,11 +130,16 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<div ref={el => (rootRef = el)} class={joinClass(props.palette, styles.range, props.class)} style={props.style}>
+		<div
+			ref={el => (rootRef = el)}
+			class={joinClass(props.palette, styles.range, field.class, props.class)}
+			style={style2String(field.style, props.style)}
+		>
 			<input
 				type="range"
 				min={props.min}
 				max={props.max}
+				tabIndex={props.tabindex}
 				step={props.step}
 				value={field.getValue()}
 				readOnly={props.readonly}

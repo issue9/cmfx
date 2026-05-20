@@ -32,6 +32,9 @@ export interface Space {
 
 	/**
 	 * 实现实例的面板
+	 *
+	 * @param s - 访问器函数，用于获取颜色值；
+	 * @param parent - 父元素，用于计算颜色变量的真实值；
 	 */
-	panel(s: Accessor): JSX.Element;
+	panel(s: Accessor, parent: HTMLElement): JSX.Element;
 }

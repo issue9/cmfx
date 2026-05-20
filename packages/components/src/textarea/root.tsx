@@ -4,7 +4,8 @@
 
 import { createEffect, createSignal, type JSX, mergeProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
+import { joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
 import type { InputBase } from '@components/input';
 import styles from './style.module.css';
@@ -16,7 +17,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	textarea(): HTMLTextAreaElement;
 }
 
-export interface Props extends BaseProps, Form.DataProps<string>, RefProps<Ref> {
+export interface Props extends BaseProps, Form.DataProps, ValueProps<string>, RefProps<Ref> {
 	/**
 	 * 最小的字符数量
 	 *
@@ -82,7 +83,11 @@ export function Root(props: Props): JSX.Element {
 	let rootRef: HTMLDivElement;
 
 	return (
-		<div class={joinClass(props.palette, styles.ta, props.class)} style={props.style} ref={el => (rootRef = el)}>
+		<div
+			class={joinClass(props.palette, styles.ta, field.class, props.class)}
+			style={style2String(field.style, props.style)}
+			ref={el => (rootRef = el)}
+		>
 			<textarea
 				id={field.id()}
 				inputMode={props.inputMode}

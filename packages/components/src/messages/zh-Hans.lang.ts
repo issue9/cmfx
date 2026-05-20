@@ -60,7 +60,6 @@ const messages: Messages = {
 			blue: '蓝(B)',
 			preset: '预设值',
 			websafe: 'Web 安全色',
-			pickColor: '请选择颜色',
 		},
 		editor: {
 			header1: 'H1',

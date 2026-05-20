@@ -31,7 +31,7 @@ export default function (props: MountProps): JSX.Element {
 			<F>
 				<Field name="a" label="picker label" layout={layout()}>
 					<Color.Root
-						activator
+						popover="hover"
 						readonly={readonly()}
 						disabled={disabled()}
 						palette={palette()}

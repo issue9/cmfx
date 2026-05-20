@@ -69,7 +69,7 @@ export function Color(props: Props): JSX.Element {
 			}}
 		>
 			<XColor.Root
-				activator
+				popover
 				ref={el => (picker = el)}
 				value={val()}
 				spaces={[
@@ -142,7 +142,7 @@ export function BackgroundColor(props: Props): JSX.Element {
 			}}
 		>
 			<XColor.Root
-				activator
+				popover
 				ref={el => (picker = el)}
 				value={val()}
 				onChange={v => setVal(v)}

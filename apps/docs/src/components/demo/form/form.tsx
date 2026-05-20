@@ -12,6 +12,7 @@ import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('secondary');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+	const [Feedback, feedback] = boolSelector('_d.demo.feedback', true);
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
@@ -35,6 +36,7 @@ export default function (props: MountProps): JSX.Element {
 				<Layout />
 				<Disabled />
 				<Readonly />
+				<Feedback />
 				<Button.Root
 					onclick={() => {
 						api.setError(api.getError() ? undefined : 'error');
@@ -50,12 +52,13 @@ export default function (props: MountProps): JSX.Element {
 				layout={layout()}
 				disabled={disabled()}
 				readonly={readonly()}
+				feedback={feedback()}
 				class="flex flex-col gap-4"
 			>
 				<Form.Message />
 
 				<Field label="textField" help="这是一个帮助文本" name="f1">
-					<InputText.Root />
+					<InputText.Root count />
 				</Field>
 
 				<Field label="number" help="这是一个帮助文本" name="f2">
@@ -69,11 +72,12 @@ export default function (props: MountProps): JSX.Element {
 				<Field class="grow" label="textarea" help="这是一个帮助文本" name="textarea">
 					<TextArea.Root />
 				</Field>
+
+				<div class="flex w-full justify-between">
+					<Form.Reset>reset</Form.Reset>
+					<Form.Submit>submit</Form.Submit>
+				</div>
 			</F>
-			<div class="flex w-full justify-between">
-				<Form.Reset>reset</Form.Reset>
-				<Form.Submit>submit</Form.Submit>
-			</div>
 		</>
 	);
 }

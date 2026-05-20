@@ -6,7 +6,8 @@ import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import type { BaseProps, MountProps } from '@components/base';
-import { useLocale } from '@components/context';
+import { useLocale, useOptions } from '@components/context';
+import { Form } from '@components/form';
 import { InputText } from '@components/input';
 import { AcceptButton, Actions } from './buttons';
 import type { Ref } from './context';
@@ -42,6 +43,7 @@ function AlertProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
 	const l = useLocale();
+	const [, opt] = useOptions();
 
 	alertInst = async (msg?: string): Promise<void> => {
 		setMsg(msg);
@@ -62,7 +64,7 @@ function AlertProvider(props: BaseProps): JSX.Element {
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
-					{l.t('_c.color.pickColor')}
+					{opt.title}
 				</Toolbar>
 			}
 			ref={el => (dlg = el)}
@@ -95,7 +97,7 @@ let confirmInst: typeof confirm;
 function ConfirmProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
-	const l = useLocale();
+	const [, opt] = useOptions();
 
 	confirmInst = (msg?: string): Promise<boolean> => {
 		setMsg(msg);
@@ -116,7 +118,7 @@ function ConfirmProvider(props: BaseProps): JSX.Element {
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
-					{l.t('_c.color.pickColor')}
+					{opt.title}
 				</Toolbar>
 			}
 			class="min-w-60"
@@ -146,7 +148,7 @@ function PromptProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
 	const [value, setValue] = createSignal('');
-	const l = useLocale();
+	const [, opt] = useOptions();
 
 	promptInst = (msg?: string, val?: string): Promise<string | null> => {
 		setMsg(msg);
@@ -172,14 +174,16 @@ function PromptProvider(props: BaseProps): JSX.Element {
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
-					{l.t('_c.color.pickColor')}
+					{opt.title}
 				</Toolbar>
 			}
 			ref={el => (dlg = el)}
 			class="min-w-60"
 			footer={<Actions acceptValue={acceptValue} />}
 		>
-			<InputText.Root class="w-full" layout="vertical" label={msg()} accessor={value()} />
+			<Form.Field layout="vertical" label={msg()} class="w-full">
+				<InputText.Root value={value()} onChange={setValue} />
+			</Form.Field>
 		</Root>
 	);
 }

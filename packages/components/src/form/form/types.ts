@@ -59,4 +59,11 @@ export interface CommonProps {
 	 * @defaultValue layout === 'horizontal' ? 'end' : 'start'
 	 */
 	labelAlign?: LabelAlignment;
+
+	/**
+	 * 是否显示表单项组件中帮助信息和错误信息
+	 *
+	 * @reactive
+	 */
+	feedback?: boolean;
 }

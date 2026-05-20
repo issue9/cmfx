@@ -302,7 +302,7 @@ export class TailwindVarsSpace implements Space {
 		return vars.includes(value);
 	}
 
-	panel(access: Accessor): JSX.Element {
+	panel(access: Accessor, _: HTMLElement): JSX.Element {
 		return (
 			<div class={styles.vars}>
 				<For each={vars}>
@@ -332,4 +332,11 @@ export class TailwindVarsSpace implements Space {
 			</div>
 		);
 	}
+}
+
+export function var2Color(el: HTMLElement, v?: string): string | undefined {
+	if (!v?.startsWith('var(--')) {
+		return v;
+	}
+	return getComputedStyle(el).getPropertyValue(v.slice(4, -1));
 }

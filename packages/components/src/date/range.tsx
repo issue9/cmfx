@@ -7,7 +7,7 @@ import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type BaseRef, joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps, style2String, type ValueProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { type DatePanel, DateRangePanel, type Week } from '@components/datetime';
@@ -18,7 +18,8 @@ import { togglePop } from './utils';
 export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props
-	extends Form.DataProps<DateRangePanel.ValueType>,
+	extends Form.DataProps,
+		ValueProps<DateRangePanel.ValueType>,
 		Omit<DatePanel.RootProps, 'onChange' | 'value' | 'popover' | 'ref'>,
 		RefProps<Ref> {
 	placeholder?: string;
@@ -74,7 +75,8 @@ export function Root(props: Props): JSX.Element {
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef)}
-				class={joinClass(undefined, styles.container, props.rounded ? styles.rounded : undefined)}
+				class={joinClass(props.palette, field.class, styles.container, props.rounded ? styles.rounded : undefined)}
+				style={style2String(field.style, props.style)}
 				aria-haspopup
 			>
 				<input

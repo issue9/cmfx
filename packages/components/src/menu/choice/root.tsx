@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createUniqueId, For, type JSX, Match, mergeProps, Show, Switch } from 'solid-js';
+import { createMemo, For, type JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import type { AvailableEnumType, BaseProps, BaseRef, RefProps } from '@components/base';
-import { joinClass } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
+import { joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
@@ -46,14 +46,17 @@ interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps
 	closable?: boolean;
 }
 
-export interface MultipleProps<T extends AvailableEnumType = string> extends Form.DataProps<Array<T>>, Base<T> {
+export interface MultipleProps<T extends AvailableEnumType = string>
+	extends Form.DataProps,
+		ValueProps<Array<T>>,
+		Base<T> {
 	/**
 	 * 是否多选
 	 */
 	multiple: true;
 }
 
-export interface SingleProps<T extends AvailableEnumType = string> extends Form.DataProps<T>, Base<T> {
+export interface SingleProps<T extends AvailableEnumType = string> extends Form.DataProps, ValueProps<T>, Base<T> {
 	/**
 	 * 是否多选
 	 */
@@ -70,8 +73,6 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 	const field = Form.useField(props as any, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
-
-	const id = createUniqueId();
 
 	const getSelectedMenuItems = (vals: Array<T>): Array<Menu.Item<T>> => {
 		const items: Array<Menu.Item<T>> = [];
@@ -101,11 +102,11 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 
 	const trigger = (
 		<div
-			class={joinClass(props.palette, props.class, styles.activator, props.rounded ? styles.rounded : '')}
-			style={props.style}
+			class={joinClass(props.palette, props.class, field.class, styles.activator, props.rounded ? styles.rounded : '')}
+			style={style2String(field.style, props.style)}
 		>
 			<input
-				id={id}
+				id={field.id()}
 				tabIndex={props.tabindex}
 				class="peer hidden"
 				disabled={props.disabled}
@@ -157,7 +158,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
 			value={field.getValue() as any}
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
-			onChange={field.setValue as any}
+			onChange={v => field.setValue(v as any)}
 			items={props.options}
 			ref={el => {
 				const s = el.menu().root().style;

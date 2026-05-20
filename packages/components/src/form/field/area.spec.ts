@@ -46,12 +46,27 @@ describe('calcAreas', () => {
 		});
 	});
 
+	test('horizontal-feedback', () => {
+		expect(calcAreas('horizontal', true)).toEqual<Areas>({
+			label: { pos: 'top-start', rows: 2 },
+			data: { pos: 'top-center', cols: 3, rows: 2 },
+			extra: { pos: 'top-end' },
+		});
+	});
+
 	test('vertical', () => {
 		expect(calcAreas('vertical')).toEqual<Areas>({
 			label: { pos: 'top-start', cols: 2 },
 			data: { pos: 'middle-start', cols: 3 },
 			help: { pos: 'bottom-start', cols: 3 },
 			extra: { pos: 'top-end' },
+		});
+	});
+
+	test('vertical-feedback', () => {
+		expect(calcAreas('vertical', true)).toEqual<Areas>({
+			label: { pos: 'top-start', cols: 3 },
+			data: { pos: 'middle-start', cols: 3, rows: 2 },
 		});
 	});
 });

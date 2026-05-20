@@ -6,7 +6,7 @@ import { type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
-import { type BaseProps, PropsError, type RefProps } from '@components/base';
+import { joinClass, PropsError, type RefProps, style2String } from '@components/base';
 import { Button } from '@components/button';
 import { Form } from '@components/form';
 import { InputBase } from '@components/input/base';
@@ -14,42 +14,21 @@ import styles from './style.module.css';
 
 export type Ref = InputBase.RootRef;
 
-export interface Props extends Form.DataProps<number>, BaseProps, RefProps<Ref> {
+export interface Props extends Omit<InputBase.NumberProps, 'suffix' | 'type'>, RefProps<Ref> {
 	/**
 	 * 最小值
 	 */
-	min?: number;
+	readonly min?: number;
 
 	/**
 	 * 最大值
 	 */
-	max?: number;
+	readonly max?: number;
 
 	/**
 	 * 步长
 	 */
-	step?: number;
-
-	/**
-	 * 文本框内顶部的内容
-	 *
-	 * @reactive
-	 */
-	prefix?: JSX.Element;
-
-	/**
-	 * placeholder
-	 *
-	 * @reactive
-	 */
-	placeholder?: string;
-
-	/**
-	 * 键盘的输入模式
-	 *
-	 * @reactive
-	 */
-	inputMode?: InputBase.NumberProps['inputMode'];
+	readonly step?: number;
 }
 
 const presetProps: Partial<Props> = {
@@ -123,13 +102,14 @@ export function Root(props: Props): JSX.Element {
 	let inputRef: Ref;
 
 	onMount(() => inputRef.input().addEventListener('wheel', wheel));
-
 	onCleanup(() => inputRef.input().removeEventListener('wheel', wheel));
 
 	return (
 		<InputBase.Root
-			class={props.class}
-			style={props.style}
+			value={field.getValue()}
+			onChange={v => field.setValue(v)}
+			class={joinClass(undefined, field.class, props.class)}
+			style={style2String(field.style, props.style)}
 			palette={props.palette}
 			type="number"
 			id={field.id()}
@@ -141,11 +121,6 @@ export function Root(props: Props): JSX.Element {
 			disabled={props.disabled}
 			readonly={props.readonly}
 			placeholder={props.placeholder}
-			value={field.getValue()}
-			onChange={v => {
-				field.setValue(v);
-				field.setError();
-			}}
 			ref={el => {
 				inputRef = el;
 				if (props.ref) {

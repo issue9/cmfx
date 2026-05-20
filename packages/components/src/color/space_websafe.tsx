@@ -39,7 +39,7 @@ export class WebSafeSpace implements Space {
 		return values.includes(value);
 	}
 
-	panel(access: Accessor): JSX.Element {
+	panel(access: Accessor, _: HTMLElement): JSX.Element {
 		return (
 			<div class={styles.vars}>
 				<For each={values}>

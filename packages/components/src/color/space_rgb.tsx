@@ -3,19 +3,20 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, type JSX } from 'solid-js';
+import { type JSX, onMount, untrack } from 'solid-js';
 
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Slider } from '@components/slider';
 import type { Accessor, Space } from './space';
+import { var2Color } from './space_vars';
 import styles from './style.module.css';
 
 type RGB = {
-	r: number;
-	g: number;
-	b: number;
-	a: number;
+	r: number | null;
+	g: number | null;
+	b: number | null;
+	a: number | null;
 };
 
 /**
@@ -54,24 +55,18 @@ export class RGBSpace implements Space {
 		return value.startsWith('rgb(');
 	}
 
-	panel(access: Accessor): JSX.Element {
+	panel(access: Accessor, parent: HTMLElement): JSX.Element {
 		let rRef: Slider.RootRef;
 		let gRef: Slider.RootRef;
 		let bRef: Slider.RootRef;
 		let aRef: Slider.RootRef;
 
+		const c = new Color(var2Color(parent, untrack(access.getValue)) ?? 'rgb(1 1 1)').to('srgb');
 		const [F, Field, api] = Form.create<RGB>({
-			initValue: { r: this.#r ?? 1, g: this.#g ?? 1, b: this.#b ?? 1, a: this.#a ?? 1 },
+			initValue: { r: this.#r ?? c.r, g: this.#g ?? c.g, b: this.#b ?? c.b, a: this.#a ?? c.a },
 		});
 
-		createEffect(() => {
-			const store = api.getValue();
-			const rr = store.r;
-			const gg = store.g;
-			const bb = store.b;
-			const aa = store.a;
-			access.setValue(fmtRGB(rr, gg, bb, aa));
-
+		onMount(() => {
 			rRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, 0, 0, 1)},
                 ${fmtRGB(0.1, 0, 0, 1)},${fmtRGB(0.2, 0, 0, 1)},${fmtRGB(0.3, 0, 0, 1)},${fmtRGB(0.4, 0, 0, 1)},
                 ${fmtRGB(0.5, 0, 0, 1)},${fmtRGB(0.6, 0, 0, 1)},${fmtRGB(0.7, 0, 0, 1)},${fmtRGB(0.8, 0, 0, 1)},
@@ -89,6 +84,14 @@ export class RGBSpace implements Space {
                 ${fmtRGB(0, 0, 0.5, 1)},${fmtRGB(0, 0, 0.6, 1)},${fmtRGB(0, 0, 0.7, 1)},${fmtRGB(0, 0, 0.8, 1)},
                 ${fmtRGB(0, 0, 0.9, 1)},${fmtRGB(0, 0, 1, 1)})`;
 			bRef.input().style.backgroundClip = 'padding-box';
+		});
+
+		api.onChange(store => {
+			const rr = store.r;
+			const gg = store.g;
+			const bb = store.b;
+			const aa = store.a;
+			access.setValue(fmtRGB(rr, gg, bb, aa));
 
 			aRef.input().style.background = `linear-gradient(to right, ${fmtRGB(rr, gg, bb, 0)},
                 ${fmtRGB(rr, gg, bb, 0.1)},${fmtRGB(rr, gg, bb, 0.2)},${fmtRGB(rr, gg, bb, 0.3)},${fmtRGB(rr, gg, bb, 0.4)},
@@ -99,15 +102,13 @@ export class RGBSpace implements Space {
 
 		const l = useLocale();
 		return (
-			<F class={styles.rgb}>
+			<F class={styles.rgb} layout="vertical">
 				<Field label={l.t('_c.color.red')} name="r">
 					<Slider.Root
 						fitHeight
 						disabled={!!this.#r}
-						ref={el => {
-							rRef = el;
-						}}
-						format={v => `${v ? v.toFixed(2) : 0}%`}
+						ref={el => (rRef = el)}
+						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
 						max={1}
 						step={0.01}
@@ -118,11 +119,8 @@ export class RGBSpace implements Space {
 					<Slider.Root
 						fitHeight
 						disabled={!!this.#g}
-						ref={el => {
-							el.input().classList.add(styles.bg);
-							gRef = el;
-						}}
-						format={v => `${v ? v.toFixed(2) : 0}%`}
+						ref={el => (gRef = el)}
+						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
 						max={1}
 						step={0.01}
@@ -133,11 +131,8 @@ export class RGBSpace implements Space {
 					<Slider.Root
 						fitHeight
 						disabled={!!this.#b}
-						ref={el => {
-							el.input().classList.add(styles.bg);
-							bRef = el;
-						}}
-						format={v => `${v ? v.toFixed(2) : 0}%`}
+						ref={el => (bRef = el)}
+						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
 						max={1}
 						step={0.01}
@@ -148,11 +143,8 @@ export class RGBSpace implements Space {
 					<Slider.Root
 						fitHeight
 						disabled={!!this.#a}
-						ref={el => {
-							el.input().classList.add(styles.bg);
-							aRef = el;
-						}}
-						format={v => `${v ? v.toFixed(2) : 0}%`}
+						ref={el => (aRef = el)}
+						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={1}
 						step={0.01}
@@ -163,6 +155,6 @@ export class RGBSpace implements Space {
 	}
 }
 
-function fmtRGB(r: number, g: number, b: number, a: number): string {
+function fmtRGB(r: number | null, g: number | null, b: number | null, a: number | null): string {
 	return new Color('srgb', [r, g, b], a).toString();
 }

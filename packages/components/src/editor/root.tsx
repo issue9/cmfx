@@ -12,7 +12,8 @@ import { Placeholder } from '@tiptap/extensions';
 import { StarterKit } from '@tiptap/starter-kit';
 import { createEffect, type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
+import { joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 import { Toolbar } from './toolbar';
@@ -24,7 +25,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	editor(): Editor;
 }
 
-export interface Props extends Omit<Form.DataProps<string>, 'rounded'>, BaseProps, RefProps<Ref> {
+export interface Props extends Omit<Form.DataProps, 'rounded'>, ValueProps<string>, BaseProps, RefProps<Ref> {
 	placeholder?: string;
 }
 
@@ -80,7 +81,8 @@ export function Root(props: Props): JSX.Element {
 
 	return (
 		<div
-			class={styles.editor}
+			class={joinClass(props.palette, styles.editor, field.class, props.class)}
+			style={style2String(field.style, props.style)}
 			ref={el => {
 				rootRef = el;
 

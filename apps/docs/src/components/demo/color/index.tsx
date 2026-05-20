@@ -18,7 +18,7 @@ import { default as wcag } from './wcag.tsx?raw';
 
 export default function (): Info {
 	return {
-		kind: 'data-display',
+		kind: 'data-input',
 		title: '_d.demo.color',
 		icon: IconColorPanel,
 		path: 'color',

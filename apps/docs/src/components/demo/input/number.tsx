@@ -52,10 +52,9 @@ export default function (props: MountProps): JSX.Element {
 					/>
 				</Form.Field>
 
-				<Form.Field label="icon" layout={layout()}>
+				<Form.Field label="range:[1,10]" layout={layout()}>
 					<InputNumber.Root
 						placeholder="placeholder"
-						label="range:[1,10]"
 						prefix={<IconFace class="self-center" />}
 						min={1}
 						max={10}

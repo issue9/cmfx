@@ -3,18 +3,31 @@
 // SPDX-License-Identifier: MIT
 
 import type { Flattenable, FlattenKeys } from '@cmfx/core';
-import { createMemo, type JSX, mergeProps, type ParentProps } from 'solid-js';
+import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
 import { type BaseProps, joinClass } from '@components/base';
 import { ContextNotFoundError } from '@components/context';
 import { type CommonProps, useForm } from '@components/form/form';
 import { area2Style, calcAreas } from './area';
-import { FieldProvider, useFakeField } from './context';
+import { createFakeField, FieldProvider } from './context';
 import styles from './style.module.css';
 
 export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProps, ParentProps {
+	/**
+	 * 字段标签
+	 *
+	 * @reactive
+	 */
 	label?: JSX.Element;
 
+	/**
+	 * 帮助信息
+	 *
+	 * @remarks
+	 * 该区域在有错误信息时会显示错误信息，否则显示帮助信息。
+	 *
+	 * @reactive
+	 */
 	help?: JSX.Element;
 
 	/**
@@ -48,9 +61,9 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 		props,
 	);
 
-	const areas = createMemo(() => calcAreas(props.layout!));
+	const areas = createMemo(() => calcAreas(props.layout!, props.feedback));
 
-	const field = props.name ? form!.api.createFieldAccessor(props.name) : useFakeField(undefined);
+	const field = props.name ? form!.api.createFieldAccessor(props.name) : createFakeField(undefined);
 
 	return (
 		<div class={joinClass(props.palette, styles.field, props.class)} style={props.style}>
@@ -66,32 +79,36 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 				{props.label}
 			</label>
 
-			<p
-				style={area2Style(areas().help)}
-				role="alert"
-				class={joinClass(undefined, styles.help, field.getError() ? styles.error : '')}
+			<Show when={areas().help}>
+				{h => (
+					<p
+						style={area2Style(h())}
+						role="alert"
+						class={joinClass(undefined, styles.help, field.getError() ? styles.error : '')}
+					>
+						{field.getError() ?? props.help}
+					</p>
+				)}
+			</Show>
+
+			<FieldProvider
+				class={styles.data}
+				style={area2Style(areas().data)}
+				id={field.id}
+				name={field.name}
+				reset={field.reset}
+				getError={field.getError}
+				setError={field.setError}
+				getValue={field.getValue}
+				setValue={field.setValue}
+				onChange={field.onChange}
+				getExtra={field.getExtra}
+				setExtra={field.setExtra}
 			>
-				{field.getError() ?? props.help}
-			</p>
+				{props.children}
+			</FieldProvider>
 
-			<div style={area2Style(areas().data)} class={styles.input}>
-				<FieldProvider
-					id={field.id}
-					name={field.name}
-					reset={field.reset}
-					getError={field.getError}
-					setError={field.setError}
-					getValue={field.getValue}
-					setValue={field.setValue}
-					onChange={field.onChange}
-					getExtra={field.getExtra}
-					setExtra={field.setExtra}
-				>
-					{props.children}
-				</FieldProvider>
-			</div>
-
-			<div style={area2Style(areas().extra)}>{field.getExtra()}</div>
+			<Show when={areas().extra}>{e => <div style={area2Style(e())}>{field.getExtra()}</div>}</Show>
 		</div>
 	);
 }

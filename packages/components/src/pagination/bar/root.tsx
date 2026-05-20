@@ -88,7 +88,7 @@ export function Root(props: Props): JSX.Element {
 
 	const [page, setPage] = createSignal(props.page);
 
-	const sizeAccessor = Form1.fieldAccessor('size', props.size!);
+	const sizeAccessor = Form.fieldAccessor('size', props.size!);
 	sizeAccessor.onChange((val: number, old?: number) => {
 		if (page() >= pages()) {
 			pageChange(pages(), page());

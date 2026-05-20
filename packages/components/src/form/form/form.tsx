@@ -65,48 +65,49 @@ export function Form<T extends Flattenable, R = never, P = never>(props: Props<T
 	const id = createUniqueId();
 
 	return (
-		<FormProvider<T, R, P>
-			layout={props.layout}
-			rounded={props.rounded}
-			disabled={props.disabled}
-			readonly={props.readonly}
-			labelAlign={props.labelAlign}
-			labelWidth={props.labelWidth}
-			api={props.api}
-			id={id}
+		<Spin.Root
+			tag="form"
+			spinning={api.spinning()}
+			palette={props.palette}
+			class={joinClass(undefined, props.class)}
+			style={props.style}
+			ref={el => {
+				el.root().addEventListener('submit', e => {
+					api.submit().catch(setError);
+					e.preventDefault();
+				});
+
+				el.root().addEventListener('reset', e => {
+					api.reset();
+					e.preventDefault();
+				});
+
+				el.root().id = id;
+				if (props.inDialog) {
+					el.root().method = 'dialog';
+				}
+
+				if (props.ref) {
+					props.ref({
+						root: el.root,
+					});
+				}
+			}}
 		>
-			<Spin.Root
-				tag="form"
-				spinning={api.spinning()}
-				palette={props.palette}
-				class={joinClass(undefined, props.class)}
-				style={props.style}
-				ref={el => {
-					el.root().addEventListener('submit', e => {
-						api.submit().catch(setError);
-						e.preventDefault();
-					});
-
-					el.root().addEventListener('reset', e => {
-						api.reset();
-						e.preventDefault();
-					});
-
-					el.root().id = id;
-					if (props.inDialog) {
-						el.root().method = 'dialog';
-					}
-
-					if (props.ref) {
-						props.ref({
-							root: el.root,
-						});
-					}
-				}}
+			<FormProvider<T, R, P>
+				layout={props.layout}
+				rounded={props.rounded}
+				disabled={props.disabled}
+				readonly={props.readonly}
+				labelAlign={props.labelAlign}
+				labelWidth={props.labelWidth}
+				feedback={props.feedback}
+				api={props.api}
+				id={id}
 			>
 				{props.children}
-			</Spin.Root>
-		</FormProvider>
+			</FormProvider>
+		</Spin.Root>
 	);
 }
 

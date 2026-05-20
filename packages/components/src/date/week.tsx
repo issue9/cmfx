@@ -6,7 +6,7 @@ import { createSignal, createUniqueId, type JSX, mergeProps, Show, splitProps, u
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type BaseRef, joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps, style2String, type ValueProps } from '@components/base';
 import { type DatePanel, type Week, WeekPanel } from '@components/datetime';
 import type { WeekValueType } from '@components/datetime/view/month';
 import { Form } from '@components/form';
@@ -17,7 +17,8 @@ export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props
 	extends Omit<DatePanel.RootProps, 'value' | 'onChange' | 'accentPalette' | 'time' | 'ref'>,
-		Form.DataProps<WeekValueType>,
+		Form.DataProps,
+		ValueProps<WeekValueType>,
 		RefProps<Ref> {
 	placeholder?: string;
 }
@@ -65,7 +66,8 @@ export function Root(props: Props): JSX.Element {
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef)}
-				class={joinClass(undefined, styles.container, props.rounded ? styles.rounded : undefined)}
+				class={joinClass(props.palette, field.class, styles.container, props.rounded ? styles.rounded : undefined)}
+				style={style2String(field.style, props.style)}
 				aria-haspopup
 			>
 				<input

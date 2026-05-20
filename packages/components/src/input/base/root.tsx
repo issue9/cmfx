@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, type JSX, Show, untrack } from 'solid-js';
+import { createEffect, createSignal, type JSX, mergeProps, Show, untrack } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
+import { Form } from '@components/form';
 import styles from './style.module.css';
 
 /**
@@ -19,7 +20,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	input(): HTMLInputElement;
 }
 
-interface InputBaseProps extends BaseProps, RefProps<Ref> {
+interface InputBaseProps extends BaseProps, Form.DataProps, RefProps<Ref> {
 	/**
 	 * 文本框内顶部的内容
 	 *
@@ -48,33 +49,10 @@ interface InputBaseProps extends BaseProps, RefProps<Ref> {
 	 */
 	autocomplete?: AutoComplete;
 
-	/**
-	 * 是否为圆角
-	 *
-	 * @reactive
-	 */
-	rounded?: boolean;
-
-	tabindex?: number;
-
-	/**
-	 * 只读
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
-
-	/**
-	 * 禁用状态
-	 *
-	 * @reactive
-	 */
-	disabled?: boolean;
-
 	id?: string;
 }
 
-export interface TextProps extends InputBaseProps {
+export interface TextProps extends InputBaseProps, ValueProps<string> {
 	/**
 	 * 内容类型
 	 *
@@ -106,18 +84,9 @@ export interface TextProps extends InputBaseProps {
 	 * @reactive
 	 */
 	inputMode?: Exclude<JSX.HTMLAttributes<HTMLElement>['inputMode'], 'numeric' | 'decimal'>;
-
-	/**
-	 * 值
-	 *
-	 * @reactive
-	 */
-	value?: string;
-
-	onChange: (val?: string, old?: string) => void;
 }
 
-export interface NumberProps extends InputBaseProps {
+export interface NumberProps extends InputBaseProps, ValueProps<number> {
 	/**
 	 * 内容类型
 	 *
@@ -131,15 +100,6 @@ export interface NumberProps extends InputBaseProps {
 	 * @reactive
 	 */
 	inputMode?: 'numeric' | 'decimal';
-
-	/**
-	 * 值
-	 *
-	 * @reactive
-	 */
-	value?: number;
-
-	onChange: (val?: number, old?: number) => void;
 }
 
 export type Props = TextProps | NumberProps;
@@ -150,7 +110,10 @@ export type Props = TextProps | NumberProps;
  * @typeParam T - 文本框内容的类型；
  */
 export function Root(props: Props): JSX.Element {
+	const form = Form.useForm();
+	props = mergeProps({ tabindex: 0 }, form, props);
 	let rootRef: HTMLDivElement;
+
 	const [value, setValue] = createSignal(props.value);
 
 	createEffect(() => setValue(props.value));

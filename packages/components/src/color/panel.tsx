@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, createSignal, type JSX, mergeProps, Show } from 'solid-js';
+import { createSignal, type JSX, mergeProps, Show, untrack } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 import IconClose from '~icons/material-symbols/cancel';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
 import { joinClass, PropsError } from '@components/base';
 import { Button } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
@@ -34,7 +34,7 @@ export interface PanelRef extends BaseRef<HTMLDivElement> {
 	switchSpace(id: string): void;
 }
 
-export interface Base extends Form.DataProps<string>, BaseProps {
+export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<string>, BaseProps {
 	/**
 	 * 指定一个用于计算 WCAG 值的颜色
 	 *
@@ -53,10 +53,7 @@ export interface Base extends Form.DataProps<string>, BaseProps {
 }
 
 export interface PanelProps extends Base, RefProps<PanelRef> {
-	/**
-	 * 直接显示颜色面板
-	 */
-	activator?: false;
+	readonly popover?: false;
 }
 
 /**
@@ -84,29 +81,35 @@ export function Panel(props: PanelProps): JSX.Element {
 		label: l.t(space.localeID),
 	}));
 
-	const change = (v?: string) => {
-		field.setValue(v);
+	const changeID = (v?: string) => {
+		if (v && v !== untrack(id)) {
+			setID(v);
+		}
 	};
 
-	// 监视 props.value 变化
-	createEffect(() => {
-		const v = props.value;
+	field.onChange(v => {
 		if (!v) {
+			return;
+		}
+
+		// 当前面板包含了当前选中的值
+		if (props.spaces.find(v => v.id === id())?.include(v)) {
 			return;
 		}
 
 		for (const p of props.spaces) {
 			if (p.include(v)) {
-				setID(p.id);
-				break;
+				changeID(p.id);
+				return;
 			}
 		}
 	});
 
 	const [apca, setApca] = createSignal(false);
 	let contentRef: HTMLDivElement;
-
+	let mainRef!: HTMLElement;
 	let clipboardRef: ClipboardAPI.RootRef;
+
 	return (
 		<div
 			class={joinClass(props.palette, styles['color-panel'], props.class, props.disabled ? styles.disabled : undefined)}
@@ -115,7 +118,7 @@ export function Panel(props: PanelProps): JSX.Element {
 				if (props.ref) {
 					props.ref({
 						root: () => el,
-						switchSpace: id => setID(id),
+						switchSpace: changeID,
 					});
 				}
 			}}
@@ -161,26 +164,26 @@ export function Panel(props: PanelProps): JSX.Element {
 							onclick={async () => {
 								const eye = new window.EyeDropper();
 								const color = new Color((await eye.open()).sRGBHex).toString();
-								change(color);
+								field.setValue(color);
 
 								// 切换到符合当前颜色的拾取色板
 								const picker = props.spaces.find(v => v.include(color));
 								if (picker) {
-									setID(picker.id);
+									changeID(picker.id);
 								}
 							}}
 						>
 							<IconPicker />
 						</Button.Root>
 					</Show>
-					<Button.Root kind="border" square onclick={() => change(undefined)}>
+					<Button.Root kind="border" square onclick={() => field.setValue(undefined)}>
 						<IconClose />
 					</Button.Root>
-					<Choice.Root options={choiceOptions} value={id()} onChange={v => setID(v)} />
+					<Choice.Root options={choiceOptions} value={id()} onChange={v => changeID(v)} />
 				</div>
 			</header>
 
-			<main>{props.spaces.find(p => p.id === id())?.panel(field)}</main>
+			<main ref={el => (mainRef = el)}>{props.spaces.find(p => p.id === id())?.panel(field, mainRef)}</main>
 		</div>
 	);
 }

@@ -5,14 +5,14 @@
 import type { JSX } from 'solid-js';
 import { createEffect, createSignal, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 
-import type { BaseProps, RefProps } from '@components/base';
+import { type BaseProps, joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
 import { InputBase } from '@components/input/base';
 import { Dropdown, type Menu } from '@components/menu';
 
 export type Ref = InputBase.RootRef;
 
-export interface Props extends Form.DataProps<string>, BaseProps, RefProps<Ref> {
+export interface Props extends BaseProps, InputBase.TextProps {
 	/**
 	 * 最小的字符数量
 	 *
@@ -26,44 +26,6 @@ export interface Props extends Form.DataProps<string>, BaseProps, RefProps<Ref> 
 	 * @reactive
 	 */
 	minLength?: number;
-
-	/**
-	 * 文本框内顶部的内容
-	 *
-	 * @reactive
-	 */
-	prefix?: JSX.Element;
-
-	/**
-	 * 文本框内尾部的内容
-	 *
-	 * @reactive
-	 */
-	suffix?: JSX.Element;
-
-	/**
-	 * placeholder
-	 *
-	 * @reactive
-	 */
-	placeholder?: string;
-
-	/**
-	 * 内容类型
-	 *
-	 * @remarks
-	 * 只有在此值为 number 时，内容才会被当作数值处理。
-	 *
-	 * @reactive
-	 */
-	type?: InputBase.TextProps['type'];
-
-	/**
-	 * 键盘的输入模式
-	 *
-	 * @reactive
-	 */
-	inputMode?: InputBase.TextProps['inputMode'];
 
 	/**
 	 * autocomplete
@@ -98,7 +60,7 @@ export interface Props extends Form.DataProps<string>, BaseProps, RefProps<Ref> 
 	onSearch?: (text?: string) => Array<string>;
 }
 
-function countFormater(val: number, max?: number): string {
+function countFormatter(val: number, max?: number): string {
 	return max !== undefined ? `${val}/${max}` : val.toString();
 }
 
@@ -108,15 +70,21 @@ function countFormater(val: number, max?: number): string {
  * @typeParam T - 文本框内容的类型
  */
 export function Root(props: Props): JSX.Element {
-	const field = Form.useField<string>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
+	const field = Form.useField<string>(props, true);
+	field.onChange(v => {
+		if (props.onSearch) {
+			setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
+			dropdownRef.show();
+		}
+	});
 
 	const [candidate, setCandidate] = createSignal<Array<Menu.MenuItem>>([]);
 
 	createEffect(() => {
 		if (props.count) {
-			const formatter = props.count === true ? countFormater : props.count;
+			const formatter = props.count === true ? countFormatter : props.count;
 			field.setExtra(formatter(field.getValue()?.toString().length ?? 0, props.maxLength));
 		} else {
 			field.setExtra('');
@@ -156,15 +124,7 @@ export function Root(props: Props): JSX.Element {
 				readonly={props.readonly}
 				placeholder={props.placeholder}
 				value={field.getValue()}
-				onChange={v => {
-					field.setValue(v);
-					field.setError();
-
-					if (props.onSearch) {
-						setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
-						dropdownRef.show();
-					}
-				}}
+				onChange={v => field.setValue(v)}
 				ref={el => {
 					if (props.ref) {
 						props.ref({
@@ -178,7 +138,15 @@ export function Root(props: Props): JSX.Element {
 	};
 
 	return (
-		<Switch fallback={<Trigger palette={props.palette} style={props.style} class={props.class} />}>
+		<Switch
+			fallback={
+				<Trigger
+					palette={props.palette}
+					style={style2String(field.style, props.style)}
+					class={joinClass(undefined, field.class, props.class)}
+				/>
+			}
+		>
 			<Match when={props.onSearch}>
 				<Dropdown.Root
 					palette={props.palette}

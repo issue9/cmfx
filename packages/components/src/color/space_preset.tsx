@@ -35,7 +35,7 @@ export class PresetSpace implements Space {
 		return this.#values.includes(value);
 	}
 
-	panel(access: Accessor): JSX.Element {
+	panel(access: Accessor, _: HTMLElement): JSX.Element {
 		return (
 			<div class={styles.presets}>
 				<For each={this.#values}>

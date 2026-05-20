@@ -26,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<Color.Root
-				activator
+				popover="click"
 				readonly={readonly()}
 				disabled={disabled()}
 				wcag="oklch(1 0 0)"

@@ -27,7 +27,7 @@
 			@apply text-error-fg;
 		}
 
-		.input {
+		.data {
 			@apply w-full h-full;
 		}
 	}

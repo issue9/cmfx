@@ -22,10 +22,10 @@ describe('Color.Panel', async () => {
 	});
 });
 
-describe('Color.Activator', async () => {
+describe('Color.Popover', async () => {
 	let ref: Ref<true>;
-	const ct = await ComponentTester.build('Color.Activator', props => (
-		<Root activator ref={el => (ref = el)} {...props} spaces={[new HSLSpace()]} />
+	const ct = await ComponentTester.build('Color.Popover', props => (
+		<Root popover ref={el => (ref = el)} {...props} spaces={[new HSLSpace()]} />
 	));
 
 	test('props', () => ct.testProps());

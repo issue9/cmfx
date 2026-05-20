@@ -101,3 +101,25 @@ export interface Ref<T> {
 	 */
 	root(): T;
 }
+
+/**
+ * 需要与外部作数据交换的组件可以从此接口继承属性
+ *
+ * @typeParam T - 表单项的值类型；
+ */
+export interface ValueProps<T> {
+	/**
+	 * 传递给组件的值
+	 *
+	 * @reactive
+	 *
+	 * @remarks
+	 * 如果组件包含在 Form.Field 中，则该属性不起作用。
+	 */
+	value?: T;
+
+	/**
+	 * {@link value} 变化时的回调方法
+	 */
+	onChange?: ChangeFunc<T | undefined>;
+}

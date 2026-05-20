@@ -4,7 +4,7 @@
 
 import { createEffect, createMemo, For, type JSX, mergeProps, splitProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { Checkbox } from '@components/checkbox/checkbox';
 import { Form } from '@components/form';
@@ -15,7 +15,8 @@ export type Ref = BaseRef<HTMLDivElement>;
 
 export interface Props<T extends AvailableEnumType = string>
 	extends BaseProps,
-		Form.DataProps<Array<T>>,
+		Form.DataProps,
+		ValueProps<Array<T>>,
 		RefProps<Ref> {
 	/**
 	 * 子项的布局方式

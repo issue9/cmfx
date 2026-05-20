@@ -15,5 +15,6 @@ export type {
 	Ref as BaseRef,
 	RefProps,
 	StyleProps,
+	ValueProps,
 } from './types';
 export { layouts } from './types';

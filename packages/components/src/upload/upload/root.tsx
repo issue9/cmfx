@@ -4,7 +4,7 @@
 
 import { createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type ValueProps } from '@components/base';
 import { Form } from '@components/form';
 
 /**
@@ -37,7 +37,10 @@ export interface Ref extends BaseRef<HTMLInputElement> {
 	upload(): Promise<Array<string> | undefined>;
 }
 
-export interface Props extends Omit<Form.DataProps<Array<string>>, 'rounded' | 'value' | 'onChange'>, BaseProps {
+export interface Props
+	extends Omit<Form.DataProps, 'rounded' | 'value' | 'onChange'>,
+		ValueProps<Array<string>>,
+		BaseProps {
 	/**
 	 * 上传文件在表单中的名称
 	 */

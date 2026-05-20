@@ -58,7 +58,6 @@ const messages = {
 			blue: 'Blue',
 			preset: 'Preset',
 			websafe: 'Web safe',
-			pickColor: 'Pick color',
 		},
 		editor: {
 			header1: 'H1',

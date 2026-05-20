@@ -3,19 +3,20 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, type JSX } from 'solid-js';
+import { createEffect, type JSX, untrack } from 'solid-js';
 
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Slider } from '@components/slider';
 import type { Accessor, Space } from './space';
+import { var2Color } from './space_vars';
 import styles from './style.module.css';
 
 type OKLCH = {
-	l: number;
-	c: number;
-	h: number;
-	a: number;
+	l: number | null;
+	c: number | null;
+	h: number | null;
+	a: number | null;
 };
 
 /**
@@ -54,14 +55,15 @@ export class OKLCHSpace implements Space {
 		return value.startsWith('oklch(');
 	}
 
-	panel(access: Accessor): JSX.Element {
+	panel(access: Accessor, parent: HTMLElement): JSX.Element {
 		let rl: Slider.RootRef;
 		let rc: Slider.RootRef;
 		let rh: Slider.RootRef;
 		let ra: Slider.RootRef;
 
+		const c = new Color(var2Color(parent, untrack(access.getValue)) ?? 'oklch(1 .4 1)').to('oklch');
 		const [F, Field, api] = Form.create<OKLCH>({
-			initValue: { l: this.#l ?? 1, c: this.#c ?? 0.4, h: this.#h ?? 1, a: this.#a ?? 1 },
+			initValue: { l: this.#l ?? c.l, c: this.#c ?? c.c, h: this.#h ?? c.h, a: this.#a ?? c.a },
 		});
 
 		createEffect(() => {
@@ -107,13 +109,13 @@ export class OKLCHSpace implements Space {
 		const l = useLocale();
 
 		return (
-			<F class={styles.oklch}>
+			<F class={styles.oklch} layout="vertical">
 				<Field label={l.t('_c.color.lightness')} name="l">
 					<Slider.Root
 						fitHeight
 						ref={el => (rl = el)}
 						disabled={!!this.#l}
-						format={v => `${(v ?? 0 * 100).toFixed(4)}%`}
+						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
 						max={1}
 						step={0.0001}
@@ -160,6 +162,6 @@ export class OKLCHSpace implements Space {
 	}
 }
 
-function fmtOKLCH(l: number, c: number, h: number, a: number): string {
+function fmtOKLCH(l: number | null, c: number | null, h: number | null, a: number | null): string {
 	return new Color('oklch', [l, c, h], a).toString();
 }

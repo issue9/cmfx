@@ -3,19 +3,20 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createEffect, type JSX } from 'solid-js';
+import { createEffect, type JSX, untrack } from 'solid-js';
 
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Slider } from '@components/slider';
 import type { Accessor, Space } from './space';
+import { var2Color } from './space_vars';
 import styles from './style.module.css';
 
 type HSL = {
-	h: number;
-	s: number;
-	l: number;
-	a: number;
+	h: number | null;
+	s: number | null;
+	l: number | null;
+	a: number | null;
 };
 
 /**
@@ -54,14 +55,15 @@ export class HSLSpace implements Space {
 		return value.startsWith('hsl(');
 	}
 
-	panel(access: Accessor): JSX.Element {
+	panel(access: Accessor, parent: HTMLElement): JSX.Element {
 		let hRef: Slider.RootRef;
 		let sRef: Slider.RootRef;
 		let lRef: Slider.RootRef;
 		let aRef: Slider.RootRef;
 
+		const c = new Color(var2Color(parent, untrack(access.getValue)) ?? 'hsl(180 50 50)').to('hsl');
 		const [F, Field, api] = Form.create<HSL>({
-			initValue: { h: this.#h ?? 180, s: this.#s ?? 50, l: this.#l ?? 50, a: this.#a ?? 1 },
+			initValue: { h: this.#h ?? c.h, s: this.#s ?? c.s, l: this.#l ?? c.l, a: this.#a ?? c.a },
 		});
 
 		createEffect(() => {
@@ -70,7 +72,7 @@ export class HSLSpace implements Space {
 			const ss = store.s;
 			const ll = store.l;
 			const aa = store.a;
-			access.setValue(fmtHSL(hh, ss, ll, aa));
+			access.setValue(fmtHSL(hh, ss, ll, aa), true);
 
 			hRef.input().style.background = `linear-gradient(to right, ${fmtHSL(0, ss, ll, aa)},
                 ${fmtHSL(20, ss, ll, aa)}, ${fmtHSL(40, ss, ll, aa)}, ${fmtHSL(60, ss, ll, aa)},
@@ -103,7 +105,7 @@ export class HSLSpace implements Space {
 		const l = useLocale();
 
 		return (
-			<F class={styles.hsl}>
+			<F class={styles.hsl} layout="vertical">
 				<Field label={l.t('_c.color.hue')} name="h">
 					<Slider.Root
 						disabled={!!this.#h}
@@ -156,6 +158,6 @@ export class HSLSpace implements Space {
 	}
 }
 
-function fmtHSL(h: number, s: number, l: number, a: number): string {
+function fmtHSL(h: number | null, s: number | null, l: number | null, a: number | null): string {
 	return new Color('hsl', [h, s, l], a).toString();
 }

@@ -4,7 +4,7 @@
 
 import { createEffect, createMemo, For, type JSX, mergeProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { Form } from '@components/form';
 import * as Radio from '@components/radio/radio/mod';
@@ -13,7 +13,11 @@ import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
 
-export interface Props<T extends AvailableEnumType = string> extends BaseProps, Form.DataProps<T>, RefProps<Ref> {
+export interface Props<T extends AvailableEnumType = string>
+	extends BaseProps,
+		Form.DataProps,
+		ValueProps<T>,
+		RefProps<Ref> {
 	/**
 	 * 所有 checkbox 项的布局
 	 *
