@@ -54,3 +54,7 @@ export interface Page<T> {
 	current: Array<T>;
 	more?: boolean;
 }
+
+export function isPage<T>(obj: unknown): obj is Page<T> {
+	return !!obj && typeof obj === 'object' && 'count' in obj && 'current' in obj;
+}
