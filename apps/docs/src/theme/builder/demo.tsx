@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Mode, Palette, Scheme } from '@cmfx/components';
+import type { Mode, Palette } from '@cmfx/components';
 import {
 	Appbar,
 	BasicTable,
@@ -20,7 +20,6 @@ import {
 	ThemeProvider,
 	useLocale,
 } from '@cmfx/components';
-import type { ExpandType } from '@cmfx/core';
 import { createEffect, createSignal, For, type JSX, Match, Switch } from 'solid-js';
 import IconNone from '~icons/ic/round-contrast';
 import IconDark from '~icons/material-symbols/dark-mode';
@@ -31,6 +30,7 @@ import IconMore from '~icons/zondicons/add-outline';
 import IconLess from '~icons/zondicons/minus-outline';
 
 import styles from './style.module.css';
+import type { SchemeStore } from './utils';
 
 type Contrast = 'more' | 'less' | 'none';
 
@@ -44,18 +44,18 @@ const contrasts: ReadonlyMap<Contrast, Record<string, string>> = new Map([
 /**
  * 组件演示
  */
-export function Demo(props: { s: Form1.ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
+export function Demo(props: { s: SchemeStore }): JSX.Element {
 	const l = useLocale();
 
 	const [contrast, setContrast] = createSignal<Contrast>('none');
 	const [typ, setTyp] = createSignal<'components' | 'palettes'>('components');
-	const mode = Form1.fieldAccessor<Mode>('mode', 'light');
+	const [mode, setMode] = createSignal<Mode>('light');
 
 	// NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
 	// 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
 	return (
 		<div class={styles.main}>
-			<ThemeProvider mode={mode.getValue()} scheme={props.s.getValue()}>
+			<ThemeProvider mode={mode()} scheme={props.s[0]}>
 				<div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
 					<Appbar.Root
 						title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')}
@@ -86,16 +86,16 @@ export function Demo(props: { s: Form1.ObjectAccessor<ExpandType<Scheme>> }): JS
 									<Button.Root
 										square
 										title={l.t('_d.theme.light')}
-										checked={mode.getValue() === 'light'}
-										onclick={() => mode.setValue('light')}
+										checked={mode() === 'light'}
+										onclick={() => setMode('light')}
 									>
 										<IconLight />
 									</Button.Root>
 									<Button.Root
 										square
 										title={l.t('_d.theme.dark')}
-										checked={mode.getValue() === 'dark'}
-										onclick={() => mode.setValue('dark')}
+										checked={mode() === 'dark'}
+										onclick={() => setMode('dark')}
 									>
 										<IconDark />
 									</Button.Root>
@@ -148,7 +148,7 @@ export function Demo(props: { s: Form1.ObjectAccessor<ExpandType<Scheme>> }): JS
 	);
 }
 
-function Palettes(props: { s: Form1.ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
+function Palettes(props: { s: SchemeStore; c: Contrast }): JSX.Element {
 	return (
 		<div class={styles.palettes}>
 			<For each={palettes}>{p => <PaletteBlocks p={p} s={props.s} c={props.c} />}</For>
@@ -156,8 +156,8 @@ function Palettes(props: { s: Form1.ObjectAccessor<ExpandType<Scheme>>; c: Contr
 	);
 }
 
-function PaletteBlocks(props: { p: Palette; s: Form1.ObjectAccessor<ExpandType<Scheme>>; c: Contrast }): JSX.Element {
-	const raw = props.s.getValue();
+function PaletteBlocks(props: { p: Palette; s: SchemeStore; c: Contrast }): JSX.Element {
+	const raw = props.s[0];
 
 	let baseRef: HTMLDivElement;
 	let lowRef: HTMLDivElement;
@@ -266,7 +266,7 @@ function Components(): JSX.Element {
 		},
 	];
 
-	const api = new Form1.API({
+	const [F, Field] = Form.create({
 		initValue: {
 			username: '',
 			password: '',
@@ -290,10 +290,14 @@ function Components(): JSX.Element {
 					</>
 				}
 			>
-				<Form1.Root layout="vertical" api={api}>
-					<InputText.Root accessor={api.accessor<string>('username')} label="用户名" placeholder="请输入用户名" />
-					<InputPassword.Root accessor={api.accessor<string>('password')} label="密码" placeholder="请输入密码" />
-				</Form1.Root>
+				<F layout="vertical">
+					<Field name="username" label="用户名">
+						<InputText.Root placeholder="请输入用户名" />
+					</Field>
+					<Field name="password" label="密码">
+						<InputPassword.Root placeholder="请输入密码" />
+					</Field>
+				</F>
 			</Card.Root>
 
 			<Menu.Root

@@ -2,18 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
 import type { WeekValueType } from '@components/datetime';
-import { Form } from '@components/form';
 import { type Ref, Root } from './week';
 
 describe('WeekPicker', async () => {
 	let ref: Ref;
-	const fa = Form1.fieldAccessor<WeekValueType>('chk', [2025, 13]);
+	const [value, setValue] = createSignal<WeekValueType>([2025, 13]);
 	const ct = await ComponentTester.build('WeekPicker', props => (
-		<Root accessor={fa} {...props} ref={el => (ref = el)} />
+		<Root {...props} ref={el => (ref = el)} value={value()} onChange={setValue} />
 	));
 
 	test('props', () => ct.testProps());

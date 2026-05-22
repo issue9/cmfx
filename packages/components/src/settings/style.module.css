@@ -33,5 +33,9 @@
 		.range {
 			@apply w-100;
 		}
+
+		.locale {
+			@apply w-50;
+		}
 	}
 }

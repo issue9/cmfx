@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { Form1 } from '@components/form';
 import { type Ref, Root } from './range';
 
 describe('DateRangePicker', async () => {
 	let ref: Ref;
-	const fa = Form1.fieldAccessor<[Date, Date], 'date'>('chk', [new Date(), new Date()], 'date');
+	const [value, setValue] = createSignal<[Date, Date]>([new Date(), new Date()]);
 	const ct = await ComponentTester.build('DateRangePicker', props => (
-		<Root accessor={fa} {...props} ref={el => (ref = el)} />
+		<Root {...props} ref={el => (ref = el)} value={value()} onChange={setValue} />
 	));
 
 	test('props', () => ct.testProps());

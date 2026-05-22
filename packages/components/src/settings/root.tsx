@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { DisplayStyle } from '@cmfx/core';
-import { formatDuration, I18n } from '@cmfx/core';
+import { formatDuration } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
-import { createEffect, createSignal, on, Show } from 'solid-js';
+import { Show } from 'solid-js';
 import IconTransitionDuration from '~icons/material-symbols/animated-images-rounded';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
@@ -16,14 +15,13 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import type { BaseProps, BaseRef, Mode, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { Button } from '@components/button';
 import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Form } from '@components/form';
 import { Formatter } from '@components/formatter';
 import { InputNumber } from '@components/input';
 import { Label } from '@components/label';
@@ -105,24 +103,6 @@ export function Root(props: Props) {
 	const [accessor, origin] = useOptions();
 	const l = useLocale();
 
-	const [fontSize, setFontSize] = createSignal<number | undefined>(parseInt(accessor.getFontSize().slice(0, -2), 10));
-	createEffect(on(fontSize, v => accessor.setFontSize(`${v}px`)));
-
-	const modeFA = Form1.fieldAccessor<Mode>('mode', accessor.getMode());
-	modeFA.onChange(m => accessor.setMode(m));
-
-	const localeFA = Form1.fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
-	localeFA.onChange(v => accessor.setLocale(v));
-
-	const unitFA = Form1.fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
-	unitFA.onChange(v => accessor.setDisplayStyle(v));
-
-	const staysFA = Form1.fieldAccessor<number>('stays', accessor.getStays());
-	staysFA.onChange(v => accessor.setStays(v));
-
-	const [transitionDuration, setTransitionDuration] = createSignal<number>(accessor.getTransitionDuration());
-	createEffect(on(transitionDuration, v => accessor.setTransitionDuration(v)));
-
 	return (
 		<div
 			class={joinClass(props.palette, styles.settings, props.class)}
@@ -146,8 +126,8 @@ export function Root(props: Props) {
 					min={12}
 					max={32}
 					step={1}
-					value={fontSize()}
-					onChange={v => setFontSize(v)}
+					value={parseInt(accessor.getFontSize().slice(0, -2), 10)}
+					onChange={v => accessor.setFontSize(`${v}px`)}
 				/>
 			</Item>
 
@@ -156,7 +136,8 @@ export function Root(props: Props) {
 			<Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
 				<RadioGroup.Root
 					layout="horizontal"
-					accessor={modeFA}
+					value={accessor.getMode()}
+					onChange={accessor.setMode}
 					block={/*@once*/ false}
 					class={styles.radios}
 					options={
@@ -197,8 +178,8 @@ export function Root(props: Props) {
 					min={100}
 					max={3000}
 					step={100}
-					value={transitionDuration()}
-					onChange={v => setTransitionDuration(v)}
+					value={accessor.getTransitionDuration()}
+					onChange={accessor.setTransitionDuration}
 				/>
 			</Item>
 
@@ -206,14 +187,26 @@ export function Root(props: Props) {
 
 			<Separator />
 			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
-				<InputNumber.Root accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
+				<InputNumber.Root
+					value={accessor.getStays()}
+					onChange={accessor.setStays}
+					min={1000}
+					max={10000}
+					step={500}
+					class={styles.stays}
+				/>
 			</Item>
 
 			{/***************************** locale *******************************/}
 
 			<Separator />
 			<Item icon={/*@once*/ <IconTranslate />} title={l.t('_c.settings.locale')} desc={l.t('_c.settings.localeDesc')}>
-				<Choice.Root accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
+				<Choice.Root
+					class={styles.locale}
+					value={accessor.getLocale()}
+					onChange={accessor.setLocale}
+					options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))}
+				/>
 			</Item>
 
 			{/***************************** displayStyle *******************************/}
@@ -226,7 +219,8 @@ export function Root(props: Props) {
 			>
 				<RadioGroup.Root
 					layout="horizontal"
-					accessor={unitFA}
+					value={accessor.getDisplayStyle()}
+					onChange={accessor.setDisplayStyle}
 					block={/*@once*/ false}
 					class={styles.radios}
 					options={
@@ -271,11 +265,6 @@ export function Root(props: Props) {
 					palette="error"
 					onclick={() => {
 						accessor.reset();
-						setFontSize(parseInt(accessor.getFontSize().slice(0, -2), 10));
-						modeFA.setValue(accessor.getMode());
-						localeFA.setValue(accessor.getLocale());
-						unitFA.setValue(accessor.getDisplayStyle());
-						staysFA.setValue(accessor.getStays());
 
 						if (props.onReset) {
 							props.onReset();
