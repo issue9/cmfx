@@ -2,28 +2,35 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { isPage, type Page, presetCellRenderFunc } from '@cmfx/core';
-import { createSignal, For, type JSX, Show } from 'solid-js';
+import { Exporter, type FlattenKeys, isPage, type Page, type Query } from '@cmfx/core';
+import { type Component, createResource, createSignal, For, type JSX, mergeProps, Show } from 'solid-js';
+import IconExcel from '~icons/icon-park-twotone/excel';
+import IconCSV from '~icons/material-symbols/csv';
+import IconMarkdown from '~icons/material-symbols/markdown';
+import IconODS from '~icons/material-symbols/ods';
+import IconReset from '~icons/material-symbols/restart-alt';
 
-import type { BaseRef, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
-import { useLocale } from '@components/context';
+import { Button, SplitButton } from '@components/button';
+import { useLocale, useOptions } from '@components/context';
+import { Dialog } from '@components/dialog';
+import { Divider } from '@components/divider';
+import { Form } from '@components/form';
+import { Label } from '@components/label';
+import { PaginationBar } from '@components/pagination';
 import { Empty } from '@components/result';
 import { Spin } from '@components/spin';
 import { Table } from '@components/table/table';
-import type { CellRenderFunc, Column } from './column.ts';
+import { type CellRenderFunc, type Column, preProcessColumns } from './column';
 import styles from './style.module.css';
+import { Toolbar } from './toolbar.tsx';
 
-export interface Ref<T extends object> extends BaseRef<Spin.RootRef<'div'>> {
+export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中的表格元素
 	 */
 	table(): Table.RootRef;
-
-	/**
-	 * 当前页的内容
-	 */
-	current(): Array<T> | undefined;
 
 	/**
 	 * 刷新当前页的内容
@@ -31,123 +38,296 @@ export interface Ref<T extends object> extends BaseRef<Spin.RootRef<'div'>> {
 	refresh(): Promise<void>;
 }
 
-/**
- * @typeParam T 表中每一行数据的类型；
- */
-export interface Props<T extends object> extends Omit<Table.RootProps, 'ref'>, RefProps<Ref<T>> {
-	/**
-	 * 是否加载状态
-	 *
-	 * @reactive
-	 */
-	loading?: boolean;
-
+interface InternalProps<T extends object, Q extends Query> extends BaseProps, RefProps<Ref> {
 	/**
 	 * 列的定义
 	 */
 	readonly columns: Array<Column<T>>;
 
+	readonly queryForm?: (api: Form.API<Q>, Field: Component<Form.FieldProps<Q>>) => JSX.Element;
+
 	/**
+	 * 下载的文件名
 	 *
+	 * @defaultValue 'download'
+	 */
+	readonly filename?: string;
+
+	/**
+	 * 是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，
+	 * 但是可能会造成空间的巨大浪费。具体可查看：
+	 * {@link https://developer.mozilla.org/zh-CN/docs/Web/CSS/table-layout}
+	 *
+	 * @reactive
+	 */
+	fixedLayout?: boolean;
+
+	/**
+	 * 工具栏的内容
+	 *
+	 * 此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。
+	 *
+	 * @reactive
+	 */
+	toolbar?: JSX.Element;
+
+	/**
+	 * 是否需要展示框架自身提供的工具栏功能
+	 *
+	 * @reactive
+	 */
+	systemToolbar?: boolean;
+}
+
+interface PagingProps<T extends object, Q extends Query> extends InternalProps<T, Q> {
+	/**
 	 * 加载数据的方法
 	 */
-	readonly load: () => Promise<Page<T> | Array<T> | undefined>;
+	readonly load: (q: Q) => Promise<Page<T> | undefined>;
 
 	/**
-	 * 固定表格头部位于指定的位置
+	 * 每页显示的行数
 	 *
-	 * @remarks
-	 * 如果为 undefined，表示不固定，其它值表示离顶部的距离。
-	 *
-	 * @reactive
+	 * @defaultValue Options.pageSize
 	 */
-	stickyHeader?: string;
+	readonly pageSize?: number;
 
 	/**
-	 * 表格顶部的扩展空间
+	 * 每页显示的行数选项
 	 *
-	 * NOTE: 该区域不属于 table 空间。
-	 *
-	 * @reactive
+	 * @defaultValue Options.pageSizes
 	 */
-	header?: JSX.Element;
+	readonly pageSizes?: Array<number>;
 
 	/**
-	 * 表格底部的扩展空间
-	 *
-	 * NOTE: 该区域不属于 table 空间。
-	 *
-	 * @reactive
+	 * 是否分页
 	 */
-	footer?: JSX.Element;
+	readonly paging: true;
 }
+
+interface NoPagingProps<T extends object, Q extends Query> extends InternalProps<T, Q> {
+	/**
+	 * 加载数据的方法
+	 */
+	readonly load: (q: Q) => Promise<Array<T> | undefined>;
+
+	/**
+	 * 是否分页
+	 */
+	readonly paging?: false;
+}
+
+export type Props<T extends object, Q extends Query> = PagingProps<T, Q> | NoPagingProps<T, Q>;
+
+type ExportType = (typeof Exporter.exts)[number];
 
 /**
  * 基础的表格组件
  */
-export function Root<T extends object>(props: Props<T>) {
-	const l = useLocale();
-	const df = l.datetimeFormat();
-	let tableRef: Table.RootRef;
+export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
+	const [, opt] = useOptions();
 
-	const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
-
-	// 将列定义处理为需要的类型
-	const cols: Array<Omit<Column<T>, 'renderContent'> & { renderContent: CellRenderFunc<T> }> = props.columns.map(
-		col => {
-			const content = col.content || presetCellRenderFunc;
-
-			const render: CellRenderFunc<T> = (id, val, obj) => {
-				const ret = content(id, val, obj);
-				if (ret instanceof Date) {
-					return <time>{df.format(ret)}</time>;
-				}
-				return ret;
-			};
-			return {
-				...col,
-				content: content,
-				renderContent: col.renderContent || render,
-			};
+	props = mergeProps(
+		{
+			filename: 'download',
+			pageSizes: props.paging ? (opt.pageSizes ?? undefined) : undefined,
+			pageSize: props.paging ? (opt.pageSize ?? undefined) : undefined,
 		},
+		props,
 	);
 
-	const [items, setItems] = createSignal<Array<T>>([]);
+	let tableRef: Table.RootRef;
+	let rootRef: HTMLDivElement;
+
+	const l = useLocale();
+	const [cols, hasColClass] = preProcessColumns<T>(props.columns, l.datetimeFormat());
+
+	const [total, setTotal] = createSignal<number>(0);
+
+	const hoverable = createSignal(false);
+	const striped = createSignal<Table.RootProps['striped']>(0);
+	const sticky = createSignal<boolean>(false);
+
+	const [F, Field, api] = Form.create<Q>({
+		initValue: {
+			page: 0,
+			size: 'pageSize' in props ? (props?.pageSize ?? 0) : 0,
+		} as Q,
+	});
+
+	const exports = async (ext: ExportType) => {
+		const e = new Exporter<T, Q>(props.columns);
+		const qq = await api.validValue();
+		if (!qq) {
+			return;
+		}
+
+		const q = { ...qq };
+		delete q.size;
+		delete q.page;
+
+		await e.fetch(props.load, q);
+		const filename = await Dialog.prompt(l.t('_c.table.downloadFilename'), props.filename);
+		if (filename) {
+			await e.export(`${filename}${ext}`);
+		}
+	};
+
+	const [items, { refetch }] = createResource(async () => {
+		const q = await api.validValue();
+		if (!q) {
+			return undefined;
+		}
+
+		const data = await props.load(q);
+		if (data === undefined) {
+			return undefined;
+		} else if (isPage(data)) {
+			setTotal(data.count);
+			return data.current;
+		} else {
+			setTotal(data?.length ?? 0);
+			return data;
+		}
+	});
+
+	const Footer = (): JSX.Element => {
+		if (!props.paging) {
+			return;
+		}
+
+		const page = api.createFieldAccessor<number>('page' as FlattenKeys<Q>);
+		const size = api.createFieldAccessor<number>('size' as FlattenKeys<Q>);
+
+		return (
+			<PaginationBar.Root
+				class={styles.footer}
+				onPageChange={async p => {
+					page.setValue(p);
+					await refetch();
+				}}
+				onSizeChange={async s => {
+					size.setValue(s);
+					await refetch();
+				}}
+				page={page.getValue() ?? 0}
+				size={size.getValue()}
+				sizes={props.pageSizes!}
+				total={total()}
+			/>
+		);
+	};
 
 	return (
 		<Spin.Root
 			tag="div"
-			spinning={props.loading}
+			spinning={items.loading}
 			palette={props.palette}
 			style={props.style}
 			class={joinClass(undefined, styles.table, props.class)}
 			ref={el => {
+				rootRef = el.root();
 				if (props.ref) {
 					props.ref({
-						root: () => el,
+						root: () => el.root(),
 						table: () => tableRef,
-						current: () => items(),
 						refresh: async () => {
-							const data = await props.load();
-							if (isPage(data)) {
-								setItems(data.current);
-							} else {
-								setItems(data ?? []);
-							}
+							await refetch();
 						},
 					});
 				}
 			}}
 		>
-			<Show when={props.header}>{c => c()}</Show>
+			<Show when={props.toolbar || props.systemToolbar || props.queryForm}>
+				<header class={styles.header}>
+					<Show when={props.queryForm}>
+						{f => (
+							<F class={styles.search}>
+								{f()(api, Field)}
+								<div class={styles.actions}>
+									<SplitButton.Root
+										align="end"
+										onChange={async v => {
+											switch (v) {
+												case 'reset':
+													api.reset();
+													break;
+												default:
+													await exports(v!);
+											}
+										}}
+										items={[
+											{
+												type: 'item',
+												value: '.xlsx',
+												label: (
+													<Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>
+												),
+											},
+											{
+												type: 'item',
+												value: '.ods',
+												label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
+											},
+											{ type: 'divider' },
+											{
+												type: 'item',
+												value: '.csv',
+												label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
+											},
+											{
+												type: 'item',
+												value: '.md',
+												label: (
+													<Label.Root icon={<IconMarkdown />}>
+														{l.t('_c.table.exportTo', { type: 'Markdown' })}
+													</Label.Root>
+												),
+											},
+											{ type: 'divider' },
+											{
+												type: 'item',
+												value: 'reset',
+												disabled: api.isPreset(),
+												label: <Label.Root icon={<IconReset />}>{l.t('_c.reset')}</Label.Root>,
+											},
+										]}
+									>
+										<Button.Root type="submit" palette="primary" onclick={async () => await refetch()}>
+											{l.t('_c.search')}
+										</Button.Root>
+									</SplitButton.Root>
+								</div>
+							</F>
+						)}
+					</Show>
+					<Show when={props.queryForm && (props.toolbar || props.systemToolbar)}>
+						<Divider.Root padding="8px" />
+					</Show>
+					<Show when={props.toolbar || props.systemToolbar}>
+						<Toolbar
+							systemToolbar={props.systemToolbar}
+							hoverable={hoverable}
+							striped={striped}
+							sticky={sticky}
+							refresh={async () => {
+								await refetch();
+							}}
+							root={() => rootRef}
+						>
+							{props.toolbar}
+						</Toolbar>
+					</Show>
+				</header>
+			</Show>
 
 			<Table.Root
 				fixedLayout={props.fixedLayout}
-				hoverable={props.hoverable}
-				striped={props.striped}
+				hoverable={hoverable[0]()}
+				striped={striped[0]()}
 				ref={el => (tableRef = el)}
 			>
-				<Show when={hasCol}>
+				<Show when={hasColClass}>
 					<colgroup>
 						<For each={cols}>{item => <col class={item.colClass} />}</For>
 					</colgroup>
@@ -155,8 +335,8 @@ export function Root<T extends object>(props: Props<T>) {
 
 				<thead
 					style={{
-						position: props.stickyHeader === undefined ? undefined : 'sticky',
-						top: props.stickyHeader === undefined ? undefined : props.stickyHeader,
+						position: sticky[0]() ? 'sticky' : undefined,
+						top: sticky[0]() ? '0px' : undefined,
 					}}
 				>
 					<tr>
@@ -169,7 +349,7 @@ export function Root<T extends object>(props: Props<T>) {
 				</thead>
 
 				<tbody>
-					<Show when={items().length > 0}>
+					<Show when={items}>
 						<For each={items()}>
 							{row => (
 								<tr>
@@ -187,7 +367,7 @@ export function Root<T extends object>(props: Props<T>) {
 							)}
 						</For>
 					</Show>
-					<Show when={items().length === 0}>
+					<Show when={!items}>
 						<tr>
 							<td colSpan={props.columns.length}>
 								<Empty.Root palette={props.palette}>{l.t('_c.table.nodata')}</Empty.Root>
@@ -197,7 +377,9 @@ export function Root<T extends object>(props: Props<T>) {
 				</tbody>
 			</Table.Root>
 
-			<Show when={props.footer}>{c => c()}</Show>
+			<Show when={props.paging}>
+				<Footer />
+			</Show>
 		</Spin.Root>
 	);
 }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BasicTable, Button, InputText, LoaderTable, type MountProps } from '@cmfx/components';
+import { type BasicTable, Button, DataTable, InputText, type MountProps } from '@cmfx/components';
 import { type Page, type Query, sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -78,21 +78,22 @@ export default function (props: MountProps): JSX.Element {
 				<SystemToolbar />
 			</Portal>
 
-			<LoaderTable.Root
-				accentPalette="primary"
+			<DataTable.Root
 				paging
 				systemToolbar={systemToolbar()}
-				inSearch
 				fixedLayout={fixedLayout()}
 				palette={palette()}
 				toolbar={<Button.Root palette="primary">+ New</Button.Root>}
 				columns={columns}
 				queries={{ txt: 'abc', page: 1, size: 10 }}
-				queryForm={oa => (
-					<>
-						<InputText.Root accessor={oa.accessor<string>('txt')} />
-					</>
-				)}
+				queryForm={(api, Field) => {
+					const txt = api.createFieldAccessor<string>('txt');
+					return (
+						<Field label="search">
+							<InputText.Root value={txt.getValue()} onChange={txt.setValue} />
+						</Field>
+					);
+				}}
 				load={pagingLoader}
 			/>
 		</>

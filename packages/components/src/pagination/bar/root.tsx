@@ -7,7 +7,6 @@ import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
 import { joinClass, PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
-import { Form } from '@components/form';
 import { Choice } from '@components/menu';
 import { Pagination } from '@components/pagination/pagination';
 import styles from './style.module.css';
@@ -87,21 +86,11 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	const [page, setPage] = createSignal(props.page);
-
-	const sizeAccessor = Form.fieldAccessor('size', props.size!);
-	sizeAccessor.onChange((val: number, old?: number) => {
-		if (page() >= pages()) {
-			pageChange(pages(), page());
-		}
-
-		if (props.onSizeChange) {
-			props.onSizeChange(val, old);
-		}
-	});
+	const [size, setSize] = createSignal(props.size!);
 
 	// 页码数量
 	const pages = createMemo(() => {
-		return Math.ceil(props.total / sizeAccessor.getValue());
+		return Math.ceil(props.total / size());
 	});
 
 	const pageChange = (val: number, old?: number) => {
@@ -111,9 +100,21 @@ export function Root(props: Props): JSX.Element {
 		setPage(val);
 	};
 
+	const sizeChange = (val: number, old?: number) => {
+		if (val >= pages()) {
+			pageChange(pages(), val);
+		}
+
+		if (props.onSizeChange) {
+			props.onSizeChange(val, old);
+		}
+
+		setSize(val);
+	};
+
 	const translateItems = createMemo(() => {
-		const end = page() * sizeAccessor.getValue();
-		const start = props.total > 0 ? (page() - 1) * sizeAccessor.getValue() + 1 : 0;
+		const end = page() * size();
+		const start = props.total > 0 ? (page() - 1) * size() + 1 : 0;
 		return {
 			start: start,
 			end: end > props.total ? props.total : end,
@@ -126,7 +127,7 @@ export function Root(props: Props): JSX.Element {
 		<div ref={el => (rootRef = el)} class={joinClass(props.palette, styles.bar, props.class)} style={props.style}>
 			<div class={styles.start}>
 				{l.t('_c.pagination.items', translateItems())}
-				<Choice.Root accessor={sizeAccessor} options={sizesOptions()} />
+				<Choice.Root value={size()} onChange={sizeChange} options={sizesOptions()} />
 			</div>
 			<Pagination.Root
 				class={styles.end}

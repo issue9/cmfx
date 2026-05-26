@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BasicTable, Button, type MountProps } from '@cmfx/components';
+import { Button, DataTable, type MountProps } from '@cmfx/components';
+import { sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -16,7 +17,6 @@ interface Item {
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
-	const [Loading, loading] = boolSelector('loading', false);
 	const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
 	const [Nodata, nodata] = boolSelector('nodata', false);
 
@@ -27,9 +27,9 @@ export default function (props: MountProps): JSX.Element {
 		{ id: 4, name: 'name4', address: 'address4' },
 		{ id: 5, name: 'name5', address: 'address5' },
 		{ id: 6, name: 'name6', address: 'address6' },
-	];
+	] as const;
 
-	const columns: Array<BasicTable.Column<Item>> = [
+	const columns: Array<DataTable.Column<Item>> = [
 		{ id: 'id' },
 		{ id: 'name' },
 		{ id: 'address' },
@@ -47,23 +47,20 @@ export default function (props: MountProps): JSX.Element {
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Loading />
 				<Nodata />
 				<FixedLayout />
 			</Portal>
 
-			<BasicTable.Root
-				loading={loading()}
+			<DataTable.Root
 				fixedLayout={fixedLayout()}
 				palette={palette()}
-				items={nodata() ? [] : items}
+				load={async () => {
+					await sleep(1000);
+					return nodata() ? [] : items;
+				}}
 				columns={columns}
-				header={
-					<p class="bg-primary-fg text-primary-bg">
-						<Button.Root palette="primary">Button</Button.Root>
-					</p>
-				}
-				footer={<p class="bg-primary-fg text-primary-bg">footer</p>}
+				systemToolbar
+				toolbar={<Button.Root>New</Button.Root>}
 			/>
 		</>
 	);

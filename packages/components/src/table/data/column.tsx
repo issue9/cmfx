@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Column as ExportColumn } from '@cmfx/core';
+import { type Column as ExportColumn, presetCellRenderFunc } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 
 /**
@@ -69,3 +69,37 @@ export type CellRenderFunc<T extends object> = <K extends keyof T>(
 	val?: K extends keyof T ? T[K] : unknown,
 	obj?: T,
 ) => JSX.Element;
+
+/**
+ * 对列定义进行预处理
+ *
+ * @remarks
+ * 主要是对 renderContent 字段进行默认值设置以及查找是否存在列的 CSS 类定义。
+ * @returns 处理后的列定义数组和是否存在指定 CSS 类的标志。
+ */
+export function preProcessColumns<T extends object>(
+	columns: Array<Column<T>>,
+	df: Intl.DateTimeFormat,
+): [cols: Array<Omit<Column<T>, 'renderContent'> & { renderContent: CellRenderFunc<T> }>, hasClass: boolean] {
+	let has = false;
+	const cols = columns.map(col => {
+		has = has || !!col.colClass;
+
+		const content = col.content || presetCellRenderFunc;
+
+		const render: CellRenderFunc<T> = (id, val, obj) => {
+			const ret = content(id, val, obj);
+			if (ret instanceof Date) {
+				return <time>{df.format(ret)}</time>;
+			}
+			return ret;
+		};
+		return {
+			...col,
+			content: content,
+			renderContent: col.renderContent || render,
+		};
+	});
+
+	return [cols, has];
+}
