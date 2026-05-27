@@ -80,6 +80,22 @@ export default function (props: MountProps): JSX.Element {
 
 			<DataTable.Root
 				paging
+				inSearch={{
+					toQuery: params => {
+						return {
+							page: params.page !== undefined ? parseInt(params.page, 10) : 1,
+							size: params.size !== undefined ? parseInt(params.size, 10) : 10,
+							txt: params.txt ? params.txt : '',
+						};
+					},
+					fromQuery: q => {
+						return {
+							page: q.page?.toString(),
+							size: q.size?.toString(),
+							txt: q.txt,
+						};
+					},
+				}}
 				systemToolbar={systemToolbar()}
 				fixedLayout={fixedLayout()}
 				palette={palette()}
@@ -87,6 +103,7 @@ export default function (props: MountProps): JSX.Element {
 				columns={columns}
 				queryForm={(api, Field) => {
 					const txt = api.createFieldAccessor<string>('txt');
+					txt.setValue('abc');
 					return (
 						<Field label="search">
 							<InputText.Root value={txt.getValue()} onChange={v => txt.setValue(v)} />

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Exporter, type FlattenKeys, isPage, type Page, type Query } from '@cmfx/core';
+import { useSearchParams } from '@solidjs/router';
 import { type Component, createResource, createSignal, For, type JSX, mergeProps, Show } from 'solid-js';
 import IconExcel from '~icons/icon-park-twotone/excel';
 import IconCSV from '~icons/material-symbols/csv';
@@ -24,7 +25,7 @@ import { Spin } from '@components/spin';
 import { Table } from '@components/table/table';
 import { type CellRenderFunc, type Column, preProcessColumns } from './column';
 import styles from './style.module.css';
-import { Toolbar } from './toolbar.tsx';
+import { Toolbar } from './toolbar';
 
 export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
@@ -38,6 +39,28 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	refresh(): Promise<void>;
 }
 
+/**
+ * 根据 T 生成其值类型为字符串的对象
+ *
+ * 该类型符合 {@link useSearchParams} 的类型参数。
+ */
+export type SearchParams<T extends Query> = Partial<Record<keyof T, string>>;
+
+/**
+ * {@link SearchParams} 与 {@link Query} 之间相互转换的接口
+ */
+export interface SearchConverter<Q extends Query> {
+	/**
+	 * 将地址栏中的参数转换为类型 Q
+	 */
+	toQuery(params: SearchParams<Q>): Q;
+
+	/**
+	 * 将类型 Q 转换为符合地址栏中的参数类型
+	 */
+	fromQuery(query: Q): SearchParams<Q>;
+}
+
 interface InternalProps<T extends object, Q extends Query> extends BaseProps, RefProps<Ref> {
 	/**
 	 * 列的定义
@@ -45,6 +68,11 @@ interface InternalProps<T extends object, Q extends Query> extends BaseProps, Re
 	readonly columns: Array<Column<T>>;
 
 	readonly queryForm?: (api: Form.API<Q>, Field: Component<Form.FieldProps<Q>>) => JSX.Element;
+
+	/**
+	 * 是否将查询参数与地址栏中的参数作映射
+	 */
+	readonly inSearch?: SearchConverter<Q>;
 
 	/**
 	 * 下载的文件名
@@ -142,18 +170,25 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 	const l = useLocale();
 	const [cols, hasColClass] = preProcessColumns<T>(props.columns, l.datetimeFormat());
 
-	const [total, setTotal] = createSignal<number>(0);
+	// 必须要有一个大于 0 的 total，否则分页组件会报错
+	const [total, setTotal] = createSignal<number>(props.paging ? props.pageSize! : 1);
 
 	const hoverable = createSignal(false);
 	const striped = createSignal<Table.RootProps['striped']>(0);
 	const sticky = createSignal<boolean>(false);
 
+	const [searchG, searchS] = useSearchParams<SearchParams<Q>>();
 	const [F, Field, api] = Form.create<Q>({
-		initValue: {
-			page: 0,
-			size: 'pageSize' in props ? (props?.pageSize ?? 0) : 0,
-		} as Q,
+		initValue: props.inSearch
+			? props.inSearch.toQuery(searchG)
+			: ({
+					page: 1,
+					size: props.paging ? (props.pageSize ?? opt.pageSize) : opt.pageSize,
+				} as Q),
 	});
+	if (props.inSearch) {
+		api.onChange(v => searchS(props.inSearch!.fromQuery(v)));
+	}
 
 	const exports = async (ext: ExportType) => {
 		const e = new Exporter<T, Q>(props.columns);
@@ -186,11 +221,71 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 			setTotal(data.count);
 			return data.current;
 		} else {
-			setTotal(data?.length ?? 0);
+			setTotal(data?.length ?? undefined);
 			return data;
 		}
 	});
 
+	// 查询表单
+	const QueryForm = (): JSX.Element => {
+		return (
+			<F class={styles.search}>
+				{props.queryForm!(api, Field)}
+				<div class={styles.actions}>
+					<SplitButton.Root
+						align="end"
+						onChange={async v => {
+							switch (v) {
+								case 'reset':
+									api.reset();
+									break;
+								default:
+									await exports(v!);
+							}
+						}}
+						items={[
+							{
+								type: 'item',
+								value: '.xlsx',
+								label: <Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>,
+							},
+							{
+								type: 'item',
+								value: '.ods',
+								label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
+							},
+							{ type: 'divider' },
+							{
+								type: 'item',
+								value: '.csv',
+								label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
+							},
+							{
+								type: 'item',
+								value: '.md',
+								label: (
+									<Label.Root icon={<IconMarkdown />}>{l.t('_c.table.exportTo', { type: 'Markdown' })}</Label.Root>
+								),
+							},
+							{ type: 'divider' },
+							{
+								type: 'item',
+								value: 'reset',
+								disabled: api.isPreset(),
+								label: <Label.Root icon={<IconReset />}>{l.t('_c.reset')}</Label.Root>,
+							},
+						]}
+					>
+						<Button.Root type="submit" palette="primary" onclick={async () => await refetch()}>
+							{l.t('_c.search')}
+						</Button.Root>
+					</SplitButton.Root>
+				</div>
+			</F>
+		);
+	};
+
+	// 底部导航条
 	const Footer = (): JSX.Element => {
 		if (!props.paging) {
 			return;
@@ -202,16 +297,16 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 		return (
 			<PaginationBar.Root
 				class={styles.footer}
+				page={page.getValue() ?? 1}
 				onPageChange={async p => {
 					page.setValue(p);
 					await refetch();
 				}}
+				size={size.getValue()}
 				onSizeChange={async s => {
 					size.setValue(s);
 					await refetch();
 				}}
-				page={page.getValue() ?? 0}
-				size={size.getValue()}
 				sizes={props.pageSizes!}
 				total={total()}
 			/>
@@ -241,65 +336,7 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 			<Show when={props.toolbar || props.systemToolbar || props.queryForm}>
 				<header class={styles.header}>
 					<Show when={props.queryForm}>
-						{f => (
-							<F class={styles.search}>
-								{f()(api, Field)}
-								<div class={styles.actions}>
-									<SplitButton.Root
-										align="end"
-										onChange={async v => {
-											switch (v) {
-												case 'reset':
-													api.reset();
-													break;
-												default:
-													await exports(v!);
-											}
-										}}
-										items={[
-											{
-												type: 'item',
-												value: '.xlsx',
-												label: (
-													<Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>
-												),
-											},
-											{
-												type: 'item',
-												value: '.ods',
-												label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
-											},
-											{ type: 'divider' },
-											{
-												type: 'item',
-												value: '.csv',
-												label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
-											},
-											{
-												type: 'item',
-												value: '.md',
-												label: (
-													<Label.Root icon={<IconMarkdown />}>
-														{l.t('_c.table.exportTo', { type: 'Markdown' })}
-													</Label.Root>
-												),
-											},
-											{ type: 'divider' },
-											{
-												type: 'item',
-												value: 'reset',
-												disabled: api.isPreset(),
-												label: <Label.Root icon={<IconReset />}>{l.t('_c.reset')}</Label.Root>,
-											},
-										]}
-									>
-										<Button.Root type="submit" palette="primary" onclick={async () => await refetch()}>
-											{l.t('_c.search')}
-										</Button.Root>
-									</SplitButton.Root>
-								</div>
-							</F>
-						)}
+						<QueryForm />
 					</Show>
 					<Show when={props.queryForm && (props.toolbar || props.systemToolbar)}>
 						<Divider.Root padding="8px" />

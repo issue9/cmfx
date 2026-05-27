@@ -24,28 +24,33 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 总共的数据量
 	 *
+	 * @remarks
+	 * NOTE: 必须是一个大于零的整数，否则会导致导航条显示错误。
+	 *
 	 * @reactive
 	 */
 	total: number;
 
 	/**
-	 * 当前页的页码，取值范围为 [1, {@link Props#total}/{@link Props#size}]。
+	 * 当前页的页码，取值范围为 [1, {@link total}/{@link size}]。
 	 */
-	page: number;
+	readonly page: number;
 
 	/**
 	 * 每页的数据条数，默认为 sizes 属性的第二项。
 	 */
-	size?: number;
+	readonly size?: number;
 
 	/**
-	 * 属性 size 可用值的列表，默认为 {@link Options#api.pageSizes}
+	 * 属性 size 可用值的列表
+	 *
+	 * @defaultValue Options.api.pageSizes
 	 */
-	sizes?: Array<number>;
+	readonly sizes?: Array<number>;
 
-	onPageChange?: ChangeFunc<number>;
+	readonly onPageChange?: ChangeFunc<number>;
 
-	onSizeChange?: ChangeFunc<number>;
+	readonly onSizeChange?: ChangeFunc<number>;
 
 	/**
 	 * 按钮的数量
@@ -72,8 +77,8 @@ export function Root(props: Props): JSX.Element {
 		props,
 	);
 
-	if (props.sizes!.indexOf(props.size!) < 0) {
-		throw new PropsError('size', `必须存在于 props.sizes: ${props.sizes}`);
+	if (!props.sizes!.includes(props.size!)) {
+		throw new PropsError('size', `${props.size} 必须存在于 props.sizes: ${props.sizes}`);
 	}
 
 	const l = useLocale();
@@ -101,10 +106,6 @@ export function Root(props: Props): JSX.Element {
 	};
 
 	const sizeChange = (val: number, old?: number) => {
-		if (val >= pages()) {
-			pageChange(pages(), val);
-		}
-
 		if (props.onSizeChange) {
 			props.onSizeChange(val, old);
 		}
@@ -133,7 +134,7 @@ export function Root(props: Props): JSX.Element {
 				class={styles.end}
 				spans={props.spans}
 				onChange={pageChange}
-				value={props.page}
+				value={page()}
 				count={pages()}
 				ref={el => {
 					if (props.ref) {

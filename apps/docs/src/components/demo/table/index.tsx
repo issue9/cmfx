@@ -9,6 +9,8 @@ import { default as Basic } from './basic';
 import { default as basic } from './basic.tsx?raw';
 import { default as Paging } from './paging';
 import { default as paging } from './paging.tsx?raw';
+import { default as Search } from './search';
+import { default as search } from './search.tsx?raw';
 import { default as Table } from './table';
 import { default as table } from './table.tsx?raw';
 
@@ -24,6 +26,7 @@ export default function (): Info {
 			{ component: Table, source: table, layout: 'vertical', id: 'table' },
 			{ component: Basic, source: basic, layout: 'vertical', id: 'basic' },
 			{ component: Paging, source: paging, layout: 'vertical', id: 'paging' },
+			{ component: Search, source: search, layout: 'vertical', id: 'search' },
 		],
 	};
 }

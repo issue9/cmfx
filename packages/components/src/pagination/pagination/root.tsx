@@ -41,7 +41,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 在页码改变的时候触发
 	 */
-	onChange?: ChangeFunc<number>;
+	readonly onChange?: ChangeFunc<number>;
 
 	/**
 	 * 按钮的数量

@@ -8,9 +8,9 @@ import { describe, expect, test } from 'vitest';
 import { ComponentTester } from '@components/context/options/context.spec';
 import { type Ref, Root } from './table';
 
-describe('LoaderTable', async () => {
+describe('DataTable', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('LoaderTable', props => (
+	const ct = await ComponentTester.build('DataTable', props => (
 		<Root<object, Query>
 			{...props}
 			load={async (_: Query): Promise<object[]> => {
