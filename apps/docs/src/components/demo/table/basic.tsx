@@ -29,7 +29,9 @@ export default function (props: MountProps): JSX.Element {
 		{ id: 6, name: 'name6', address: 'address6' },
 	] as const;
 
+	const [chkCol, chkSel] = DataTable.selectionColumn('id');
 	const columns: Array<DataTable.Column<Item>> = [
+		chkCol,
 		{ id: 'id' },
 		{ id: 'name' },
 		{ id: 'address' },
@@ -60,7 +62,11 @@ export default function (props: MountProps): JSX.Element {
 				}}
 				columns={columns}
 				systemToolbar
-				toolbar={<Button.Root>New</Button.Root>}
+				toolbar={
+					<Button.Root palette="error" disabled={!chkSel?.length}>
+						Delete
+					</Button.Root>
+				}
 			/>
 		</>
 	);

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BasicTable } from '@cmfx/components';
+import type { DataTable } from '@cmfx/components';
 import { Button, Dialog, Form, InputText, Page, RemoteTable, TextArea, useLocale } from '@cmfx/components';
 import type { Return } from '@cmfx/core';
 import type { JSX } from 'solid-js';
@@ -130,7 +130,7 @@ export function Roles(props: Props): JSX.Element {
 								</Button.Root>
 								<RemoteTable.DeleteAction table={tableRef} id={obj!.id} />
 							</div>
-						)) as BasicTable.Column<Role>['renderContent'],
+						)) as DataTable.Column<Role>['renderContent'],
 					},
 				]}
 				toolbar={

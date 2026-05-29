@@ -2,30 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Exporter, type FlattenKeys, isPage, type Page, type Query } from '@cmfx/core';
+import { isPage, type Page, type Query } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
-import { type Component, createResource, createSignal, For, type JSX, mergeProps, Show } from 'solid-js';
-import IconExcel from '~icons/icon-park-twotone/excel';
-import IconCSV from '~icons/material-symbols/csv';
-import IconMarkdown from '~icons/material-symbols/markdown';
-import IconODS from '~icons/material-symbols/ods';
-import IconReset from '~icons/material-symbols/restart-alt';
+import { createResource, createSignal, For, type JSX, mergeProps, Show } from 'solid-js';
 
 import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
-import { Button, SplitButton } from '@components/button';
 import { useLocale, useOptions } from '@components/context';
-import { Dialog } from '@components/dialog';
 import { Divider } from '@components/divider';
 import { Form } from '@components/form';
-import { Label } from '@components/label';
-import { PaginationBar } from '@components/pagination';
 import { Empty } from '@components/result';
 import { Spin } from '@components/spin';
 import { Table } from '@components/table/table';
+import { PageBar, QueryBar, Toolbar } from './bars';
 import { type CellRenderFunc, type Column, preProcessColumns } from './column';
+import { type FormBuilder, Provider } from './context';
 import styles from './style.module.css';
-import { Toolbar } from './toolbar';
 
 export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
@@ -67,7 +59,7 @@ interface InternalProps<T extends object, Q extends Query> extends BaseProps, Re
 	 */
 	readonly columns: Array<Column<T>>;
 
-	readonly queryForm?: (api: Form.API<Q>, Field: Component<Form.FieldProps<Q>>) => JSX.Element;
+	readonly queryForm?: FormBuilder<Q>;
 
 	/**
 	 * 是否将查询参数与地址栏中的参数作映射
@@ -147,8 +139,6 @@ interface NoPagingProps<T extends object, Q extends Query> extends InternalProps
 
 export type Props<T extends object, Q extends Query> = PagingProps<T, Q> | NoPagingProps<T, Q>;
 
-type ExportType = (typeof Exporter.exts)[number];
-
 /**
  * 基础的表格组件
  */
@@ -178,7 +168,7 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 	const sticky = createSignal<boolean>(false);
 
 	const [searchG, searchS] = useSearchParams<SearchParams<Q>>();
-	const [F, Field, api] = Form.create<Q>({
+	const form = Form.create<Q>({
 		initValue: props.inSearch
 			? props.inSearch.toQuery(searchG)
 			: ({
@@ -187,29 +177,11 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 				} as Q),
 	});
 	if (props.inSearch) {
-		api.onChange(v => searchS(props.inSearch!.fromQuery(v)));
+		form[2].onChange(v => searchS(props.inSearch!.fromQuery(v)));
 	}
 
-	const exports = async (ext: ExportType) => {
-		const e = new Exporter<T, Q>(props.columns);
-		const qq = await api.validValue();
-		if (!qq) {
-			return;
-		}
-
-		const q = { ...qq };
-		delete q.size;
-		delete q.page;
-
-		await e.fetch(props.load, q);
-		const filename = await Dialog.prompt(l.t('_c.table.downloadFilename'), props.filename);
-		if (filename) {
-			await e.export(`${filename}${ext}`);
-		}
-	};
-
 	const [items, { refetch }] = createResource(async () => {
-		const q = await api.validValue();
+		const q = await form[2].validValue();
 		if (!q) {
 			return undefined;
 		}
@@ -225,93 +197,6 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 			return data;
 		}
 	});
-
-	// 查询表单
-	const QueryForm = (): JSX.Element => {
-		return (
-			<F class={styles.search}>
-				{props.queryForm!(api, Field)}
-				<div class={styles.actions}>
-					<SplitButton.Root
-						align="end"
-						onChange={async v => {
-							switch (v) {
-								case 'reset':
-									api.reset();
-									break;
-								default:
-									await exports(v!);
-							}
-						}}
-						items={[
-							{
-								type: 'item',
-								value: '.xlsx',
-								label: <Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>,
-							},
-							{
-								type: 'item',
-								value: '.ods',
-								label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
-							},
-							{ type: 'divider' },
-							{
-								type: 'item',
-								value: '.csv',
-								label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
-							},
-							{
-								type: 'item',
-								value: '.md',
-								label: (
-									<Label.Root icon={<IconMarkdown />}>{l.t('_c.table.exportTo', { type: 'Markdown' })}</Label.Root>
-								),
-							},
-							{ type: 'divider' },
-							{
-								type: 'item',
-								value: 'reset',
-								disabled: api.isPreset(),
-								label: <Label.Root icon={<IconReset />}>{l.t('_c.reset')}</Label.Root>,
-							},
-						]}
-					>
-						<Button.Root type="submit" palette="primary" onclick={async () => await refetch()}>
-							{l.t('_c.search')}
-						</Button.Root>
-					</SplitButton.Root>
-				</div>
-			</F>
-		);
-	};
-
-	// 底部导航条
-	const Footer = (): JSX.Element => {
-		if (!props.paging) {
-			return;
-		}
-
-		const page = api.createFieldAccessor<number>('page' as FlattenKeys<Q>);
-		const size = api.createFieldAccessor<number>('size' as FlattenKeys<Q>);
-
-		return (
-			<PaginationBar.Root
-				class={styles.footer}
-				page={page.getValue() ?? 1}
-				onPageChange={async p => {
-					page.setValue(p);
-					await refetch();
-				}}
-				size={size.getValue()}
-				onSizeChange={async s => {
-					size.setValue(s);
-					await refetch();
-				}}
-				sizes={props.pageSizes!}
-				total={total()}
-			/>
-		);
-	};
 
 	return (
 		<Spin.Root
@@ -333,90 +218,95 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 				}
 			}}
 		>
-			<Show when={props.toolbar || props.systemToolbar || props.queryForm}>
-				<header class={styles.header}>
-					<Show when={props.queryForm}>
-						<QueryForm />
-					</Show>
-					<Show when={props.queryForm && (props.toolbar || props.systemToolbar)}>
-						<Divider.Root padding="8px" />
-					</Show>
-					<Show when={props.toolbar || props.systemToolbar}>
-						<Toolbar
-							systemToolbar={props.systemToolbar}
-							hoverable={hoverable}
-							striped={striped}
-							sticky={sticky}
-							refresh={async () => {
-								await refetch();
-							}}
-							root={() => rootRef}
-						>
-							{props.toolbar}
-						</Toolbar>
-					</Show>
-				</header>
-			</Show>
-
-			<Table.Root
-				fixedLayout={props.fixedLayout}
-				hoverable={hoverable[0]()}
-				striped={striped[0]()}
-				ref={el => (tableRef = el)}
+			<Provider
+				form={form}
+				hoverable={hoverable}
+				striped={striped}
+				sticky={sticky}
+				root={() => rootRef}
+				table={() => tableRef.root()}
+				current={items()}
+				refresh={async () => {
+					await refetch();
+				}}
+				columns={cols}
+				load={props.load}
+				queryForm={props.queryForm}
+				filename={props.filename}
+				systemToolbar={props.systemToolbar}
+				total={total()}
+				pageSizes={props.paging ? props.pageSizes : undefined}
 			>
-				<Show when={hasColClass}>
-					<colgroup>
-						<For each={cols}>{item => <col class={item.colClass} />}</For>
-					</colgroup>
+				<Show when={props.toolbar || props.systemToolbar || props.queryForm}>
+					<header class={styles.header}>
+						<Show when={props.queryForm}>
+							<QueryBar />
+						</Show>
+						<Show when={props.queryForm && (props.toolbar || props.systemToolbar)}>
+							<Divider.Root padding="8px" />
+						</Show>
+						<Show when={props.toolbar || props.systemToolbar}>
+							<Toolbar>{props.toolbar}</Toolbar>
+						</Show>
+					</header>
 				</Show>
 
-				<thead
-					style={{
-						position: sticky[0]() ? 'sticky' : undefined,
-						top: sticky[0]() ? '0px' : undefined,
-					}}
+				<Table.Root
+					fixedLayout={props.fixedLayout}
+					hoverable={hoverable[0]()}
+					striped={striped[0]()}
+					ref={el => (tableRef = el)}
 				>
-					<tr>
-						<For each={cols}>
-							{item => (
-								<th class={item.headClass ?? item.cellClass}>{item.renderLabel ?? item.label ?? item.id.toString()}</th>
-							)}
-						</For>
-					</tr>
-				</thead>
-
-				<tbody>
-					<Show when={items}>
-						<For each={items()}>
-							{row => (
-								<tr>
-									<For each={cols}>
-										{h => {
-											const cell = h.id in row ? row[h.id as keyof T] : undefined;
-											return (
-												<td class={h.cellClass}>
-													{h.renderContent(h.id, cell as Parameters<CellRenderFunc<T>>[1], row)}
-												</td>
-											);
-										}}
-									</For>
-								</tr>
-							)}
-						</For>
+					<Show when={hasColClass}>
+						<colgroup>
+							<For each={cols}>{item => <col class={item.colClass} />}</For>
+						</colgroup>
 					</Show>
-					<Show when={!items}>
+
+					<thead
+						style={{
+							position: sticky[0]() ? 'sticky' : undefined,
+							top: sticky[0]() ? '0px' : undefined,
+						}}
+					>
 						<tr>
-							<td colSpan={props.columns.length}>
-								<Empty.Root palette={props.palette}>{l.t('_c.table.nodata')}</Empty.Root>
-							</td>
+							<For each={cols}>{item => <th class={item.headClass ?? item.cellClass}>{item.renderLabel()}</th>}</For>
 						</tr>
-					</Show>
-				</tbody>
-			</Table.Root>
+					</thead>
 
-			<Show when={props.paging}>
-				<Footer />
-			</Show>
+					<tbody>
+						<Show when={items}>
+							<For each={items()}>
+								{row => (
+									<tr>
+										<For each={cols}>
+											{h => {
+												const cell = h.id in row ? row[h.id as keyof T] : undefined;
+												return (
+													<td class={h.cellClass}>
+														{h.renderContent(h.id, cell as Parameters<CellRenderFunc<T>>[1], row)}
+													</td>
+												);
+											}}
+										</For>
+									</tr>
+								)}
+							</For>
+						</Show>
+						<Show when={!items}>
+							<tr>
+								<td colSpan={props.columns.length}>
+									<Empty.Root palette={props.palette}>{l.t('_c.table.nodata')}</Empty.Root>
+								</td>
+							</tr>
+						</Show>
+					</tbody>
+				</Table.Root>
+
+				<Show when={props.paging}>
+					<PageBar />
+				</Show>
+			</Provider>
 		</Spin.Root>
 	);
 }

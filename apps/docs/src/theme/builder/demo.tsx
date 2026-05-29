@@ -5,11 +5,11 @@
 import type { Mode, Palette } from '@cmfx/components';
 import {
 	Appbar,
-	BasicTable,
 	Button,
 	ButtonGroup,
 	Card,
 	Color,
+	DataTable,
 	DatePanel,
 	Form,
 	InputPassword,
@@ -242,17 +242,26 @@ function PaletteBlocks(props: { p: Palette; s: SchemeStore; c: Contrast }): JSX.
 	);
 }
 
+interface Item {
+	id: number;
+	name: string;
+	address: string;
+}
+
 function Components(): JSX.Element {
-	const items = [
-		{ id: 1, name: 'name1', address: 'address1' },
-		{
-			id: 3,
-			name: 'name3',
-			address: '这是一行很长的数据，这是一行很长的数据，这是一行很长的数据，这是一行很长的数据。',
-		},
-		{ id: 2, name: 'name2', address: 'address2' },
-	];
-	const columns: Array<BasicTable.Column<(typeof items)[number]>> = [
+	const items = (): Promise<Array<Item>> => {
+		return Promise.resolve([
+			{ id: 1, name: 'name1', address: 'address1' },
+			{
+				id: 3,
+				name: 'name3',
+				address: '这是一行很长的数据，这是一行很长的数据，这是一行很长的数据，这是一行很长的数据。',
+			},
+			{ id: 2, name: 'name2', address: 'address2' },
+		]);
+	};
+
+	const columns: Array<DataTable.Column<Item>> = [
 		{ id: 'id' },
 		{ id: 'name' },
 		{ id: 'address' },
@@ -275,7 +284,7 @@ function Components(): JSX.Element {
 
 	return (
 		<div class={styles.components}>
-			<BasicTable.Root class="w-full! transition-all" items={items} columns={columns} />
+			<DataTable.Root class="w-full! transition-all" load={items} columns={columns} />
 
 			<DatePanel.Root class="transition-all" value={new Date()} />
 
