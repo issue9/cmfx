@@ -9,7 +9,7 @@ import { createContext, splitProps, useContext } from 'solid-js';
 import { ContextNotFoundError } from '@components/context';
 import type { Form } from '@components/form';
 import type { Table } from '@components/table/table';
-import type { Column } from './column';
+import type { PreProcessColumn } from './column';
 
 export type FormBuilder<Q extends Query> = (api: Form.API<Q>, Field: Component<Form.FieldProps<Q>>) => JSX.Element;
 
@@ -23,7 +23,7 @@ export type Context<T extends object, Q extends Query = Query> = {
 	striped: Signal<Table.RootProps['striped']>;
 	form: ReturnType<typeof Form.create<Q>>;
 	total: number;
-	columns: Array<Column<T>>;
+	columns: Array<PreProcessColumn<T>>;
 	load: FetchFunc<T, Q>;
 	queryForm?: FormBuilder<Q>;
 	filename?: string;

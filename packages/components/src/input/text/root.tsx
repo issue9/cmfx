@@ -57,7 +57,7 @@ export interface Props extends BaseProps, InputBase.TextProps {
 	 * @remarks
 	 * 当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。
 	 */
-	onSearch?: (text?: string) => Array<string>;
+	readonly onSearch?: (text?: string) => Array<string>;
 }
 
 function countFormatter(val: number, max?: number): string {
@@ -73,12 +73,13 @@ export function Root(props: Props): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 	const field = Form.useField<string>(props, true);
-	field.onChange(v => {
-		if (props.onSearch) {
-			setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
+
+	if (props.onSearch) {
+		field.onChange(v => {
+			setCandidate(props.onSearch!(v).map(item => ({ type: 'item', value: item, label: item })));
 			dropdownRef.show();
-		}
-	});
+		});
+	}
 
 	const [candidate, setCandidate] = createSignal<Array<Menu.MenuItem>>([]);
 

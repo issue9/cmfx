@@ -145,8 +145,8 @@ export async function confirm(msg?: string): Promise<boolean> {
 let promptInst: typeof prompt;
 
 function PromptProvider(props: BaseProps): JSX.Element {
-	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
+	const [msg, setMsg] = createSignal<string>();
 	const [value, setValue] = createSignal('');
 	const [, opt] = useOptions();
 

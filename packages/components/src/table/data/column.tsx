@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Column as ExportColumn, type Locale, noPrint, presetCellRenderFunc } from '@cmfx/core';
+import { type Column as ExportColumn, noPrint, presetCellRenderFunc } from '@cmfx/core';
 import { createMemo, type JSX } from 'solid-js';
 import { createStore, type Store } from 'solid-js/store';
 
@@ -74,7 +74,7 @@ export type CellRenderFunc<T extends object> = <K = keyof T>(
 	obj?: T,
 ) => JSX.Element;
 
-type PreProcessColumn<T extends object> = Omit<Column<T>, 'renderContent' | 'renderLabel'> & {
+export type PreProcessColumn<T extends object> = Omit<Column<T>, 'renderContent' | 'renderLabel'> & {
 	renderContent: CellRenderFunc<T>;
 	renderLabel: () => JSX.Element;
 };
@@ -176,15 +176,4 @@ export function selectionColumn<T extends object, K extends keyof T = keyof T>(
 	} satisfies Column<T>;
 
 	return [col, sel];
-}
-
-export function actionsColumn<T extends object, K extends keyof T = keyof T>(key: K, l: Locale): Column<T> {
-	// TODO
-	return {
-		id: key,
-		isUnexported: true,
-		cellClass: noPrint,
-		renderLabel: l.t('_c.actions'),
-		renderContent: (_, val) => val as JSX.Element,
-	} satisfies Column<T>;
 }

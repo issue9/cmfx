@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Context, JSX, ParentProps } from 'solid-js';
-import { createContext, createSignal, createUniqueId, splitProps, useContext } from 'solid-js';
+import { createContext, createEffect, createSignal, createUniqueId, splitProps, useContext } from 'solid-js';
 
 import type { ChangeFunc, StyleProps, ValueProps } from '@components/base';
 import type { FieldAccessor } from '@components/form/api';
@@ -45,6 +45,12 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FieldContext<T>
 		return ctx;
 	}
 
+	if (props?.value !== undefined) {
+		createEffect(() => {
+			ctx.setValue(props.value);
+		});
+	}
+
 	if (props?.onChange) {
 		ctx.onChange(props.onChange);
 	}
@@ -58,8 +64,6 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FieldContext<T>
  *
  * @remarks
  * 当通过 {@link useField} 无法获取到父元素的上下文时，可以使用该函数创建一个假的上下文。
- *
- * NOTE: {@link useField} 创建的对象，会跟踪 val 的变化，而当前函数创建的对象，不会跟踪 val 的变化。
  */
 export function createFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T | undefined>): FieldContext<T> {
 	const preset = structuredClone(val);
@@ -72,19 +76,27 @@ export function createFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T |
 		changes.push(onChange);
 	}
 
-	const setValue = (val: T | undefined) => {
+	const setValue = (val: T | undefined, silence?: boolean) => {
 		const old = v();
+
+		// 保持与 Form.API.createFieldAccessor 相同的功能，同值不触发事件。
+		if (old === val) {
+			return;
+		}
+
 		sv(() => val);
 
-		for (const f of changes) {
-			f(val, old);
+		if (!silence) {
+			for (const f of changes) {
+				f(val, old);
+			}
 		}
 	};
 
 	return {
 		id: () => id,
 		name: () => id,
-		reset: () => setValue(structuredClone(preset)),
+		reset: (silence?: boolean) => setValue(structuredClone(preset), silence),
 
 		setError: () => {},
 		getError: () => undefined,
