@@ -6,5 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - TimePanel.RootProps
-            - TimePanel.RootRef
+            - Countdown.Field
+            - Countdown.RootProps
+            - Countdown.RootRef

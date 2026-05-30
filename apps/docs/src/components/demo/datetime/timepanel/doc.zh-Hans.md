@@ -1,5 +1,0 @@
-
-#### timepanel
-@```demo-timepanel```@
-
-@```api```@

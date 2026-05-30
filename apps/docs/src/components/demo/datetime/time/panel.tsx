@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type MountProps, TimePanel } from '@cmfx/components';
+import { Button, type MountProps, Time } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -27,7 +27,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-col items-start">
-				<TimePanel.Root
+				<Time.Root
 					palette={palette()}
 					readonly={readonly()}
 					disabled={disabled()}

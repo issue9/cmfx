@@ -2,53 +2,30 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, type JSX, onMount, untrack } from 'solid-js';
+import { createMemo, For, type JSX, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
 import { hoursOptions, minutesOptions } from '@components/datetime/utils';
+import { Form } from '@components/form';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLFieldSetElement>;
+export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
-	/**
-	 * 禁用状态
-	 *
-	 * @reactive
-	 */
-	disabled?: boolean;
+export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<Date>, BaseProps {}
 
-	/**
-	 * 只读状态
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
-
-	popover?: boolean | 'manual' | 'auto';
-
-	/**
-	 * 关联的值
-	 *
-	 * @reactive
-	 */
-	value?: Date;
-
-	/**
-	 * 值发生改变时触发的事件
-	 */
-	onChange?: (val?: Date, old?: Date) => void;
+export interface PanelProps extends Base, RefProps<PanelRef> {
+	readonly popover?: false;
 }
 
 /**
  * 时间选择面板
  */
-export function Root(props: Props): JSX.Element {
+export function Panel(props: PanelProps): JSX.Element {
 	let ref: HTMLFieldSetElement;
 	const zero = new Date(0);
 	zero.setHours(0, 0, 0, 0);
 
-	const [value, setValue] = createSignal<Date | undefined>(props.value);
+	const field = Form.useField(props, true);
 
 	const scrollTimer = () => {
 		const items = ref.querySelectorAll(`ul>li.${styles.selected}`);
@@ -62,27 +39,15 @@ export function Root(props: Props): JSX.Element {
 	};
 
 	const val = createMemo(() => {
-		return value() ?? zero;
+		return field.getValue() ?? zero;
 	});
 
 	const change = (val?: Date) => {
-		const old = untrack(value);
-
-		setValue(val);
+		field.setValue(val);
 		requestIdleCallback(() => {
 			scrollTimer();
 		}); // 保证在页面设置完之后，再进行滚动。
-
-		if (props.onChange) {
-			props.onChange(val, old);
-		}
 	};
-
-	createEffect(() => {
-		if (props.value !== value()) {
-			change(props.value);
-		}
-	});
 
 	onMount(() => {
 		scrollTimer();

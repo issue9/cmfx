@@ -1,13 +1,13 @@
 [
 	{
-		"name": "Timer.Field",
+		"name": "Countdown.Field",
 		"kind": "literal",
 		"type": "\"seconds\" | \"minutes\" | \"hours\" | \"days\"",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "Timer.RootProps",
+		"name": "Countdown.RootProps",
 		"summary": "倒计时的计时器\n\n",
 		"properties": [
 			{
@@ -86,7 +86,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Timer.RootRef",
+		"name": "Countdown.RootRef",
 		"methods": [
 			{
 				"name": "toggle",

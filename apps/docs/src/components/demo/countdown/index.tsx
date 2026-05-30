@@ -2,20 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import IconTimePanel from '~icons/mingcute/calendar-time-add-fill';
+import IconCountdown from '~icons/fluent/timer-10-24-filled';
 
 import type { Info } from '@docs/components/base';
-import { default as Timepanel } from './timepanel';
-import { default as timepanel } from './timepanel.tsx?raw';
+import { default as Countdown } from './countdown';
+import { default as countdown } from './countdown.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'data-display',
-		title: '_d.demo.timepanel',
-		icon: IconTimePanel,
-		path: 'datetime/timepanel',
+		title: '_d.demo.countdown',
+		icon: IconCountdown,
+		path: 'countdown',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Timepanel, source: timepanel, id: 'timepanel' }],
+		stages: [{ component: Countdown, source: countdown, id: 'countdown' }],
 	};
 }

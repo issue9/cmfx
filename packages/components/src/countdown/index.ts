@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as TimePicker from './mod';
+export * as Countdown from './mod';

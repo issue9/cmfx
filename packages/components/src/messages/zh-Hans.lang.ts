@@ -61,6 +61,12 @@ const messages: Messages = {
 			preset: '预设值',
 			websafe: 'Web 安全色',
 		},
+		countdown: {
+			seconds: '秒',
+			minutes: '分',
+			hours: '小时',
+			days: '天',
+		},
 		editor: {
 			header1: 'H1',
 			header2: 'H2',
@@ -123,12 +129,6 @@ const messages: Messages = {
 			stickyHeader: '固定表格头',
 			downloadFilename: '下载的文件名',
 			deleteRow: '删除',
-		},
-		timer: {
-			seconds: '秒',
-			minutes: '分',
-			hours: '小时',
-			days: '天',
 		},
 		tour: {
 			prev: '前一项',

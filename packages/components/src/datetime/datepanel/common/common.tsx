@@ -5,7 +5,7 @@
 import { createEffect, createSignal, type JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
-import { TimePanel } from '@components/datetime/timepanel';
+import { Time } from '@components/datetime/time';
 import type { Week } from '@components/datetime/utils';
 import { MonthView } from '@components/datetime/view/month';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
@@ -166,7 +166,7 @@ export function CommonPanel(props: Props): JSX.Element {
 	});
 
 	let dateRef: HTMLFieldSetElement;
-	const [timeRef, setTimeRef] = createSignal<TimePanel.RootRef>();
+	const [timeRef, setTimeRef] = createSignal<Time.RootRef>();
 	let resizeObserver: ResizeObserver;
 
 	createEffect(() => {
@@ -238,7 +238,7 @@ export function CommonPanel(props: Props): JSX.Element {
 			/>
 
 			<Show when={props.time}>
-				<TimePanel.Root
+				<Time.Root
 					disabled={props.disabled}
 					readonly={props.readonly}
 					value={value()}

@@ -59,6 +59,12 @@ const messages = {
 			preset: 'Preset',
 			websafe: 'Web safe',
 		},
+		countdown: {
+			seconds: 'Seconds',
+			minutes: 'Minutes',
+			hours: 'Hours',
+			days: 'Days',
+		},
 		editor: {
 			header1: 'H1',
 			header2: 'H2',
@@ -122,12 +128,6 @@ const messages = {
 			stickyHeader: 'Sticky header',
 			downloadFilename: 'The filename of download',
 			deleteRow: 'Delete row',
-		},
-		timer: {
-			seconds: 'Seconds',
-			minutes: 'Minutes',
-			hours: 'Hours',
-			days: 'Days',
 		},
 		tour: {
 			prev: 'Prev',

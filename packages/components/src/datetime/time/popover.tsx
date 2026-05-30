@@ -3,25 +3,59 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
-import { createMemo, createSignal, createUniqueId, type JSX, mergeProps, Show, untrack } from 'solid-js';
+import { createMemo, createSignal, type JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps } from '@components/base';
 import { useLocale } from '@components/context';
-import { TimePanel } from '@components/datetime';
 import { Form } from '@components/form';
+import type { Base, PanelRef } from './panel';
+import { Panel } from './panel';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export interface PopoverRef extends BaseRef<HTMLDivElement> {
+	/**
+	 * 显示颜色拾取面板
+	 */
+	showPopover(): void;
 
-export interface Props
-	extends Form.DataProps,
-		ValueProps<Date>,
-		BaseProps,
-		Omit<TimePanel.RootProps, 'onChange' | 'value' | 'popover' | 'ref'>,
-		RefProps<Ref> {
+	/**
+	 * 隐藏颜色拾取面板
+	 */
+	hidePopover(): void;
+
+	/**
+	 * 切换颜色拾取面板的显示状态
+	 */
+	togglePopover(): void;
+}
+
+export interface PopoverProps extends Base, RefProps<PopoverRef> {
 	placeholder?: string;
+
+	/**
+	 * 指定弹出对话框的方式
+	 *
+	 * @remarks
+	 * - `click`: 点击显示；
+	 * - `hover`: 悬停显示；
+	 */
+	readonly popover: 'click' | 'hover';
+
+	/**
+	 * 作用在显示元素上的样式
+	 *
+	 * @reactive
+	 */
+	activatorClass?: string;
+
+	/**
+	 * 是否圆角
+	 *
+	 * @reactive
+	 */
+	rounded?: boolean;
 }
 
 function togglePop(anchor: Element, popElem: HTMLElement): boolean {
@@ -31,19 +65,18 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 	return ret;
 }
 
-export function Root(props: Props): JSX.Element {
+export function Popover(props: PopoverProps): JSX.Element {
 	const l = useLocale();
 
 	const field = Form.useField(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
+	const [, p] = splitProps(props, ['ref', 'rounded', 'activatorClass', 'popover', 'placeholder']);
 
 	const [hover, setHover] = createSignal(false);
 
-	let panelRef: TimePanel.RootRef;
+	let panelRef: PanelRef;
 	let anchorRef: HTMLElement;
-
-	const id = createUniqueId();
 
 	const formatter = createMemo(
 		() =>
@@ -58,17 +91,15 @@ export function Root(props: Props): JSX.Element {
 		<>
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: Mouse 事件上是为了达到 label 效果 */}
 			<div
-				ref={el => {
-					anchorRef = el;
-				}}
+				ref={el => (anchorRef = el)}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
 				onclick={() => togglePop(anchorRef, panelRef.root())}
-				class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}
+				class={joinClass(props.palette, styles['activator-container'], props.rounded ? styles.rounded : '')}
+				style={props.style}
 				aria-haspopup
 			>
 				<input
-					id={id}
 					class={styles.input}
 					tabIndex={props.tabindex}
 					disabled={props.disabled}
@@ -86,19 +117,12 @@ export function Root(props: Props): JSX.Element {
 				</Show>
 			</div>
 
-			<TimePanel.Root
-				popover="auto"
-				ref={el => (panelRef = el)}
-				disabled={props.disabled}
-				readonly={props.readonly}
-				value={field.getValue()}
-				onChange={val => {
-					const old = untrack(field.getValue);
-					if (old === val) {
-						return;
-					}
-					field.setValue(val);
+			<Panel
+				ref={el => {
+					panelRef = el;
+					el.root().popover = 'auto';
 				}}
+				{...p}
 			/>
 		</>
 	);

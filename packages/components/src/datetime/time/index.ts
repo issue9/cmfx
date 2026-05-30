@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Timer from './mod';
+export * as Time from './mod';

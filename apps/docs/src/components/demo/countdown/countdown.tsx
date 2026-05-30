@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type MountProps, Timer } from '@cmfx/components';
+import { Button, Countdown, type MountProps } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
@@ -11,10 +11,10 @@ import { arraySelector, boolSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Unit, unit] = boolSelector('unit');
-	const [Field, field] = arraySelector('field', Timer.fields, 'minutes');
+	const [Field, field] = arraySelector('field', Countdown.fields, 'minutes');
 	const [msg, setMsg] = createSignal('');
 
-	let ref: Timer.RootRef;
+	let ref: Countdown.RootRef;
 
 	return (
 		<div>
@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<div class="flex flex-col gap-4">
 				<div title="-1">
-					<Timer.Root
+					<Countdown.Root
 						unit={unit()}
 						ref={el => {
 							ref = el;
@@ -40,7 +40,7 @@ export default function (props: MountProps): JSX.Element {
 				</div>
 
 				<div title="event:-1">
-					<Timer.Root
+					<Countdown.Root
 						unit={unit()}
 						onTick={() => setMsg('tick')}
 						onComplete={() => setMsg('complete')}
@@ -53,7 +53,7 @@ export default function (props: MountProps): JSX.Element {
 				</div>
 
 				<div title="+1">
-					<Timer.Root
+					<Countdown.Root
 						separator={<IconFace />}
 						unit={unit()}
 						duration={'23m34s'}

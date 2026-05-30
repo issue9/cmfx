@@ -6,6 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Timer.Field
-            - Timer.RootProps
-            - Timer.RootRef
+            - Time.RootProps
+            - Time.RootRef

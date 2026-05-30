@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 caixw
+// SPDX-FileCopyrightText: 2025-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,13 +6,10 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
 import { type Ref, Root } from './root';
-import { HSLSpace } from './space_hsl';
 
-describe('Color.Panel', async () => {
+describe('Time.Panel', async () => {
 	let ref: Ref<false>;
-	const ct = await ComponentTester.build('Color.Panel', props => (
-		<Root ref={el => (ref = el)} {...props} spaces={[new HSLSpace()]} />
-	));
+	const ct = await ComponentTester.build('Time.Panel', props => <Root ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 
@@ -22,10 +19,10 @@ describe('Color.Panel', async () => {
 	});
 });
 
-describe('Color.Popover', async () => {
+describe('Time.Popover', async () => {
 	let ref: Ref<true>;
-	const ct = await ComponentTester.build('Color.Popover', props => (
-		<Root popover="click" ref={el => (ref = el)} {...props} spaces={[new HSLSpace()]} />
+	const ct = await ComponentTester.build('Time.Popover', props => (
+		<Root popover="click" ref={el => (ref = el)} {...props} />
 	));
 
 	test('props', () => ct.testProps());
