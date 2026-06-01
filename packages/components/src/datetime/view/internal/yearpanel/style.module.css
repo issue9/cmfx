@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference "../../style.css";
+@reference "../../../../style.css";
 
 @layer components {
 	.panel {
@@ -18,14 +18,6 @@
 				button {
 					@apply p-1!;
 				}
-			}
-		}
-
-		header.month {
-			@apply justify-center;
-
-			.title:hover {
-				@apply text-palette-fg-focused cursor-pointer;
 			}
 		}
 

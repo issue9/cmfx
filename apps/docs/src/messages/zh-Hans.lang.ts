@@ -130,7 +130,6 @@ const messages: typeof m = {
 			markdown: 'Markdown',
 			misc: 'Misc 其它',
 			menu: 'Menu 菜单',
-			monthpanel: 'Month Panel 月份面板',
 			nav: 'Nav 文章导航',
 			notify: 'Notify 通知',
 			optionsConfig: 'Options Config 配置项',

@@ -7,27 +7,13 @@ import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLFieldSetElement>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
-	/**
-	 * 禁用状态
-	 *
-	 * @reactive
-	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读状态
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
-
+export interface Props extends RefProps<Ref> {
 	popover?: boolean | 'manual' | 'auto';
 
 	/**
@@ -84,9 +70,7 @@ export function Root(props: Props): JSX.Element {
 					});
 				}
 			}}
-			disabled={props.disabled}
-			class={joinClass(props.palette, styles.panel, props.class)}
-			style={props.style}
+			class={styles.panel}
 		>
 			<header class={styles.year}>
 				{years()[0]}-{years()[years().length - 1]}

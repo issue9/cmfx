@@ -140,7 +140,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 面板初始时显示的月份
 	 */
-	initValue: Date;
+	readonly initValue: Date;
 
 	/**
 	 * 点击日期时的回调函数

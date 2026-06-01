@@ -5,30 +5,16 @@
 import { adjustPopoverPosition } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, For, type JSX, untrack } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { months } from '@components/datetime/utils';
+import { YearPanel } from '@components/datetime/view/internal/yearpanel';
 import styles from './style.module.css';
-import { Root as YearPanel, type Ref as YearPanelRef } from './yearpanel';
 
 export type Ref = BaseRef<HTMLFieldSetElement>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
-	/**
-	 * 禁用状态
-	 *
-	 * @reactive
-	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读状态
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
-
+export interface Props extends RefProps<Ref> {
 	popover?: boolean | 'manual' | 'auto';
 
 	/**
@@ -76,10 +62,6 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	const change = (v?: Date) => {
-		if (props.readonly) {
-			return;
-		}
-
 		const old = untrack(value);
 		if (old === v) {
 			return;
@@ -98,7 +80,7 @@ export function Root(props: Props): JSX.Element {
 		return new Intl.DateTimeFormat(l.locale.toString(), { month: s }).format;
 	});
 
-	let yearRef: YearPanelRef | undefined;
+	let yearRef: YearPanel.RootRef | undefined;
 
 	return (
 		<fieldset
@@ -108,9 +90,7 @@ export function Root(props: Props): JSX.Element {
 					props.ref({ root: () => el });
 				}
 			}}
-			disabled={props.disabled}
-			class={joinClass(props.palette, styles.panel, props.class)}
-			style={props.style}
+			class={styles.panel}
 		>
 			<header class={styles.month}>
 				<span
@@ -123,13 +103,12 @@ export function Root(props: Props): JSX.Element {
 					{year()}
 				</span>
 
-				<YearPanel
+				<YearPanel.Root
 					popover="auto"
 					ref={el => (yearRef = el)}
-					palette={props.palette}
-					value={value()?.getFullYear()}
 					min={props.min ? props.min.getFullYear() : undefined}
 					max={props.max ? props.max.getFullYear() : undefined}
+					value={value()?.getFullYear()}
 					onChange={v => {
 						if (!v) {
 							return;

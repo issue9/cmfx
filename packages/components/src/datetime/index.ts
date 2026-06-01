@@ -4,7 +4,6 @@
 
 export * from './calendar';
 export * from './datepanel';
-export * from './monthpanel';
 export * from './time';
 export * from './timezone';
 export type { Month, Week } from './utils';

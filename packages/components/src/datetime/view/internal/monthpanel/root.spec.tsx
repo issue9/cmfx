@@ -5,11 +5,11 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './yearpanel';
+import { type Ref, Root } from './root';
 
-describe('YearPanel', async () => {
+describe('MonthPanel', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('YearPanel', props => <Root ref={el => (ref = el)} {...props} />);
+	const ct = await ComponentTester.build('MonthPanel', props => <Root ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

@@ -128,7 +128,6 @@ const messages = {
 			markdown: 'Markdown',
 			misc: 'Misc',
 			menu: 'Menu',
-			monthpanel: 'Month Panel',
 			nav: 'Nav',
 			notify: 'Notify',
 			optionsConfig: 'Options Config',

@@ -11,7 +11,7 @@ import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
 import { Button, ButtonGroup } from '@components/button';
-import { MonthPanel } from '@components/datetime/monthpanel';
+import { MonthPanel } from '@components/datetime/view/internal/monthpanel';
 import styles from './style.module.css';
 import type { API, Props } from './types';
 
@@ -31,6 +31,10 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 					// biome-ignore lint/a11y/noNoninteractiveTabindex: tabIndex
 					tabIndex={0}
 					onclick={e => {
+						if (props.readonly || props.disabled) {
+							return;
+						}
+
 						monthVisible = month.root().togglePopover();
 						adjustPopoverPosition(month.root(), e.currentTarget.getBoundingClientRect());
 					}}
@@ -40,11 +44,8 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: P
 			</p>
 
 			<MonthPanel.Root
-				palette={props.palette}
 				popover="auto"
-				ref={el => {
-					month = el;
-				}}
+				ref={el => (month = el)}
 				min={props.min}
 				max={props.max}
 				value={untrack(value)}
