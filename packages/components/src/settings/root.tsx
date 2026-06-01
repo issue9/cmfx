@@ -137,7 +137,7 @@ export function Root(props: Props) {
 				<RadioGroup.Root
 					layout="horizontal"
 					value={accessor.getMode()}
-					onChange={accessor.setMode}
+					onChange={v => accessor.setMode(v ?? origin.mode)}
 					block={/*@once*/ false}
 					class={styles.radios}
 					options={
@@ -179,7 +179,7 @@ export function Root(props: Props) {
 					max={3000}
 					step={100}
 					value={accessor.getTransitionDuration()}
-					onChange={accessor.setTransitionDuration}
+					onChange={v => accessor.setTransitionDuration(v ?? origin.transitionDuration)}
 				/>
 			</Item>
 
@@ -189,7 +189,7 @@ export function Root(props: Props) {
 			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
 				<InputNumber.Root
 					value={accessor.getStays()}
-					onChange={accessor.setStays}
+					onChange={v => accessor.setStays(v ?? origin.stays)}
 					min={1000}
 					max={10000}
 					step={500}
@@ -204,7 +204,7 @@ export function Root(props: Props) {
 				<Choice.Root
 					class={styles.locale}
 					value={accessor.getLocale()}
-					onChange={accessor.setLocale}
+					onChange={v => accessor.setLocale(v ?? origin.locale)}
 					options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))}
 				/>
 			</Item>
@@ -220,7 +220,7 @@ export function Root(props: Props) {
 				<RadioGroup.Root
 					layout="horizontal"
 					value={accessor.getDisplayStyle()}
-					onChange={accessor.setDisplayStyle}
+					onChange={v => accessor.setDisplayStyle(v ?? origin.displayStyle)}
 					block={/*@once*/ false}
 					class={styles.radios}
 					options={

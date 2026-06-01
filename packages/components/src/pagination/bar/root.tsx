@@ -105,7 +105,11 @@ export function Root(props: Props): JSX.Element {
 		setPage(val);
 	};
 
-	const sizeChange = (val: number, old?: number) => {
+	const sizeChange = (val?: number, old?: number) => {
+		if (val === undefined) {
+			return;
+		}
+
 		if (props.onSizeChange) {
 			props.onSizeChange(val, old);
 		}
@@ -128,7 +132,7 @@ export function Root(props: Props): JSX.Element {
 		<div ref={el => (rootRef = el)} class={joinClass(props.palette, styles.bar, props.class)} style={props.style}>
 			<div class={styles.start}>
 				{l.t('_c.pagination.items', translateItems())}
-				<Choice.Root value={size()} onChange={sizeChange} options={sizesOptions()} />
+				<Choice.Root value={size()} onChange={v => sizeChange(v)} options={sizesOptions()} />
 			</div>
 			<Pagination.Root
 				class={styles.end}

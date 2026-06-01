@@ -288,9 +288,9 @@ export class API<T extends Flattenable, R = never, P = never> {
 			onChange(f: ChangeFunc<FT>): void {
 				const list = parent.#filedChanges.get(name);
 				if (list) {
-					list.push(f);
+					list.push(f as ChangeFunc<unknown>);
 				} else {
-					parent.#filedChanges.set(name, [f]);
+					parent.#filedChanges.set(name, [f as ChangeFunc<unknown>]);
 				}
 			},
 
@@ -407,7 +407,12 @@ export function getFieldValue<T extends Flattenable, FT = Flatten<T>[FlattenKeys
 	obj: T,
 	path: Array<string>,
 ): FT | undefined {
-	const v = path.length === 1 ? obj[path[0]] : path.reduce((acc, key) => (key && acc ? acc[key] : acc), obj);
+	const v =
+		path.length === 1
+			? obj[path[0]]
+			: path.reduce((acc, key) => {
+					return (key && acc ? acc[key] : acc) as T;
+				}, obj);
 	return v as FT | undefined;
 }
 

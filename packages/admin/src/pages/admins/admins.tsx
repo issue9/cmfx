@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, InputText, Page, RemoteTable, useLocale } from '@cmfx/components';
+import { Button, DataTable, InputText, Page, useLocale } from '@cmfx/components';
 import type { Query } from '@cmfx/core';
 import { createMemo, type JSX, Show } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
@@ -37,18 +37,33 @@ interface Q extends Query {
 	sex: Array<Sex>;
 }
 
+class QuerySearchConverter implements DataTable.SearchConverter<Q> {
+	toQuery(params: DataTable.SearchParams<Q>): Q {
+		return {
+			page: params.page ? parseInt(params.page, 10) : undefined,
+			size: params.size ? parseInt(params.size, 10) : undefined,
+			text: params.text || '',
+			state: (params.state || ['normal', 'locked']) as Array<State>,
+			sex: (params.sex || ['male', 'female', 'unknown']) as Array<Sex>,
+		};
+	}
+
+	fromQuery(query: Q): DataTable.SearchParams<Q> {
+		return {
+			page: query.page?.toString() || '1',
+			size: query.size?.toString() || '20',
+			text: query.text,
+			state: query.state ? query.state.join(',') : '',
+			sex: query.sex ? query.sex.join(',') : '',
+		};
+	}
+}
+
 export function Admins(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	const q: Q = {
-		text: '',
-		page: 1,
-		state: ['normal', 'locked'],
-		sex: ['male', 'female', 'unknown'],
-	};
-
-	let ref: RemoteTable.RootRef<Admin>;
+	let ref: DataTable.RootRef;
 
 	const sexes = createMemo(() => {
 		return localeSexes(l);
@@ -59,26 +74,30 @@ export function Admins(props: Props): JSX.Element {
 
 	return (
 		<Page.Root title="_p.admin.adminsManager">
-			<RemoteTable.Root<Admin, Q>
-				rest={rest}
-				ref={el => {
-					ref = el;
-				}}
-				inSearch
+			<DataTable.Root<Admin, Q>
+				ref={el => (ref = el)}
+				inSearch={new QuerySearchConverter()}
 				paging
-				path="/admins"
-				queries={q}
+				load={DataTable.buildRESTLoad(rest, '/admins', TODO)}
 				systemToolbar
 				toolbar={
 					<Button.Root type="a" palette="primary" href={`${props.routePrefix}/0`}>
 						{l.t('_p.newItem')}
 					</Button.Root>
 				}
-				queryForm={qa => (
+				queryForm={(api, Field) => (
 					<>
-						<InputText.Root accessor={qa.accessor<string>('text')} />
-						<StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
-						<SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
+						<Field name="text">
+							<InputText.Root />
+						</Field>
+
+						<Field name="state">
+							<StateSelector multiple />
+						</Field>
+
+						<Field name="sex">
+							<SexSelector multiple />
+						</Field>
 					</>
 				)}
 				columns={[
@@ -165,7 +184,7 @@ export function Admins(props: Props): JSX.Element {
 									</Show>
 
 									<Show when={obj?.state !== 'deleted'}>
-										<RemoteTable.DeleteAction table={ref} id={obj!.id} />
+										<DataTable.DeleteAction table={ref} id={obj!.id} />
 									</Show>
 								</div>
 							);

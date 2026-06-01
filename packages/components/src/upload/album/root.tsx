@@ -77,6 +77,12 @@ export function Root(props: Props): JSX.Element {
 		return { height: props.itemSize, width: props.itemSize };
 	});
 
+	const listSize = createMemo(() => {
+		const urls = field.getValue() || [];
+		const files = uploadRef ? uploadRef.files() : [];
+		return urls.length + files.length;
+	});
+
 	return (
 		<fieldset ref={el => (dropRef = el)} class={styles['upload-content']} disabled={props.disabled}>
 			<Upload.Root
@@ -118,7 +124,7 @@ export function Root(props: Props): JSX.Element {
 					return <PreviewFile size={props.itemSize!} file={item} del={() => uploadRef.delete(index())} />;
 				}}
 			</For>
-			<Show when={props.auto && (props.multiple || field.getValue().length + uploadRef!.files().length === 0)}>
+			<Show when={props.auto && (props.multiple || listSize() === 0)}>
 				<button
 					type="button"
 					disabled={props.disabled}
@@ -133,7 +139,7 @@ export function Root(props: Props): JSX.Element {
 				</button>
 			</Show>
 			<Show when={!props.auto}>
-				<Show when={props.multiple || field.getValue().length + uploadRef!.files().length === 0}>
+				<Show when={props.multiple || listSize() === 0}>
 					<button
 						type="button"
 						disabled={props.disabled}

@@ -64,12 +64,12 @@ export function Color(props: Props): JSX.Element {
 			checked={!!val()}
 			onclick={e => {
 				if (e.currentTarget === e.target) {
-					picker.showPanel();
+					picker.showPopover();
 				}
 			}}
 		>
 			<XColor.Root
-				popover
+				popover="click"
 				ref={el => (picker = el)}
 				value={val()}
 				spaces={[
@@ -137,12 +137,12 @@ export function BackgroundColor(props: Props): JSX.Element {
 			checked={!!val()}
 			onclick={e => {
 				if (e.currentTarget === e.target) {
-					picker.showPanel();
+					picker.showPopover();
 				}
 			}}
 		>
 			<XColor.Root
-				popover
+				popover="click"
 				ref={el => (picker = el)}
 				value={val()}
 				onChange={v => setVal(v)}

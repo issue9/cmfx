@@ -158,7 +158,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
 			value={field.getValue() as any}
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
-			onChange={v => field.setValue(v as any)}
+			onChange={(v: any) => field.setValue(v as any)}
 			items={props.options}
 			ref={el => {
 				const s = el.menu().root().style;
