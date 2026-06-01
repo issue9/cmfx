@@ -19,7 +19,7 @@ export default function (): Info {
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: Panel, source: panel, id: 'time' },
+			{ component: Panel, source: panel, id: 'panel' },
 			{ component: Popover, source: popover, id: 'popover' },
 		],
 	};

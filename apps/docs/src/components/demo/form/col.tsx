@@ -11,13 +11,13 @@ import { boolSelector, labelAlignSelector, layoutSelector, paletteSelector } fro
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('secondary');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
-	const [Help, help] = boolSelector('help');
+	const [Feedback, feedback] = boolSelector('feedback');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 	const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
-	const api = new Form.API({
+	const [F, Field] = Form.create({
 		initValue: {
 			f1: 'f1',
 			f2: 5,
@@ -32,39 +32,45 @@ export default function (props: MountProps): JSX.Element {
 			<Portal mount={props.mount}>
 				<Palette />
 				<Rounded />
-				<Help />
+				<Feedback />
 				<Layout />
 				<Disabled />
 				<Readonly />
 				<LabelAlign />
 			</Portal>
 
-			<Form.Root
+			<F
 				palette={palette()}
 				rounded={rounded()}
 				layout={layout()}
-				hasHelp={help()}
+				feedback={feedback()}
 				class="grid grid-cols-2 gap-2"
 				disabled={disabled()}
 				readonly={readonly()}
 				labelWidth="70px"
 				labelAlign={labelAlign()}
-				api={api}
 			>
-				<InputText.Root label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
-				<InputNumber.Root label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
-				<DatePicker.Root label="date" accessor={api.accessor<Date, 'date'>('date')} help="这是一个帮助文本" />
-				<TextArea.Root
-					label="textarea"
-					class="grow"
-					accessor={api.accessor<string>('textarea')}
-					help="这是一个帮助文本"
-				/>
+				<Field label="textField" name="f1" help="这是一个帮助文本">
+					<InputText.Root />
+				</Field>
+
+				<Field label="number" name="f2" help="这是一个帮助文本">
+					<InputNumber.Root />
+				</Field>
+
+				<Field label="date" name="date" help="这是一个帮助文本">
+					<DatePicker.Root />
+				</Field>
+
+				<Field label="textarea" name="textarea" help="这是一个帮助文本">
+					<TextArea.Root />
+				</Field>
+
 				<div class="col-span-full flex justify-between">
 					<Form.Reset>reset</Form.Reset>
 					<Form.Submit>submit</Form.Submit>
 				</div>
-			</Form.Root>
+			</F>
 		</>
 	);
 }

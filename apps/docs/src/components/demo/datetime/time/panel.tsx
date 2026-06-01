@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type MountProps, Time } from '@cmfx/components';
+import { Button, Form, type MountProps, Time } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -13,8 +13,9 @@ export default function (props: MountProps): JSX.Element {
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 
-	const [val, setValue] = createSignal<Date | undefined>(undefined);
+	const [val, setValue] = createSignal<Date>();
 	const [valShow, setValShow] = createSignal<string>('');
+	const [F, Field] = Form.create({ initValue: { a: new Date() } });
 
 	return (
 		<div>
@@ -26,19 +27,22 @@ export default function (props: MountProps): JSX.Element {
 				<Button.Root onclick={() => setValue(new Date())}>now</Button.Root>
 			</Portal>
 
-			<div class="flex flex-col items-start">
-				<Time.Root
-					palette={palette()}
-					readonly={readonly()}
-					disabled={disabled()}
-					value={val()}
-					onChange={(val, old) => {
-						setValShow(`new:${val}old:${old}`);
-						setValue(val);
-					}}
-				/>
+			<F class="flex flex-col items-start">
+				<Field name="a">
+					<Time.Root
+						palette={palette()}
+						readonly={readonly()}
+						disabled={disabled()}
+						value={val()}
+						onChange={(val, old) => {
+							setValShow(`new:${val}old:${old}`);
+							setValue(val);
+						}}
+					/>
+				</Field>
 				<p>{valShow()}</p>
-			</div>
+				<p>{val()?.toString()}</p>
+			</F>
 		</div>
 	);
 }

@@ -114,7 +114,7 @@ export interface ValueProps<T> {
 	 * @reactive
 	 *
 	 * @remarks
-	 * 如果组件包含在 Form.Field 中，只有该值不为 undefined 时，才会是响应式的属性。
+	 * 在 Form 之内，此属性不是可响应的，其值由 Form.Field 的 name 指定。
 	 */
 	value?: T;
 

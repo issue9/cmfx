@@ -7,6 +7,7 @@ import { createContext, createEffect, createSignal, createUniqueId, splitProps, 
 
 import type { ChangeFunc, StyleProps, ValueProps } from '@components/base';
 import type { FieldAccessor } from '@components/form/api';
+import { useForm } from '@components/form/form';
 
 export type FieldContext<T> = FieldAccessor<T> & StyleProps;
 
@@ -45,7 +46,7 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FieldContext<T>
 		return ctx;
 	}
 
-	if (props?.value !== undefined) {
+	if (!useForm() && props) {
 		createEffect(() => {
 			ctx.setValue(props.value);
 		});

@@ -42,12 +42,11 @@ export function Panel(props: PanelProps): JSX.Element {
 		return field.getValue() ?? zero;
 	});
 
-	const change = (val?: Date) => {
-		field.setValue(val);
+	field.onChange(() => {
 		requestIdleCallback(() => {
 			scrollTimer();
 		}); // 保证在页面设置完之后，再进行滚动。
-	};
+	});
 
 	onMount(() => {
 		scrollTimer();
@@ -79,7 +78,7 @@ export function Panel(props: PanelProps): JSX.Element {
 								}
 								const dt = new Date(val());
 								dt.setHours(item[0]);
-								change(dt);
+								field.setValue(dt);
 							}}
 						>
 							{item[1]}
@@ -99,7 +98,7 @@ export function Panel(props: PanelProps): JSX.Element {
 								}
 								const dt = new Date(val());
 								dt.setMinutes(item[0]);
-								change(dt);
+								field.setValue(dt);
 							}}
 						>
 							{item[1]}
@@ -119,7 +118,7 @@ export function Panel(props: PanelProps): JSX.Element {
 								}
 								const dt = new Date(val());
 								dt.setSeconds(item[0]);
-								change(dt);
+								field.setValue(dt);
 							}}
 						>
 							{item[1]}

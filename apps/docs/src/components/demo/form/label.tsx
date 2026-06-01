@@ -16,7 +16,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 	const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
-	const [F, Field, api] = Form.create({
+	const [F, Field] = Form.create({
 		initValue: {
 			f1: 'f1',
 			f2: 5,

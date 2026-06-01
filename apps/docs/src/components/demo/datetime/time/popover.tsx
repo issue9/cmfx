@@ -9,7 +9,7 @@ import { Portal } from 'solid-js/web';
 import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const ac = createSignal(new Date('2024-01-02T15:34'));
+	const ac = createSignal<Date | undefined>(new Date('2024-01-02T15:34'));
 
 	const [Palette, palette] = paletteSelector();
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
@@ -36,10 +36,10 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 					disabled={disabled()}
 					value={ac[0]()}
-					onChange={val => ac[1](val)}
+					onChange={v => ac[1](v)}
 				/>
 			</Form.Field>
-			<p>{ac[0]().toString()}</p>
+			<p>{ac[0]()?.toString()}</p>
 		</div>
 	);
 }
