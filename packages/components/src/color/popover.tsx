@@ -5,8 +5,7 @@
 import { adjustPopoverPosition } from '@cmfx/core';
 import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 
-import type { BaseRef, RefProps } from '@components/base';
-import { classList } from '@components/base';
+import { type BaseRef, classList, joinClass, type RefProps } from '@components/base';
 import { Form } from '@components/form';
 import type { Base, PanelRef } from './panel';
 import { Panel } from './panel';
@@ -98,20 +97,22 @@ export function Popover(props: PopoverProps): JSX.Element {
 	});
 
 	return (
-		<>
+		<div
+			class={joinClass(props.palette, props.class)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+						showPopover: show,
+						hidePopover: hide,
+						togglePopover: toggle,
+					});
+				}
+			}}
+		>
 			<div
-				ref={el => {
-					activatorRef = el;
-
-					if (props.ref) {
-						props.ref({
-							root: () => el,
-							showPopover: show,
-							hidePopover: hide,
-							togglePopover: toggle,
-						});
-					}
-				}}
+				ref={el => (activatorRef = el)}
 				class={classList(
 					undefined,
 					{
@@ -154,6 +155,6 @@ export function Popover(props: PopoverProps): JSX.Element {
 					el.root().popover = 'auto';
 				}}
 			/>
-		</>
+		</div>
 	);
 }

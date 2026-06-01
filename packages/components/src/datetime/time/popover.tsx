@@ -58,20 +58,13 @@ export interface PopoverProps extends Base, RefProps<PopoverRef> {
 	rounded?: boolean;
 }
 
-function togglePop(anchor: Element, popElem: HTMLElement): boolean {
-	const ab = anchor.getBoundingClientRect();
-	const ret = popElem.togglePopover();
-	adjustPopoverPosition(popElem, ab, 2);
-	return ret;
-}
-
 export function Popover(props: PopoverProps): JSX.Element {
 	const l = useLocale();
 
 	const field = Form.useField(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
-	const [, p] = splitProps(props, ['ref', 'rounded', 'activatorClass', 'popover', 'placeholder']);
+	const [, panelProps] = splitProps(props, ['ref', 'rounded', 'activatorClass', 'popover', 'placeholder']);
 
 	const [hover, setHover] = createSignal(false);
 
@@ -87,16 +80,50 @@ export function Popover(props: PopoverProps): JSX.Element {
 			}),
 	);
 
+	const show = () => {
+		panelRef.root().showPopover();
+		const ab = anchorRef.getBoundingClientRect();
+		adjustPopoverPosition(panelRef.root(), ab, 2);
+	};
+	const hide = () => panelRef.root().hidePopover();
+	const toggle = () => panelRef.root().togglePopover();
+
 	return (
-		<>
+		<div
+			class={joinClass(props.palette)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+						showPopover: show,
+						hidePopover: hide,
+						togglePopover: toggle,
+					});
+				}
+			}}
+		>
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: Mouse 事件上是为了达到 label 效果 */}
 			<div
 				ref={el => (anchorRef = el)}
 				onMouseEnter={() => setHover(true)}
 				onMouseLeave={() => setHover(false)}
-				onclick={() => togglePop(anchorRef, panelRef.root())}
-				class={joinClass(props.palette, styles['activator-container'], props.rounded ? styles.rounded : '')}
-				style={props.style}
+				onclick={() => {
+					if (props.popover === 'click') {
+						show();
+					}
+				}}
+				onmouseenter={() => {
+					if (props.popover === 'hover') {
+						show();
+					}
+				}}
+				onmouseleave={() => {
+					if (props.popover === 'hover') {
+						hide();
+					}
+				}}
+				class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}
 				aria-haspopup
 			>
 				<input
@@ -122,8 +149,8 @@ export function Popover(props: PopoverProps): JSX.Element {
 					panelRef = el;
 					el.root().popover = 'auto';
 				}}
-				{...p}
+				{...panelProps}
 			/>
-		</>
+		</div>
 	);
 }
