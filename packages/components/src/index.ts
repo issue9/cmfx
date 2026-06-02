@@ -21,7 +21,6 @@ export * from './color';
 export * from './context';
 export * from './countdown';
 export * from './counter';
-export * from './date';
 export * from './datetime';
 export * from './description';
 export * from './dialog';

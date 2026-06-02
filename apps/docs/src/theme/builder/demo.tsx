@@ -10,7 +10,7 @@ import {
 	Card,
 	Color,
 	DataTable,
-	DatePanel,
+	DatePicker,
 	Form,
 	InputPassword,
 	InputText,
@@ -286,7 +286,7 @@ function Components(): JSX.Element {
 		<div class={styles.components}>
 			<DataTable.Root class="w-full! transition-all" load={items} columns={columns} />
 
-			<DatePanel.Root class="transition-all" value={new Date()} />
+			<DatePicker.Root class="transition-all" value={new Date()} />
 
 			<Card.Root
 				class="transition-all"

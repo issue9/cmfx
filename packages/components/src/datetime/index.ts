@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 export * from './calendar';
-export * from './datepanel';
+export * from './picker';
 export * from './time';
 export * from './timezone';
 export type { Month, Week } from './utils';
