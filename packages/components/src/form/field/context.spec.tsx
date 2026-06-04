@@ -102,6 +102,7 @@ describe('createFakeField', () => {
 
 		expect(ctx.getValue()).toEqual(20);
 		expect(changeValue).toEqual(20);
+		expect(changeCount).toEqual(2);
 	});
 
 	test('error', () => {

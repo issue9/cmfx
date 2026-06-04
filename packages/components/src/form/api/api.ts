@@ -234,7 +234,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 
 		const setValue = (val: FT, silence?: boolean): void => {
 			const old = untrack(getValue);
-			if (old !== val) {
+			if (!equal(old, val)) {
 				const oldObj = unwrap(parent.#value[0]);
 
 				setFieldValue(parent.#value[1], path, val);

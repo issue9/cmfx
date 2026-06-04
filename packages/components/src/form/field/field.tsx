@@ -63,6 +63,7 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 
 	const areas = createMemo(() => calcAreas(props.layout!, props.feedback));
 
+	// 如果未指定 name 属性，无法定位判断哪个字段，直接创建一个假的对象
 	const field = props.name ? form!.api.createFieldAccessor(props.name) : createFakeField(undefined);
 
 	return (
