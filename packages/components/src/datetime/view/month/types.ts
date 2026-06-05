@@ -29,9 +29,14 @@ export interface API {
 
 	/**
 	 * 为指定范围的日期添加 {@link Props#coveredClass} 指定的样式
-	 * @param range - 要覆盖的日期范围，大小无所谓，会自动排序；
+	 *
+	 * @param range - 要覆盖的日期范围
+	 *  - start 表示起始时间，如果为 undefined，则表示早上 end 的都为需要覆盖的范围之内；
+	 *  - end 表示结果时间，如果为 undefined，则表示晚上 start 的都为需要覆盖的范围之内；
+	 *  - 如果两都都不为 undefined，会自动排序，将较早时间的值作为 start；
+	 *  - 如果都为 undefined，表示没有任何元素需要覆盖；
 	 */
-	cover(range: [Date, Date]): void;
+	cover(range: [start?: Date, end?: Date]): void;
 
 	/**
 	 * 取消 {@link API#cover} 操作
@@ -61,7 +66,7 @@ export interface API {
 	canOffset(year?: number, month?: number): boolean;
 }
 
-export type Ref = API & BaseRef<HTMLTableElement>;
+export type Ref = API & BaseRef<HTMLFieldSetElement>;
 
 export interface Props extends BaseProps, RefProps<Ref> {
 	/**
@@ -173,7 +178,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 插件列表
 	 */
-	plugins?: Array<DatetimePlugin>;
+	readonly plugins?: Array<DatetimePlugin>;
 
 	// 以下样式都将作用在 td 之上，用于表示单元格在不同状态下的样式。
 

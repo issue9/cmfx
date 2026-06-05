@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { inRange, Root } from './root';
+import { inRange, isCovered, Root } from './root';
 import styles from './style.module.css';
 import type { Ref } from './types';
 
@@ -89,4 +89,23 @@ describe('MonthView', async () => {
 		await user.click(trs[2].children.item(2) as HTMLTableCellElement);
 		expect(curr).toBeTruthy();
 	});
+});
+
+describe('isCovered', () => {
+	const now = new Date();
+	const after = new Date(now.getTime() + 87400 * 1000);
+	const before = new Date(now.getTime() - 87400 * 1000);
+
+	test('undefined', () => expect(isCovered(now)).toBe(false));
+
+	test('[undefined,before]', () => expect(isCovered(now, [undefined, before])).toBe(false));
+	test('[undefined,after]', () => expect(isCovered(now, [undefined, after])).toBe(true));
+
+	test('[before,undefined]', () => expect(isCovered(now, [before, undefined])).toBe(true));
+	test('[after,undefined]', () => expect(isCovered(now, [after, undefined])).toBe(false));
+
+	test('[before,before]', () => expect(isCovered(now, [before, before])).toBe(false));
+	test('[after,after]', () => expect(isCovered(now, [after, after])).toBe(false));
+	test('[before,after]', () => expect(isCovered(now, [before, after])).toBe(true));
+	test('[after,before]', () => expect(isCovered(now, [after, before])).toBe(false));
 });

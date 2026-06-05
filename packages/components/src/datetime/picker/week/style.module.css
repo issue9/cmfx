@@ -28,4 +28,52 @@
 	.container.rounded {
 		@apply rounded-full!;
 	}
+
+	.week {
+		@apply px-2 pb-2;
+
+		tr > th {
+			@apply cursor-pointer;
+		}
+
+		tbody > tr {
+			td > time {
+				@apply px-1 rounded-sm text-center inline-block;
+			}
+
+			td > span {
+				@apply inline-block text-center w-full;
+			}
+
+			td {
+				@apply border border-transparent rounded-sm cursor-pointer py-1;
+			}
+		}
+
+		.today {
+			time {
+				@apply text-palette-bg-low;
+			}
+		}
+		.selected,
+		.covered {
+			@apply bg-palette-bg-selected text-palette-fg-selected;
+
+			time {
+				@apply text-palette-fg-high;
+			}
+		}
+
+		.disabled {
+			@apply text-palette-fg-disabled;
+		}
+		.disabled.selected,
+		.disabled.covered {
+			@apply bg-palette-bg-selected text-palette-fg-selected;
+
+			time {
+				@apply text-palette-fg-low;
+			}
+		}
+	}
 }

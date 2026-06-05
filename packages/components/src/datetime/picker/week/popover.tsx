@@ -7,7 +7,7 @@ import { createSignal, createUniqueId, type JSX, mergeProps, Show, splitProps, u
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type BaseRef, joinClass, type RefProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps, style2String } from '@components/base';
 import type { Week } from '@components/datetime/utils';
 import type { WeekValueType } from '@components/datetime/view/month';
 import { Form } from '@components/form';
@@ -38,9 +38,9 @@ export interface PopoverProps extends Base, RefProps<PopoverRef> {
 }
 
 export function Popover(props: PopoverProps): JSX.Element {
-	const field = Form.useField<WeekValueType>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week }, form, props);
+	const field = Form.useField<WeekValueType>(props, true);
 
 	const [panelProps, _] = splitProps(props, [
 		'weekBase',
@@ -49,7 +49,6 @@ export function Popover(props: PopoverProps): JSX.Element {
 		'weekend',
 		'disabled',
 		'readonly',
-		'palette',
 		'min',
 		'max',
 	]);
@@ -59,10 +58,9 @@ export function Popover(props: PopoverProps): JSX.Element {
 
 	const [hover, setHover] = createSignal(false);
 
-	const change = (val?: WeekValueType) => {
-		field.setValue(val);
+	field.onChange(() => {
 		panelRef.hidePopover();
-	};
+	});
 
 	const format = (val: WeekValueType) => {
 		return val ? `${val[0]}-${val[1]}` : '';
@@ -113,7 +111,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 					}
 				}}
 				class={joinClass(undefined, field.class, styles.container, props.rounded ? styles.rounded : undefined)}
-				style={props.style}
+				style={style2String(field.style, props.style)}
 				aria-haspopup
 			>
 				<input
@@ -144,7 +142,6 @@ export function Popover(props: PopoverProps): JSX.Element {
 				}}
 				disabled={props.disabled}
 				value={untrack(field.getValue)}
-				onChange={change}
 			/>
 		</div>
 	);

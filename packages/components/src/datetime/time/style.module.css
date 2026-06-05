@@ -13,25 +13,25 @@
 		@apply bg-palette-bg text-palette-fg;
 
 		ul.item {
-			@apply overflow-y-hidden h-full w-10;
+			@apply overflow-y-scroll h-full w-10;
 
 			> li {
-				@apply rounded-sm m-px text-center cursor-default;
+				@apply rounded-sm m-px text-center cursor-pointer;
 				@apply transition;
 			}
 
 			> li.selected {
-				@apply bg-palette-bg-selected;
+				@apply bg-palette-bg-selected cursor-pointer;
 			}
 		}
 	}
 
-	fieldset.time:enabled {
-		ul.item {
-			@apply overflow-y-scroll;
+	fieldset.time:disabled {
+		@apply text-palette-fg-disabled bg-palette-bg-disabled border-palette-bg-disabled pointer-events-none;
 
-			> li:hover {
-				@apply bg-palette-bg-focused cursor-pointer;
+		ul.item {
+			> li.selected {
+				@apply bg-palette-bg-disabled text-palette-fg;
 			}
 		}
 	}

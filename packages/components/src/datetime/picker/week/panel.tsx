@@ -3,50 +3,71 @@
 // SPDX-License-Identifier: MIT
 
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
-import { createEffect, type JSX, mergeProps, splitProps } from 'solid-js';
+import { type JSX, mergeProps, splitProps } from 'solid-js';
 
-import type { BaseRef, RefProps, ValueProps } from '@components/base';
-import type { CommonProps, CommonRef } from '@components/datetime/picker/internal';
-import { CommonPanel } from '@components/datetime/picker/internal';
+import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
+import { joinClass, style2String } from '@components/base';
+import type { Week } from '@components/datetime/utils';
 import type { WeekValueType } from '@components/datetime/view/month';
+import { MonthView } from '@components/datetime/view/month';
+import type { DatetimePlugin } from '@components/datetime/view/plugin';
 import { Form } from '@components/form';
+import styles from './style.module.css';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export type Base = Omit<
-	CommonProps,
-	'viewRef' | 'onEnter' | 'onLeave' | 'ref' | 'popover' | 'weeks' | 'onWeekClick' | 'value' | 'onChange' | 'time'
-> &
-	ValueProps<WeekValueType>;
+export interface Base extends BaseProps, ValueProps<WeekValueType>, Omit<Form.DataProps, 'rounded'> {
+	/**
+	 * 允许的最小日期
+	 */
+	min?: Date;
 
-export type PanelProps = Base &
-	RefProps<PanelRef> & {
-		readonly popover?: false;
-	};
+	/**
+	 * 允许的最大日期
+	 */
+	max?: Date;
 
-/**
- * 周选择的面板
- */
+	/**
+	 * 是否高亮周末的列
+	 *
+	 * @reactive
+	 */
+	weekend?: boolean;
+
+	/**
+	 * 一周的开始，默认为 0，即周日。
+	 *
+	 * @reactive
+	 */
+	weekBase?: Week;
+
+	/**
+	 * 插件列表
+	 *
+	 * NOTE: 这是一个非响应式的属性。
+	 */
+	readonly plugins?: Array<DatetimePlugin>;
+}
+
+export interface PanelProps extends Base, RefProps<PanelRef> {
+	readonly popover?: false;
+}
+
 export function Panel(props: PanelProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 	const field = Form.useField(props, true);
 
-	const [, panelProps] = splitProps(props, ['value', 'onChange', 'ref']);
-	//const [value, setValue] = createSignal(props.value);
+	const [, panelProps] = splitProps(props, ['value', 'onChange', 'ref', 'popover', 'class', 'style']);
 	let oldRange: Array<Date> = [];
 
-	let ref: CommonRef;
+	let ref: MonthView.RootRef;
 
 	const change = (week: WeekValueType, range: [Date, Date]) => {
-		const old = field.getValue();
 		field.setValue(week);
-		if (props.onChange) {
-			props.onChange(week, old);
-		}
 
 		oldRange.forEach(item => {
-			ref.dateview().unselect(item);
+			ref.unselect(item);
 		});
 		oldRange = [];
 
@@ -54,27 +75,14 @@ export function Panel(props: PanelProps): JSX.Element {
 			const day = new Date(range[0]);
 			day.setDate(day.getDate() + i);
 
-			ref.dateview().select(day);
+			ref.select(day);
 			oldRange.push(day);
 		}
 	};
 
-	createEffect(() => {
-		if (!props.value) {
-			oldRange.forEach(item => {
-				ref.dateview().unselect(item);
-			});
-			oldRange = [];
-			return;
-		}
-
-		const range = getISOWeekRangeByWeek(props.value[0], props.value[1]);
-		change(props.value, range);
-		ref.dateview().jump(range[0]);
-	});
-
+	const initValue = field.getValue();
 	return (
-		<CommonPanel
+		<MonthView.Root
 			ref={el => {
 				ref = el;
 
@@ -85,21 +93,18 @@ export function Panel(props: PanelProps): JSX.Element {
 				}
 			}}
 			{...panelProps}
+			class={joinClass(undefined, styles.week, field.class, props.class)}
+			style={style2String(field.style, props.style)}
+			initValue={initValue ? getISOWeekRangeByWeek(initValue[0], initValue[1])[0] : new Date()}
 			weeks
-			onLeave={() => {
-				ref.dateview().uncover();
-			}}
-			onEnter={d => {
-				ref.dateview().cover(getISOWeekRange(d));
-			}}
-			onChange={day => {
-				if (!day) {
-					return;
-				}
-
-				ref.dateview().unselect(day);
-				change(getISOWeek(day), getISOWeekRange(day));
-			}}
+			weekName="narrow"
+			todayClass={styles.today}
+			disabledClass={styles.disabled}
+			selectedClass={styles.selected}
+			coveredClass={styles.covered}
+			onLeave={() => ref.uncover()}
+			onEnter={d => ref.cover(getISOWeekRange(d))}
+			onClick={d => change(getISOWeek(d), getISOWeekRange(d))}
 			onWeekClick={change}
 		/>
 	);

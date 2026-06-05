@@ -26,7 +26,7 @@ type FieldContextWithInited<T> = FieldContext<T> & { inited?: boolean };
 
 const fieldContext = createContext<FieldContextWithInited<unknown>>();
 
-export function FieldProvider(props: ParentProps<FieldContext<unknown>>): JSX.Element {
+export function FieldProvider<T>(props: ParentProps<FieldContext<T>>): JSX.Element {
 	const [, val] = splitProps(props, ['children']);
 	return <fieldContext.Provider value={val}>{props.children}</fieldContext.Provider>;
 }
@@ -40,6 +40,9 @@ export function FieldProvider(props: ParentProps<FieldContext<unknown>>): JSX.El
  *
  * @remarks
  * 所有在位于 Form.Field 内部的组件中调用的 useField 都会返回一个对象，若需要在外部调用，需要传入 {@link fake} 参数。
+ *
+ * NOTE: 如果在一个用 useField 的组件之内，嵌套了另一个使用 useField 的组件，
+ * 可以使用 {@link FieldProvider} 重新将 {@link FieldContext} 提供给内部组件。
  */
 export function useField<T>(props?: ValueProps<T>): FieldContext<T> | undefined;
 export function useField<T>(props: ValueProps<T>, fake: true): FieldContext<T>;

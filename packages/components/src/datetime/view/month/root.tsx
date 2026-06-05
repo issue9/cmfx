@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { getISOWeek, getISOWeekRange } from '@cmfx/core';
+import equal from 'fast-deep-equal';
 import { createMemo, createSignal, For, type JSX, mergeProps, Show, untrack } from 'solid-js';
 
 import { classList, joinClass } from '@components/base';
@@ -78,7 +79,7 @@ export function Root(props: Props): JSX.Element {
 		return new Intl.DateTimeFormat(l.locale, { weekday: props.weekName });
 	});
 	const [selected, setSelected] = createSignal<Array<Date>>([]);
-	const [covered, setCovered] = createSignal<[start: Date, end: Date] | undefined>();
+	const [covered, setCovered] = createSignal<[start?: Date, end?: Date] | undefined>();
 
 	const jump = (date: Date) => {
 		const old = untrack(value);
@@ -102,8 +103,15 @@ export function Root(props: Props): JSX.Element {
 			setSelected(prev => prev.filter(v => v && !d.includes(v)));
 		},
 
-		cover(range: [start: Date, end: Date]) {
-			range.sort((a, b) => a.getTime() - b.getTime());
+		cover(range: [start?: Date, end?: Date]) {
+			range.sort((a, b) => {
+				// 存在 undefined，则不排序
+				if (a === undefined || b === undefined) {
+					return 0;
+				}
+				return a.getTime() - b.getTime();
+			});
+
 			setCovered(range);
 		},
 
@@ -142,8 +150,11 @@ export function Root(props: Props): JSX.Element {
 		},
 	};
 
-	const table = (
-		<table
+	return (
+		<fieldset
+			disabled={props.disabled}
+			class={joinClass(props.palette, styles.dateview, props.class)}
+			style={props.style}
 			ref={el => {
 				if (props.ref) {
 					props.ref({
@@ -153,118 +164,120 @@ export function Root(props: Props): JSX.Element {
 				}
 			}}
 		>
-			<Show when={props.weekend}>
-				<colgroup>
-					<Show when={props.weeks}>
-						<col />
-					</Show>
-					<For each={weeks}>
-						{w => (
-							<col
-								classList={{
-									[styles.weekend]: weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6,
-								}}
-							/>
-						)}
-					</For>
-				</colgroup>
-			</Show>
+			{buildHeader(l, value, api, props)}
+			<table>
+				<Show when={props.weekend}>
+					<colgroup>
+						<Show when={props.weeks}>
+							<col />
+						</Show>
+						<For each={weeks}>
+							{w => (
+								<col
+									classList={{
+										[styles.weekend]: weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6,
+									}}
+								/>
+							)}
+						</For>
+					</colgroup>
+				</Show>
 
-			<thead>
-				<tr>
-					<Show when={props.weeks}>
-						<th>{l.t('_c.date.week')}</th>
-					</Show>
-					<For each={weeks}>
-						{w => <th>{weekFormat().format(sunday().setDate(sunday().getDate() + weekDay(w, props.weekBase)))}</th>}
-					</For>
-				</tr>
-			</thead>
+				<thead>
+					<tr>
+						<Show when={props.weeks}>
+							<th>{l.t('_c.date.week')}</th>
+						</Show>
+						<For each={weeks}>
+							{w => <th>{weekFormat().format(sunday().setDate(sunday().getDate() + weekDay(w, props.weekBase)))}</th>}
+						</For>
+					</tr>
+				</thead>
 
-			<tbody>
-				<For each={weekDays(value(), props.weekBase!, props.min, props.max)}>
-					{week => {
-						const isoWeek = getISOWeek(week[3][1]);
-						const weekRange = getISOWeekRange(week[3][1]);
-						return (
-							<tr>
-								<Show when={props.weeks}>
-									<th
-										onMouseEnter={() => {
-											setCovered(weekRange);
-										}}
-										onMouseLeave={() => {
-											setCovered();
-										}}
-										onClick={() => {
-											if (props.onWeekClick) {
-												props.onWeekClick(isoWeek, weekRange);
-											}
-										}}
-									>
-										{isoWeek[1]}
-									</th>
-								</Show>
-								<For each={week}>
-									{day => (
-										<td
-											class={classList(undefined, {
-												[props.selectedClass]: isSelected(day[1], selected()),
-												[props.todayClass]: equalDate(today(), day[1]),
-												[props.disabledClass]: !day[0],
-												[props.coveredClass]:
-													covered() &&
-													covered()!.length === 2 &&
-													covered()![0] &&
-													compareDate(covered()![0]!, day[1]) <= 0 &&
-													covered()![1] &&
-													compareDate(covered()![1]!, day[1]) >= 0,
-											})}
-											ref={el => {
-												// 非响应
-												if (!props.plugins || props.plugins.length === 0) {
-													return;
-												}
-												props.plugins.forEach(p => {
-													p(day[1], el);
-												});
-											}}
-											onclick={() => {
-												if (props.onClick) {
-													props.onClick(day[1], !day[0]);
-												}
-											}}
-											onMouseEnter={() => {
-												if (props.onEnter) {
-													props.onEnter(day[1], !day[0]);
-												}
-											}}
-											onMouseLeave={() => {
-												if (props.onLeave) {
-													props.onLeave(day[1], !day[0]);
+				<tbody>
+					<For each={weekDays(value(), props.weekBase!, props.min, props.max)}>
+						{week => {
+							const isoWeek = getISOWeek(week[3][1]);
+							const weekRange = getISOWeekRange(week[3][1]);
+							return (
+								<tr>
+									<Show when={props.weeks}>
+										<th
+											onMouseEnter={() => setCovered(weekRange)}
+											onMouseLeave={() => setCovered()}
+											onClick={() => {
+												if (props.onWeekClick && !props.disabled && !props.readonly) {
+													props.onWeekClick(isoWeek, weekRange);
 												}
 											}}
 										>
-											<time datetime={day[1].toISOString().split('T')[0]}>{day[1].getDate()}</time>
-										</td>
-									)}
-								</For>
-							</tr>
-						);
-					}}
-				</For>
-			</tbody>
-		</table>
-	);
-
-	return (
-		<fieldset
-			disabled={props.disabled}
-			class={joinClass(props.palette, styles.dateview, props.class)}
-			style={props.style}
-		>
-			{buildHeader(l, value, api, props)}
-			{table}
+											{isoWeek[1]}
+										</th>
+									</Show>
+									<For each={week}>
+										{day => (
+											<td
+												class={classList(undefined, {
+													[props.selectedClass]: isSelected(day[1], selected()),
+													[props.todayClass]: equalDate(today(), day[1]),
+													[props.disabledClass]: !day[0],
+													[props.coveredClass]: isCovered(day[1], covered()),
+												})}
+												ref={el => {
+													if (!props.plugins || props.plugins.length === 0) {
+														return;
+													}
+													props.plugins.forEach(p => {
+														p(day[1], el);
+													});
+												}}
+												onclick={() => {
+													if (props.onClick && !props.disabled && !props.readonly) {
+														props.onClick(day[1], !day[0]);
+													}
+												}}
+												onMouseEnter={() => {
+													if (props.onEnter) {
+														props.onEnter(day[1], !day[0]);
+													}
+												}}
+												onMouseLeave={() => {
+													if (props.onLeave) {
+														props.onLeave(day[1], !day[0]);
+													}
+												}}
+											>
+												<time datetime={day[1].toISOString().split('T')[0]}>{day[1].getDate()}</time>
+											</td>
+										)}
+									</For>
+								</tr>
+							);
+						}}
+					</For>
+				</tbody>
+			</table>
 		</fieldset>
 	);
+}
+
+// 要求 start 早于 end，且不能同时为 undefined
+export function isCovered(day: Date, covered?: [start?: Date, end?: Date]) {
+	if (!covered || covered.length !== 2 || equal(covered, [undefined, undefined])) {
+		return false;
+	}
+
+	const c0 = covered[0];
+	const c1 = covered[1];
+
+	if (!c0) {
+		// c0 === undefined，则 c1 肯定不为 undefined
+		return compareDate(c1!, day) >= 0;
+	}
+
+	if (!c1) {
+		return compareDate(c0, day) <= 0;
+	}
+
+	return compareDate(c0, day) <= 0 && compareDate(c1!, day) >= 0;
 }
