@@ -152,28 +152,28 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @param e - 日期；
 	 * @param disabled - 是否禁用；
 	 */
-	onClick?: (e: Date, disabled?: boolean) => void;
+	readonly onClick?: (e: Date, disabled?: boolean) => void;
 
 	/**
 	 * 鼠标悬停在单元格上时的回调函数
 	 * @param e - 日期；
 	 * @param disabled - 单元格是否处于禁用状态；
 	 */
-	onEnter?: (e: Date, disabled?: boolean) => void;
+	readonly onEnter?: (e: Date, disabled?: boolean) => void;
 
 	/**
 	 * 鼠标从单元格离开时的回调函数
 	 * @param e - 日期；
 	 * @param disabled - 单元格是否处于禁用状态；
 	 */
-	onLeave?: (e: Date, disabled?: boolean) => void;
+	readonly onLeave?: (e: Date, disabled?: boolean) => void;
 
 	/**
 	 * 翻页时的回调函数
 	 * @param val - 新页面的日期；
 	 * @param old - 旧页面的日期；
 	 */
-	onPaging?: (val: Date, old?: Date) => void;
+	readonly onPaging?: (val: Date, old?: Date) => void;
 
 	/**
 	 * 插件列表

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { renderHook } from '@solidjs/testing-library';
-import type { ParentProps } from 'solid-js';
+import { createSignal, type ParentProps } from 'solid-js';
 import { afterAll, describe, expect, test } from 'vitest';
 
 import { API } from '@components/form/api';
@@ -17,6 +17,42 @@ type Obj = {
 describe('FieldProvider', async () => {
 	const api = new API<Obj>({ initValue: { age: 20 } });
 
+	test('isolation.undefined', () => {
+		const { result, cleanup } = renderHook(() => useField<number>(), {
+			wrapper: (props: ParentProps) => {
+				const f = api.createFieldAccessor('age');
+				return (
+					<FieldProvider {...f}>
+						<FieldProvider isolation>{props.children}</FieldProvider>
+					</FieldProvider>
+				);
+			},
+		});
+
+		expect(result).toBeUndefined();
+
+		afterAll(cleanup);
+	});
+
+	test('isolation.props', () => {
+		const [val, setVal] = createSignal(5);
+		const { result, cleanup } = renderHook(() => useField<number>({ value: val(), onChange: setVal }, true), {
+			wrapper: (props: ParentProps) => {
+				const f = api.createFieldAccessor('age');
+				return (
+					<FieldProvider {...f}>
+						<FieldProvider isolation>{props.children}</FieldProvider>
+					</FieldProvider>
+				);
+			},
+		});
+
+		expect(result).toBeDefined();
+		expect(result.isFake).toBe(true);
+
+		afterAll(cleanup);
+	});
+
 	test('useField.age', () => {
 		const { result, cleanup } = renderHook(() => useField<number>(), {
 			wrapper: (props: ParentProps) => {
@@ -26,6 +62,7 @@ describe('FieldProvider', async () => {
 		});
 
 		expect(result).toBeDefined();
+		expect(result?.isFake).not.toBe(false);
 
 		expect(result?.id()).toBeDefined();
 		expect(result?.name()).toEqual('age');

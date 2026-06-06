@@ -26,9 +26,23 @@ type FieldContextWithInited<T> = FieldContext<T> & { inited?: boolean };
 
 const fieldContext = createContext<FieldContextWithInited<unknown>>();
 
-export function FieldProvider<T>(props: ParentProps<FieldContext<T>>): JSX.Element {
-	const [, val] = splitProps(props, ['children']);
-	return <fieldContext.Provider value={val}>{props.children}</fieldContext.Provider>;
+export type FieldProviderProps<T> = ParentProps<
+	| (FieldContext<T> & { isolation?: false })
+	| {
+			/**
+			 * 隔离一个位于 <Form.Field> 之内的组件，使其看起来像是不在 <Form.Field> 之内的。
+			 */
+			isolation: true;
+	  }
+>;
+
+export function FieldProvider<T>(props: FieldProviderProps<T>): JSX.Element {
+	const [, val] = splitProps(props, ['children', 'isolation']);
+
+	if (props.isolation) {
+		return <fieldContext.Provider value={undefined}>{props.children}</fieldContext.Provider>;
+	}
+	return <fieldContext.Provider value={val as FieldContext<T>}>{props.children}</fieldContext.Provider>;
 }
 
 /**
@@ -43,6 +57,7 @@ export function FieldProvider<T>(props: ParentProps<FieldContext<T>>): JSX.Eleme
  *
  * NOTE: 如果在一个用 useField 的组件之内，嵌套了另一个使用 useField 的组件，
  * 可以使用 {@link FieldProvider} 重新将 {@link FieldContext} 提供给内部组件。
+ * 或是使用将 isolation 属性设置为 true 的 {@link FieldProvider} 来隔离内部组件的上下文。
  */
 export function useField<T>(props?: ValueProps<T>): FieldContext<T> | undefined;
 export function useField<T>(props: ValueProps<T>, fake: true): FieldContext<T>;
