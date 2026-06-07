@@ -83,6 +83,10 @@ export function Root(props: Props): JSX.Element {
 
 	const jump = (date: Date) => {
 		const old = untrack(value);
+		if (old === date) {
+			return;
+		}
+
 		setValue(date);
 		if (props.onPaging) {
 			props.onPaging(date, old);

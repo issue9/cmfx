@@ -2,16 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import equal from 'fast-deep-equal';
 import type { JSX } from 'solid-js';
 import {
+	batch,
 	createEffect,
 	createMemo,
 	createSignal,
 	Match,
 	mergeProps,
 	onCleanup,
-	onMount,
 	Show,
 	Switch,
 	splitProps,
@@ -29,7 +28,7 @@ import styles from './style.module.css';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export type Base = Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave' | 'ref' | 'popover'> &
+export type Base = Omit<CommonProps, 'viewRef' | 'onEnter' | 'onLeave' | 'ref' | 'popover'> &
 	ValueProps<ValueType> & {
 		/**
 		 * 是否显示右侧快捷选择栏
@@ -44,231 +43,112 @@ export interface PanelProps extends Base, RefProps<PanelRef> {
 }
 
 export function Panel(props: PanelProps): JSX.Element {
-	const [_, panelProps] = splitProps(props, [
-		'value',
-		'onChange',
-		'popover',
-		'ref',
-		'class',
-		'palette',
-		'style',
-		'ref',
-	]);
-
-	const l = useLocale();
-
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
+	const [_, panelProps] = splitProps(props, ['popover', 'ref', 'class', 'palette', 'style', 'ref']);
 
+	const l = useLocale();
 	const field = Form.useField(props, true);
-	const v = field.getValue();
 
-	const [date1, sd1] = createSignal<Date>(v?.[0] ?? new Date());
-	const setDate1 = (v: Date) => {
+	let index = 0; // 当前设置的值属于 field.getValue() 的哪个索引值
+
+	const initValue = field.getValue();
+	const [date1, sd1] = createSignal<Date | undefined>(initValue?.[0]);
+	const setDate1 = (v?: Date) => {
 		sd1(v);
-		const next = field.getValue()?.[1];
-		field.setValue([v, next]);
+		field.setValue([v, field.getValue()?.[1]]);
+		index = 1;
 	};
 
 	const nextMonth = new Date();
 	nextMonth.setMonth(nextMonth.getMonth() + 1);
-	const [date2, sd2] = createSignal<Date>(v?.[1] ?? nextMonth);
-	const setDate2 = (v: Date) => {
+	const [date2, sd2] = createSignal<Date | undefined>(initValue?.[1] ?? nextMonth);
+	const setDate2 = (v?: Date) => {
 		sd2(v);
-		const first = field.getValue()?.[0];
-		field.setValue([first, v]);
-	};
-
-	let index = 0; // 当前设置的值属于 values 的哪个索引值
-
-	const changeTime = (value: Date, first?: boolean) => {
-		if (index === 1) {
-			return;
-		}
-
-		const old = field.getValue() ?? [undefined, undefined];
-
-		if (first) {
-			const first = old[0];
-			first?.setHours(value.getHours(), value.getMinutes(), value.getSeconds());
-			field.setValue([first, old[1]]);
-		} else {
-			const secondary = old[1];
-			secondary?.setHours(value.getHours(), value.getMinutes(), value.getSeconds());
-			field.setValue([old[0], secondary]);
-		}
-	};
-
-	// 面板值发生变化时，触发的事件
-	//
-	// time 是否只修改时间部分；
-	// start 是否为修改第一个面板的值；
-	// onchange 是否触发 onChange 事件；
-	const panelChange = (value?: Date, start?: boolean, onchange?: boolean) => {
-		const old = field.getValue();
-
-		const viewRef1 = panel1()?.dateview();
-		const viewRef2 = panel2?.dateview();
-
-		if (!value) {
-			// 只有在 Props.value === [undefined, undefined] 时才会有可能 !value 成立。
-			if (old) {
-				viewRef1?.unselect(...old);
-				viewRef2?.unselect(...old);
-			}
-			viewRef1?.uncover();
-			viewRef2?.uncover();
-			return;
-		}
-
-		if (props.time) {
-			// 对时间部分作了修改
-			changeTime(value, start);
-			return;
-		}
-
-		if (old) {
-			viewRef1?.unselect(...old);
-			viewRef2?.unselect(...old);
-		}
-
-		switch (index) {
-			case 0: {
-				const first = start ? old?.[0] : old?.[1];
-				if (first) {
-					// 改变日期，则继承之前的时间。
-					value.setHours(first.getHours(), first.getMinutes(), first.getSeconds());
-				}
-				field.setValue(start ? [value, undefined] : [undefined, value]);
-				viewRef1?.uncover();
-				viewRef2?.uncover();
-				break;
-			}
-			case 1: {
-				const ret = old?.[0] ? [old[0], value] : [value, old?.[1]];
-				ret.sort((a, b) => (a ? a.getTime() : 0) - (b ? b.getTime() : 0));
-				field.setValue(ret as ValueType);
-				const vals = field.getValue() as [Date, Date];
-				viewRef1?.cover(vals);
-				viewRef2.cover(vals);
-				viewRef1?.jump(vals[0]!);
-				viewRef2.jump(vals[1]!);
-				break;
-			}
-		}
-
-		viewRef1?.select(value);
-		viewRef2?.select(value);
-
-		index = index === 0 ? 1 : 0;
-
-		const vals = field.getValue() as [Date, Date];
-		if (props.onChange && onchange && !equal(vals, old)) {
-			props.onChange(vals, old);
-		}
-	};
-
-	// 监视外部直接通过 props.value 修改
-	field.onChange((val, old) => {
-		if (val === old || (val && equal(old, val))) {
-			return;
-		}
-
-		const viewRef1 = panel1()?.dateview();
-		const viewRef2 = panel2?.dateview();
-
-		if (old) {
-			viewRef1?.unselect(...old);
-			viewRef2?.unselect(...old);
-		}
-
-		const v = val || [undefined, undefined];
-		if (equal(v, [undefined, undefined])) {
-			viewRef1?.uncover();
-			viewRef2?.uncover();
-
-			field.setValue(v);
-			index = 0;
-
-			return;
-		}
-
-		const vals = v as [Date, Date];
-		viewRef1?.cover(vals);
-		viewRef2?.cover(vals);
-
-		if (vals[0]) {
-			viewRef1?.jump(vals[0]);
-			viewRef1?.select(vals[0]);
-			changeTime(vals[0], true);
-		}
-		if (vals[1]) {
-			viewRef2.jump(vals[1]);
-			viewRef2.select(vals[1]);
-			changeTime(vals[1], false);
-		}
-
-		field.setValue(vals);
+		field.setValue([field.getValue()?.[0], v]);
 		index = 0;
-	});
+	};
 
-	const valueFormater = createMemo(() => {
-		return props.time ? l.datetimeFormat() : l.dateFormat();
-	});
-
-	onMount(() => {
-		const nextMonth = new Date();
-		nextMonth.setMonth(nextMonth.getMonth() + 1);
-		const viewRef2 = panel2?.dateview();
-
-		if (!props.value) {
-			viewRef2.jump(nextMonth);
-		} else if (!props.value[1]) {
-			if (!props.value[0]) {
-				viewRef2.jump(nextMonth);
-			} else {
-				const next = new Date(props.value[0]);
-				next.setMonth(next.getMonth() + 1);
-				viewRef2.jump(next);
-			}
+	const setDate = (val?: Date) => {
+		switch (index) {
+			case 0:
+				setDate1(val);
+				break;
+			case 1:
+				setDate2(val);
+				break;
 		}
+	};
+
+	const [panel1, setPanel1] = createSignal<CommonRef>();
+	let panel2: CommonRef;
+
+	field.onChange((val, old) => {
+		const view1 = panel1()?.monthView();
+		const view2 = panel2.monthView();
+
+		// 如果有旧的选择项，需要取消
+		if (old) {
+			view1?.unselect(...old);
+			view2?.unselect(...old);
+		}
+
+		if (index === 0) {
+			view1?.uncover();
+			view2?.uncover();
+			return;
+		}
+
+		// 以下为 index === 1 的情况
+
+		if (val) {
+			view1?.cover(val);
+			view2?.cover(val);
+		}
+
+		if (val?.[0]) {
+			view1?.jump(val[0]);
+
+			view1?.select(val[0]);
+			view2.select(val[0]);
+		}
+		if (val?.[1]) {
+			view2.jump(val[1]);
+
+			view1?.select(val[1]);
+			view2.select(val[1]);
+		}
+	});
+
+	const valueFormatter = createMemo(() => {
+		return props.time ? l.datetimeFormat() : l.dateFormat();
 	});
 
 	const onEnter = (e: Date) => {
 		if (index === 1) {
-			const v = field.getValue() ?? [undefined, undefined];
-			const f = v?.[0] ?? v[1]!; // 由 index === 1 保证至少有一个值非 undefined 值
-			panel1()?.dateview().cover([f, e]);
-			panel2?.dateview().cover([f, e]);
+			const f = date1() ?? date2()!; // 由 index === 1 保证至少有一个值非 undefined 值
+			panel1()?.monthView().cover([f, e]);
+			panel2?.monthView().cover([f, e]);
 		}
 	};
 
 	const onLeave = () => {
 		if (index === 1) {
-			panel1()?.dateview().uncover();
-			panel2?.dateview().uncover();
+			panel1()?.monthView().uncover();
+			panel2?.monthView().uncover();
 		}
 	};
 
 	const setShortcuts = (vals: ValueType) => {
-		field.setValue(vals);
-
-		const viewRef1 = panel1()?.dateview();
-		const viewRef2 = panel2?.dateview();
-
-		viewRef1?.cover(vals as [Date, Date]);
-		viewRef2.cover(vals as [Date, Date]);
-		viewRef1?.select(vals[0]!, vals[1]!);
-		viewRef2.select(vals[0]!, vals[1]!);
-		viewRef1?.jump(vals[0]!);
-		viewRef2.jump(vals[1]!);
+		batch(() => {
+			setDate1(vals[0]);
+			setDate2(vals[1]);
+		});
 	};
 
 	/* 保证 flex-wrap 换行之后，边框显示的正确性 */
 
 	let resizeObserver: ResizeObserver;
-	const [panel1, setPanel1] = createSignal<CommonRef>();
-	let panel2: CommonRef;
 	createEffect(() => {
 		if (resizeObserver) {
 			resizeObserver.disconnect();
@@ -293,6 +173,7 @@ export function Panel(props: PanelProps): JSX.Element {
 			resizeObserver.observe(panel2.root());
 		}
 	});
+
 	onCleanup(() => {
 		if (resizeObserver) {
 			resizeObserver.disconnect();
@@ -315,61 +196,39 @@ export function Panel(props: PanelProps): JSX.Element {
 				<div class={styles.panels}>
 					<CommonPanel
 						{...panelProps}
-						value={field.getValue()?.[0]}
 						class={styles.panel}
 						onEnter={onEnter}
 						onLeave={onLeave}
-						ref={el => setPanel1(el)}
-						onChange={val => {
-							if (val === field.getValue()?.[0]) {
-								return;
-							}
-							panelChange(val, true, true);
-						}}
+						ref={setPanel1}
+						onClick={val => setDate(val)}
 						onPaging={val => {
-							setDate1(val);
 							if (compareMonth(date2(), val) < 0) {
 								const v = new Date(val);
 								v.setMonth(v.getMonth() + 1);
-								panel2.dateview().jump(v);
+								panel2.monthView().jump(v);
 							}
 						}}
 					/>
 					<CommonPanel
 						{...panelProps}
-						value={field.getValue()?.[1]}
 						class={styles.panel}
 						onEnter={onEnter}
 						onLeave={onLeave}
-						ref={el => {
-							panel2 = el;
-						}}
-						onChange={val => {
-							if (val === field.getValue()?.[1]) {
-								return;
-							}
-							panelChange(val, false, true);
-						}}
+						ref={el => (panel2 = el)}
+						onClick={val => setDate(val)}
 						onPaging={val => {
-							setDate2(val);
 							if (compareMonth(date1(), val) > 0) {
 								const v = new Date(val);
 								v.setMonth(v.getMonth() - 1);
-								panel1()?.dateview().jump(v);
+								panel1()?.monthView().jump(v);
 							}
 						}}
 					/>
 				</div>
 				<div class={styles.value}>
 					<Switch>
-						<Match when={field.getValue()?.[0] && field.getValue()?.[1]}>
-							{valueFormater().formatRange(field.getValue()![0]!, field.getValue()![1]!)}
-						</Match>
-						<Match when={field.getValue()?.[0] || field.getValue()?.[1]}>
-							{val => {
-								return valueFormater().format(val());
-							}}
-						</Match>
+						<Match when={date1() && date2()}>{valueFormatter().formatRange(date1()!, date2()!)}</Match>
+						<Match when={date1() || date2()}>{val => valueFormatter().format(val())}</Match>
 					</Switch>
 				</div>
 			</main>
@@ -405,6 +264,9 @@ export function Panel(props: PanelProps): JSX.Element {
 	);
 }
 
-function compareMonth(d1: Date, d2: Date): number {
+function compareMonth(d1?: Date, d2?: Date): number {
+	if (!d1 || !d2) {
+		return 0;
+	}
 	return d1.getMonth() - d2.getMonth() + (d1.getFullYear() - d2.getFullYear()) * 12;
 }

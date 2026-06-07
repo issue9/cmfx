@@ -2,23 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, type JSX, mergeProps, onCleanup, Show } from 'solid-js';
+import { createEffect, createSignal, type JSX, onCleanup, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
+import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { Time } from '@components/datetime/time';
 import type { Week } from '@components/datetime/utils';
 import { MonthView } from '@components/datetime/view/month';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
 import { Form } from '@components/form';
-import { useForm } from '@components/form/form';
 import styles from './style.module.css';
 
 export interface CommonRef extends BaseRef<HTMLFieldSetElement> {
 	// MonthView.RootRef 中的 jump 等方法无法精准到时间部分，不对外公开。
-	dateview(): MonthView.RootRef;
+	monthView(): MonthView.RootRef;
 }
 
-export interface CommonProps extends BaseProps, Omit<Form.DataProps, 'rounded'>, ValueProps<Date>, RefProps<CommonRef> {
+export interface CommonProps extends BaseProps, Omit<Form.DataProps, 'rounded'>, RefProps<CommonRef> {
 	/**
 	 * 是否符带时间选择器
 	 *
@@ -60,31 +59,16 @@ export interface CommonProps extends BaseProps, Omit<Form.DataProps, 'rounded'>,
 	 */
 	weeks?: boolean;
 
-	/**
-	 * 点击周数时的回调函数
-	 * @param week - 周数；
-	 * @param range - 周数范围；
-	 */
-	onWeekClick?: MonthView.RootProps['onWeekClick'];
-
 	popover?: boolean | 'manual' | 'auto';
 
-	/**
-	 * 翻页时的回调函数
-	 * @param val - 新页面的日期；
-	 * @param old - 旧页面的日期；
-	 */
-	onPaging?: MonthView.RootProps['onPaging'];
-
-	onEnter?: MonthView.RootProps['onEnter'];
-	onLeave?: MonthView.RootProps['onLeave'];
-
-	/**
-	 * 插件列表
-	 *
-	 * NOTE: 这是一个非响应式的属性。
-	 */
-	plugins?: Array<DatetimePlugin>;
+	readonly onWeekClick?: MonthView.RootProps['onWeekClick'];
+	readonly onPaging?: MonthView.RootProps['onPaging'];
+	readonly onEnter?: MonthView.RootProps['onEnter'];
+	readonly onLeave?: MonthView.RootProps['onLeave'];
+	readonly onClick?: MonthView.RootProps['onClick'];
+	readonly plugins?: Array<DatetimePlugin>;
+	readonly onTimeChange?: Time.RootProps['onChange'];
+	readonly initTime?: Date;
 }
 
 export const presetProps: Partial<CommonProps> = {
@@ -92,40 +76,10 @@ export const presetProps: Partial<CommonProps> = {
 } as const;
 
 export function CommonPanel(props: CommonProps): JSX.Element {
-	props = mergeProps(presetProps, props);
-	const field = Form.useField(props, true);
-	const form = useForm();
-	props = mergeProps({ tabindex: 0 }, form, props);
-
-	//const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
-	const [dateViewRef, setDateViewRef] = createSignal<MonthView.RootRef>();
-
-	// 改变值且触发 onchange 事件
-	const change = (val?: Date) => {
-		const old = field.getValue();
-
-		if (val && !props.time) {
-			if (old) {
-				// 切换日期时，继承时间部分
-				val.setHours(old.getHours(), old.getMinutes(), old.getSeconds());
-			}
-
-			dateViewRef()?.jump(val);
-		}
-
-		field.setValue(val);
-		if (old) {
-			dateViewRef()?.unselect(old);
-		}
-		if (val) {
-			dateViewRef()?.select(val);
-		}
-	};
-
-	let dateRef: HTMLFieldSetElement;
+	let rootRef: HTMLFieldSetElement;
 	const [timeRef, setTimeRef] = createSignal<Time.RootRef>();
-	let resizeObserver: ResizeObserver;
 
+	let resizeObserver: ResizeObserver;
 	createEffect(() => {
 		if (resizeObserver) {
 			resizeObserver.disconnect();
@@ -140,10 +94,9 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 		});
 
 		if (timeRef()) {
-			resizeObserver.observe(dateRef!.firstChild as HTMLElement);
+			resizeObserver.observe(rootRef!.firstChild as HTMLElement);
 		}
 	});
-
 	onCleanup(() => {
 		if (resizeObserver) {
 			resizeObserver.disconnect();
@@ -156,10 +109,10 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 			popover={props.popover}
 			class={joinClass(props.palette, styles.panel, props.class)}
 			style={props.style}
-			ref={el => (dateRef = el)}
+			ref={el => (rootRef = el)}
 		>
 			<MonthView.Root
-				initValue={field.getValue() ?? new Date()}
+				initValue={new Date()}
 				min={props.min}
 				max={props.max}
 				disabledClass={styles.disabled}
@@ -174,39 +127,32 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 				onWeekClick={props.onWeekClick}
 				onEnter={props.onEnter}
 				onLeave={props.onLeave}
+				onClick={props.onClick}
 				onPaging={props.onPaging}
 				disabled={props.disabled}
 				readonly={props.readonly}
 				class={styles.dateview}
-				onClick={(d, disabled) => {
-					if (!disabled && !props.disabled && !props.readonly) {
-						change(d);
-					}
-				}}
 				ref={el => {
-					setDateViewRef(el);
 					if (props.ref) {
 						props.ref({
-							root: () => dateRef,
-							dateview: () => el,
+							root: () => rootRef,
+							monthView: () => el,
 						});
 					}
 				}}
 			/>
 
 			<Show when={props.time}>
-				<Time.Root
-					disabled={props.disabled}
-					readonly={props.readonly}
-					value={field.getValue()}
-					class={styles.timer}
-					ref={el => setTimeRef(el)}
-					onChange={d => {
-						if (!props.disabled && !props.readonly) {
-							change(d);
-						}
-					}}
-				/>
+				<Form.FieldProvider isolation>
+					<Time.Root
+						disabled={props.disabled}
+						readonly={props.readonly}
+						value={props.initTime}
+						class={styles.timer}
+						ref={el => setTimeRef(el)}
+						onChange={props.onTimeChange}
+					/>
+				</Form.FieldProvider>
 			</Show>
 		</fieldset>
 	);

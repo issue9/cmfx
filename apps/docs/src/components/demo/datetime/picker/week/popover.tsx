@@ -41,20 +41,6 @@ export default function (props: MountProps): JSX.Element {
 				/>
 				<p>{valShow()}</p>
 			</div>
-
-			<div title="panel 2" class="flex flex-col items-start">
-				<WeekPicker.Root
-					palette={palette()}
-					readonly={readonly()}
-					disabled={disabled()}
-					value={value()}
-					onChange={(val, old) => {
-						setValShow(`new:${val}old:${old}`);
-						setValue(val);
-					}}
-				/>
-				<p>{valShow()}</p>
-			</div>
 		</div>
 	);
 }
