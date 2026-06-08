@@ -50,9 +50,9 @@ export interface FieldAccessor<T> {
 	 * 修改当前元素关联的值
 	 *
 	 * @param val 新的值，如果与旧值相同，则不会实际执行修改操作，即不会触发 {@link onChange} 注册的事件；
-	 * @param silence 如果为 true，不触发 {@link onChange} 注册的事件；
+	 * @param silent 如果为 true，不触发 {@link onChange} 注册的事件；
 	 */
-	setValue(val: T | undefined, silence?: boolean): void;
+	setValue(val: T | undefined, silent?: boolean): void;
 
 	/**
 	 * 注册值变化时的回调函数
@@ -62,9 +62,9 @@ export interface FieldAccessor<T> {
 	/**
 	 * 重置为默认值
 	 *
-	 * @param silence 如果为 true，不触发 {@link onChange} 注册的事件；
+	 * @param silent 如果为 true，不触发 {@link onChange} 注册的事件；
 	 */
-	reset(silence?: boolean): void;
+	reset(silent?: boolean): void;
 
 	/**
 	 * 获取当前元素关联的扩展字段

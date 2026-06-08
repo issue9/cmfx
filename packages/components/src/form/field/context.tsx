@@ -109,7 +109,7 @@ export function createFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T |
 		changes.push(onChange);
 	}
 
-	const setValue = (val: T | undefined, silence?: boolean) => {
+	const setValue = (val: T | undefined, silent?: boolean) => {
 		const old = untrack(v);
 
 		// 保持与 Form.API.createFieldAccessor 相同的功能，同值不触发事件。
@@ -119,7 +119,7 @@ export function createFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T |
 
 		sv(() => val);
 
-		if (!silence) {
+		if (!silent) {
 			for (const f of changes) {
 				f(val, old);
 			}
@@ -129,7 +129,7 @@ export function createFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T |
 	return {
 		id: () => id,
 		name: () => id,
-		reset: (silence?: boolean) => setValue(structuredClone(preset), silence),
+		reset: (silent?: boolean) => setValue(structuredClone(preset), silent),
 
 		setError: () => {},
 		getError: () => undefined,

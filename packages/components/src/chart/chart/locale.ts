@@ -7,6 +7,7 @@ import * as echarts from 'echarts';
 
 /**
  * 创建用于加载 echarts 语言包的加载器
+ *
  * @param obj - 需要加载的内容，比如 `(await import(`../../node_modules/echarts/lib/i18n/langEN.js`)).default`；
  * @returns 返回的是一个 {@link DictLoader} 函数；
  */

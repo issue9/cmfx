@@ -152,7 +152,7 @@ describe('API.onchange', () => {
 		expect(changeValue).toEqual({ age: 25, name: 'f2' });
 		expect(changeCount).toEqual(1);
 
-		// silence
+		// silent
 		age.setValue(35, true);
 		expect(fieldChangeValue).toEqual(25);
 		expect(fieldChangeCount).toEqual(1);
@@ -161,7 +161,7 @@ describe('API.onchange', () => {
 	});
 
 	test('age.reset', () => {
-		// silence
+		// silent
 		age.reset(true);
 		expect(fieldChangeValue).toEqual(25);
 		expect(fieldChangeCount).toEqual(1);
@@ -178,7 +178,7 @@ describe('API.onchange', () => {
 
 		age.setValue(30, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
 
-		// silence
+		// silent
 		age.reset(true);
 		expect(fieldChangeValue).toEqual(20);
 		expect(fieldChangeCount).toEqual(2);
@@ -187,7 +187,7 @@ describe('API.onchange', () => {
 	});
 
 	test('setValue', () => {
-		// silence
+		// silent
 		api.setValue({ age: 40, name: 'f2' }, true);
 		expect(fieldChangeValue).toEqual(20);
 		expect(fieldChangeCount).toEqual(2);
@@ -200,7 +200,7 @@ describe('API.onchange', () => {
 		expect(changeValue).toEqual({ age: 35, name: 'f2' });
 		expect(changeCount).toEqual(3);
 
-		// silence
+		// silent
 		api.setValue({ age: 40, name: 'f2' }, true);
 		expect(fieldChangeValue).toEqual(35);
 		expect(fieldChangeCount).toEqual(3);
@@ -209,7 +209,7 @@ describe('API.onchange', () => {
 	});
 
 	test('reset', () => {
-		// silence
+		// silent
 		api.reset(true);
 		expect(fieldChangeValue).toEqual(35);
 		expect(fieldChangeCount).toEqual(3);
@@ -226,7 +226,7 @@ describe('API.onchange', () => {
 
 		api.setValue({ age: 35, name: 'f2' }, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
 
-		// silence
+		// silent
 		api.reset(true);
 		expect(fieldChangeValue).toEqual(20);
 		expect(fieldChangeCount).toEqual(4);

@@ -130,21 +130,41 @@ export class Extractor {
 			// TODO: 支持多态
 			// throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
 		}
-		let decl = decls[0];
+		let decl: Node = decls[0];
 
 		for (const item of items.slice(1)) {
-			if (!Node.isModuleDeclaration(decl)) {
-				throw new Error(`${name} 不是一个有效的命名空间`);
+			let found = false;
+			if (Node.isVariableDeclaration(decl)) {
+				let xtype = project.checker.getTypeAtLocation(decl);
+				const property = xtype.getProperty(item);
+
+				if (property) {
+					decl = property.getDeclarations()[0];
+					if (Node.isPropertySignature(decl)) {
+						xtype = project.checker.getTypeAtLocation(decl);
+						decl = xtype.getSymbol()!.getDeclarations()[0];
+					}
+					found = true;
+				}
 			}
 
-			decls = decl.getExportedDeclarations().get(item);
-			if (!decls || decls.length === 0) {
-				throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
-			} else if (decls.length > 1) {
-				// TODO: 支持多态
-				// throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
+			if (!found && Node.isModuleDeclaration(decl)) {
+				decls = decl.getExportedDeclarations().get(item);
+
+				if (!decls || decls.length === 0) {
+					throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
+				} else if (decls.length > 1) {
+					// TODO: 支持多态
+					// throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
+				}
+
+				decl = decls[0];
+				found = true;
 			}
-			decl = decls[0];
+
+			if (!found) {
+				throw new Error(`无效的空间 ${decl}`);
+			}
 		}
 
 		const t = this.conv(decl, project.checker);

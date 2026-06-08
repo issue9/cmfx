@@ -130,11 +130,11 @@ export class API<T extends Flattenable, R = never, P = never> {
 	 *
 	 *
 	 * @param val 新的值；
-	 * @param silence 如果为 true，不触发 {@link onChange} 注册的事件；
+	 * @param silent 如果为 true，不触发 {@link onChange} 注册的事件；
 	 * @remarks
 	 * 修改之后会调用 {@link #validator} 进行验证。
 	 */
-	setValue(obj: T, silence?: boolean) {
+	setValue(obj: T, silent?: boolean) {
 		const old = unwrap(this.#value[0]);
 		const copy = structuredClone(obj);
 		this.#value[1](reconcile(copy));
@@ -146,7 +146,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 			});
 		}
 
-		if (!silence) {
+		if (!silent) {
 			// field onchange
 			this.#filedChanges.entries().forEach(v => {
 				const o = getFieldValue(old, v[0].split('.')); // 旧值
@@ -207,11 +207,11 @@ export class API<T extends Flattenable, R = never, P = never> {
 	/**
 	 * 重置所有字段的状态和值
 	 *
-	 * @param silence 如果为 true，不触发 {@link onChange} 注册的事件；
+	 * @param silent 如果为 true，不触发 {@link onChange} 注册的事件；
 	 */
-	reset(silence?: boolean) {
+	reset(silent?: boolean) {
 		this.setError();
-		this.setValue(this.#preset, silence);
+		this.setValue(this.#preset, silent);
 	}
 
 	/**
@@ -232,7 +232,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 		const [extra, setExtra] = createSignal<JSX.Element | undefined>(undefined);
 		const id = createUniqueId();
 
-		const setValue = (val: FT, silence?: boolean): void => {
+		const setValue = (val: FT, silent?: boolean): void => {
 			const old = untrack(getValue);
 			if (!equal(old, val)) {
 				const oldObj = unwrap(parent.#value[0]);
@@ -246,7 +246,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 					});
 				}
 
-				if (!silence) {
+				if (!silent) {
 					// 触发 field change 回调
 					const list = parent.#filedChanges.get(name);
 					if (list) {
@@ -281,8 +281,8 @@ export class API<T extends Flattenable, R = never, P = never> {
 				return getValue();
 			},
 
-			setValue(val: FT, silence?: boolean): void {
-				setValue(val, silence);
+			setValue(val: FT, silent?: boolean): void {
+				setValue(val, silent);
 			},
 
 			onChange(f: ChangeFunc<FT>): void {
@@ -294,9 +294,9 @@ export class API<T extends Flattenable, R = never, P = never> {
 				}
 			},
 
-			reset(silence?: boolean) {
+			reset(silent?: boolean) {
 				setError();
-				setValue(parent.#flattenedPreset[name] as FT, silence);
+				setValue(parent.#flattenedPreset[name] as FT, silent);
 			},
 
 			getExtra: () => extra(),
