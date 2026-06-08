@@ -43,7 +43,6 @@ export * from './qrcode';
 export * from './radio';
 export * from './result';
 export * from './scheme';
-export * from './search';
 export * from './settings';
 export * from './slider';
 export * from './spin';

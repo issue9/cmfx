@@ -5,3 +5,4 @@
 export * from './choice';
 export * from './dropdown';
 export * from './menu';
+export * from './search';
