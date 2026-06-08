@@ -7,7 +7,7 @@ import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
-import { type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps, style2String, type ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import { Upload } from '@components/upload/upload';
 import { PreviewFile, PreviewURL } from './preview.tsx';
@@ -84,7 +84,12 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<fieldset ref={el => (dropRef = el)} class={styles['upload-content']} disabled={props.disabled}>
+		<fieldset
+			ref={el => (dropRef = el)}
+			class={joinClass(props.palette, props.class, field.class, styles['upload-content'])}
+			style={style2String(field.style, props.style)}
+			disabled={props.disabled}
+		>
 			<Upload.Root
 				ref={el => {
 					uploadRef = el;

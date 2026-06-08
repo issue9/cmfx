@@ -37,8 +37,8 @@ describe('area2Style', () => {
 });
 
 describe('calcAreas', () => {
-	test('horizontal', () => {
-		expect(calcAreas('horizontal')).toEqual<Areas>({
+	test('horizontal-feedback', () => {
+		expect(calcAreas('horizontal', true)).toEqual<Areas>({
 			label: { pos: 'top-start', rows: 2 },
 			data: { pos: 'top-center', cols: 2, rows: 2 },
 			help: { pos: 'bottom-center' },
@@ -46,16 +46,15 @@ describe('calcAreas', () => {
 		});
 	});
 
-	test('horizontal-feedback', () => {
-		expect(calcAreas('horizontal', true)).toEqual<Areas>({
-			label: { pos: 'top-start', rows: 2 },
-			data: { pos: 'top-center', cols: 3, rows: 2 },
-			extra: { pos: 'top-end' },
+	test('horizontal', () => {
+		expect(calcAreas('horizontal')).toEqual<Areas>({
+			label: { pos: 'top-start', rows: 3 },
+			data: { pos: 'top-center', cols: 2, rows: 3 },
 		});
 	});
 
-	test('vertical', () => {
-		expect(calcAreas('vertical')).toEqual<Areas>({
+	test('vertical-feedback', () => {
+		expect(calcAreas('vertical', true)).toEqual<Areas>({
 			label: { pos: 'top-start', cols: 2 },
 			data: { pos: 'middle-start', cols: 3 },
 			help: { pos: 'bottom-start', cols: 3 },
@@ -63,10 +62,11 @@ describe('calcAreas', () => {
 		});
 	});
 
-	test('vertical-feedback', () => {
-		expect(calcAreas('vertical', true)).toEqual<Areas>({
-			label: { pos: 'top-start', cols: 3 },
+	test('vertical', () => {
+		expect(calcAreas('vertical')).toEqual<Areas>({
+			label: { pos: 'top-start', cols: 2 },
 			data: { pos: 'middle-start', cols: 3, rows: 2 },
+			extra: { pos: 'top-end' },
 		});
 	});
 });

@@ -90,7 +90,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 
 	return (
 		<div
-			class={joinClass(props.palette)}
+			class={joinClass(props.palette, props.class)}
 			style={props.style}
 			ref={el => {
 				if (props.ref) {
@@ -123,7 +123,8 @@ export function Popover(props: PopoverProps): JSX.Element {
 						hide();
 					}
 				}}
-				class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}
+				class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '', field.class)}
+				style={field.style}
 				aria-haspopup
 			>
 				<input

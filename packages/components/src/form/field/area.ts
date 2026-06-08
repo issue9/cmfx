@@ -73,7 +73,7 @@ function calcHorizontalAreas(feedback?: boolean): Areas {
 			}
 		: {
 				label: { pos: 'top-start', rows: 3 },
-				data: { pos: 'top-center', cols: 3, rows: 2 },
+				data: { pos: 'top-center', cols: 2, rows: 3 },
 			};
 }
 

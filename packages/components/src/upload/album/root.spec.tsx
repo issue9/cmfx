@@ -16,7 +16,7 @@ describe('Album', async () => {
 	test('props', () => ct.testProps());
 
 	test('ref', async () => {
-		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+		expect(ref.root()).toBeInstanceOf(HTMLFieldSetElement);
 		expect(ref.uploader()).toBeDefined();
 	});
 });

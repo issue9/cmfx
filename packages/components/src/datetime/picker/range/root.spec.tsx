@@ -15,7 +15,7 @@ describe('DateRangePicker.Panel', async () => {
 
 	test('ref', () => {
 		expect(ref).toBeDefined();
-		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+		expect(ref.root()).toBeInstanceOf(HTMLFieldSetElement);
 	});
 });
 

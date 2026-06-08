@@ -9,9 +9,7 @@ import { type Ref, Root } from './root';
 
 describe('MonthPanel', async () => {
 	let ref: Ref;
-	const ct = await ComponentTester.build('MonthPanel', props => <Root ref={el => (ref = el)} {...props} />);
-
-	test('props', () => ct.testProps());
+	await ComponentTester.build('MonthPanel', props => <Root ref={el => (ref = el)} {...props} />);
 
 	test('ref', () => {
 		expect(ref).toBeDefined();

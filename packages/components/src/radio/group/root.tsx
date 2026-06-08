@@ -5,7 +5,7 @@
 import { createEffect, createMemo, For, type JSX, mergeProps } from 'solid-js';
 
 import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
-import { joinClass } from '@components/base';
+import { joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
 import * as Radio from '@components/radio/radio/mod';
 import type { Options } from './options';
@@ -55,6 +55,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			props.palette,
 			styles['group-content'],
 			props.class,
+			field.class,
 			props.layout === 'vertical' ? 'flex-col' : '',
 		);
 	});
@@ -67,9 +68,16 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 
 	return (
 		<div
-			style={props.style}
+			style={style2String(props.style, field.style)}
 			class={cls()}
 			role="radiogroup"
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+					});
+				}
+			}}
 			onKeyDown={e => {
 				if (!props.block || props.disabled || props.readonly) {
 					return;

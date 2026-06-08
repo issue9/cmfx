@@ -12,7 +12,7 @@ import { Form } from '@components/form';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Base extends BaseProps, Omit<Form.DataProps, 'rounded'> {
+export interface Base extends BaseProps, ValueProps<Date>, Omit<Form.DataProps, 'rounded'> {
 	/**
 	 * 是否符带时间选择器
 	 */
@@ -60,7 +60,7 @@ export interface Base extends BaseProps, Omit<Form.DataProps, 'rounded'> {
 	readonly plugins?: Array<DatetimePlugin>;
 }
 
-export interface PanelProps extends Base, ValueProps<Date>, RefProps<PanelRef> {
+export interface PanelProps extends Base, RefProps<PanelRef> {
 	readonly popover?: false;
 }
 

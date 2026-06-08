@@ -101,10 +101,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 	});
 
 	const trigger = (
-		<div
-			class={joinClass(props.palette, props.class, field.class, styles.activator, props.rounded ? styles.rounded : '')}
-			style={style2String(field.style, props.style)}
-		>
+		<div class={joinClass(undefined, styles.activator, props.rounded ? styles.rounded : '')}>
 			<input
 				id={field.id()}
 				tabIndex={props.tabindex}
@@ -154,6 +151,8 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 	let dropdownRef: Dropdown.RootRef;
 	return (
 		<Dropdown.Root
+			class={joinClass(props.palette, props.class, field.class)}
+			style={style2String(field.style, props.style)}
 			multiple={props.multiple}
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
 			value={field.getValue() as any}
@@ -166,6 +165,12 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				s.overflowY = 'auto';
 
 				dropdownRef = el;
+
+				if (props.ref) {
+					props.ref({
+						root: () => el.root(),
+					});
+				}
 			}}
 			onPopover={e => {
 				if (props.disabled) {

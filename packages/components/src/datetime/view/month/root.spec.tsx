@@ -75,7 +75,7 @@ describe('MonthView', async () => {
 
 	test('ref', () => {
 		expect(ref).toBeDefined();
-		expect(ref.root()).toBeInstanceOf(HTMLTableElement);
+		expect(ref.root()).toBeInstanceOf(HTMLFieldSetElement);
 	});
 
 	test('hover & click', async () => {
