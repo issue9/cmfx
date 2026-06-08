@@ -70,6 +70,7 @@
 		"tailwindcss": "catalog:"
 	},
 	"devDependencies": {
+		"@microsoft/api-extractor": "catalog:",
 		"@tailwindcss/vite": "catalog:",
 		"@types/node": "catalog:",
 		"autoprefixer": "catalog:",
@@ -78,7 +79,7 @@
 		"typescript": "catalog:",
 		"unplugin-icons": "catalog:",
 		"vite": "catalog:",
-		"vite-plugin-dts": "catalog:",
+		"unplugin-dts": "catalog:",
 		"vite-plugin-solid": "catalog:",
 		"vitest-fetch-mock": "catalog:",
 		"vitest": "catalog:"

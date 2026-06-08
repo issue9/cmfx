@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
+import dts from 'unplugin-dts/vite';
 
 import { buildPostBanner, pluginTarget, vitePluginCopyFile } from '../vite.config.common';
 import pkg from './package.json' with { type: 'json' };
@@ -13,8 +13,7 @@ export default defineConfig({
 	plugins: [
 		dts({
 			entryRoot: './src',
-			insertTypesEntry: true,
-			rollupTypes: true,
+			bundleTypes: true,
 			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts'],
 		}),
 		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),

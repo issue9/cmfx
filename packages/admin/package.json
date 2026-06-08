@@ -63,13 +63,14 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"unplugin-icons": "catalog:",
+		"@microsoft/api-extractor": "catalog:",
 		"@tailwindcss/vite": "catalog:",
 		"@types/node": "catalog:",
 		"autoprefixer": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
-		"vite-plugin-dts": "catalog:",
+		"unplugin-dts": "catalog:",
+		"unplugin-icons": "catalog:",
 		"vite-plugin-solid": "catalog:",
 		"vitest": "catalog:"
 	}

@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
+import dts from 'unplugin-dts/vite';
 import solidPlugin from 'vite-plugin-solid';
 
 import customIcons from '../../build/unplugin-icons';
@@ -30,8 +30,7 @@ export default defineConfig({
 		}),
 		dts({
 			entryRoot: './src',
-			insertTypesEntry: true,
-			rollupTypes: true,
+			bundleTypes: true,
 			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts', './src/**/*.spec.tsx'],
 		}),
 		tailwindcss(),

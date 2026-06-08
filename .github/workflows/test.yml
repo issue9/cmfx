@@ -22,7 +22,7 @@ jobs:
           node-version: 24
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
         with:
           version: latest
 
@@ -41,7 +41,7 @@ jobs:
         run: make test-ts
 
       - name: Upload Coverage report
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           token: ${{secrets.CODECOV_TOKEN}}
           files: ./coverage/ts.json
