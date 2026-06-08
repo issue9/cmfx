@@ -5,6 +5,7 @@
 export type { CellType, Column } from './column';
 export { isCellType, presetCellRenderFunc } from './column';
 export { createDownloadLink } from './download';
+export type { FetchFunc } from './export';
 export { Exporter } from './export';
 export type { Page, Query } from './query';
-export { query2Search } from './query';
+export { isPage, query2Search } from './query';

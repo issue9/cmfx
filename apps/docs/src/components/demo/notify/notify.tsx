@@ -2,48 +2,51 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Choice, Form, Notify, Numeric, TextField } from '@cmfx/components';
+import { Alert, Button, Choice, InputNumber, InputText, Notify } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
-import type { JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 
 export default function (): JSX.Element {
-	const typ = Form.fieldAccessor<Alert.Type>('type', 'success');
-	const pos = Form.fieldAccessor<Notify.Position>('pos', 'top');
-	const timeout = Form.fieldAccessor<number>('timeout', 5000);
-	const title = Form.fieldAccessor<string>('title', 'title');
-	const body = Form.fieldAccessor<string>('body', 'body');
+	const [typ, setTyp] = createSignal<Alert.Type>('success');
+	const [pos, setPos] = createSignal<Notify.Position>('top');
+	const [timeout, setTimeout] = createSignal(5000);
+	const [title, setTitle] = createSignal('title');
+	const [body, setBody] = createSignal('body');
 
 	const click = async (): Promise<void> => {
-		await Notify.notify(title.getValue(), body.getValue(), typ.getValue(), timeout.getValue(), false, pos.getValue());
+		await Notify.notify(title(), body(), typ(), timeout(), false, pos());
 	};
 
 	return (
 		<>
 			<div class="flex w-40 flex-col gap-2">
 				<Choice.Root
-					label="type"
-					accessor={typ}
+					placeholder="type"
+					value={typ()}
+					onChange={setTyp}
 					options={Alert.types.map(v => {
 						return { type: 'item', value: v, label: v };
 					})}
 				/>
+
 				<Choice.Root
-					label="position"
-					accessor={pos}
+					placeholder="position"
+					value={pos()}
+					onChange={setPos}
 					options={Notify.positions.map(v => {
 						return { type: 'item', value: v, label: v };
 					})}
 				/>
-				<Numeric.Root step={500} label="timeout" accessor={timeout} />
-				<TextField.Root label="title" accessor={title} />
-				<TextField.Root label="body" accessor={body} />
+				<InputNumber.Root step={500} placeholder="timeout" value={timeout()} onChange={setTimeout} />
+				<InputText.Root placeholder="title" value={title()} onChange={setTitle} />
+				<InputText.Root placeholder="body" value={body()} onChange={setBody} />
 				<Button.Root palette="primary" onclick={click}>
 					notify
 				</Button.Root>
 				<Button.Root
 					palette="primary"
 					onclick={() => {
-						body.setValue('body\nwith\nnewline');
+						setBody('body\nwith\nnewline');
 						click();
 					}}
 				>

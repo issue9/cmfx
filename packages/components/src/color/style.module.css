@@ -18,7 +18,7 @@
 
 				.value {
 					@apply text-sm cursor-pointer;
-					@apply overflow-hidden overflow-ellipsis whitespace-nowrap;
+					@apply overflow-hidden text-ellipsis whitespace-nowrap;
 					@apply flex gap-1 justify-center items-center h-8 w-fit px-2;
 					@apply border border-palette-border rounded-sm;
 					@apply hover:border-palette-border-focused;
@@ -80,5 +80,23 @@
 				}
 			}
 		}
+	}
+
+	.activator {
+		@apply rounded-sm cursor-pointer;
+		@apply overflow-clip;
+		@apply cursor-pointer;
+	}
+
+	.activator.readonly {
+		@apply cursor-default pointer-events-none;
+	}
+
+	.activator.rounded {
+		@apply rounded-full;
+	}
+
+	.activator.disabled {
+		@apply pointer-events-none;
 	}
 }

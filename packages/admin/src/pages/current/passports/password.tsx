@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, Form, Password, TextField, useLocale } from '@cmfx/components';
+import { Button, Dialog, Form, InputPassword, InputText, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
@@ -69,14 +69,14 @@ export class Pwd implements PassportComponents {
 			<Form.Root class={styles.password} api={api}>
 				<Form.Message api={api} closable />
 
-				<TextField.Root
+				<InputText.Root
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
 					accessor={api.accessor<string>('username')}
 				/>
-				<Password.Root
+				<InputPassword.Root
 					hasHelp
 					prefix={<IconPassword class={styles['text-field']} />}
 					autocomplete="current-password"
@@ -143,8 +143,8 @@ export class Pwd implements PassportComponents {
 					}
 				>
 					<Form.Root class={styles['action-form']} inDialog api={api}>
-						<TextField.Root placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
-						<TextField.Root placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
+						<InputText.Root placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
+						<InputText.Root placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
 						<Form.Submit class="ms-auto">{l.t('_c.ok')}</Form.Submit>
 					</Form.Root>
 				</Dialog.Root>

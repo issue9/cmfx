@@ -22,7 +22,7 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import type { AvailableEnumType, BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
 import { classList, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
@@ -90,48 +90,28 @@ interface Base<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> e
 /**
  * 多选菜单的属性
  */
-export interface MultipleProps<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> extends Base<T, TAG> {
+export interface MultipleProps<T extends AvailableEnumType = string, TAG extends Tag = 'menu'>
+	extends Base<T, TAG>,
+		ValueProps<Array<T>> {
 	/**
 	 * 是否多选
 	 *
 	 * @remarks
 	 * 在该模式下，点击并不会主动关闭弹出的菜单。如果子项的 type 为 a，那么多选对该项无效。
 	 */
-	multiple: true;
-
-	/**
-	 * 默认的选中项
-	 *
-	 * @reactive
-	 */
-	value?: Array<T>;
-
-	/**
-	 * 当选择项发生变化时触发的事件
-	 */
-	onChange?: ChangeFunc<Array<T>>;
+	readonly multiple: true;
 }
 
 /**
  * 单选菜单的属性
  */
-export interface SingleProps<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> extends Base<T, TAG> {
+export interface SingleProps<T extends AvailableEnumType = string, TAG extends Tag = 'menu'>
+	extends Base<T, TAG>,
+		ValueProps<T> {
 	/**
 	 * 是否多选
 	 */
-	multiple?: false;
-
-	/**
-	 * 默认的选中项
-	 *
-	 * @reactive
-	 */
-	value?: T;
-
-	/**
-	 * 当选择项发生变化时触发的事件
-	 */
-	onChange?: ChangeFunc<T>;
+	readonly multiple?: false;
 }
 
 /**

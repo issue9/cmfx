@@ -1,20 +1,26 @@
-// SPDX-FileCopyrightText: 2024-2026 caixw
+// SPDX-FileCopyrightText: 2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import type { JSX } from 'solid-js';
-
-import type { AvailableEnumType, Layout } from '@components/base';
-import type { Props } from './field';
+import type { Layout } from '@components/base';
 
 export const labelAlignments = ['start', 'center', 'end'] as const;
 
 export type LabelAlignment = (typeof labelAlignments)[number];
 
 /**
- * Field 和 FormContext 共有的属性
+ * Form 和 Field 共有的属性
  */
 export interface CommonProps {
+	/**
+	 * 表单组件的 layout 属性的默认值
+	 *
+	 * @remarks 同时也影响整个 Form 组件的布局。
+	 * @reactive
+	 * @defaultValue 'horizontal'
+	 */
+	layout?: Layout;
+
 	/**
 	 * 禁用组件
 	 *
@@ -28,23 +34,6 @@ export interface CommonProps {
 	 * @reactive
 	 */
 	readonly?: boolean;
-
-	/**
-	 * 表单组件的 layout 属性的默认值
-	 *
-	 * @remarks 同时也影响整个 Form 组件的布局。
-	 * @reactive
-	 * @defaultValue 'horizontal'
-	 */
-	layout?: Layout;
-
-	/**
-	 * 表单组件的 hasHelp 属性的默认值
-	 *
-	 * @reactive
-	 * @defaultValue true
-	 */
-	hasHelp?: boolean;
 
 	/**
 	 * 表单组件的 rounded 属性的默认值
@@ -70,39 +59,11 @@ export interface CommonProps {
 	 * @defaultValue layout === 'horizontal' ? 'end' : 'start'
 	 */
 	labelAlign?: LabelAlignment;
+
+	/**
+	 * 是否显示表单项组件中帮助信息和错误信息
+	 *
+	 * @reactive
+	 */
+	feedback?: boolean;
 }
-
-/**
- * 所有表单元素共有的属性
- */
-export type FieldBaseProps = Props &
-	CommonProps & {
-		tabindex?: number;
-
-		label?: JSX.Element;
-
-		/**
-		 * 提示信息
-		 *
-		 * 该内容显示在 helpArea 区域，只有 {@link CommonProps#hasHelp} 为真时才会显示。
-		 */
-		help?: JSX.Element;
-	};
-
-/**
- * 定义了 radio、choice 等选项类型中每个选择项的类型。
- *
- * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
- */
-export type Option<K extends AvailableEnumType = string> = {
-	value: K;
-	label: JSX.Element;
-	disabled?: boolean;
-};
-
-/**
- * 选择项的数据类型
- *
- * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
- */
-export type Options<T extends AvailableEnumType = string> = Array<Option<T>>;

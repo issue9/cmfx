@@ -127,7 +127,8 @@ export class Extractor {
 		if (!decls || decls.length === 0) {
 			throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
 		} else if (decls.length > 1) {
-			throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
+			// TODO: 支持多态
+			// throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
 		}
 		let decl = decls[0];
 
@@ -140,7 +141,8 @@ export class Extractor {
 			if (!decls || decls.length === 0) {
 				throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
 			} else if (decls.length > 1) {
-				throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
+				// TODO: 支持多态
+				// throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
 			}
 			decl = decls[0];
 		}

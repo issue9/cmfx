@@ -19,9 +19,9 @@ import {
 	useLocale,
 	useOptions,
 } from '@cmfx/components';
-import { type ExpandType, type Locale, rand } from '@cmfx/core';
+import { type Locale, rand } from '@cmfx/core';
 import Color from 'colorjs.io';
-import { batch, createEffect, createMemo, type JSX } from 'solid-js';
+import { createEffect, createMemo, createSignal, type JSX } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconLoad from '~icons/material-symbols/arrow-upload-progress';
@@ -31,12 +31,12 @@ import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconRand from '~icons/mingcute/random-fill';
 
 import styles from './style.module.css';
-import { convertSchemeVar2Color } from './utils';
+import { convertSchemeVar2Color, type SchemeStore } from './utils';
 
 /**
  * 参数面板
  */
-export function params(s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+export function params(s: SchemeStore): JSX.Element {
 	const l = useLocale();
 	const [act, opt] = useOptions();
 	let dlg: Dialog.RootRef;
@@ -45,7 +45,7 @@ export function params(s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element 
 		return { type: 'item', value: s[0], label: s[0] };
 	}) as Array<Menu.MenuItem>;
 
-	const source = createMemo(() => JSON.stringify(s.getValue(), null, 4));
+	const source = createMemo(() => JSON.stringify(s[0], null, 4));
 
 	return (
 		<div class={styles.params}>
@@ -62,7 +62,7 @@ export function params(s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element 
 									Notify.notify(l.t('_d.theme.predefinedSchemesNotFound', { name: e }));
 									return;
 								}
-								s.setValue(convertSchemeVar2Color(unwrap(obj)));
+								s[1](convertSchemeVar2Color(unwrap(obj)));
 							}}
 						>
 							<Button.Root kind="border" square title={l.t('_d.theme.loadPredefinedSchemes')}>
@@ -76,7 +76,7 @@ export function params(s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element 
 				</div>
 
 				<ButtonGroup.Root kind="border">
-					<Button.Root square onclick={async () => act.setScheme((await s.object())!)} title={l.t('_d.theme.apply')}>
+					<Button.Root square onclick={async () => act.setScheme(unwrap(s[0]))} title={l.t('_d.theme.apply')}>
 						<IconApply />
 					</Button.Root>
 					<Button.Root square onclick={() => dlg.root().showModal()} title={l.t('_d.theme.export')}>
@@ -91,11 +91,15 @@ export function params(s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element 
 			</div>
 
 			<Dialog.Root
-				class="h-1/2"
+				class="h-1/3"
 				ref={el => (dlg = el)}
-				header={<Label.Root icon={<IconExport />}>{l.t('_d.theme.export')}</Label.Root>}
+				header={
+					<Dialog.Toolbar movable close>
+						<Label.Root icon={<IconExport />}>{l.t('_d.theme.export')}</Label.Root>
+					</Dialog.Toolbar>
+				}
 			>
-				<Code.Root lang="json" class="h-full" ln={0}>
+				<Code.Root lang="json" class="h-full" ln={0} decorates={['copy-button']}>
 					{source()}
 				</Code.Root>
 			</Dialog.Root>
@@ -106,44 +110,51 @@ export function params(s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element 
 /**
  * 生成随机参数
  */
-export function random(s: Form.ObjectAccessor<ExpandType<Scheme>>) {
-	batch(() => {
-		let h = rand(0, 360, 2);
-		s.accessor<string>('error').setValue(fmtColor(1, 0.4, h));
+export function random(s: SchemeStore) {
+	let h = rand(0, 360, 2);
+	const error = fmtColor(1, 0.4, h);
 
-		h = rand((h + 20) % 360, 360, 2);
-		s.accessor<string>('primary').setValue(fmtColor(1, 0.4, h));
+	h = rand((h + 20) % 360, 360, 2);
+	const primary = fmtColor(1, 0.4, h);
 
-		h = rand((h + 20) % 360, 360, 2);
-		s.accessor<string>('secondary').setValue(fmtColor(1, 0.4, h));
+	h = rand((h + 20) % 360, 360, 2);
+	const secondary = fmtColor(1, 0.4, h);
 
-		h = rand((h + 20) % 360, 360, 2);
-		s.accessor<string>('tertiary').setValue(fmtColor(1, 0.4, h));
+	h = rand((h + 20) % 360, 360, 2);
+	const tertiary = fmtColor(1, 0.4, h);
 
-		h = rand((h + 20) % 360, 360, 2);
-		s.accessor<string>('surface').setValue(fmtColor(1, 0.4, h));
+	h = rand((h + 20) % 360, 360, 2);
+	const surface = fmtColor(1, 0.4, h);
 
-		s.accessor<number>('radius.xs').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-		s.accessor<number>('radius.sm').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-		s.accessor<number>('radius.md').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-		s.accessor<number>('radius.lg').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-		s.accessor<number>('radius.xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-	});
+	s[1](() => ({
+		error,
+		primary,
+		secondary,
+		tertiary,
+		surface,
+		radius: {
+			xs: radiusValues[rand(0, radiusValues.length, 0)],
+			sm: radiusValues[rand(0, radiusValues.length, 0)],
+			md: radiusValues[rand(0, radiusValues.length, 0)],
+			lg: radiusValues[rand(0, radiusValues.length, 0)],
+			xl: radiusValues[rand(0, radiusValues.length, 0)],
+		},
+	}));
 }
 
 // 设置圆角孤度参数面板
-function radiusParams(l: Locale, s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+function radiusParams(l: Locale, s: SchemeStore): JSX.Element {
 	return (
 		<div class={styles.param}>
 			<Divider.Root>
 				<IconRadius class="me-1" />
 				{l.t('_d.theme.radius')}
 			</Divider.Root>
-			{radius('xs', s.accessor<number>('radius.xs'))}
-			{radius('sm', s.accessor<number>('radius.sm'))}
-			{radius('md', s.accessor<number>('radius.md'))}
-			{radius('lg', s.accessor<number>('radius.lg'))}
-			{radius('xl', s.accessor<number>('radius.xl'))}
+			{radius('xs', s, 'xs')}
+			{radius('sm', s, 'sm')}
+			{radius('md', s, 'md')}
+			{radius('lg', s, 'lg')}
+			{radius('xl', s, 'xl')}
 		</div>
 	);
 }
@@ -151,7 +162,7 @@ function radiusParams(l: Locale, s: Form.ObjectAccessor<ExpandType<Scheme>>): JS
 // 可用的圆角值
 const radiusValues = [0, 0.25, 0.5, 1, 1.5, 2] as const;
 
-function radius(title: string, a: Form.Accessor<number>): JSX.Element {
+function radius(title: string, s: SchemeStore, a: keyof Scheme['radius']): JSX.Element {
 	const radiusLabel = (radius: number): JSX.Element => {
 		return (
 			<div class={styles.btns}>
@@ -162,19 +173,21 @@ function radius(title: string, a: Form.Accessor<number>): JSX.Element {
 
 	return (
 		<div class={styles.radius}>
-			<RadioGroup.Root
-				class="w-full"
-				accessor={a}
-				block
-				label={<span class={styles.title}>{title}</span>}
-				options={radiusValues.map(v => ({ value: v, label: radiusLabel(v) }))}
-			/>
+			<Form.Field label={<span class={styles.title}>{title}</span>}>
+				<RadioGroup.Root
+					class="w-full"
+					value={s[0].radius[a]}
+					onChange={v => s[1]('radius', a, v!)}
+					block
+					options={radiusValues.map(v => ({ value: v, label: radiusLabel(v) }))}
+				/>
+			</Form.Field>
 		</div>
 	);
 }
 
 // 颜色选择参数面板
-function colorsParams(l: Locale, s: Form.ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+function colorsParams(l: Locale, s: SchemeStore): JSX.Element {
 	return (
 		<div class={styles.param}>
 			<Divider.Root>
@@ -190,19 +203,19 @@ function colorsParams(l: Locale, s: Form.ObjectAccessor<ExpandType<Scheme>>): JS
 	);
 }
 
-function PalettePicker(props: { palette: Palette; schemes: Form.ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
+function PalettePicker(props: { palette: Palette; schemes: SchemeStore }): JSX.Element {
 	let rangeRef: Slider.RootRef;
-	const schemesFA = props.schemes.accessor<string>(props.palette);
+	const palette = props.schemes[0][props.palette];
 
-	const c = new Color(props.schemes.getValue()[props.palette]);
-	const hueFA = Form.fieldAccessor<number>('hue', c.h!);
-	hueFA.onChange(v => {
-		const c = new Color(schemesFA.getValue());
-		schemesFA.setValue(fmtColor(c.l, c.c, v));
+	const c = new Color(palette ?? 'transparent');
+	const [hue, setHue] = createSignal<number>(c.h!);
+	createEffect(() => {
+		c.h = hue();
+		props.schemes[1]({ [props.palette]: c.toString() });
 	});
 
 	createEffect(() => {
-		const c = new Color(props.schemes.getValue()[props.palette]);
+		const c = new Color(props.schemes[0][props.palette]);
 
 		rangeRef.input().style.background = `linear-gradient(to right, ${fmtColor(c.l, c.c, 0)},
             ${fmtColor(c.l, c.c, 20)}, ${fmtColor(c.l, c.c, 40)}, ${fmtColor(c.l, c.c, 60)},
@@ -212,23 +225,21 @@ function PalettePicker(props: { palette: Palette; schemes: Form.ObjectAccessor<E
             ${fmtColor(c.l, c.c, 260)}, ${fmtColor(c.l, c.c, 280)}, ${fmtColor(c.l, c.c, 300)},
             ${fmtColor(c.l, c.c, 320)}, ${fmtColor(c.l, c.c, 340)}, ${fmtColor(c.l, c.c, 360)})`;
 
-		hueFA.setValue(c.h!);
+		setHue(c.h!);
 	});
 
 	return (
-		<Slider.Root
-			min={0}
-			max={360}
-			step={0.01}
-			fitHeight
-			ref={el => {
-				rangeRef = el;
-			}}
-			layout="vertical"
-			label={props.palette}
-			accessor={hueFA}
-			value={v => `${v.toFixed(2)}`}
-		/>
+		<Form.Field layout="vertical" label={props.palette}>
+			<Slider.Root
+				min={0}
+				max={360}
+				step={0.01}
+				fitHeight
+				ref={el => (rangeRef = el)}
+				value={hue()}
+				onChange={setHue}
+			/>
+		</Form.Field>
 	);
 }
 

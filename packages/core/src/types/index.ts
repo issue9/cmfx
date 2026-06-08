@@ -6,6 +6,7 @@ export type { ArrayElement } from './array';
 export type { Flatten, Keys as FlattenKeys, Object as Flattenable } from './flatten';
 export { flatten } from './flatten';
 export type {
+	DeepRequired,
 	Expand as ExpandType,
 	OmitOptional,
 	OptionalKeys,

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, Avatar, Button, Divider, Form, Page, Table, TextField, Upload, useLocale } from '@cmfx/components';
+import { Album, Avatar, Button, Divider, Form, InputText, Page, Table, Upload, useLocale } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
@@ -10,7 +10,7 @@ import IconCamera from '~icons/material-symbols/photo-camera';
 
 import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
 import { type Passport, SexSelector } from '@admin/components';
-import { type Sex, sexSchema } from '@admin/schemas';
+import { sexSchema } from '@admin/schemas';
 import type { PassportComponents } from './passports';
 import styles from './style.module.css';
 
@@ -31,7 +31,7 @@ export function Profile(props: Props): JSX.Element {
 	const l = useLocale();
 	let uploadRef: Upload.RootRef;
 
-	const api = new Form.API({
+	const [F, Field, api] = Form.create({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
 		onProblem: async p => handleProblem(p),
 		submit: async obj => {
@@ -54,16 +54,7 @@ export function Profile(props: Props): JSX.Element {
 		}
 
 		api.setPreset(info);
-
-		const nameA = api.accessor('name');
-		const nicknameA = api.accessor('nickname');
-		const sexA = api.accessor('sex');
-		const passportA = Form.fieldAccessor('passports', info.passports);
-
-		nameA.setValue(info.name!);
-		nicknameA.setValue(info.nickname!);
-		sexA.setValue(info.sex!);
-		passportA.setValue(info.passports);
+		api.setValue(info);
 
 		setAvatar(info.avatar!);
 		originAvatar = info.avatar!;
@@ -146,10 +137,18 @@ export function Profile(props: Props): JSX.Element {
 
 			<Divider.Root padding="4px" />
 
-			<Form.Root class={styles.form} api={api}>
-				<TextField.Root class="w-full" label={l.t('_p.current.name')} accessor={api.accessor('name')} />
-				<TextField.Root class="w-full" label={l.t('_p.nickname')} accessor={api.accessor('nickname')} />
-				<SexSelector class="w-full" label={l.t('_p.sex')} accessor={api.accessor<Sex>('sex')} />
+			<F class={styles.form}>
+				<Field label={l.t('_p.current.name')} name="name">
+					<InputText.Root class="w-full" />
+				</Field>
+
+				<Field label={l.t('_p.nickname')} name="nickname">
+					<InputText.Root class="w-full" />
+				</Field>
+
+				<Field label={l.t('_p.sex')} name="sex">
+					<SexSelector class="w-full" />
+				</Field>
 
 				<div class={styles.actions}>
 					<Form.Reset palette="secondary" disabled={api.isPreset()}>
@@ -159,7 +158,7 @@ export function Profile(props: Props): JSX.Element {
 						{l.t('_p.save')}
 					</Form.Submit>
 				</div>
-			</Form.Root>
+			</F>
 
 			<Divider.Root padding="8px">{l.t('_p.admin.passport')}</Divider.Root>
 

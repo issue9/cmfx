@@ -1,0 +1,29 @@
+// SPDX-FileCopyrightText: 2025-2026 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import IconRange from '~icons/uil/slider-h-range';
+
+import type { Info } from '@docs/components/base';
+import { default as Basic } from './basic';
+import { default as basic } from './basic.tsx?raw';
+import { default as Mark } from './mark';
+import { default as mark } from './mark.tsx?raw';
+import { default as Step } from './step';
+import { default as step } from './step.tsx?raw';
+
+export default function (): Info {
+	return {
+		kind: 'data-input',
+		title: '_d.demo.slider',
+		icon: IconRange,
+		path: 'slider',
+		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
+		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
+		stages: [
+			{ component: Basic, source: basic, id: 'basic' },
+			{ component: Step, source: step, id: 'step' },
+			{ component: Mark, source: mark, id: 'mark' },
+		],
+	};
+}

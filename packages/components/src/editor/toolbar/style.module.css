@@ -1,0 +1,36 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../../style.css";
+
+@layer components {
+	.toolbar {
+		@apply border-b border-palette-border bg-palette-bg text-palette-fg p-1;
+		@apply flex gap-1 justify-center;
+
+		.item {
+			@apply px-0 flex justify-center items-center h-8;
+
+			/* item 中的用于激活弹出框的项 */
+			.color-activator {
+				@apply rounded-none w-full h-full;
+			}
+		}
+
+		.line-height,
+		.link {
+			@apply flex items-center gap-1 w-100;
+		}
+	}
+
+	.image-main {
+		@apply flex flex-col items-stretch gap-2;
+
+		footer {
+			@apply flex justify-between;
+		}
+	}
+}

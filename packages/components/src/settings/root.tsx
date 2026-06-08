@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { DisplayStyle } from '@cmfx/core';
-import { formatDuration, I18n } from '@cmfx/core';
+import { formatDuration } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { Show } from 'solid-js';
 import IconTransitionDuration from '~icons/material-symbols/animated-images-rounded';
@@ -16,17 +15,20 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import type { BaseProps, BaseRef, Mode, RefProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { Button } from '@components/button';
 import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';
-import { Choice, Form, Numeric, RadioGroup, Slider } from '@components/form';
 import { Formatter } from '@components/formatter';
+import { InputNumber } from '@components/input';
 import { Label } from '@components/label';
+import { Choice } from '@components/menu';
+import { RadioGroup } from '@components/radio';
 import { SchemeSelector } from '@components/scheme';
+import { Slider } from '@components/slider';
 import styles from './style.module.css';
 
 export type Ref = BaseRef<HTMLDivElement>;
@@ -101,24 +103,6 @@ export function Root(props: Props) {
 	const [accessor, origin] = useOptions();
 	const l = useLocale();
 
-	const fontSizeFA = Form.fieldAccessor<number>('fontSize', parseInt(accessor.getFontSize().slice(0, -2), 10));
-	fontSizeFA.onChange(v => accessor.setFontSize(`${v}px`));
-
-	const modeFA = Form.fieldAccessor<Mode>('mode', accessor.getMode());
-	modeFA.onChange(m => accessor.setMode(m));
-
-	const localeFA = Form.fieldAccessor<string>('locale', I18n.matchLanguage(accessor.getLocale()));
-	localeFA.onChange(v => accessor.setLocale(v));
-
-	const unitFA = Form.fieldAccessor<DisplayStyle>('unit', accessor.getDisplayStyle());
-	unitFA.onChange(v => accessor.setDisplayStyle(v));
-
-	const staysFA = Form.fieldAccessor<number>('stays', accessor.getStays());
-	staysFA.onChange(v => accessor.setStays(v));
-
-	const transitionDurationFA = Form.fieldAccessor<number>('transitionDuration', accessor.getTransitionDuration());
-	transitionDurationFA.onChange(v => accessor.setTransitionDuration(v));
-
 	return (
 		<div
 			class={joinClass(props.palette, styles.settings, props.class)}
@@ -136,15 +120,24 @@ export function Root(props: Props) {
 			{/***************************** font *******************************/}
 
 			<Item icon={<IconFontSize />} title={l.t('_c.settings.fontSize')} desc={l.t('_c.settings.fontSizeDesc')}>
-				<Slider.Root class={styles.range} value={v => `${v}px`} min={12} max={32} step={1} accessor={fontSizeFA} />
+				<Slider.Root
+					class={styles.range}
+					format={v => `${v}px`}
+					min={12}
+					max={32}
+					step={1}
+					value={parseInt(accessor.getFontSize().slice(0, -2), 10)}
+					onChange={v => accessor.setFontSize(`${v}px`)}
+				/>
 			</Item>
 
 			{/***************************** mode *******************************/}
 			<Separator />
 			<Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
 				<RadioGroup.Root
-					itemLayout="horizontal"
-					accessor={modeFA}
+					layout="horizontal"
+					value={accessor.getMode()}
+					onChange={v => accessor.setMode(v ?? origin.mode)}
 					block={/*@once*/ false}
 					class={styles.radios}
 					options={
@@ -181,11 +174,12 @@ export function Root(props: Props) {
 				<Slider.Root
 					disabled={isReducedMotion()}
 					class={styles.range}
-					value={v => `${v}ms`}
+					format={v => `${v}ms`}
 					min={100}
 					max={3000}
 					step={100}
-					accessor={transitionDurationFA}
+					value={accessor.getTransitionDuration()}
+					onChange={v => accessor.setTransitionDuration(v ?? origin.transitionDuration)}
 				/>
 			</Item>
 
@@ -193,14 +187,26 @@ export function Root(props: Props) {
 
 			<Separator />
 			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
-				<Numeric.Root accessor={staysFA} min={1000} max={10000} step={500} class={styles.stays} />
+				<InputNumber.Root
+					value={accessor.getStays()}
+					onChange={v => accessor.setStays(v ?? origin.stays)}
+					min={1000}
+					max={10000}
+					step={500}
+					class={styles.stays}
+				/>
 			</Item>
 
 			{/***************************** locale *******************************/}
 
 			<Separator />
 			<Item icon={/*@once*/ <IconTranslate />} title={l.t('_c.settings.locale')} desc={l.t('_c.settings.localeDesc')}>
-				<Choice.Root accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
+				<Choice.Root
+					class={styles.locale}
+					value={accessor.getLocale()}
+					onChange={v => accessor.setLocale(v ?? origin.locale)}
+					options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))}
+				/>
 			</Item>
 
 			{/***************************** displayStyle *******************************/}
@@ -212,8 +218,9 @@ export function Root(props: Props) {
 				desc={l.t('_c.settings.displayStyleDesc')}
 			>
 				<RadioGroup.Root
-					itemLayout="horizontal"
-					accessor={unitFA}
+					layout="horizontal"
+					value={accessor.getDisplayStyle()}
+					onChange={v => accessor.setDisplayStyle(v ?? origin.displayStyle)}
 					block={/*@once*/ false}
 					class={styles.radios}
 					options={
@@ -258,11 +265,6 @@ export function Root(props: Props) {
 					palette="error"
 					onclick={() => {
 						accessor.reset();
-						fontSizeFA.setValue(parseInt(accessor.getFontSize().slice(0, -2), 10));
-						modeFA.setValue(accessor.getMode());
-						localeFA.setValue(accessor.getLocale());
-						unitFA.setValue(accessor.getDisplayStyle());
-						staysFA.setValue(accessor.getStays());
 
 						if (props.onReset) {
 							props.onReset();

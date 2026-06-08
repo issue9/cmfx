@@ -1,0 +1,229 @@
+[
+	{
+		"kind": "interface",
+		"name": "Radio.RootProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "AvailableEnumType",
+				"init": "string"
+			}
+		],
+		"properties": [
+			{
+				"name": "tabindex",
+				"type": "number | undefined"
+			},
+			{
+				"name": "label",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "block",
+				"summary": "是否显示为块\n\n",
+				"remarks": "是否隐藏原本的单选按钮，只显示文本内容配以边框。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "checked",
+				"summary": "复选框的初始状态，true 为选中，false 为未选中。\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "onChange",
+				"type": "((v?: boolean) => void) | undefined"
+			},
+			{
+				"name": "name",
+				"summary": "字段名称\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "value",
+				"type": "T | undefined"
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Radio.RootRef",
+		"methods": [
+			{
+				"name": "input",
+				"summary": "组件的 input 元素\n\n",
+				"type": "input(): HTMLInputElement",
+				"return": {
+					"type": "HTMLInputElement"
+				}
+			},
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "RadioGroup.RootProps",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "AvailableEnumType",
+				"init": "string"
+			}
+		],
+		"properties": [
+			{
+				"name": "layout",
+				"summary": "所有 checkbox 项的布局\n\n",
+				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "value",
+				"summary": "值\n\n",
+				"remarks": "如果使用了 Form 组件，则该属性会覆盖由 useField 获取的值。\n\n",
+				"type": "T | undefined",
+				"reactive": true
+			},
+			{
+				"name": "onChange",
+				"type": "ChangeFunc<T> | undefined"
+			},
+			{
+				"name": "block",
+				"summary": "是否显示为块\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "options",
+				"summary": "选择项\n\n",
+				"type": "Options_7<T>",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
+				"name": "disabled",
+				"summary": "禁用组件\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "readonly",
+				"summary": "只读属性\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "rounded",
+				"summary": "表单组件的 rounded 属性的默认值\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "tabindex",
+				"summary": "tabindex 属性\n\n",
+				"type": "number | undefined",
+				"def": "0\n\n",
+				"reactive": true
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
+			}
+		],
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"methods": [
+			{
+				"name": "root",
+				"summary": "返回组件的根元素\n\n",
+				"type": "root(): T",
+				"return": {
+					"type": "T"
+				}
+			}
+		],
+		"name": "RadioGroup.RootRef",
+		"pkg": "@cmfx/components"
+	}
+]

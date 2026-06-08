@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { PickerPanel } from './picker';
-export { HSLPickerPanel } from './picker_hsl';
-export { OKLCHPickerPanel } from './picker_oklch';
-export { PresetPickerPanel } from './picker_preset';
-export { RGBPickerPanel } from './picker_rgb';
-export { TailwindVarsPickerPanel } from './picker_vars';
-export { WebSafePickerPanel } from './picker_websafe';
 export type { Props as RootProps, Ref as RootRef } from './root';
 export { Root } from './root';
+export type { Space } from './space';
+export { HSLSpace } from './space_hsl';
+export { OKLCHSpace } from './space_oklch';
+export { PresetSpace } from './space_preset';
+export { RGBSpace } from './space_rgb';
+export { TailwindVarsSpace } from './space_vars';
+export { WebSafeSpace } from './space_websafe';
+export { wcag } from './wcag';

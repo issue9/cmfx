@@ -9,7 +9,7 @@ import IconSearch from '~icons/material-symbols/search';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import { useLocale } from '@components/context';
-import { Input } from '@components/input';
+import { InputBase } from '@components/input/base';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
 
@@ -51,7 +51,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 *
 	 * @reactive
 	 */
-	inputMode?: Input.TextProps['inputMode'];
+	inputMode?: InputBase.TextProps['inputMode'];
 
 	onSearch: (text: string) => Promise<Array<Menu.MenuItem>>;
 
@@ -76,7 +76,7 @@ export function Root(props: Props): JSX.Element {
 
 	const [value, setValue] = createSignal('');
 
-	let inputRef: Input.RootRef;
+	let inputRef: InputBase.RootRef;
 
 	const click = (e: MouseEvent) => {
 		if (!dropdownRef.root().contains(e.target as HTMLElement)) {
@@ -126,7 +126,7 @@ export function Root(props: Props): JSX.Element {
 				(document.activeElement as HTMLElement).blur();
 			}}
 		>
-			<Input.Root
+			<InputBase.Root
 				rounded={props.rounded}
 				inputMode={props.inputMode}
 				type="search"

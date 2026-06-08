@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BasicTable, Label, LoaderTable, Page, useLocale } from '@cmfx/components';
+import { DataTable, Label, Page, useLocale } from '@cmfx/components';
 import type { Query } from '@cmfx/core';
 import { createMemo, type JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
@@ -65,10 +65,8 @@ export function Services(): JSX.Element {
 				<Label.Root icon={<IconSubtitle />} tag="legend">
 					{l.t('_p.system.services')}
 				</Label.Root>
-				<LoaderTable.Root
-					hoverable
+				<DataTable.Root
 					load={async (_: Query) => (await items())?.services}
-					queries={{}}
 					columns={[
 						{ id: 'title', label: l.t('_p.system.title') },
 						{
@@ -76,7 +74,7 @@ export function Services(): JSX.Element {
 							label: l.t('_p.system.serviceState'),
 							content: ((_: string, v?: State) => {
 								return states().find(val => val.value === v)?.label;
-							}) as BasicTable.Column<Task>['content'],
+							}) as DataTable.Column<Task>['content'],
 						},
 						{ id: 'err', label: l.t('_p.system.error') },
 					]}
@@ -89,10 +87,8 @@ export function Services(): JSX.Element {
 				<Label.Root icon={<IconTask />} tag="legend">
 					{l.t('_p.system.jobs')}
 				</Label.Root>
-				<LoaderTable.Root
-					hoverable
+				<DataTable.Root
 					load={async (_: Query) => (await items())?.jobs}
-					queries={{}}
 					columns={[
 						{ id: 'title', label: l.t('_p.system.title') },
 						{
@@ -100,7 +96,7 @@ export function Services(): JSX.Element {
 							label: l.t('_p.system.serviceState'),
 							content: ((_: string, v?: State) => {
 								return states().find(val => val.value === v)?.label;
-							}) as BasicTable.Column<Job>['content'],
+							}) as DataTable.Column<Job>['content'],
 						},
 						{ id: 'err', label: l.t('_p.system.error') },
 						{

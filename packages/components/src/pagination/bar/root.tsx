@@ -7,7 +7,7 @@ import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
 import { joinClass, PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
-import { Choice, Form } from '@components/form';
+import { Choice } from '@components/menu';
 import { Pagination } from '@components/pagination/pagination';
 import styles from './style.module.css';
 
@@ -24,28 +24,33 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 总共的数据量
 	 *
+	 * @remarks
+	 * NOTE: 必须是一个大于零的整数，否则会导致导航条显示错误。
+	 *
 	 * @reactive
 	 */
 	total: number;
 
 	/**
-	 * 当前页的页码，取值范围为 [1, {@link Props#total}/{@link Props#size}]。
+	 * 当前页的页码，取值范围为 [1, {@link total}/{@link size}]。
 	 */
-	page: number;
+	readonly page: number;
 
 	/**
 	 * 每页的数据条数，默认为 sizes 属性的第二项。
 	 */
-	size?: number;
+	readonly size?: number;
 
 	/**
-	 * 属性 size 可用值的列表，默认为 {@link Options#api.pageSizes}
+	 * 属性 size 可用值的列表
+	 *
+	 * @defaultValue Options.api.pageSizes
 	 */
-	sizes?: Array<number>;
+	readonly sizes?: Array<number>;
 
-	onPageChange?: ChangeFunc<number>;
+	readonly onPageChange?: ChangeFunc<number>;
 
-	onSizeChange?: ChangeFunc<number>;
+	readonly onSizeChange?: ChangeFunc<number>;
 
 	/**
 	 * 按钮的数量
@@ -72,8 +77,8 @@ export function Root(props: Props): JSX.Element {
 		props,
 	);
 
-	if (props.sizes!.indexOf(props.size!) < 0) {
-		throw new PropsError('size', `必须存在于 props.sizes: ${props.sizes}`);
+	if (!props.sizes!.includes(props.size!)) {
+		throw new PropsError('size', `${props.size} 必须存在于 props.sizes: ${props.sizes}`);
 	}
 
 	const l = useLocale();
@@ -86,21 +91,11 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	const [page, setPage] = createSignal(props.page);
-
-	const sizeAccessor = Form.fieldAccessor('size', props.size!);
-	sizeAccessor.onChange((val: number, old?: number) => {
-		if (page() >= pages()) {
-			pageChange(pages(), page());
-		}
-
-		if (props.onSizeChange) {
-			props.onSizeChange(val, old);
-		}
-	});
+	const [size, setSize] = createSignal(props.size!);
 
 	// 页码数量
 	const pages = createMemo(() => {
-		return Math.ceil(props.total / sizeAccessor.getValue());
+		return Math.ceil(props.total / size());
 	});
 
 	const pageChange = (val: number, old?: number) => {
@@ -110,9 +105,21 @@ export function Root(props: Props): JSX.Element {
 		setPage(val);
 	};
 
+	const sizeChange = (val?: number, old?: number) => {
+		if (val === undefined) {
+			return;
+		}
+
+		if (props.onSizeChange) {
+			props.onSizeChange(val, old);
+		}
+
+		setSize(val);
+	};
+
 	const translateItems = createMemo(() => {
-		const end = page() * sizeAccessor.getValue();
-		const start = props.total > 0 ? (page() - 1) * sizeAccessor.getValue() + 1 : 0;
+		const end = page() * size();
+		const start = props.total > 0 ? (page() - 1) * size() + 1 : 0;
 		return {
 			start: start,
 			end: end > props.total ? props.total : end,
@@ -125,13 +132,13 @@ export function Root(props: Props): JSX.Element {
 		<div ref={el => (rootRef = el)} class={joinClass(props.palette, styles.bar, props.class)} style={props.style}>
 			<div class={styles.start}>
 				{l.t('_c.pagination.items', translateItems())}
-				<Choice.Root accessor={sizeAccessor} options={sizesOptions()} />
+				<Choice.Root value={size()} onChange={v => sizeChange(v)} options={sizesOptions()} />
 			</div>
 			<Pagination.Root
 				class={styles.end}
 				spans={props.spans}
 				onChange={pageChange}
-				value={props.page}
+				value={page()}
 				count={pages()}
 				ref={el => {
 					if (props.ref) {

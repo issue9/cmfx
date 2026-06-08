@@ -77,3 +77,10 @@ export type OmitOptional<T> = Omit<T, OptionalKeys<T>>;
  * 提取 T 中所有的可选字段组成一个新的对象
  */
 export type PickOptional<T> = Pick<T, OptionalKeys<T>>;
+
+/**
+ * 让对象的所有字段以及子字段都改为必须项
+ */
+export type DeepRequired<T> = {
+	[P in keyof T]-?: NonNullable<T[P]> extends object ? DeepRequired<T[P]> : T[P];
+};

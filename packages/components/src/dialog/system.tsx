@@ -6,8 +6,9 @@ import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import type { BaseProps, MountProps } from '@components/base';
-import { useLocale } from '@components/context';
-import { Form, TextField } from '@components/form';
+import { useLocale, useOptions } from '@components/context';
+import { Form } from '@components/form';
+import { InputText } from '@components/input';
 import { AcceptButton, Actions } from './buttons';
 import type { Ref } from './context';
 import { Root } from './root';
@@ -42,6 +43,7 @@ function AlertProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
 	const l = useLocale();
+	const [, opt] = useOptions();
 
 	alertInst = async (msg?: string): Promise<void> => {
 		setMsg(msg);
@@ -62,7 +64,7 @@ function AlertProvider(props: BaseProps): JSX.Element {
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
-					{l.t('_c.color.pickColor')}
+					{opt.title}
 				</Toolbar>
 			}
 			ref={el => (dlg = el)}
@@ -95,7 +97,7 @@ let confirmInst: typeof confirm;
 function ConfirmProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
-	const l = useLocale();
+	const [, opt] = useOptions();
 
 	confirmInst = (msg?: string): Promise<boolean> => {
 		setMsg(msg);
@@ -116,7 +118,7 @@ function ConfirmProvider(props: BaseProps): JSX.Element {
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
-					{l.t('_c.color.pickColor')}
+					{opt.title}
 				</Toolbar>
 			}
 			class="min-w-60"
@@ -143,23 +145,23 @@ export async function confirm(msg?: string): Promise<boolean> {
 let promptInst: typeof prompt;
 
 function PromptProvider(props: BaseProps): JSX.Element {
-	const [msg, setMsg] = createSignal<string>();
 	let dlg: Ref;
-	const access = Form.fieldAccessor('prompt', '');
-	const l = useLocale();
+	const [msg, setMsg] = createSignal<string>();
+	const [value, setValue] = createSignal('');
+	const [, opt] = useOptions();
 
 	promptInst = (msg?: string, val?: string): Promise<string | null> => {
 		setMsg(msg);
-		access.setValue(val ?? '');
+		setValue(val ?? '');
 		dlg.root().showModal();
 
 		return new Promise<string | null>(resolve => {
 			const close = () => {
 				if (dlg.root().returnValue === acceptValue) {
-					const v = access.getValue();
+					const v = value();
 					resolve(v);
 				}
-				access.setValue('');
+				setValue('');
 				dlg.root().removeEventListener('close', close);
 			};
 
@@ -172,14 +174,16 @@ function PromptProvider(props: BaseProps): JSX.Element {
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
-					{l.t('_c.color.pickColor')}
+					{opt.title}
 				</Toolbar>
 			}
 			ref={el => (dlg = el)}
 			class="min-w-60"
 			footer={<Actions acceptValue={acceptValue} />}
 		>
-			<TextField.Root class="w-full" layout="vertical" label={msg()} accessor={access} />
+			<Form.Field layout="vertical" label={msg()} class="w-full">
+				<InputText.Root value={value()} onChange={setValue} />
+			</Form.Field>
 		</Root>
 	);
 }

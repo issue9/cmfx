@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BasicTable, Label, Page, RemoteTable, useLocale } from '@cmfx/components';
+import { type DataTable, Label, Page, RemoteTable, useLocale } from '@cmfx/components';
 import { type Duration, formatDuration, type Method, parseDuration, type Query } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import IconRoutes from '~icons/material-symbols/route';
@@ -90,7 +90,7 @@ export function Routes(): JSX.Element {
 								return formatDuration(l.durationFormat(), val);
 							},
 						},
-					] as Array<BasicTable.Column<Route>>
+					] as Array<DataTable.Column<Route>>
 				}
 			/>
 		</Page.Root>

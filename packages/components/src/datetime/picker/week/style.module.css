@@ -1,0 +1,79 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../../../style.css";
+
+@layer components {
+	.container {
+		@apply rounded-md border border-palette-border flex items-center px-2 py-1 cursor-pointer outline-none w-full;
+
+		@apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
+		@apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;
+		@apply has-[:active:enabled]:border-palette-border-actived has-[:active:enabled]:bg-palette-bg-actived;
+		@apply transition;
+
+		.input {
+			@apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer outline-none;
+			@apply disabled:pointer-events-none read-only:cursor-default focus:outline-none focus-within:outline-none focus-visible:outline-none;
+		}
+
+		.input.range {
+			@apply focus-within:text-palette-fg-focused;
+		}
+	}
+
+	.container.rounded {
+		@apply rounded-full!;
+	}
+
+	.week {
+		@apply px-2 pb-2;
+
+		tr > th {
+			@apply cursor-pointer;
+		}
+
+		tbody > tr {
+			td > time {
+				@apply px-1 rounded-sm text-center inline-block;
+			}
+
+			td > span {
+				@apply inline-block text-center w-full;
+			}
+
+			td {
+				@apply border border-transparent rounded-sm cursor-pointer py-1;
+			}
+		}
+
+		.today {
+			time {
+				@apply text-palette-bg-low;
+			}
+		}
+		.selected,
+		.covered {
+			@apply bg-palette-bg-selected text-palette-fg-selected;
+
+			time {
+				@apply text-palette-fg-high;
+			}
+		}
+
+		.disabled {
+			@apply text-palette-fg-disabled;
+		}
+		.disabled.selected,
+		.disabled.covered {
+			@apply bg-palette-bg-selected text-palette-fg-selected;
+
+			time {
+				@apply text-palette-fg-low;
+			}
+		}
+	}
+}

@@ -5,13 +5,27 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { HSLPickerPanel } from './picker_hsl';
 import { type Ref, Root } from './root';
+import { HSLSpace } from './space_hsl';
 
-describe('ColorPanel', async () => {
-	let ref: Ref;
-	const ct = await ComponentTester.build('ColorPanel', props => (
-		<Root ref={el => (ref = el)} {...props} pickers={[new HSLPickerPanel()]} />
+describe('Color.Panel', async () => {
+	let ref: Ref<false>;
+	const ct = await ComponentTester.build('Color.Panel', props => (
+		<Root ref={el => (ref = el)} {...props} spaces={[new HSLSpace()]} />
+	));
+
+	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+	});
+});
+
+describe('Color.Popover', async () => {
+	let ref: Ref<true>;
+	const ct = await ComponentTester.build('Color.Popover', props => (
+		<Root popover="click" ref={el => (ref = el)} {...props} spaces={[new HSLSpace()]} />
 	));
 
 	test('props', () => ct.testProps());

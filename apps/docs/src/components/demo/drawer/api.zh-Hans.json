@@ -236,7 +236,7 @@
 					},
 					{
 						"name": "drawer",
-						"type": "Ref_37 | undefined"
+						"type": "Ref_40 | undefined"
 					}
 				]
 			}

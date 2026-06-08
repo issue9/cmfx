@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, Dialog, Form, QRCode, TextField, useLocale } from '@cmfx/components';
+import { Button, ConfirmButton, Dialog, Form, InputText, QRCode, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';
@@ -77,14 +77,14 @@ export class TOTP implements PassportComponents {
 			<Form.Root class={styles.totp} api={api}>
 				<Form.Message api={api} />
 
-				<TextField.Root
+				<InputText.Root
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
 					accessor={api.accessor<string>('username')}
 				/>
-				<TextField.Root
+				<InputText.Root
 					hasHelp
 					prefix={<IconPin class={styles['text-field']} />}
 					autocomplete="one-time-code"
@@ -173,7 +173,7 @@ export class TOTP implements PassportComponents {
 								<QRCode.Root type="rounded" value={qr()} />
 							</p>
 							<br />
-							<TextField.Root hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={api.accessor('code')} />
+							<InputText.Root hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={api.accessor('code')} />
 							<Form.Submit class="ms-auto">{l.t('_c.ok')}</Form.Submit>
 						</Form.Root>
 					</Dialog.Root>

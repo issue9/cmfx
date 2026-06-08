@@ -9,12 +9,6 @@
             - Table.RootProps
             - Table.RootRef
 
-            - BasicTable.RootProps
-            - BasicTable.RootRef
-            - BasicTable.Column
-
-            - LoaderTable.RootProps
-            - LoaderTable.RootRef
-
-            - RemoteTable.RootProps
-            - RemoteTable.RootRef
+            - DataTable.RootProps
+            - DataTable.RootRef
+            - DataTable.Column

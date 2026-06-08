@@ -5,7 +5,7 @@
 		"properties": [
 			{
 				"name": "ref",
-				"type": "(m: Ref_35) => void"
+				"type": "(m: Ref_38) => void"
 			},
 			{
 				"name": "header",

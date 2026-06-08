@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Form, type MountProps, Numeric, Table } from '@cmfx/components';
+import { type MountProps, Table } from '@cmfx/components';
 import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, numeric, paletteSelector } from '@docs/components/base';
 
 interface Item {
 	id: number;
@@ -24,10 +24,10 @@ function buildItems(start: number, size: number): Array<Item> {
 }
 
 export default function (props: MountProps) {
-	const striped = Form.fieldAccessor<Table.RootProps['striped']>('striped', 0);
 	const [Palette, palette] = paletteSelector();
 	const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
 	const [Hoverable, hoverable] = boolSelector('hoverable', false);
+	const [Num, num] = numeric<Table.RootProps['striped']>('striped', 0);
 
 	return (
 		<>
@@ -35,10 +35,10 @@ export default function (props: MountProps) {
 				<Palette />
 				<FixedLayout />
 				<Hoverable />
-				<Numeric.Root class="w-20" accessor={striped} min={0} max={10} />
+				<Num />
 			</Portal>
 
-			<Table.Root striped={striped.getValue()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>
+			<Table.Root striped={num()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>
 				<thead>
 					<tr>
 						<th>ID</th>

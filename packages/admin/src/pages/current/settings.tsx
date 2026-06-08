@@ -13,7 +13,7 @@ import {
 	useLocale,
 	Settings as XSettings,
 } from '@cmfx/components';
-import { createSignal, type JSX } from 'solid-js';
+import { createEffect, createSignal, type JSX } from 'solid-js';
 import IconLayout from '~icons/material-symbols/responsive-layout-rounded';
 import IconHorizontal from '~icons/ph/square-split-horizontal-fill';
 import IconVertical from '~icons/ph/square-split-vertical-fill';
@@ -28,14 +28,12 @@ export function Settings(): JSX.Element {
 	const l = useLocale();
 	const lay = useLayout();
 
-	const layout = Form.fieldAccessor('layout', lay.layout());
-	const float = lay.float();
-	const width = Form.fieldAccessor('width', lay.width());
 	const [rangDisabled, setRangeDisabled] = createSignal(lay.width()[0]() < 640);
-	width.onChange(v => {
+	createEffect(() => {
+		const v = lay.width()[0]();
 		if (v < 640) {
 			setRangeDisabled(true);
-			width.setValue(0);
+			lay.width()[1](0);
 		}
 	});
 
@@ -45,7 +43,7 @@ export function Settings(): JSX.Element {
 			checked={!rangDisabled()}
 			onChange={v => {
 				setRangeDisabled(!v);
-				width.setValue(v ? window.screen.width : 0);
+				lay.width()[1](v ? window.screen.width : 0);
 			}}
 		/>
 	);
@@ -62,24 +60,31 @@ export function Settings(): JSX.Element {
 						<RadioGroup.Root
 							class={styles.layout}
 							block
-							accessor={layout}
+							value={lay.layout()[0]()}
+							onChange={v => lay.layout()[1](v!)}
 							options={[
 								{ value: 'horizontal', label: <IconHorizontal class="text-8xl" /> },
 								{ value: 'vertical', label: <IconVertical class="text-8xl" /> },
 							]}
 						/>
 
-						<Checkbox.Root label={l.t('_p.current.float')} checked={float[0]()} onChange={v => float[1](!!v)} />
-
-						<Slider.Root
-							label={chk}
-							disabled={rangDisabled()}
-							step={10}
-							max={window.screen.width}
-							accessor={width}
-							class={styles.range}
-							value={v => `${v}px`}
+						<Checkbox.Root
+							label={l.t('_p.current.float')}
+							checked={lay.float()[0]()}
+							onChange={v => lay.float()[1](!!v)}
 						/>
+
+						<Form.Field label={chk} layout="horizontal">
+							<Slider.Root
+								disabled={rangDisabled()}
+								step={10}
+								max={window.screen.width}
+								value={lay.width()[0]()}
+								onChange={v => lay.width()[1](v!)}
+								class={styles.range}
+								format={v => `${v}px`}
+							/>
+						</Form.Field>
 					</div>
 				</XSettings.Item>
 

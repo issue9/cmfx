@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import type { Layout, Palette } from '@cmfx/components';
-import { Button, Checkbox, Choice, Form, layouts, palettes, useLocale } from '@cmfx/components';
+import { Button, Checkbox, Choice, Form, InputNumber, layouts, palettes, useLocale } from '@cmfx/components';
 import type { DictKeys, PopoverPosition } from '@cmfx/core';
-import { type Accessor, type Component, createSignal, createUniqueId, type Setter } from 'solid-js';
+import { type Accessor, type Component, createSignal, type JSX, type Setter } from 'solid-js';
 
 import type messages from '@docs/messages/en.lang';
 import type { StageProps, StagesProps } from './stages';
@@ -44,6 +44,32 @@ export type Info = {
 	api?: StagesProps['api']; // 关联的接口文档
 	doc: StagesProps['doc'];
 };
+
+export function numeric<T extends number = number>(
+	label: string,
+	preset: T,
+	min?: number,
+	max?: number,
+	step?: number,
+): [Component, Accessor<T | undefined>, Setter<T | undefined>] {
+	const [get, set] = createSignal<T | undefined>(preset);
+
+	const num = (): JSX.Element => {
+		const l = useLocale();
+		return (
+			<InputNumber.Root
+				class="w-20"
+				label={l.t(label)}
+				min={min}
+				max={max}
+				step={step}
+				value={get()}
+				onChange={v => set(v)}
+			/>
+		);
+	};
+	return [num, get, set];
+}
 
 /**
  * 创建一个 bool 选择项
@@ -121,17 +147,15 @@ export function arraySelector<T extends string | number>(
 		});
 	}
 
-	const name = createUniqueId(); // 保证一组 radio 一个独立的名称
-
 	const elem = () => {
 		const l = useLocale();
 		return (
 			<Choice.Root
 				closable
-				layout="horizontal"
 				placeholder={l.t(label)}
-				accessor={Form.fieldAccessor(name, signal)}
+				value={signal[0]()}
 				options={options}
+				onChange={v => signal[1](() => v)}
 			/>
 		);
 	};
@@ -179,17 +203,15 @@ export function arrayMultipleSelector<T extends string | number>(
 		});
 	}
 
-	const name = createUniqueId(); // 保证一组 radio 一个独立的名称
-
 	const elem = () => {
 		const l = useLocale();
 		return (
 			<Choice.Root
 				closable
 				multiple
-				layout="horizontal"
 				placeholder={l.t(label)}
-				accessor={Form.fieldAccessor(name, signal)}
+				value={signal[0]()}
+				onChange={v => signal[1](v)}
 				options={options}
 			/>
 		);

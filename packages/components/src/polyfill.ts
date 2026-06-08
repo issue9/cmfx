@@ -15,3 +15,5 @@ window.requestIdleCallback =
 			});
 		}, 1);
 	};
+
+export {};

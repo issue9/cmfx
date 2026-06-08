@@ -2,24 +2,24 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Form, type MountProps, Numeric, PaginationBar } from '@cmfx/components';
+import { type MountProps, PaginationBar } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { paletteSelector } from '@docs/components/base';
+import { numeric, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
-	const span = Form.fieldAccessor('spans', 3);
+	const [Num, num] = numeric('span', 3);
 
 	return (
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Numeric.Root class="w-20" accessor={span} />
+				<Num />
 			</Portal>
 
-			<PaginationBar.Root spans={span.getValue()} palette={palette()} total={100} page={2} size={20} />
+			<PaginationBar.Root spans={num()} palette={palette()} total={100} page={2} size={20} />
 		</>
 	);
 }

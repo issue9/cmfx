@@ -1,0 +1,147 @@
+// SPDX-FileCopyrightText: 2025-2026 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import { adjustPopoverPosition } from '@cmfx/core';
+import { createEffect, createMemo, createSignal, For, type JSX, untrack } from 'solid-js';
+
+import type { BaseRef, RefProps } from '@components/base';
+import { Button } from '@components/button';
+import { useLocale } from '@components/context';
+import { months } from '@components/datetime/utils';
+import { YearPanel } from '@components/datetime/view/internal/yearpanel';
+import styles from './style.module.css';
+
+export type Ref = BaseRef<HTMLFieldSetElement>;
+
+export interface Props extends RefProps<Ref> {
+	popover?: boolean | 'manual' | 'auto';
+
+	/**
+	 * 最小值
+	 *
+	 * @reactive
+	 */
+	min?: Date;
+
+	/**
+	 * 最大值
+	 *
+	 * @reactive
+	 */
+	max?: Date;
+
+	/**
+	 * 关联的值
+	 *
+	 * @reactive
+	 */
+	value?: Date;
+
+	/**
+	 * 值发生改变时触发的事件
+	 */
+	onChange?: (val?: Date, old?: Date) => void;
+}
+
+/**
+ * 月份选择面板
+ */
+export function Root(props: Props): JSX.Element {
+	const [value, setValue] = createSignal<Date | undefined>(props.value);
+	const [year, setYear] = createSignal<number>(props.value?.getFullYear() ?? new Date().getFullYear());
+
+	// 监视 props.value 变化
+	createEffect(() => {
+		const old = untrack(value);
+		setValue(props.value);
+		setYear(props.value?.getFullYear() ?? new Date().getFullYear());
+		if (props.onChange) {
+			props.onChange(props.value, old);
+		}
+	});
+
+	const change = (v?: Date) => {
+		const old = untrack(value);
+		if (old === v) {
+			return;
+		}
+
+		setValue(v);
+		if (props.onChange) {
+			props.onChange(v, old);
+		}
+	};
+
+	const l = useLocale();
+
+	const monthFormatter = createMemo(() => {
+		const s = l.displayStyle === 'full' ? 'long' : l.displayStyle === 'short' ? 'short' : 'narrow';
+		return new Intl.DateTimeFormat(l.locale.toString(), { month: s }).format;
+	});
+
+	let yearRef: YearPanel.RootRef | undefined;
+
+	return (
+		<fieldset
+			popover={props.popover}
+			ref={el => {
+				if (props.ref) {
+					props.ref({ root: () => el });
+				}
+			}}
+			class={styles.panel}
+		>
+			<header class={styles.month}>
+				<span
+					class={styles.title}
+					onclick={e => {
+						yearRef!.root().togglePopover();
+						adjustPopoverPosition(yearRef!.root(), e.currentTarget.getBoundingClientRect());
+					}}
+				>
+					{year()}
+				</span>
+
+				<YearPanel.Root
+					popover="auto"
+					ref={el => (yearRef = el)}
+					min={props.min ? props.min.getFullYear() : undefined}
+					max={props.max ? props.max.getFullYear() : undefined}
+					value={value()?.getFullYear()}
+					onChange={v => {
+						if (!v) {
+							return;
+						}
+
+						setYear(v);
+						yearRef!.root().hidePopover();
+					}}
+				/>
+			</header>
+
+			<div class={styles.grid}>
+				<For each={months}>
+					{month => {
+						return (
+							<Button.Root
+								kind="flat"
+								checked={value()?.getMonth() === month && year() === value()?.getFullYear()}
+								disabled={
+									value() &&
+									((props.min && new Date(year(), month, 1) < props.min) ||
+										(props.max && new Date(year(), month, 1) > props.max))
+								}
+								onclick={() => {
+									change(new Date(year(), month));
+								}}
+							>
+								{monthFormatter()(new Date(2000, month, 1))}
+							</Button.Root>
+						);
+					}}
+				</For>
+			</div>
+		</fieldset>
+	);
+}
