@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as BackTop from './mod';
+import { BackTop as C } from './root';
+
+export const BackTop = C;
+
+export namespace BackTop {
+	export type Props = import('./root').BackTopProps;
+	export type Ref = import('./root').BackTopRef;
+}

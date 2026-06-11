@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { CheckboxGroup, type CheckboxGroupRef } from './root';
 
 describe('CheckboxGroup', async () => {
-	let ref: Ref;
+	let ref: CheckboxGroupRef;
 	const ct = await ComponentTester.build('CheckboxGroup', props => (
-		<Root ref={el => (ref = el)} options={[]} {...props} />
+		<CheckboxGroup ref={el => (ref = el)} options={[]} {...props} />
 	));
 
 	test('props', () => ct.testProps());

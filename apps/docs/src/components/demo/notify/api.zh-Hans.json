@@ -73,7 +73,7 @@
 				"reactive": true
 			}
 		],
-		"name": "Alert.RootProps",
+		"name": "Alert.Props",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -97,7 +97,7 @@
 				}
 			}
 		],
-		"name": "Alert.RootRef",
+		"name": "Alert.Ref",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -110,7 +110,7 @@
 		"kind": "function",
 		"name": "Notify.notify",
 		"summary": "发送一条通知给用户\n\n",
-		"type": "declare function notify(title: string, body?: string, type?: Type, duration?: number, system?: boolean, pos?: Position): Promise<void>",
+		"type": "declare function notify(title: string, body?: string, type?: MessageType, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -152,7 +152,7 @@
 		"kind": "function",
 		"name": "Notify.info",
 		"summary": "`notify`\n的快捷方式，用于显示普通信息。\n\n",
-		"type": "declare function info(title: string, body?: string, duration?: number, system?: boolean, pos?: Position): Promise<void>",
+		"type": "declare function info(title: string, body?: string, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -184,7 +184,7 @@
 		"kind": "function",
 		"name": "Notify.warning",
 		"summary": "`notify`\n的快捷方式，用于显示警告信息。\n\n",
-		"type": "declare function warning(title: string, body?: string, duration?: number, system?: boolean, pos?: Position): Promise<void>",
+		"type": "declare function warning(title: string, body?: string, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -216,7 +216,7 @@
 		"kind": "function",
 		"name": "Notify.success",
 		"summary": "`notify`\n的快捷方式，用于显示成功信息。\n\n",
-		"type": "declare function success(title: string, body?: string, duration?: number, system?: boolean, pos?: Position): Promise<void>",
+		"type": "declare function success(title: string, body?: string, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -248,7 +248,7 @@
 		"kind": "function",
 		"name": "Notify.error",
 		"summary": "`notify`\n的快捷方式，用于显示错误信息。\n\n",
-		"type": "declare function error(title: string, body?: string, duration?: number, system?: boolean, pos?: Position): Promise<void>",
+		"type": "declare function error(title: string, body?: string, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
 		"params": [
 			{
 				"name": "title",

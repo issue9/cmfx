@@ -1,62 +1,164 @@
 [
 	{
-		"kind": "interface",
-		"name": "TimePanel.RootProps",
-		"properties": [
+		"name": "Time.Props",
+		"kind": "union",
+		"types": [
 			{
-				"name": "disabled",
-				"summary": "禁用状态\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
+				"kind": "interface",
+				"name": "PopoverProps_4",
+				"properties": [
+					{
+						"name": "placeholder",
+						"type": "string | undefined"
+					},
+					{
+						"name": "popover",
+						"summary": "指定弹出对话框的方式\n\n",
+						"remarks": "-\n`click`\n: 点击显示；\n-\n`hover`\n: 悬停显示；\n\n",
+						"type": "\"click\" | \"hover\"",
+						"readonly": true
+					},
+					{
+						"name": "activatorClass",
+						"summary": "作用在显示元素上的样式\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "rounded",
+						"summary": "是否圆角\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "tabindex",
+						"summary": "tabindex 属性\n\n",
+						"type": "number | undefined",
+						"def": "0\n\n",
+						"reactive": true
+					},
+					{
+						"name": "disabled",
+						"summary": "禁用组件\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "readonly",
+						"summary": "只读属性\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "value",
+						"summary": "传递给组件的值\n\n",
+						"remarks": "在 Form 之内，此属性不是可响应的，其值由 Form.Field 的 name 指定。\n\n",
+						"type": "T | undefined",
+						"reactive": true
+					},
+					{
+						"name": "onChange",
+						"summary": "`value`\n变化时的回调方法\n\n",
+						"type": "ChangeFunc<T | undefined> | undefined"
+					},
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					},
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
 			},
 			{
-				"name": "readonly",
-				"summary": "只读状态\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "popover",
-				"type": "boolean | \"manual\" | \"auto\" | undefined"
-			},
-			{
-				"name": "value",
-				"summary": "关联的值\n\n",
-				"type": "Date | undefined",
-				"reactive": true
-			},
-			{
-				"name": "onChange",
-				"summary": "值发生改变时触发的事件\n\n",
-				"type": "((val?: Date, old?: Date) => void) | undefined"
-			},
-			{
-				"name": "palette",
-				"summary": "指定当前组件采用的色盘\n\n",
-				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-				"reactive": true
-			},
-			{
-				"name": "class",
-				"summary": "为组件的根元素指定 CSS 类名\n\n",
-				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "style",
-				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
-				"type": "string | JSX.CSSProperties | undefined",
-				"reactive": true
-			},
-			{
-				"name": "ref",
-				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined"
+				"kind": "interface",
+				"name": "PanelProps_3",
+				"properties": [
+					{
+						"name": "popover",
+						"type": "false | undefined",
+						"readonly": true
+					},
+					{
+						"name": "tabindex",
+						"summary": "tabindex 属性\n\n",
+						"type": "number | undefined",
+						"def": "0\n\n",
+						"reactive": true
+					},
+					{
+						"name": "disabled",
+						"summary": "禁用组件\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "readonly",
+						"summary": "只读属性\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "value",
+						"summary": "传递给组件的值\n\n",
+						"remarks": "在 Form 之内，此属性不是可响应的，其值由 Form.Field 的 name 指定。\n\n",
+						"type": "T | undefined",
+						"reactive": true
+					},
+					{
+						"name": "onChange",
+						"summary": "`value`\n变化时的回调方法\n\n",
+						"type": "ChangeFunc<T | undefined> | undefined"
+					},
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					},
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
 			}
 		],
+		"discriminant": "popover",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -71,7 +173,7 @@
 				}
 			}
 		],
-		"name": "TimePanel.RootRef",
+		"name": "Time.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Avatar.RootProps",
+		"name": "Avatar.Props",
 		"properties": [
 			{
 				"name": "rounded",
@@ -79,7 +79,7 @@
 				}
 			}
 		],
-		"name": "Avatar.RootRef",
+		"name": "Avatar.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

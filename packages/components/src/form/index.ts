@@ -2,4 +2,34 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Form from './mod';
+import type { Flattenable } from '@cmfx/core';
+
+import { API } from './api';
+import { create } from './create';
+import { Field, FieldProvider, useField } from './field';
+import { Button, Form as C, labelAlignments, Message, Reset, Submit, useForm } from './form';
+
+export const Form = Object.assign(C, {
+	Button,
+	Field,
+	labelAlignments,
+	Message,
+	Reset,
+	Submit,
+	useForm,
+	create,
+	API,
+	FieldProvider,
+	useField,
+});
+
+export namespace Form {
+	export type FieldAccessor<T> = import('./api').FormFieldAccessor<T>;
+	export type Props<T extends Flattenable, R = never, P = never> = import('./form').FormProps<T, R, P>;
+	export type Ref = import('./form').FormRef;
+	export type LabelAlignment = import('./form').FormLabelAlignment;
+	export type MessageProps = import('./form').FormMessageProps;
+	export type FieldContext<T> = import('./field').FormFieldContext<T>;
+	export type DataProps = import('./field').FormDataProps;
+	export type FieldProps<T extends Flattenable> = import('./field').FormFieldProps<T>;
+}

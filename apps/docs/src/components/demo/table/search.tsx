@@ -78,7 +78,7 @@ export default function (props: MountProps): JSX.Element {
 				<SystemToolbar />
 			</Portal>
 
-			<DataTable.Root
+			<DataTable
 				paging
 				inSearch={{
 					toQuery: params => {
@@ -99,14 +99,14 @@ export default function (props: MountProps): JSX.Element {
 				systemToolbar={systemToolbar()}
 				fixedLayout={fixedLayout()}
 				palette={palette()}
-				toolbar={<Button.Root palette="primary">+ New</Button.Root>}
+				toolbar={<Button palette="primary">+ New</Button>}
 				columns={columns}
 				queryForm={(api, Field) => {
 					const txt = api.createFieldAccessor<string>('txt');
 					txt.setValue('abc');
 					return (
 						<Field label="search">
-							<InputText.Root value={txt.getValue()} onChange={v => txt.setValue(v)} />
+							<InputText value={txt.getValue()} onChange={v => txt.setValue(v)} />
 						</Field>
 					);
 				}}

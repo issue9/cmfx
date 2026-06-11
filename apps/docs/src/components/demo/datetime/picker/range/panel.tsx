@@ -42,14 +42,14 @@ export default function (props: MountProps): JSX.Element {
 					value={week()}
 					onChange={e => setWeek(parseInt(e.target.value, 10) as Week)}
 				/>
-				<Button.Root
+				<Button
 					onclick={() => {
 						setRange();
 					}}
 				>
 					set undefined
-				</Button.Root>
-				<Button.Root
+				</Button>
+				<Button
 					onclick={() => {
 						const now = new Date();
 						const next = new Date(now);
@@ -58,10 +58,10 @@ export default function (props: MountProps): JSX.Element {
 					}}
 				>
 					now
-				</Button.Root>
+				</Button>
 			</Portal>
 
-			<DateRangePicker.Root
+			<DateRangePicker
 				min={minmax() ? min : undefined}
 				max={minmax() ? max : undefined}
 				shortcuts={shortcut()}
@@ -78,7 +78,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			/>
 
-			<DateRangePicker.Root
+			<DateRangePicker
 				min={minmax() ? min : undefined}
 				max={minmax() ? max : undefined}
 				shortcuts={shortcut()}

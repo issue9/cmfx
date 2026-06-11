@@ -35,7 +35,7 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 			<Undo editor={props.editor} />
 			<Redo editor={props.editor} />
 
-			<Divider.Root layout="vertical" />
+			<Divider layout="vertical" />
 
 			<Heading editor={props.editor} />
 			<List editor={props.editor} />
@@ -54,7 +54,7 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 				<IconCodeBlock />
 			</ToggleButton>
 
-			<Divider.Root layout="vertical" />
+			<Divider layout="vertical" />
 
 			<ToggleButton
 				isActive={() => props.editor.isActive('bold')}
@@ -100,7 +100,7 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 
 			<Align editor={props.editor} />
 
-			<Divider.Root layout="vertical" />
+			<Divider layout="vertical" />
 
 			<ToggleButton
 				isActive={() => props.editor.isActive('superscript')}
@@ -118,13 +118,13 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 				<IconSubscript />
 			</ToggleButton>
 
-			<Divider.Root layout="vertical" />
+			<Divider layout="vertical" />
 
 			<Color editor={props.editor} />
 			<BackgroundColor editor={props.editor} />
 			<LineHeight editor={props.editor} />
 
-			<Divider.Root layout="vertical" />
+			<Divider layout="vertical" />
 
 			<Image editor={props.editor} />
 		</header>

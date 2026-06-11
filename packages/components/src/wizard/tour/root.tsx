@@ -13,7 +13,7 @@ import { Label } from '@components/label';
 import type { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
 import styles from './style.module.css';
 
-export interface Ref extends WizardRef, BaseRef<Dialog.RootRef> {
+export interface TourRef extends WizardRef, BaseRef<Dialog.Ref> {
 	/**
 	 * 显示教程组件，即打开组件对话框。
 	 */
@@ -25,7 +25,7 @@ export interface Ref extends WizardRef, BaseRef<Dialog.RootRef> {
 	complete(): void;
 }
 
-export interface Step extends WizardStep {
+export interface TourStep extends WizardStep {
 	/**
 	 * 关联的元素 ID
 	 */
@@ -46,11 +46,11 @@ export interface Step extends WizardStep {
 	icon?: JSX.Element;
 }
 
-export interface Props extends BaseProps {
+export interface TourProps extends BaseProps {
 	/**
 	 * 指定所有教程步骤
 	 */
-	steps: Array<Step>;
+	steps: Array<TourStep>;
 
 	/**
 	 * 突出元素的色盘
@@ -85,14 +85,14 @@ export interface Props extends BaseProps {
 	 */
 	next?: JSX.Element;
 
-	ref: (el: Ref) => void;
+	ref: (el: TourRef) => void;
 }
 
 /**
  * 显示教程的组件
  */
-export function Root(props: Props): JSX.Element {
-	let ref: Dialog.RootRef;
+export function Tour(props: TourProps): JSX.Element {
+	let ref: Dialog.Ref;
 	const l = useLocale();
 	const [index, setIndex] = createSignal(0);
 	const curr = createMemo(() => props.steps[index()]);
@@ -157,40 +157,38 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<Dialog.Root
+		<Dialog
 			palette={props.palette}
 			class={joinClass(undefined, styles.tour, props.class)}
 			style={props.style}
 			ref={el => (ref = el)}
 			header={
 				<Dialog.Toolbar close>
-					<Label.Root icon={curr().icon}>{header()}</Label.Root>
+					<Label icon={curr().icon}>{header()}</Label>
 				</Dialog.Toolbar>
 			}
 			footer={
 				<footer class={styles.actions}>
-					{index() > 0 && (
-						<Button.Root onclick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button.Root>
-					)}
+					{index() > 0 && <Button onclick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button>}
 					{index() === 0 && (
-						<Button.Root palette={props.accentPalette} onclick={() => setIndex(index() + 1)}>
+						<Button palette={props.accentPalette} onclick={() => setIndex(index() + 1)}>
 							{props.next || l.t('_c.tour.start')}
-						</Button.Root>
+						</Button>
 					)}
 					{index() < props.steps.length - 1 && index() > 0 && (
-						<Button.Root palette={props.accentPalette} onclick={() => setIndex(index() + 1)}>
+						<Button palette={props.accentPalette} onclick={() => setIndex(index() + 1)}>
 							{props.next || l.t('_c.tour.next')}
-						</Button.Root>
+						</Button>
 					)}
 					{index() === props.steps.length - 1 && (
-						<Button.Root palette={props.accentPalette} onclick={() => ref.root().close()}>
+						<Button palette={props.accentPalette} onclick={() => ref.root().close()}>
 							{props.complete || l.t('_c.tour.complete')}
-						</Button.Root>
+						</Button>
 					)}
 				</footer>
 			}
 		>
 			{curr()!.content}
-		</Dialog.Root>
+		</Dialog>
 	);
 }

@@ -5,17 +5,17 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root, type Step } from './root';
+import { Tour, type TourRef, type TourStep } from './root';
 
-const steps: Array<Step> = [
+const steps: Array<TourStep> = [
 	{ title: 'Step 1', content: 'Content for Step 1', id: 'b1', pos: 'right' },
 	{ title: 'Step 2222222', content: 'Content for Step 2', id: 'b2', pos: 'right' },
 	{ title: 'Step 3', content: 'Content for Step 3', id: 'b3', pos: 'left' },
 ];
 
 describe('Tour', async () => {
-	let ref: Ref;
-	const ct = await ComponentTester.build('Tour', props => <Root ref={el => (ref = el)} steps={steps} {...props} />);
+	let ref: TourRef;
+	const ct = await ComponentTester.build('Tour', props => <Tour ref={el => (ref = el)} steps={steps} {...props} />);
 
 	test('props', () => ct.testProps());
 	test('ref', () => {

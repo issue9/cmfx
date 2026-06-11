@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Tooltip.RootProps",
+		"name": "Tooltip.Props",
 		"summary": "Tooltip 组件的属性\n\n",
 		"properties": [
 			{
@@ -13,7 +13,7 @@
 			},
 			{
 				"name": "ref",
-				"type": "(ref: Ref_78) => void"
+				"type": "(ref: TooltipRef) => void"
 			},
 			{
 				"name": "palette",
@@ -45,7 +45,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Tooltip.RootRef",
+		"name": "Tooltip.Ref",
 		"methods": [
 			{
 				"name": "show",

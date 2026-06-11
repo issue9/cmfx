@@ -25,7 +25,7 @@ const items: Array<Item> = [
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 
-	let axisRef: ChartAxis.RootRef<Item>;
+	let axisRef: ChartAxis.Ref<Item>;
 
 	const x = [1, 2, 3, 4, 5, 6, 7];
 	let count = x.length;
@@ -45,7 +45,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div>
-				<ChartAxis.Root
+				<ChartAxis
 					palette={palette()}
 					tooltip
 					legend="right"
@@ -61,7 +61,7 @@ export default function (props: MountProps): JSX.Element {
 			</div>
 
 			<div>
-				<ChartAxis.Root
+				<ChartAxis
 					palette={palette()}
 					size={10}
 					ref={el => {

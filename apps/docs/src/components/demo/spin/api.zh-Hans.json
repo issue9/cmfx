@@ -1,6 +1,6 @@
 [
 	{
-		"name": "Spin.RootProps",
+		"name": "Spin.Props",
 		"kind": "intersection",
 		"types": [
 			{
@@ -93,7 +93,7 @@
 				}
 			}
 		],
-		"name": "Spin.RootRef",
+		"name": "Spin.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

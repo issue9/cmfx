@@ -17,12 +17,12 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Color.Root
+			<Color
 				wcag="oklch(10% .5 .5)"
 				palette={palette()}
 				value="rgb(255 10 10)"
 				spaces={[new Color.TailwindVarsSpace(), new Color.OKLCHSpace(), new Color.HSLSpace(), new Color.RGBSpace()]}
-			></Color.Root>
+			></Color>
 		</>
 	);
 }

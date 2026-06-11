@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Countdown, type CountdownRef } from './root';
 
 describe('Countdown', async () => {
-	let ref: Ref;
+	let ref: CountdownRef;
 	const ct = await ComponentTester.build('Countdown', props => (
-		<Root ref={el => (ref = el)} duration="10s" {...props} />
+		<Countdown ref={el => (ref = el)} duration="10s" {...props} />
 	));
 
 	test('props', () => ct.testProps());

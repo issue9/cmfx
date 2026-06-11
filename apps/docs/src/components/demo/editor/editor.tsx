@@ -22,7 +22,7 @@ export default function (props: MountProps): JSX.Element {
 				<Readonly />
 			</Portal>
 
-			<Editor.Root
+			<Editor
 				class="h-[500px] w-full"
 				palette={palette()}
 				readonly={readonly()}

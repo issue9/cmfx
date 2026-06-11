@@ -25,8 +25,8 @@ export function ToggleButton(props: ToggleButtonProps): JSX.Element {
 	onCleanup(() => props.editor.off('transaction', transaction));
 
 	return (
-		<Button.Root class={styles.item} square kind="flat" checked={isActive()} onclick={() => props.toggle()}>
+		<Button class={styles.item} square kind="flat" checked={isActive()} onclick={() => props.toggle()}>
 			{props.children}
-		</Button.Root>
+		</Button>
 	);
 }

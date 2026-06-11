@@ -68,7 +68,7 @@ export function Permission(): JSX.Element {
 	};
 
 	return (
-		<Page.Root title="_p.roles.permission">
+		<Page title="_p.roles.permission">
 			<div class={styles.permissions}>
 				<For each={resources()}>
 					{res => (
@@ -77,7 +77,7 @@ export function Permission(): JSX.Element {
 							<div class={styles.content}>
 								<For each={res.items}>
 									{item => (
-										<Checkbox.Root
+										<Checkbox
 											label={item.title}
 											disabled={!parent().includes(item.id)}
 											checked={current().includes(item.id)}
@@ -99,14 +99,14 @@ export function Permission(): JSX.Element {
 				</For>
 
 				<div class="flex justify-end gap-2">
-					<Button.Root palette="secondary" onclick={() => nav(-1)}>
+					<Button palette="secondary" onclick={() => nav(-1)}>
 						{l.t('_c.cancel')}
-					</Button.Root>
-					<Button.Root palette="primary" onclick={() => save()}>
+					</Button>
+					<Button palette="primary" onclick={() => save()}>
 						{l.t('_c.ok')}
-					</Button.Root>
+					</Button>
 				</div>
 			</div>
-		</Page.Root>
+		</Page>
 	);
 }

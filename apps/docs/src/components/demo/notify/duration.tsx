@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 				<Type />
 				<Closable />
 			</Portal>
-			<Alert.Root
+			<Alert
 				closable={closable()}
 				palette={palette()}
 				type={typ()}

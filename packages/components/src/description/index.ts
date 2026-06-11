@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Description from './mod';
+import { Description as C } from './root';
+
+export const Description = C;
+
+export namespace Description {
+	export type Props = import('./root').DescriptionProps;
+	export type Ref = import('./root').DescriptionRef;
+}

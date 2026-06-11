@@ -89,9 +89,9 @@ export default function (props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<SplitButton.Root selectedClass={selectedCls()} palette={palette()} items={items}>
-				<Button.Root onclick={() => Notify.notify('click split button')}>split button</Button.Root>
-			</SplitButton.Root>
+			<SplitButton selectedClass={selectedCls()} palette={palette()} items={items}>
+				<Button onclick={() => Notify.notify('click split button')}>split button</Button>
+			</SplitButton>
 		</div>
 	);
 }

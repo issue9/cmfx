@@ -16,9 +16,9 @@ const tb = gb * 1024;
 // TODO: https://github.com/tc39/ecma402/issues/755
 export const units = ['bit', 'kilobit', 'megabit', 'gigabit', 'terabit'] as const;
 
-export type Unit = (typeof units)[number];
+export type FormatterBitUnit = (typeof units)[number];
 
-export interface BitsProps {
+export interface FormatterBitsProps {
 	/**
 	 * 需要转换的比特数值
 	 *
@@ -34,7 +34,7 @@ export interface BitsProps {
 	 * @remarks
 	 * 如果不为空，则显示该单位的数值，如果为空，则显示为可表示的最大单位。
 	 */
-	unit?: Unit;
+	unit?: FormatterBitUnit;
 
 	/**
 	 * 与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等
@@ -50,7 +50,7 @@ export interface BitsProps {
  * @remarks
  * 这是对 {@link createBits} 的封装。
  */
-export function Bits(props: BitsProps): JSX.Element {
+export function Bits(props: FormatterBitsProps): JSX.Element {
 	const l = useLocale();
 	const f = createMemo(() => {
 		return createBits(l, props.unit, props.per);
@@ -72,8 +72,8 @@ export function Bits(props: BitsProps): JSX.Element {
  * @param per - 与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等；
  * @returns 用于格式化的函数，会根据传入的字节大小自动选择合适的单位；
  */
-export function createBits(l: Locale, unit?: Unit, per?: string): (bit: number) => string {
-	if (per && units.includes(per as Unit)) {
+export function createBits(l: Locale, unit?: FormatterBitUnit, per?: string): (bit: number) => string {
+	if (per && units.includes(per as FormatterBitUnit)) {
 		throw new TypeError('per 不能是比特单位');
 	}
 

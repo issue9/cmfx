@@ -54,9 +54,9 @@ export function Color(props: Props): JSX.Element {
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
 	onCleanup(() => props.editor.off('selectionUpdate', selectionUpdate));
 
-	let picker: XColor.RootRef<true>;
+	let picker: XColor.Ref<true>;
 	return (
-		<Button.Root
+		<Button
 			title={l.t('_c.editor.textColor')}
 			square
 			kind="flat"
@@ -68,7 +68,7 @@ export function Color(props: Props): JSX.Element {
 				}
 			}}
 		>
-			<XColor.Root
+			<XColor
 				popover="click"
 				ref={el => (picker = el)}
 				value={val()}
@@ -83,8 +83,8 @@ export function Color(props: Props): JSX.Element {
 				onChange={v => setVal(v)}
 			>
 				<IconColor />
-			</XColor.Root>
-		</Button.Root>
+			</XColor>
+		</Button>
 	);
 }
 
@@ -127,9 +127,9 @@ export function BackgroundColor(props: Props): JSX.Element {
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
 	onCleanup(() => props.editor.off('selectionUpdate', selectionUpdate));
 
-	let picker: XColor.RootRef<true>;
+	let picker: XColor.Ref<true>;
 	return (
-		<Button.Root
+		<Button
 			title={l.t('_c.editor.backgroundColor')}
 			square
 			kind="flat"
@@ -141,7 +141,7 @@ export function BackgroundColor(props: Props): JSX.Element {
 				}
 			}}
 		>
-			<XColor.Root
+			<XColor
 				popover="click"
 				ref={el => (picker = el)}
 				value={val()}
@@ -156,8 +156,8 @@ export function BackgroundColor(props: Props): JSX.Element {
 				activatorClass={styles['color-activator']}
 			>
 				<IconBackgroundColor />
-			</XColor.Root>
-		</Button.Root>
+			</XColor>
+		</Button>
 	);
 }
 
@@ -192,10 +192,10 @@ export function LineHeight(props: Props): JSX.Element {
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
 	onCleanup(() => props.editor.off('selectionUpdate', selectionUpdate));
 
-	let dialogRef: Dialog.RootRef;
+	let dialogRef: Dialog.Ref;
 	return (
 		<>
-			<Button.Root
+			<Button
 				title={l.t('_c.editor.lineHeight')}
 				square
 				kind="flat"
@@ -204,11 +204,11 @@ export function LineHeight(props: Props): JSX.Element {
 				onclick={() => dialogRef.root().showModal()}
 			>
 				<IconLineHeight />
-			</Button.Root>
+			</Button>
 
-			<Dialog.Root ref={el => (dialogRef = el)} mainClass={styles['line-height']}>
-				<InputNumber.Root class="flex-1" value={height()} onChange={v => setHeight(v)} />
-				<Button.Root
+			<Dialog ref={el => (dialogRef = el)} mainClass={styles['line-height']}>
+				<InputNumber class="flex-1" value={height()} onChange={v => setHeight(v)} />
+				<Button
 					square
 					kind="flat"
 					palette="error"
@@ -216,8 +216,8 @@ export function LineHeight(props: Props): JSX.Element {
 					onclick={() => dialogRef.root().close('close')}
 				>
 					<IconClose />
-				</Button.Root>
-			</Dialog.Root>
+				</Button>
+			</Dialog>
 		</>
 	);
 }

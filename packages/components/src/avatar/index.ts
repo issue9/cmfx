@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Avatar from './mod';
+import { Avatar as C } from './root';
+
+export const Avatar = C;
+
+export namespace Avatar {
+	export type Props = import('./root').AvatarProps;
+	export type Ref = import('./root').AvatarRef;
+}

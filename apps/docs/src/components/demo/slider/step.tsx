@@ -28,7 +28,7 @@ export default function (props: MountProps) {
 
 			<F>
 				<Field layout={layout()} name="a" label="label">
-					<Slider.Root
+					<Slider
 						rounded={rounded()}
 						format={v => `${v ? v.toFixed(2) : 0}%`}
 						fitHeight={fitHeight()}

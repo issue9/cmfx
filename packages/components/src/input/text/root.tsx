@@ -10,9 +10,9 @@ import { Form } from '@components/form';
 import { InputBase } from '@components/input/base';
 import { Dropdown, type Menu } from '@components/menu';
 
-export type Ref = InputBase.RootRef;
+export type InputTextRef = InputBase.Ref;
 
-export interface Props extends BaseProps, InputBase.TextProps {
+export interface InputTextProps extends BaseProps, InputBase.TextProps {
 	/**
 	 * 最小的字符数量
 	 *
@@ -69,7 +69,7 @@ function countFormatter(val: number, max?: number): string {
  *
  * @typeParam T - 文本框内容的类型
  */
-export function Root(props: Props): JSX.Element {
+export function InputText(props: InputTextProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 	const field = Form.useField<string>(props, true);
@@ -92,7 +92,7 @@ export function Root(props: Props): JSX.Element {
 		}
 	});
 
-	let dropdownRef: Dropdown.RootRef;
+	let dropdownRef: Dropdown.Ref;
 	let rootRef: HTMLDivElement;
 
 	onMount(() => {
@@ -112,7 +112,7 @@ export function Root(props: Props): JSX.Element {
 
 	const Trigger = (p: BaseProps): JSX.Element => {
 		return (
-			<InputBase.Root
+			<InputBase
 				{...p}
 				id={field.id()}
 				prefix={props.prefix}
@@ -149,7 +149,7 @@ export function Root(props: Props): JSX.Element {
 			}
 		>
 			<Match when={props.onSearch}>
-				<Dropdown.Root
+				<Dropdown
 					palette={props.palette}
 					style={props.style}
 					class={props.class}
@@ -171,7 +171,7 @@ export function Root(props: Props): JSX.Element {
 					onChange={e => field.setValue(e)}
 				>
 					<Trigger />
-				</Dropdown.Root>
+				</Dropdown>
 			</Match>
 		</Switch>
 	);

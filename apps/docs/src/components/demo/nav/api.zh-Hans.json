@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Nav.RootProps",
+		"name": "Nav.Props",
 		"properties": [
 			{
 				"name": "target",
@@ -52,7 +52,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Nav.RootRef",
+		"name": "Nav.Ref",
 		"methods": [
 			{
 				"name": "refresh",

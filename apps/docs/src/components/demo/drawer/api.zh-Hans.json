@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Drawer.RootProps",
+		"name": "Drawer.Props",
 		"properties": [
 			{
 				"name": "initValue",
@@ -75,7 +75,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Drawer.RootRef",
+		"name": "Drawer.Ref",
 		"methods": [
 			{
 				"name": "aside",
@@ -236,7 +236,7 @@
 					},
 					{
 						"name": "drawer",
-						"type": "Ref_40 | undefined"
+						"type": "DrawerRef | undefined"
 					}
 				]
 			}

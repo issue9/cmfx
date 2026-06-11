@@ -5,14 +5,14 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { ConfirmButton, type ConfirmButtonRef } from './root';
 
 describe('ConfirmButton', async () => {
-	let ref: Ref;
+	let ref: ConfirmButtonRef;
 	const ct = await ComponentTester.build('ConfirmButton', props => (
-		<Root type="button" ref={el => (ref = el)} onclick={() => {}} {...props}>
+		<ConfirmButton type="button" ref={el => (ref = el)} onclick={() => {}} {...props}>
 			button
-		</Root>
+		</ConfirmButton>
 	));
 
 	test('props', () => ct.testProps(ref.button().root()));

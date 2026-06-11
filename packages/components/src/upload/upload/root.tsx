@@ -10,9 +10,9 @@ import { Form } from '@components/form';
 /**
  * 上传组件的外放接口
  */
-export interface Ref extends BaseRef<HTMLInputElement> {
+export interface UploadRef extends BaseRef<HTMLInputElement> {
 	/**
-	 * 显示文件选取对话框，如果有选择文件的话，还自动添加至 {@link Ref#files} 中。
+	 * 显示文件选取对话框，如果有选择文件的话，还自动添加至 {@link UploadRef#files} 中。
 	 */
 	pick(): void;
 
@@ -22,7 +22,7 @@ export interface Ref extends BaseRef<HTMLInputElement> {
 	files(): Array<File>;
 
 	/**
-	 * 删除 {@link Ref#files} 中的第 index 对象
+	 * 删除 {@link UploadRef#files} 中的第 index 对象
 	 */
 	delete(index: number): void;
 
@@ -32,12 +32,12 @@ export interface Ref extends BaseRef<HTMLInputElement> {
 	clear(): void;
 
 	/**
-	 * 上传 {@link Ref#files} 中的文件
+	 * 上传 {@link UploadRef#files} 中的文件
 	 */
 	upload(): Promise<Array<string> | undefined>;
 }
 
-export interface Props
+export interface UploadProps
 	extends Omit<Form.DataProps, 'rounded' | 'value' | 'onChange'>,
 		ValueProps<Array<string>>,
 		BaseProps {
@@ -56,7 +56,7 @@ export interface Props
 	 */
 	accept?: Array<string>;
 
-	ref: (el: Ref) => void;
+	ref: (el: UploadRef) => void;
 
 	/**
 	 * 指定一个接受拖拖拽文件的区域
@@ -75,7 +75,7 @@ export interface Props
 /**
  * 提供了文件上传组件的基本功能，但是并未提供对应的 UI 功能。
  */
-export function Root(props: Props): JSX.Element {
+export function Upload(props: UploadProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 

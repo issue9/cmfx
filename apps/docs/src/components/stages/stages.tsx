@@ -46,7 +46,7 @@ export default function Stages(props: Props): JSX.Element {
 	const title = route[route.length - 1].route.info?.title;
 
 	let articleRef!: HTMLElement;
-	let navRef!: Nav.RootRef;
+	let navRef!: Nav.Ref;
 	const url = baseURL + props.dir;
 
 	// 文档内容
@@ -60,8 +60,8 @@ export default function Stages(props: Props): JSX.Element {
 	});
 
 	// 文档中的组件
-	const components = createMemo<Markdown.RootProps['components']>(() => {
-		const ret: Markdown.RootProps['components'] = {};
+	const components = createMemo<Markdown.Props['components']>(() => {
+		const ret: Markdown.Props['components'] = {};
 
 		if (props.stages) {
 			for (const s of props.stages) {
@@ -90,7 +90,7 @@ export default function Stages(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page.Root class={styles['stages-page']} title={title}>
+		<Page class={styles['stages-page']} title={title}>
 			<article class={styles.root} ref={el => (articleRef = el)}>
 				<h2>
 					{l.t(title)}
@@ -99,10 +99,10 @@ export default function Stages(props: Props): JSX.Element {
 					</A>
 				</h2>
 
-				<Markdown.Root text={text()} components={components()} onComplete={() => navRef.refresh()} />
+				<Markdown text={text()} components={components()} onComplete={() => navRef.refresh()} />
 			</article>
 
-			<Nav.Root minHeaderCount={5} ref={el => (navRef = el)} class={styles.nav} target={articleRef} query="h3,h4" />
-		</Page.Root>
+			<Nav minHeaderCount={5} ref={el => (navRef = el)} class={styles.nav} target={articleRef} query="h3,h4" />
+		</Page>
 	);
 }

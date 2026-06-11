@@ -4,4 +4,11 @@
 
 // NOTE: Clipboard 是全局类型名
 
-export * as ClipboardAPI from './mod';
+import { ClipboardAPI as C } from './root';
+
+export const ClipboardAPI = C;
+
+export namespace ClipboardAPI {
+	export type Ref = import('./clipboard').ClipboardAPIRef;
+	export type Props = import('./root').ClipboardAPIProps;
+}

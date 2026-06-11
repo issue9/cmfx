@@ -1,11 +1,11 @@
 [
 	{
 		"kind": "interface",
-		"name": "Stepper.RootProps",
+		"name": "Stepper.Props",
 		"properties": [
 			{
 				"name": "steps",
-				"type": "Step[]"
+				"type": "StepperStep[]"
 			},
 			{
 				"name": "index",
@@ -48,7 +48,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "Stepper.RootRef",
+		"name": "Stepper.Ref",
 		"kind": "intersection",
 		"types": [
 			{

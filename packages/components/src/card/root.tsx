@@ -7,9 +7,9 @@ import { type JSX, type ParentProps, Show } from 'solid-js';
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type CardRef = BaseRef<HTMLDivElement>;
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface CardProps extends BaseProps, ParentProps, RefProps<CardRef> {
 	/**
 	 * 卡片的标题部分
 	 *
@@ -49,7 +49,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 /**
  * 简单的卡片组件
  */
-export function Root(props: Props): JSX.Element {
+export function Card(props: CardProps): JSX.Element {
 	return (
 		<div
 			class={joinClass(props.palette, styles.card, props.class)}

@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Spin.RootProps
-            - Spin.RootRef
+            - Spin.Props
+            - Spin.Ref

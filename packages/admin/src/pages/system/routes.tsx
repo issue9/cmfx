@@ -42,14 +42,14 @@ export function Routes(): JSX.Element {
 	};
 
 	return (
-		<Page.Root title="_p.system.routesViewer">
-			<RemoteTable.Root
+		<Page title="_p.system.routesViewer">
+			<RemoteTable
 				rest={api}
 				systemToolbar
 				queries={queries}
 				path="/system/routes"
 				hoverable
-				toolbar={<Label.Root icon={<IconRoutes />}>{l.t('_p.system.routesViewer')}</Label.Root>}
+				toolbar={<Label icon={<IconRoutes />}>{l.t('_p.system.routesViewer')}</Label>}
 				columns={
 					[
 						{ id: 'router', label: l.t('_p.system.router') },
@@ -93,6 +93,6 @@ export function Routes(): JSX.Element {
 					] as Array<DataTable.Column<Route>>
 				}
 			/>
-		</Page.Root>
+		</Page>
 	);
 }

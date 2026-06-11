@@ -13,7 +13,7 @@ import { PropsError } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import { useLocale } from '@components/context';
 
-export interface Ref extends BaseRef<ButtonGroup.RootRef> {
+export interface PaginationRef extends BaseRef<ButtonGroup.Ref> {
 	/**
 	 * 跳转到指定的页面
 	 *
@@ -22,7 +22,7 @@ export interface Ref extends BaseRef<ButtonGroup.RootRef> {
 	jump(p: number): void;
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface PaginationProps extends BaseProps, RefProps<PaginationRef> {
 	/**
 	 * 总的页码数量
 	 *
@@ -31,7 +31,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	count: number;
 
 	/**
-	 * 当前页的页码，取值范围为 [1, {@link Props#count}]。
+	 * 当前页的页码，取值范围为 [1, {@link PaginationProps#count}]。
 	 *
 	 * @reactive
 	 * @defaultValue 1
@@ -51,7 +51,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	spans?: number;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<PaginationProps>> = {
 	value: 1,
 	spans: 3,
 } as const;
@@ -64,7 +64,7 @@ const presetProps: Readonly<Partial<Props>> = {
  *  [<<,<,1,2,...,current...,7,8,>,>>]
  * ```
  */
-export function Root(props: Props): JSX.Element {
+export function Pagination(props: PaginationProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const l = useLocale();
 
@@ -120,7 +120,7 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<ButtonGroup.Root
+		<ButtonGroup
 			palette={props.palette}
 			class={props.class}
 			style={props.style}
@@ -135,16 +135,11 @@ export function Root(props: Props): JSX.Element {
 				}
 			}}
 		>
-			<Button.Root
-				square
-				onclick={() => change(1)}
-				aria-label={l.t('_c.pagination.firstPage')}
-				disabled={current() === 1}
-			>
+			<Button square onclick={() => change(1)} aria-label={l.t('_c.pagination.firstPage')} disabled={current() === 1}>
 				<IconFirst />
-			</Button.Root>
+			</Button>
 
-			<Button.Root
+			<Button
 				square
 				onclick={() => change(current() - 1)}
 				disabled={current() === 1}
@@ -153,45 +148,45 @@ export function Root(props: Props): JSX.Element {
 				}}
 			>
 				<IconPrev />
-			</Button.Root>
+			</Button>
 
 			<For each={prevs()}>
 				{item => (
-					<Button.Root ref={el => (el.root().ariaLabel = item.toString())} onclick={() => change(item)}>
+					<Button ref={el => (el.root().ariaLabel = item.toString())} onclick={() => change(item)}>
 						{item}
-					</Button.Root>
+					</Button>
 				)}
 			</For>
 
-			<Button.Root ref={el => (el.root().ariaLabel = current().toString())} checked>
+			<Button ref={el => (el.root().ariaLabel = current().toString())} checked>
 				{current()}
-			</Button.Root>
+			</Button>
 
 			<For each={nexts()}>
 				{item => (
-					<Button.Root ref={el => (el.root().ariaLabel = item.toString())} onclick={() => change(item)}>
+					<Button ref={el => (el.root().ariaLabel = item.toString())} onclick={() => change(item)}>
 						{item}
-					</Button.Root>
+					</Button>
 				)}
 			</For>
 
-			<Button.Root
+			<Button
 				square
 				onclick={() => change(current() + 1)}
 				ref={el => (el.root().ariaLabel = l.t('_c.pagination.next'))}
 				disabled={current() >= props.count}
 			>
 				<IconNext />
-			</Button.Root>
+			</Button>
 
-			<Button.Root
+			<Button
 				square
 				onclick={() => change(props.count)}
 				ref={el => (el.root().ariaLabel = l.t('_c.pagination.lastPage'))}
 				disabled={current() >= props.count}
 			>
 				<IconLast />
-			</Button.Root>
-		</ButtonGroup.Root>
+			</Button>
+		</ButtonGroup>
 	);
 }

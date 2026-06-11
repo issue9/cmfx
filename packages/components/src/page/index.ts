@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Page from './mod';
+import { Root as C } from './root';
+
+export const Page = C;
+
+export namespace Page {
+	export type Props = import('./root').PageProps;
+	export type Ref = import('./root').PageRef;
+}

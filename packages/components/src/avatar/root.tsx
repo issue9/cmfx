@@ -7,9 +7,9 @@ import { createEffect, createSignal, type JSX, Match, Show, Switch } from 'solid
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type AvatarRef = BaseRef<HTMLDivElement>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface AvatarProps extends BaseProps, RefProps<AvatarRef> {
 	/**
 	 * 是否圆角
 	 *
@@ -54,7 +54,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 /**
  * 头像组件
  */
-export function Root(props: Props): JSX.Element {
+export function Avatar(props: AvatarProps): JSX.Element {
 	const [error, setError] = createSignal(false);
 
 	createEffect(() => {

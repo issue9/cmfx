@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "BackTop.RootProps",
+		"name": "BackTop.Props",
 		"properties": [
 			{
 				"name": "distance",
@@ -50,7 +50,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "BackTop.RootRef",
+		"name": "BackTop.Ref",
 		"methods": [
 			{
 				"name": "backTop",

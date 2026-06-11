@@ -5,10 +5,10 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { FitScreen, FullScreen, type Ref } from './root';
+import { FitScreen, FullScreen, type ToggleButtonRef } from './root';
 
 describe('FullScreen', async () => {
-	let ref: Ref;
+	let ref: ToggleButtonRef;
 	const ct = await ComponentTester.build('FullScreen', props => <FullScreen ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());

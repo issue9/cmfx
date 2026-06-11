@@ -29,7 +29,7 @@ export function Profile(props: Props): JSX.Element {
 	const opt = useOptions();
 	const usr = useAdmin();
 	const l = useLocale();
-	let uploadRef: Upload.RootRef;
+	let uploadRef: Upload.Ref;
 
 	const [F, Field, api] = Form.create({
 		initValue: infoSchema.partial().parse({ sex: 'unknown' }),
@@ -76,8 +76,8 @@ export function Profile(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page.Root title="_p.current.profile" class={styles.profile}>
-			<Upload.Root
+		<Page title="_p.current.profile" class={styles.profile}>
+			<Upload
 				ref={el => (uploadRef = el)}
 				fieldName="files"
 				upload={async data => {
@@ -90,7 +90,7 @@ export function Profile(props: Props): JSX.Element {
 				}}
 			/>
 			<div class="flex gap-4">
-				<Avatar.Root
+				<Avatar
 					class={styles.avatar}
 					value={avatar()}
 					fallback="avatar"
@@ -101,7 +101,7 @@ export function Profile(props: Props): JSX.Element {
 					<p class="text-2xl">{usr.info()?.name}</p>
 					<Show when={uploadRef!.files().length > 0}>
 						<div class="flex gap-2">
-							<Button.Root
+							<Button
 								palette="primary"
 								onclick={async () => {
 									const ret = await uploadRef.upload();
@@ -119,9 +119,9 @@ export function Profile(props: Props): JSX.Element {
 								}}
 							>
 								{l.t('_p.save')}
-							</Button.Root>
+							</Button>
 
-							<Button.Root
+							<Button
 								palette="error"
 								onclick={() => {
 									setAvatar(originAvatar);
@@ -129,21 +129,21 @@ export function Profile(props: Props): JSX.Element {
 								}}
 							>
 								{l.t('_c.cancel')}
-							</Button.Root>
+							</Button>
 						</div>
 					</Show>
 				</div>
 			</div>
 
-			<Divider.Root padding="4px" />
+			<Divider padding="4px" />
 
 			<F class={styles.form}>
 				<Field label={l.t('_p.current.name')} name="name">
-					<InputText.Root class="w-full" />
+					<InputText class="w-full" />
 				</Field>
 
 				<Field label={l.t('_p.nickname')} name="nickname">
-					<InputText.Root class="w-full" />
+					<InputText class="w-full" />
 				</Field>
 
 				<Field label={l.t('_p.sex')} name="sex">
@@ -160,9 +160,9 @@ export function Profile(props: Props): JSX.Element {
 				</div>
 			</F>
 
-			<Divider.Root padding="8px">{l.t('_p.admin.passport')}</Divider.Root>
+			<Divider padding="8px">{l.t('_p.admin.passport')}</Divider>
 
-			<Table.Root hoverable>
+			<Table hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_p.admin.passportType')}</th>
@@ -193,7 +193,7 @@ export function Profile(props: Props): JSX.Element {
 						}}
 					</For>
 				</tbody>
-			</Table.Root>
-		</Page.Root>
+			</Table>
+		</Page>
 	);
 }

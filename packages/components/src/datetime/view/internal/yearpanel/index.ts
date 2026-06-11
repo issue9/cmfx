@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as YearPanel from './mod';
+import { YearPanel as C } from './root';
+
+export const YearPanel = C;
+
+export namespace YearPanel {
+	export type Props = import('./root').YearPanelProps;
+	export type Ref = import('./root').YearPanelRef;
+}

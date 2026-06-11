@@ -11,7 +11,7 @@ import { numeric, paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	const [Num, num] = numeric('freq', 20);
-	let ref: Counter.RootRef;
+	let ref: Counter.Ref;
 
 	return (
 		<div>
@@ -19,7 +19,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Num />
 			</Portal>
-			<Counter.Root
+			<Counter
 				start={999}
 				ref={el => (ref = el)}
 				palette={palette()}
@@ -27,7 +27,7 @@ export default function (props: MountProps): JSX.Element {
 				formatter={(v: number) => `${v.toFixed(2)}%`}
 				frequency={num()}
 			/>
-			<Button.Root onclick={() => ref.play()}>play</Button.Root>
+			<Button onclick={() => ref.play()}>play</Button>
 		</div>
 	);
 }

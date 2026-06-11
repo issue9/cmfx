@@ -9,17 +9,17 @@ import { joinClass } from '@components/base';
 import type { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
 import styles from './style.module.css';
 
-export type Ref = WizardRef & BaseRef<HTMLDivElement>;
+export type StepperRef = WizardRef & BaseRef<HTMLDivElement>;
 
-export interface Step extends WizardStep {
+export interface StepperStep extends WizardStep {
 	/**
 	 * 图标，如果值为 true，表示采用数字，否则为图标。
 	 */
 	icon?: JSX.Element | true | ((completed?: boolean) => JSX.Element | true);
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
-	steps: Array<Step>;
+export interface StepperProps extends BaseProps, RefProps<StepperRef> {
+	steps: Array<StepperStep>;
 
 	/**
 	 * 指定已完成的步骤，非响应式的属性。
@@ -34,11 +34,11 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	layout?: Layout;
 }
 
-const presetProps: Partial<Props> = {
+const presetProps: Partial<StepperProps> = {
 	layout: 'horizontal',
 } as const;
 
-export function Root(props: Props): JSX.Element {
+export function Stepper(props: StepperProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const [index, setIndex] = createSignal(props.index ?? 0);
 

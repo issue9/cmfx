@@ -5,11 +5,14 @@ packages:
   - apps/docs
   - apps/admin
 
+allowBuilds:
+  esbuild: false
+
 catalog:
   '@biomejs/biome': ^2.4.16
-  '@iconify/json': ^2.2.483
+  '@iconify/json': ^2.2.484
   '@iconsets/svg-morpheus-ts': ^1.4.14
-  '@microsoft/api-extractor': ^7.58.7
+  '@microsoft/api-extractor': ^7.58.8
   '@microsoft/tsdoc': ^0.16.0
   '@scure/base': ^2.2.0
   '@solidjs/router': ^0.16.1
@@ -60,3 +63,7 @@ catalog:
 
 ignoredBuiltDependencies:
   - '@tailwindcss/oxide'
+
+minimumReleaseAgeExclude:
+  - '@iconify/json@2.2.484'
+  - '@microsoft/api-extractor@7.58.8'

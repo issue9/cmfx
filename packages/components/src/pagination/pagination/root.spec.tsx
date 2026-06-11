@@ -6,15 +6,15 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Pagination, type PaginationRef } from './root';
 
 describe('pagination', async () => {
-	let ref: Ref;
+	let ref: PaginationRef;
 	const user = userEvent.setup();
 	let curr: number;
 
 	const ct = await ComponentTester.build('Pagination', props => (
-		<Root ref={el => (ref = el)} count={5} value={3} onChange={val => (curr = val)} {...props} />
+		<Pagination ref={el => (ref = el)} count={5} value={3} onChange={val => (curr = val)} {...props} />
 	));
 
 	test('props', () => ct.testProps());

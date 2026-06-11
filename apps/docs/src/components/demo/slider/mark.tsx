@@ -26,7 +26,7 @@ export default function (props: MountProps) {
 			</Portal>
 
 			<div>
-				<Slider.Root
+				<Slider
 					rounded={rounded()}
 					value={val()}
 					onChange={setVal}
@@ -48,7 +48,7 @@ export default function (props: MountProps) {
 			</div>
 
 			<div>
-				<Slider.Root
+				<Slider
 					rounded={rounded()}
 					class="min-w-90"
 					fitHeight={fitHeight()}

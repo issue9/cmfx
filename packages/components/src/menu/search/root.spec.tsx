@@ -6,11 +6,11 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
 import type { Menu } from '@components/menu';
-import { type Ref, Root } from './root';
+import { Root, type SearchRef } from './root';
 
 describe('Search', async () => {
 	const search = async (_: string): Promise<Array<Menu.MenuItem>> => [{ type: 'item', value: 'v', label: 'label' }];
-	let ref: Ref;
+	let ref: SearchRef;
 	const ct = await ComponentTester.build('Search', props => (
 		<Root onSearch={search} {...props} ref={el => (ref = el)} />
 	));

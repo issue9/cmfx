@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { JSX } from 'solid-js';
 import { createEffect, createMemo, createSignal, For, mergeProps, onCleanup, onMount, Show, untrack } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
@@ -9,18 +10,18 @@ import IconNext from '~icons/material-symbols/chevron-right';
 import { joinClass, type Layout } from '@components/base';
 import { Button } from '@components/button';
 import styles from './style.module.css';
-import type { Item, Props } from './types';
+import type { TabItem, TabProps } from './types';
 
 /**
  * Tab 组件
  */
-export function Root(props: Props) {
+export function Tab(props: TabProps): JSX.Element {
 	props = mergeProps({ layout: 'horizontal' as Layout }, props);
 	const layout = props.layout!;
 
-	const [val, setVal] = createSignal<Item['id']>(props.value ?? props.items[0].id);
+	const [val, setVal] = createSignal<TabItem['id']>(props.value ?? props.items[0].id);
 
-	const click = (v: Item['id']): void => {
+	const click = (v: TabItem['id']): void => {
 		const old = untrack(val);
 		if (v === old) {
 			return;
@@ -121,7 +122,7 @@ export function Root(props: Props) {
 				if (props.ref) {
 					props.ref({
 						root: () => el,
-						switch: (id: Item['id']) => click(id),
+						switch: (id: TabItem['id']) => click(id),
 						scroll: (delta: number) => scroll(new MouseEvent('click'), delta),
 					});
 				}
@@ -129,16 +130,16 @@ export function Root(props: Props) {
 		>
 			<div ref={el => (tabsRef = el)} class={joinClass(undefined, styles.tabs, props.tabsClass)}>
 				<Show when={isOverflow()}>
-					<Button.Root kind="flat" class={styles.prev} onclick={e => scroll(e, -40)}>
+					<Button kind="flat" class={styles.prev} onclick={e => scroll(e, -40)}>
 						<IconPrev class={layout === 'vertical' ? 'rotate-90' : undefined} />
-					</Button.Root>
+					</Button>
 				</Show>
 
 				<div ref={el => (scrollerRef = el)} class={styles.scroller} onwheel={wheel}>
 					<div>
 						<For each={props.items}>
 							{item => (
-								<Button.Root
+								<Button
 									kind="flat"
 									ref={el => (el.root().role = 'tab')}
 									aria-selected={val() === item.id}
@@ -148,15 +149,15 @@ export function Root(props: Props) {
 									onclick={() => click(item.id)}
 								>
 									{item.label}
-								</Button.Root>
+								</Button>
 							)}
 						</For>
 					</div>
 				</div>
 				<Show when={isOverflow()}>
-					<Button.Root kind="flat" class={styles.next} onclick={e => scroll(e, 40)}>
+					<Button kind="flat" class={styles.next} onclick={e => scroll(e, 40)}>
 						<IconNext class={layout === 'vertical' ? 'rotate-90' : undefined} />
-					</Button.Root>
+					</Button>
 				</Show>
 			</div>
 

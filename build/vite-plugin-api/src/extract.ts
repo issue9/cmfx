@@ -2,33 +2,32 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
 import { type DocComment, StandardTags } from '@microsoft/tsdoc';
 import type {
 	ClassDeclaration,
-	ExportedDeclarations,
 	FunctionDeclaration,
 	GetAccessorDeclaration,
 	InterfaceDeclaration,
-	JSDocableNode,
+	MappedTypeNode,
 	MethodDeclaration,
 	MethodSignature,
-	ModuledNode,
 	Symbol as MSymbol,
 	ParameterDeclaration,
 	PropertyDeclaration,
 	PropertySignature,
 	SetAccessorDeclaration,
-	Signature,
 	TypeAliasDeclaration,
 	TypeChecker,
 	TypeNode,
 	TypeParameterDeclaration,
+	VariableDeclaration,
 	Type as XType,
 } from 'ts-morph';
-import { Node, Project, Scope } from 'ts-morph';
+import { Node, Scope } from 'ts-morph';
 
+import type { APIProject, EntryPoint } from './project';
+import { newProject } from './project';
+import { getFuncSigSource, getNodeSource } from './source';
 import { comment2String, getCustomDoc, getTsdoc, newTSDocParser, reactiveTag } from './tsdoc';
 import type {
 	Class,
@@ -41,20 +40,14 @@ import type {
 	Literal,
 	Parameter,
 	ReturnType as RT,
-	Source,
 	Type,
 	TypeParameter,
 	Union,
 } from './types';
 
-interface TSProject {
-	checker: TypeChecker;
-	exports: Map<string, ReturnType<ModuledNode['getExportedDeclarations']>>;
-}
-
 export class Extractor {
 	#tsdocParser = newTSDocParser();
-	#projects = new Map<string, TSProject>();
+	#projects = new Map<string, APIProject>();
 
 	/**
 	 * 加载项目中的 .d.ts 文档
@@ -63,34 +56,11 @@ export class Extractor {
 	 * @param entrypoints - 项目中需要引入的文件名，如果为空，则会采用 ['index.d.ts']；
 	 */
 	load(root: string, ...entrypoints: Array<string>) {
-		if (entrypoints.length === 0) {
-			entrypoints = ['index.d.ts'];
+		const prj = newProject(root, entrypoints);
+		if (this.#projects.has(prj.name)) {
+			throw new Error(`项目 ${prj.name} 已经加载`);
 		}
-
-		const tsconfig = path.join(root, 'tsconfig.json');
-		const project = new Project({
-			tsConfigFilePath: tsconfig,
-			skipAddingFilesFromTsConfig: true,
-		});
-
-		// 项目名称
-		const name = JSON.parse(readFileSync(path.join(root, 'package.json'), 'utf-8')).name;
-		if (this.#projects.has(name)) {
-			throw new Error(`项目 ${name} 已经加载`);
-		}
-
-		const outdir = project.compilerOptions.get().outDir ?? path.join(root, 'lib');
-
-		const exports = new Map<string, ReturnType<ModuledNode['getExportedDeclarations']>>();
-		for (const ep of entrypoints) {
-			const dts = project.addSourceFileAtPath(path.join(outdir, ep));
-			exports.set(ep, dts.getExportedDeclarations());
-		}
-
-		this.#projects.set(name, {
-			checker: project.getTypeChecker(),
-			exports: exports,
-		});
+		this.#projects.set(prj.name, prj);
 	}
 
 	/**
@@ -101,77 +71,106 @@ export class Extractor {
 	 * @param names - 需要查找的类型名称列表，可以包含类型名称，比如 Namespace.Type；
 	 */
 	extract(pkg: string, entrypoint: string, ...names: Array<string>): Array<Type> {
-		const project = this.#projects.get(pkg);
-		if (!project) {
+		const prj = this.#projects.get(pkg);
+		if (!prj) {
 			throw new Error(`项目 ${pkg} 未加载`);
 		}
 
-		const exps = project.exports.get(entrypoint);
-		if (!exps) {
+		const ep = prj.entrypoints.get(entrypoint);
+		if (!ep) {
 			throw new Error(`项目 ${pkg} 不存在入口点 ${entrypoint}`);
 		}
 
-		return names.map(name => this.getByName(project, exps, name, pkg, entrypoint));
+		return names.map(name => this.getByName(prj, ep, name, pkg, entrypoint));
 	}
 
-	private getByName(
-		project: TSProject,
-		exps: ReadonlyMap<string, ExportedDeclarations[]>,
-		name: string,
-		pkg: string,
-		entry: string,
-	): Type {
+	private getByName(project: APIProject, entryPoint: EntryPoint, name: string, pkg: string, entry: string): Type {
+		console.info(`分析 ${name} ...`);
+
+		name = name.trim();
 		const items = name.split('.');
-		let decls = exps.get(items[0]);
+		const decls = entryPoint.exports.get(items[0]);
 
 		if (!decls || decls.length === 0) {
-			throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
-		} else if (decls.length > 1) {
-			// TODO: 支持多态
-			// throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
+			throw new Error(`${pkg}/${entry} 中找不到类型 ${name} 的 ${items[0]}`);
 		}
-		let decl: Node = decls[0];
 
-		for (const item of items.slice(1)) {
-			let found = false;
-			if (Node.isVariableDeclaration(decl)) {
-				let xtype = project.checker.getTypeAtLocation(decl);
-				const property = xtype.getProperty(item);
+		const chk = project.checker;
 
-				if (property) {
-					decl = property.getDeclarations()[0];
-					if (Node.isPropertySignature(decl)) {
-						xtype = project.checker.getTypeAtLocation(decl);
-						decl = xtype.getSymbol()!.getDeclarations()[0];
+		for (const decl of decls) {
+			let node: Node;
+
+			if (items.length > 1) {
+				for (const item of items.slice(1)) {
+					let found = false;
+
+					// export const x = {prop: Type}
+					// 非类型，比如函数或是变量
+					if (Node.isVariableDeclaration(decl)) {
+						let xtype = chk.getTypeAtLocation(decl);
+						const property = xtype.getProperty(item);
+
+						if (property) {
+							node = property.getDeclarations()[0];
+							if (Node.isPropertySignature(node)) {
+								xtype = chk.getTypeAtLocation(node);
+								node = xtype.getSymbol()?.getDeclarations()[0];
+							}
+							found = true;
+						}
 					}
-					found = true;
+
+					// export namespace {export type x = y}
+					// 纯类型
+					if (!found && Node.isModuleDeclaration(decl)) {
+						const list = decl.getExportedDeclarations().get(item);
+
+						if (!list || list.length === 0) {
+							throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
+						} else if (list.length > 1) {
+							// TODO: 支持多态
+							// throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
+						}
+
+						node = list[0];
+						found = true;
+					}
 				}
+			} else {
+				node = decl;
 			}
 
-			if (!found && Node.isModuleDeclaration(decl)) {
-				decls = decl.getExportedDeclarations().get(item);
+			if (node) {
+				try {
+					// 顶层命名空间中的类型如果是引用类型，则直接查找其右侧对应的类型，这样可以获取其在项目中的文档信息。
+					// export namespace { export type x=y; export type G<T>=Y<T>}
+					if (items.length > 1 && Node.isTypeAliasDeclaration(node)) {
+						const tn = node.getTypeNode();
+						const xt = chk.getTypeAtLocation(tn);
+						const typeName = Node.isTypeReference(tn) ? tn.getTypeName().getText() : tn.getText();
+						const n = entryPoint.getSymbol(typeName.trim());
+						if (n) {
+							node = n;
+						} else {
+							console.warn(`${name},${typeName},${xt.getText()} 类型别名解析失败`);
+						}
+					}
 
-				if (!decls || decls.length === 0) {
-					throw new Error(`${pkg}/${entry} 中找不到类型 ${name}`);
-				} else if (decls.length > 1) {
-					// TODO: 支持多态
-					// throw new Error(`${pkg}/${entry} 中有多个类型 ${name}`);
+					const t = this.conv(node, project.checker);
+					t.pkg = pkg;
+					//t.name = items[items.length - 1]; // 防止 Props as RootProps 等方式的导出导致的 name 被污染。
+					t.name = name; // 直接使用包含命名空间的全名
+					return t;
+				} catch (e) {
+					console.error(e);
+					// continue
+				} finally {
+					console.info(`分析 ${name} 完成`);
 				}
-
-				decl = decls[0];
-				found = true;
-			}
-
-			if (!found) {
-				throw new Error(`无效的空间 ${decl}`);
 			}
 		}
 
-		const t = this.conv(decl, project.checker);
-		t.pkg = pkg;
-		//t.name = items[items.length - 1]; // 防止 Props as RootProps 等方式的导出导致的 name 被污染。
-		t.name = name; // 直接使用包含命名空间的全名
-		return t;
+		throw new Error(`未找到 ${items.join('.')}`);
 	}
 
 	private conv(decl: Node, chk: TypeChecker): Type {
@@ -183,20 +182,17 @@ export class Extractor {
 			return this.fromFunctionDeclaration(decl);
 		} else if (Node.isTypeAliasDeclaration(decl)) {
 			return this.fromTypeAliasDeclaration(decl, chk);
+		} else if (Node.isMappedTypeNode(decl)) {
+			return this.fromMappedTypeNode(decl, chk);
 		} else {
-			return this.convSource(decl);
+			throw new Error(`无效的节点类型: ${decl.getKindName()}, ${decl.getFullText()}`);
 		}
 	}
 
-	private convSource(decl: Node): Source {
-		const tsdoc = Node.isJSDocable(decl) ? getTsdoc(this.#tsdocParser, decl as JSDocableNode) : undefined;
-		return {
-			kind: 'source',
-			name: decl.getSymbol()?.getName() ?? '',
-			summary: comment2String(tsdoc?.summarySection),
-			remarks: comment2String(tsdoc?.remarksBlock?.content),
-			source: trimSource(decl.getFullText()),
-		};
+	private fromMappedTypeNode(decl: MappedTypeNode, chk: TypeChecker): Type {
+		const typ = chk.getTypeAtLocation(decl);
+		const intf = this.fromSymbols(typ.getProperties(), 'interface');
+		return intf;
 	}
 
 	private fromTypeAliasDeclaration(decl: TypeAliasDeclaration, chk: TypeChecker): Type {
@@ -228,14 +224,13 @@ export class Extractor {
 
 			if (unionTypes.every(intersectionIsLiteral)) {
 				// 字符串类型的联合类型
-				const ret: Literal = {
+				return {
 					name,
 					summary,
 					remarks,
 					kind: 'literal',
 					type: typ.getText(),
-				};
-				return ret;
+				} satisfies Literal;
 			}
 
 			const unions: Union = {
@@ -329,7 +324,7 @@ export class Extractor {
 			// type x = a & b
 			if (typ.getIntersectionTypes().every(t => t.isLiteral())) {
 				// 字符串类型的交集
-				const t: Literal = {
+				return {
 					name,
 					summary,
 					remarks,
@@ -338,11 +333,10 @@ export class Extractor {
 						.getIntersectionTypes()
 						.map(t => t.getText())
 						.join(' & '),
-				};
-				return t;
+				} satisfies Literal;
 			}
 
-			const t: Intersection = {
+			return {
 				name,
 				summary,
 				remarks,
@@ -350,12 +344,11 @@ export class Extractor {
 				types: typ.getIntersectionTypes().map(t => {
 					return this.fromSymbols(t.getProperties(), 'interface');
 				}),
-			};
-			return t;
+			} satisfies Intersection;
 		} else {
 			// type x = Omit<x, 'a' | 'b'>
 			const intf = this.fromSymbols(typ.getProperties(), 'interface');
-			intf.name = decl.getName();
+			intf.name = name;
 			return intf;
 		}
 	}
@@ -391,12 +384,11 @@ export class Extractor {
 					}
 				}
 
-				const cls: Class = {
+				return {
 					kind: 'class',
 					properties: cp.length > 0 ? cp : undefined,
 					methods: cm.length > 0 ? cm : undefined,
-				};
-				return cls;
+				} satisfies Class;
 			}
 			case 'interface': {
 				const ip: Array<InterfaceProperty> = [];
@@ -456,9 +448,7 @@ export class Extractor {
 		const props: Array<ClassProperty> = decl
 			.getProperties()
 			.filter(f)
-			.map(prop => {
-				return this.buildClassProperty(prop);
-			});
+			.map(prop => this.buildClassProperty(prop));
 		decl
 			.getGetAccessors()
 			.filter(f)
@@ -499,7 +489,7 @@ export class Extractor {
 			name: decl.getName() ?? '',
 			summary: comment2String(tsdoc?.summarySection),
 			remarks: comment2String(tsdoc?.remarksBlock?.content),
-			type: this.getFuncSig(decl.getType().getCallSignatures()[0]),
+			type: getFuncSigSource(decl.getType().getCallSignatures()[0]),
 			typeParams: tps.length > 0 ? tps : undefined,
 			params: params.length > 0 ? params : undefined,
 			return: this.getReturnType(decl.getReturnTypeNode(), tsdoc),
@@ -535,7 +525,7 @@ export class Extractor {
 			name: decl.getName(),
 			summary: comment2String(tsdoc?.summarySection),
 			remarks: comment2String(tsdoc?.remarksBlock?.content),
-			type: this.getType(decl),
+			type: getNodeSource(decl),
 			static: decl.isStatic() ? true : undefined,
 		};
 
@@ -580,7 +570,7 @@ export class Extractor {
 			name: decl.getName(),
 			summary: comment2String(tsdoc?.summarySection),
 			remarks: comment2String(tsdoc?.remarksBlock?.content),
-			type: this.getType(decl),
+			type: getNodeSource(decl),
 			def: getCustomDoc(StandardTags.defaultValue.tagName, tsdoc),
 			reactive: tsdoc?.modifierTagSet.hasTagName(reactiveTag) ? true : undefined,
 		};
@@ -604,7 +594,7 @@ export class Extractor {
 			name: method.getName(),
 			summary: comment2String(tsdoc?.summarySection),
 			remarks: comment2String(tsdoc?.remarksBlock?.content),
-			type: this.getFuncSig(method.getType().getCallSignatures()[0]),
+			type: getFuncSigSource(method.getType().getCallSignatures()[0]),
 			typeParams: tps.length > 0 ? tps : undefined,
 			params: params.length > 0 ? params : undefined,
 			return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
@@ -620,7 +610,7 @@ export class Extractor {
 			name: method.getName(),
 			summary: comment2String(tsdoc?.summarySection),
 			remarks: comment2String(tsdoc?.remarksBlock?.content),
-			type: this.getFuncSig(method.getType().getCallSignatures()[0]),
+			type: getFuncSigSource(method.getType().getCallSignatures()[0]),
 			typeParams: tps.length > 0 ? tps : undefined,
 			params: params.length > 0 ? params : undefined,
 			return: this.getReturnType(method.getReturnTypeNode(), tsdoc),
@@ -628,27 +618,26 @@ export class Extractor {
 	}
 
 	private formParameterDeclaration(p: ParameterDeclaration, tsdoc?: DocComment): Parameter {
-		const d = tsdoc?.params.blocks.find(block => block.parameterName === p.getName())?.content;
-		const cp: Parameter = {
+		const d = tsdoc?.params.blocks.find(blk => blk.parameterName === p.getName())?.content;
+		return {
 			name: p.getName(),
 			summary: comment2String(d),
-			type: this.getType(p),
+			type: getNodeSource(p),
 
 			// 从 d.ts 中获取的函数，默认参数始终为空
 			// def: p.getInitializer()?.getText() ?? undefined,
 		};
-		return cp;
 	}
 
 	private getReturnType(node?: TypeNode, tsdoc?: DocComment): RT {
 		return {
 			summary: comment2String(tsdoc?.returnsBlock?.content),
-			type: this.getType(node),
+			type: getNodeSource(node),
 		};
 	}
 
 	private fromTypeParamterDecleration(decl: TypeParameterDeclaration, tsdoc?: DocComment): TypeParameter {
-		const tt = this.getType(decl.getConstraint());
+		const tt = getNodeSource(decl.getConstraint());
 		const name = decl.getName();
 		return {
 			name: name,
@@ -657,31 +646,4 @@ export class Extractor {
 			init: decl.getDefault()?.getText() ?? undefined,
 		};
 	}
-
-	private getFuncSig(sig: Signature): string {
-		return trimSource(sig.getDeclaration().getText());
-	}
-
-	private getType(n?: Node): string {
-		if (!n) {
-			return '';
-		}
-
-		const sf = n.getSourceFile();
-		const txt = n.getType().getText(sf);
-		if (!txt.includes('import(')) {
-			return txt;
-		}
-
-		const alias = sf.getTypeAliasOrThrow(n.getType().getText());
-		return alias.getTypeNodeOrThrow().getText();
-	}
-}
-
-const exportDeclare = 'export declare ';
-
-function trimSource(source: string): string {
-	source = source.trim();
-	source = source.startsWith(exportDeclare) ? source.slice(exportDeclare.length) : source;
-	return source.endsWith(';') ? source.slice(0, -1) : source;
 }

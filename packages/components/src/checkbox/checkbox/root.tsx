@@ -7,14 +7,14 @@ import { createEffect, createMemo, type JSX, mergeProps } from 'solid-js';
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLLabelElement> {
+export interface CheckboxRef extends BaseRef<HTMLLabelElement> {
 	/**
 	 * 组件的 input 元素
 	 */
 	input(): HTMLInputElement;
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface CheckboxProps extends BaseProps, RefProps<CheckboxRef> {
 	tabindex?: number;
 
 	label?: JSX.Element;
@@ -70,8 +70,8 @@ export interface Props extends BaseProps, RefProps<Ref> {
 /**
  * 带文本提示的复选框
  */
-export function Root(props: Props): JSX.Element {
-	props = mergeProps({ tabindex: 0 } as Props, props);
+export function Checkbox(props: CheckboxProps): JSX.Element {
+	props = mergeProps({ tabindex: 0 } as CheckboxProps, props);
 	let inputRef: HTMLInputElement;
 	let rootRef: HTMLLabelElement;
 

@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Counter.RootProps",
+		"name": "Counter.Props",
 		"properties": [
 			{
 				"name": "start",
@@ -60,7 +60,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Counter.RootRef",
+		"name": "Counter.Ref",
 		"methods": [
 			{
 				"name": "play",

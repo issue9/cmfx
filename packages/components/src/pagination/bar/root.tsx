@@ -11,7 +11,7 @@ import { Choice } from '@components/menu';
 import { Pagination } from '@components/pagination/pagination';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface PaginationBarRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 跳转到指定的页面
 	 *
@@ -20,7 +20,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	jump(p: number): void;
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface PaginationBarProps extends BaseProps, RefProps<PaginationBarRef> {
 	/**
 	 * 总共的数据量
 	 *
@@ -65,7 +65,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
  *
  * 相对于 {@link Pagination} 变成了按照数据总量进行计算分页，而不是直接按照页数。
  */
-export function Root(props: Props): JSX.Element {
+export function PaginationBar(props: PaginationBarProps): JSX.Element {
 	const [, opt] = useOptions();
 	props = mergeProps(
 		{
@@ -132,9 +132,9 @@ export function Root(props: Props): JSX.Element {
 		<div ref={el => (rootRef = el)} class={joinClass(props.palette, styles.bar, props.class)} style={props.style}>
 			<div class={styles.start}>
 				{l.t('_c.pagination.items', translateItems())}
-				<Choice.Root value={size()} onChange={v => sizeChange(v)} options={sizesOptions()} />
+				<Choice value={size()} onChange={v => sizeChange(v)} options={sizesOptions()} />
 			</div>
-			<Pagination.Root
+			<Pagination
 				class={styles.end}
 				spans={props.spans}
 				onChange={pageChange}

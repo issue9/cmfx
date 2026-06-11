@@ -57,9 +57,9 @@ const componentsRoute = '/components/demo';
 const contributeRoute = '/contribute';
 const themeRoute = '/theme-builder';
 
-const [docsRef, setDocsRef] = createSignal<Drawer.RootRef>();
-const [demoRef, setDemoRef] = createSignal<Drawer.RootRef>();
-const [themeRef, setThemeRef] = createSignal<Drawer.RootRef>();
+const [docsRef, setDocsRef] = createSignal<Drawer.Ref>();
+const [demoRef, setDemoRef] = createSignal<Drawer.Ref>();
+const [themeRef, setThemeRef] = createSignal<Drawer.Ref>();
 
 function InternalApp(props: RouteSectionProps): JSX.Element {
 	const l = useLocale();
@@ -93,11 +93,11 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 	};
 
 	const [modeValues, setModeValues] = createSignal<Array<Mode>>([theme.mode ?? 'system'], { equals: false });
-	let themeDropdown: Dropdown.RootRef;
+	let themeDropdown: Dropdown.Ref;
 
 	return (
 		<div class={styles.main}>
-			<Appbar.Root
+			<Appbar
 				href="/"
 				palette="secondary"
 				logo={<Appbar.Image />}
@@ -108,7 +108,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 						<Drawer.ToggleButton kind="flat" drawer={demoRef()} />
 						<Drawer.ToggleButton kind="flat" drawer={themeRef()} />
 
-						<Dropdown.Root
+						<Dropdown
 							trigger="hover"
 							value={l.match(Array.from(languageIcons.keys()), act.getLocale())}
 							onChange={e => act.setLocale(e)}
@@ -119,12 +119,12 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 								prefix: languageIcons.get(locale[0]) ?? <IconLanguage />,
 							}))}
 						>
-							<Button.Root kind="flat" square>
+							<Button kind="flat" square>
 								<IconLanguage />
-							</Button.Root>
-						</Dropdown.Root>
+							</Button>
+						</Dropdown>
 
-						<Dropdown.Root
+						<Dropdown
 							ref={el => (themeDropdown = el)}
 							trigger="hover"
 							multiple
@@ -152,12 +152,12 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 								{ type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', prefix: <IconBuilder /> },
 							]}
 						>
-							<Button.Root kind="flat" square>
+							<Button kind="flat" square>
 								<IconTheme />
-							</Button.Root>
-						</Dropdown.Root>
+							</Button>
+						</Dropdown>
 
-						<Dropdown.Root
+						<Dropdown
 							trigger="hover"
 							value={dir()}
 							onChange={e => {
@@ -170,20 +170,20 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 								{ type: 'item', label: l.t('_d.main.auto'), value: 'auto', prefix: <IconAuto /> },
 							]}
 						>
-							<Button.Root kind="flat" square>
+							<Button kind="flat" square>
 								<IconAlign />
-							</Button.Root>
-						</Dropdown.Root>
+							</Button>
+						</Dropdown>
 
 						<ToggleButton.FullScreen kind="flat" />
 
-						<Button.Root type="a" kind="flat" square href={pkg.repository.url}>
+						<Button type="a" kind="flat" square href={pkg.repository.url}>
 							<IconGithub />
-						</Button.Root>
+						</Button>
 					</>
 				}
 			>
-				<Menu.Root
+				<Menu
 					layout="horizontal"
 					items={[
 						{ type: 'a', label: l.t('_d.main.home'), value: '/' },
@@ -193,8 +193,8 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 					]}
 				/>
 
-				<Search.Root class={styles.search} onSearch={search} icon clear hotkey={new Hotkey('k', 'control')} />
-			</Appbar.Root>
+				<Search class={styles.search} onSearch={search} icon clear hotkey={new Hotkey('k', 'control')} />
+			</Appbar>
 
 			<Transition>{props.children}</Transition>
 		</div>
@@ -210,16 +210,16 @@ function NotFound(): JSX.Element {
 	});
 
 	return (
-		<Result.Root palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
+		<Result palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
 			<div class={styles['error-actions']}>
-				<Button.Root palette="primary" type="a" href="/">
+				<Button palette="primary" type="a" href="/">
 					{l.t('_d.error.backHome')}
-				</Button.Root>
-				<Button.Root palette="primary" type="button" onclick={() => nav(-1)}>
+				</Button>
+				<Button palette="primary" type="button" onclick={() => nav(-1)}>
 					{l.t('_d.error.backPrev')}
-				</Button.Root>
+				</Button>
 			</div>
-		</Result.Root>
+		</Result>
 	);
 }
 

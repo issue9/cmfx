@@ -45,7 +45,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex items-start justify-start gap-5">
-				<Choice.Root
+				<Choice
 					closable={closable()}
 					tabindex={0}
 					placeholder="placeholder"
@@ -57,7 +57,7 @@ export default function (props: MountProps): JSX.Element {
 					onChange={v => setVal(v)}
 					options={options}
 				/>
-				<InputText.Root
+				<InputText
 					placeholder="placeholder"
 					disabled={disabled()}
 					rounded={rounded()}

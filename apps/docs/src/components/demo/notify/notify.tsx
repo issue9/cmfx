@@ -20,7 +20,7 @@ export default function (): JSX.Element {
 	return (
 		<>
 			<div class="flex w-40 flex-col gap-2">
-				<Choice.Root
+				<Choice
 					placeholder="type"
 					value={typ()}
 					onChange={setTyp}
@@ -29,7 +29,7 @@ export default function (): JSX.Element {
 					})}
 				/>
 
-				<Choice.Root
+				<Choice
 					placeholder="position"
 					value={pos()}
 					onChange={setPos}
@@ -37,13 +37,13 @@ export default function (): JSX.Element {
 						return { type: 'item', value: v, label: v };
 					})}
 				/>
-				<InputNumber.Root step={500} placeholder="timeout" value={timeout()} onChange={setTimeout} />
-				<InputText.Root placeholder="title" value={title()} onChange={setTitle} />
-				<InputText.Root placeholder="body" value={body()} onChange={setBody} />
-				<Button.Root palette="primary" onclick={click}>
+				<InputNumber step={500} placeholder="timeout" value={timeout()} onChange={setTimeout} />
+				<InputText placeholder="title" value={title()} onChange={setTitle} />
+				<InputText placeholder="body" value={body()} onChange={setBody} />
+				<Button palette="primary" onclick={click}>
 					notify
-				</Button.Root>
-				<Button.Root
+				</Button>
+				<Button
 					palette="primary"
 					onclick={() => {
 						setBody('body\nwith\nnewline');
@@ -51,12 +51,12 @@ export default function (): JSX.Element {
 					}}
 				>
 					带换行 notify
-				</Button.Root>
+				</Button>
 			</div>
 
 			<div>
 				切换到其它标签页，5 秒后会得到系统通知，否则当前页面弹出。
-				<Button.Root
+				<Button
 					palette="primary"
 					onclick={async () => {
 						await sleep(5000);
@@ -64,7 +64,7 @@ export default function (): JSX.Element {
 					}}
 				>
 					Notify.error(...system)
-				</Button.Root>
+				</Button>
 			</div>
 		</>
 	);

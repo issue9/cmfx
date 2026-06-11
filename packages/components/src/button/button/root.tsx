@@ -13,7 +13,10 @@ import styles from '@components/button/common/style.module.css';
 import type { Props as BaseProps } from '@components/button/common/types';
 import { presetProps as presetBaseProps } from '@components/button/common/types';
 
-export type Ref<A extends boolean = false, E = A extends false ? HTMLButtonElement : HTMLAnchorElement> = BaseRef<E>;
+export type ButtonRef<
+	A extends boolean = false,
+	E = A extends false ? HTMLButtonElement : HTMLAnchorElement,
+> = BaseRef<E>;
 
 interface Base extends BaseProps, ParentProps {
 	/**
@@ -43,7 +46,7 @@ interface Base extends BaseProps, ParentProps {
 /**
  * 按钮类型的属性
  */
-export interface ButtonProps extends Base, RefProps<Ref> {
+export interface ButtonNormalProps extends Base, RefProps<ButtonRef> {
 	/**
 	 * 按钮的类型
 	 *
@@ -67,7 +70,7 @@ export interface ButtonProps extends Base, RefProps<Ref> {
 /**
  * 链接类型的按钮属性
  */
-export interface AnchorProps extends Base, RefProps<Ref<true>> {
+export interface ButtonAnchorProps extends Base, RefProps<ButtonRef<true>> {
 	/**
 	 * 表示这是一个链接类型的按钮
 	 */
@@ -88,9 +91,9 @@ export interface AnchorProps extends Base, RefProps<Ref<true>> {
 	href?: XAnchorProps['href'];
 }
 
-export type Props = ButtonProps | AnchorProps;
+export type ButtonProps = ButtonNormalProps | ButtonAnchorProps;
 
-export const presetProps: Readonly<Partial<ButtonProps>> = {
+export const presetProps: Readonly<Partial<ButtonNormalProps>> = {
 	...presetBaseProps,
 	type: 'button',
 };
@@ -98,7 +101,7 @@ export const presetProps: Readonly<Partial<ButtonProps>> = {
 /**
  * 普通的按钮组件
  */
-export function Root(props: Props) {
+export function Button(props: ButtonProps) {
 	let ref: HTMLElement;
 
 	if (props.hotkey && props.onclick) {

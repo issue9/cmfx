@@ -18,9 +18,9 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Result.Root title="网站更新中" layout="auto" palette={palette()} illustration={<amico.Error404 />}>
+			<Result title="网站更新中" layout="auto" palette={palette()} illustration={<amico.Error404 />}>
 				<div>网站更新中......</div>
-			</Result.Root>
+			</Result>
 		</>
 	);
 }

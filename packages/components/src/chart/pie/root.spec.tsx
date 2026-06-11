@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { ChartPie, type ChartPieRef } from './root';
 
 describe('ChartPie', async () => {
-	let ref: Ref;
+	let ref: ChartPieRef;
 	const ct = await ComponentTester.build('ChartAxis', props => (
-		<Root
+		<ChartPie
 			ref={el => (ref = el)}
 			{...props}
 			legend="left"

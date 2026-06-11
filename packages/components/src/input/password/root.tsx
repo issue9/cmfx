@@ -11,10 +11,10 @@ import { ToggleButton } from '@components/button';
 import { Form } from '@components/form';
 import { InputText } from '@components/input/text';
 
-export type Ref = InputText.RootRef;
+export type InputPasswordRef = InputText.Ref;
 
 type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete';
-export interface Props extends Omit<InputText.RootProps, omitFields>, RefProps<Ref> {
+export interface InputPasswordProps extends Omit<InputText.Props, omitFields>, RefProps<InputPasswordRef> {
 	autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
 
 	/**
@@ -28,18 +28,18 @@ export interface Props extends Omit<InputText.RootProps, omitFields>, RefProps<R
 /**
  * 密码输入组件
  */
-export function Root(props: Props): JSX.Element {
+export function InputPassword(props: InputPasswordProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
-	let ref: InputText.RootRef;
+	let ref: InputText.Ref;
 
 	onMount(() => {
 		ref.input().type = props.visible ? 'text' : 'password';
 	});
 
 	return (
-		<InputText.Root
+		<InputText
 			{...props}
 			type="password"
 			ref={el => {
@@ -49,7 +49,7 @@ export function Root(props: Props): JSX.Element {
 				}
 			}}
 			suffix={
-				<ToggleButton.Root
+				<ToggleButton
 					kind="flat"
 					disabled={props.disabled || props.readonly}
 					value={props.visible}

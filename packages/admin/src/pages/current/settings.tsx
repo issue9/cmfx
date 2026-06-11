@@ -38,7 +38,7 @@ export function Settings(): JSX.Element {
 	});
 
 	const chk = (
-		<Checkbox.Root
+		<Checkbox
 			label={l.t('_p.current.setWidth')}
 			checked={!rangDisabled()}
 			onChange={v => {
@@ -49,15 +49,15 @@ export function Settings(): JSX.Element {
 	);
 
 	return (
-		<Page.Root title="_p.current.settings" class={joinClass(undefined, styles.settings)}>
-			<XSettings.Root onReset={() => lay.reset()}>
-				<Alert.Root type="warning" title={l.t('_p.current.settingsDesc')} />
+		<Page title="_p.current.settings" class={joinClass(undefined, styles.settings)}>
+			<XSettings onReset={() => lay.reset()}>
+				<Alert type="warning" title={l.t('_p.current.settingsDesc')} />
 
 				<XSettings.Separator />
 
 				<XSettings.Item icon={<IconLayout />} title={l.t('_p.current.layout')} desc={l.t('_p.current.layoutDesc')}>
 					<div class={styles.content}>
-						<RadioGroup.Root
+						<RadioGroup
 							class={styles.layout}
 							block
 							value={lay.layout()[0]()}
@@ -68,14 +68,14 @@ export function Settings(): JSX.Element {
 							]}
 						/>
 
-						<Checkbox.Root
+						<Checkbox
 							label={l.t('_p.current.float')}
 							checked={lay.float()[0]()}
 							onChange={v => lay.float()[1](!!v)}
 						/>
 
 						<Form.Field label={chk} layout="horizontal">
-							<Slider.Root
+							<Slider
 								disabled={rangDisabled()}
 								step={10}
 								max={window.screen.width}
@@ -89,7 +89,7 @@ export function Settings(): JSX.Element {
 				</XSettings.Item>
 
 				<XSettings.Separator />
-			</XSettings.Root>
-		</Page.Root>
+			</XSettings>
+		</Page>
 	);
 }

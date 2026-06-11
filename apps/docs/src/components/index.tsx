@@ -15,7 +15,7 @@ export { buildMenus } from './overview';
 /**
  * 组件预览的路由定义
  */
-export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | undefined>): RouteDefinition {
+export function buildRoute(prefix: string, setDrawer: Setter<Drawer.Ref | undefined>): RouteDefinition {
 	if (!prefix.endsWith('/')) {
 		prefix += '/';
 	}
@@ -25,8 +25,8 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 		component: (props: ParentProps) => {
 			const l = useLocale();
 
-			let menuRef: Menu.RootRef;
-			let ref: Drawer.RootRef;
+			let menuRef: Menu.Ref;
+			let ref: Drawer.Ref;
 
 			onMount(() => {
 				setDrawer(ref);
@@ -35,7 +35,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 			onCleanup(() => setDrawer(undefined));
 
 			return (
-				<Drawer.Root
+				<Drawer
 					initValue
 					floating={floatingWidth}
 					ref={el => (ref = el)}
@@ -43,8 +43,8 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 					mainClass={joinClass('surface', styles.main)}
 					main={props.children}
 				>
-					<Menu.Root ref={el => (menuRef = el)} class="min-w-65" layout="inline" items={buildMenus(l, prefix)} />
-				</Drawer.Root>
+					<Menu ref={el => (menuRef = el)} class="min-w-65" layout="inline" items={buildMenus(l, prefix)} />
+				</Drawer>
 			);
 		},
 		children: [

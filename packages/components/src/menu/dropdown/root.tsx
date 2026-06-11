@@ -10,7 +10,7 @@ import { type AvailableEnumType, type BaseRef, joinClass, type RefProps } from '
 import { Menu } from '@components/menu/menu';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface DropdownRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 显示下拉的菜单
 	 */
@@ -34,10 +34,10 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	/**
 	 * 下拉菜单的元素
 	 */
-	menu(): Menu.RootRef<'menu'>;
+	menu(): Menu.Ref<'menu'>;
 }
 
-interface Base extends ParentProps, RefProps<Ref> {
+interface Base extends ParentProps, RefProps<DropdownRef> {
 	/**
 	 * 触发方式
 	 *
@@ -47,7 +47,7 @@ interface Base extends ParentProps, RefProps<Ref> {
 	 *  - click 鼠标点击；
 	 *  - hover 鼠标悬停，*移动端不支持*；
 	 *  - contextmenu 右键菜单；
-	 *  - custom 自定义，可通过 {@link Ref} 控制；
+	 *  - custom 自定义，可通过 {@link DropdownRef} 控制；
 	 */
 	trigger?: 'click' | 'hover' | 'contextmenu' | 'custom';
 
@@ -77,18 +77,18 @@ interface Base extends ParentProps, RefProps<Ref> {
 /**
  * 多选下拉菜单的属性
  */
-export interface MultipleProps<T extends AvailableEnumType = string>
+export interface DropdownMultipleProps<T extends AvailableEnumType = string>
 	extends Omit<Menu.MultipleProps<T>, 'layout' | 'tag' | 'ref'>,
 		Base {}
 
 /**
  * 单选下拉菜单的属性
  */
-export interface SingleProps<T extends AvailableEnumType = string>
+export interface DropdownSingleProps<T extends AvailableEnumType = string>
 	extends Omit<Menu.SingleProps<T>, 'layout' | 'tag' | 'ref'>,
 		Base {}
 
-export type Props<T extends AvailableEnumType = string> = SingleProps<T> | MultipleProps<T>;
+export type DropdownProps<T extends AvailableEnumType = string> = DropdownSingleProps<T> | DropdownMultipleProps<T>;
 
 const presetProps = {
 	align: 'end',
@@ -100,7 +100,7 @@ const presetProps = {
  *
  * @typeParam T - 选项类型；
  */
-export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
+export function Dropdown<T extends AvailableEnumType = string>(props: DropdownProps<T>): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const [_, menuProps] = splitProps(props, [
 		'trigger',
@@ -114,7 +114,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 	]);
 
 	const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
-	let menuRef: Menu.RootRef<'menu'>;
+	let menuRef: Menu.Ref<'menu'>;
 	let rootRef: HTMLDivElement;
 	let isOpen = false;
 	const isManual = props.trigger === 'contextmenu' || props.trigger === 'custom';
@@ -232,7 +232,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			>
 				{props.children}
 			</div>
-			<Menu.Root
+			<Menu
 				// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
 				onChange={onChange as any}
 				{...menuProps}

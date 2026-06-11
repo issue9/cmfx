@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Code.RootProps",
+		"name": "Code.Props",
 		"properties": [
 			{
 				"name": "children",
@@ -93,7 +93,7 @@
 				}
 			}
 		],
-		"name": "Code.RootRef",
+		"name": "Code.Ref",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -167,7 +167,7 @@
 		"name": "Code.buildHighlighter",
 		"summary": "构造可以高亮指定语言的对象\n\n",
 		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
-		"type": "declare function buildHighlighter(langs: Array<BundledLanguage>, themes?: (ThemeInput | StringLiteralUnion<BundledTheme> | SpecialTheme)[]): Promise<Highlighter>",
+		"type": "declare function buildHighlighter(langs: Array<BundledLanguage>, themes?: (ThemeInput | StringLiteralUnion<BundledTheme> | SpecialTheme)[]): Promise<CodeHighlighter>",
 		"params": [
 			{
 				"name": "langs",
@@ -181,8 +181,8 @@
 			}
 		],
 		"return": {
-			"summary": "返回\n`Highlighter`\n对象；\n\n",
-			"type": "Promise<Highlighter>"
+			"summary": "返回\n`CodeHighlighter`\n对象；\n\n",
+			"type": "Promise<CodeHighlighter>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -254,7 +254,7 @@
 		"kind": "function",
 		"name": "Code.registerDecorate",
 		"summary": "注册装饰器\n\n",
-		"type": "declare function registerDecorate(name: string, decorate: Decorate): void",
+		"type": "declare function registerDecorate(name: string, decorate: CodeDecorate): void",
 		"params": [
 			{
 				"name": "name",
@@ -264,7 +264,7 @@
 			{
 				"name": "decorate",
 				"summary": "装饰器的实例；\n\n",
-				"type": "Decorate"
+				"type": "CodeDecorate"
 			}
 		],
 		"return": {

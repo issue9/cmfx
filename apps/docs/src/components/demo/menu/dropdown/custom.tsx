@@ -81,7 +81,7 @@ export default function (props: MountProps): JSX.Element {
 		},
 	];
 
-	let ref: Dropdown.RootRef;
+	let ref: Dropdown.Ref;
 
 	return (
 		<div>
@@ -90,11 +90,11 @@ export default function (props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<Button.Root onclick={() => ref.show()}>show</Button.Root>
-			<Button.Root onclick={() => ref.hide()}>hide</Button.Root>
-			<Button.Root onclick={() => ref.toggle()}>toggle</Button.Root>
+			<Button onclick={() => ref.show()}>show</Button>
+			<Button onclick={() => ref.hide()}>hide</Button>
+			<Button onclick={() => ref.toggle()}>toggle</Button>
 			<br />
-			<Dropdown.Root
+			<Dropdown
 				selectedClass={selectedCls()}
 				palette={palette()}
 				ref={el => {
@@ -108,7 +108,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			>
 				<div class="h-full w-full bg-primary-bg text-primary-fg">custom</div>
-			</Dropdown.Root>
+			</Dropdown>
 		</div>
 	);
 }

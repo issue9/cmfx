@@ -26,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<PrintButton.Root
+			<PrintButton
 				element={() => elem}
 				disabled={disabled()}
 				rounded={rounded()}

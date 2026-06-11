@@ -12,9 +12,9 @@ import IconPerson from '~icons/material-symbols/person';
 import { layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	let ref1: Stepper.RootRef;
-	let ref2: Stepper.RootRef;
-	let ref3: Stepper.RootRef;
+	let ref1: Stepper.Ref;
+	let ref2: Stepper.Ref;
+	let ref3: Stepper.Ref;
 
 	const [Palette, palette] = paletteSelector('surface');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<div class="w-full">
 				<p>icon=dot</p>
-				<Stepper.Root
+				<Stepper
 					layout={layout()}
 					palette={palette()}
 					ref={el => {
@@ -41,13 +41,13 @@ export default function (props: MountProps): JSX.Element {
 					]}
 				/>
 
-				<Button.Root onclick={() => ref1.prev()}>prev</Button.Root>
-				<Button.Root onclick={() => ref1.next()}>next</Button.Root>
+				<Button onclick={() => ref1.prev()}>prev</Button>
+				<Button onclick={() => ref1.next()}>next</Button>
 			</div>
 
 			<div class="w-full">
 				<p>icon=icon</p>
-				<Stepper.Root
+				<Stepper
 					layout={layout()}
 					palette={palette()}
 					ref={el => {
@@ -60,13 +60,13 @@ export default function (props: MountProps): JSX.Element {
 					]}
 				/>
 
-				<Button.Root onclick={() => ref2.prev()}>prev</Button.Root>
-				<Button.Root onclick={() => ref2.next()}>next</Button.Root>
+				<Button onclick={() => ref2.prev()}>prev</Button>
+				<Button onclick={() => ref2.next()}>next</Button>
 			</div>
 
 			<div class="w-full">
 				<p>w-full</p>
-				<Stepper.Root
+				<Stepper
 					layout={layout()}
 					palette={palette()}
 					ref={el => {
@@ -79,8 +79,8 @@ export default function (props: MountProps): JSX.Element {
 					]}
 				/>
 
-				<Button.Root onclick={() => ref3.prev()}>prev</Button.Root>
-				<Button.Root onclick={() => ref3.next()}>next</Button.Root>
+				<Button onclick={() => ref3.prev()}>prev</Button>
+				<Button onclick={() => ref3.next()}>next</Button>
 			</div>
 		</>
 	);

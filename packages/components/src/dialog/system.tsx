@@ -10,8 +10,8 @@ import { useLocale, useOptions } from '@components/context';
 import { Form } from '@components/form';
 import { InputText } from '@components/input';
 import { AcceptButton, Actions } from './buttons';
-import type { Ref } from './context';
-import { Root } from './root';
+import type { DialogRef } from './context';
+import { Dialog } from './root';
 import styles from './style.module.css';
 import { Toolbar } from './toolbar';
 
@@ -41,7 +41,7 @@ let alertInst: typeof alert;
 
 function AlertProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
-	let dlg: Ref;
+	let dlg: DialogRef;
 	const l = useLocale();
 	const [, opt] = useOptions();
 
@@ -60,7 +60,7 @@ function AlertProvider(props: BaseProps): JSX.Element {
 	};
 
 	return (
-		<Root
+		<Dialog
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
@@ -76,7 +76,7 @@ function AlertProvider(props: BaseProps): JSX.Element {
 			}
 		>
 			{msg()}
-		</Root>
+		</Dialog>
 	);
 }
 
@@ -96,7 +96,7 @@ let confirmInst: typeof confirm;
 
 function ConfirmProvider(props: BaseProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
-	let dlg: Ref;
+	let dlg: DialogRef;
 	const [, opt] = useOptions();
 
 	confirmInst = (msg?: string): Promise<boolean> => {
@@ -114,7 +114,7 @@ function ConfirmProvider(props: BaseProps): JSX.Element {
 	};
 
 	return (
-		<Root
+		<Dialog
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
@@ -126,7 +126,7 @@ function ConfirmProvider(props: BaseProps): JSX.Element {
 			footer={<Actions acceptValue={acceptValue} />}
 		>
 			<p>{msg()}</p>
-		</Root>
+		</Dialog>
 	);
 }
 
@@ -145,7 +145,7 @@ export async function confirm(msg?: string): Promise<boolean> {
 let promptInst: typeof prompt;
 
 function PromptProvider(props: BaseProps): JSX.Element {
-	let dlg: Ref;
+	let dlg: DialogRef;
 	const [msg, setMsg] = createSignal<string>();
 	const [value, setValue] = createSignal('');
 	const [, opt] = useOptions();
@@ -170,7 +170,7 @@ function PromptProvider(props: BaseProps): JSX.Element {
 	};
 
 	return (
-		<Root
+		<Dialog
 			palette={props.palette}
 			header={
 				<Toolbar movable close>
@@ -182,9 +182,9 @@ function PromptProvider(props: BaseProps): JSX.Element {
 			footer={<Actions acceptValue={acceptValue} />}
 		>
 			<Form.Field layout="vertical" label={msg()} class="w-full">
-				<InputText.Root value={value()} onChange={setValue} />
+				<InputText value={value()} onChange={setValue} />
 			</Form.Field>
-		</Root>
+		</Dialog>
 	);
 }
 

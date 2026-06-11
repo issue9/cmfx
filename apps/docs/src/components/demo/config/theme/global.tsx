@@ -11,19 +11,19 @@ export default function (): JSX.Element {
 
 	return (
 		<div>
-			<Button.Root>
+			<Button>
 				这是继承全局的主题: {t.mode}, {t.scheme?.primary}
-			</Button.Root>
+			</Button>
 
 			<ThemeProvider mode="light" scheme={opt.schemes?.get('green')}>
-				<Button.Root>这是当前固定的主题-green</Button.Root>
+				<Button>这是当前固定的主题-green</Button>
 
-				<Button.Root onclick={() => act.setScheme('purple')}>主题-purple</Button.Root>
-				<Button.Root onclick={() => act.setScheme('green')}>主题-green</Button.Root>
+				<Button onclick={() => act.setScheme('purple')}>主题-purple</Button>
+				<Button onclick={() => act.setScheme('green')}>主题-green</Button>
 
-				<Button.Root onclick={() => act.setMode('light')}>浅色</Button.Root>
-				<Button.Root onclick={() => act.setMode('dark')}>深色</Button.Root>
-				<Button.Root onclick={() => act.setMode('system')}>跟随系统</Button.Root>
+				<Button onclick={() => act.setMode('light')}>浅色</Button>
+				<Button onclick={() => act.setMode('dark')}>深色</Button>
+				<Button onclick={() => act.setMode('system')}>跟随系统</Button>
 			</ThemeProvider>
 		</div>
 	);

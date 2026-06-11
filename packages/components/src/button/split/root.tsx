@@ -14,45 +14,47 @@ import { presetProps as presetBaseProps } from '@components/button/common/types'
 import { ButtonGroup } from '@components/button/group';
 import { Dropdown } from '@components/menu';
 
-export interface Ref extends Dropdown.RootRef {
+export interface SplitButtonRef extends Dropdown.Ref {
 	/**
 	 * 返回按按钮组的组件实例
 	 */
-	group(): ButtonGroup.RootRef;
+	group(): ButtonGroup.Ref;
 }
 
 /**
  * 单选下拉菜单的属性
  */
-export interface SingleProps<T extends AvailableEnumType = string>
-	extends Omit<Extract<Dropdown.RootProps<T>, { multiple?: false }>, 'trigger' | 'ref'> {}
+export interface SplitButtonSingleProps<T extends AvailableEnumType = string>
+	extends Omit<Extract<Dropdown.Props<T>, { multiple?: false }>, 'trigger' | 'ref'> {}
 
 /**
  * 多选下拉菜单的属性
  */
-export interface MultipleProps<T extends AvailableEnumType = string>
-	extends Omit<Extract<Dropdown.RootProps<T>, { multiple: true }>, 'trigger' | 'ref'> {}
+export interface SplitButtonMultipleProps<T extends AvailableEnumType = string>
+	extends Omit<Extract<Dropdown.Props<T>, { multiple: true }>, 'trigger' | 'ref'> {}
 
-interface Base extends ParentProps, Omit<BaseProps, 'hotkey'>, RefProps<Ref> {
+interface Base extends ParentProps, Omit<BaseProps, 'hotkey'>, RefProps<SplitButtonRef> {
 	/**
 	 * 按钮的布局
 	 */
 	layout?: Layout;
 }
 
-export type Props<T extends AvailableEnumType = string> = (Base & SingleProps<T>) | (Base & MultipleProps<T>);
+export type SplitButtonProps<T extends AvailableEnumType = string> =
+	| (Base & SplitButtonSingleProps<T>)
+	| (Base & SplitButtonMultipleProps<T>);
 
-export const presetProps: Readonly<Partial<Props>> = {
+export const presetProps: Readonly<Partial<SplitButtonProps>> = {
 	...presetBaseProps,
 	layout: 'horizontal',
 } as const;
 
-export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-	props = mergeProps(presetProps, props) as Props<T>;
+export function SplitButton<T extends AvailableEnumType = string>(props: SplitButtonProps<T>): JSX.Element {
+	props = mergeProps(presetProps, props) as SplitButtonProps<T>;
 
-	let dropdownRef: Dropdown.RootRef;
-	let arrowRef: Button.RootRef;
-	let groupRef: ButtonGroup.RootRef;
+	let dropdownRef: Dropdown.Ref;
+	let arrowRef: Button.Ref;
+	let groupRef: ButtonGroup.Ref;
 
 	// 保证弹出菜单的宽度不小于 ButtonGroup
 	onMount(() => {
@@ -74,7 +76,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 
 	const [, dropProps] = splitProps(props, ['children', 'ref', 'kind', 'rounded', 'disabled', 'layout']);
 	return (
-		<Dropdown.Root
+		<Dropdown
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
 			{...(dropProps as any)}
 			ref={el => {
@@ -82,7 +84,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			}}
 			trigger="custom"
 		>
-			<ButtonGroup.Root
+			<ButtonGroup
 				kind={props.kind}
 				rounded={props.rounded}
 				layout={props.layout}
@@ -103,10 +105,10 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 				}}
 			>
 				{props.children}
-				<Button.Root class={styles.split} square ref={el => (arrowRef = el)} onclick={() => dropdownRef.toggle()}>
+				<Button class={styles.split} square ref={el => (arrowRef = el)} onclick={() => dropdownRef.toggle()}>
 					<IconArrowDown />
-				</Button.Root>
-			</ButtonGroup.Root>
-		</Dropdown.Root>
+				</Button>
+			</ButtonGroup>
+		</Dropdown>
 	);
 }

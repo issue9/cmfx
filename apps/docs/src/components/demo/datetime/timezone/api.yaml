@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Timezone.RootProps
-            - Timezone.RootRef
+            - Timezone.Props
+            - Timezone.Ref

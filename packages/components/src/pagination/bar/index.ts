@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as PaginationBar from './mod';
+import { PaginationBar as C } from './root';
+
+export const PaginationBar = C;
+
+export namespace PaginationBar {
+	export type Props = import('./root').PaginationBarProps;
+	export type Ref = import('./root').PaginationBarRef;
+}

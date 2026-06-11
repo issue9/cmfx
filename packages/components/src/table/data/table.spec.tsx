@@ -6,10 +6,10 @@ import type { Query } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './table';
+import { type DataTableRef, Root } from './table';
 
 describe('DataTable', async () => {
-	let ref: Ref;
+	let ref: DataTableRef;
 	const ct = await ComponentTester.build('DataTable', props => (
 		<Root<object, Query>
 			{...props}

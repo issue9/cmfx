@@ -8,9 +8,9 @@ import { Dynamic } from 'solid-js/web';
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLElement>;
+export type LabelRef = BaseRef<HTMLElement>;
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface LabelProps extends BaseProps, ParentProps, RefProps<LabelRef> {
 	/**
 	 * 图标
 	 *
@@ -29,8 +29,8 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 /**
  * 带图标的标题
  */
-export function Root(props: Props): JSX.Element {
-	props = mergeProps({ tag: 'p' as Props['tag'] }, props);
+export function Label(props: LabelProps): JSX.Element {
+	props = mergeProps({ tag: 'p' as LabelProps['tag'] }, props);
 
 	return (
 		<Dynamic

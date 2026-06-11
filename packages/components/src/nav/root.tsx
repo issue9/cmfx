@@ -7,14 +7,14 @@ import { createSignal, For, type JSX, mergeProps } from 'solid-js';
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLElement> {
+export interface NavRef extends BaseRef<HTMLElement> {
 	/**
 	 * 重新计算导航内容
 	 */
 	refresh(): void;
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface NavProps extends BaseProps, RefProps<NavRef> {
 	/**
 	 * 用于生成目录的元素
 	 *
@@ -43,7 +43,7 @@ const queryString = 'h1,h2,h3,h4,h5,h6';
 /**
  * 根据 h1-h6 元素生成导航内容
  */
-export function Root(props: Props): JSX.Element {
+export function Nav(props: NavProps): JSX.Element {
 	props = mergeProps({ query: queryString, minHeaderCount: 1 }, props);
 
 	const list = props.target.querySelectorAll(props.query!);

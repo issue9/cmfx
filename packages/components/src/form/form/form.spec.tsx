@@ -6,10 +6,10 @@ import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
 import { API } from '@components/form/api';
-import { Form, type Ref } from './form';
+import { Form, type FormRef } from './form';
 
 describe('Form', async () => {
-	let ref: Ref;
+	let ref: FormRef;
 	const api = new API({
 		initValue: {},
 		submit: async (v: object) => ({ ok: true, status: 200, body: v }),

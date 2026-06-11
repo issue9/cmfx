@@ -8,9 +8,9 @@ import type { BaseProps, BaseRef, Layout, RefProps } from '@components/base';
 import { joinClass, PropsError, style2String } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type ResultRef = BaseRef<HTMLDivElement>;
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface ResultProps extends BaseProps, ParentProps, RefProps<ResultRef> {
 	/**
 	 * 显示可选的插画
 	 *
@@ -54,7 +54,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	gap?: string;
 }
 
-const presetProps: Readonly<Props> = {
+const presetProps: Readonly<ResultProps> = {
 	layout: 'auto',
 	gap: '2.5rem',
 } as const;
@@ -64,7 +64,7 @@ const presetProps: Readonly<Props> = {
  *
  * @remarks 组件件会被分成两部分，插图和文本内容，两都可以为空，但不能同时为空。
  */
-export function Root(props: Props) {
+export function Result(props: ResultProps) {
 	props = mergeProps(presetProps, props);
 
 	if (!props.illustration && !props.children) {

@@ -74,8 +74,8 @@ function LoginBox(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page.Root backTop={false} title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
-			<Appbar.Root
+		<Page backTop={false} title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
+			<Appbar
 				class={styles.toolbar}
 				title={opt.title}
 				logo={<Appbar.Image src={opt.logo} alt={opt.title} />}
@@ -88,7 +88,7 @@ function LoginBox(props: Props): JSX.Element {
 				<div class={styles.form}>
 					<div class={styles.title}>
 						<p>{l.t('_p.current.login')}</p>
-						<Choice.Root value={passport()} onChange={setPassport} options={!passports.loading ? passports()! : []} />
+						<Choice value={passport()} onChange={setPassport} options={!passports.loading ? passports()! : []} />
 					</div>
 					<div>
 						<Transition>{props.passports.get(passport())?.Login()}</Transition>
@@ -109,7 +109,7 @@ function LoginBox(props: Props): JSX.Element {
 					</For>
 				</footer>
 			</Show>
-		</Page.Root>
+		</Page>
 	);
 }
 
@@ -129,13 +129,13 @@ function Actions(): JSX.Element {
 
 	return (
 		<>
-			<Choice.Root
+			<Choice
 				value={localeFA()}
 				onChange={setLocaleFA}
 				options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))}
 			/>
 
-			<Choice.Root
+			<Choice
 				value={modeFA()}
 				onChange={setModeFA}
 				options={modes.map(v => ({ type: 'item', value: v, label: l.t(`_c.settings.${v}`) }))}

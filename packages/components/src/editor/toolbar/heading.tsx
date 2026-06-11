@@ -56,7 +56,7 @@ export function Heading(props: Props): JSX.Element {
 	onCleanup(() => props.editor.off('transaction', transaction));
 
 	return (
-		<Dropdown.Root
+		<Dropdown
 			align="start"
 			value={val()}
 			onChange={v => {
@@ -75,10 +75,10 @@ export function Heading(props: Props): JSX.Element {
 				{ type: 'item', value: 6, prefix: icons.get(6)!(), label: l.t('_c.editor.header6') },
 			]}
 		>
-			<Button.Root kind="flat" square checked={!!val()} class={styles.item}>
+			<Button kind="flat" square checked={!!val()} class={styles.item}>
 				{val() ? icons.get(val()!)!() : <IconH />}
 				<IconArrowDown class="-ms-1" />
-			</Button.Root>
-		</Dropdown.Root>
+			</Button>
+		</Dropdown>
 	);
 }

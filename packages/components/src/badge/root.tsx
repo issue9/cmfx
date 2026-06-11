@@ -10,20 +10,20 @@ import styles from './style.module.css';
 /**
  * 组件的四个角
  */
-export const corners = ['top-left', 'top-right', 'bottom-left', 'bottom-right'] as const;
+export const badgeCorners = ['top-left', 'top-right', 'bottom-left', 'bottom-right'] as const;
 
-export type Corner = (typeof corners)[number];
+export type BadgeCorner = (typeof badgeCorners)[number];
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type BadgeRef = BaseRef<HTMLDivElement>;
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface BadgeProps extends BaseProps, ParentProps, RefProps<BadgeRef> {
 	/**
 	 * 位置
 	 *
 	 * @reactive
 	 * @defaultValue 'top-right'
 	 */
-	pos?: Corner;
+	pos?: BadgeCorner;
 
 	/**
 	 * 微标是否为圆形
@@ -40,14 +40,14 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	content?: JSX.Element;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<BadgeProps>> = {
 	pos: 'top-right',
 };
 
 /**
  * 微标组件
  */
-export function Root(props: Props) {
+export function Badge(props: BadgeProps) {
 	props = mergeProps(presetProps, props);
 	const cls = createMemo(() => {
 		return joinClass(props.palette, props.rounded ? 'rounded-full' : '', styles[props.pos!], styles.point, props.class);

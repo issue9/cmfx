@@ -12,9 +12,9 @@ import { Form } from '@components/form';
 import { InputBase } from '@components/input/base';
 import styles from './style.module.css';
 
-export type Ref = InputBase.RootRef;
+export type InputNumberRef = InputBase.Ref;
 
-export interface Props extends Omit<InputBase.NumberProps, 'suffix' | 'type'>, RefProps<Ref> {
+export interface InputNumberProps extends Omit<InputBase.NumberProps, 'suffix' | 'type'>, RefProps<InputNumberRef> {
 	/**
 	 * 最小值
 	 */
@@ -31,7 +31,7 @@ export interface Props extends Omit<InputBase.NumberProps, 'suffix' | 'type'>, R
 	readonly step?: number;
 }
 
-const presetProps: Partial<Props> = {
+const presetProps: Partial<InputNumberProps> = {
 	step: 1,
 	inputMode: 'decimal',
 	tabindex: 0,
@@ -40,7 +40,7 @@ const presetProps: Partial<Props> = {
 /**
  * 数字输入组件
  */
-export function Root(props: Props): JSX.Element {
+export function InputNumber(props: InputNumberProps): JSX.Element {
 	const field = Form.useField<number>(props, true);
 	const form = Form.useForm();
 	props = mergeProps(presetProps, form, props);
@@ -78,7 +78,7 @@ export function Root(props: Props): JSX.Element {
 
 	const suffix = (
 		<>
-			<Button.Root
+			<Button
 				kind="flat"
 				class={styles['number-spin']}
 				disabled={props.disabled || props.readonly}
@@ -86,8 +86,8 @@ export function Root(props: Props): JSX.Element {
 				ref={el => (el.root().tabIndex = -1)}
 			>
 				<IconArrowUp />
-			</Button.Root>
-			<Button.Root
+			</Button>
+			<Button
 				kind="flat"
 				class={styles['number-spin']}
 				disabled={props.disabled || props.readonly}
@@ -95,17 +95,17 @@ export function Root(props: Props): JSX.Element {
 				ref={el => (el.root().tabIndex = -1)}
 			>
 				<IconArrowDown />
-			</Button.Root>
+			</Button>
 		</>
 	);
 
-	let inputRef: Ref;
+	let inputRef: InputNumberRef;
 
 	onMount(() => inputRef.input().addEventListener('wheel', wheel));
 	onCleanup(() => inputRef.input().removeEventListener('wheel', wheel));
 
 	return (
-		<InputBase.Root
+		<InputBase
 			value={field.getValue()}
 			onChange={v => field.setValue(v)}
 			class={joinClass(undefined, field.class, props.class)}

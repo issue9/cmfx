@@ -45,7 +45,7 @@ export function List(props: Props): JSX.Element {
 	onCleanup(() => props.editor.off('transaction', transaction));
 
 	return (
-		<Dropdown.Root
+		<Dropdown
 			value={val()}
 			align="start"
 			onChange={v => {
@@ -64,10 +64,10 @@ export function List(props: Props): JSX.Element {
 				{ type: 'item', value: 'bulleted', prefix: icons.get('bulleted')!(), label: l.t('_c.editor.bulletedList') },
 			]}
 		>
-			<Button.Root kind="flat" square checked={!!val()} class={styles.item}>
+			<Button kind="flat" square checked={!!val()} class={styles.item}>
 				{val() ? icons.get(val()!)!() : <IconList />}
 				<IconArrowDown class="-ms-1" />
-			</Button.Root>
-		</Dropdown.Root>
+			</Button>
+		</Dropdown>
 	);
 }

@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Pagination.RootProps",
+		"name": "Pagination.Props",
 		"properties": [
 			{
 				"name": "count",
@@ -19,7 +19,8 @@
 			{
 				"name": "onChange",
 				"summary": "在页码改变的时候触发\n\n",
-				"type": "ChangeFunc<number> | undefined"
+				"type": "ChangeFunc<number> | undefined",
+				"readonly": true
 			},
 			{
 				"name": "spans",
@@ -58,7 +59,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Pagination.RootRef",
+		"name": "Pagination.Ref",
 		"methods": [
 			{
 				"name": "jump",
@@ -88,36 +89,43 @@
 	},
 	{
 		"kind": "interface",
-		"name": "PaginationBar.RootProps",
+		"name": "PaginationBar.Props",
 		"properties": [
 			{
 				"name": "total",
 				"summary": "总共的数据量\n\n",
+				"remarks": "NOTE: 必须是一个大于零的整数，否则会导致导航条显示错误。\n\n",
 				"type": "number",
 				"reactive": true
 			},
 			{
 				"name": "page",
 				"summary": "当前页的页码，取值范围为 [1,\n`total`\n/\n`size`\n]。\n\n",
-				"type": "number"
+				"type": "number",
+				"readonly": true
 			},
 			{
 				"name": "size",
 				"summary": "每页的数据条数，默认为 sizes 属性的第二项。\n\n",
-				"type": "number | undefined"
+				"type": "number | undefined",
+				"readonly": true
 			},
 			{
 				"name": "sizes",
-				"summary": "属性 size 可用值的列表，默认为\n`api\npageSizes`\n\n",
-				"type": "number[] | undefined"
+				"summary": "属性 size 可用值的列表\n\n",
+				"type": "number[] | undefined",
+				"def": "Options.api.pageSizes\n\n",
+				"readonly": true
 			},
 			{
 				"name": "onPageChange",
-				"type": "ChangeFunc<number> | undefined"
+				"type": "ChangeFunc<number> | undefined",
+				"readonly": true
 			},
 			{
 				"name": "onSizeChange",
-				"type": "ChangeFunc<number> | undefined"
+				"type": "ChangeFunc<number> | undefined",
+				"readonly": true
 			},
 			{
 				"name": "spans",
@@ -156,7 +164,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "PaginationBar.RootRef",
+		"name": "PaginationBar.Ref",
 		"methods": [
 			{
 				"name": "jump",

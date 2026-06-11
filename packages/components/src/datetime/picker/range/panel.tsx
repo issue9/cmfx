@@ -22,14 +22,14 @@ import { useLocale } from '@components/context';
 import type { CommonProps, CommonRef } from '@components/datetime/picker/internal';
 import { CommonPanel } from '@components/datetime/picker/internal';
 import { Form } from '@components/form';
-import type { ValueType } from './shortcuts';
+import type { DateRangeValueType } from './shortcuts';
 import { nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, thisQuarter, thisYear } from './shortcuts';
 import styles from './style.module.css';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
 export type Base = Omit<CommonProps, 'viewRef' | 'onEnter' | 'onLeave' | 'ref' | 'popover'> &
-	ValueProps<ValueType> & {
+	ValueProps<DateRangeValueType> & {
 		/**
 		 * 是否显示右侧快捷选择栏
 		 *
@@ -139,7 +139,7 @@ export function Panel(props: PanelProps): JSX.Element {
 		}
 	};
 
-	const setShortcuts = (vals: ValueType) => {
+	const setShortcuts = (vals: DateRangeValueType) => {
 		batch(() => {
 			setDate1(vals[0]);
 			setDate2(vals[1]);
@@ -235,29 +235,29 @@ export function Panel(props: PanelProps): JSX.Element {
 
 			<Show when={props.shortcuts}>
 				<div class={styles.shortcuts}>
-					<Button.Root class="justify-start" onclick={() => setShortcuts(prevMonth())}>
+					<Button class="justify-start" onclick={() => setShortcuts(prevMonth())}>
 						{l.t('_c.date.lastMonth')}
-					</Button.Root>
+					</Button>
 
-					<Button.Root class="justify-start" onclick={() => setShortcuts(prevQuarter())}>
+					<Button class="justify-start" onclick={() => setShortcuts(prevQuarter())}>
 						{l.t('_c.date.lastQuarter')}
-					</Button.Root>
-					<Button.Root class="justify-start" onclick={() => setShortcuts(thisQuarter())}>
+					</Button>
+					<Button class="justify-start" onclick={() => setShortcuts(thisQuarter())}>
 						{l.t('_c.date.thisQuarter')}
-					</Button.Root>
-					<Button.Root class="justify-start" onclick={() => setShortcuts(nextQuarter())}>
+					</Button>
+					<Button class="justify-start" onclick={() => setShortcuts(nextQuarter())}>
 						{l.t('_c.date.nextQuarter')}
-					</Button.Root>
+					</Button>
 
-					<Button.Root class="justify-start" onclick={() => setShortcuts(prevYear())}>
+					<Button class="justify-start" onclick={() => setShortcuts(prevYear())}>
 						{l.t('_c.date.lastYear')}
-					</Button.Root>
-					<Button.Root class="justify-start" onclick={() => setShortcuts(thisYear())}>
+					</Button>
+					<Button class="justify-start" onclick={() => setShortcuts(thisYear())}>
 						{l.t('_c.date.thisYear')}
-					</Button.Root>
-					<Button.Root class="justify-start" onclick={() => setShortcuts(nextYear())}>
+					</Button>
+					<Button class="justify-start" onclick={() => setShortcuts(nextYear())}>
 						{l.t('_c.date.nextYear')}
-					</Button.Root>
+					</Button>
 				</div>
 			</Show>
 		</fieldset>

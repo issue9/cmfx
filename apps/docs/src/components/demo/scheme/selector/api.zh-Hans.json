@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "SchemeSelector.RootProps",
+		"name": "SchemeSelector.Props",
 		"properties": [
 			{
 				"name": "schemes",
@@ -60,7 +60,7 @@
 				}
 			}
 		],
-		"name": "SchemeSelector.RootRef",
+		"name": "SchemeSelector.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

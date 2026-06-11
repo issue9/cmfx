@@ -10,8 +10,8 @@ import { Portal } from 'solid-js/web';
 import { posSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	let ref1: Tooltip.RootRef;
-	let btn1: Button.RootRef;
+	let ref1: Tooltip.Ref;
+	let btn1: Button.Ref;
 	const [timeout, setTimeout] = createSignal<number>();
 	const [Pos, pos] = posSelector();
 
@@ -22,7 +22,7 @@ export default function (props: MountProps): JSX.Element {
 				<input type="number" min={-1} max={5000} step={100} onChange={e => setTimeout(parseInt(e.target.value, 10))} />
 			</Portal>
 
-			<Button.Root
+			<Button
 				palette="primary"
 				ref={el => {
 					btn1 = el;
@@ -30,8 +30,8 @@ export default function (props: MountProps): JSX.Element {
 				onclick={() => ref1.show(btn1.root(), pos() as PopoverPosition)}
 			>
 				show
-			</Button.Root>
-			<Tooltip.Root
+			</Button>
+			<Tooltip
 				ref={el => {
 					ref1 = el;
 				}}
@@ -43,7 +43,7 @@ export default function (props: MountProps): JSX.Element {
 					<br />
 					line2
 				</p>
-			</Tooltip.Root>
+			</Tooltip>
 		</>
 	);
 }

@@ -47,24 +47,24 @@ export default function (props: MountProps): JSX.Element {
 				labelAlign={labelAlign()}
 			>
 				<Field label="textField" help="这是一个帮助文本" name="f1">
-					<InputText.Root />
+					<InputText />
 				</Field>
 
 				<Field label="number" help="这是一个帮助文本" name="f2">
-					<InputNumber.Root />
+					<InputNumber />
 				</Field>
 
 				<Field label="date" help="这是一个帮助文本" name="date">
-					<DatePicker.Root />
+					<DatePicker />
 				</Field>
 
 				<Field class="grow" label="textarea" help="这是一个帮助文本" name="textarea">
-					<TextArea.Root />
+					<TextArea />
 				</Field>
 
 				<div class="flex w-full justify-between">
-					<Button.Root type="reset">reset</Button.Root>
-					<Button.Root type="submit">submit</Button.Root>
+					<Button type="reset">reset</Button>
+					<Button type="submit">submit</Button>
 				</div>
 			</F>
 		</>

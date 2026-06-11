@@ -11,7 +11,7 @@ import { arraySelector, paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('secondary');
 	const [Pos, pos] = arraySelector('pos', ['start', 'end'], 'start');
-	let ref: Drawer.RootRef;
+	let ref: Drawer.Ref;
 
 	return (
 		<>
@@ -20,7 +20,7 @@ export default function (props: MountProps): JSX.Element {
 				<Pos />
 			</Portal>
 
-			<Drawer.Root
+			<Drawer
 				ref={el => (ref = el)}
 				pos={pos()}
 				palette={palette()}
@@ -43,16 +43,16 @@ export default function (props: MountProps): JSX.Element {
 					aside
 					<br />
 				</div>
-			</Drawer.Root>
+			</Drawer>
 
 			<Drawer.ToggleButton class="grow-0" drawer={ref!} />
-			<Button.Root
+			<Button
 				onclick={() => {
 					ref.toggle();
 				}}
 			>
 				ref.toggle
-			</Button.Root>
+			</Button>
 		</>
 	);
 }

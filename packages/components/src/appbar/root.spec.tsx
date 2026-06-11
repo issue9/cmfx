@@ -5,14 +5,14 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Appbar, type AppbarRef } from './root';
 
 describe('Appbar', async () => {
-	let ref: Ref;
+	let ref: AppbarRef;
 	const ct = await ComponentTester.build('Appbar', props => (
-		<Root title="title" {...props} ref={el => (ref = el)}>
+		<Appbar title="title" {...props} ref={el => (ref = el)}>
 			abc
-		</Root>
+		</Appbar>
 	));
 
 	test('props', async () => {

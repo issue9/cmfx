@@ -59,7 +59,7 @@ export default function (props: MountProps): JSX.Element {
 						labelAlign={labelAlign()}
 						labelWidth="100px"
 					>
-						<CheckboxGroup.Root
+						<CheckboxGroup
 							rounded={rounded()}
 							disabled={disabled()}
 							readonly={readonly()}

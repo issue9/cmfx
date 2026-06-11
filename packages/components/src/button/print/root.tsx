@@ -11,16 +11,16 @@ import type { BaseRef, RefProps } from '@components/base';
 import { Button } from '@components/button/button';
 import { useLocale } from '@components/context';
 
-export interface Ref extends BaseRef<Button.RootRef<false>> {
+export interface PrintButtonRef extends BaseRef<Button.Ref<false>> {
 	/**
 	 * 调用当前组件的打印方法
 	 */
 	print(): void;
 }
 
-export interface Props
-	extends Omit<Button.ButtonProps, 'onclick' | 'children' | 'ref' | 'square' | 'title'>,
-		RefProps<Ref> {
+export interface PrintButtonProps
+	extends Omit<Button.NormalProps, 'onclick' | 'children' | 'ref' | 'square' | 'title'>,
+		RefProps<PrintButtonRef> {
 	/**
 	 * 获取要打印的元素
 	 */
@@ -37,8 +37,8 @@ export interface Props
 /**
  * 打印指定内容的按钮
  */
-export function Root(props: Props): JSX.Element {
-	props = mergeProps(Button.presetRootProps as Props, props);
+export function PrintButton(props: PrintButtonProps): JSX.Element {
+	props = mergeProps(Button.presetProps as PrintButtonProps, props);
 	const [, p] = splitProps(props, ['ref', 'element', 'printClass']);
 
 	const l = useLocale();
@@ -46,7 +46,7 @@ export function Root(props: Props): JSX.Element {
 	const print = () => printElement(props.element(), props.printClass);
 
 	return (
-		<Button.Root
+		<Button
 			onclick={print}
 			square
 			{...p}
@@ -62,6 +62,6 @@ export function Root(props: Props): JSX.Element {
 			}}
 		>
 			<IconPrint />
-		</Button.Root>
+		</Button>
 	);
 }

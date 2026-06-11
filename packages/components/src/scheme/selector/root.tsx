@@ -9,9 +9,9 @@ import type { BaseProps, BaseRef, RefProps, Scheme } from '@components/base';
 import { joinClass } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type SchemeSelectorRef = BaseRef<HTMLDivElement>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface SchemeSelectorProps extends BaseProps, RefProps<SchemeSelectorRef> {
 	/**
 	 * 主题列表
 	 */
@@ -33,7 +33,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 /**
  * 主题选择组件
  */
-export function Root(props: Props): JSX.Element {
+export function SchemeSelector(props: SchemeSelectorProps): JSX.Element {
 	const [value, setValue] = createSignal<string>();
 
 	// 监视外部变化

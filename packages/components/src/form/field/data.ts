@@ -5,7 +5,7 @@
 /**
  * 用户需要实现的数据交换区域的组件属性
  */
-export interface DataProps {
+export interface FormDataProps {
 	/**
 	 * 禁用组件
 	 *

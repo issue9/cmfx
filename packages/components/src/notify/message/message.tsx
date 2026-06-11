@@ -14,11 +14,11 @@ import { type BaseProps, type BaseRef, joinClass, type Palette, type RefProps } 
 import { useLocale, useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export const types = ['error', 'warning', 'success', 'info'] as const;
+export const messageTypes = ['error', 'warning', 'success', 'info'] as const;
 
-export type Type = (typeof types)[number];
+export type MessageType = (typeof messageTypes)[number];
 
-const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
+const type2Palette: ReadonlyMap<MessageType, Palette> = new Map<MessageType, Palette>([
 	['error', 'error'],
 	['warning', 'tertiary'],
 	['success', 'primary'],
@@ -80,7 +80,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * @remarks
 	 * 该值最终是调整了 {@link palette} 属性，如果 type 与 palette 存在冲突，则以 type 为准。
 	 */
-	type?: Type;
+	type?: MessageType;
 
 	/**
 	 * 是否带关闭按钮
@@ -99,7 +99,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
  * 信息框，notify 和 alert 的共用组件
  */
 export function Message(props: Props): JSX.Element {
-	props = mergeProps({ type: 'info' as Type }, props);
+	props = mergeProps({ type: 'info' as MessageType }, props);
 
 	const l = useLocale();
 	const [opt] = useOptions();

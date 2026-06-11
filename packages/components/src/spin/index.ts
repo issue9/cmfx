@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Spin from './mod';
+import { Spin as C } from './root';
+
+export const Spin = C;
+
+export namespace Spin {
+	export type Props = import('./root').SpinProps;
+	export type Ref = import('./root').SpinRef;
+}

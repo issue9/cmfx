@@ -11,12 +11,12 @@ import styles from './style.module.css';
 
 export const fields = ['seconds', 'minutes', 'hours', 'days'] as const;
 
-export type Field = (typeof fields)[number];
+export type CountdownField = (typeof fields)[number];
 
 /**
  * 倒计时的计时器
  */
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface CountdownProps extends BaseProps, RefProps<CountdownRef> {
 	/**
 	 * 时间段
 	 *
@@ -39,7 +39,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * 当指定的单位无法全部显示指定的值时，大于此单位的数值会换算累加到该单位上。
 	 * 比如：当只指定了 seconds，但是表示分钟的值也不为空，则分钟会转换为秒数累加在秒之上。
 	 */
-	startField?: Field;
+	startField?: CountdownField;
 
 	/**
 	 * 频率
@@ -73,13 +73,13 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	onComplete?: () => void;
 }
 
-const presetProps: Partial<Props> = {
+const presetProps: Partial<CountdownProps> = {
 	startField: 'minutes',
 	separator: ':',
 	interval: -1,
 } as const;
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface CountdownRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 切换开始和暂停状态
 	 */
@@ -103,7 +103,7 @@ const secondsInHour = 60 * 60;
 /**
  * 计时组件
  */
-export function Root(props: Props): JSX.Element {
+export function Countdown(props: CountdownProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 
 	const [dur, setDur] = createSignal(nano2IntlDuration(parseDuration(props.duration)));
@@ -138,7 +138,7 @@ export function Root(props: Props): JSX.Element {
 		return s.length < 2 ? s.padStart(2, '0') : s;
 	};
 
-	const getFieldIndex = (f: Field) => {
+	const getFieldIndex = (f: CountdownField) => {
 		return fields.indexOf(f);
 	};
 

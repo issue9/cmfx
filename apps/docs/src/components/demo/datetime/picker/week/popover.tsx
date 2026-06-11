@@ -23,12 +23,12 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Disabled />
 				<Readonly />
-				<Button.Root onclick={() => setValue()}>set undefined</Button.Root>
-				<Button.Root onclick={() => setValue(getISOWeek(new Date()))}>now</Button.Root>
+				<Button onclick={() => setValue()}>set undefined</Button>
+				<Button onclick={() => setValue(getISOWeek(new Date()))}>now</Button>
 			</Portal>
 
 			<div title="panel" class="flex flex-col items-start">
-				<WeekPicker.Root
+				<WeekPicker
 					popover="click"
 					palette={palette()}
 					readonly={readonly()}

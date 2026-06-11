@@ -5,11 +5,11 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Time, type TimeRef } from './root';
 
 describe('Time.Panel', async () => {
-	let ref: Ref<false>;
-	const ct = await ComponentTester.build('Time.Panel', props => <Root ref={el => (ref = el)} {...props} />);
+	let ref: TimeRef<false>;
+	const ct = await ComponentTester.build('Time.Panel', props => <Time ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 
@@ -20,9 +20,9 @@ describe('Time.Panel', async () => {
 });
 
 describe('Time.Popover', async () => {
-	let ref: Ref<true>;
+	let ref: TimeRef<true>;
 	const ct = await ComponentTester.build('Time.Popover', props => (
-		<Root popover="click" ref={el => (ref = el)} {...props} />
+		<Time popover="click" ref={el => (ref = el)} {...props} />
 	));
 
 	test('props', () => ct.testProps());

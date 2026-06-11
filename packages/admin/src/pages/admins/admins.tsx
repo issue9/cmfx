@@ -63,7 +63,7 @@ export function Admins(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	let ref: DataTable.RootRef;
+	let ref: DataTable.Ref;
 
 	const sexes = createMemo(() => {
 		return localeSexes(l);
@@ -73,22 +73,22 @@ export function Admins(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page.Root title="_p.admin.adminsManager">
-			<DataTable.Root<Admin, Q>
+		<Page title="_p.admin.adminsManager">
+			<DataTable<Admin, Q>
 				ref={el => (ref = el)}
 				inSearch={new QuerySearchConverter()}
 				paging
 				load={DataTable.buildRESTLoad(rest, '/admins', TODO)}
 				systemToolbar
 				toolbar={
-					<Button.Root type="a" palette="primary" href={`${props.routePrefix}/0`}>
+					<Button type="a" palette="primary" href={`${props.routePrefix}/0`}>
 						{l.t('_p.newItem')}
-					</Button.Root>
+					</Button>
 				}
 				queryForm={(api, Field) => (
 					<>
 						<Field name="text">
-							<InputText.Root />
+							<InputText />
 						</Field>
 
 						<Field name="state">
@@ -133,7 +133,7 @@ export function Admins(props: Props): JSX.Element {
 							return (
 								<div class="flex gap-x-2">
 									<Show when={obj?.state !== 'deleted'}>
-										<Button.Root
+										<Button
 											type="a"
 											square
 											rounded
@@ -142,11 +142,11 @@ export function Admins(props: Props): JSX.Element {
 											title={l.t('_p.editItem')}
 										>
 											<IconEdit />
-										</Button.Root>
+										</Button>
 									</Show>
 
 									<Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
-										<Button.Root
+										<Button
 											square
 											rounded
 											palette="error"
@@ -161,11 +161,11 @@ export function Admins(props: Props): JSX.Element {
 											}}
 										>
 											<IconLock />
-										</Button.Root>
+										</Button>
 									</Show>
 
 									<Show when={obj?.state === 'locked'}>
-										<Button.Root
+										<Button
 											square
 											rounded
 											palette="tertiary"
@@ -180,7 +180,7 @@ export function Admins(props: Props): JSX.Element {
 											}}
 										>
 											<IconLockOpenRight />
-										</Button.Root>
+										</Button>
 									</Show>
 
 									<Show when={obj?.state !== 'deleted'}>
@@ -192,6 +192,6 @@ export function Admins(props: Props): JSX.Element {
 					},
 				]}
 			/>
-		</Page.Root>
+		</Page>
 	);
 }

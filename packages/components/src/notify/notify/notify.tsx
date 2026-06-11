@@ -9,15 +9,15 @@ import { Portal, render } from 'solid-js/web';
 import type { MountProps } from '@components/base';
 import { joinClass } from '@components/base';
 import { useOptions } from '@components/context';
-import { Message, type Props as MessageProps, type Type } from '@components/notify/message';
+import { Message, type Props as MessageProps, type MessageType } from '@components/notify/message';
 import styles from './style.module.css';
 
 let notifyInst: typeof notify;
 let systemInst: typeof system;
 
-export const positions = ['top', 'bottom'] as const;
+export const notifyPositions = ['top', 'bottom'] as const;
 
-export type Position = (typeof positions)[number];
+export type NotifyPosition = (typeof notifyPositions)[number];
 
 /**
  * {@link notify} 的快捷方式，用于显示成功信息。
@@ -27,7 +27,7 @@ export async function success(
 	body?: string,
 	duration?: number,
 	system = false,
-	pos: Position = 'top',
+	pos: NotifyPosition = 'top',
 ): Promise<void> {
 	await notify(title, body, 'success', duration, system, pos);
 }
@@ -40,7 +40,7 @@ export async function info(
 	body?: string,
 	duration?: number,
 	system = false,
-	pos: Position = 'top',
+	pos: NotifyPosition = 'top',
 ): Promise<void> {
 	await notify(title, body, 'info', duration, system, pos);
 }
@@ -53,7 +53,7 @@ export async function warning(
 	body?: string,
 	duration?: number,
 	system = false,
-	pos: Position = 'top',
+	pos: NotifyPosition = 'top',
 ): Promise<void> {
 	await notify(title, body, 'warning', duration, system, pos);
 }
@@ -66,7 +66,7 @@ export async function error(
 	body?: string,
 	duration?: number,
 	system = false,
-	pos: Position = 'top',
+	pos: NotifyPosition = 'top',
 ): Promise<void> {
 	await notify(title, body, 'error', duration, system, pos);
 }
@@ -84,10 +84,10 @@ export async function error(
 export async function notify(
 	title: string,
 	body?: string,
-	type?: Type,
+	type?: MessageType,
 	duration?: number,
 	system = false,
-	pos: Position = 'top',
+	pos: NotifyPosition = 'top',
 ): Promise<void> {
 	return await notifyInst(title, body, type, duration, system, pos);
 }
@@ -130,10 +130,10 @@ function init(): JSX.Element {
 	notifyInst = async (
 		title: string,
 		body?: string,
-		type?: Type,
+		type?: MessageType,
 		duration?: number,
 		sys = false,
-		pos: Position = 'top',
+		pos: NotifyPosition = 'top',
 	): Promise<void> => {
 		if (sys && document.visibilityState === 'hidden') {
 			const n = await system(title, { body: body });

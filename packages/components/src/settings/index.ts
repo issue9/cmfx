@@ -2,4 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Settings from './mod';
+import { Settings as C, Item, Separator } from './root';
+
+export const Settings = Object.assign(C, {
+	Item,
+	Separator,
+});
+
+export namespace Settings {
+	export type ItemProps = import('./root').SettingsItemProps;
+	export type Props = import('./root').SettingsProps;
+	export type Ref = import('./root').SettingsRef;
+}

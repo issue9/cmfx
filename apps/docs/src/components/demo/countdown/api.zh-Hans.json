@@ -7,7 +7,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Countdown.RootProps",
+		"name": "Countdown.Props",
 		"summary": "倒计时的计时器\n\n",
 		"properties": [
 			{
@@ -86,7 +86,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Countdown.RootRef",
+		"name": "Countdown.Ref",
 		"methods": [
 			{
 				"name": "toggle",

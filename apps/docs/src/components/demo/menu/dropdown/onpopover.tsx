@@ -71,9 +71,9 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Dropdown.Root palette={palette()} items={items} trigger="click" onPopover={() => true}>
+			<Dropdown palette={palette()} items={items} trigger="click" onPopover={() => true}>
 				<div class="h-10 w-10 bg-primary-bg text-primary-fg">click</div>
-			</Dropdown.Root>
+			</Dropdown>
 		</div>
 	);
 }

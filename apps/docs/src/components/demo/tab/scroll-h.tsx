@@ -17,8 +17,8 @@ export default function (): JSX.Element {
 	const [tab, setTab] = createSignal('k1');
 
 	return (
-		<Tab.Root class="w-50" layout="horizontal" palette="primary" items={items} onChange={e => setTab(e)}>
+		<Tab class="w-50" layout="horizontal" palette="primary" items={items} onChange={e => setTab(e)}>
 			<p>TabPanel:{tab()}</p>
-		</Tab.Root>
+		</Tab>
 	);
 }

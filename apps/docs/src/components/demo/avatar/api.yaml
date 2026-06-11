@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Avatar.RootProps
-            - Avatar.RootRef
+            - Avatar.Props
+            - Avatar.Ref

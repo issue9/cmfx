@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Markdown.RootProps",
+		"name": "Markdown.Props",
 		"typeParams": [
 			{
 				"name": "T",
@@ -73,7 +73,7 @@
 				}
 			}
 		],
-		"name": "Markdown.RootRef",
+		"name": "Markdown.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

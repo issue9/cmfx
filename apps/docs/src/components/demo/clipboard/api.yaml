@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - ClipboardAPI.RootProps
-            - ClipboardAPI.RootRef
+            - ClipboardAPI.Props
+            - ClipboardAPI.Ref

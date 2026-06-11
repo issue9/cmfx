@@ -12,7 +12,7 @@ import { Form } from '@components/form';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type ChoiceRef = BaseRef<HTMLDivElement>;
 
 /**
  * 单个选择项的类型
@@ -20,11 +20,11 @@ export type Ref = BaseRef<HTMLDivElement>;
  * @remarks
  * 直接采用了与 {@link MenuItem} 相同的类型，但是对为 type 为 a 的项是忽略处理的。
  */
-export type Option<T extends AvailableEnumType = string> = Menu.MenuItem<T>;
+export type ChoiceOption<T extends AvailableEnumType = string> = Menu.MenuItem<T>;
 
-export type Options<T extends AvailableEnumType = string> = Array<Option<T>>;
+export type ChoiceOptions<T extends AvailableEnumType = string> = Array<ChoiceOption<T>>;
 
-interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
+interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps<ChoiceRef> {
 	placeholder?: string;
 
 	/**
@@ -32,7 +32,7 @@ interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps
 	 *
 	 * @reactive
 	 */
-	options: Options<T>;
+	options: ChoiceOptions<T>;
 
 	/**
 	 * 选项是否可关闭
@@ -46,7 +46,7 @@ interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps
 	closable?: boolean;
 }
 
-export interface MultipleProps<T extends AvailableEnumType = string>
+export interface ChoiceMultipleProps<T extends AvailableEnumType = string>
 	extends Form.DataProps,
 		ValueProps<Array<T>>,
 		Base<T> {
@@ -56,19 +56,22 @@ export interface MultipleProps<T extends AvailableEnumType = string>
 	multiple: true;
 }
 
-export interface SingleProps<T extends AvailableEnumType = string> extends Form.DataProps, ValueProps<T>, Base<T> {
+export interface ChoiceSingleProps<T extends AvailableEnumType = string>
+	extends Form.DataProps,
+		ValueProps<T>,
+		Base<T> {
 	/**
 	 * 是否多选
 	 */
 	multiple?: false;
 }
 
-export type Props<T extends AvailableEnumType = string> = MultipleProps<T> | SingleProps<T>;
+export type ChoiceProps<T extends AvailableEnumType = string> = ChoiceMultipleProps<T> | ChoiceSingleProps<T>;
 
 /**
  * 用以替代 select 组件
  */
-export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
+export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<T>): JSX.Element {
 	// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
 	const field = Form.useField(props as any, true);
 	const form = Form.useForm();
@@ -148,9 +151,9 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 		</div>
 	);
 
-	let dropdownRef: Dropdown.RootRef;
+	let dropdownRef: Dropdown.Ref;
 	return (
-		<Dropdown.Root
+		<Dropdown
 			class={joinClass(props.palette, props.class, field.class)}
 			style={style2String(field.style, props.style)}
 			multiple={props.multiple}
@@ -184,7 +187,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 			}}
 		>
 			{trigger}
-		</Dropdown.Root>
+		</Dropdown>
 	);
 }
 
@@ -196,7 +199,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
  */
 function walk<T extends AvailableEnumType = string>(
 	f: (val: Menu.Item<T>) => boolean | undefined,
-	opts?: Array<Option<T>>,
+	opts?: Array<ChoiceOption<T>>,
 ) {
 	if (!opts || opts.length === 0) {
 		return;

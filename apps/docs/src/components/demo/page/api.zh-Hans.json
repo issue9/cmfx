@@ -1,13 +1,13 @@
 [
 	{
 		"kind": "interface",
-		"name": "Page.RootProps",
+		"name": "Page.Props",
 		"properties": [
 			{
 				"name": "backTop",
 				"summary": "配置\n`BackTop`\n组件\n\n",
 				"remarks": "可以有以下取值：\n- undefined 默认选项的 BackTop 组件；\n- false 不显示 BackTop 组件；\n-\n`RootProps`\n自定义的 BackTop 组件属性；\n\n",
-				"type": "false | Omit<Props_3, \"ref\"> | undefined"
+				"type": "false | Omit<BackTopProps, \"ref\"> | undefined"
 			},
 			{
 				"name": "title",
@@ -50,14 +50,14 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Page.RootRef",
+		"name": "Page.Ref",
 		"methods": [
 			{
 				"name": "backTop",
 				"summary": "返回顶部按钮的接口\n\n",
-				"type": "backTop(): BackTop.RootRef | undefined",
+				"type": "backTop(): BackTop.Ref | undefined",
 				"return": {
-					"type": "Ref_3 | undefined"
+					"type": "BackTopRef | undefined"
 				}
 			},
 			{

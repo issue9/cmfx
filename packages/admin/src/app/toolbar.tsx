@@ -39,7 +39,7 @@ export function createClear(hk?: Hotkey): Component {
 		const [set] = useOptions();
 
 		return (
-			<Dropdown.Root
+			<Dropdown
 				selectedClass=""
 				hotkey={hk}
 				trigger="hover"
@@ -68,10 +68,10 @@ export function createClear(hk?: Hotkey): Component {
 					}
 				}}
 			>
-				<Button.Root kind="flat" square title={l.t('_p.system.clearCache')}>
+				<Button kind="flat" square title={l.t('_p.system.clearCache')}>
 					<IconClear />
-				</Button.Root>
-			</Dropdown.Root>
+				</Button>
+			</Dropdown>
 		);
 	};
 }
@@ -103,7 +103,7 @@ export function createSearch(hk?: Hotkey): Component {
 		const l = useLocale();
 
 		return (
-			<Search.Root class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, buildItems(l, opt.menus))} />
+			<Search class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, buildItems(l, opt.menus))} />
 		);
 	};
 }

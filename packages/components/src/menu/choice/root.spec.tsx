@@ -6,13 +6,13 @@ import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Choice, type ChoiceRef } from './root';
 
 describe('Choice', async () => {
-	let ref: Ref;
+	let ref: ChoiceRef;
 	const fa = createSignal('1');
 	const ct = await ComponentTester.build('Choice', props => (
-		<Root options={[]} value={fa[0]()} onChange={fa[1]} {...props} ref={el => (ref = el)} />
+		<Choice options={[]} value={fa[0]()} onChange={fa[1]} {...props} ref={el => (ref = el)} />
 	));
 
 	test('props', () => ct.testProps());

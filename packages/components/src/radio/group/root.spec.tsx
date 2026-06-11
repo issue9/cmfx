@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { RadioGroup, type RadioGroupRef } from './root';
 
 describe('RadioGroup', async () => {
-	let ref: Ref;
+	let ref: RadioGroupRef;
 	const ct = await ComponentTester.build('RadioGroup', props => (
-		<Root options={[]} {...props} ref={el => (ref = el)} />
+		<RadioGroup options={[]} {...props} ref={el => (ref = el)} />
 	));
 
 	test('props', () => ct.testProps());

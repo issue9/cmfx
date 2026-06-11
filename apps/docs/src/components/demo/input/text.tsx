@@ -34,7 +34,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
-				<InputText.Root
+				<InputText
 					count={count() ? (v, m) => `${v}-${m}` : undefined}
 					placeholder="placeholder"
 					palette={palette()}
@@ -46,11 +46,11 @@ export default function (props: MountProps): JSX.Element {
 				/>
 
 				<Form.Field label="label+no help" layout={layout()}>
-					<InputText.Root
+					<InputText
 						suffix={
-							<Button.Root square kind="flat">
+							<Button square kind="flat">
 								<IconFace />
-							</Button.Root>
+							</Button>
 						}
 						maxLength={10}
 						count={count()}
@@ -65,13 +65,13 @@ export default function (props: MountProps): JSX.Element {
 				</Form.Field>
 
 				<Form.Field label="prefix" layout={layout()} help="这是显示帮助内容">
-					<InputText.Root
+					<InputText
 						count={count()}
 						placeholder="placeholder"
 						prefix={
-							<Button.Root square kind="flat">
+							<Button square kind="flat">
 								<IconFace />
-							</Button.Root>
+							</Button>
 						}
 						palette={palette()}
 						disabled={disabled()}
@@ -83,7 +83,7 @@ export default function (props: MountProps): JSX.Element {
 				</Form.Field>
 
 				<Form.Field label="prefix+suffix" layout={layout()} help="这是显示帮助内容">
-					<InputText.Root
+					<InputText
 						count={count()}
 						placeholder="placeholder"
 						prefix={prefix()}
@@ -98,7 +98,7 @@ export default function (props: MountProps): JSX.Element {
 				</Form.Field>
 
 				<Form.Field label="onsearch" layout={layout()} help="这是显示帮助内容">
-					<InputText.Root
+					<InputText
 						maxLength={10}
 						count={count()}
 						placeholder="placeholder"

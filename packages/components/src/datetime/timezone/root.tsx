@@ -11,9 +11,9 @@ import { useLocale } from '@components/context';
 import { Tab } from '@components/tab';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<Tab.RootRef>;
+export type TimezoneRef = BaseRef<Tab.Ref>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface TimezoneProps extends BaseProps, RefProps<TimezoneRef> {
 	/**
 	 * 关联的值
 	 *
@@ -75,7 +75,7 @@ export function buildRegion(): Array<Region> {
  * @remarks
  * 这是基于浏览器的时区选择组件，不同的浏览器展示的数据会稍有不同。
  */
-export function Root(props: Props): JSX.Element {
+export function Timezone(props: TimezoneProps): JSX.Element {
 	const l = useLocale();
 
 	const regions = buildRegion();
@@ -121,7 +121,7 @@ export function Root(props: Props): JSX.Element {
 		}
 	};
 
-	let buttonRef: Button.RootRef;
+	let buttonRef: Button.Ref;
 	onMount(() => {
 		requestAnimationFrame(() => {
 			if (!buttonRef) {
@@ -135,7 +135,7 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<Tab.Root
+		<Tab
 			class={joinClass(undefined, styles.timezone, props.class)}
 			style={props.style}
 			palette={props.palette}
@@ -155,7 +155,7 @@ export function Root(props: Props): JSX.Element {
 						{timezones => (
 							<For each={timezones()}>
 								{item => (
-									<Button.Root
+									<Button
 										checked={selected() === item}
 										kind="flat"
 										class={styles.item}
@@ -170,13 +170,13 @@ export function Root(props: Props): JSX.Element {
 										<span class={styles.line} title={item}>
 											{item}
 										</span>
-									</Button.Root>
+									</Button>
 								)}
 							</For>
 						)}
 					</Show>
 				)}
 			</For>
-		</Tab.Root>
+		</Tab>
 	);
 }

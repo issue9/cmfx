@@ -24,15 +24,15 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-wrap items-center gap-2">
-				<Button.Root disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
+				<Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
 					primary
-				</Button.Root>
-				<Button.Root disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
+				</Button>
+				<Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
 					<IconFace class="me-1" />
 					with icon
-				</Button.Root>
+				</Button>
 
-				<Button.Root
+				<Button
 					square
 					title="secondary"
 					disabled={disabled()}
@@ -41,10 +41,10 @@ export default function (props: MountProps): JSX.Element {
 					palette="secondary"
 				>
 					<IconSync />
-				</Button.Root>
-				<Button.Root rounded kind="fill" palette="tertiary">
+				</Button>
+				<Button rounded kind="fill" palette="tertiary">
 					a
-				</Button.Root>
+				</Button>
 			</div>
 		</div>
 	);

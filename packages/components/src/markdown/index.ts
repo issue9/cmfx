@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Markdown from './mod';
+import { Markdown as C } from './root';
+
+export const Markdown = C;
+
+export namespace Markdown {
+	export type Props = import('./root').MarkdownProps;
+	export type Ref = import('./root').MarkdownRef;
+}

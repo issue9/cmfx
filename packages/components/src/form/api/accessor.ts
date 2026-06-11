@@ -11,7 +11,7 @@ import type { ChangeFunc } from '@components/base';
  *
  * @typeParam T - 字段的值类型；
  */
-export interface FieldAccessor<T> {
+export interface FormFieldAccessor<T> {
 	/**
 	 * 字段的唯一标识
 	 */

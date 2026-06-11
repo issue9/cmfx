@@ -21,7 +21,7 @@ export function localeSexes(l: Locale) {
 	]);
 }
 
-type P = Choice.RootProps<Sex>;
+type P = Choice.Props<Sex>;
 
 interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
 
@@ -35,5 +35,5 @@ export type SexSelectorProps = SProps | MProps;
 export function SexSelector(props: SexSelectorProps): JSX.Element {
 	const l = useLocale();
 	const sexes = createMemo(() => localeSexes(l));
-	return <Choice.Root {...props} options={sexes()} />;
+	return <Choice {...props} options={sexes()} />;
 }

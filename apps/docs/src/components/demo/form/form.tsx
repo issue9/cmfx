@@ -37,13 +37,13 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Readonly />
 				<Feedback />
-				<Button.Root
+				<Button
 					onclick={() => {
 						api.setError(api.getError() ? undefined : 'error');
 					}}
 				>
 					Set Error
-				</Button.Root>
+				</Button>
 			</Portal>
 
 			<F
@@ -58,19 +58,19 @@ export default function (props: MountProps): JSX.Element {
 				<Form.Message />
 
 				<Field label="textField" help="这是一个帮助文本" name="f1">
-					<InputText.Root count />
+					<InputText count />
 				</Field>
 
 				<Field label="number" help="这是一个帮助文本" name="f2">
-					<InputNumber.Root />
+					<InputNumber />
 				</Field>
 
 				<Field label="date" help="这是一个帮助文本" name="date">
-					<DatePicker.Root />
+					<DatePicker />
 				</Field>
 
 				<Field class="grow" label="textarea" help="这是一个帮助文本" name="textarea">
-					<TextArea.Root />
+					<TextArea />
 				</Field>
 
 				<div class="flex w-full justify-between">

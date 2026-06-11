@@ -12,11 +12,13 @@ import { joinClass } from '@components/base';
 import { Code } from '@components/code';
 import styles from './style.module.css';
 
-export type Ref<T extends keyof HTMLElementTagNameMap = 'article'> = BaseRef<
+export type MarkdownRef<T extends keyof HTMLElementTagNameMap = 'article'> = BaseRef<
 	T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement
 >;
 
-export interface Props<T extends keyof HTMLElementTagNameMap = 'article'> extends BaseProps, RefProps<Ref<T>> {
+export interface MarkdownProps<T extends keyof HTMLElementTagNameMap = 'article'>
+	extends BaseProps,
+		RefProps<MarkdownRef<T>> {
 	/**
 	 * markdown 文本内容
 	 *
@@ -49,10 +51,10 @@ export interface Props<T extends keyof HTMLElementTagNameMap = 'article'> extend
  * 需要需要支持代码高亮，可参考 {@link Code} 的实现。
  *
  * 还支持将组件渲染到最终的输出结果中，分为代码一样，分为 inline 和 block。
- *  - inline 为 @`id`@，最终会生成一个 `<span></span>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
- *  - block 为 `@```id```@`，最终会生成一个 `<div></div>` 元素，并从 {@link Props#components} 中获取对应的组件渲染到元素之内。
+ *  - inline 为 @`id`@，最终会生成一个 `<span></span>` 元素，并从 {@link MarkdownProps#components} 中获取对应的组件渲染到元素之内。
+ *  - block 为 `@```id```@`，最终会生成一个 `<div></div>` 元素，并从 {@link MarkdownProps#components} 中获取对应的组件渲染到元素之内。
  */
-export function Root<T extends keyof HTMLElementTagNameMap = 'article'>(props: Props<T>): JSX.Element {
+export function Markdown<T extends keyof HTMLElementTagNameMap = 'article'>(props: MarkdownProps<T>): JSX.Element {
 	const tag = props.tag ?? 'article';
 	const owner = getOwner();
 	const p = new Marked({
@@ -115,7 +117,7 @@ export function Root<T extends keyof HTMLElementTagNameMap = 'article'>(props: P
 			class={joinClass(props.palette, props.class)}
 			style={props.style}
 			innerHTML={html()}
-			ref={(el: ReturnType<Ref<T>['root']>) => {
+			ref={(el: ReturnType<MarkdownRef<T>['root']>) => {
 				ref = el;
 				if (props.ref) {
 					props.ref({ root: () => el });

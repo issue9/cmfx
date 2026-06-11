@@ -8,16 +8,16 @@ import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps, ValueProp
 import { joinClass } from '@components/base';
 import { Checkbox } from '@components/checkbox/checkbox';
 import { Form } from '@components/form';
-import type { Options } from './options';
+import type { CheckboxGroupOptions } from './options';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type CheckboxGroupRef = BaseRef<HTMLDivElement>;
 
-export interface Props<T extends AvailableEnumType = string>
+export interface CheckboxGroupProps<T extends AvailableEnumType = string>
 	extends BaseProps,
 		Form.DataProps,
 		ValueProps<Array<T>>,
-		RefProps<Ref> {
+		RefProps<CheckboxGroupRef> {
 	/**
 	 * 子项的布局方式
 	 *
@@ -38,10 +38,10 @@ export interface Props<T extends AvailableEnumType = string>
 	 *
 	 * @reactive
 	 */
-	options: Options<T>;
+	options: CheckboxGroupOptions<T>;
 }
 
-export function Root<T extends string | number>(props: Props<T>): JSX.Element {
+export function CheckboxGroup<T extends string | number>(props: CheckboxGroupProps<T>): JSX.Element {
 	const field = Form.useField<Array<T>>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
@@ -76,7 +76,7 @@ export function Root<T extends string | number>(props: Props<T>): JSX.Element {
 		>
 			<For each={props.options}>
 				{item => (
-					<Checkbox.Root
+					<Checkbox
 						{...chkProps}
 						label={item.label}
 						checked={!!vals().find(v => v === item.value)}

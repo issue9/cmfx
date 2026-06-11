@@ -90,7 +90,7 @@ export default function (props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<Menu.Root
+			<Menu
 				layout="horizontal"
 				selectedClass={selectedCls()}
 				palette={palette()}
@@ -100,7 +100,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			/>
 
-			<Menu.Root
+			<Menu
 				layout="vertical"
 				selectedClass={selectedCls()}
 				palette={palette()}
@@ -110,7 +110,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			/>
 
-			<Menu.Root
+			<Menu
 				layout="inline"
 				selectedClass={selectedCls()}
 				palette={palette()}

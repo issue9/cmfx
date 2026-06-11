@@ -10,9 +10,9 @@ import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@compone
 import { withDecorate } from './decorate';
 import { highlight } from './shiki';
 
-export type Ref = BaseRef<HTMLElement>;
+export type CodeRef = BaseRef<HTMLElement>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface CodeProps extends BaseProps, RefProps<CodeRef> {
 	/**
 	 * 代码
 	 *
@@ -33,7 +33,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 * 修改内容触发的事件
 	 *
 	 * @remarks
-	 * 仅在 {@link Props#editable} 为 true 时生效。
+	 * 仅在 {@link CodeProps#editable} 为 true 时生效。
 	 */
 	oninput?: (value: string) => void;
 
@@ -81,7 +81,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
  * 默认并没有高亮功能，用户需要自己在 package.json 的 dependencies 中导入
  * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
  */
-export function Root(props: Props): JSX.Element {
+export function Code(props: CodeProps): JSX.Element {
 	const [html, setHTML] = createSignal<HTMLElement>();
 	const owner = getOwner();
 

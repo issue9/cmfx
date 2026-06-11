@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Card.RootProps",
+		"name": "Card.Props",
 		"properties": [
 			{
 				"name": "header",
@@ -78,7 +78,7 @@
 				}
 			}
 		],
-		"name": "Card.RootRef",
+		"name": "Card.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import type { Ref } from './clipboard';
-import { Root } from './root';
+import type { ClipboardAPIRef } from './clipboard';
+import { ClipboardAPI } from './root';
 
 describe('Clipboard', async () => {
-	let ref: Ref;
-	const ct = await ComponentTester.build('Clipboard', props => <Root ref={el => (ref = el)} {...props} />);
+	let ref: ClipboardAPIRef;
+	const ct = await ComponentTester.build('Clipboard', props => <ClipboardAPI ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

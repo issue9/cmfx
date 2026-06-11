@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Calendar.RootProps",
+		"name": "Calendar.Props",
 		"summary": "日历\n`Calendar`\n的属性值\n\n",
 		"properties": [
 			{
@@ -80,7 +80,7 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"name": "Calendar.RootRef",
+		"name": "Calendar.Ref",
 		"kind": "intersection",
 		"types": [
 			{
@@ -117,12 +117,12 @@
 					{
 						"name": "cover",
 						"summary": "为指定范围的日期添加\n`coveredClass`\n指定的样式\n\n",
-						"type": "cover(range: [Date, Date]): void",
+						"type": "cover(range: [start?: Date, end?: Date]): void",
 						"params": [
 							{
 								"name": "range",
-								"summary": "要覆盖的日期范围，大小无所谓，会自动排序；\n\n",
-								"type": "[Date, Date]"
+								"summary": "要覆盖的日期范围\n- start 表示起始时间，如果为 undefined，则表示早上 end 的都为需要覆盖的范围之内；\n- end 表示结果时间，如果为 undefined，则表示晚上 start 的都为需要覆盖的范围之内；\n- 如果两都都不为 undefined，会自动排序，将较早时间的值作为 start；\n- 如果都为 undefined，表示没有任何元素需要覆盖；\n\n",
+								"type": "[start?: Date | undefined, end?: Date | undefined]"
 							}
 						],
 						"return": {

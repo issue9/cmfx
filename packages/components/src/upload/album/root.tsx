@@ -13,11 +13,14 @@ import { Upload } from '@components/upload/upload';
 import { PreviewFile, PreviewURL } from './preview.tsx';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLFieldSetElement> {
-	uploader(): Upload.RootRef;
+export interface AlbumRef extends BaseRef<HTMLFieldSetElement> {
+	uploader(): Upload.Ref;
 }
 
-export interface Props extends Omit<Upload.RootProps, 'dropzone' | 'ref'>, ValueProps<Array<string>>, RefProps<Ref> {
+export interface AlbumProps
+	extends Omit<Upload.Props, 'dropzone' | 'ref'>,
+		ValueProps<Array<string>>,
+		RefProps<AlbumRef> {
 	/**
 	 * 是否接受直接拖入文件
 	 */
@@ -50,18 +53,18 @@ export interface Props extends Omit<Upload.RootProps, 'dropzone' | 'ref'>, Value
 	rounded?: boolean;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<AlbumProps>> = {
 	itemSize: '72px',
 	tabindex: 0,
 } as const;
 
-export function Root(props: Props): JSX.Element {
+export function Album(props: AlbumProps): JSX.Element {
 	const field = Form.useField(props, true);
 	const form = Form.useForm();
 	props = mergeProps(presetProps, form, props);
 
 	let dropRef: HTMLFieldSetElement;
-	let uploadRef: Upload.RootRef;
+	let uploadRef: Upload.Ref;
 
 	onMount(() => {
 		if (!props.droppable) {
@@ -90,7 +93,7 @@ export function Root(props: Props): JSX.Element {
 			style={style2String(field.style, props.style)}
 			disabled={props.disabled}
 		>
-			<Upload.Root
+			<Upload
 				ref={el => {
 					uploadRef = el;
 					if (props.ref) {

@@ -6,7 +6,7 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Color.RootProps
-            - Color.RootRef
+            - Color.Props
+            - Color.Ref
             - Color.wcag
 

@@ -23,9 +23,9 @@ export default function (props: MountProps) {
 			<div class="flex flex-wrap justify-start gap-3">
 				<For each={Badge.corners}>
 					{pos => (
-						<Badge.Root pos={pos} rounded={rounded()} palette={palette()} content={<IconFace />}>
-							<Button.Root palette="primary">{pos}</Button.Root>
-						</Badge.Root>
+						<Badge pos={pos} rounded={rounded()} palette={palette()} content={<IconFace />}>
+							<Button palette="primary">{pos}</Button>
+						</Badge>
 					)}
 				</For>
 			</div>

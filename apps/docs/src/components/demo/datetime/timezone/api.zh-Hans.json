@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Timezone.RootProps",
+		"name": "Timezone.Props",
 		"properties": [
 			{
 				"name": "value",
@@ -55,7 +55,7 @@
 				}
 			}
 		],
-		"name": "Timezone.RootRef",
+		"name": "Timezone.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

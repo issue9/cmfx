@@ -12,9 +12,9 @@ import { type BaseRef, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLElement>;
+export type AppbarRef = BaseRef<HTMLElement>;
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface AppbarProps extends BaseProps, ParentProps, RefProps<AppbarRef> {
 	/**
 	 * 首部的 LOGO 图片
 	 *
@@ -62,7 +62,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  *  | logo title    children                       actions |
  * ```
  */
-export function Root(props: Props): JSX.Element {
+export function Appbar(props: AppbarProps): JSX.Element {
 	return (
 		<header
 			role="toolbar"
@@ -92,12 +92,12 @@ export function Root(props: Props): JSX.Element {
 	);
 }
 
-export interface ImageProps extends StyleProps {
+export interface AppbarImageProps extends StyleProps {
 	src?: string;
 	alt?: string;
 }
 
-export function Image(props: ImageProps): JSX.Element {
+export function AppbarImage(props: AppbarImageProps): JSX.Element {
 	const [, origin] = useOptions();
 	return <img alt={props.alt || 'LOGO'} aria-hidden={true} class={styles.logo} src={props.src || origin.logo} />;
 }

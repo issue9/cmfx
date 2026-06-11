@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Table from './mod';
+import { Root as C } from './root';
+
+export const Table = C;
+
+export namespace Table {
+	export type Ref = import('./root').TableRef;
+	export type Props = import('./root').TableProps;
+}

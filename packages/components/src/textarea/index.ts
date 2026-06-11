@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as TextArea from './mod';
+import { TextArea as C } from './root';
+
+export const TextArea = C;
+
+export namespace TextArea {
+	export type Props = import('./root').TextAreaProps;
+	export type Ref = import('./root').TextAreaRef;
+}

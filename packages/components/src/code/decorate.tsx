@@ -18,7 +18,7 @@ import styles from './style.module.css';
  * @remarks
  * 这是对代码高亮对象 pre 的各种修改，比如添加按钮，或是改变颜色等。
  */
-export type Decorate = (pre: HTMLPreElement) => JSX.Element;
+export type CodeDecorate = (pre: HTMLPreElement) => JSX.Element;
 
 /**
  * 获取的有已经注册的装饰器
@@ -29,14 +29,14 @@ export type Decorate = (pre: HTMLPreElement) => JSX.Element;
  * - copyButton 在右上角显示一个复制按钮；
  * - border 为代码组件显示边框；
  */
-const decorates = new Map<string, Decorate>();
+const decorates = new Map<string, CodeDecorate>();
 
 /**
  * 注册装饰器
  * @param name - 装饰器的名称；
  * @param decorate - 装饰器的实例；
  */
-export function registerDecorate(name: string, decorate: Decorate): void {
+export function registerDecorate(name: string, decorate: CodeDecorate): void {
 	if (decorates.has(name)) {
 		throw new Error(`${name} 已经存在`);
 	}
@@ -102,17 +102,17 @@ function mount(pre: HTMLPreElement, disposes: Array<() => void>): void {
 /************************* 注册装饰器 **********************************/
 
 registerDecorate('copy-button', pre => {
-	let clipboardRef: ClipboardAPI.RootRef;
+	let clipboardRef: ClipboardAPI.Ref;
 
 	return (
-		<Button.Root class={styles.copy} square kind="flat" onclick={() => clipboardRef.writeText(pre.dataset.code ?? '')}>
-			<ClipboardAPI.Root ref={el => (clipboardRef = el)} />
-		</Button.Root>
+		<Button class={styles.copy} square kind="flat" onclick={() => clipboardRef.writeText(pre.dataset.code ?? '')}>
+			<ClipboardAPI ref={el => (clipboardRef = el)} />
+		</Button>
 	);
 });
 
 registerDecorate('toolbar', pre => {
-	let clipboardRef: ClipboardAPI.RootRef;
+	let clipboardRef: ClipboardAPI.Ref;
 
 	// 不需要考虑组件卸载之后如何改回原始的情况。
 	// 因为生成的代码就已经固定了 decorate 属性，不会动态切换。
@@ -125,20 +125,15 @@ registerDecorate('toolbar', pre => {
 		<header class={styles.toolbar} ref={el => (toolbarRef = el)}>
 			<span>{pre.dataset.lang}</span>
 			<div class={styles.actions}>
-				<Button.Root
-					class={styles.btn}
-					square
-					kind="flat"
-					onclick={() => clipboardRef.writeText(pre.dataset.code ?? '')}
-				>
-					<ClipboardAPI.Root ref={el => (clipboardRef = el)} />
-				</Button.Root>
+				<Button class={styles.btn} square kind="flat" onclick={() => clipboardRef.writeText(pre.dataset.code ?? '')}>
+					<ClipboardAPI ref={el => (clipboardRef = el)} />
+				</Button>
 
 				<ToggleButton.FitScreen kind="flat" class={styles.btn} container={pre} />
 
-				<PrintButton.Root kind="flat" class={styles.btn} element={() => pre} />
+				<PrintButton kind="flat" class={styles.btn} element={() => pre} />
 
-				<ToggleButton.Root
+				<ToggleButton
 					off={<IconUp />}
 					on={<IconDown />}
 					kind="flat"

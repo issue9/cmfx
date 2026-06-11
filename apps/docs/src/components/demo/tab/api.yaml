@@ -6,6 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Tab.RootProps
-            - Tab.RootRef
+            - Tab.Props
+            - Tab.Ref
             - Tab.Item

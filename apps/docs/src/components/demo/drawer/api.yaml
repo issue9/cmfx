@@ -6,6 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Drawer.RootProps
-            - Drawer.RootRef
+            - Drawer.Props
+            - Drawer.Ref
             - Drawer.ToggleButtonProps

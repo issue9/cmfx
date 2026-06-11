@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Nav from './mod';
+import { Nav as C } from './root';
+
+export const Nav = C;
+
+export namespace Nav {
+	export type Props = import('./root').NavProps;
+	export type Ref = import('./root').NavRef;
+}

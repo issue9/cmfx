@@ -12,9 +12,9 @@ import { months } from '@components/datetime/utils';
 import { YearPanel } from '@components/datetime/view/internal/yearpanel';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLFieldSetElement>;
+export type MonthPanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Props extends RefProps<Ref> {
+export interface MonthPanelProps extends RefProps<MonthPanelRef> {
 	popover?: boolean | 'manual' | 'auto';
 
 	/**
@@ -47,7 +47,7 @@ export interface Props extends RefProps<Ref> {
 /**
  * 月份选择面板
  */
-export function Root(props: Props): JSX.Element {
+export function MonthPanel(props: MonthPanelProps): JSX.Element {
 	const [value, setValue] = createSignal<Date | undefined>(props.value);
 	const [year, setYear] = createSignal<number>(props.value?.getFullYear() ?? new Date().getFullYear());
 
@@ -80,7 +80,7 @@ export function Root(props: Props): JSX.Element {
 		return new Intl.DateTimeFormat(l.locale.toString(), { month: s }).format;
 	});
 
-	let yearRef: YearPanel.RootRef | undefined;
+	let yearRef: YearPanel.Ref | undefined;
 
 	return (
 		<fieldset
@@ -103,7 +103,7 @@ export function Root(props: Props): JSX.Element {
 					{year()}
 				</span>
 
-				<YearPanel.Root
+				<YearPanel
 					popover="auto"
 					ref={el => (yearRef = el)}
 					min={props.min ? props.min.getFullYear() : undefined}
@@ -124,7 +124,7 @@ export function Root(props: Props): JSX.Element {
 				<For each={months}>
 					{month => {
 						return (
-							<Button.Root
+							<Button
 								kind="flat"
 								checked={value()?.getMonth() === month && year() === value()?.getFullYear()}
 								disabled={
@@ -137,7 +137,7 @@ export function Root(props: Props): JSX.Element {
 								}}
 							>
 								{monthFormatter()(new Date(2000, month, 1))}
-							</Button.Root>
+							</Button>
 						);
 					}}
 				</For>

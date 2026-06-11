@@ -9,7 +9,7 @@ import { createSignal, createUniqueId, type JSX, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
 import type { ChangeFunc } from '@components/base';
-import type { FieldAccessor } from './accessor';
+import type { FormFieldAccessor } from './accessor';
 import type { Options } from './options';
 
 // 用于在 API 中保存错误数据的类型
@@ -219,7 +219,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 	 *
 	 * @param name - 字段名；
 	 */
-	createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): FieldAccessor<FT> {
+	createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): FormFieldAccessor<FT> {
 		const parent = this;
 		const path = name.split('.');
 
@@ -301,7 +301,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 
 			getExtra: () => extra(),
 			setExtra: (e: JSX.Element | undefined) => setExtra(e),
-		} satisfies FieldAccessor<FT>;
+		} satisfies FormFieldAccessor<FT>;
 	}
 
 	/**

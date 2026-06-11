@@ -5,16 +5,16 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import type { Ref } from './context';
-import { Root } from './root';
+import type { DialogRef } from './context';
+import { Dialog } from './root';
 import styles from './style.module.css';
 
 describe('Dialog', async () => {
-	let ref!: Ref;
+	let ref!: DialogRef;
 	const ct = await ComponentTester.build('Dialog', props => (
-		<Root {...props} ref={el => (ref = el)}>
+		<Dialog {...props} ref={el => (ref = el)}>
 			abc
-		</Root>
+		</Dialog>
 	));
 
 	test('props', () => ct.testProps());

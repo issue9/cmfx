@@ -8,9 +8,9 @@ import IconNoData from '~icons/oui/index-close';
 import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { Result } from '@components/result/result';
 
-export type Ref = BaseRef<Result.RootRef>;
+export type EmptyRef = BaseRef<Result.Ref>;
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface EmptyProps extends BaseProps, ParentProps, RefProps<EmptyRef> {
 	/**
 	 * 图标
 	 *
@@ -20,18 +20,18 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	icon?: JSX.Element;
 }
 
-const presetProps: Props = {
+const presetProps: EmptyProps = {
 	icon: <IconNoData />,
 } as const;
 
 /**
  * 表示没有数据的结果页
  */
-export function Root(props: Props): JSX.Element {
+export function Empty(props: EmptyProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 
 	return (
-		<Result.Root
+		<Result
 			layout="vertical"
 			class={props.class}
 			style={props.style}
@@ -45,6 +45,6 @@ export function Root(props: Props): JSX.Element {
 			}}
 		>
 			{props.children}
-		</Result.Root>
+		</Result>
 	);
 }

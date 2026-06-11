@@ -11,16 +11,16 @@ import styles from './style.module.css';
 /**
  * input 组件的 autoComplete 属性
  */
-export type AutoComplete = JSX.HTMLAutocomplete;
+export type InputBaseAutoComplete = JSX.HTMLAutocomplete;
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface InputBaseRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中实际用于输入的 input 元素
 	 */
 	input(): HTMLInputElement;
 }
 
-interface InputBaseProps extends BaseProps, Form.DataProps, RefProps<Ref> {
+interface Base extends BaseProps, Form.DataProps, RefProps<InputBaseRef> {
 	/**
 	 * 文本框内顶部的内容
 	 *
@@ -47,12 +47,12 @@ interface InputBaseProps extends BaseProps, Form.DataProps, RefProps<Ref> {
 	 *
 	 * @reactive
 	 */
-	autocomplete?: AutoComplete;
+	autocomplete?: InputBaseAutoComplete;
 
 	id?: string;
 }
 
-export interface TextProps extends InputBaseProps, ValueProps<string> {
+export interface InputBaseTextProps extends Base, ValueProps<string> {
 	/**
 	 * 内容类型
 	 *
@@ -86,7 +86,7 @@ export interface TextProps extends InputBaseProps, ValueProps<string> {
 	inputMode?: Exclude<JSX.HTMLAttributes<HTMLElement>['inputMode'], 'numeric' | 'decimal'>;
 }
 
-export interface NumberProps extends InputBaseProps, ValueProps<number> {
+export interface InputBaseNumberProps extends Base, ValueProps<number> {
 	/**
 	 * 内容类型
 	 *
@@ -102,14 +102,14 @@ export interface NumberProps extends InputBaseProps, ValueProps<number> {
 	inputMode?: 'numeric' | 'decimal';
 }
 
-export type Props = TextProps | NumberProps;
+export type InputBaseProps = InputBaseTextProps | InputBaseNumberProps;
 
 /**
  * 对 input 的简单封装，主要供其它组件使用。是 Search 和 TextField 的基础。
  *
  * @typeParam T - 文本框内容的类型；
  */
-export function Root(props: Props): JSX.Element {
+export function InputBase(props: InputBaseProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 	let rootRef: HTMLDivElement;

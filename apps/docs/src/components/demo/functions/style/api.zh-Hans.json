@@ -36,7 +36,7 @@
 			{
 				"name": "list",
 				"summary": "组件的 classList 对象；\n\n",
-				"type": "{ [k: string]: boolean | undefined; } | undefined"
+				"type": "JSX.ClassList | undefined"
 			},
 			{
 				"name": "cls",

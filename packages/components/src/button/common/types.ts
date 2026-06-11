@@ -6,7 +6,7 @@ import type { Hotkey } from '@cmfx/core';
 
 import type { BaseProps } from '@components/base';
 
-export const kinds = ['flat', 'border', 'fill'] as const;
+export const buttonKinds = ['flat', 'border', 'fill'] as const;
 
 /**
  * 组件的风格
@@ -16,7 +16,7 @@ export const kinds = ['flat', 'border', 'fill'] as const;
  *  - border 无背景，有边框；
  *  - fill 有背景，有边框；
  */
-export type Kind = (typeof kinds)[number];
+export type ButtonKind = (typeof buttonKinds)[number];
 
 export interface Props extends BaseProps {
 	/**
@@ -33,7 +33,7 @@ export interface Props extends BaseProps {
 	 *
 	 * @defaultValue 'fill'
 	 */
-	kind?: Kind;
+	kind?: ButtonKind;
 
 	/**
 	 * 是否为圆角

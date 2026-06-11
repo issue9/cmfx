@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import type { Space } from './space';
+import type { ColorSpace } from './space';
 import { HSLSpace } from './space_hsl';
 import { OKLCHSpace } from './space_oklch';
 import { PresetSpace } from './space_preset';
@@ -12,7 +12,7 @@ import { RGBSpace } from './space_rgb';
 import { TailwindVarsSpace } from './space_vars';
 import { WebSafeSpace } from './space_websafe';
 
-function testPanel(p: Space) {
+function testPanel(p: ColorSpace) {
 	expect(p.id).toBeDefined();
 	expect(p.localeID).toBeDefined();
 	expect(p.panel).toBeDefined();

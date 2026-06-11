@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Statistic.RootProps",
+		"name": "Statistic.Props",
 		"properties": [
 			{
 				"name": "label",
@@ -67,7 +67,7 @@
 				}
 			}
 		],
-		"name": "Statistic.RootRef",
+		"name": "Statistic.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

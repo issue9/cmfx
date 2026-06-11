@@ -14,7 +14,7 @@ import { useLocale } from '@components/context';
 import type { Week } from '@components/datetime';
 import { Form } from '@components/form';
 import { type Base, Panel } from './panel';
-import type { ValueType } from './shortcuts';
+import type { DateRangeValueType } from './shortcuts';
 import styles from './style.module.css';
 
 export interface PopoverRef extends BaseRef<HTMLDivElement> {
@@ -50,7 +50,7 @@ export interface PopoverProps extends Base, RefProps<PopoverRef> {
 }
 
 export function Popover(props: PopoverProps): JSX.Element {
-	const field = Form.useField<ValueType>(props, true);
+	const field = Form.useField<DateRangeValueType>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week, arrowIcon: <IconArrowRight /> }, form, props);
 
@@ -156,7 +156,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 				<Panel class={styles['dt-panel']} {...panelProps} value={field.getValue()} onChange={v => field.setValue(v)} />
 
 				<div class={joinClass(undefined, styles.actions, 'justify-end!')}>
-					<Button.Root
+					<Button
 						kind="flat"
 						class="px-1 py-0"
 						onclick={() => {
@@ -165,9 +165,9 @@ export function Popover(props: PopoverProps): JSX.Element {
 						}}
 					>
 						{l.t('_c.date.clear')}
-					</Button.Root>
+					</Button>
 
-					<Button.Root
+					<Button
 						kind="flat"
 						class="px-1 py-0"
 						onclick={() => {
@@ -176,7 +176,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 						}}
 					>
 						{l.t('_c.reset')}
-					</Button.Root>
+					</Button>
 				</div>
 			</fieldset>
 		</div>

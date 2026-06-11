@@ -29,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-col justify-start">
-				<Checkbox.Root
+				<Checkbox
 					rounded={rounded()}
 					label="primary"
 					block={block()}
@@ -38,7 +38,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 				/>
 
-				<Checkbox.Root
+				<Checkbox
 					rounded={rounded()}
 					label="error"
 					block={block()}
@@ -47,7 +47,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 				/>
 
-				<Checkbox.Root
+				<Checkbox
 					rounded={rounded()}
 					indeterminate
 					label="事件：onchange"

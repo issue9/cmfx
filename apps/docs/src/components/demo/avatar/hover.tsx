@@ -19,7 +19,7 @@ export default function (props: MountProps) {
 				<Rounded />
 			</Portal>
 
-			<Avatar.Root
+			<Avatar
 				rounded={rounded()}
 				value="./not-found.svg"
 				fallback="?"
@@ -28,8 +28,8 @@ export default function (props: MountProps) {
 				class="h-16"
 			/>
 
-			<Badge.Root content="New" palette="primary">
-				<Avatar.Root
+			<Badge content="New" palette="primary">
+				<Avatar
 					rounded={rounded()}
 					value="./brand-static.svg"
 					palette={palette()}
@@ -37,7 +37,7 @@ export default function (props: MountProps) {
 					class="h-16"
 					onclick={() => Notify.notify('click')}
 				/>
-			</Badge.Root>
+			</Badge>
 		</>
 	);
 }

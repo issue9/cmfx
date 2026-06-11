@@ -29,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
-				<InputNumber.Root
+				<InputNumber
 					placeholder="placeholder"
 					palette={palette()}
 					disabled={disabled()}
@@ -40,7 +40,7 @@ export default function (props: MountProps): JSX.Element {
 				/>
 
 				<Form.Field label="icon" layout={layout()}>
-					<InputNumber.Root
+					<InputNumber
 						placeholder="placeholder"
 						prefix={<IconFace class="self-center" />}
 						palette={palette()}
@@ -53,7 +53,7 @@ export default function (props: MountProps): JSX.Element {
 				</Form.Field>
 
 				<Form.Field label="range:[1,10]" layout={layout()}>
-					<InputNumber.Root
+					<InputNumber
 						placeholder="placeholder"
 						prefix={<IconFace class="self-center" />}
 						min={1}

@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Checkbox from './mod';
+import { Checkbox as C } from './root';
+
+export const Checkbox = C;
+
+export namespace Checkbox {
+	export type Props = import('./root').CheckboxProps;
+	export type Ref = import('./root').CheckboxRef;
+}

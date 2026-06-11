@@ -5,11 +5,11 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Markdown, type MarkdownRef } from './root';
 
 describe('Markdown', async () => {
-	let ref: Ref;
-	const ct = await ComponentTester.build('Markdown', props => <Root {...props} ref={el => (ref = el)} />);
+	let ref: MarkdownRef;
+	const ct = await ComponentTester.build('Markdown', props => <Markdown {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

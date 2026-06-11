@@ -5,15 +5,15 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Result, type ResultRef } from './root';
 import styles from './style.module.css';
 
 describe('Result', async () => {
-	let ref: Ref;
+	let ref: ResultRef;
 	const ct = await ComponentTester.build('Result', props => (
-		<Root ref={el => (ref = el)} title="title" {...props}>
+		<Result ref={el => (ref = el)} title="title" {...props}>
 			abc
-		</Root>
+		</Result>
 	));
 
 	test('title', async () => {

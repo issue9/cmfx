@@ -79,11 +79,32 @@
 			{
 				"name": "setValue",
 				"summary": "修改整个对象的值\n\n",
-				"type": "setValue(obj: T): void",
+				"remarks": "修改之后会调用\n进行验证。\n\n",
+				"type": "setValue(obj: T, silent?: boolean): void",
 				"params": [
 					{
 						"name": "obj",
 						"type": "T"
+					},
+					{
+						"name": "silent",
+						"summary": "如果为 true，不触发\n`onChange`\n注册的事件；\n\n",
+						"type": "boolean | undefined"
+					}
+				],
+				"return": {
+					"type": "void"
+				},
+				"static": false
+			},
+			{
+				"name": "onChange",
+				"summary": "注册全局对象改变的回调事件\n\n",
+				"type": "onChange(f: ChangeFunc<T>): void",
+				"params": [
+					{
+						"name": "f",
+						"type": "ChangeFunc<T>"
 					}
 				],
 				"return": {
@@ -126,7 +147,14 @@
 			{
 				"name": "reset",
 				"summary": "重置所有字段的状态和值\n\n",
-				"type": "reset(): void",
+				"type": "reset(silent?: boolean): void",
+				"params": [
+					{
+						"name": "silent",
+						"summary": "如果为 true，不触发\n`onChange`\n注册的事件；\n\n",
+						"type": "boolean | undefined"
+					}
+				],
 				"return": {
 					"type": "void"
 				},
@@ -135,7 +163,7 @@
 			{
 				"name": "createFieldAccessor",
 				"summary": "创建对当前对象中某个字段的存取接口\n\n",
-				"type": "createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): FieldAccessor<FT>",
+				"type": "createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): FormFieldAccessor<FT>",
 				"typeParams": [
 					{
 						"name": "FT",
@@ -151,7 +179,7 @@
 					}
 				],
 				"return": {
-					"type": "FieldAccessor<FT>"
+					"type": "FormFieldAccessor<FT>"
 				},
 				"static": false
 			},
@@ -207,12 +235,12 @@
 				}
 			}
 		],
-		"name": "Form.RootRef",
+		"name": "Form.Ref",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "Form.RootProps",
+		"name": "Form.Props",
 		"typeParams": [
 			{
 				"name": "T",
@@ -299,6 +327,12 @@
 				"reactive": true
 			},
 			{
+				"name": "feedback",
+				"summary": "是否显示表单项组件中帮助信息和错误信息\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
 				"name": "id",
 				"summary": "表单的 id 属性\n\n",
 				"type": "string | undefined"
@@ -348,8 +382,9 @@
 	{
 		"kind": "function",
 		"name": "Form.useField",
-		"summary": "获取可以用于操作父元素\nForm.Field\n组件的接口\n\n",
-		"type": "declare function useField<T>(): FieldContext<T> | undefined",
+		"summary": "获取可以用于操作父元素 Form.Field 组件的接口\n\n",
+		"remarks": "所有在位于 Form.Field 内部的组件中调用的 useField 都会返回一个对象，若需要在外部调用，需要传入\n`fake`\n参数。\n\n\nNOTE: 如果在一个用 useField 的组件之内，嵌套了另一个使用 useField 的组件，\n可以使用\n`FieldProvider`\n重新将\n`FormFieldContext`\n提供给内部组件。\n或是使用将 isolation 属性设置为 true 的\n`FieldProvider`\n来隔离内部组件的上下文。\n\n",
+		"type": "declare function useField<T>(props?: ValueProps<T>): FormFieldContext<T> | undefined",
 		"typeParams": [
 			{
 				"name": "T",
@@ -357,8 +392,15 @@
 				"type": "any"
 			}
 		],
+		"params": [
+			{
+				"name": "props",
+				"summary": "如果 props.onChange 存在，则会将其注册到\n`FormFieldContext`\n，且会跟踪 props.value 的变化；\n\n",
+				"type": "ValueProps<T> | undefined"
+			}
+		],
 		"return": {
-			"type": "FieldContext<T> | undefined"
+			"type": "FormFieldContext<T> | undefined"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -374,16 +416,23 @@
 		"properties": [
 			{
 				"name": "label",
-				"type": "JSX.Element"
+				"summary": "字段标签\n\n",
+				"type": "JSX.Element",
+				"reactive": true
 			},
 			{
 				"name": "help",
-				"type": "JSX.Element"
+				"summary": "帮助信息\n\n",
+				"remarks": "该区域在有错误信息时会显示错误信息，否则显示帮助信息。\n\n",
+				"type": "JSX.Element",
+				"reactive": true
 			},
 			{
 				"name": "name",
 				"summary": "字段名\n\n",
-				"type": "FlattenKeys<T>"
+				"remarks": "如果指定了该值，则必须要套在 Form 之内，会从 Form 中获取对应名称的字段值。\n否则表示一个类似 label 的组件，用于包含一个带有数据的字段。\n\n",
+				"type": "FlattenKeys<T> | undefined",
+				"readonly": true
 			},
 			{
 				"name": "layout",
@@ -423,6 +472,12 @@
 				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
 				"type": "\"start\" | \"center\" | \"end\" | undefined",
 				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "feedback",
+				"summary": "是否显示表单项组件中帮助信息和错误信息\n\n",
+				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{

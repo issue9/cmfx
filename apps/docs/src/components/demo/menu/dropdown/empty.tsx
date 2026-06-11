@@ -7,9 +7,9 @@ import { Dropdown } from '@cmfx/components';
 export default function () {
 	return (
 		<div>
-			<Dropdown.Root items={[]}>
+			<Dropdown items={[]}>
 				<div class="h-full w-full bg-primary-bg text-primary-fg">click</div>
-			</Dropdown.Root>
+			</Dropdown>
 		</div>
 	);
 }

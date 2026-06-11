@@ -14,7 +14,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Field, field] = arraySelector('field', Countdown.fields, 'minutes');
 	const [msg, setMsg] = createSignal('');
 
-	let ref: Countdown.RootRef;
+	let ref: Countdown.Ref;
 
 	return (
 		<div>
@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<div class="flex flex-col gap-4">
 				<div title="-1">
-					<Countdown.Root
+					<Countdown
 						unit={unit()}
 						ref={el => {
 							ref = el;
@@ -34,13 +34,13 @@ export default function (props: MountProps): JSX.Element {
 						startField={field()}
 						interval={-1}
 					/>
-					<Button.Root palette="primary" onclick={() => ref!.toggle()}>
+					<Button palette="primary" onclick={() => ref!.toggle()}>
 						切换暂停和启动状态
-					</Button.Root>
+					</Button>
 				</div>
 
 				<div title="event:-1">
-					<Countdown.Root
+					<Countdown
 						unit={unit()}
 						onTick={() => setMsg('tick')}
 						onComplete={() => setMsg('complete')}
@@ -53,7 +53,7 @@ export default function (props: MountProps): JSX.Element {
 				</div>
 
 				<div title="+1">
-					<Countdown.Root
+					<Countdown
 						separator={<IconFace />}
 						unit={unit()}
 						duration={'23m34s'}

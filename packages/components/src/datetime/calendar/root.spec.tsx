@@ -5,11 +5,11 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Calender, type CalenderRef } from './root';
 
 describe('Calendar', async () => {
-	let ref: Ref;
-	const ct = await ComponentTester.build('Calendar', props => <Root {...props} ref={el => (ref = el)} />);
+	let ref: CalenderRef;
+	const ct = await ComponentTester.build('Calendar', props => <Calender {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

@@ -16,7 +16,7 @@ import { type BaseProps, joinClass, style2String } from '@components/base';
 import styles from './style.module.css';
 import { shikiTheme } from './theme';
 
-export interface Highlighter {
+export interface CodeHighlighter {
 	/**
 	 * 高亮代码
 	 * @param code - 代码；
@@ -51,7 +51,7 @@ export interface Highlighter {
  *
  * @param langs - 语言 ID 列表；
  * @param themes - 主题列表，可以为空，表示使用默认主题；
- * @returns 返回 {@link Highlighter} 对象；
+ * @returns 返回 {@link CodeHighlighter} 对象；
  *
  * @remarks
  * 用户需要自己在 package.json 的 dependencies 中导入
@@ -61,7 +61,7 @@ export async function buildHighlighter(
 	langs: Array<BundledLanguage>,
 	// BundledHighlighterOptions['themes'] 的类型不太对，暂时只能这样写了。
 	themes?: (ThemeInput | StringLiteralUnion<BundledTheme> | SpecialTheme)[],
-): Promise<Highlighter> {
+): Promise<CodeHighlighter> {
 	if (themes) {
 		themes.push(shikiTheme);
 	} else {

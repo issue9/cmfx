@@ -60,12 +60,12 @@ export function Services(): JSX.Element {
 	});
 
 	return (
-		<Page.Root title="_p.system.serviceViewer" class={styles.services}>
+		<Page title="_p.system.serviceViewer" class={styles.services}>
 			<fieldset>
-				<Label.Root icon={<IconSubtitle />} tag="legend">
+				<Label icon={<IconSubtitle />} tag="legend">
 					{l.t('_p.system.services')}
-				</Label.Root>
-				<DataTable.Root
+				</Label>
+				<DataTable
 					load={async (_: Query) => (await items())?.services}
 					columns={[
 						{ id: 'title', label: l.t('_p.system.title') },
@@ -84,10 +84,10 @@ export function Services(): JSX.Element {
 			<br />
 
 			<fieldset>
-				<Label.Root icon={<IconTask />} tag="legend">
+				<Label icon={<IconTask />} tag="legend">
 					{l.t('_p.system.jobs')}
-				</Label.Root>
-				<DataTable.Root
+				</Label>
+				<DataTable
 					load={async (_: Query) => (await items())?.jobs}
 					columns={[
 						{ id: 'title', label: l.t('_p.system.title') },
@@ -116,6 +116,6 @@ export function Services(): JSX.Element {
 					]}
 				/>
 			</fieldset>
-		</Page.Root>
+		</Page>
 	);
 }

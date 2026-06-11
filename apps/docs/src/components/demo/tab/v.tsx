@@ -15,7 +15,7 @@ export default function (): JSX.Element {
 	const [tab, setTab] = createSignal('k1');
 
 	return (
-		<Tab.Root layout="vertical" palette="primary" items={items} onChange={setTab}>
+		<Tab layout="vertical" palette="primary" items={items} onChange={setTab}>
 			<Transition>
 				<Switch>
 					<Match when={tab() === 'k1'}>
@@ -32,6 +32,6 @@ export default function (): JSX.Element {
 					</Match>
 				</Switch>
 			</Transition>
-		</Tab.Root>
+		</Tab>
 	);
 }

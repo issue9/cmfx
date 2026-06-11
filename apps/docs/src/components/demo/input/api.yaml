@@ -6,14 +6,14 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - InputBase.RootProps
-            - InputBase.RootRef
+            - InputBase.Props
+            - InputBase.Ref
 
-            - InputText.RootProps
-            - InputText.RootRef
+            - InputText.Props
+            - InputText.Ref
 
-            - InputNumber.RootProps
-            - InputNumber.RootRef
+            - InputNumber.Props
+            - InputNumber.Ref
 
-            - InputPassword.RootProps
-            - InputPassword.RootRef
+            - InputPassword.Props
+            - InputPassword.Ref

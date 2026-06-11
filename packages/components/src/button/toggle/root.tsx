@@ -16,14 +16,16 @@ import { useLocale } from '@components/context';
 import { IconSet } from '@components/icon';
 import styles from './style.module.css';
 
-export interface Ref extends Button.RootRef<false> {
+export interface ToggleButtonRef extends Button.Ref<false> {
 	/**
 	 * 切换图标显示
 	 */
 	toggle(): Promise<void>;
 }
 
-export interface Props extends Omit<Button.ButtonProps, 'onclick' | 'children' | 'ref' | 'square'>, RefProps<Ref> {
+export interface ToggleButtonProps
+	extends Omit<Button.NormalProps, 'onclick' | 'children' | 'ref' | 'square'>,
+		RefProps<ToggleButtonRef> {
 	/**
 	 * 指定按钮的状态
 	 *
@@ -65,7 +67,7 @@ export interface Props extends Omit<Button.ButtonProps, 'onclick' | 'children' |
  * 所以一般情况下应该使用 {@link ./group.ts#Root} 表示不同状态的值，这样会更直接。
  * 除非像全屏这种直接在应用上体现出来的。
  */
-export function Root(props: Props): JSX.Element {
+export function ToggleButton(props: ToggleButtonProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const [, btnProps] = splitProps(props, ['onToggle', 'on', 'off', 'value', 'ref']);
 	const [val, setVal] = createSignal(props.value);
@@ -88,7 +90,7 @@ export function Root(props: Props): JSX.Element {
 	};
 
 	return (
-		<Button.Root
+		<Button
 			{...btnProps}
 			square
 			onclick={toggle}
@@ -101,12 +103,12 @@ export function Root(props: Props): JSX.Element {
 				}
 			}}
 		>
-			<IconSet.Root icons={{ on: props.on, off: props.off }} value={val() ? 'on' : 'off'} />
-		</Button.Root>
+			<IconSet icons={{ on: props.on, off: props.off }} value={val() ? 'on' : 'off'} />
+		</Button>
 	);
 }
 
-export type FullScreenProps = Omit<Props, 'on' | 'off' | 'value' | 'title'>;
+export type ToggleButtonFullScreenProps = Omit<ToggleButtonProps, 'on' | 'off' | 'value' | 'title'>;
 
 /**
  * 切换全屏状态的按钮
@@ -114,7 +116,7 @@ export type FullScreenProps = Omit<Props, 'on' | 'off' | 'value' | 'title'>;
  * @remarks
  * 并不是所有的浏览器都支持全屏功能，比如 iOS 系统，在不支持的系统上默认会处于禁用状态。
  */
-export function FullScreen(props: FullScreenProps): JSX.Element {
+export function FullScreen(props: ToggleButtonFullScreenProps): JSX.Element {
 	props = mergeProps({ disabled: !document.fullscreenEnabled }, props);
 	const [, p] = splitProps(props, ['ref']);
 
@@ -149,7 +151,7 @@ export function FullScreen(props: FullScreenProps): JSX.Element {
 	};
 
 	return (
-		<Root
+		<ToggleButton
 			{...p}
 			value={fs()}
 			title={l.t('_c.fullscreen')}
@@ -166,7 +168,7 @@ export function FullScreen(props: FullScreenProps): JSX.Element {
 	);
 }
 
-export type FitScreenProps = Omit<Props, 'on' | 'off' | 'value' | 'title'> & {
+export type ToggleButtonFitScreenProps = Omit<ToggleButtonProps, 'on' | 'off' | 'value' | 'title'> & {
 	/**
 	 * 指定需要扩展的容器
 	 */
@@ -176,9 +178,9 @@ export type FitScreenProps = Omit<Props, 'on' | 'off' | 'value' | 'title'> & {
 /**
  * 将指定的容器扩展至整个屏幕大小
  *
- * NOTE: 需要保证当前组件必须在 {@link FitScreenProps#container} 之内，否则可能会无法退回原来状态的可能。
+ * NOTE: 需要保证当前组件必须在 {@link ToggleButtonFitScreenProps#container} 之内，否则可能会无法退回原来状态的可能。
  */
-export function FitScreen(props: FitScreenProps): JSX.Element {
+export function FitScreen(props: ToggleButtonFitScreenProps): JSX.Element {
 	const l = useLocale();
 	const [_, btnProps] = splitProps(props, ['container', 'ref']);
 
@@ -196,7 +198,7 @@ export function FitScreen(props: FitScreenProps): JSX.Element {
 	};
 
 	return (
-		<Root
+		<ToggleButton
 			{...btnProps}
 			title={l.t('_c.fitscreen')}
 			onToggle={toggle}

@@ -23,13 +23,13 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Disabled />
 				<Readonly />
-				<Button.Root onclick={() => setValue()}>set undefined</Button.Root>
-				<Button.Root onclick={() => setValue(new Date())}>now</Button.Root>
+				<Button onclick={() => setValue()}>set undefined</Button>
+				<Button onclick={() => setValue(new Date())}>now</Button>
 			</Portal>
 
 			<F class="flex flex-col items-start">
 				<Field name="a">
-					<Time.Root
+					<Time
 						palette={palette()}
 						readonly={readonly()}
 						disabled={disabled()}

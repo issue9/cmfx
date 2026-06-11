@@ -20,9 +20,9 @@ export default function (props: MountProps) {
 			<div class="flex flex-wrap justify-start gap-3">
 				<For each={Badge.corners}>
 					{pos => (
-						<Badge.Root pos={pos} palette={palette()} content="这是一段很长的文字内容">
-							<Button.Root palette="primary">{pos}</Button.Root>
-						</Badge.Root>
+						<Badge pos={pos} palette={palette()} content="这是一段很长的文字内容">
+							<Button palette="primary">{pos}</Button>
+						</Badge>
 					)}
 				</For>
 			</div>

@@ -41,7 +41,7 @@ export default function (props: MountProps): JSX.Element {
 				<Cstype />
 			</Portal>
 
-			<QRCode.Root
+			<QRCode
 				type={t()}
 				cornerDotType={ctype()}
 				cornerSquareType={cstype()}

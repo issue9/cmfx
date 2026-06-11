@@ -82,23 +82,23 @@ export default function Stage(props: Props): JSX.Element {
 					<div class={styles.left}>
 						<ToggleButton.FitScreen container={demoRef()!} />
 
-						<ButtonGroup.Root>
-							<Button.Root square checked={dir() === 'rtl'} onclick={() => setDir('rtl')}>
+						<ButtonGroup>
+							<Button square checked={dir() === 'rtl'} onclick={() => setDir('rtl')}>
 								<IconRTL />
-							</Button.Root>
-							<Button.Root square checked={dir() === 'ltr'} onclick={() => setDir('ltr')}>
+							</Button>
+							<Button square checked={dir() === 'ltr'} onclick={() => setDir('ltr')}>
 								<IconLTR />
-							</Button.Root>
-						</ButtonGroup.Root>
+							</Button>
+						</ButtonGroup>
 
-						<ButtonGroup.Root>
-							<Button.Root square checked={mode() === 'dark'} onclick={() => setMode('dark')}>
+						<ButtonGroup>
+							<Button square checked={mode() === 'dark'} onclick={() => setMode('dark')}>
 								<IconDark />
-							</Button.Root>
-							<Button.Root square checked={mode() === 'light'} onclick={() => setMode('light')}>
+							</Button>
+							<Button square checked={mode() === 'light'} onclick={() => setMode('light')}>
 								<IconLight />
-							</Button.Root>
-						</ButtonGroup.Root>
+							</Button>
+						</ButtonGroup>
 					</div>
 
 					<div class={styles.right} ref={el => (settingRef = el)} />
@@ -113,16 +113,9 @@ export default function Stage(props: Props): JSX.Element {
 
 			<Show when={props.source}>
 				{s => (
-					<Code.Root
-						wrap
-						ln={0}
-						lang="tsx"
-						class={styles.code}
-						style={{ height: codeHeight() }}
-						decorates={['toolbar']}
-					>
+					<Code wrap ln={0} lang="tsx" class={styles.code} style={{ height: codeHeight() }} decorates={['toolbar']}>
 						{s()}
-					</Code.Root>
+					</Code>
 				)}
 			</Show>
 		</div>

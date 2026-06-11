@@ -71,7 +71,7 @@ export default function (props: MountProps): JSX.Element {
 			<F>
 				<div class="flex flex-row gap-5">
 					<Field label="label" name="a" layout={layout()}>
-						<Choice.Root
+						<Choice
 							placeholder="placeholder"
 							disabled={disabled()}
 							rounded={rounded()}

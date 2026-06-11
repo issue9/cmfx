@@ -19,7 +19,7 @@ export default function (props: MountProps): JSX.Element {
 				<Num />
 			</Portal>
 
-			<PaginationBar.Root spans={num()} palette={palette()} total={100} page={2} size={20} />
+			<PaginationBar spans={num()} palette={palette()} total={100} page={2} size={20} />
 		</>
 	);
 }

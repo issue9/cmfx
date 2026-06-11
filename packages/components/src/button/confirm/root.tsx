@@ -12,11 +12,11 @@ import { Button } from '@components/button/button';
 import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref<A extends boolean = false> {
+export interface ConfirmButtonRef<A extends boolean = false> {
 	/**
 	 * 按钮元素
 	 */
-	button(): Button.RootRef<A>;
+	button(): Button.Ref<A>;
 
 	/**
 	 * 弹出对象的元素
@@ -41,20 +41,20 @@ interface Base {
 	cancel?: JSX.Element;
 }
 
-export type AnchorProps = Base & Omit<Button.AnchorProps, 'ref'> & RefProps<Ref<true>>;
+export type ConfirmButtonAnchorProps = Base & Omit<Button.AnchorProps, 'ref'> & RefProps<ConfirmButtonRef<true>>;
 
-export type ButtonProps = Base & Omit<Button.ButtonProps, 'ref'> & RefProps<Ref>;
+export type ConfirmButtonNormalProps = Base & Omit<Button.NormalProps, 'ref'> & RefProps<ConfirmButtonRef>;
 
-export type Props = AnchorProps | ButtonProps;
+export type ConfirmButtonProps = ConfirmButtonAnchorProps | ConfirmButtonNormalProps;
 
 /**
  * 带确认功能的按钮
  */
-export function Root(props: Props) {
-	props = mergeProps(Button.presetRootProps, props) as Props;
+export function ConfirmButton(props: ConfirmButtonProps) {
+	props = mergeProps(Button.presetProps, props) as ConfirmButtonProps;
 	const l = useLocale();
 	let popRef: HTMLDivElement;
-	let btnRef: Button.RootRef<true> | Button.RootRef<false>;
+	let btnRef: Button.Ref<true> | Button.Ref<false>;
 
 	if (props.ref) {
 		(props.ref as CallableFunction)({
@@ -80,7 +80,7 @@ export function Root(props: Props) {
 	});
 
 	const nav = useNavigate();
-	const confirm: Button.RootProps['onclick'] = e => {
+	const confirm: Button.Props['onclick'] = e => {
 		if (props.onclick) {
 			handleEvent(props.onclick, e);
 		}
@@ -94,8 +94,8 @@ export function Root(props: Props) {
 
 	return (
 		<>
-			<Button.Root
-				ref={(el: Button.RootRef<true> | Button.RootRef<false>) => (btnRef = el)}
+			<Button
+				ref={(el: Button.Ref<true> | Button.Ref<false>) => (btnRef = el)}
 				{...btnProps}
 				palette={props.palette}
 				onclick={e => {
@@ -105,18 +105,18 @@ export function Root(props: Props) {
 				}}
 			>
 				{props.children}
-			</Button.Root>
+			</Button>
 
 			<div popover="auto" ref={el => (popRef = el)} class={joinClass(props.palette, styles.panel)}>
 				{props.prompt ?? l.t('_c.areYouSure')}
 				<div class={styles.actions}>
-					<Button.Root palette="secondary" onclick={() => popRef.hidePopover()}>
+					<Button palette="secondary" onclick={() => popRef.hidePopover()}>
 						{props.cancel ?? l.t('_c.cancel')}
-					</Button.Root>
+					</Button>
 
-					<Button.Root palette="primary" ref={el => (el.root().autofocus = true)} onclick={confirm}>
+					<Button palette="primary" ref={el => (el.root().autofocus = true)} onclick={confirm}>
 						{props.ok ?? l.t('_c.ok')}
-					</Button.Root>
+					</Button>
 				</div>
 			</div>
 		</>

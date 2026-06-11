@@ -46,15 +46,15 @@ export default function (props: MountProps): JSX.Element {
 					value={week()}
 					onChange={e => setWeek(parseInt(e.target.value, 10) as Week)}
 				/>
-				<Button.Root
+				<Button
 					onclick={() => {
 						setValue();
 						setValWithTime();
 					}}
 				>
 					set undefined
-				</Button.Root>
-				<Button.Root
+				</Button>
+				<Button
 					onclick={() => {
 						const now = new Date();
 						const next = new Date(now);
@@ -64,11 +64,11 @@ export default function (props: MountProps): JSX.Element {
 					}}
 				>
 					now
-				</Button.Root>
+				</Button>
 			</Portal>
 
 			<div class="flex flex-col items-start">
-				<DatePicker.Root
+				<DatePicker
 					popover="click"
 					time={time()}
 					min={minmax() ? min : undefined}
@@ -89,7 +89,7 @@ export default function (props: MountProps): JSX.Element {
 			</div>
 
 			<div class="flex flex-col items-start">
-				<DatePicker.Root
+				<DatePicker
 					popover="hover"
 					min={minmax() ? min : undefined}
 					max={minmax() ? max : undefined}

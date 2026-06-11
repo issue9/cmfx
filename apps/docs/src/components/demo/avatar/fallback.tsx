@@ -17,8 +17,8 @@ export default function (props: MountProps) {
 				<Palette />
 				<Rounded />
 			</Portal>
-			<Avatar.Root rounded={rounded()} value="./not-found.svg" palette={palette()} fallback="not-found" class="h-16" />
-			<Avatar.Root
+			<Avatar rounded={rounded()} value="./not-found.svg" palette={palette()} fallback="not-found" class="h-16" />
+			<Avatar
 				rounded={rounded()}
 				value="./not-found.svg"
 				palette={palette()}

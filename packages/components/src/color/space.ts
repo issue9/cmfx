@@ -11,7 +11,7 @@ export type Accessor = Form.FieldAccessor<string | undefined>;
 /**
  * 定义了颜色空间需要实现的接口
  */
-export interface Space {
+export interface ColorSpace {
 	/**
 	 * 表示当前拾取框的唯一 ID
 	 */

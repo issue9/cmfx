@@ -10,12 +10,12 @@ import { MonthView } from '@components/datetime/view/month';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
 import styles from './style.module.css';
 
-export type Ref = MonthView.RootRef;
+export type CalenderRef = MonthView.Ref;
 
 /**
  * 日历 {@link Calendar} 的属性值
  */
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface CalenderProps extends BaseProps, RefProps<CalenderRef> {
 	/**
 	 * 允许的最小日期
 	 *
@@ -71,21 +71,21 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	weekend?: boolean;
 }
 
-const presetProps: Props = {
+const presetProps: CalenderProps = {
 	weekBase: 0,
 } as const;
 
 /**
  * 日历组件
  */
-export function Root(props: Props): JSX.Element {
+export function Calender(props: CalenderProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 
-	let ref: Ref;
+	let ref: CalenderRef;
 	const [selected, setSelected] = createSignal<Date>();
 
 	return (
-		<MonthView.Root
+		<MonthView
 			ref={el => {
 				ref = el;
 				if (props.ref) {

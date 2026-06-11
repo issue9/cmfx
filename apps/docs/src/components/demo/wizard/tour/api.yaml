@@ -6,6 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Tour.RootProps
-            - Tour.RootRef
+            - Tour.Props
+            - Tour.Ref
             - Tour.Step

@@ -5,10 +5,10 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import type { MenuItem } from '@components/menu/menu/item';
-import { type Ref, Root } from './root';
+import type { MenuMenuItem } from '@components/menu/menu/item';
+import { Dropdown, type DropdownRef } from './root';
 
-const items: Array<MenuItem> = [
+const items: Array<MenuMenuItem> = [
 	{ type: 'item', value: 'v1', label: 'v1-label' },
 	{ type: 'item', value: 'v2', label: 'v2-label', disabled: true },
 	{ type: 'item', value: 'v3', label: 'v3-label' },
@@ -40,9 +40,9 @@ const items: Array<MenuItem> = [
 ];
 
 describe('Dropdown', async () => {
-	let ref: Ref;
+	let ref: DropdownRef;
 	const ct = await ComponentTester.build('Dropdown', props => (
-		<Root {...props} items={items} onChange={() => {}} ref={el => (ref = el)} />
+		<Dropdown {...props} items={items} onChange={() => {}} ref={el => (ref = el)} />
 	));
 
 	test('ref', () => {

@@ -38,7 +38,7 @@ export default function Overview(prefix: string): JSX.Element {
 	const items = buildMenus(l, prefix);
 
 	return (
-		<Page.Root class={styles.overview} title={l.t('_d.demo.overview')}>
+		<Page class={styles.overview} title={l.t('_d.demo.overview')}>
 			<For each={items.filter(item => item.type === 'group')}>
 				{group => (
 					<fieldset class={styles.group}>
@@ -48,16 +48,16 @@ export default function Overview(prefix: string): JSX.Element {
 						<For each={group.items}>
 							{item => (
 								<A href={(item as Menu.Item).value!}>
-									<Card.Root header={(item as Menu.Item).label} class={styles.card}>
+									<Card header={(item as Menu.Item).label} class={styles.card}>
 										<div class={styles.icon}>{(item as Menu.Item).prefix}</div>
-									</Card.Root>
+									</Card>
 								</A>
 							)}
 						</For>
 					</fieldset>
 				)}
 			</For>
-		</Page.Root>
+		</Page>
 	);
 }
 

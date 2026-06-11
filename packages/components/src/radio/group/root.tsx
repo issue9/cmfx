@@ -7,17 +7,17 @@ import { createEffect, createMemo, For, type JSX, mergeProps } from 'solid-js';
 import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
 import { joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
-import * as Radio from '@components/radio/radio/mod';
-import type { Options } from './options';
+import { Radio } from '@components/radio/radio';
+import type { RadioGroupOptions } from './options';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type RadioGroupRef = BaseRef<HTMLDivElement>;
 
-export interface Props<T extends AvailableEnumType = string>
+export interface RadioGroupProps<T extends AvailableEnumType = string>
 	extends BaseProps,
 		Form.DataProps,
 		ValueProps<T>,
-		RefProps<Ref> {
+		RefProps<RadioGroupRef> {
 	/**
 	 * 所有 checkbox 项的布局
 	 *
@@ -39,13 +39,13 @@ export interface Props<T extends AvailableEnumType = string>
 	 *
 	 * @reactive
 	 */
-	options: Options<T>;
+	options: RadioGroupOptions<T>;
 }
 
 /**
  * 单选框组
  */
-export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
+export function RadioGroup<T extends AvailableEnumType = string>(props: RadioGroupProps<T>): JSX.Element {
 	const field = Form.useField<T>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
@@ -105,7 +105,7 @@ export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX
 		>
 			<For each={props.options}>
 				{item => (
-					<Radio.Root
+					<Radio
 						readonly={props.readonly}
 						label={item.label}
 						block={props.block}

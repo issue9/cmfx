@@ -16,7 +16,7 @@ import { createEffect, createSignal, type JSX, mergeProps, onMount } from 'solid
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLSpanElement> {
+export interface QRCodeRef extends BaseRef<HTMLSpanElement> {
 	/**
 	 * 提供下载图片的功能
 	 */
@@ -32,7 +32,7 @@ export interface Ref extends BaseRef<HTMLSpanElement> {
 	qrCodeStyling(): QRCodeStyling;
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface QRCodeProps extends BaseProps, RefProps<QRCodeRef> {
 	/**
 	 * 需要生成图片的值
 	 *
@@ -73,7 +73,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	padding?: number;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<QRCodeProps>> = {
 	width: 200,
 	height: 200,
 	type: 'square',
@@ -83,11 +83,11 @@ const presetProps: Readonly<Partial<Props>> = {
 /**
  * 生成各类编码的图片
  */
-export function Root(props: Props): JSX.Element {
+export function QRCode(props: QRCodeProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const [ref, setRef] = createSignal<HTMLSpanElement>();
 
-	let download: Ref['download'];
+	let download: QRCodeRef['download'];
 	let qr: QRCodeStyling;
 
 	const init = () => {

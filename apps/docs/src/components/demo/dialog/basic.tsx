@@ -10,7 +10,7 @@ import { paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
-	let dlg: Dialog.RootRef;
+	let dlg: Dialog.Ref;
 
 	return (
 		<div>
@@ -19,7 +19,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div>
-				<Dialog.Root
+				<Dialog
 					class="min-w-5"
 					palette={palette()}
 					header={
@@ -39,10 +39,10 @@ export default function (props: MountProps): JSX.Element {
 					footer={<Dialog.Actions />}
 				>
 					content
-				</Dialog.Root>
-				<Button.Root onclick={() => dlg.root().showModal()} palette={palette()}>
+				</Dialog>
+				<Button onclick={() => dlg.root().showModal()} palette={palette()}>
 					show
-				</Button.Root>
+				</Button>
 			</div>
 		</div>
 	);

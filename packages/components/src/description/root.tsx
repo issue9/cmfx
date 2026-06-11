@@ -8,9 +8,9 @@ import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@compone
 import { Label } from '@components/label';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type DescriptionRef = BaseRef<HTMLDivElement>;
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface DescriptionProps extends BaseProps, ParentProps, RefProps<DescriptionRef> {
 	/**
 	 * 图标
 	 *
@@ -29,7 +29,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 /**
  * 一长段内容的描述信息，可带一个标题。
  */
-export function Root(props: Props): JSX.Element {
+export function Description(props: DescriptionProps): JSX.Element {
 	return (
 		<div
 			class={joinClass(props.palette, styles.description, props.class)}
@@ -41,7 +41,7 @@ export function Root(props: Props): JSX.Element {
 			}}
 		>
 			<Show when={props.icon || props.title}>
-				<Label.Root icon={props.icon}>{props.title}</Label.Root>
+				<Label icon={props.icon}>{props.title}</Label>
 			</Show>
 			<div class={styles.desc}>{props.children}</div>
 		</div>

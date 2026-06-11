@@ -5,15 +5,15 @@
 import type { JSX, ParentProps } from 'solid-js';
 
 import { type BaseProps, classList, joinClass } from '@components/base';
-import type { Ref } from './context';
+import type { DialogRef } from './context';
 import { DialogProvider } from './context';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface DialogProps extends BaseProps, ParentProps {
 	// https://caniuse.com/?search=closedby
 	// closedby
 
-	ref: (m: Ref) => void;
+	ref: (m: DialogRef) => void;
 
 	/**
 	 * 指定标题内容
@@ -39,7 +39,7 @@ export interface Props extends BaseProps, ParentProps {
 	mainClass?: string;
 }
 
-function buildRef(ref: HTMLDialogElement): Ref {
+function buildRef(ref: HTMLDialogElement): DialogRef {
 	return {
 		root(): HTMLDialogElement {
 			return ref;
@@ -65,8 +65,8 @@ function buildRef(ref: HTMLDialogElement): Ref {
  *
  * 采用的是 html 标准中的 dialog 标签。
  */
-export function Root(props: Props): JSX.Element {
-	let ref!: Ref;
+export function Dialog(props: DialogProps): JSX.Element {
+	let ref!: DialogRef;
 
 	return (
 		<dialog

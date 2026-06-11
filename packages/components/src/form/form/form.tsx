@@ -13,13 +13,13 @@ import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
 import { type FormContext, FormProvider, useForm } from './context';
 
-export type Ref = BaseRef<HTMLFormElement>;
+export type FormRef = BaseRef<HTMLFormElement>;
 
-export interface Props<T extends Flattenable, R = never, P = never>
+export interface FormProps<T extends Flattenable, R = never, P = never>
 	extends BaseProps,
 		FormContext<T, R, P>,
 		ParentProps,
-		RefProps<Ref> {
+		RefProps<FormRef> {
 	/**
 	 * 表单位于对话框中
 	 *
@@ -31,13 +31,13 @@ export interface Props<T extends Flattenable, R = never, P = never>
 	inDialog?: boolean;
 }
 
-export function Form<T extends Flattenable, R = never, P = never>(props: Props<T, R, P>): JSX.Element {
+export function Form<T extends Flattenable, R = never, P = never>(props: FormProps<T, R, P>): JSX.Element {
 	const l = useLocale();
 
 	props = mergeProps(
 		{
 			layout: 'horizontal',
-		} as Props<T, R, P>,
+		} as FormProps<T, R, P>,
 		props,
 	);
 
@@ -65,7 +65,7 @@ export function Form<T extends Flattenable, R = never, P = never>(props: Props<T
 	const id = createUniqueId();
 
 	return (
-		<Spin.Root
+		<Spin
 			tag="form"
 			spinning={api.spinning()}
 			palette={props.palette}
@@ -107,11 +107,11 @@ export function Form<T extends Flattenable, R = never, P = never>(props: Props<T
 			>
 				{props.children}
 			</FormProvider>
-		</Spin.Root>
+		</Spin>
 	);
 }
 
-export interface MessageProps extends BaseProps {
+export interface FormMessageProps extends BaseProps {
 	/**
 	 * 是否显示关闭按钮
 	 *
@@ -130,7 +130,7 @@ export interface MessageProps extends BaseProps {
 /**
  * 显示整个表单的错误信息
  */
-export function Message(props: MessageProps): JSX.Element {
+export function Message(props: FormMessageProps): JSX.Element {
 	const f = useForm();
 	if (!f) {
 		throw new ContextNotFoundError('formContext');
@@ -139,7 +139,7 @@ export function Message(props: MessageProps): JSX.Element {
 	return (
 		<Show when={f.api.getError()}>
 			{err => (
-				<Alert.Root
+				<Alert
 					closable={props.closable}
 					duration={props.duration}
 					type="error"
@@ -159,9 +159,9 @@ export function Message(props: MessageProps): JSX.Element {
 /**
  * 普通的按钮，但是可以跟随 {@link Context#rounded} 属性变化
  */
-export function Button(props: Btn.ButtonProps): JSX.Element {
+export function Button(props: Btn.NormalProps): JSX.Element {
 	const f = useForm();
-	return <Btn.Root {...mergeProps({ disabled: f?.disabled, rounded: f?.rounded, form: f?.id }, props)} />;
+	return <Btn {...mergeProps({ disabled: f?.disabled, rounded: f?.rounded, form: f?.id }, props)} />;
 }
 
 /**
@@ -170,7 +170,7 @@ export function Button(props: Btn.ButtonProps): JSX.Element {
  * @remarks
  * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
  */
-export function Reset(props: Omit<Btn.ButtonProps, 'onclick' | 'type'>): JSX.Element {
+export function Reset(props: Omit<Btn.NormalProps, 'onclick' | 'type'>): JSX.Element {
 	return <Button {...props} type="reset" />;
 }
 
@@ -178,10 +178,10 @@ export function Reset(props: Omit<Btn.ButtonProps, 'onclick' | 'type'>): JSX.Ele
  * 提交按钮
  *
  * @remarks
- * 如果指定了 {@link Props#inDialog} 属性，那么表单的 submit 按钮将会关闭所在的对话框，
+ * 如果指定了 {@link FormProps#inDialog} 属性，那么表单的 submit 按钮将会关闭所在的对话框，
  * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
  * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
  */
-export function Submit(props: Omit<Btn.ButtonProps, 'onclick' | 'type'>): JSX.Element {
+export function Submit(props: Omit<Btn.NormalProps, 'onclick' | 'type'>): JSX.Element {
 	return <Button {...props} type="submit" />;
 }

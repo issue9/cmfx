@@ -20,17 +20,17 @@ export default function (props: MountProps): JSX.Element {
 				<Spinning />
 			</Portal>
 
-			<Spin.Root
+			<Spin
 				palette={palette()}
 				indicator={<IconFace />}
 				spinning={spinning()}
 				class="flex gap-2 border border-palette-border p-2"
 				overlayClass="bg-palette-bg/50 text-2xl"
 			>
-				<Button.Root>btn1</Button.Root>
+				<Button>btn1</Button>
 				<p>overlay</p>
-				<Button.Root>btn2</Button.Root>
-			</Spin.Root>
+				<Button>btn2</Button>
+			</Spin>
 		</div>
 	);
 }

@@ -11,7 +11,7 @@ import { paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 
-	let dlg: Dialog.RootRef;
+	let dlg: Dialog.Ref;
 
 	return (
 		<div>
@@ -19,10 +19,10 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Button.Root onclick={() => dlg.root().show()} palette={palette()}>
+			<Button onclick={() => dlg.root().show()} palette={palette()}>
 				scrollable
-			</Button.Root>
-			<Dialog.Root
+			</Button>
+			<Dialog
 				palette={palette()}
 				scrollable
 				ref={el => (dlg = el)}
@@ -70,7 +70,7 @@ export default function (props: MountProps): JSX.Element {
 					长内容
 					<br />
 				</div>
-			</Dialog.Root>
+			</Dialog>
 		</div>
 	);
 }

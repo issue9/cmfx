@@ -5,11 +5,13 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { DateRangePicker, type DateRangePickerRef } from './root';
 
 describe('DateRangePicker.Panel', async () => {
-	let ref: Ref<false>;
-	const ct = await ComponentTester.build('DateRangePicker.Panel', props => <Root ref={el => (ref = el)} {...props} />);
+	let ref: DateRangePickerRef<false>;
+	const ct = await ComponentTester.build('DateRangePicker.Panel', props => (
+		<DateRangePicker ref={el => (ref = el)} {...props} />
+	));
 
 	test('props', () => ct.testProps());
 
@@ -20,9 +22,9 @@ describe('DateRangePicker.Panel', async () => {
 });
 
 describe('DateRangePicker.Popover', async () => {
-	let ref: Ref<true>;
+	let ref: DateRangePickerRef<true>;
 	const ct = await ComponentTester.build('DateRangePicker.Popover', props => (
-		<Root popover="click" ref={el => (ref = el)} {...props} />
+		<DateRangePicker popover="click" ref={el => (ref = el)} {...props} />
 	));
 
 	test('props', () => ct.testProps());

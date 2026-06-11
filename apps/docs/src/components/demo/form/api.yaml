@@ -8,8 +8,8 @@
         types:
             - Form.API
             - Form.LabelAlignment
-            - Form.RootRef
-            - Form.RootProps
+            - Form.Ref
+            - Form.Props
             - Form.useForm
             - Form.useField
             - Form.FieldProps

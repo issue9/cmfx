@@ -7,7 +7,7 @@ import { createContext, type JSX, type ParentProps, splitProps, useContext } fro
 import type { BaseRef } from '@components/base';
 import { ContextNotFoundError } from '@components/context';
 
-export interface Ref extends BaseRef<HTMLDialogElement> {
+export interface DialogRef extends BaseRef<HTMLDialogElement> {
 	/**
 	 * 移动对话框的位置
 	 *
@@ -17,7 +17,7 @@ export interface Ref extends BaseRef<HTMLDialogElement> {
 }
 
 export interface Context {
-	dialog: Ref;
+	dialog: DialogRef;
 }
 
 const dialogContext = createContext<Context>();

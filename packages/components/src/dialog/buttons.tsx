@@ -9,7 +9,7 @@ import { useLocale } from '@components/context';
 import { useDialog } from './context';
 import styles from './style.module.css';
 
-export interface ButtonProps extends Omit<Button.ButtonProps, 'onclick' | 'type'> {
+export interface DialogButtonProps extends Omit<Button.NormalProps, 'onclick' | 'type'> {
 	/**
 	 * 传递给对话框的值
 	 */
@@ -27,13 +27,13 @@ export interface ButtonProps extends Omit<Button.ButtonProps, 'onclick' | 'type'
  * 确认对话框的按钮组件
  *
  * @remarks
- * 点击该按钮，会关闭对话框，同时将 {@link ButtonProps.value} 传递给对话框的 returnValue 属性。
+ * 点击该按钮，会关闭对话框，同时将 {@link DialogButtonProps.value} 传递给对话框的 returnValue 属性。
  */
-export function AcceptButton(props: ButtonProps): JSX.Element {
+export function AcceptButton(props: DialogButtonProps): JSX.Element {
 	const ref = useDialog();
 	const [_, p] = splitProps(props, ['children', 'palette', 'onclick']);
 	return (
-		<Button.Root
+		<Button
 			{...p}
 			type="submit"
 			palette={props.palette ?? 'primary'}
@@ -49,7 +49,7 @@ export function AcceptButton(props: ButtonProps): JSX.Element {
 			}}
 		>
 			{props.children}
-		</Button.Root>
+		</Button>
 	);
 }
 
@@ -59,7 +59,7 @@ export function AcceptButton(props: ButtonProps): JSX.Element {
  * @remarks
  * 点击该按钮，会关闭对话框，相比于 {@link AcceptButton}，会同时触发 cancel 事件。
  */
-export function CancelButton(props: ButtonProps): JSX.Element {
+export function CancelButton(props: DialogButtonProps): JSX.Element {
 	const ref = useDialog();
 	const [_, p] = splitProps(props, ['children', 'palette', 'onclick']);
 
@@ -67,7 +67,7 @@ export function CancelButton(props: ButtonProps): JSX.Element {
 	ref.dialog.root().addEventListener('cancel', () => (ref.dialog.root().returnValue = props.value ?? ''));
 
 	return (
-		<Button.Root
+		<Button
 			{...p}
 			type="button"
 			palette={props.palette ?? 'secondary'}
@@ -84,11 +84,11 @@ export function CancelButton(props: ButtonProps): JSX.Element {
 			}}
 		>
 			{props.children}
-		</Button.Root>
+		</Button>
 	);
 }
 
-export interface ActionsProps {
+export interface DialogActionsProps {
 	/**
 	 * 所有按钮是否都圆角
 	 */
@@ -102,12 +102,12 @@ export interface ActionsProps {
 	/**
 	 * OK 按钮上的点击事件
 	 */
-	accept?: ButtonProps['onclick'];
+	accept?: DialogButtonProps['onclick'];
 
 	/**
 	 * cancel 按钮上的占击事件
 	 */
-	cancel?: ButtonProps['onclick'];
+	cancel?: DialogButtonProps['onclick'];
 
 	/**
 	 * OK 按钮上的值
@@ -127,7 +127,7 @@ export interface ActionsProps {
 /**
  * 为对话框提供一组默认的按钮组
  */
-export function Actions(props: ActionsProps): JSX.Element {
+export function Actions(props: DialogActionsProps): JSX.Element {
 	const l = useLocale();
 	return (
 		<footer class={styles.footer}>

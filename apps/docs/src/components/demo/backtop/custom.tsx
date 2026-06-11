@@ -31,9 +31,9 @@ export default function (props: MountProps): JSX.Element {
 						</>
 					)}
 				</For>
-				<BackTop.Root palette={palette()} class="mb-10">
+				<BackTop palette={palette()} class="mb-10">
 					{<IconNav />}
-				</BackTop.Root>
+				</BackTop>
 			</div>
 		</>
 	);

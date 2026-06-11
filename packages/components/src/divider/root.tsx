@@ -7,9 +7,9 @@ import { createMemo, type JSX, mergeProps, type ParentProps } from 'solid-js';
 import { type BaseProps, type BaseRef, classList, type Layout, type RefProps, style2String } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type DividerRef = BaseRef<HTMLDivElement>;
 
-export type Props = ParentProps<
+export type DividerProps = ParentProps<
 	{
 		/**
 		 * 如果存在文字，表示文字的位置，否则该值无意义。
@@ -38,10 +38,10 @@ export type Props = ParentProps<
 		 */
 		padding?: string;
 	} & BaseProps &
-		RefProps<Ref>
+		RefProps<DividerRef>
 >;
 
-const presetProps: Readonly<Props> = {
+const presetProps: Readonly<DividerProps> = {
 	pos: 'start',
 	layout: 'horizontal',
 };
@@ -49,7 +49,7 @@ const presetProps: Readonly<Props> = {
 /**
  * 分割线
  */
-export function Root(props: Props): JSX.Element {
+export function Divider(props: DividerProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 
 	const style = createMemo(() => {

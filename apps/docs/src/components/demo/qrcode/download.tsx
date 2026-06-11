@@ -32,7 +32,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Ctype, ctype] = cornerTypeSelector();
 	const [Cstype, cstype] = cornerSquareTypeSelector();
 
-	let ref: QRCode.RootRef;
+	let ref: QRCode.Ref;
 
 	return (
 		<>
@@ -43,7 +43,7 @@ export default function (props: MountProps): JSX.Element {
 				<Cstype />
 			</Portal>
 
-			<QRCode.Root
+			<QRCode
 				ref={el => {
 					ref = el;
 				}}
@@ -55,9 +55,9 @@ export default function (props: MountProps): JSX.Element {
 				value="https://example.com"
 			/>
 			<div class="mt-5 flex w-full justify-between">
-				<Button.Root onclick={() => ref.download()}>png</Button.Root>
-				<Button.Root onclick={() => ref.download('f1', 'jpeg')}>jpeg</Button.Root>
-				<Button.Root onclick={() => ref.download('f1', 'svg')}>svg</Button.Root>
+				<Button onclick={() => ref.download()}>png</Button>
+				<Button onclick={() => ref.download('f1', 'jpeg')}>jpeg</Button>
+				<Button onclick={() => ref.download('f1', 'svg')}>svg</Button>
 			</div>
 		</>
 	);

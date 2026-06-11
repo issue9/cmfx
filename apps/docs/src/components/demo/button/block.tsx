@@ -23,21 +23,21 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-col gap-y-2">
-				<Button.Root class="w-full" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
+				<Button class="w-full" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
 					block
-				</Button.Root>
+				</Button>
 
-				<Button.Root class="w-full" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
+				<Button class="w-full" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
 					<IconFace />
 					with icon
-				</Button.Root>
+				</Button>
 
-				<ButtonGroup.Root class="w-full" rounded={rounded()} palette="primary" kind={kind()} disabled={disabled()}>
-					<Button.Root>abc</Button.Root>
-					<Button.Root>def</Button.Root>
-					<Button.Root>hij</Button.Root>
-					<Button.Root>klm</Button.Root>
-				</ButtonGroup.Root>
+				<ButtonGroup class="w-full" rounded={rounded()} palette="primary" kind={kind()} disabled={disabled()}>
+					<Button>abc</Button>
+					<Button>def</Button>
+					<Button>hij</Button>
+					<Button>klm</Button>
+				</ButtonGroup>
 			</div>
 		</div>
 	);

@@ -11,9 +11,9 @@ import { useLocale } from '@components/context';
 import { compareDate, equalDate, sunday, weekDay, weekDays, weeks } from '@components/datetime/utils';
 import { buildHeader } from './header';
 import styles from './style.module.css';
-import type { API, Props } from './types';
+import type { API, MonthViewProps } from './types';
 
-const presetProps: Partial<Props> = {
+const presetProps: Partial<MonthViewProps> = {
 	weekBase: 0,
 } as const;
 
@@ -68,7 +68,7 @@ export function inRange(positive: boolean, val: Date, min?: Date, max?: Date): b
  * </fieldset>
  * ```
  */
-export function Root(props: Props): JSX.Element {
+export function MonthView(props: MonthViewProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const l = useLocale();
 

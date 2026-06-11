@@ -23,29 +23,29 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="h-56 w-56">
-				<Divider.Root layout={layout()} palette={palette()} pos={pos()}>
+				<Divider layout={layout()} palette={palette()} pos={pos()}>
 					<IconFace />
 					起始位置
-				</Divider.Root>
+				</Divider>
 			</div>
 
 			<div class="h-56 w-56">
-				<Divider.Root layout={layout()} palette={palette()} pos={pos()}>
+				<Divider layout={layout()} palette={palette()} pos={pos()}>
 					<IconFace />
 					english
-				</Divider.Root>
+				</Divider>
 			</div>
 
 			<div class="h-56 w-56">
-				<Divider.Root layout={layout()} palette={palette()} pos={pos()}>
+				<Divider layout={layout()} palette={palette()} pos={pos()}>
 					<span style={{ 'writing-mode': 'vertical-rl', 'text-orientation': 'upright' }}>
 						起始位置<span>111</span>
 					</span>
-				</Divider.Root>
+				</Divider>
 			</div>
 
 			<div class="h-56 w-56">
-				<Divider.Root layout={layout()} palette={palette()} pos={pos()}>
+				<Divider layout={layout()} palette={palette()} pos={pos()}>
 					<span
 						style={{
 							'writing-mode': 'vertical-rl',
@@ -57,11 +57,11 @@ export default function (props: MountProps): JSX.Element {
 						english
 						<IconFace />
 					</span>
-				</Divider.Root>
+				</Divider>
 			</div>
 
 			<div class="h-56 w-56">
-				<Divider.Root layout={layout()} palette={palette()} pos={pos()}></Divider.Root>
+				<Divider layout={layout()} palette={palette()} pos={pos()}></Divider>
 			</div>
 		</div>
 	);

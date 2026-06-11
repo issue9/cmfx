@@ -9,7 +9,7 @@ import { type BaseProps, type BaseRef, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface TooltipRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 显示提示框
 	 * @param anchor - 用于定位提示框的元素；
@@ -26,7 +26,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 /**
  * Tooltip 组件的属性
  */
-export interface Props extends BaseProps, ParentProps {
+export interface TooltipProps extends BaseProps, ParentProps {
 	/**
 	 * 停留时间
 	 *
@@ -35,13 +35,13 @@ export interface Props extends BaseProps, ParentProps {
 	 */
 	stays?: number;
 
-	ref: (ref: Ref) => void;
+	ref: (ref: TooltipRef) => void;
 }
 
 /**
  * 小型的弹出提示框
  */
-export function Root(props: Props): JSX.Element {
+export function Tooltip(props: TooltipProps): JSX.Element {
 	const [opt] = useOptions();
 	const duration = props.stays ?? opt.getStays();
 

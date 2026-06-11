@@ -30,7 +30,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<F>
 				<Field name="a" label="picker label" layout={layout()}>
-					<Color.Root
+					<Color
 						popover="hover"
 						readonly={readonly()}
 						disabled={disabled()}
@@ -39,7 +39,7 @@ export default function (props: MountProps): JSX.Element {
 						spaces={[new Color.TailwindVarsSpace(), new Color.OKLCHSpace(), new Color.HSLSpace(), new Color.RGBSpace()]}
 					>
 						<IconPerson />
-					</Color.Root>
+					</Color>
 				</Field>
 			</F>
 		</>

@@ -9,9 +9,9 @@ import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@compone
 import { isReducedMotion, useLocale, useOptions } from '@components/context';
 import { matchLocale } from './locale.ts';
 
-export type Option = echarts.EChartsOption;
+export type ChartOption = echarts.EChartsOption;
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface ChartRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 返回 echarts 的操作实例
 	 */
@@ -21,10 +21,10 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	 * 更新图表数据
 	 * @param o - 新的图表数据
 	 */
-	update(o: Option): void;
+	update(o: ChartOption): void;
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface ChartProps extends BaseProps, RefProps<ChartRef> {
 	/**
 	 * 是否扩大可点击元素的响应范围
 	 *
@@ -53,10 +53,10 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 图表的初始数据
 	 */
-	initValue: Option;
+	initValue: ChartOption;
 }
 
-export const presetProps: Readonly<Partial<Props>> = {
+export const presetProps: Readonly<Partial<ChartProps>> = {
 	useCoarsePointer: false,
 	height: 300,
 	width: 300,
@@ -65,7 +65,7 @@ export const presetProps: Readonly<Partial<Props>> = {
 /**
  * echarts 组件
  */
-export function Root(props: Props): JSX.Element {
+export function Chart(props: ChartProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const [opt] = useOptions();
 	const l = useLocale();

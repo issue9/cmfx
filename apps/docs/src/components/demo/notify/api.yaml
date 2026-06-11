@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Alert.RootProps
-            - Alert.RootRef
+            - Alert.Props
+            - Alert.Ref
             - Alert.Type
 
             - Notify.notify

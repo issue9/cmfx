@@ -5,13 +5,13 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { Root } from './root';
-import type { Ref } from './types';
+import { Tab } from './root';
+import type { TabRef } from './types';
 
 describe('Tab', async () => {
-	let ref: Ref;
+	let ref: TabRef;
 	const ct = await ComponentTester.build('Tab', props => (
-		<Root ref={el => (ref = el)} items={[{ id: 'id' }]} {...props} />
+		<Tab ref={el => (ref = el)} items={[{ id: 'id' }]} {...props} />
 	));
 
 	test('props', () => {

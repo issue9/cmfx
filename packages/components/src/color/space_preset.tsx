@@ -5,13 +5,13 @@
 import { For, type JSX } from 'solid-js';
 
 import { joinClass } from '@components/base';
-import type { Accessor, Space } from './space';
+import type { Accessor, ColorSpace } from './space';
 import styles from './style.module.css';
 
 /**
- * 用户自己提供一系列颜色的 {@link Space} 实现
+ * 用户自己提供一系列颜色的 {@link ColorSpace} 实现
  */
-export class PresetSpace implements Space {
+export class PresetSpace implements ColorSpace {
 	readonly #values: Array<string>;
 
 	/**

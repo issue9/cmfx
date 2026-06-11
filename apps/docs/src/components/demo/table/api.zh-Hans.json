@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Table.RootProps",
+		"name": "Table.Props",
 		"properties": [
 			{
 				"name": "fixedLayout",
@@ -66,103 +66,233 @@
 				}
 			}
 		],
-		"name": "Table.RootRef",
+		"name": "Table.Ref",
+		"pkg": "@cmfx/components"
+	},
+	{
+		"name": "DataTable.Props",
+		"kind": "union",
+		"types": [
+			{
+				"kind": "interface",
+				"name": "PagingProps",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "object"
+					},
+					{
+						"name": "Q",
+						"type": "Query"
+					}
+				],
+				"properties": [
+					{
+						"name": "load",
+						"summary": "加载数据的方法\n\n",
+						"type": "(q: Q) => Promise<Page_2<T> | undefined>",
+						"readonly": true
+					},
+					{
+						"name": "pageSize",
+						"summary": "每页显示的行数\n\n",
+						"type": "number | undefined",
+						"def": "Options.pageSize\n\n",
+						"readonly": true
+					},
+					{
+						"name": "pageSizes",
+						"summary": "每页显示的行数选项\n\n",
+						"type": "number[] | undefined",
+						"def": "Options.pageSizes\n\n",
+						"readonly": true
+					},
+					{
+						"name": "paging",
+						"summary": "是否分页\n\n",
+						"type": "true",
+						"readonly": true
+					},
+					{
+						"name": "columns",
+						"summary": "列的定义\n\n",
+						"type": "DataTableColumn<T>[]",
+						"readonly": true
+					},
+					{
+						"name": "queryForm",
+						"type": "FormBuilder<Q> | undefined",
+						"readonly": true
+					},
+					{
+						"name": "inSearch",
+						"summary": "是否将查询参数与地址栏中的参数作映射\n\n",
+						"type": "DataTableSearchConverter<Q> | undefined",
+						"readonly": true
+					},
+					{
+						"name": "filename",
+						"summary": "下载的文件名\n\n",
+						"type": "string | undefined",
+						"def": "'download'\n\n",
+						"readonly": true
+					},
+					{
+						"name": "fixedLayout",
+						"summary": "是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，\n但是可能会造成空间的巨大浪费。具体可查看：\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "toolbar",
+						"summary": "工具栏的内容\n\n\n此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。\n\n",
+						"type": "JSX.Element",
+						"reactive": true
+					},
+					{
+						"name": "systemToolbar",
+						"summary": "是否需要展示框架自身提供的工具栏功能\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					},
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "NoPagingProps",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "object"
+					},
+					{
+						"name": "Q",
+						"type": "Query"
+					}
+				],
+				"properties": [
+					{
+						"name": "load",
+						"summary": "加载数据的方法\n\n",
+						"type": "(q: Q) => Promise<Array<T> | undefined>",
+						"readonly": true
+					},
+					{
+						"name": "paging",
+						"summary": "是否分页\n\n",
+						"type": "false | undefined",
+						"readonly": true
+					},
+					{
+						"name": "columns",
+						"summary": "列的定义\n\n",
+						"type": "DataTableColumn<T>[]",
+						"readonly": true
+					},
+					{
+						"name": "queryForm",
+						"type": "FormBuilder<Q> | undefined",
+						"readonly": true
+					},
+					{
+						"name": "inSearch",
+						"summary": "是否将查询参数与地址栏中的参数作映射\n\n",
+						"type": "DataTableSearchConverter<Q> | undefined",
+						"readonly": true
+					},
+					{
+						"name": "filename",
+						"summary": "下载的文件名\n\n",
+						"type": "string | undefined",
+						"def": "'download'\n\n",
+						"readonly": true
+					},
+					{
+						"name": "fixedLayout",
+						"summary": "是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，\n但是可能会造成空间的巨大浪费。具体可查看：\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "toolbar",
+						"summary": "工具栏的内容\n\n\n此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。\n\n",
+						"type": "JSX.Element",
+						"reactive": true
+					},
+					{
+						"name": "systemToolbar",
+						"summary": "是否需要展示框架自身提供的工具栏功能\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
+					},
+					{
+						"name": "palette",
+						"summary": "指定当前组件采用的色盘\n\n",
+						"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+						"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+						"reactive": true
+					},
+					{
+						"name": "class",
+						"summary": "为组件的根元素指定 CSS 类名\n\n",
+						"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
+						"name": "style",
+						"summary": "组件根元素的样式\n\n",
+						"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+						"type": "string | JSX.CSSProperties | undefined",
+						"reactive": true
+					},
+					{
+						"name": "ref",
+						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+						"type": "((m: REF) => void) | undefined"
+					}
+				]
+			}
+		],
+		"discriminant": "paging",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "DataTable.RootProps",
-		"typeParams": [
-			{
-				"name": "T",
-				"summary": "表中每一行数据的类型；\n\n",
-				"type": "object"
-			}
-		],
-		"properties": [
-			{
-				"name": "columns",
-				"summary": "列的定义\n\n",
-				"type": "Column_3<T>[]",
-				"readonly": true
-			},
-			{
-				"name": "load",
-				"summary": "加载数据的方法\n\n",
-				"type": "() => Promise<Page_2<T> | Array<T> | undefined>",
-				"readonly": true
-			},
-			{
-				"name": "fixedLayout",
-				"summary": "是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，\n但是可能会造成空间的巨大浪费。具体可查看：\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "header",
-				"summary": "表格顶部的扩展空间\n\n\nNOTE: 该区域不属于 table 空间。\n\n",
-				"type": "JSX.Element",
-				"reactive": true
-			},
-			{
-				"name": "footer",
-				"summary": "表格底部的扩展空间\n\n\nNOTE: 该区域不属于 table 空间。\n\n",
-				"type": "JSX.Element",
-				"reactive": true
-			},
-			{
-				"name": "palette",
-				"summary": "指定当前组件采用的色盘\n\n",
-				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-				"reactive": true
-			},
-			{
-				"name": "class",
-				"summary": "为组件的根元素指定 CSS 类名\n\n",
-				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "style",
-				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
-				"type": "string | JSX.CSSProperties | undefined",
-				"reactive": true
-			},
-			{
-				"name": "ref",
-				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined"
-			}
-		],
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "interface",
-		"name": "DataTable.RootRef",
-		"typeParams": [
-			{
-				"name": "T",
-				"type": "object"
-			}
-		],
+		"name": "DataTable.Ref",
 		"methods": [
 			{
 				"name": "table",
 				"summary": "组件中的表格元素\n\n",
-				"type": "table(): Table.RootRef",
+				"type": "table(): Table.Ref",
 				"return": {
-					"type": "Ref_69"
-				}
-			},
-			{
-				"name": "current",
-				"summary": "当前页的内容\n\n",
-				"type": "current(): Array<T> | undefined",
-				"return": {
-					"type": "T[] | undefined"
+					"type": "TableRef"
 				}
 			},
 			{
@@ -200,7 +330,7 @@
 				"name": "renderLabel",
 				"summary": "列标题\n\n",
 				"remarks": "如果该值为空，则采用以下几种路径获取值：\n- label\n- id\n\n\nrenderLabel 和 label 的区别在于，label 用于导出，只能是字符串，\n而 renderLabel 可以是组件类型。\n\n",
-				"type": "JSX.Element"
+				"type": "JSX.Element | (() => JSX.Element)"
 			},
 			{
 				"name": "colClass",
@@ -222,7 +352,7 @@
 				"name": "renderContent",
 				"summary": "单元格内容的渲染\n\n",
 				"remarks": "如果该值为空，则采用以下几种路径获取值：\n- content\n- T[id]\n\n\nrenderContent 和 content 的区别在于，content 用于导出，只能是字符串，\n而 renderContent 可以是组件类型。\n\n",
-				"type": "CellRenderFunc_2<T> | undefined"
+				"type": "CellRenderFunc<T> | undefined"
 			},
 			{
 				"name": "id",

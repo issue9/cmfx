@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { PaginationBar, type PaginationBarRef } from './root';
 
 describe('PaginationBar', async () => {
-	let ref: Ref;
+	let ref: PaginationBarRef;
 	const ct = await ComponentTester.build('PaginationBar', props => (
-		<Root total={20} page={1} ref={el => (ref = el)} {...props} />
+		<PaginationBar total={20} page={1} ref={el => (ref = el)} {...props} />
 	));
 
 	test('props', () => ct.testProps());

@@ -7,9 +7,9 @@ import type { JSX } from 'solid-js';
 import { Panel, type PanelProps, type PanelRef } from './panel';
 import { Popover, type PopoverProps, type PopoverRef } from './popover';
 
-export type Ref<P extends boolean = false> = P extends true ? PopoverRef : PanelRef;
+export type WeekPickerRef<P extends boolean = false> = P extends true ? PopoverRef : PanelRef;
 
-export type Props = PopoverProps | PanelProps;
+export type WeekPickerProps = PopoverProps | PanelProps;
 
 /**
  * 颜色拾取面板
@@ -17,7 +17,7 @@ export type Props = PopoverProps | PanelProps;
  * @remarks
  * 根据参数 props.popover 决定显示方式，为 true 时显示弹出面板，为 false 时显示面板。
  */
-export function Root(props: Props): JSX.Element {
+export function WeekPicker(props: WeekPickerProps): JSX.Element {
 	if (props.popover) {
 		return <Popover {...props} />;
 	}

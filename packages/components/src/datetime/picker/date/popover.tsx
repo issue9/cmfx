@@ -141,7 +141,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 
 				<div class={styles.actions}>
 					<div class={styles.left}>
-						<Button.Root
+						<Button
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
@@ -154,11 +154,11 @@ export function Popover(props: PopoverProps): JSX.Element {
 							}}
 						>
 							{l.t(props.time ? '_c.date.now' : '_c.date.today')}
-						</Button.Root>
+						</Button>
 					</div>
 
 					<div class={styles.right}>
-						<Button.Root
+						<Button
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
@@ -167,9 +167,9 @@ export function Popover(props: PopoverProps): JSX.Element {
 							}}
 						>
 							{l.t('_c.date.clear')}
-						</Button.Root>
+						</Button>
 
-						<Button.Root
+						<Button
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
@@ -178,7 +178,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 							}}
 						>
 							{l.t('_c.reset')}
-						</Button.Root>
+						</Button>
 					</div>
 				</div>
 			</fieldset>

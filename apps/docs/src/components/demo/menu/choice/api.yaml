@@ -6,6 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Choice.RootProps
-            - Choice.RootRef
+            - Choice.Props
+            - Choice.Ref
             - Choice.Option

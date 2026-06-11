@@ -11,7 +11,10 @@ import type { Form } from '@components/form';
 import type { Table } from '@components/table/table';
 import type { PreProcessColumn } from './column';
 
-export type FormBuilder<Q extends Query> = (api: Form.API<Q>, Field: Component<Form.FieldProps<Q>>) => JSX.Element;
+export type FormBuilder<Q extends Query> = (
+	api: InstanceType<typeof Form.API<Q>>,
+	Field: Component<Form.FieldProps<Q>>,
+) => JSX.Element;
 
 export type Context<T extends object, Q extends Query = Query> = {
 	root(): HTMLDivElement;
@@ -20,7 +23,7 @@ export type Context<T extends object, Q extends Query = Query> = {
 	refresh: () => Promise<void>;
 	hoverable: Signal<boolean>;
 	sticky: Signal<boolean>;
-	striped: Signal<Table.RootProps['striped']>;
+	striped: Signal<Table.Props['striped']>;
 	form: ReturnType<typeof Form.create<Q>>;
 	total: number;
 	columns: Array<PreProcessColumn<T>>;

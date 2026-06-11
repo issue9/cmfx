@@ -57,7 +57,7 @@ export function numeric<T extends number = number>(
 	const num = (): JSX.Element => {
 		const l = useLocale();
 		return (
-			<InputNumber.Root
+			<InputNumber
 				class="w-20"
 				label={l.t(label)}
 				min={min}
@@ -81,7 +81,7 @@ export function boolSelector(label: string, preset: boolean = false): [Component
 	const [get, set] = createSignal(preset);
 	const chk = () => {
 		const l = useLocale();
-		return <Checkbox.Root checked={get()} onChange={v => set(!!v)} label={l.t(label)} />;
+		return <Checkbox checked={get()} onChange={v => set(!!v)} label={l.t(label)} />;
 	};
 	return [chk, get, set];
 }
@@ -150,7 +150,7 @@ export function arraySelector<T extends string | number>(
 	const elem = () => {
 		const l = useLocale();
 		return (
-			<Choice.Root
+			<Choice
 				closable
 				placeholder={l.t(label)}
 				value={signal[0]()}
@@ -206,7 +206,7 @@ export function arrayMultipleSelector<T extends string | number>(
 	const elem = () => {
 		const l = useLocale();
 		return (
-			<Choice.Root
+			<Choice
 				closable
 				multiple
 				placeholder={l.t(label)}

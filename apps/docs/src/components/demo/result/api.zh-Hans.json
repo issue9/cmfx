@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Result.RootProps",
+		"name": "Result.Props",
 		"properties": [
 			{
 				"name": "illustration",
@@ -81,12 +81,12 @@
 				}
 			}
 		],
-		"name": "Result.RootRef",
+		"name": "Result.Ref",
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
-		"name": "Empty.RootProps",
+		"name": "Empty.Props",
 		"properties": [
 			{
 				"name": "icon",
@@ -140,7 +140,7 @@
 				}
 			}
 		],
-		"name": "Empty.RootRef",
+		"name": "Empty.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

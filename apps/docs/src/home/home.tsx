@@ -30,12 +30,12 @@ export default function Home() {
 				})}
 			/>
 			<nav>
-				<Button.Root type="a" class={styles.btn} kind="fill" href="/docs" palette="primary">
+				<Button type="a" class={styles.btn} kind="fill" href="/docs" palette="primary">
 					<IconStart class="me-1" />
 					{l.t('_d.home.start')}
-				</Button.Root>
+				</Button>
 
-				<SplitButton.Root
+				<SplitButton
 					kind="fill"
 					items={[
 						{
@@ -50,13 +50,13 @@ export default function Home() {
 						},
 					]}
 				>
-					<Button.Root class={styles.btn} type="a" href={pkg.repository.url}>
+					<Button class={styles.btn} type="a" href={pkg.repository.url}>
 						<IconGithub class="me-1" />
 						Github
-					</Button.Root>
-				</SplitButton.Root>
+					</Button>
+				</SplitButton>
 
-				<SplitButton.Root
+				<SplitButton
 					kind="fill"
 					items={[
 						{
@@ -66,10 +66,10 @@ export default function Home() {
 						},
 					]}
 				>
-					<Button.Root class={styles.btn} type="a" href="https://deepwiki.com/issue9/cmfx">
+					<Button class={styles.btn} type="a" href="https://deepwiki.com/issue9/cmfx">
 						<IconAI class="me-1" /> DeepWiki
-					</Button.Root>
-				</SplitButton.Root>
+					</Button>
+				</SplitButton>
 			</nav>
 		</div>
 	);

@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Empty.Root palette={palette()} />
+			<Empty palette={palette()} />
 		</>
 	);
 }

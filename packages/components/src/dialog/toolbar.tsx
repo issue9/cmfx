@@ -18,15 +18,15 @@ import styles from './style.module.css';
 /**
  * 对话框的状态
  */
-export type State = 'minimize' | 'maximize' | 'preset';
+export type DialogState = 'minimize' | 'maximize' | 'preset';
 
-export interface ToolbarProps extends BaseProps, ParentProps {
+export interface DialogToolbarProps extends BaseProps, ParentProps {
 	/**
 	 * 初始的对话框状态
 	 *
 	 * @defaultValue 'preset'
 	 */
-	initState?: State;
+	initState?: DialogState;
 
 	/**
 	 * 整个窗口为可移动
@@ -57,7 +57,7 @@ export interface ToolbarProps extends BaseProps, ParentProps {
 	close?: boolean;
 }
 
-export function Toolbar(props: ToolbarProps): JSX.Element {
+export function Toolbar(props: DialogToolbarProps): JSX.Element {
 	let toolbarRef: HTMLElement;
 	const ctx = useDialog();
 	const l = useLocale();
@@ -81,14 +81,14 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 	});
 
 	// 保存在最大化之前的状态，用来恢复时能正确还原状态。
-	let prevState: State = state();
+	let prevState: DialogState = state();
 
 	return (
 		<header ref={el => (toolbarRef = el)}>
 			{props.children}
 			<div class={styles.control}>
 				<Show when={props.min && state() !== 'maximize'}>
-					<Button.Root
+					<Button
 						square
 						onclick={() => {
 							const dlg = ctx.dialog.root();
@@ -97,7 +97,7 @@ export function Toolbar(props: ToolbarProps): JSX.Element {
 						}}
 					>
 						<IconMinimize />
-					</Button.Root>
+					</Button>
 				</Show>
 
 				<Show when={props.max}>

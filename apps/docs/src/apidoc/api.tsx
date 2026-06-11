@@ -31,9 +31,9 @@ export function APIDoc(props: { api: Type }): JSX.Element {
 				<h4>{props.api.name}</h4>
 				<span class={styles.pkg}>{props.api.pkg}</span>
 			</div>
-			<Show when={props.api.summary}>{summary => <Markdown.Root tag="p" text={summary()} />}</Show>
+			<Show when={props.api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
 			<Show when={props.api.remarks}>
-				{remarks => <Markdown.Root tag="p" class={styles.remarks} text={remarks()} />}
+				{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}
 			</Show>
 
 			<Switch>
@@ -181,7 +181,7 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 	return (
 		<Show when={props.typeParams && props.typeParams.length > 0}>
 			<h5>{l.t('_d.stages.typeParam')}</h5>
-			<Table.Root hoverable>
+			<Table hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_d.stages.type')}</th>
@@ -198,13 +198,13 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 								<td>{tscode(p.type)}</td>
 								<td>{tscode(p.init)}</td>
 								<td>
-									<Markdown.Root tag="p" text={p.summary} />
+									<Markdown tag="p" text={p.summary} />
 								</td>
 							</tr>
 						)}
 					</For>
 				</tbody>
-			</Table.Root>
+			</Table>
 		</Show>
 	);
 }
@@ -239,7 +239,7 @@ function Properties(props: PropertiesProps): JSX.Element {
 	return (
 		<Show when={props.props && props.props.length > 0}>
 			<h5>{l.t('_d.stages.properties')}</h5>
-			<Table.Root hoverable>
+			<Table hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_d.stages.property')}</th>
@@ -256,28 +256,28 @@ function Properties(props: PropertiesProps): JSX.Element {
 									{field.name}
 									<Chips {...field} />
 									<Show when={props.discriminant === field.name}>
-										<Dropdown.Root
+										<Dropdown
 											align="start"
 											onChange={props.onchange}
 											items={props.discriminants!.map(v => ({ label: v, value: v, type: 'item' }))}
 										>
 											<IconDown class={styles.dropdown} />
-										</Dropdown.Root>
+										</Dropdown>
 									</Show>
 								</th>
 								<td>{tscode(field.type)}</td>
 								<td>{tscode(field.def)}</td>
 								<td>
-									<Show when={field.summary}>{summary => <Markdown.Root tag="p" text={summary()} />}</Show>
+									<Show when={field.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
 									<Show when={field.remarks}>
-										{remarks => <Markdown.Root class={styles.remarks} tag="p" text={remarks()} />}
+										{remarks => <Markdown class={styles.remarks} tag="p" text={remarks()} />}
 									</Show>
 								</td>
 							</tr>
 						)}
 					</For>
 				</tbody>
-			</Table.Root>
+			</Table>
 		</Show>
 	);
 }
@@ -293,16 +293,16 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 			{tscode(props.func.type)}
 
 			<Show when={props.isMethod}>
-				<Show when={props.func.summary}>{summary => <Markdown.Root tag="p" text={summary()} />}</Show>
+				<Show when={props.func.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
 				<Show when={props.func.remarks}>
-					{remarks => <Markdown.Root tag="p" class={styles.remarks} text={remarks()} />}
+					{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}
 				</Show>
 			</Show>
 
 			<TypeParams typeParams={props.func.typeParams} />
 
 			<h5>{l.t('_d.stages.parameter')}</h5>
-			<Table.Root hoverable>
+			<Table hoverable>
 				<thead>
 					<tr>
 						<th>{l.t('_d.stages.parameter')}</th>
@@ -317,7 +317,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 								<td>{param.name}</td>
 								<td>{tscode(param.type)}</td>
 								<td>
-									<Markdown.Root tag="p" text={param.summary} />
+									<Markdown tag="p" text={param.summary} />
 								</td>
 							</tr>
 						)}
@@ -326,11 +326,11 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 						<td>{l.t('_d.stages.returnValue')}</td>
 						<td>{tscode(props.func.return.type)}</td>
 						<td>
-							<Markdown.Root tag="p" text={props.func.return.summary} />
+							<Markdown tag="p" text={props.func.return.summary} />
 						</td>
 					</tr>
 				</tbody>
-			</Table.Root>
+			</Table>
 		</div>
 	);
 }
@@ -357,5 +357,5 @@ function Chips(props: { reactive?: boolean; readonly?: boolean; getter?: boolean
 }
 
 function tscode(code?: string, tag: keyof HTMLElementTagNameMap = 'p'): JSX.Element {
-	return code ? <Markdown.Root tag={tag} text={`\`\`\`ts\n${code.trim()}\n\`\`\``} /> : '';
+	return code ? <Markdown tag={tag} text={`\`\`\`ts\n${code.trim()}\n\`\`\``} /> : '';
 }

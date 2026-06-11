@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 				<Rounded />
 			</Portal>
 
-			<Color.Root
+			<Color
 				popover="click"
 				readonly={readonly()}
 				disabled={disabled()}

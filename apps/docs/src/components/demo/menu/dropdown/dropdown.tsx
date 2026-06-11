@@ -89,7 +89,7 @@ export default function (props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<Dropdown.Root
+			<Dropdown
 				selectedClass={selectedCls()}
 				palette={palette()}
 				items={items}
@@ -100,7 +100,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			>
 				<div class="h-full w-full bg-primary-bg text-primary-fg">hover</div>
-			</Dropdown.Root>
+			</Dropdown>
 		</div>
 	);
 }

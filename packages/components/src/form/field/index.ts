@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { FieldContext } from './context';
+export type { FormFieldContext } from './context';
 export { FieldProvider, useField } from './context';
-export type { DataProps } from './data';
-export type { FieldProps } from './field';
+export type { FormDataProps } from './data';
+export type { FormFieldProps } from './field';
 export { Field } from './field';

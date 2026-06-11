@@ -16,11 +16,11 @@ import { convertSchemeVar2Color } from './utils';
 /**
  * 生成路由项
  */
-export function buildRoute(path: string, setDrawer: Setter<Drawer.RootRef | undefined>): RouteDefinition {
+export function buildRoute(path: string, setDrawer: Setter<Drawer.Ref | undefined>): RouteDefinition {
 	return {
 		path: path,
 		component: () => {
-			let drawerRef: Drawer.RootRef;
+			let drawerRef: Drawer.Ref;
 			onMount(() => {
 				setDrawer(drawerRef);
 			});
@@ -37,7 +37,7 @@ export function buildRoute(path: string, setDrawer: Setter<Drawer.RootRef | unde
 			});
 
 			return (
-				<Drawer.Root
+				<Drawer
 					class={styles.builder}
 					floating={floatingWidth}
 					ref={el => {
@@ -49,7 +49,7 @@ export function buildRoute(path: string, setDrawer: Setter<Drawer.RootRef | unde
 					main={<Demo s={scheme} />}
 				>
 					{params(scheme)}
-				</Drawer.Root>
+				</Drawer>
 			);
 		},
 	};

@@ -6,11 +6,11 @@ import type { JSX, ParentProps } from 'solid-js';
 
 import type { BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface TabRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 切换到指定的标签
 	 */
-	switch(id: Item['id']): void;
+	switch(id: TabItem['id']): void;
 
 	/**
 	 * 滚动标签列表
@@ -20,7 +20,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	scroll(delta: number): void;
 }
 
-export interface Item {
+export interface TabItem {
 	/**
 	 * 该 Tab 的唯一 ID
 	 */
@@ -37,13 +37,13 @@ export interface Item {
 	disabled?: boolean;
 }
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface TabProps extends BaseProps, ParentProps, RefProps<TabRef> {
 	/**
 	 * 所有的 tab 项
 	 *
 	 * @reactive
 	 */
-	items: Array<Item>;
+	items: Array<TabItem>;
 
 	/**
 	 * 布局
@@ -57,7 +57,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	 *
 	 * @reactive
 	 */
-	value?: Item['id'];
+	value?: TabItem['id'];
 
 	/**
 	 * 标签列表的样式
@@ -76,5 +76,5 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	/**
 	 * 标签切换时的回调函数
 	 */
-	onChange?: ChangeFunc<Item['id']>;
+	onChange?: ChangeFunc<TabItem['id']>;
 }

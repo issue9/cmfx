@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "IconSet.RootProps",
+		"name": "IconSet.Props",
 		"properties": [
 			{
 				"name": "icons",
@@ -11,7 +11,7 @@
 			},
 			{
 				"name": "value",
-				"summary": "显示的图标，如果未指定，则采用\n`Props\nicons`\n中的最后一个。\n\n",
+				"summary": "显示的图标，如果未指定，则采用\n`IconSetProps\nicons`\n中的最后一个。\n\n",
 				"type": "string | undefined",
 				"reactive": true
 			},
@@ -57,7 +57,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "IconSet.RootRef",
+		"name": "IconSet.Ref",
 		"methods": [
 			{
 				"name": "to",

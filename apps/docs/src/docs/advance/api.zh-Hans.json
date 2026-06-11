@@ -64,7 +64,7 @@
 		"kind": "function",
 		"name": "createChartLocaleLoader",
 		"summary": "创建用于加载 echarts 语言包的加载器\n\n",
-		"type": "function createChartLocaleLoader(obj: Parameters<typeof echarts_2.registerLocale>[1]): DictLoader",
+		"type": "function createChartLocaleLoader(obj: Parameters<typeof echarts.registerLocale>[1]): DictLoader",
 		"params": [
 			{
 				"name": "obj",

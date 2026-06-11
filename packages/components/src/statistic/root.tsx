@@ -8,9 +8,9 @@ import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@compone
 import { Counter } from '@components/counter';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type StatisticRef = BaseRef<HTMLDivElement>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface StatisticProps extends BaseProps, RefProps<StatisticRef> {
 	/**
 	 * 显示的标题
 	 *
@@ -28,7 +28,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * {@link value} 的显示方式
 	 */
-	formatter?: Counter.RootProps['formatter'];
+	formatter?: Counter.Props['formatter'];
 
 	/**
 	 * 图标
@@ -41,7 +41,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 /**
  * 提供显示一组统计数据
  */
-export function Root(props: Props): JSX.Element {
+export function Statistic(props: StatisticProps): JSX.Element {
 	return (
 		<div
 			class={joinClass(props.palette, styles.statistic, props.class)}
@@ -59,7 +59,7 @@ export function Root(props: Props): JSX.Element {
 						return c();
 					}}
 				</Show>
-				<Counter.Root value={props.value} formatter={props.formatter} />
+				<Counter value={props.value} formatter={props.formatter} />
 			</div>
 		</div>
 	);

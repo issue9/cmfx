@@ -6,14 +6,14 @@ import { describe, expect, test } from 'vitest';
 
 import { Button } from '@components/button/button';
 import { ComponentTester } from '@components/context/options/context.spec.tsx';
-import { type Ref, Root } from './root';
+import { SplitButton, type SplitButtonRef } from './root';
 
 describe('SplitButton', async () => {
-	let ref: Ref;
+	let ref: SplitButtonRef;
 	const ct = await ComponentTester.build('SplitButton', props => (
-		<Root ref={el => (ref = el)} {...props} items={[]}>
-			<Button.Root>btn1</Button.Root>
-		</Root>
+		<SplitButton ref={el => (ref = el)} {...props} items={[]}>
+			<Button>btn1</Button>
+		</SplitButton>
 	));
 
 	test('props', () => {

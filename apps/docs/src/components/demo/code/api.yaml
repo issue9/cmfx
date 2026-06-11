@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Code.RootProps
-            - Code.RootRef
+            - Code.Props
+            - Code.Ref
 
             - Code.Highlighter
             - Code.buildHighlighter

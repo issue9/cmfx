@@ -5,6 +5,6 @@
 import type { AvailableEnumType } from '@components/base';
 import type { CheckboxGroup } from '@components/checkbox';
 
-export type Option<K extends AvailableEnumType = string> = CheckboxGroup.Option<K>;
+export type RadioGroupOption<T extends AvailableEnumType = string> = CheckboxGroup.Option<T>;
 
-export type Options<T extends AvailableEnumType = string> = CheckboxGroup.Options<T>;
+export type RadioGroupOptions<T extends AvailableEnumType = string> = CheckboxGroup.Options<T>;

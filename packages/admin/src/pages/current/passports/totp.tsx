@@ -74,17 +74,17 @@ export class TOTP implements PassportComponents {
 		});
 
 		return (
-			<Form.Root class={styles.totp} api={api}>
+			<Form class={styles.totp} api={api}>
 				<Form.Message api={api} />
 
-				<InputText.Root
+				<InputText
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
 					accessor={api.accessor<string>('username')}
 				/>
-				<InputText.Root
+				<InputText
 					hasHelp
 					prefix={<IconPin class={styles['text-field']} />}
 					autocomplete="one-time-code"
@@ -96,7 +96,7 @@ export class TOTP implements PassportComponents {
 					{l.t('_c.ok')}
 				</Form.Submit>
 				<Form.Reset palette="secondary"> {l.t('_c.reset')} </Form.Reset>
-			</Form.Root>
+			</Form>
 		);
 	}
 
@@ -106,7 +106,7 @@ export class TOTP implements PassportComponents {
 		const opt = useOptions();
 		const usr = useAdmin();
 
-		let dialogRef: Dialog.RootRef;
+		let dialogRef: Dialog.Ref;
 		const [qr, setQR] = createSignal<string>('');
 
 		const requestSchema = z.object({
@@ -128,7 +128,7 @@ export class TOTP implements PassportComponents {
 		return (
 			<>
 				<Show when={username}>
-					<ConfirmButton.Root
+					<ConfirmButton
 						palette="error"
 						square
 						rounded
@@ -143,11 +143,11 @@ export class TOTP implements PassportComponents {
 						}}
 					>
 						<IconLinkOff />
-					</ConfirmButton.Root>
+					</ConfirmButton>
 				</Show>
 
 				<Show when={!username}>
-					<Button.Root
+					<Button
 						square
 						rounded
 						title={l.t('_p.current.bindTOTP')}
@@ -165,18 +165,18 @@ export class TOTP implements PassportComponents {
 						}}
 					>
 						<IconAddLink />
-					</Button.Root>
+					</Button>
 
-					<Dialog.Root ref={el => (dialogRef = el)} header={l.t('_p.current.bindTOTP')}>
-						<Form.Root class={styles['action-form']} inDialog api={api}>
+					<Dialog ref={el => (dialogRef = el)} header={l.t('_p.current.bindTOTP')}>
+						<Form class={styles['action-form']} inDialog api={api}>
 							<p title={qr()}>
-								<QRCode.Root type="rounded" value={qr()} />
+								<QRCode type="rounded" value={qr()} />
 							</p>
 							<br />
-							<InputText.Root hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={api.accessor('code')} />
+							<InputText hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={api.accessor('code')} />
 							<Form.Submit class="ms-auto">{l.t('_c.ok')}</Form.Submit>
-						</Form.Root>
-					</Dialog.Root>
+						</Form>
+					</Dialog>
 				</Show>
 			</>
 		);

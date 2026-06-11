@@ -21,7 +21,7 @@ export function localeStates(l: Locale) {
 	]);
 }
 
-type P = Choice.RootProps<State>;
+type P = Choice.Props<State>;
 
 interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
 
@@ -35,5 +35,5 @@ export type StateSelectorProps = SProps | MProps;
 export function StateSelector(props: StateSelectorProps): JSX.Element {
 	const l = useLocale();
 	const states = createMemo(() => localeStates(l));
-	return <Choice.Root options={states()} {...props} />;
+	return <Choice options={states()} {...props} />;
 }

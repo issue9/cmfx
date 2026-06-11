@@ -15,15 +15,15 @@ import { Empty } from '@components/result';
 import { Spin } from '@components/spin';
 import { Table } from '@components/table/table';
 import { PageBar, QueryBar, Toolbar } from './bars';
-import { type CellRenderFunc, type Column, preProcessColumns } from './column';
+import { type CellRenderFunc, type DataTableColumn, preProcessColumns } from './column';
 import { type FormBuilder, Provider } from './context';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface DataTableRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中的表格元素
 	 */
-	table(): Table.RootRef;
+	table(): Table.Ref;
 
 	/**
 	 * 刷新当前页的内容
@@ -36,35 +36,35 @@ export interface Ref extends BaseRef<HTMLDivElement> {
  *
  * 该类型符合 {@link useSearchParams} 的类型参数。
  */
-export type SearchParams<T extends Query> = Partial<Record<keyof T, string>>;
+export type DataTableSearchParams<T extends Query> = Partial<Record<keyof T, string>>;
 
 /**
- * {@link SearchParams} 与 {@link Query} 之间相互转换的接口
+ * {@link DataTableSearchParams} 与 {@link Query} 之间相互转换的接口
  */
-export interface SearchConverter<Q extends Query> {
+export interface DataTableSearchConverter<Q extends Query> {
 	/**
 	 * 将地址栏中的参数转换为类型 Q
 	 */
-	toQuery(params: SearchParams<Q>): Q;
+	toQuery(params: DataTableSearchParams<Q>): Q;
 
 	/**
 	 * 将类型 Q 转换为符合地址栏中的参数类型
 	 */
-	fromQuery(query: Q): SearchParams<Q>;
+	fromQuery(query: Q): DataTableSearchParams<Q>;
 }
 
-interface InternalProps<T extends object, Q extends Query> extends BaseProps, RefProps<Ref> {
+interface InternalProps<T extends object, Q extends Query> extends BaseProps, RefProps<DataTableRef> {
 	/**
 	 * 列的定义
 	 */
-	readonly columns: Array<Column<T>>;
+	readonly columns: Array<DataTableColumn<T>>;
 
 	readonly queryForm?: FormBuilder<Q>;
 
 	/**
 	 * 是否将查询参数与地址栏中的参数作映射
 	 */
-	readonly inSearch?: SearchConverter<Q>;
+	readonly inSearch?: DataTableSearchConverter<Q>;
 
 	/**
 	 * 下载的文件名
@@ -137,12 +137,12 @@ interface NoPagingProps<T extends object, Q extends Query> extends InternalProps
 	readonly paging?: false;
 }
 
-export type Props<T extends object, Q extends Query> = PagingProps<T, Q> | NoPagingProps<T, Q>;
+export type DataTableProps<T extends object, Q extends Query> = PagingProps<T, Q> | NoPagingProps<T, Q>;
 
 /**
  * 基础的表格组件
  */
-export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
+export function Root<T extends object, Q extends Query>(props: DataTableProps<T, Q>) {
 	const [, opt] = useOptions();
 
 	props = mergeProps(
@@ -154,7 +154,7 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 		props,
 	);
 
-	let tableRef: Table.RootRef;
+	let tableRef: Table.Ref;
 	let rootRef: HTMLDivElement;
 
 	const l = useLocale();
@@ -164,10 +164,10 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 	const [total, setTotal] = createSignal<number>(props.paging ? props.pageSize! : 1);
 
 	const hoverable = createSignal(false);
-	const striped = createSignal<Table.RootProps['striped']>(0);
+	const striped = createSignal<Table.Props['striped']>(0);
 	const sticky = createSignal<boolean>(false);
 
-	const [searchG, searchS] = useSearchParams<SearchParams<Q>>();
+	const [searchG, searchS] = useSearchParams<DataTableSearchParams<Q>>();
 	const form = Form.create<Q>({
 		initValue: props.inSearch
 			? props.inSearch.toQuery(searchG)
@@ -199,7 +199,7 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 	});
 
 	return (
-		<Spin.Root
+		<Spin
 			tag="div"
 			spinning={items.loading}
 			palette={props.palette}
@@ -243,7 +243,7 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 							<QueryBar />
 						</Show>
 						<Show when={props.queryForm && (props.toolbar || props.systemToolbar)}>
-							<Divider.Root padding="8px" />
+							<Divider padding="8px" />
 						</Show>
 						<Show when={props.toolbar || props.systemToolbar}>
 							<Toolbar>{props.toolbar}</Toolbar>
@@ -251,7 +251,7 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 					</header>
 				</Show>
 
-				<Table.Root
+				<Table
 					fixedLayout={props.fixedLayout}
 					hoverable={hoverable[0]()}
 					striped={striped[0]()}
@@ -296,17 +296,17 @@ export function Root<T extends object, Q extends Query>(props: Props<T, Q>) {
 						<Show when={!items}>
 							<tr>
 								<td colSpan={props.columns.length}>
-									<Empty.Root palette={props.palette}>{l.t('_c.table.nodata')}</Empty.Root>
+									<Empty palette={props.palette}>{l.t('_c.table.nodata')}</Empty>
 								</td>
 							</tr>
 						</Show>
 					</tbody>
-				</Table.Root>
+				</Table>
 
 				<Show when={props.paging}>
 					<PageBar />
 				</Show>
 			</Provider>
-		</Spin.Root>
+		</Spin>
 	);
 }

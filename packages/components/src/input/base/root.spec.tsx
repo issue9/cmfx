@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { InputBase, type InputBaseRef } from './root';
 
 describe('InputBase', async () => {
-	let ref: Ref;
+	let ref: InputBaseRef;
 	const ct = await ComponentTester.build('InputBase', props => (
-		<Root {...props} onChange={() => {}} ref={el => (ref = el)} />
+		<InputBase {...props} onChange={() => {}} ref={el => (ref = el)} />
 	));
 
 	test('ref', () => {

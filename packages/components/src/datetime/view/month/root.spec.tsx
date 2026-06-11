@@ -6,9 +6,9 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { inRange, isCovered, Root } from './root';
+import { inRange, isCovered, MonthView } from './root';
 import styles from './style.module.css';
-import type { Ref } from './types';
+import type { MonthViewRef } from './types';
 
 describe('inRange', () => {
 	const val = new Date(2023, 1, 1);
@@ -53,10 +53,10 @@ describe('inRange', () => {
 describe('MonthView', async () => {
 	const user = userEvent.setup();
 	let curr: Date | undefined;
-	let ref: Ref;
+	let ref: MonthViewRef;
 
 	const ct = await ComponentTester.build('MonthView', props => (
-		<Root
+		<MonthView
 			{...props}
 			ref={el => (ref = el)}
 			onClick={d => {

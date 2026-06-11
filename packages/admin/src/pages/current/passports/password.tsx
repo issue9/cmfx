@@ -66,17 +66,17 @@ export class Pwd implements PassportComponents {
 		});
 
 		return (
-			<Form.Root class={styles.password} api={api}>
+			<Form class={styles.password} api={api}>
 				<Form.Message api={api} closable />
 
-				<InputText.Root
+				<InputText
 					hasHelp
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					placeholder={l.t('_p.current.username')}
 					accessor={api.accessor<string>('username')}
 				/>
-				<InputPassword.Root
+				<InputPassword
 					hasHelp
 					prefix={<IconPassword class={styles['text-field']} />}
 					autocomplete="current-password"
@@ -88,12 +88,12 @@ export class Pwd implements PassportComponents {
 					{l.t('_c.ok')}
 				</Form.Submit>
 				<Form.Reset palette="secondary"> {l.t('_c.reset')} </Form.Reset>
-			</Form.Root>
+			</Form>
 		);
 	}
 
 	Actions(_: RefreshFunc): JSX.Element {
-		let dialogRef: Dialog.RootRef;
+		let dialogRef: Dialog.Ref;
 		const l = useLocale();
 		const rest = useREST();
 		const usr = useAdmin();
@@ -123,7 +123,7 @@ export class Pwd implements PassportComponents {
 
 		return (
 			<>
-				<Button.Root
+				<Button
 					square
 					rounded
 					title={l.t('_p.current.changePassword')}
@@ -132,9 +132,9 @@ export class Pwd implements PassportComponents {
 					}}
 				>
 					<IconPasskey />
-				</Button.Root>
+				</Button>
 
-				<Dialog.Root
+				<Dialog
 					ref={el => (dialogRef = el)}
 					header={
 						<Dialog.Toolbar movable close>
@@ -142,12 +142,12 @@ export class Pwd implements PassportComponents {
 						</Dialog.Toolbar>
 					}
 				>
-					<Form.Root class={styles['action-form']} inDialog api={api}>
-						<InputText.Root placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
-						<InputText.Root placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
+					<Form class={styles['action-form']} inDialog api={api}>
+						<InputText placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
+						<InputText placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
 						<Form.Submit class="ms-auto">{l.t('_c.ok')}</Form.Submit>
-					</Form.Root>
-				</Dialog.Root>
+					</Form>
+				</Dialog>
 			</>
 		);
 	}

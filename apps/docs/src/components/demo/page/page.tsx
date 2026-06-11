@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 				<Backtop />
 			</Portal>
 
-			<Page.Root
+			<Page
 				title="title"
 				palette={palette()}
 				backTop={
@@ -42,7 +42,7 @@ export default function (props: MountProps): JSX.Element {
 						</>
 					)}
 				</For>
-			</Page.Root>
+			</Page>
 		</div>
 	);
 }

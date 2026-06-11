@@ -19,7 +19,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Markdown.Root palette={palette()} text={text} />
+			<Markdown palette={palette()} text={text} />
 		</>
 	);
 }

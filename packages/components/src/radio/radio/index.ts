@@ -2,4 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Radio from './mod';
+import type { AvailableEnumType } from '@components/base';
+import { Radio as C } from './root';
+
+export const Radio = C;
+
+export namespace Radio {
+	export type Props<T extends AvailableEnumType = string> = import('./root').RadioProps<T>;
+	export type Ref = import('./root').RadioRef;
+}

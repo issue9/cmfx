@@ -20,7 +20,7 @@ export default function (props: MountProps): JSX.Element {
 				<Num />
 			</Portal>
 
-			<Pagination.Root
+			<Pagination
 				palette={palette()}
 				count={10}
 				value={5}

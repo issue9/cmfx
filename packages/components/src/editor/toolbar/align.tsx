@@ -53,7 +53,7 @@ export function Align(props: Props): JSX.Element {
 	onCleanup(() => props.editor.off('transaction', transaction));
 
 	return (
-		<Dropdown.Root
+		<Dropdown
 			value={val()}
 			align="start"
 			onChange={v => {
@@ -71,10 +71,10 @@ export function Align(props: Props): JSX.Element {
 				{ type: 'item', value: 'justify', prefix: icons.get('justify')!(), label: l.t('_c.editor.alignJustify') },
 			]}
 		>
-			<Button.Root kind="flat" square checked={!!val()} class={styles.item}>
+			<Button kind="flat" square checked={!!val()} class={styles.item}>
 				{val() ? icons.get(val()!)!() : <IconAlign />}
 				<IconArrowDown class="-ms-1" />
-			</Button.Root>
-		</Dropdown.Root>
+			</Button>
+		</Dropdown>
 	);
 }

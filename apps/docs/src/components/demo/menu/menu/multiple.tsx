@@ -89,7 +89,7 @@ export default function (props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<Menu.Root layout="horizontal" selectedClass={selectedCls()} palette={palette()} multiple items={items} />
+			<Menu layout="horizontal" selectedClass={selectedCls()} palette={palette()} multiple items={items} />
 		</div>
 	);
 }

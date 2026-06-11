@@ -6,6 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Settings.RootProps
-            - Settings.RootRef
+            - Settings.Props
+            - Settings.Ref
             - Settings.ItemProps

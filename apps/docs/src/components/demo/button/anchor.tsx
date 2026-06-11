@@ -23,13 +23,13 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-wrap items-center gap-2">
-				<Button.Root type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="secondary">
+				<Button type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="secondary">
 					secondary
-				</Button.Root>
-				<Button.Root type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="surface">
+				</Button>
+				<Button type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="surface">
 					surface
-				</Button.Root>
-				<Button.Root
+				</Button>
+				<Button
 					type="a"
 					href="./"
 					disabled={disabled()}
@@ -39,12 +39,12 @@ export default function (props: MountProps): JSX.Element {
 					onclick={() => alert('click1')}
 				>
 					click+href
-				</Button.Root>
-				<Button.Root type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()}>
+				</Button>
+				<Button type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()}>
 					undefined
-				</Button.Root>
+				</Button>
 
-				<Button.Root
+				<Button
 					type="a"
 					href="./"
 					disabled={disabled()}
@@ -54,15 +54,15 @@ export default function (props: MountProps): JSX.Element {
 					square
 				>
 					<IconFace />
-				</Button.Root>
-				<Button.Root type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
+				</Button>
+				<Button type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
 					<IconFace class="me-1!" />
 					with icon
-				</Button.Root>
+				</Button>
 
-				<Button.Root rounded kind="fill" palette="tertiary">
+				<Button rounded kind="fill" palette="tertiary">
 					对比按钮
-				</Button.Root>
+				</Button>
 			</div>
 		</div>
 	);

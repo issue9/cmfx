@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Upload, type UploadRef } from './root';
 
 describe('Upload', async () => {
-	let ref: Ref;
+	let ref: UploadRef;
 	const ct = await ComponentTester.build('Upload', props => (
-		<Root fieldName="file" upload={async () => []} {...props} ref={el => (ref = el)} />
+		<Upload fieldName="file" upload={async () => []} {...props} ref={el => (ref = el)} />
 	));
 
 	test('props', () => ct.testProps());

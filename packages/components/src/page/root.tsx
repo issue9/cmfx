@@ -9,14 +9,14 @@ import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@compone
 import { useLocale, useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface PageRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 返回顶部按钮的接口
 	 */
-	backTop(): BackTop.RootRef | undefined;
+	backTop(): BackTop.Ref | undefined;
 }
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface PageProps extends BaseProps, ParentProps, RefProps<PageRef> {
 	/**
 	 * 配置 {@link BackTop} 组件
 	 *
@@ -25,7 +25,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	 * - false 不显示 BackTop 组件；
 	 * - {@link BackTop#RootProps} 自定义的 BackTop 组件属性；
 	 */
-	backTop?: false | Omit<BackTop.RootProps, 'ref'>;
+	backTop?: false | Omit<BackTop.Props, 'ref'>;
 
 	/**
 	 * 页面标题的翻译 ID
@@ -41,7 +41,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * @remarks
  * 默认是 flex-col 布局。如果有需要，可自行指定 class 进行修改。
  */
-export function Root(props: Props): JSX.Element {
+export function Root(props: PageProps): JSX.Element {
 	const [act] = useOptions();
 	const l = useLocale();
 
@@ -68,7 +68,7 @@ export function Root(props: Props): JSX.Element {
 			{props.children}
 			<Switch>
 				<Match when={props.backTop === undefined}>
-					<BackTop.Root
+					<BackTop
 						ref={el => {
 							if (props.ref) {
 								props.ref({
@@ -81,7 +81,7 @@ export function Root(props: Props): JSX.Element {
 				</Match>
 				<Match when={props.backTop !== false ? props.backTop : undefined}>
 					{p => (
-						<BackTop.Root
+						<BackTop
 							{...p}
 							ref={el => {
 								if (props.ref) {

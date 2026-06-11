@@ -57,78 +57,78 @@ export function Demo(props: { s: SchemeStore }): JSX.Element {
 		<div class={styles.main}>
 			<ThemeProvider mode={mode()} scheme={props.s[0]}>
 				<div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
-					<Appbar.Root
+					<Appbar
 						title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')}
 						class={styles.appbar}
 						actions={
 							<>
-								<ButtonGroup.Root>
-									<Button.Root
+								<ButtonGroup>
+									<Button
 										square
 										checked={typ() === 'components'}
 										title={l.t('_d.theme.components')}
 										onclick={() => setTyp('components')}
 									>
 										<IconComponents />
-									</Button.Root>
+									</Button>
 
-									<Button.Root
+									<Button
 										square
 										checked={typ() === 'palettes'}
 										title={l.t('_d.theme.palettes')}
 										onclick={() => setTyp('palettes')}
 									>
 										<IconPalettes />
-									</Button.Root>
-								</ButtonGroup.Root>
+									</Button>
+								</ButtonGroup>
 
-								<ButtonGroup.Root>
-									<Button.Root
+								<ButtonGroup>
+									<Button
 										square
 										title={l.t('_d.theme.light')}
 										checked={mode() === 'light'}
 										onclick={() => setMode('light')}
 									>
 										<IconLight />
-									</Button.Root>
-									<Button.Root
+									</Button>
+									<Button
 										square
 										title={l.t('_d.theme.dark')}
 										checked={mode() === 'dark'}
 										onclick={() => setMode('dark')}
 									>
 										<IconDark />
-									</Button.Root>
-								</ButtonGroup.Root>
+									</Button>
+								</ButtonGroup>
 
-								<ButtonGroup.Root>
-									<Button.Root
+								<ButtonGroup>
+									<Button
 										checked={contrast() === 'more'}
 										square
 										title={l.t('_d.theme.contrastMore')}
 										onclick={() => setContrast('more')}
 									>
 										<IconMore />
-									</Button.Root>
+									</Button>
 
-									<Button.Root
+									<Button
 										checked={contrast() === 'none'}
 										square
 										title={l.t('_d.theme.contrastNone')}
 										onclick={() => setContrast('none')}
 									>
 										<IconNone />
-									</Button.Root>
+									</Button>
 
-									<Button.Root
+									<Button
 										checked={contrast() === 'less'}
 										square
 										title={l.t('_d.theme.contrastLess')}
 										onclick={() => setContrast('less')}
 									>
 										<IconLess />
-									</Button.Root>
-								</ButtonGroup.Root>
+									</Button>
+								</ButtonGroup>
 							</>
 						}
 					/>
@@ -284,32 +284,32 @@ function Components(): JSX.Element {
 
 	return (
 		<div class={styles.components}>
-			<DataTable.Root class="w-full! transition-all" load={items} columns={columns} />
+			<DataTable class="w-full! transition-all" load={items} columns={columns} />
 
-			<DatePicker.Root class="transition-all" value={new Date()} />
+			<DatePicker class="transition-all" value={new Date()} />
 
-			<Card.Root
+			<Card
 				class="transition-all"
 				header="注册用户"
 				footerClass="flex justify-between"
 				footer={
 					<>
-						<Button.Root palette="primary">重置</Button.Root>
-						<Button.Root palette="primary">注册</Button.Root>
+						<Button palette="primary">重置</Button>
+						<Button palette="primary">注册</Button>
 					</>
 				}
 			>
 				<F layout="vertical">
 					<Field name="username" label="用户名">
-						<InputText.Root placeholder="请输入用户名" />
+						<InputText placeholder="请输入用户名" />
 					</Field>
 					<Field name="password" label="密码">
-						<InputPassword.Root placeholder="请输入密码" />
+						<InputPassword placeholder="请输入密码" />
 					</Field>
 				</F>
-			</Card.Root>
+			</Card>
 
-			<Menu.Root
+			<Menu
 				class="min-w-50 rounded-md border border-palette-fg-low transition-all"
 				layout="inline"
 				items={[

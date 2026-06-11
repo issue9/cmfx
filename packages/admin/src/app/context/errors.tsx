@@ -24,16 +24,16 @@ export function NotFound(): JSX.Element {
 	});
 
 	return (
-		<Result.Root palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
+		<Result palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
 			<div class={styles['error-actions']}>
-				<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
+				<Button palette="primary" type="a" href={opt.routes.private.home}>
 					{l.t('_p.error.backHome')}
-				</Button.Root>
-				<Button.Root palette="primary" onclick={() => nav(-1)}>
+				</Button>
+				<Button palette="primary" onclick={() => nav(-1)}>
 					{l.t('_p.error.backPrev')}
-				</Button.Root>
+				</Button>
 			</div>
-		</Result.Root>
+		</Result>
 	);
 }
 
@@ -55,19 +55,19 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// 未知错误
 	const unknown = (title: string, msg?: string) => {
 		return (
-			<Result.Root palette="error" title={title} description={msg} illustration={<amico.BUG />}>
+			<Result palette="error" title={title} description={msg} illustration={<amico.BUG />}>
 				<div class={styles['error-actions']}>
-					<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
+					<Button palette="primary" type="a" href={opt.routes.private.home}>
 						{l.t('_p.error.backHome')}
-					</Button.Root>
-					<Button.Root palette="primary" onclick={() => nav(-1)}>
+					</Button>
+					<Button palette="primary" onclick={() => nav(-1)}>
 						{l.t('_p.error.backPrev')}
-					</Button.Root>
-					<Button.Root palette="primary" onclick={reset}>
+					</Button>
+					<Button palette="primary" onclick={reset}>
 						{l.t('_c.reset')}
-					</Button.Root>
+					</Button>
 				</div>
-			</Result.Root>
+			</Result>
 		);
 	};
 
@@ -79,14 +79,14 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			case 400:
 				text = l.t('_p.error.badRequest');
 				return (
-					<Result.Root palette="error" title={text} illustration={<amico.Error400 text={text} />}>
+					<Result palette="error" title={text} illustration={<amico.Error400 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root palette="primary" onclick={() => nav(-1)}>
+							<Button palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
-							</Button.Root>
+							</Button>
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result.Root>
+					</Result>
 				);
 			case 401: {
 				const loc = useLocation();
@@ -96,92 +96,92 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 
 				text = l.t('_p.error.unauthorized');
 				return (
-					<Result.Root palette="error" title={text} illustration={<amico.Error401 text={text} />}>
+					<Result palette="error" title={text} illustration={<amico.Error401 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root palette="primary" onclick={() => nav(-1)}>
+							<Button palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
-							</Button.Root>
+							</Button>
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result.Root>
+					</Result>
 				);
 			}
 			case 403:
 				text = l.t('_p.error.forbidden');
 				return (
-					<Result.Root palette="error" title={text} illustration={<amico.Error403 text={text} />}>
+					<Result palette="error" title={text} illustration={<amico.Error403 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
+							<Button palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
-							</Button.Root>
-							<Button.Root palette="primary" onclick={() => nav(-1)}>
+							</Button>
+							<Button palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
-							</Button.Root>
+							</Button>
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result.Root>
+					</Result>
 				);
 			case 404:
 				return NotFound();
 			case 429:
 				text = l.t('_p.error.tooManyRequests');
 				return (
-					<Result.Root palette="error" title={text} illustration={<amico.Error429 text={text} />}>
+					<Result palette="error" title={text} illustration={<amico.Error429 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root palette="primary" onclick={() => nav(-1)}>
+							<Button palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
-							</Button.Root>
+							</Button>
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result.Root>
+					</Result>
 				);
 			case 500:
 				text = l.t('_p.error.internalServerError');
 				return (
-					<Result.Root palette="error" title={text} illustration={<amico.Error500 text={text} />}>
+					<Result palette="error" title={text} illustration={<amico.Error500 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
+							<Button palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
-							</Button.Root>
-							<Button.Root palette="primary" onclick={() => nav(-1)}>
+							</Button>
+							<Button palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
-							</Button.Root>
+							</Button>
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result.Root>
+					</Result>
 				);
 			case 503:
 				text = l.t('_p.error.serverUnavailable');
 				return (
-					<Result.Root palette="error" title={text} illustration={<amico.Error503 text={text} />}>
+					<Result palette="error" title={text} illustration={<amico.Error503 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
+							<Button palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
-							</Button.Root>
-							<Button.Root palette="primary" onclick={() => nav(-1)}>
+							</Button>
+							<Button palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
-							</Button.Root>
-							<Button.Root palette="primary" onclick={() => window.location.reload()}>
+							</Button>
+							<Button palette="primary" onclick={() => window.location.reload()}>
 								{l.t('_c.refresh')}
-							</Button.Root>
+							</Button>
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result.Root>
+					</Result>
 				);
 			case 504:
 				text = l.t('_p.error.gatewayTimeout');
 				return (
-					<Result.Root palette="error" title={text} illustration={<amico.Error504 text={text} />}>
+					<Result palette="error" title={text} illustration={<amico.Error504 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button.Root palette="primary" type="a" href={opt.routes.private.home}>
+							<Button palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
-							</Button.Root>
-							<Button.Root palette="primary" onclick={() => nav(-1)}>
+							</Button>
+							<Button palette="primary" onclick={() => nav(-1)}>
 								{l.t('_p.error.backPrev')}
-							</Button.Root>
+							</Button>
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
-					</Result.Root>
+					</Result>
 				);
 			default:
 				return unknown(l.t('_p.error.unknownError'));
@@ -207,9 +207,9 @@ function RefreshButton(props: { retry?: string | null }): JSX.Element {
 
 	if (!props.retry) {
 		return (
-			<Button.Root palette="primary" onclick={() => window.location.reload()}>
+			<Button palette="primary" onclick={() => window.location.reload()}>
 				{l.t('_c.refresh')}
-			</Button.Root>
+			</Button>
 		);
 	}
 
@@ -225,8 +225,8 @@ function RefreshButton(props: { retry?: string | null }): JSX.Element {
 	}, 1000);
 
 	return (
-		<Button.Root palette="primary" onclick={() => window.location.reload()} disabled={time() <= 0}>
+		<Button palette="primary" onclick={() => window.location.reload()} disabled={time() <= 0}>
 			{l.t('_c.refresh')} ({time()})
-		</Button.Root>
+		</Button>
 	);
 }

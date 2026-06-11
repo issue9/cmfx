@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - DateRangePicker.RootProps
-            - DateRangePicker.RootRef
+            - DateRangePicker.Props
+            - DateRangePicker.Ref

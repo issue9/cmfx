@@ -9,7 +9,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { type BaseRef, joinClass, type RefProps, style2String } from '@components/base';
 import type { Week } from '@components/datetime/utils';
-import type { WeekValueType } from '@components/datetime/view/month';
+import type { MonthView } from '@components/datetime/view/month';
 import { Form } from '@components/form';
 import { type Base, Panel } from './panel';
 import styles from './style.module.css';
@@ -40,7 +40,7 @@ export interface PopoverProps extends Base, RefProps<PopoverRef> {
 export function Popover(props: PopoverProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week }, form, props);
-	const field = Form.useField<WeekValueType>(props, true);
+	const field = Form.useField<MonthView.WeekValueType>(props, true);
 
 	const [panelProps, _] = splitProps(props, [
 		'weekBase',
@@ -62,7 +62,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 		panelRef.hidePopover();
 	});
 
-	const format = (val: WeekValueType) => {
+	const format = (val: MonthView.WeekValueType) => {
 		return val ? `${val[0]}-${val[1]}` : '';
 	};
 

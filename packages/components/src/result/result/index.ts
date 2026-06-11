@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Result from './mod';
+import { Result as C } from './root';
+
+export const Result = C;
+
+export namespace Result {
+	export type Props = import('./root').ResultProps;
+	export type Ref = import('./root').ResultRef;
+}

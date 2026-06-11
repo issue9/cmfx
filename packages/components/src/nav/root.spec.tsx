@@ -5,10 +5,10 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Nav, type NavRef } from './root';
 
 describe('Nav', async () => {
-	let ref: Ref;
+	let ref: NavRef;
 	let articleRef: HTMLElement;
 
 	const ct = await ComponentTester.build('Nav', props => (
@@ -17,7 +17,7 @@ describe('Nav', async () => {
 				<h1>head1</h1>
 				<h2>head2</h2>
 			</article>
-			<Root {...props} target={articleRef} ref={el => (ref = el)} />
+			<Nav {...props} target={articleRef} ref={el => (ref = el)} />
 		</div>
 	));
 

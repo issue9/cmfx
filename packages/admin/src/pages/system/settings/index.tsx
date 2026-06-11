@@ -18,8 +18,8 @@ export function Settings(): JSX.Element {
 	const [val, setVal] = createSignal<Type>('general');
 
 	return (
-		<Page.Root title="_p.system.settings">
-			<Tab.Root
+		<Page title="_p.system.settings">
+			<Tab
 				class={styles.tab}
 				value="general"
 				onChange={(v: Type) => setVal(v)}
@@ -35,7 +35,7 @@ export function Settings(): JSX.Element {
 						<Audit />
 					</Match>
 				</Switch>
-			</Tab.Root>
-		</Page.Root>
+			</Tab>
+		</Page>
 	);
 }

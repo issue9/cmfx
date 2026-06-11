@@ -13,7 +13,7 @@ export default function (): JSX.Element {
 		<div class="p-2">
 			<LocaleProvider id="zh" displayStyle={style()}>
 				其中 timezone 继承自合局的默认值，
-				<Button.Root onclick={() => setStyle(style() === 'full' ? 'short' : 'full')}>change style</Button.Root>
+				<Button onclick={() => setStyle(style() === 'full' ? 'short' : 'full')}>change style</Button>
 				<p>
 					当前值：{useLocale().locale.toString()},{useLocale().displayStyle},{useLocale().timezone}
 				</p>

@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Search.RootProps
-            - Search.RootRef
+            - Search.Props
+            - Search.Ref

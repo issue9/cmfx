@@ -17,8 +17,8 @@ export default function (): JSX.Element {
 			<LocaleProvider id={locale()} displayStyle="narrow">
 				<p>这是当前语言的翻译内容：{useLocale().t('_c.ok')}</p>
 				<p>当前值：{useLocale().locale.toString()}</p>
-				<Button.Root onclick={() => setLocale('en')}>en</Button.Root>
-				<Button.Root onclick={() => setLocale('zh-Hans')}>zh-Hans</Button.Root>
+				<Button onclick={() => setLocale('en')}>en</Button>
+				<Button onclick={() => setLocale('zh-Hans')}>zh-Hans</Button>
 			</LocaleProvider>
 		</div>
 	);

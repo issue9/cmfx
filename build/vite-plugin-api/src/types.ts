@@ -95,17 +95,6 @@ export interface Interface extends Doc, Package {
 }
 
 /**
- * 表示源代码格式
- *
- * @remarks
- * 所有未指定的类型，也放在此类型上。
- */
-export interface Source extends Named, Package {
-	kind: 'source';
-	source?: string;
-}
-
-/**
  * 定义函数
  */
 export interface Func extends InterfaceMethod, Package {
@@ -135,4 +124,4 @@ export interface Intersection extends Named, Package {
 	types: Array<Type>;
 }
 
-export type Type = Class | Interface | Func | Literal | Union | Intersection | Source;
+export type Type = Class | Interface | Func | Literal | Union | Intersection;

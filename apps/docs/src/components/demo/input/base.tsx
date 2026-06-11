@@ -29,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
-				<InputBase.Root
+				<InputBase
 					placeholder="placeholder"
 					palette={palette()}
 					value={val()}
@@ -39,7 +39,7 @@ export default function (props: MountProps): JSX.Element {
 					readonly={readonly()}
 				/>
 
-				<InputBase.Root
+				<InputBase
 					placeholder="placeholder"
 					palette={palette()}
 					prefix={prefix}

@@ -39,7 +39,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<F>
 				<Field label="test" layout={layout()} palette={palette()} name="a">
-					<RadioGroup.Root
+					<RadioGroup
 						layout={itemLayout()}
 						options={options}
 						onChange={v => setPalette(v)}

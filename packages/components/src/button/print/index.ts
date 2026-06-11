@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as PrintButton from './mod';
+import { PrintButton as C } from './root';
+
+export const PrintButton = C;
+
+export namespace PrintButton {
+	export type Props = import('./root').PrintButtonProps;
+	export type Ref = import('./root').PrintButtonRef;
+}

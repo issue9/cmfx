@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Checkbox.RootProps
-            - Checkbox.RootRef
+            - Checkbox.Props
+            - Checkbox.Ref
 
-            - CheckboxGroup.RootProps
-            - CheckboxGroup.RootRef
+            - CheckboxGroup.Props
+            - CheckboxGroup.Ref

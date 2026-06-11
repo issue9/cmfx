@@ -17,7 +17,7 @@ import type { Props } from './types';
 
 export function Link(props: Props): JSX.Element {
 	const l = useLocale();
-	let dialogRef: Dialog.RootRef;
+	let dialogRef: Dialog.Ref;
 	const [href, setHref] = createSignal(props.editor.getAttributes('link').href);
 
 	const transaction = () => setHref(props.editor.getAttributes('link').href);
@@ -26,7 +26,7 @@ export function Link(props: Props): JSX.Element {
 
 	return (
 		<>
-			<Button.Root
+			<Button
 				title={l.t('_c.editor.link')}
 				checked={href()}
 				class={styles.item}
@@ -35,16 +35,16 @@ export function Link(props: Props): JSX.Element {
 				onclick={() => dialogRef.root().showModal()}
 			>
 				<IconLink />
-			</Button.Root>
+			</Button>
 
-			<Dialog.Root ref={el => (dialogRef = el)} mainClass={styles.link}>
-				<InputBase.Root
+			<Dialog ref={el => (dialogRef = el)} mainClass={styles.link}>
+				<InputBase
 					class="flex-1"
 					value={href()}
 					onChange={v => setHref(v)}
 					suffix={
 						<Show when={href()}>
-							<Button.Root
+							<Button
 								title={l.t('_c.editor.clear')}
 								class="p-1"
 								square
@@ -53,11 +53,11 @@ export function Link(props: Props): JSX.Element {
 								onclick={() => setHref()}
 							>
 								<IconClear />
-							</Button.Root>
+							</Button>
 						</Show>
 					}
 				/>
-				<Button.Root
+				<Button
 					square
 					kind="flat"
 					palette="primary"
@@ -71,9 +71,9 @@ export function Link(props: Props): JSX.Element {
 					}}
 				>
 					<IconOK />
-				</Button.Root>
+				</Button>
 
-				<Button.Root
+				<Button
 					square
 					kind="flat"
 					palette="error"
@@ -81,9 +81,9 @@ export function Link(props: Props): JSX.Element {
 					onclick={() => dialogRef.root().close('cancel')}
 				>
 					<IconClear />
-				</Button.Root>
+				</Button>
 
-				<Button.Root
+				<Button
 					title={l.t('_c.editor.visit')}
 					square
 					kind="flat"
@@ -91,8 +91,8 @@ export function Link(props: Props): JSX.Element {
 					onclick={() => window.open(href())}
 				>
 					<IconVisit class="-scale-x-100" />
-				</Button.Root>
-			</Dialog.Root>
+				</Button>
+			</Dialog>
 		</>
 	);
 }

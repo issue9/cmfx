@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Radio.RootProps
-            - Radio.RootRef
+            - Radio.Props
+            - Radio.Ref
 
-            - RadioGroup.RootProps
-            - RadioGroup.RootRef
+            - RadioGroup.Props
+            - RadioGroup.Ref

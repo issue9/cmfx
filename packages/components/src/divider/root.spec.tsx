@@ -7,16 +7,16 @@ import { describe, expect, test } from 'vitest';
 
 import { joinClass } from '@components/base';
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Props, type Ref, Root } from './root';
+import { Divider, type DividerProps, type DividerRef } from './root';
 import styles from './style.module.css';
 
 describe('Divider', async () => {
-	let ref: Ref;
-	const [pos, setPos] = createSignal<Props['pos']>();
+	let ref: DividerRef;
+	const [pos, setPos] = createSignal<DividerProps['pos']>();
 	const ct = await ComponentTester.build('Divider', props => (
-		<Root pos={pos()} {...props} ref={el => (ref = el)}>
+		<Divider pos={pos()} {...props} ref={el => (ref = el)}>
 			abc
-		</Root>
+		</Divider>
 	));
 	const c = ct.result.container.firstElementChild as HTMLDivElement;
 

@@ -27,7 +27,7 @@ export default function (props: MountProps) {
 	const [Palette, palette] = paletteSelector();
 	const [FixedLayout, fixedLayout] = boolSelector('fixedLayout', false);
 	const [Hoverable, hoverable] = boolSelector('hoverable', false);
-	const [Num, num] = numeric<Table.RootProps['striped']>('striped', 0);
+	const [Num, num] = numeric<Table.Props['striped']>('striped', 0);
 
 	return (
 		<>
@@ -38,7 +38,7 @@ export default function (props: MountProps) {
 				<Num />
 			</Portal>
 
-			<Table.Root striped={num()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>
+			<Table striped={num()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -57,7 +57,7 @@ export default function (props: MountProps) {
 						)}
 					</For>
 				</tbody>
-			</Table.Root>
+			</Table>
 		</>
 	);
 }

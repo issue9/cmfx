@@ -8,7 +8,6 @@ import { type JSX, mergeProps, splitProps } from 'solid-js';
 import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
 import { joinClass, style2String } from '@components/base';
 import type { Week } from '@components/datetime/utils';
-import type { WeekValueType } from '@components/datetime/view/month';
 import { MonthView } from '@components/datetime/view/month';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
 import { Form } from '@components/form';
@@ -16,7 +15,7 @@ import styles from './style.module.css';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Base extends BaseProps, ValueProps<WeekValueType>, Omit<Form.DataProps, 'rounded'> {
+export interface Base extends BaseProps, ValueProps<MonthView.WeekValueType>, Omit<Form.DataProps, 'rounded'> {
 	/**
 	 * 允许的最小日期
 	 */
@@ -61,9 +60,9 @@ export function Panel(props: PanelProps): JSX.Element {
 	const [, panelProps] = splitProps(props, ['value', 'onChange', 'ref', 'popover', 'class', 'style']);
 	let oldRange: Array<Date> = [];
 
-	let ref: MonthView.RootRef;
+	let ref: MonthView.Ref;
 
-	const change = (week: WeekValueType, range: [Date, Date]) => {
+	const change = (week: MonthView.WeekValueType, range: [Date, Date]) => {
 		field.setValue(week);
 
 		oldRange.forEach(item => {
@@ -82,7 +81,7 @@ export function Panel(props: PanelProps): JSX.Element {
 
 	const initValue = field.getValue();
 	return (
-		<MonthView.Root
+		<MonthView
 			ref={el => {
 				ref = el;
 

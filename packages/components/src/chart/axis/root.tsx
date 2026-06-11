@@ -7,7 +7,7 @@ import { createEffect, createSignal, type JSX, mergeProps, onMount, splitProps }
 import type { BaseRef, RefProps } from '@components/base';
 import { Chart } from '@components/chart/chart';
 
-export interface Ref<T extends object> extends BaseRef<HTMLDivElement> {
+export interface ChartAxisRef<T extends object> extends BaseRef<HTMLDivElement> {
 	/**
 	 * 追加数据
 	 */
@@ -19,13 +19,13 @@ export interface Ref<T extends object> extends BaseRef<HTMLDivElement> {
 	clear(): void;
 }
 
-type OBP = Omit<Chart.RootProps, 'initValue' | 'ref'>;
+type OBP = Omit<Chart.Props, 'initValue' | 'ref'>;
 
-export interface Props<T extends object> extends OBP, RefProps<Ref<T>> {
+export interface ChartAxisProps<T extends object> extends OBP, RefProps<ChartAxisRef<T>> {
 	/**
 	 * X 轴的设置
 	 */
-	xAxis: XAxis<T>;
+	xAxis: ChartAxisXAxis<T>;
 
 	/**
 	 * Y 轴名称
@@ -45,7 +45,7 @@ export interface Props<T extends object> extends OBP, RefProps<Ref<T>> {
 	/**
 	 * 对数据列的定义
 	 */
-	series: Array<Series<T>>;
+	series: Array<ChartAxisSeries<T>>;
 
 	/**
 	 * 选中的模式
@@ -56,7 +56,7 @@ export interface Props<T extends object> extends OBP, RefProps<Ref<T>> {
 	 * 展示的数据
 	 *
 	 * @remarks
-	 * 可通过 {@link Ref#append}，如果总量超过 {@link size}，最早的数据会被删除。
+	 * 可通过 {@link ChartAxisRef#append}，如果总量超过 {@link size}，最早的数据会被删除。
 	 */
 	initValue: Array<T>;
 
@@ -66,7 +66,7 @@ export interface Props<T extends object> extends OBP, RefProps<Ref<T>> {
 	size?: number;
 }
 
-export interface XAxis<T extends object> {
+export interface ChartAxisXAxis<T extends object> {
 	/**
 	 * X 轴上的名称
 	 */
@@ -78,7 +78,7 @@ export interface XAxis<T extends object> {
 	key: keyof T;
 }
 
-export interface Series<T extends object> {
+export interface ChartAxisSeries<T extends object> {
 	/**
 	 * 展示类型
 	 */
@@ -120,13 +120,13 @@ export interface Series<T extends object> {
  *
  * @typeParam T - 每一条数据的类型
  */
-export function Root<T extends object>(props: Props<T>): JSX.Element {
-	props = mergeProps(Chart.presetRootProps as OBP, props);
+export function ChartAxisRoot<T extends object>(props: ChartAxisProps<T>): JSX.Element {
+	props = mergeProps(Chart.presetProps as OBP, props);
 	const [_, charsProps] = splitProps(props, ['xAxis', 'initValue', 'size', 'tooltip', 'legend', 'series', 'ref']);
 
 	const [data, setData] = createSignal<Array<T>>(props.initValue);
 
-	let ref: Chart.RootRef;
+	let ref: Chart.Ref;
 	const axisLine = { lineStyle: { color: 'var(--palette-fg-low)' } };
 	const splitLine = { lineStyle: { color: ['var(--palette-bg-low)'] } };
 
@@ -201,7 +201,7 @@ export function Root<T extends object>(props: Props<T>): JSX.Element {
 	};
 
 	return (
-		<Chart.Root
+		<Chart
 			initValue={value}
 			{...charsProps}
 			ref={el => {

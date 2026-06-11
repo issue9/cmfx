@@ -10,14 +10,14 @@ import { joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface SliderRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中实际用于输入的 input 元素
 	 */
 	input(): HTMLInputElement;
 }
 
-export interface Props extends Form.DataProps, ValueProps<number>, BaseProps, RefProps<Ref> {
+export interface SliderProps extends Form.DataProps, ValueProps<number>, BaseProps, RefProps<SliderRef> {
 	/**
 	 * 最小值
 	 *
@@ -50,7 +50,7 @@ export interface Props extends Form.DataProps, ValueProps<number>, BaseProps, Re
 	 * 可以在滑轨上作一些标记
 	 *
 	 * @remarks
-	 * 要求这些标记点必须在 {@link Props#min} 和 {@link Props#max} 之间。
+	 * 要求这些标记点必须在 {@link SliderProps#min} 和 {@link SliderProps#max} 之间。
 	 * 所以 marks 不为空时，min 和 max 是不能为空的。
 	 */
 	marks?: Array<[number, string]>;
@@ -64,7 +64,7 @@ export interface Props extends Form.DataProps, ValueProps<number>, BaseProps, Re
 /**
  * 相当于 <input type="range" />
  */
-export function Root(props: Props): JSX.Element {
+export function Slider(props: SliderProps): JSX.Element {
 	const field = Form.useField<number>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);

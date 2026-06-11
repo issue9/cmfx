@@ -9,14 +9,14 @@ import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@compone
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface CounterRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 运行计数器
 	 */
 	play(): Promise<void>;
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface CounterProps extends BaseProps, RefProps<CounterRef> {
 	/**
 	 * 起始数值
 	 *
@@ -49,7 +49,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	frequency?: number;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<CounterProps>> = {
 	start: 0,
 	formatter: (v: number): string => v.toFixed(0),
 	frequency: 20,
@@ -61,7 +61,7 @@ const presetProps: Readonly<Partial<Props>> = {
  * @remarks
  * 该组件不受 `@media (prefers-reduced-motion: reduce)` 的影响。
  */
-export function Root(props: Props): JSX.Element {
+export function Counter(props: CounterProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const [opt] = useOptions();
 	const dur = opt.getTransitionDuration();

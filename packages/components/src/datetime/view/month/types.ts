@@ -11,14 +11,14 @@ import type { DatetimePlugin } from '@components/datetime/view/plugin';
 /**
  * 用于表示周数，第一个元素为年份，第二个元素为在该年份中的周数。
  */
-export type WeekValueType = ReturnType<typeof getISOWeek>;
+export type MonthViewWeekValueType = ReturnType<typeof getISOWeek>;
 
 /**
  * 提供操作 {@link Root} 的基本功能
  */
 export interface API {
 	/**
-	 * 为指定日期所在的 td 元素添加 {@link Props#selectedClass} 指定的样式。
+	 * 为指定日期所在的 td 元素添加 {@link MonthViewProps#selectedClass} 指定的样式。
 	 */
 	select(...d: Array<Date>): void;
 
@@ -28,7 +28,7 @@ export interface API {
 	unselect(...d: Array<Date | undefined>): void;
 
 	/**
-	 * 为指定范围的日期添加 {@link Props#coveredClass} 指定的样式
+	 * 为指定范围的日期添加 {@link MonthViewProps#coveredClass} 指定的样式
 	 *
 	 * @param range - 要覆盖的日期范围
 	 *  - start 表示起始时间，如果为 undefined，则表示早上 end 的都为需要覆盖的范围之内；
@@ -49,7 +49,7 @@ export interface API {
 	jump(date: Date): void;
 
 	/**
-	 * 是否能跳转到指定的日期，只有 {@link Props#min} 或 {@link Props#max} 有值时才有效。
+	 * 是否能跳转到指定的日期，只有 {@link MonthViewProps#min} 或 {@link MonthViewProps#max} 有值时才有效。
 	 */
 	canJump(date: Date): boolean;
 
@@ -59,16 +59,16 @@ export interface API {
 	offset(year?: number, month?: number): void;
 
 	/**
-	 * 能否移动到指定的日期，只有 {@link Props#min} 或 {@link Props#max} 有值时才有效。
+	 * 能否移动到指定的日期，只有 {@link MonthViewProps#min} 或 {@link MonthViewProps#max} 有值时才有效。
 	 * @param year - 移动的年数，负数表示向前移动；
 	 * @param month - 移动的月数，负数表示向前移动；
 	 */
 	canOffset(year?: number, month?: number): boolean;
 }
 
-export type Ref = API & BaseRef<HTMLFieldSetElement>;
+export type MonthViewRef = API & BaseRef<HTMLFieldSetElement>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface MonthViewProps extends BaseProps, RefProps<MonthViewRef> {
 	/**
 	 * 禁用
 	 *
@@ -116,18 +116,18 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	 *
 	 * @remarks
 	 * NOTE: 周数是依据 ISO 8601 拿所在行的中间列计算所得。
-	 * 如果 {@link Props#weekBase} 不为 1，那么周数指向的可能并不是当前行。
+	 * 如果 {@link MonthViewProps#weekBase} 不为 1，那么周数指向的可能并不是当前行。
 	 *
 	 * @reactive
 	 */
 	weeks?: boolean;
 
 	/**
-	 * 点击周数时的回调函数，仅在 {@link Props#weeks} 为 true 时有效。
+	 * 点击周数时的回调函数，仅在 {@link MonthViewProps#weeks} 为 true 时有效。
 	 * @param week - 周数；
 	 * @param range - 周数范围；
 	 */
-	onWeekClick?: (week: WeekValueType, range: [Date, Date]) => void;
+	onWeekClick?: (week: MonthViewWeekValueType, range: [Date, Date]) => void;
 
 	/**
 	 * 星期名称的格式

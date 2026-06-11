@@ -13,9 +13,9 @@ import { InputBase } from '@components/input/base';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<Dropdown.RootRef>;
+export type SearchRef = BaseRef<Dropdown.Ref>;
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface SearchProps extends BaseProps, RefProps<SearchRef> {
 	hotkey?: Hotkey;
 
 	/**
@@ -58,7 +58,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	/**
 	 * 选择弹出项时触发的事件
 	 */
-	onSelect?: Extract<Dropdown.RootProps, { multiple?: false }>['onChange'];
+	onSelect?: Extract<Dropdown.Props, { multiple?: false }>['onChange'];
 }
 
 /**
@@ -67,16 +67,16 @@ export interface Props extends BaseProps, RefProps<Ref> {
  * @remarks 这本质上是对 {@link Dropdown} 的封装。与 {@link TextField} 相比，
  * 提供了更多的选项，且 onSearch 返回的也不再是纯文本。
  */
-export function Root(props: Props): JSX.Element {
+export function Root(props: SearchProps): JSX.Element {
 	const l = useLocale();
-	props = mergeProps({ placeholder: l.t('_c.search') } as Props, props);
+	props = mergeProps({ placeholder: l.t('_c.search') } as SearchProps, props);
 
-	let dropdownRef: Dropdown.RootRef;
+	let dropdownRef: Dropdown.Ref;
 	const [candidate, setCandidate] = createSignal<Array<Menu.MenuItem>>([]);
 
 	const [value, setValue] = createSignal('');
 
-	let inputRef: InputBase.RootRef;
+	let inputRef: InputBase.Ref;
 
 	const click = (e: MouseEvent) => {
 		if (!dropdownRef.root().contains(e.target as HTMLElement)) {
@@ -99,7 +99,7 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<Dropdown.Root
+		<Dropdown
 			palette={props.palette}
 			class={joinClass(undefined, styles.dropdown, props.class)}
 			style={props.style}
@@ -126,7 +126,7 @@ export function Root(props: Props): JSX.Element {
 				(document.activeElement as HTMLElement).blur();
 			}}
 		>
-			<InputBase.Root
+			<InputBase
 				rounded={props.rounded}
 				inputMode={props.inputMode}
 				type="search"
@@ -164,6 +164,6 @@ export function Root(props: Props): JSX.Element {
 					dropdownRef.show();
 				}}
 			/>
-		</Dropdown.Root>
+		</Dropdown>
 	);
 }

@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { type ChartAxisRef, ChartAxisRoot } from './root';
 
 describe('ChartAxis', async () => {
 	interface Item {
@@ -22,10 +22,10 @@ describe('ChartAxis', async () => {
 		{ name: 'name5', v1: 30, v2: 78 },
 	] as const;
 
-	let ref: Ref<Item>;
+	let ref: ChartAxisRef<Item>;
 
 	const ct = await ComponentTester.build('ChartAxis', props => (
-		<Root
+		<ChartAxisRoot
 			ref={el => (ref = el)}
 			initValue={items}
 			{...props}

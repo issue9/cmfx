@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { FieldAccessor } from './accessor';
+export type { FormFieldAccessor } from './accessor';
 export { API } from './api';
 export type { Options } from './options';

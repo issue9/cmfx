@@ -9,9 +9,7 @@
             - Formatter.BytesProps
             - Formatter.createBytes
             - Formatter.ByteUnit
-            - Formatter.byteUnits
 
             - Formatter.BitsProps
             - Formatter.createBits
             - Formatter.BitUnit
-            - Formatter.bitUnits

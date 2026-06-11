@@ -104,7 +104,7 @@ export class Webauthn implements PassportComponents {
 
 		return (
 			<F class={styles.webauthn}>
-				<InputText.Root
+				<InputText
 					prefix={<IconPerson class={styles['text-field']} />}
 					autocomplete="username"
 					suffix={
@@ -126,12 +126,12 @@ export class Webauthn implements PassportComponents {
 	Actions(refresh: RefreshFunc): JSX.Element {
 		const l = useLocale();
 		const rest = useREST();
-		let dialogRef: Dialog.RootRef;
-		let tableRef: RemoteTable.RootRef<Credential>;
+		let dialogRef: Dialog.Ref;
+		let tableRef: RemoteTable.Ref<Credential>;
 
 		return (
 			<>
-				<Button.Root
+				<Button
 					square
 					rounded
 					title={l.t('_p.current.bindWebauthn')}
@@ -140,15 +140,15 @@ export class Webauthn implements PassportComponents {
 					}}
 				>
 					<IconCredit />
-				</Button.Root>
+				</Button>
 
-				<Dialog.Root
+				<Dialog
 					class="w-[80%]"
 					ref={el => (dialogRef = el)}
-					header={<Label.Root icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label.Root>}
+					header={<Label icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label>}
 				>
 					<div class="overflow-auto">
-						<RemoteTable.Root<Credential>
+						<RemoteTable<Credential>
 							rest={rest}
 							ref={el => (tableRef = el)}
 							queries={{}}
@@ -165,7 +165,7 @@ export class Webauthn implements PassportComponents {
 									id: 'id',
 									label: l.t('_p.actions'),
 									renderContent: (_, val) => (
-										<ConfirmButton.Root
+										<ConfirmButton
 											square
 											rounded
 											palette="error"
@@ -182,13 +182,13 @@ export class Webauthn implements PassportComponents {
 											}}
 										>
 											<IconDelete />
-										</ConfirmButton.Root>
+										</ConfirmButton>
 									),
 								},
 							]}
 							toolbar={
 								<div class="flex gap-2">
-									<Button.Root
+									<Button
 										palette="primary"
 										rounded
 										onclick={async () => {
@@ -227,9 +227,9 @@ export class Webauthn implements PassportComponents {
 									>
 										<IconAddLink />
 										&#160;{l.t('_p.current.bindWebauthn')}
-									</Button.Root>
+									</Button>
 
-									<ConfirmButton.Root
+									<ConfirmButton
 										palette="secondary"
 										rounded
 										onclick={async () => {
@@ -243,12 +243,12 @@ export class Webauthn implements PassportComponents {
 									>
 										<IconLinkOff />
 										&#160;{l.t('_p.current.unbindAllWebauthn')}
-									</ConfirmButton.Root>
+									</ConfirmButton>
 								</div>
 							}
 						/>
 					</div>
-				</Dialog.Root>
+				</Dialog>
 			</>
 		);
 	}

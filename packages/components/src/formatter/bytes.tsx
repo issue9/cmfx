@@ -16,9 +16,9 @@ const pb = tb * 1024;
 
 export const units = ['byte', 'kilobyte', 'megabyte', 'gigabyte', 'terabyte', 'petabyte'] as const;
 
-export type Unit = (typeof units)[number];
+export type FormatterByteUnit = (typeof units)[number];
 
-export interface BytesProps {
+export interface FormatterBytesProps {
 	/**
 	 * 需要转换的数值
 	 *
@@ -34,7 +34,7 @@ export interface BytesProps {
 	 * @remarks
 	 * 如果不为空，则显示该单位的数值，如果为空，则显示为可表示的最大单位。
 	 */
-	unit?: Unit;
+	unit?: FormatterByteUnit;
 
 	/**
 	 * 与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等
@@ -50,7 +50,7 @@ export interface BytesProps {
  * @remarks
  * 这是对 {@link createBytes} 的封装。
  */
-export function Bytes(props: BytesProps): JSX.Element {
+export function Bytes(props: FormatterBytesProps): JSX.Element {
 	const l = useLocale();
 
 	const f = createMemo(() => {
@@ -73,8 +73,8 @@ export function Bytes(props: BytesProps): JSX.Element {
  * @param per - 与 unit 组成一个 unit/per 格式的单位，比如 1mb/second 等；
  * @returns 用于格式化的函数，会根据传入的字节大小自动选择合适的单位；
  */
-export function createBytes(l: Locale, unit?: Unit, per?: string): (byte: number) => string {
-	if (per && units.includes(per as Unit)) {
+export function createBytes(l: Locale, unit?: FormatterByteUnit, per?: string): (byte: number) => string {
+	if (per && units.includes(per as FormatterByteUnit)) {
 		throw new TypeError('per 不能是字节单位');
 	}
 

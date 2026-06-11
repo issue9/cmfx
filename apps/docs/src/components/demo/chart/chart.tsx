@@ -36,7 +36,7 @@ export default function (props: MountProps): JSX.Element {
 		],
 	};
 
-	let ref: Chart.RootRef;
+	let ref: Chart.Ref;
 
 	setInterval(() => {
 		x.push(++count);
@@ -58,7 +58,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Chart.Root
+			<Chart
 				palette={palette()}
 				initValue={initData}
 				ref={el => {

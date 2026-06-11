@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "QRCode.RootProps",
+		"name": "QRCode.Props",
 		"properties": [
 			{
 				"name": "value",
@@ -73,7 +73,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "QRCode.RootRef",
+		"name": "QRCode.Ref",
 		"methods": [
 			{
 				"name": "download",

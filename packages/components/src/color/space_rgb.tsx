@@ -8,7 +8,7 @@ import { type JSX, onMount, untrack } from 'solid-js';
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Slider } from '@components/slider';
-import type { Accessor, Space } from './space';
+import type { Accessor, ColorSpace } from './space';
 import { var2Color } from './space_vars';
 import styles from './style.module.css';
 
@@ -20,9 +20,9 @@ type RGB = {
 };
 
 /**
- * RGB 的 {@link Space} 实现
+ * RGB 的 {@link ColorSpace} 实现
  */
-export class RGBSpace implements Space {
+export class RGBSpace implements ColorSpace {
 	readonly #r?: number;
 	readonly #g?: number;
 	readonly #b?: number;
@@ -56,10 +56,10 @@ export class RGBSpace implements Space {
 	}
 
 	panel(access: Accessor, parent: HTMLElement): JSX.Element {
-		let rRef: Slider.RootRef;
-		let gRef: Slider.RootRef;
-		let bRef: Slider.RootRef;
-		let aRef: Slider.RootRef;
+		let rRef: Slider.Ref;
+		let gRef: Slider.Ref;
+		let bRef: Slider.Ref;
+		let aRef: Slider.Ref;
 
 		const c = new Color(var2Color(parent, untrack(access.getValue)) ?? 'rgb(1 1 1)').to('srgb');
 		const [F, Field, api] = Form.create<RGB>({
@@ -104,7 +104,7 @@ export class RGBSpace implements Space {
 		return (
 			<F class={styles.rgb} layout="vertical">
 				<Field label={l.t('_c.color.red')} name="r">
-					<Slider.Root
+					<Slider
 						fitHeight
 						disabled={!!this.#r}
 						ref={el => (rRef = el)}
@@ -116,7 +116,7 @@ export class RGBSpace implements Space {
 				</Field>
 
 				<Field label={l.t('_c.color.green')} name="g">
-					<Slider.Root
+					<Slider
 						fitHeight
 						disabled={!!this.#g}
 						ref={el => (gRef = el)}
@@ -128,7 +128,7 @@ export class RGBSpace implements Space {
 				</Field>
 
 				<Field label={l.t('_c.color.blue')} name="b">
-					<Slider.Root
+					<Slider
 						fitHeight
 						disabled={!!this.#b}
 						ref={el => (bRef = el)}
@@ -140,7 +140,7 @@ export class RGBSpace implements Space {
 				</Field>
 
 				<Field label={l.t('_c.color.alpha')} name="a">
-					<Slider.Root
+					<Slider
 						fitHeight
 						disabled={!!this.#a}
 						ref={el => (aRef = el)}

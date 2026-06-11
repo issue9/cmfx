@@ -18,20 +18,20 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Description.Root palette={palette()} icon={<IconEye />} title="title">
+			<Description palette={palette()} icon={<IconEye />} title="title">
 				description
 				<br />
 				description
-			</Description.Root>
+			</Description>
 
 			<br />
 			<br />
 
-			<Description.Root palette={palette()}>
+			<Description palette={palette()}>
 				无标题
 				<br />
 				description
-			</Description.Root>
+			</Description>
 		</div>
 	);
 }

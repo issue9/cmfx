@@ -23,7 +23,7 @@ export default function (props: MountProps): JSX.Element {
 				<Layout />
 				<Count />
 			</Portal>
-			<TextArea.Root
+			<TextArea
 				count={count()}
 				palette="primary"
 				disabled={disabled()}
@@ -32,9 +32,9 @@ export default function (props: MountProps): JSX.Element {
 				onChange={setTxt}
 			/>
 
-			<Form.Root api={new Form.API({ initValue: {} })}>
+			<Form api={new Form.API({ initValue: {} })}>
 				<Form.Field layout={layout()} label="error" help="help">
-					<TextArea.Root
+					<TextArea
 						count={count()}
 						palette="error"
 						disabled={disabled()}
@@ -43,7 +43,7 @@ export default function (props: MountProps): JSX.Element {
 						onChange={setTxt}
 					/>
 				</Form.Field>
-			</Form.Root>
+			</Form>
 		</div>
 	);
 }

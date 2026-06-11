@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 				<Count />
 			</Portal>
 
-			<InputPassword.Root
+			<InputPassword
 				count={count()}
 				placeholder="placeholder"
 				prefix={<IconFace class="self-center" />}

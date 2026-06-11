@@ -8,7 +8,7 @@ import type { BaseRef } from '@components/base';
 import type { OptionsAccessor } from '@components/context';
 import type { IconSet } from '@components/icon';
 
-export interface Ref extends BaseRef<IconSet.RootRef> {
+export interface ClipboardAPIRef extends BaseRef<IconSet.Ref> {
 	/**
 	 * 将文本内容写入剪切版
 	 */
@@ -20,7 +20,7 @@ export interface Ref extends BaseRef<IconSet.RootRef> {
 	write(items: Array<ClipboardItem>): Promise<void>;
 }
 
-export function buildRef(root: IconSet.RootRef, opt: OptionsAccessor): Ref {
+export function buildRef(root: IconSet.Ref, opt: OptionsAccessor): ClipboardAPIRef {
 	return {
 		root: () => root,
 

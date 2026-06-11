@@ -26,9 +26,9 @@ export default function (props: MountProps): JSX.Element {
 				<Closable />
 			</Portal>
 
-			<Alert.Root closable={closable()} palette={palette()} type={typ()} title="Alert Title" />
+			<Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" />
 
-			<Alert.Root
+			<Alert
 				closable={closable()}
 				palette={palette()}
 				type={typ()}
@@ -40,7 +40,7 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			/>
 
-			<Alert.Root closable={closable()} palette={palette()} type={typ()} title="Alert Title" icon={false} />
+			<Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" icon={false} />
 		</div>
 	);
 }

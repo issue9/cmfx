@@ -6,23 +6,23 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Button.RootProps
-            - Button.RootRef
+            - Button.Props
+            - Button.Ref
             - Button.Kind
 
-            - ConfirmButton.RootProps
-            - ConfirmButton.RootRef
+            - ConfirmButton.Props
+            - ConfirmButton.Ref
 
-            - SplitButton.RootProps
-            - SplitButton.RootRef
+            - SplitButton.Props
+            - SplitButton.Ref
 
-            - ButtonGroup.RootProps
-            - ButtonGroup.RootRef
+            - ButtonGroup.Props
+            - ButtonGroup.Ref
 
-            - PrintButton.RootProps
-            - PrintButton.RootRef
+            - PrintButton.Props
+            - PrintButton.Ref
 
-            - ToggleButton.RootProps
-            - ToggleButton.RootRef
+            - ToggleButton.Props
+            - ToggleButton.Ref
             - ToggleButton.FitScreenProps
             - ToggleButton.FullScreenProps

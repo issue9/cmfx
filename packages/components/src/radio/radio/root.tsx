@@ -7,14 +7,14 @@ import { createMemo, type JSX, mergeProps } from 'solid-js';
 import { type AvailableEnumType, type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLLabelElement> {
+export interface RadioRef extends BaseRef<HTMLLabelElement> {
 	/**
 	 * 组件的 input 元素
 	 */
 	input(): HTMLInputElement;
 }
 
-export interface Props<T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
+export interface RadioProps<T extends AvailableEnumType = string> extends BaseProps, RefProps<RadioRef> {
 	tabindex?: number;
 
 	label?: JSX.Element;
@@ -72,8 +72,8 @@ export interface Props<T extends AvailableEnumType = string> extends BaseProps, 
 /**
  * 带文本提示的单选框
  */
-export function Root<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-	props = mergeProps({ tabindex: 0 } as Props<T>, props);
+export function Radio<T extends AvailableEnumType = string>(props: RadioProps<T>): JSX.Element {
+	props = mergeProps({ tabindex: 0 } as RadioProps<T>, props);
 
 	const cls = createMemo(() => {
 		return joinClass(

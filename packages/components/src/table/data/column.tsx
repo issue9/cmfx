@@ -14,7 +14,7 @@ import { type Context, useTableContext } from './context';
  *
  * @typeParam T - 表示的是展示在表格中的单条数据的类型。
  */
-export interface Column<T extends object> extends ExportColumn<T> {
+export interface DataTableColumn<T extends object> extends ExportColumn<T> {
 	/**
 	 * 列标题
 	 *
@@ -42,7 +42,7 @@ export interface Column<T extends object> extends ExportColumn<T> {
 	 * 为每个单元格指定类型。包括表头和普通的数据单元。
 	 *
 	 * @remarks
-	 * NOTE: 如果存在 {@link Column#headClass}，那么 cellClass 将不会对表头中的单元格起作用；
+	 * NOTE: 如果存在 {@link DataTableColumn#headClass}，那么 cellClass 将不会对表头中的单元格起作用；
 	 * NOTE: 不需要打印的列，可用 no-print 样式；
 	 */
 	cellClass?: string;
@@ -64,7 +64,7 @@ export interface Column<T extends object> extends ExportColumn<T> {
 /**
  * 渲染单元格的方法
  *
- * @param id - 对应当前列 {@link Column#id}；
+ * @param id - 对应当前列 {@link DataTableColumn#id}；
  * @param val - 如果该 id 存在于 T 中，那返回其在 T 中的值，如果不存在则是 undefined；
  * @param obj - 表示是当前行的对象；
  */
@@ -74,7 +74,7 @@ export type CellRenderFunc<T extends object> = <K = keyof T>(
 	obj?: T,
 ) => JSX.Element;
 
-export type PreProcessColumn<T extends object> = Omit<Column<T>, 'renderContent' | 'renderLabel'> & {
+export type PreProcessColumn<T extends object> = Omit<DataTableColumn<T>, 'renderContent' | 'renderLabel'> & {
 	renderContent: CellRenderFunc<T>;
 	renderLabel: () => JSX.Element;
 };
@@ -87,7 +87,7 @@ export type PreProcessColumn<T extends object> = Omit<Column<T>, 'renderContent'
  * @returns 处理后的列定义数组和是否存在指定 CSS 类的标志。
  */
 export function preProcessColumns<T extends object>(
-	columns: Array<Column<T>>,
+	columns: Array<DataTableColumn<T>>,
 	df: Intl.DateTimeFormat,
 ): [cols: Array<PreProcessColumn<T>>, hasClass: boolean] {
 	let has = false;
@@ -130,7 +130,7 @@ export function preProcessColumns<T extends object>(
  */
 export function selectionColumn<T extends object, K extends keyof T = keyof T>(
 	key: K,
-): [col: Column<T>, Store<Array<T[K]>>] {
+): [col: DataTableColumn<T>, Store<Array<T[K]>>] {
 	const [sel, setSel] = createStore<Array<T[K]>>([]);
 
 	const col = {
@@ -145,7 +145,7 @@ export function selectionColumn<T extends object, K extends keyof T = keyof T>(
 			});
 
 			return (
-				<Checkbox.Root
+				<Checkbox
 					checked={keys()?.length === sel.length}
 					indeterminate={sel.length > 0 && sel.length < (keys()?.length ?? 0)}
 					onChange={chk => {
@@ -161,7 +161,7 @@ export function selectionColumn<T extends object, K extends keyof T = keyof T>(
 
 		renderContent: ((_, val: T[K]) => {
 			return (
-				<Checkbox.Root
+				<Checkbox
 					checked={val && sel.includes(val)}
 					onChange={chk => {
 						if (chk) {
@@ -172,8 +172,8 @@ export function selectionColumn<T extends object, K extends keyof T = keyof T>(
 					}}
 				/>
 			);
-		}) as Column<T>['renderContent'],
-	} satisfies Column<T>;
+		}) as DataTableColumn<T>['renderContent'],
+	} satisfies DataTableColumn<T>;
 
 	return [col, sel];
 }

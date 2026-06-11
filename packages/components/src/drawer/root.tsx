@@ -13,7 +13,7 @@ import { ToggleButton as TB } from '@components/button';
 import { Transition } from '@components/transition';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface DrawerRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 返回侧边栏的元素
 	 */
@@ -47,7 +47,7 @@ export interface Ref extends BaseRef<HTMLDivElement> {
 	visible(): boolean;
 }
 
-export type ToggleButtonProps = Omit<TB.RootProps, 'onToggle' | 'value' | 'on' | 'off'> & {
+export type DrawerToggleButtonProps = Omit<TB.Props, 'onToggle' | 'value' | 'on' | 'off'> & {
 	/**
 	 * 侧边栏在显示状态下的按钮图标
 	 *
@@ -64,13 +64,13 @@ export type ToggleButtonProps = Omit<TB.RootProps, 'onToggle' | 'value' | 'on' |
 	 */
 	off?: JSX.Element;
 
-	drawer?: Ref;
+	drawer?: DrawerRef;
 };
 
 /**
  * 生成一个用于显示和隐藏侧边栏的按钮组件
  */
-export function ToggleButton(p: ToggleButtonProps): JSX.Element {
+export function ToggleButton(p: DrawerToggleButtonProps): JSX.Element {
 	const [hidden, setHidden] = createSignal(!p.drawer); // 按钮的显示状态
 
 	const ob = new ResizeObserver(e => {
@@ -92,8 +92,8 @@ export function ToggleButton(p: ToggleButtonProps): JSX.Element {
 	const [_, btnProps] = splitProps(p, ['class', 'palette', 'drawer']);
 
 	return (
-		<TB.Root
-			{...(btnProps as TB.RootProps)}
+		<TB
+			{...(btnProps as TB.Props)}
 			value={p.drawer?.visible()}
 			class={joinClass(p.palette, hidden() ? 'hidden' : undefined, p.class)}
 			onToggle={async (): Promise<boolean | undefined> => {
@@ -108,7 +108,7 @@ export function ToggleButton(p: ToggleButtonProps): JSX.Element {
 	);
 }
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface DrawerProps extends BaseProps, ParentProps, RefProps<DrawerRef> {
 	/**
 	 * 侧边栏的初始状态
 	 */
@@ -155,12 +155,12 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 	asideClass?: string;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<DrawerProps>> = {
 	pos: 'start',
 	floating: false,
 };
 
-export function Root(props: Props) {
+export function Drawer(props: DrawerProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	let rootRef: HTMLDivElement;
 	let asideRef: HTMLElement;

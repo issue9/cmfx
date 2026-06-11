@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Label.RootProps",
+		"name": "Label.Props",
 		"properties": [
 			{
 				"name": "icon",
@@ -60,7 +60,7 @@
 				}
 			}
 		],
-		"name": "Label.RootRef",
+		"name": "Label.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

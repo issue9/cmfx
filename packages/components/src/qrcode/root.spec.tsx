@@ -5,13 +5,13 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { QRCode, type QRCodeRef } from './root';
 import styles from './style.module.css';
 
 describe('QRCode', async () => {
-	let ref: Ref;
+	let ref: QRCodeRef;
 	const ct = await ComponentTester.build('QRCode', props => (
-		<Root
+		<QRCode
 			{...props}
 			ref={el => (ref = el)}
 			cornerDotType="square"

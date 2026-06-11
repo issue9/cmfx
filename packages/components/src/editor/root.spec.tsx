@@ -7,13 +7,13 @@ import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { EditorComponent, type EditorRef } from './root';
 
 describe('Editor', async () => {
-	let ref!: Ref;
+	let ref!: EditorRef;
 	const [value, setValue] = createSignal('string');
 	const ct = await ComponentTester.build('Editor', props => (
-		<Root ref={el => (ref = el)} value={value()} onChange={setValue} {...props} />
+		<EditorComponent ref={el => (ref = el)} value={value()} onChange={setValue} {...props} />
 	));
 
 	test('props', () => ct.testProps());

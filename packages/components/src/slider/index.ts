@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Slider from './mod';
+import { Slider as C } from './root';
+
+export const Slider = C;
+
+export namespace Slider {
+	export type Props = import('./root').SliderProps;
+	export type Ref = import('./root').SliderRef;
+}

@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Editor.RootProps
-            - Editor.RootRef
+            - Editor.Props
+            - Editor.Ref

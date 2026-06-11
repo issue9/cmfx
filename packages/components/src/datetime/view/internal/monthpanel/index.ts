@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as MonthPanel from './mod';
+import { MonthPanel as C } from './root';
+
+export const MonthPanel = C;
+
+export namespace MonthPanel {
+	export type Props = import('./root').MonthPanelProps;
+	export type Ref = import('./root').MonthPanelRef;
+}

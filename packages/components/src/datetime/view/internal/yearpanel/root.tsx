@@ -11,9 +11,9 @@ import type { BaseRef, RefProps } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLFieldSetElement>;
+export type YearPanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Props extends RefProps<Ref> {
+export interface YearPanelProps extends RefProps<YearPanelRef> {
 	popover?: boolean | 'manual' | 'auto';
 
 	/**
@@ -46,7 +46,7 @@ export interface Props extends RefProps<Ref> {
 /**
  * 年份选择面板
  */
-export function Root(props: Props): JSX.Element {
+export function YearPanel(props: YearPanelProps): JSX.Element {
 	const now = new Date();
 	const [panelValue, setPanelValue] = createSignal(props.value ?? now.getFullYear());
 	const [value, setValue] = createSignal(props.value ?? now.getFullYear());
@@ -74,8 +74,8 @@ export function Root(props: Props): JSX.Element {
 		>
 			<header class={styles.year}>
 				{years()[0]}-{years()[years().length - 1]}
-				<ButtonGroup.Root kind="flat" class={styles.actions}>
-					<Button.Root
+				<ButtonGroup kind="flat" class={styles.actions}>
+					<Button
 						square
 						onclick={() => {
 							setPanelValue(panelValue() - 12);
@@ -83,18 +83,18 @@ export function Root(props: Props): JSX.Element {
 						disabled={value() !== undefined && props.min !== undefined && years()[0] - 12 < props.min}
 					>
 						<IconPrevYear />
-					</Button.Root>
+					</Button>
 
-					<Button.Root
+					<Button
 						square
 						onclick={() => {
 							setPanelValue(new Date().getFullYear());
 						}}
 					>
 						<IconToday />
-					</Button.Root>
+					</Button>
 
-					<Button.Root
+					<Button
 						square
 						onclick={() => {
 							setPanelValue(panelValue() - 12);
@@ -102,14 +102,14 @@ export function Root(props: Props): JSX.Element {
 						disabled={value() !== undefined && props.max !== undefined && years()[years().length - 1] + 12 > props.max}
 					>
 						<IconNextYear />
-					</Button.Root>
-				</ButtonGroup.Root>
+					</Button>
+				</ButtonGroup>
 			</header>
 
 			<div class={styles.grid}>
 				<For each={years()}>
 					{year => (
-						<Button.Root
+						<Button
 							kind="flat"
 							checked={value() === year}
 							disabled={
@@ -125,7 +125,7 @@ export function Root(props: Props): JSX.Element {
 							}}
 						>
 							{year}
-						</Button.Root>
+						</Button>
 					)}
 				</For>
 			</div>

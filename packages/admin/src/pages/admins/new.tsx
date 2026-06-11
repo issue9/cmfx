@@ -46,12 +46,12 @@ export function New(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page.Root title="_p.admin.admin" class="max-w-2xl">
-			<Form.Root class="flex flex-col" api={api}>
-				<InputText.Root class="w-full" accessor={api.accessor<string>('username')} label={l.t('_p.current.username')} />
-				<InputText.Root class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<InputText.Root class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
-				<InputPassword.Root
+		<Page title="_p.admin.admin" class="max-w-2xl">
+			<Form class="flex flex-col" api={api}>
+				<InputText class="w-full" accessor={api.accessor<string>('username')} label={l.t('_p.current.username')} />
+				<InputText class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
+				<InputText class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+				<InputPassword
 					class="w-full"
 					autocomplete="new-password"
 					accessor={api.accessor<string>('password')}
@@ -65,15 +65,15 @@ export function New(props: Props): JSX.Element {
 				/>
 				<SexSelector label={l.t('_p.sex')} class="w-full" accessor={api.accessor<Sex>('sex')} />
 				<div class="flex w-full justify-between gap-5">
-					<Button.Root type="a" href={props.backURL} palette="secondary">
+					<Button type="a" href={props.backURL} palette="secondary">
 						<IconArrowBack />
 						{l.t('_c.cancel')}
-					</Button.Root>
-					<Button.Root type="submit" palette="primary">
+					</Button>
+					<Button type="submit" palette="primary">
 						{l.t('_c.ok')}
-					</Button.Root>
+					</Button>
 				</div>
-			</Form.Root>
-		</Page.Root>
+			</Form>
+		</Page>
 	);
 }

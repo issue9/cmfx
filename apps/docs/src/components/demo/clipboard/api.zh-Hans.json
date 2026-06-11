@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "ClipboardAPI.RootProps",
+		"name": "ClipboardAPI.Props",
 		"properties": [
 			{
 				"name": "style",
@@ -45,7 +45,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "ClipboardAPI.RootRef",
+		"name": "ClipboardAPI.Ref",
 		"methods": [
 			{
 				"name": "writeText",

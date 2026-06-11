@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - WeekPicker.RootProps
-            - WeekPicker.RootRef
+            - WeekPicker.Props
+            - WeekPicker.Ref

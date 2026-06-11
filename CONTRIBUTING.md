@@ -155,6 +155,7 @@ close #1
 - solid-router 只能有一个实例对象，否则会出现 `Error: A and 'use' router primitives can be only used inside a Route.` 的错误，
 所以在所有的 `vite.config.ts` 中都将 `solid-router` 加入到 `rollupOptions.external`，只在主项目中真实导入；
 - 组件文档，如果某个对象存在多个文档内容，只提取其最后一个作为文档内容；
+- 组件目录中导出的名称都应该以组件名作为开头，再由 index.ts 归纳在组件名的命名空间之下，防止与其它组件中的名称重名；
 - solid 的条件组件内尽量使用参数初始化，比如
 
   ```tsx

@@ -3,4 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 export { createChartLocaleLoader } from './locale';
-export * as Chart from './mod';
+
+import { Chart as C, presetProps } from './root';
+
+export const Chart = Object.assign(C, {
+	presetProps,
+});
+
+export namespace Chart {
+	export type Props = import('./root').ChartProps;
+	export type Ref = import('./root').ChartRef;
+	export type Option = import('./root').ChartOption;
+}

@@ -53,7 +53,7 @@ export default function (props: MountProps): JSX.Element {
 				<FixedLayout />
 			</Portal>
 
-			<DataTable.Root
+			<DataTable
 				fixedLayout={fixedLayout()}
 				palette={palette()}
 				load={async () => {
@@ -63,9 +63,9 @@ export default function (props: MountProps): JSX.Element {
 				columns={columns}
 				systemToolbar
 				toolbar={
-					<Button.Root palette="error" disabled={!chkSel?.length}>
+					<Button palette="error" disabled={!chkSel?.length}>
 						Delete
-					</Button.Root>
+					</Button>
 				}
 			/>
 		</>

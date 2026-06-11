@@ -6,9 +6,9 @@ import { createMemo, type JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Chart } from '@components/chart/chart';
 
-export type Ref = Chart.RootRef;
+export type ChartPieRef = Chart.Ref;
 
-export interface Props extends Omit<Chart.RootProps, 'initValue'> {
+export interface ChartPieProps extends Omit<Chart.Props, 'initValue'> {
 	/**
 	 * 是否显示提示信息
 	 */
@@ -53,13 +53,13 @@ export interface Props extends Omit<Chart.RootProps, 'initValue'> {
 const presetProps = {
 	padding: 0,
 	radius: '50%',
-	...Chart.presetRootProps,
+	...Chart.presetProps,
 };
 
 /**
  * 带坐标系的图表组件
  */
-export function Root(props: Props): JSX.Element {
+export function ChartPie(props: ChartPieProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	const [_, charsProps] = splitProps(props, ['initValue', 'tooltip', 'legend', 'padding', 'radius']);
 
@@ -101,5 +101,5 @@ export function Root(props: Props): JSX.Element {
 		return o;
 	});
 
-	return <Chart.Root initValue={o()} {...charsProps} />;
+	return <Chart initValue={o()} {...charsProps} />;
 }

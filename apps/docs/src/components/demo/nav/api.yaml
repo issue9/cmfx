@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Nav.RootProps
-            - Nav.RootRef
+            - Nav.Props
+            - Nav.Ref

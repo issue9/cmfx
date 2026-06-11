@@ -1,12 +1,12 @@
 [
 	{
 		"kind": "interface",
-		"name": "Tab.RootProps",
+		"name": "Tab.Props",
 		"properties": [
 			{
 				"name": "items",
 				"summary": "所有的 tab 项\n\n",
-				"type": "Item_2[]",
+				"type": "TabItem[]",
 				"reactive": true
 			},
 			{
@@ -73,12 +73,12 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Tab.RootRef",
+		"name": "Tab.Ref",
 		"methods": [
 			{
 				"name": "switch",
 				"summary": "切换到指定的标签\n\n",
-				"type": "switch(id: Item_2['id']): void",
+				"type": "switch(id: TabItem['id']): void",
 				"params": [
 					{
 						"name": "id",

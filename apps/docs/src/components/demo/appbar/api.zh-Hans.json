@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Appbar.RootProps",
+		"name": "Appbar.Props",
 		"properties": [
 			{
 				"name": "logo",
@@ -79,7 +79,7 @@
 				}
 			}
 		],
-		"name": "Appbar.RootRef",
+		"name": "Appbar.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

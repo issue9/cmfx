@@ -6,5 +6,5 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Statistic.RootProps
-            - Statistic.RootRef
+            - Statistic.Props
+            - Statistic.Ref

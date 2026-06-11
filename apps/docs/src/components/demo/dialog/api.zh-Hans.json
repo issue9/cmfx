@@ -1,11 +1,11 @@
 [
 	{
 		"kind": "interface",
-		"name": "Dialog.RootProps",
+		"name": "Dialog.Props",
 		"properties": [
 			{
 				"name": "ref",
-				"type": "(m: Ref_38) => void"
+				"type": "(m: DialogRef) => void"
 			},
 			{
 				"name": "header",
@@ -59,7 +59,7 @@
 	},
 	{
 		"kind": "interface",
-		"name": "Dialog.RootRef",
+		"name": "Dialog.Ref",
 		"methods": [
 			{
 				"name": "move",

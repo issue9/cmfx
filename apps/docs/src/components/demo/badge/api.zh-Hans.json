@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Badge.RootProps",
+		"name": "Badge.Props",
 		"properties": [
 			{
 				"name": "pos",
@@ -67,7 +67,7 @@
 				}
 			}
 		],
-		"name": "Badge.RootRef",
+		"name": "Badge.Ref",
 		"pkg": "@cmfx/components"
 	},
 	{

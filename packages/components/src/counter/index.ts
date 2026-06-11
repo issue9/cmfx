@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Counter from './mod';
+import { Counter as C } from './root';
+
+export const Counter = C;
+
+export namespace Counter {
+	export type Props = import('./root').CounterProps;
+	export type Ref = import('./root').CounterRef;
+}

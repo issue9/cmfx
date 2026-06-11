@@ -5,11 +5,11 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { YearPanel, type YearPanelRef } from './root';
 
 describe('YearPanel', async () => {
-	let ref: Ref;
-	await ComponentTester.build('YearPanel', props => <Root ref={el => (ref = el)} {...props} />);
+	let ref: YearPanelRef;
+	await ComponentTester.build('YearPanel', props => <YearPanel ref={el => (ref = el)} {...props} />);
 
 	test('ref', () => {
 		expect(ref).toBeDefined();

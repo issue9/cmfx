@@ -18,7 +18,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Result.Root layout="vertical" title="page not found" palette={palette()} illustration={<amico.Error404 />} />
+			<Result layout="vertical" title="page not found" palette={palette()} illustration={<amico.Error404 />} />
 		</>
 	);
 }

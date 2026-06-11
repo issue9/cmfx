@@ -18,21 +18,25 @@ import { Form } from '@components/form';
 import styles from './style.module.css';
 import { Toolbar } from './toolbar';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface EditorRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 向外暴露的 {@link Editor} 对象
 	 */
 	editor(): Editor;
 }
 
-export interface Props extends Omit<Form.DataProps, 'rounded'>, ValueProps<string>, BaseProps, RefProps<Ref> {
+export interface EditorProps
+	extends Omit<Form.DataProps, 'rounded'>,
+		ValueProps<string>,
+		BaseProps,
+		RefProps<EditorRef> {
 	placeholder?: string;
 }
 
 /**
  * WYSIWYG 编辑器
  */
-export function Root(props: Props): JSX.Element {
+export function EditorComponent(props: EditorProps): JSX.Element {
 	const field = Form.useField<string>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);

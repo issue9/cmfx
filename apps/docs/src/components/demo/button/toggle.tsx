@@ -29,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div class="flex flex-wrap items-center gap-2">
-				<ToggleButton.Root
+				<ToggleButton
 					disabled={disabled()}
 					rounded={rounded()}
 					kind={kind()}

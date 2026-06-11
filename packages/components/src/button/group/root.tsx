@@ -11,13 +11,13 @@ import styles from '@components/button/common/style.module.css';
 import type { Props as BaseProps } from '@components/button/common/types';
 import { presetProps as presetBaseProps } from '@components/button/common/types';
 
-export type Ref = BaseRef<HTMLFieldSetElement>;
+export type GroupButtonRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Props extends Omit<BaseProps, 'hotkey'>, ParentProps, RefProps<Ref> {
+export interface GroupButtonProps extends Omit<BaseProps, 'hotkey'>, ParentProps, RefProps<GroupButtonRef> {
 	layout?: Layout;
 }
 
-export const presetProps: Readonly<Partial<Props>> = {
+export const presetProps: Readonly<Partial<GroupButtonProps>> = {
 	...presetBaseProps,
 	layout: 'horizontal',
 } as const;
@@ -28,7 +28,7 @@ export const presetProps: Readonly<Partial<Props>> = {
  * @remarks
  * 该组件用于将多个按钮组合在一起，形成一个按钮组。子组件必须是 Button 组件。
  */
-export function Root(props: Props): JSX.Element {
+export function GroupButton(props: GroupButtonProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 
 	return (

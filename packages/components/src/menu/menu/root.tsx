@@ -27,12 +27,13 @@ import { classList, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
 import { IconSet } from '@components/icon';
-import { buildRenderItemType, type MenuItem, type RenderMenuItem } from './item';
+import { buildRenderItemType, type MenuMenuItem, type RenderMenuItem } from './item';
 import styles from './style.module.css';
 
-type Tag = 'nav' | 'menu';
+export type MenuTag = 'nav' | 'menu';
 
-export interface Ref<TAG extends Tag = 'menu'> extends BaseRef<TAG extends 'menu' ? HTMLMenuElement : HTMLElement> {
+export interface MenuRef<TAG extends MenuTag = 'menu'>
+	extends BaseRef<TAG extends 'menu' ? HTMLMenuElement : HTMLElement> {
 	/**
 	 * 将选中项滚动到可见范围
 	 *
@@ -42,7 +43,9 @@ export interface Ref<TAG extends Tag = 'menu'> extends BaseRef<TAG extends 'menu
 	scrollSelectedIntoView(): void;
 }
 
-interface Base<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> extends BaseProps, RefProps<Ref<TAG>> {
+interface Base<T extends AvailableEnumType = string, TAG extends MenuTag = 'menu'>
+	extends BaseProps,
+		RefProps<MenuRef<TAG>> {
 	/**
 	 * 组件布局方式
 	 *
@@ -61,7 +64,7 @@ interface Base<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> e
 	 *
 	 * @reactive
 	 */
-	items: Array<MenuItem<T>>;
+	items: Array<MenuMenuItem<T>>;
 
 	/**
 	 * 根元素的标签类型
@@ -90,7 +93,7 @@ interface Base<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> e
 /**
  * 多选菜单的属性
  */
-export interface MultipleProps<T extends AvailableEnumType = string, TAG extends Tag = 'menu'>
+export interface MenuMultipleProps<T extends AvailableEnumType = string, TAG extends MenuTag = 'menu'>
 	extends Base<T, TAG>,
 		ValueProps<Array<T>> {
 	/**
@@ -105,7 +108,7 @@ export interface MultipleProps<T extends AvailableEnumType = string, TAG extends
 /**
  * 单选菜单的属性
  */
-export interface SingleProps<T extends AvailableEnumType = string, TAG extends Tag = 'menu'>
+export interface MenuSingleProps<T extends AvailableEnumType = string, TAG extends MenuTag = 'menu'>
 	extends Base<T, TAG>,
 		ValueProps<T> {
 	/**
@@ -119,21 +122,21 @@ export interface SingleProps<T extends AvailableEnumType = string, TAG extends T
  *
  * @typeParam T - 菜单项的值类型；
  */
-export type Props<T extends AvailableEnumType = string, TAG extends Tag = 'menu'> =
-	| SingleProps<T, TAG>
-	| MultipleProps<T, TAG>;
+export type MenuProps<T extends AvailableEnumType = string, TAG extends MenuTag = 'menu'> =
+	| MenuSingleProps<T, TAG>
+	| MenuMultipleProps<T, TAG>;
 
 /**
  * 菜单组件
  *
  * @typeParam T - 选项类型；
  */
-export function Root<T extends AvailableEnumType = string, TAG extends Tag = 'menu'>(
-	props: Props<T, TAG>,
+export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag = 'menu'>(
+	props: MenuProps<T, TAG>,
 ): JSX.Element {
 	props = mergeProps(
 		{
-			tag: 'menu' as Props<T, TAG>['tag'],
+			tag: 'menu' as MenuProps<T, TAG>['tag'],
 			selectedClass: styles.selected,
 			disabledClass: styles.disabled,
 			layout: 'inline' as Layout,
@@ -191,7 +194,7 @@ export function Root<T extends AvailableEnumType = string, TAG extends Tag = 'me
 			<Switch>
 				<Match when={item.type === 'divider'}>
 					<li class={styles.divider}>
-						<Divider.Root padding="0" layout={dividerLayout} />
+						<Divider padding="0" layout={dividerLayout} />
 					</li>
 				</Match>
 
@@ -223,7 +226,7 @@ export function Root<T extends AvailableEnumType = string, TAG extends Tag = 'me
 
 						const val = i().value;
 
-						let iconRef: IconSet.RootRef;
+						let iconRef: IconSet.Ref;
 						const [expanded, setExpanded] = createSignal(false);
 						const hasItems = i().items && i().items!.length > 0;
 						const isAnchor = item.type === 'a';
@@ -430,7 +433,7 @@ export function Root<T extends AvailableEnumType = string, TAG extends Tag = 'me
 												</Switch>
 											</Match>
 											<Match when={layout === 'inline'}>
-												<IconSet.Root
+												<IconSet
 													ref={el => {
 														iconRef = el;
 													}}
@@ -461,7 +464,7 @@ export function Root<T extends AvailableEnumType = string, TAG extends Tag = 'me
 	return (
 		<Dynamic
 			data-menu-root
-			component={props.tag as Tag}
+			component={props.tag as MenuTag}
 			ref={(el: HTMLElement) => {
 				rootRef = el as TAG extends 'menu' ? HTMLMenuElement : HTMLElement;
 				if (props.ref) {

@@ -23,7 +23,7 @@ export default function (props: MountProps): JSX.Element {
 				<Theme />
 			</Portal>
 
-			<Code.Root
+			<Code
 				theme={theme()}
 				wrap={wrap()}
 				ln={21}
@@ -54,7 +54,7 @@ export default function(props: Props): JSX.Element {
     </Code>;
 }
 `}
-			</Code.Root>
+			</Code>
 		</div>
 	);
 }

@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Divider from './mod';
+import { Divider as C } from './root';
+
+export const Divider = C;
+
+export namespace Divider {
+	export type Props = import('./root').DividerProps;
+	export type Ref = import('./root').DividerRef;
+}

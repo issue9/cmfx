@@ -50,7 +50,7 @@ export function Info(): JSX.Element {
 
 	// event source
 
-	let axisRef: ChartAxis.RootRef<Numbers>;
+	let axisRef: ChartAxis.Ref<Numbers>;
 
 	const [stat, setStat] = createSignal('cpu');
 	const changeTab = (val: string) => {
@@ -130,11 +130,11 @@ export function Info(): JSX.Element {
 	});
 
 	return (
-		<Page.Root title="_p.system.serverInfo" class={joinClass(undefined, styles.info)}>
+		<Page title="_p.system.serverInfo" class={joinClass(undefined, styles.info)}>
 			<fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
-				<Label.Root icon={<IconInfo />} tag="legend">
+				<Label icon={<IconInfo />} tag="legend">
 					{l.t('_p.system.serverInfo')}
-				</Label.Root>
+				</Label>
 				<dl>
 					<dt>{l.t('_p.system.name')}</dt>
 					<dd>
@@ -167,10 +167,10 @@ export function Info(): JSX.Element {
 					<dd>{info()?.uptime ? l.datetimeFormat().format(new Date(info()!.uptime!)) : ''}</dd>
 				</dl>
 
-				<Divider.Root padding="1rem">
+				<Divider padding="1rem">
 					<IconDataset class="me-1" />
 					{l.t('_c.os')}
-				</Divider.Root>
+				</Divider>
 
 				<dl>
 					<dt>{l.t('_p.system.platform')}</dt>
@@ -192,10 +192,10 @@ export function Info(): JSX.Element {
 					<dd>{info()?.os.boot ? l.datetimeFormat().format(new Date(info()!.os.boot!)) : ''}</dd>
 				</dl>
 
-				<Divider.Root padding="1rem">
+				<Divider padding="1rem">
 					<IconDatabase class="me-1" />
 					{l.t('_c.database')}
-				</Divider.Root>
+				</Divider>
 
 				<dl>
 					<dt>{l.t('_c.database')}</dt>
@@ -230,10 +230,10 @@ export function Info(): JSX.Element {
 			</fieldset>
 
 			<fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
-				<Label.Root icon={<IconDatabase />} tag="legend">
+				<Label icon={<IconDatabase />} tag="legend">
 					{l.t('_c.database')}
-				</Label.Root>
-				<ConfirmButton.Root
+				</Label>
+				<ConfirmButton
 					palette="secondary"
 					disabled={backup.loading || backup()?.cron === ''}
 					onclick={async () => {
@@ -247,14 +247,14 @@ export function Info(): JSX.Element {
 				>
 					<IconBackup class="me-1" />
 					{l.t('_p.system.backupDB')}
-				</ConfirmButton.Root>
+				</ConfirmButton>
 				<span class="mt-1">{l.t('_p.system.backupDBHelp', { cron: backup()?.cron })}</span>
 				<ul class={styles.backup_list}>
 					<For each={backup()?.list}>
 						{item => (
 							<li>
 								{item.path}&nbsp;({bytesFormatter()(item.size)})
-								<ConfirmButton.Root
+								<ConfirmButton
 									kind="flat"
 									palette="error"
 									onclick={async () => {
@@ -267,7 +267,7 @@ export function Info(): JSX.Element {
 									}}
 								>
 									{l.t('_p.deleteItem')}
-								</ConfirmButton.Root>
+								</ConfirmButton>
 							</li>
 						)}
 					</For>
@@ -275,10 +275,10 @@ export function Info(): JSX.Element {
 			</fieldset>
 
 			<fieldset class={joinClass(undefined, styles.panel, 'w-full')}>
-				<Label.Root icon={<IconChart />} tag="legend">
+				<Label icon={<IconChart />} tag="legend">
 					{l.t('_p.system.states')}
-				</Label.Root>
-				<Tab.Root
+				</Label>
+				<Tab
 					onChange={changeTab}
 					class={styles.tabs}
 					items={[
@@ -288,7 +288,7 @@ export function Info(): JSX.Element {
 						{ id: 'goroutines', label: l.t('_p.system.goroutines') },
 					]}
 				/>
-				<ChartAxis.Root<Numbers>
+				<ChartAxis<Numbers>
 					ref={el => {
 						axisRef = el;
 					}}
@@ -304,7 +304,7 @@ export function Info(): JSX.Element {
 					initValue={[]}
 				/>
 			</fieldset>
-		</Page.Root>
+		</Page>
 	);
 }
 

@@ -8,16 +8,16 @@ import type { JSX } from 'solid-js';
 export default function (): JSX.Element {
 	return (
 		<div>
-			<Button.Root
+			<Button
 				onclick={async () => {
 					await Dialog.alert('msg');
 					console.log('alert');
 				}}
 			>
 				alert
-			</Button.Root>
+			</Button>
 
-			<Button.Root
+			<Button
 				onclick={async () => {
 					console.log(
 						'confirm:',
@@ -28,25 +28,25 @@ export default function (): JSX.Element {
 				}}
 			>
 				confirm
-			</Button.Root>
+			</Button>
 
-			<Button.Root
+			<Button
 				onclick={async () => {
 					console.log('prompt:', await Dialog.prompt('msg', 'def'));
 				}}
 			>
 				prompt
-			</Button.Root>
+			</Button>
 
-			<Button.Root
+			<Button
 				onclick={() => {
 					window.alert('msg');
 					console.log('alert');
 				}}
 			>
 				system.alert
-			</Button.Root>
-			<Button.Root
+			</Button>
+			<Button
 				onclick={() => {
 					console.log(
 						'confirm:',
@@ -57,14 +57,14 @@ export default function (): JSX.Element {
 				}}
 			>
 				system.confirm
-			</Button.Root>
-			<Button.Root
+			</Button>
+			<Button
 				onclick={() => {
 					console.log('prompt:', window.prompt('msg', 'def'));
 				}}
 			>
 				system.prompt
-			</Button.Root>
+			</Button>
 		</div>
 	);
 }

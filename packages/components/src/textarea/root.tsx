@@ -10,14 +10,14 @@ import { Form } from '@components/form';
 import type { InputBase } from '@components/input';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface TextAreaRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中的 textarea 元素
 	 */
 	textarea(): HTMLTextAreaElement;
 }
 
-export interface Props extends BaseProps, Form.DataProps, ValueProps<string>, RefProps<Ref> {
+export interface TextAreaProps extends BaseProps, Form.DataProps, ValueProps<string>, RefProps<TextAreaRef> {
 	/**
 	 * 最小的字符数量
 	 *
@@ -64,7 +64,7 @@ function countFormater(val: number, max?: number): string {
  *
  * @typeParam T - 文本框内容的类型
  */
-export function Root(props: Props): JSX.Element {
+export function TextArea(props: TextAreaProps): JSX.Element {
 	const field = Form.useField(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);

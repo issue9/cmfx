@@ -6,8 +6,8 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - QRCode.RootProps
-            - QRCode.RootRef
+            - QRCode.Props
+            - QRCode.Ref
             - QRCode.CornerDotType
             - QRCode.CornerSquareType
             - QRCode.DotType

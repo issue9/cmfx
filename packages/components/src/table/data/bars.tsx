@@ -55,7 +55,7 @@ export function QueryBar<T extends object, Q extends Query>(): JSX.Element {
 		<F class={styles.search}>
 			{ctx.queryForm!(api, Field)}
 			<div class={styles.actions}>
-				<SplitButton.Root
+				<SplitButton
 					align="end"
 					onChange={async v => {
 						switch (v) {
@@ -70,37 +70,37 @@ export function QueryBar<T extends object, Q extends Query>(): JSX.Element {
 						{
 							type: 'item',
 							value: '.xlsx',
-							label: <Label.Root icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label.Root>,
+							label: <Label icon={<IconExcel />}>{l.t('_c.table.exportTo', { type: 'Excel' })}</Label>,
 						},
 						{
 							type: 'item',
 							value: '.ods',
-							label: <Label.Root icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label.Root>,
+							label: <Label icon={<IconODS />}>{l.t('_c.table.exportTo', { type: 'ODS' })}</Label>,
 						},
 						{ type: 'divider' },
 						{
 							type: 'item',
 							value: '.csv',
-							label: <Label.Root icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label.Root>,
+							label: <Label icon={<IconCSV />}>{l.t('_c.table.exportTo', { type: 'CSV' })}</Label>,
 						},
 						{
 							type: 'item',
 							value: '.md',
-							label: <Label.Root icon={<IconMarkdown />}>{l.t('_c.table.exportTo', { type: 'Markdown' })}</Label.Root>,
+							label: <Label icon={<IconMarkdown />}>{l.t('_c.table.exportTo', { type: 'Markdown' })}</Label>,
 						},
 						{ type: 'divider' },
 						{
 							type: 'item',
 							value: 'reset',
 							disabled: api.isPreset(),
-							label: <Label.Root icon={<IconReset />}>{l.t('_c.reset')}</Label.Root>,
+							label: <Label icon={<IconReset />}>{l.t('_c.reset')}</Label>,
 						},
 					]}
 				>
-					<Button.Root type="submit" palette="primary" onclick={async () => await ctx.refresh()}>
+					<Button type="submit" palette="primary" onclick={async () => await ctx.refresh()}>
 						{l.t('_c.search')}
-					</Button.Root>
-				</SplitButton.Root>
+					</Button>
+				</SplitButton>
 			</div>
 		</F>
 	);
@@ -116,7 +116,7 @@ export function PageBar<T extends object, Q extends Query>(): JSX.Element {
 	const size = api.createFieldAccessor<number>('size' as FlattenKeys<Q>);
 
 	return (
-		<PaginationBar.Root
+		<PaginationBar
 			class={styles.footer}
 			page={page.getValue() ?? 1}
 			onPageChange={async p => {
@@ -146,26 +146,26 @@ export function Toolbar(props: ParentProps): JSX.Element {
 			{props.children}
 			<Show when={ctx.systemToolbar}>
 				<div class={styles['system-toolbar']}>
-					<Dropdown.Root
+					<Dropdown
 						trigger="hover"
 						items={[
 							{
 								type: 'item',
 								value: 'hoverable',
-								label: <Checkbox.Root readonly label={l.t('_c.table.hoverable')} checked={ctx.hoverable[0]()} />,
+								label: <Checkbox readonly label={l.t('_c.table.hoverable')} checked={ctx.hoverable[0]()} />,
 							},
 							{ type: 'divider' },
 							{
 								type: 'item',
 								value: 'sticky-header',
-								label: <Checkbox.Root readonly label={l.t('_c.table.stickyHeader')} checked={ctx.sticky[0]()} />,
+								label: <Checkbox readonly label={l.t('_c.table.stickyHeader')} checked={ctx.sticky[0]()} />,
 							},
 							{ type: 'divider' },
 							{
 								type: 'item',
 								value: '0',
 								label: (
-									<Radio.Root
+									<Radio
 										name="striped"
 										readonly
 										value={0}
@@ -178,7 +178,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								type: 'item',
 								value: '2',
 								label: (
-									<Radio.Root
+									<Radio
 										name="striped"
 										readonly
 										value={2}
@@ -191,7 +191,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								type: 'item',
 								value: '3',
 								label: (
-									<Radio.Root
+									<Radio
 										name="striped"
 										readonly
 										value={3}
@@ -204,7 +204,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								type: 'item',
 								value: '4',
 								label: (
-									<Radio.Root
+									<Radio
 										name="striped"
 										readonly
 										value={4}
@@ -217,7 +217,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								type: 'item',
 								value: '5',
 								label: (
-									<Radio.Root
+									<Radio
 										name="striped"
 										readonly
 										value={5}
@@ -254,11 +254,11 @@ export function Toolbar(props: ParentProps): JSX.Element {
 							return true;
 						}}
 					>
-						<Button.Root square rounded kind="fill" palette="tertiary">
+						<Button square rounded kind="fill" palette="tertiary">
 							<IconTableRows />
-						</Button.Root>
-					</Dropdown.Root>
-					<Button.Root
+						</Button>
+					</Dropdown>
+					<Button
 						square
 						rounded
 						kind="fill"
@@ -270,9 +270,9 @@ export function Toolbar(props: ParentProps): JSX.Element {
 						title={l.t('_c.refresh')}
 					>
 						<IconRefresh />
-					</Button.Root>
+					</Button>
 					<ToggleButton.FitScreen rounded kind="fill" palette="tertiary" container={ctx.root()} />
-					<PrintButton.Root
+					<PrintButton
 						rounded
 						kind="fill"
 						palette="tertiary"

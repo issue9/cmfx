@@ -5,11 +5,11 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Radio, type RadioRef } from './root';
 
 describe('Radio', async () => {
-	let ref: Ref;
-	const ct = await ComponentTester.build('Radio', props => <Root {...props} ref={el => (ref = el)} />);
+	let ref: RadioRef;
+	const ct = await ComponentTester.build('Radio', props => <Radio {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

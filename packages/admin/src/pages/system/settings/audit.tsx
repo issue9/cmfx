@@ -31,12 +31,12 @@ export function Audit(): JSX.Element {
 	});
 
 	return (
-		<Form.Root api={api} layout="vertical">
-			<InputText.Root
+		<Form api={api} layout="vertical">
+			<InputText
 				label={l.t('_p.system.settings.keywords')}
 				accessor={Form.array2StringAccessor(',', api.accessor('keywords'))}
 			/>
-			<InputText.Root
+			<InputText
 				label={l.t('_p.system.settings.urlBlacklist')}
 				accessor={Form.array2StringAccessor(',', api.accessor('urlBlacklist'))}
 			/>
@@ -45,6 +45,6 @@ export function Audit(): JSX.Element {
 				<Form.Reset>{l.t('_c.reset')}</Form.Reset>
 				<Form.Submit>{l.t('_c.ok')}</Form.Submit>
 			</footer>
-		</Form.Root>
+		</Form>
 	);
 }

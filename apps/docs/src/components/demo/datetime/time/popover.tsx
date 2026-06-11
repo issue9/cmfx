@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<Form.Field help="help text" layout={layout()} label="label">
-				<Time.Root
+				<Time
 					popover="hover"
 					placeholder="placeholder"
 					palette={palette()}

@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { Statistic, type StatisticRef } from './root';
 
 describe('Statistic', async () => {
-	let ref: Ref;
+	let ref: StatisticRef;
 	const ct = await ComponentTester.build('Statistic', props => (
-		<Root label="Label" value={5} {...props} ref={el => (ref = el)} />
+		<Statistic label="Label" value={5} {...props} ref={el => (ref = el)} />
 	));
 
 	test('props', () => ct.testProps());

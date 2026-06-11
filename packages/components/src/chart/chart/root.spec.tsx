@@ -5,14 +5,14 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Option, type Ref, Root } from './root';
+import { Chart, type ChartOption, type ChartRef } from './root';
 
 describe('Chart', async () => {
 	const x = [1, 2, 3, 4, 5, 6, 7];
 	const s1 = [15, 23, 22, 21, 13, 14, 26];
 	const s2 = [10, 20, 24, 28, 15, 17, 20];
 
-	const opt: Option = {
+	const opt: ChartOption = {
 		title: { show: false },
 		xAxis: {
 			type: 'category',
@@ -33,8 +33,8 @@ describe('Chart', async () => {
 		],
 	};
 
-	let ref: Ref;
-	const ct = await ComponentTester.build('Chart', props => <Root ref={el => (ref = el)} initValue={opt} {...props} />);
+	let ref: ChartRef;
+	const ct = await ComponentTester.build('Chart', props => <Chart ref={el => (ref = el)} initValue={opt} {...props} />);
 
 	test('props', async () => ct.testProps());
 

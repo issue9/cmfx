@@ -14,7 +14,7 @@ import { ClipboardAPI } from '@components/clipboard';
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Choice } from '@components/menu/choice';
-import type { Space } from './space';
+import type { ColorSpace } from './space';
 import styles from './style.module.css';
 import { wcag } from './wcag';
 
@@ -49,7 +49,7 @@ export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<string
 	/**
 	 * 指定的颜色拾取面板的类型
 	 */
-	spaces: ReadonlyArray<Space>;
+	spaces: ReadonlyArray<ColorSpace>;
 }
 
 export interface PanelProps extends Base, RefProps<PanelRef> {
@@ -108,7 +108,7 @@ export function Panel(props: PanelProps): JSX.Element {
 	const [apca, setApca] = createSignal(false);
 	let contentRef: HTMLDivElement;
 	let mainRef!: HTMLElement;
-	let clipboardRef: ClipboardAPI.RootRef;
+	let clipboardRef: ClipboardAPI.Ref;
 
 	return (
 		<div
@@ -134,7 +134,7 @@ export function Panel(props: PanelProps): JSX.Element {
 							color: props.wcag ?? 'var(--palette-fg)',
 						}}
 					>
-						<ClipboardAPI.Root class="self-center" ref={el => (clipboardRef = el)} />
+						<ClipboardAPI class="self-center" ref={el => (clipboardRef = el)} />
 						{field.getValue()}
 					</div>
 					<Show when={props.wcag}>
@@ -158,7 +158,7 @@ export function Panel(props: PanelProps): JSX.Element {
 
 				<div class={styles.end}>
 					<Show when={'EyeDropper' in window}>
-						<Button.Root
+						<Button
 							kind="border"
 							square
 							onclick={async () => {
@@ -174,12 +174,12 @@ export function Panel(props: PanelProps): JSX.Element {
 							}}
 						>
 							<IconPicker />
-						</Button.Root>
+						</Button>
 					</Show>
-					<Button.Root kind="border" square onclick={() => field.setValue(undefined)}>
+					<Button kind="border" square onclick={() => field.setValue(undefined)}>
 						<IconClose />
-					</Button.Root>
-					<Choice.Root options={choiceOptions} value={id()} onChange={v => changeID(v)} />
+					</Button>
+					<Choice options={choiceOptions} value={id()} onChange={v => changeID(v)} />
 				</div>
 			</header>
 

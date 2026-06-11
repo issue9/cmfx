@@ -89,9 +89,9 @@ export default function (props: MountProps): JSX.Element {
 				<SelectedCls />
 			</Portal>
 
-			<Dropdown.Root align="start" selectedClass={selectedCls()} palette={palette()} items={items} multiple>
+			<Dropdown align="start" selectedClass={selectedCls()} palette={palette()} items={items} multiple>
 				<div class="h-full w-full bg-primary-bg text-primary-fg">click</div>
-			</Dropdown.Root>
+			</Dropdown>
 		</>
 	);
 }

@@ -5,10 +5,10 @@
 import { describe, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { Root } from './root';
+import { Counter } from './root';
 
 describe('Counter', async () => {
-	const ct = await ComponentTester.build('Counter', props => <Root value={10} {...props} />);
+	const ct = await ComponentTester.build('Counter', props => <Counter value={10} {...props} />);
 
 	test('props', () => ct.testProps());
 });

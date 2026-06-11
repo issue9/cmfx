@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Statistic from './mod';
+import { Statistic as C } from './root';
+
+export const Statistic = C;
+
+export namespace Statistic {
+	export type Props = import('./root').StatisticProps;
+	export type Ref = import('./root').StatisticRef;
+}

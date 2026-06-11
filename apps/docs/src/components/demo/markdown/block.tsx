@@ -20,16 +20,16 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Markdown.Root
+			<Markdown
 				palette={palette()}
 				text={text}
 				components={{
 					btn1: () => (
-						<Button.Root square onclick={() => Notify.success('click button')}>
+						<Button square onclick={() => Notify.success('click button')}>
 							<IconFace />
-						</Button.Root>
+						</Button>
 					),
-					btn2: () => <Button.Root>btn</Button.Root>,
+					btn2: () => <Button>btn</Button>,
 				}}
 			/>
 		</>

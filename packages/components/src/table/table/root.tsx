@@ -8,9 +8,9 @@ import type { BaseProps, BaseRef, RefProps } from '@components/base';
 import { classList } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLTableElement>;
+export type TableRef = BaseRef<HTMLTableElement>;
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface TableProps extends BaseProps, ParentProps, RefProps<TableRef> {
 	/**
 	 * 是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，
 	 * 但是可能会造成空间的巨大浪费。具体可查看：
@@ -40,7 +40,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  *
  * 所有的依赖和限制与内置的 table 元素相同
  */
-export function Root(props: Props): JSX.Element {
+export function Root(props: TableProps): JSX.Element {
 	return (
 		<table
 			ref={el => {

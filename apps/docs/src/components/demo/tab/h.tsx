@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Tab.Root class="w-full!" palette={palette()} items={items} />
+			<Tab class="w-full!" palette={palette()} items={items} />
 		</>
 	);
 }

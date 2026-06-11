@@ -11,7 +11,7 @@ import { joinClass, style2String } from '@components/base';
 import { isReducedMotion, useOptions } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<SVGSVGElement> {
+export interface IconSetRef extends BaseRef<SVGSVGElement> {
 	/**
 	 * 跳转至新图标
 	 *
@@ -22,14 +22,14 @@ export interface Ref extends BaseRef<SVGSVGElement> {
 	/**
 	 * 显示下一个图标
 	 *
-	 * @remarks 图标的顺序与 {@link Props#icons} 的顺序是相同的。
+	 * @remarks 图标的顺序与 {@link IconSetProps#icons} 的顺序是相同的。
 	 */
 	next(): void;
 
 	/**
 	 * 显示上一个图标
 	 *
-	 * @remarks 图标的顺序与 {@link Props#icons} 的顺序是相同的。
+	 * @remarks 图标的顺序与 {@link IconSetProps#icons} 的顺序是相同的。
 	 */
 	prev(): void;
 
@@ -41,7 +41,7 @@ export interface Ref extends BaseRef<SVGSVGElement> {
 
 export const iconSetEasings = Object.keys(easings);
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface IconSetProps extends BaseProps, RefProps<IconSetRef> {
 	/**
 	 * 图标集
 	 *
@@ -51,7 +51,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	icons: Record<string, JSX.Element>;
 
 	/**
-	 * 显示的图标，如果未指定，则采用 {@link Props.icons} 中的最后一个。
+	 * 显示的图标，如果未指定，则采用 {@link IconSetProps.icons} 中的最后一个。
 	 *
 	 * @reactive
 	 */
@@ -75,12 +75,12 @@ export interface Props extends BaseProps, RefProps<Ref> {
  * 提供多图标的切换效果
  *
  * @remarks
- * 可以一次性指定多个图标，通过 {@link Ref#to} 实现跳转到另一个图标且带有动画效果。
+ * 可以一次性指定多个图标，通过 {@link IconSetRef#to} 实现跳转到另一个图标且带有动画效果。
  * 应该尽量避免纯图标表示的状态切换，纯粹的图标很难告诉用户当前的图标是表示当前状态还是点击之后的状态。
  *
  * 会根据 `@media(prefers-reduced-motion: reduce)` 判断是否需要使用动画效果。
  */
-export function Root(props: Props): JSX.Element {
+export function IconSet(props: IconSetProps): JSX.Element {
 	const [opt] = useOptions();
 	const keys = Object.keys(props.icons); // 图标名称列表
 	let index = props.value ? keys.indexOf(props.value) : keys.length - 1; // 当前图标在 keys 中的索引

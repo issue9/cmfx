@@ -6,16 +6,16 @@ import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Corner, type Ref, Root } from './root';
+import { Badge, type BadgeCorner, type BadgeRef } from './root';
 import styles from './style.module.css';
 
 describe('Badge', async () => {
-	let ref: Ref;
-	const [pos, setPos] = createSignal<Corner>();
+	let ref: BadgeRef;
+	const [pos, setPos] = createSignal<BadgeCorner>();
 	const ct = await ComponentTester.build('Badge', props => (
-		<Root ref={el => (ref = el)} pos={pos()} content="text" {...props}>
+		<Badge ref={el => (ref = el)} pos={pos()} content="text" {...props}>
 			abc
-		</Root>
+		</Badge>
 	));
 
 	test('props', async () => {

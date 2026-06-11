@@ -5,14 +5,14 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { PrintButton, type PrintButtonRef } from './root';
 
 describe('PrintButton', async () => {
-	let ref: Ref;
+	let ref: PrintButtonRef;
 	let html!: HTMLElement;
 	const ct = await ComponentTester.build('PrintButton', props => (
 		<>
-			<Root {...props} element={() => html} ref={el => (ref = el)} />
+			<PrintButton {...props} element={() => html} ref={el => (ref = el)} />
 			<div>elem</div>
 		</>
 	));

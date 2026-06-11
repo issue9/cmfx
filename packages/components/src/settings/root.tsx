@@ -31,12 +31,12 @@ import { SchemeSelector } from '@components/scheme';
 import { Slider } from '@components/slider';
 import styles from './style.module.css';
 
-export type Ref = BaseRef<HTMLDivElement>;
+export type SettingsRef = BaseRef<HTMLDivElement>;
 
 /**
  * 设置项的属性
  */
-export interface ItemProps extends ParentProps {
+export interface SettingsItemProps extends ParentProps {
 	/**
 	 * 图标
 	 *
@@ -62,16 +62,16 @@ export interface ItemProps extends ParentProps {
 /**
  * 设置页面每个设置项的组件
  */
-export function Item(props: ItemProps): JSX.Element {
+export function Item(props: SettingsItemProps): JSX.Element {
 	return (
 		<>
 			<Show when={props.desc}>
-				<Description.Root icon={props.icon} title={props.title}>
+				<Description icon={props.icon} title={props.title}>
 					<div innerHTML={props.desc} />
-				</Description.Root>
+				</Description>
 			</Show>
 			<Show when={!props.desc}>
-				<Label.Root icon={props.icon}>{props.title}</Label.Root>
+				<Label icon={props.icon}>{props.title}</Label>
 			</Show>
 
 			{props.children}
@@ -83,10 +83,10 @@ export function Item(props: ItemProps): JSX.Element {
  * 设置页面每个设置项之间的分隔线
  */
 export function Separator(): JSX.Element {
-	return <Divider.Root padding="16px 8px" />;
+	return <Divider padding="16px 8px" />;
 }
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface SettingsProps extends BaseProps, ParentProps, RefProps<SettingsRef> {
 	/**
 	 * 重置事件
 	 */
@@ -99,7 +99,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * @remarks
  * 这是对 {@link useOptions} 中部分选项的设置。
  */
-export function Root(props: Props) {
+export function Settings(props: SettingsProps) {
 	const [accessor, origin] = useOptions();
 	const l = useLocale();
 
@@ -120,7 +120,7 @@ export function Root(props: Props) {
 			{/***************************** font *******************************/}
 
 			<Item icon={<IconFontSize />} title={l.t('_c.settings.fontSize')} desc={l.t('_c.settings.fontSizeDesc')}>
-				<Slider.Root
+				<Slider
 					class={styles.range}
 					format={v => `${v}px`}
 					min={12}
@@ -134,7 +134,7 @@ export function Root(props: Props) {
 			{/***************************** mode *******************************/}
 			<Separator />
 			<Item icon={<IconMode />} title={l.t('_c.settings.mode')} desc={l.t('_c.settings.modeDesc')}>
-				<RadioGroup.Root
+				<RadioGroup
 					layout="horizontal"
 					value={accessor.getMode()}
 					onChange={v => accessor.setMode(v ?? origin.mode)}
@@ -155,7 +155,7 @@ export function Root(props: Props) {
 			<Separator />
 			<Show when={origin.schemes && accessor.getScheme()}>
 				<Item icon={<IconPalette />} title={l.t('_c.settings.scheme')} desc={l.t('_c.settings.schemeDesc')}>
-					<SchemeSelector.Root
+					<SchemeSelector
 						schemes={origin.schemes}
 						value={accessor.getScheme()}
 						onChange={val => accessor.setScheme(val)}
@@ -171,7 +171,7 @@ export function Root(props: Props) {
 				title={l.t('_c.settings.transitionDuration')}
 				desc={l.t('_c.settings.transitionDurationDesc')}
 			>
-				<Slider.Root
+				<Slider
 					disabled={isReducedMotion()}
 					class={styles.range}
 					format={v => `${v}ms`}
@@ -187,7 +187,7 @@ export function Root(props: Props) {
 
 			<Separator />
 			<Item icon={<IconNotify />} title={l.t('_c.settings.stays')} desc={l.t('_c.settings.staysDesc')}>
-				<InputNumber.Root
+				<InputNumber
 					value={accessor.getStays()}
 					onChange={v => accessor.setStays(v ?? origin.stays)}
 					min={1000}
@@ -201,7 +201,7 @@ export function Root(props: Props) {
 
 			<Separator />
 			<Item icon={/*@once*/ <IconTranslate />} title={l.t('_c.settings.locale')} desc={l.t('_c.settings.localeDesc')}>
-				<Choice.Root
+				<Choice
 					class={styles.locale}
 					value={accessor.getLocale()}
 					onChange={v => accessor.setLocale(v ?? origin.locale)}
@@ -217,7 +217,7 @@ export function Root(props: Props) {
 				title={l.t('_c.settings.displayStyle')}
 				desc={l.t('_c.settings.displayStyleDesc')}
 			>
-				<RadioGroup.Root
+				<RadioGroup
 					layout="horizontal"
 					value={accessor.getDisplayStyle()}
 					onChange={v => accessor.setDisplayStyle(v ?? origin.displayStyle)}
@@ -247,7 +247,7 @@ export function Root(props: Props) {
 				desc={l.t('_c.settings.timezoneDesc')}
 			>
 				<div>
-					<Timezone.Root
+					<Timezone
 						value={accessor.getTimezone()}
 						onChange={v => {
 							accessor.setTimezone(v);
@@ -260,7 +260,7 @@ export function Root(props: Props) {
 
 			<Separator />
 			<Item icon={/*@once*/ <IconReset />} title={l.t('_c.settings.resetOptions')}>
-				<Button.Root
+				<Button
 					kind="fill"
 					palette="error"
 					onclick={() => {
@@ -272,7 +272,7 @@ export function Root(props: Props) {
 					}}
 				>
 					{l.t('_c.reset')}
-				</Button.Root>
+				</Button>
 			</Item>
 		</div>
 	);

@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Editor from './mod';
+import { EditorComponent } from './root';
+
+export const Editor = EditorComponent;
+
+export namespace Editor {
+	export type Ref = import('./root').EditorRef;
+	export type Props = import('./root').EditorProps;
+}

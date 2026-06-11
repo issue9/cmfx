@@ -163,13 +163,13 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('union interface', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Button.RootProps');
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Button.Props');
 		expect(items).length(1);
 
 		const props = items![0];
 		expect(props.kind).toEqual('union');
 		if (props.kind === 'union') {
-			expect(props.name).toEqual('Button.RootProps');
+			expect(props.name).toEqual('Button.Props');
 			expect(props.summary).toBeUndefined();
 			expect(props.remarks).toBeUndefined();
 
@@ -177,14 +177,14 @@ describe('Extractor', { timeout: 20000 }, () => {
 			expect(props.types).length(2);
 
 			const u0 = props.types![0] as Interface;
-			expect(u0.name).toEqual('ButtonProps'); // 在 d.ts 中该类型在全局中，然后被引入 Button 空间
+			expect(u0.name).toEqual('ButtonNormalProps'); // 最终指向的是全局中的类型名
 			expect(u0.kind).toEqual('interface');
 			const u0Type = u0.properties?.find(p => p.name === 'type');
 			expect(u0Type).toBeDefined();
 			expect(u0Type?.type).toEqual('"submit" | "reset" | "button" | "menu" | undefined');
 
 			const u1 = props.types![1] as Interface;
-			expect(u1.name).toEqual('AnchorProps'); // 在 d.ts 中该类型在全局中，然后被引入 Button 空间
+			expect(u1.name).toEqual('ButtonAnchorProps'); // 最终指向的是全局中的类型名
 			expect(u1.kind).toEqual('interface');
 			const u1Type = u1.properties?.find(p => p.name === 'type');
 			expect(u1Type).toBeDefined();
@@ -193,14 +193,14 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('union intersection interface', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ConfirmButton.RootProps');
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'ConfirmButton.Props');
 		expect(items).length(1);
 
 		const props = items![0];
 		expect(props.kind).toEqual('union');
 
 		if (props.kind === 'union') {
-			expect(props.name).toEqual('ConfirmButton.RootProps');
+			expect(props.name).toEqual('ConfirmButton.Props');
 			expect(props.summary).toBeUndefined();
 			expect(props.remarks).toBeUndefined();
 
@@ -218,7 +218,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('intersection', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Divider.RootProps');
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Divider.Props');
 		expect(items).length(1);
 
 		const alias = items![0];
@@ -277,6 +277,39 @@ describe('Extractor', { timeout: 20000 }, () => {
 			expect(ps[1].name).toEqual('cls');
 			expect(ps[1].type).toEqual('(string | null | undefined)[]');
 			expect(ps[1].summary?.trim()).toEqual('CSS 类名列表；');
+		}
+	});
+
+	test('type G<T>=X<T>', () => {
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Button.Ref');
+		expect(items).length(1);
+
+		const f = items![0];
+		expect(f.kind).toEqual('interface');
+
+		if (f.kind === 'interface') {
+			expect(f.name).toEqual('Button.Ref');
+		}
+	});
+
+	test('namespace function', () => {
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Code.buildHighlighter');
+		expect(items).length(1);
+
+		const f = items![0];
+		expect(f.kind).toEqual('function');
+
+		if (f.kind === 'function') {
+			expect(f.name).toEqual('Code.buildHighlighter');
+
+			expect(f.return).toBeDefined();
+			expect(f.return.type).toEqual('Promise<CodeHighlighter>');
+			expect(f.return.summary?.trim()).toEqual(`返回
+\`CodeHighlighter\`
+对象；`);
+
+			const ps = f.params!;
+			expect(ps).length(2);
 		}
 	});
 

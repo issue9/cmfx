@@ -5,7 +5,7 @@
 import { For, type JSX } from 'solid-js';
 
 import { joinClass } from '@components/base';
-import type { Accessor, Space } from './space';
+import type { Accessor, ColorSpace } from './space';
 import styles from './style.module.css';
 
 const chars = ['0', '3', '6', '9', 'c', 'f'] as const;
@@ -13,9 +13,9 @@ const chars = ['0', '3', '6', '9', 'c', 'f'] as const;
 const values = chars.flatMap(v1 => chars.flatMap(v2 => chars.map(v3 => `#${v1}${v2}${v3}`)));
 
 /**
- * web 安全色的 {@link Space} 实现
+ * web 安全色的 {@link ColorSpace} 实现
  */
-export class WebSafeSpace implements Space {
+export class WebSafeSpace implements ColorSpace {
 	readonly #disabled: Array<string> = [];
 
 	/**

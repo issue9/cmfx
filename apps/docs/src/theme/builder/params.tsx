@@ -39,7 +39,7 @@ import { convertSchemeVar2Color, type SchemeStore } from './utils';
 export function params(s: SchemeStore): JSX.Element {
 	const l = useLocale();
 	const [act, opt] = useOptions();
-	let dlg: Dialog.RootRef;
+	let dlg: Dialog.Ref;
 
 	const schemes = Array.from(opt.schemes).map(s => {
 		return { type: 'item', value: s[0], label: s[0] };
@@ -51,8 +51,8 @@ export function params(s: SchemeStore): JSX.Element {
 		<div class={styles.params}>
 			<div class={joinClass('primary', styles.toolbar)}>
 				<div class={styles.actions}>
-					<ButtonGroup.Root kind="border">
-						<Dropdown.Root
+					<ButtonGroup kind="border">
+						<Dropdown
 							trigger="click"
 							selectedClass=""
 							items={schemes}
@@ -65,24 +65,24 @@ export function params(s: SchemeStore): JSX.Element {
 								s[1](convertSchemeVar2Color(unwrap(obj)));
 							}}
 						>
-							<Button.Root kind="border" square title={l.t('_d.theme.loadPredefinedSchemes')}>
+							<Button kind="border" square title={l.t('_d.theme.loadPredefinedSchemes')}>
 								<IconLoad />
-							</Button.Root>
-						</Dropdown.Root>
-						<Button.Root square title={l.t('_d.theme.generateScheme')} onclick={() => random(s)}>
+							</Button>
+						</Dropdown>
+						<Button square title={l.t('_d.theme.generateScheme')} onclick={() => random(s)}>
 							<IconRand />
-						</Button.Root>
-					</ButtonGroup.Root>
+						</Button>
+					</ButtonGroup>
 				</div>
 
-				<ButtonGroup.Root kind="border">
-					<Button.Root square onclick={async () => act.setScheme(unwrap(s[0]))} title={l.t('_d.theme.apply')}>
+				<ButtonGroup kind="border">
+					<Button square onclick={async () => act.setScheme(unwrap(s[0]))} title={l.t('_d.theme.apply')}>
 						<IconApply />
-					</Button.Root>
-					<Button.Root square onclick={() => dlg.root().showModal()} title={l.t('_d.theme.export')}>
+					</Button>
+					<Button square onclick={() => dlg.root().showModal()} title={l.t('_d.theme.export')}>
 						<IconExport />
-					</Button.Root>
-				</ButtonGroup.Root>
+					</Button>
+				</ButtonGroup>
 			</div>
 
 			<div class={styles.ps}>
@@ -90,19 +90,19 @@ export function params(s: SchemeStore): JSX.Element {
 				{radiusParams(l, s)}
 			</div>
 
-			<Dialog.Root
+			<Dialog
 				class="h-1/3"
 				ref={el => (dlg = el)}
 				header={
 					<Dialog.Toolbar movable close>
-						<Label.Root icon={<IconExport />}>{l.t('_d.theme.export')}</Label.Root>
+						<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>
 					</Dialog.Toolbar>
 				}
 			>
-				<Code.Root lang="json" class="h-full" ln={0} decorates={['copy-button']}>
+				<Code lang="json" class="h-full" ln={0} decorates={['copy-button']}>
 					{source()}
-				</Code.Root>
-			</Dialog.Root>
+				</Code>
+			</Dialog>
 		</div>
 	);
 }
@@ -146,10 +146,10 @@ export function random(s: SchemeStore) {
 function radiusParams(l: Locale, s: SchemeStore): JSX.Element {
 	return (
 		<div class={styles.param}>
-			<Divider.Root>
+			<Divider>
 				<IconRadius class="me-1" />
 				{l.t('_d.theme.radius')}
-			</Divider.Root>
+			</Divider>
 			{radius('xs', s, 'xs')}
 			{radius('sm', s, 'sm')}
 			{radius('md', s, 'md')}
@@ -174,7 +174,7 @@ function radius(title: string, s: SchemeStore, a: keyof Scheme['radius']): JSX.E
 	return (
 		<div class={styles.radius}>
 			<Form.Field label={<span class={styles.title}>{title}</span>}>
-				<RadioGroup.Root
+				<RadioGroup
 					class="w-full"
 					value={s[0].radius[a]}
 					onChange={v => s[1]('radius', a, v!)}
@@ -190,10 +190,10 @@ function radius(title: string, s: SchemeStore, a: keyof Scheme['radius']): JSX.E
 function colorsParams(l: Locale, s: SchemeStore): JSX.Element {
 	return (
 		<div class={styles.param}>
-			<Divider.Root>
+			<Divider>
 				<IconColors class="me-1" />
 				{l.t('_d.theme.colors')}
-			</Divider.Root>
+			</Divider>
 			<PalettePicker palette="primary" schemes={s} />
 			<PalettePicker palette="secondary" schemes={s} />
 			<PalettePicker palette="tertiary" schemes={s} />
@@ -204,7 +204,7 @@ function colorsParams(l: Locale, s: SchemeStore): JSX.Element {
 }
 
 function PalettePicker(props: { palette: Palette; schemes: SchemeStore }): JSX.Element {
-	let rangeRef: Slider.RootRef;
+	let rangeRef: Slider.Ref;
 	const palette = props.schemes[0][props.palette];
 
 	const c = new Color(palette ?? 'transparent');
@@ -230,7 +230,7 @@ function PalettePicker(props: { palette: Palette; schemes: SchemeStore }): JSX.E
 
 	return (
 		<Form.Field layout="vertical" label={props.palette}>
-			<Slider.Root
+			<Slider
 				min={0}
 				max={360}
 				step={0.01}

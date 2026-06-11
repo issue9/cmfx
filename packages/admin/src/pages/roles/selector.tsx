@@ -8,7 +8,7 @@ import { createSignal, type JSX, onMount } from 'solid-js';
 import { handleProblem, useREST } from '@admin/app';
 import type { Role } from './roles';
 
-type P = Choice.RootProps<string>;
+type P = Choice.Props<string>;
 
 interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
 
@@ -34,5 +34,5 @@ export function Selector(props: Props): JSX.Element {
 		setRoles(rs);
 	});
 
-	return <Choice.Root options={roles()} {...props} />;
+	return <Choice options={roles()} {...props} />;
 }

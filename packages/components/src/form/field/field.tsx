@@ -12,7 +12,7 @@ import { area2Style, calcAreas } from './area';
 import { createFakeField, FieldProvider } from './context';
 import styles from './style.module.css';
 
-export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProps, ParentProps {
+export interface FormFieldProps<T extends Flattenable> extends CommonProps, BaseProps, ParentProps {
 	/**
 	 * 字段标签
 	 *
@@ -40,7 +40,7 @@ export interface FieldProps<T extends Flattenable> extends CommonProps, BaseProp
 	readonly name?: FlattenKeys<T>;
 }
 
-export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element {
+export function Field<T extends Flattenable>(props: FormFieldProps<T>): JSX.Element {
 	// NOTE: 采用 grid 主要是方便对齐方式的实现。
 	// 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
 	// help 应该与 input 左对齐，而不是与 label 左对齐。
@@ -56,7 +56,7 @@ export function Field<T extends Flattenable>(props: FieldProps<T>): JSX.Element 
 		{
 			layout: 'horizontal',
 			labelAlign: (form?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
-		} as FieldProps<T>,
+		} as FormFieldProps<T>,
 		form,
 		props,
 	);

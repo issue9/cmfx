@@ -18,24 +18,24 @@ export default function (props: MountProps) {
 				<Palette />
 			</Portal>
 
-			<Appbar.Root
+			<Appbar
 				href="/"
 				palette={palette()}
 				title={opt.title}
 				logo={<Appbar.Image src={opt.logo} />}
 				actions={
 					<>
-						<Button.Root square>
+						<Button square>
 							<IconEye />
-						</Button.Root>
-						<Button.Root square>
+						</Button>
+						<Button square>
 							<IconEye />
-						</Button.Root>
+						</Button>
 					</>
 				}
 			>
 				<IconEye />
-			</Appbar.Root>
+			</Appbar>
 		</>
 	);
 }

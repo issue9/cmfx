@@ -29,7 +29,7 @@
 		"kind": "function",
 		"name": "Formatter.createBytes",
 		"summary": "创建用于格式化字节大小的函数\n\n",
-		"type": "declare function createBytes(l: Locale, unit?: Unit_2, per?: string): (byte: number) => string",
+		"type": "declare function createBytes(l: Locale, unit?: FormatterByteUnit, per?: string): (byte: number) => string",
 		"params": [
 			{
 				"name": "l",
@@ -57,12 +57,6 @@
 		"name": "Formatter.ByteUnit",
 		"kind": "literal",
 		"type": "\"byte\" | \"kilobyte\" | \"megabyte\" | \"gigabyte\" | \"terabyte\" | \"petabyte\"",
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "source",
-		"name": "Formatter.byteUnits",
-		"source": "units_2: readonly [\"byte\", \"kilobyte\", \"megabyte\", \"gigabyte\", \"terabyte\", \"petabyte\"]",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -95,7 +89,7 @@
 		"kind": "function",
 		"name": "Formatter.createBits",
 		"summary": "创建用于格式化位大小的函数\n\n",
-		"type": "declare function createBits(l: Locale, unit?: Unit, per?: string): (bit: number) => string",
+		"type": "declare function createBits(l: Locale, unit?: FormatterBitUnit, per?: string): (bit: number) => string",
 		"params": [
 			{
 				"name": "l",
@@ -123,12 +117,6 @@
 		"name": "Formatter.BitUnit",
 		"kind": "literal",
 		"type": "\"bit\" | \"kilobit\" | \"megabit\" | \"gigabit\" | \"terabit\"",
-		"pkg": "@cmfx/components"
-	},
-	{
-		"kind": "source",
-		"name": "Formatter.bitUnits",
-		"source": "units: readonly [\"bit\", \"kilobit\", \"megabit\", \"gigabit\", \"terabit\"]",
 		"pkg": "@cmfx/components"
 	}
 ]

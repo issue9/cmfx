@@ -44,16 +44,16 @@ const currentPage = current.build('/current', () => {
 		<>
 			<current.MemberStatisticPanel />
 			<div class="flex gap-4">
-				<Card.Root class="basis-1/2">1/2</Card.Root>
-				<Card.Root class="basis-1/2">1/2</Card.Root>
+				<Card class="basis-1/2">1/2</Card>
+				<Card class="basis-1/2">1/2</Card>
 			</div>
 			<div class="flex gap-4">
-				<Card.Root class="basis-1/3" header={<Label.Root icon={<IconDashboard />}>dashboard</Label.Root>}>
+				<Card class="basis-1/3" header={<Label icon={<IconDashboard />}>dashboard</Label>}>
 					1/3
-				</Card.Root>
+				</Card>
 				<div class="flex basis-2/3 flex-col gap-4">
-					<Card.Root header={<Label.Root icon={<IconDashboard />}>dashboard</Label.Root>}>line 1</Card.Root>
-					<Card.Root>line 2</Card.Root>
+					<Card header={<Label icon={<IconDashboard />}>dashboard</Label>}>line 1</Card>
+					<Card>line 2</Card>
 				</div>
 			</div>
 		</>

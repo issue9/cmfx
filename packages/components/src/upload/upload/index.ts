@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Upload from './mod';
+import { Upload as C } from './root';
+
+export const Upload = C;
+
+export namespace Upload {
+	export type Props = import('./root').UploadProps;
+	export type Ref = import('./root').UploadRef;
+}

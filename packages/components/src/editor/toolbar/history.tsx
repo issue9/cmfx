@@ -22,7 +22,7 @@ export function Redo(props: Props): JSX.Element {
 	onCleanup(() => props.editor.off('update', update));
 
 	return (
-		<Button.Root
+		<Button
 			title={l.t('_c.editor.redo')}
 			square
 			kind="flat"
@@ -31,7 +31,7 @@ export function Redo(props: Props): JSX.Element {
 			onclick={() => props.editor.chain().focus().redo().run()}
 		>
 			<IconRedo />
-		</Button.Root>
+		</Button>
 	);
 }
 
@@ -44,7 +44,7 @@ export function Undo(props: Props): JSX.Element {
 	onCleanup(() => props.editor.off('update', update));
 
 	return (
-		<Button.Root
+		<Button
 			title={l.t('_c.editor.undo')}
 			square
 			kind="flat"
@@ -53,6 +53,6 @@ export function Undo(props: Props): JSX.Element {
 			onclick={() => props.editor.chain().focus().undo().run()}
 		>
 			<IconUndo />
-		</Button.Root>
+		</Button>
 	);
 }

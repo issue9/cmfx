@@ -6,14 +6,14 @@ import { describe, expect, test } from 'vitest';
 
 import { Button } from '@components/button/button';
 import { ComponentTester } from '@components/context/options/context.spec.tsx';
-import { type Ref, Root } from './root';
+import { GroupButton, type GroupButtonRef } from './root';
 
 describe('ButtonGroup', async () => {
-	let ref: Ref;
+	let ref: GroupButtonRef;
 	const ct = await ComponentTester.build('ButtonGroup', props => (
-		<Root ref={el => (ref = el)} {...props}>
-			<Button.Root>btn1</Button.Root>
-		</Root>
+		<GroupButton ref={el => (ref = el)} {...props}>
+			<Button>btn1</Button>
+		</GroupButton>
 	));
 
 	test('props', () => ct.testProps());

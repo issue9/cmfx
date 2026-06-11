@@ -6,9 +6,9 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Table.RootProps
-            - Table.RootRef
+            - Table.Props
+            - Table.Ref
 
-            - DataTable.RootProps
-            - DataTable.RootRef
+            - DataTable.Props
+            - DataTable.Ref
             - DataTable.Column

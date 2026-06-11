@@ -2,5 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as MonthView from './mod';
-export type { WeekValueType } from './types';
+import { MonthView as C } from './root';
+
+export const MonthView = C;
+
+export namespace MonthView {
+	export type Props = import('./types').MonthViewProps;
+	export type Ref = import('./types').MonthViewRef;
+	export type WeekValueType = import('./types').MonthViewWeekValueType;
+}

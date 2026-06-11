@@ -5,7 +5,7 @@
 import { For, type JSX } from 'solid-js';
 
 import { joinClass } from '@components/base';
-import type { Accessor, Space } from './space';
+import type { Accessor, ColorSpace } from './space';
 import styles from './style.module.css';
 
 // NOTE: 如果是动态生成，tailwind 不会将这些变量编译到最终生成的 css 中。
@@ -276,9 +276,9 @@ const vars: Array<string> = [
 ] as const;
 
 /**
- * tailwind 提供的颜色列表 {@link Space} 实现
+ * tailwind 提供的颜色列表 {@link ColorSpace} 实现
  */
-export class TailwindVarsSpace implements Space {
+export class TailwindVarsSpace implements ColorSpace {
 	readonly #disabled: Array<string> = [];
 
 	/**

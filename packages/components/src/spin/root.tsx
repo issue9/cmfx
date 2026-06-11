@@ -8,13 +8,13 @@ import { Dynamic } from 'solid-js/web';
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
 import styles from './style.module.css';
 
-export type Ref<T extends keyof HTMLElementTagNameMap = 'div'> = BaseRef<
+export type SpinRef<T extends keyof HTMLElementTagNameMap = 'div'> = BaseRef<
 	T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement
 >;
 
-export type Props<T extends keyof HTMLElementTagNameMap = 'div'> = ParentProps &
+export type SpinProps<T extends keyof HTMLElementTagNameMap = 'div'> = ParentProps &
 	BaseProps &
-	RefProps<Ref<T>> & {
+	RefProps<SpinRef<T>> & {
 		/**
 		 * 自定义标签
 		 *
@@ -53,7 +53,7 @@ export type Props<T extends keyof HTMLElementTagNameMap = 'div'> = ParentProps &
  * @remarks
  * 该组件可以作为任何具有加载状态的组件的容器。
  */
-export function Root<T extends keyof HTMLElementTagNameMap = 'div'>(props: Props<T>) {
+export function Spin<T extends keyof HTMLElementTagNameMap = 'div'>(props: SpinProps<T>) {
 	const [, p] = splitProps(props, [
 		'class',
 		'style',
@@ -74,7 +74,7 @@ export function Root<T extends keyof HTMLElementTagNameMap = 'div'>(props: Props
 			aria-busy={props.spinning ? true : undefined}
 			class={joinClass(props.palette, styles.spin, props.class)}
 			style={props.style}
-			ref={(el: ReturnType<Ref<T>['root']>) => {
+			ref={(el: ReturnType<SpinRef<T>['root']>) => {
 				if (!props.ref) {
 					return;
 				}

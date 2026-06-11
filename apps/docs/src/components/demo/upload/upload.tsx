@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<div title="basic">
-				<Album.Root
+				<Album
 					hasHelp
 					layout={layout()}
 					fieldName="file"
@@ -45,7 +45,7 @@ export default function (props: MountProps): JSX.Element {
 			</div>
 
 			<div title="basic+drop">
-				<Album.Root
+				<Album
 					hasHelp
 					layout={layout()}
 					fieldName="file"

@@ -12,7 +12,7 @@ import IconPerson from '~icons/material-symbols/person';
 import { arraySelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	let aref: IconSet.RootRef;
+	let aref: IconSet.Ref;
 	const [Rotation, rotation] = arraySelector<IconSet.Rotation>('rotation', IconSet.rotations, 'none');
 	const [Palette, palette] = paletteSelector();
 
@@ -23,8 +23,8 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Button.Root palette={palette()} onclick={() => aref.next()}>
-				<IconSet.Root
+			<Button palette={palette()} onclick={() => aref.next()}>
+				<IconSet
 					class="aspect-square w-8!"
 					ref={el => (aref = el)}
 					icons={{
@@ -34,15 +34,15 @@ export default function (props: MountProps): JSX.Element {
 					}}
 					rotation={rotation()}
 				/>
-			</Button.Root>
+			</Button>
 
-			<Button.Root palette={palette()} onclick={() => aref.to('face')}>
+			<Button palette={palette()} onclick={() => aref.to('face')}>
 				face
-			</Button.Root>
-			<Button.Root palette={palette()} onclick={() => aref.to('close')}>
+			</Button>
+			<Button palette={palette()} onclick={() => aref.to('close')}>
 				close
-			</Button.Root>
-			<Button.Root
+			</Button>
+			<Button
 				palette={palette()}
 				onclick={() => {
 					try {
@@ -53,14 +53,14 @@ export default function (props: MountProps): JSX.Element {
 				}}
 			>
 				not-exists
-			</Button.Root>
+			</Button>
 
-			<Button.Root palette={palette()} onclick={() => aref.next()}>
+			<Button palette={palette()} onclick={() => aref.next()}>
 				next
-			</Button.Root>
-			<Button.Root palette={palette()} onclick={() => aref.prev()}>
+			</Button>
+			<Button palette={palette()} onclick={() => aref.prev()}>
 				prev
-			</Button.Root>
+			</Button>
 		</div>
 	);
 }

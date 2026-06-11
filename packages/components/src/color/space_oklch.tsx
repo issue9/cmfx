@@ -8,7 +8,7 @@ import { createEffect, type JSX, untrack } from 'solid-js';
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Slider } from '@components/slider';
-import type { Accessor, Space } from './space';
+import type { Accessor, ColorSpace } from './space';
 import { var2Color } from './space_vars';
 import styles from './style.module.css';
 
@@ -20,9 +20,9 @@ type OKLCH = {
 };
 
 /**
- * OKLCH 的 {@link Space} 实现
+ * OKLCH 的 {@link ColorSpace} 实现
  */
-export class OKLCHSpace implements Space {
+export class OKLCHSpace implements ColorSpace {
 	readonly #l?: number;
 	readonly #c?: number;
 	readonly #h?: number;
@@ -56,10 +56,10 @@ export class OKLCHSpace implements Space {
 	}
 
 	panel(access: Accessor, parent: HTMLElement): JSX.Element {
-		let rl: Slider.RootRef;
-		let rc: Slider.RootRef;
-		let rh: Slider.RootRef;
-		let ra: Slider.RootRef;
+		let rl: Slider.Ref;
+		let rc: Slider.Ref;
+		let rh: Slider.Ref;
+		let ra: Slider.Ref;
 
 		const c = new Color(var2Color(parent, untrack(access.getValue)) ?? 'oklch(1 .4 1)').to('oklch');
 		const [F, Field, api] = Form.create<OKLCH>({
@@ -111,7 +111,7 @@ export class OKLCHSpace implements Space {
 		return (
 			<F class={styles.oklch} layout="vertical">
 				<Field label={l.t('_c.color.lightness')} name="l">
-					<Slider.Root
+					<Slider
 						fitHeight
 						ref={el => (rl = el)}
 						disabled={!!this.#l}
@@ -123,7 +123,7 @@ export class OKLCHSpace implements Space {
 				</Field>
 
 				<Field label={l.t('_c.color.chroma')} name="c">
-					<Slider.Root
+					<Slider
 						fitHeight
 						ref={el => (rc = el)}
 						disabled={!!this.#c}
@@ -135,7 +135,7 @@ export class OKLCHSpace implements Space {
 				</Field>
 
 				<Field label={l.t('_c.color.hue')} name="h">
-					<Slider.Root
+					<Slider
 						fitHeight
 						ref={el => (rh = el)}
 						disabled={!!this.#h}
@@ -147,7 +147,7 @@ export class OKLCHSpace implements Space {
 				</Field>
 
 				<Field label={l.t('_c.color.alpha')} name="a">
-					<Slider.Root
+					<Slider
 						fitHeight
 						ref={el => (ra = el)}
 						disabled={!!this.#a}

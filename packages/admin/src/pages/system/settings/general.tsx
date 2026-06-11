@@ -38,16 +38,16 @@ export function General(): JSX.Element {
 	});
 
 	return (
-		<Form.Root api={api} layout="vertical">
-			<InputText.Root label={l.t('_p.system.settings.name')} accessor={api.accessor('name')} />
-			<InputText.Root label={l.t('_p.system.settings.shortName')} accessor={api.accessor('shortName')} />
-			<InputText.Root label={l.t('_p.system.settings.description')} accessor={api.accessor('description')} />
-			<InputText.Root label={l.t('_p.system.settings.logo')} accessor={api.accessor('logo')} />
+		<Form api={api} layout="vertical">
+			<InputText label={l.t('_p.system.settings.name')} accessor={api.accessor('name')} />
+			<InputText label={l.t('_p.system.settings.shortName')} accessor={api.accessor('shortName')} />
+			<InputText label={l.t('_p.system.settings.description')} accessor={api.accessor('description')} />
+			<InputText label={l.t('_p.system.settings.logo')} accessor={api.accessor('logo')} />
 
 			<footer class={styles.actions}>
 				<Form.Reset>{l.t('_c.reset')}</Form.Reset>
 				<Form.Submit>{l.t('_c.ok')}</Form.Submit>
 			</footer>
-		</Form.Root>
+		</Form>
 	);
 }

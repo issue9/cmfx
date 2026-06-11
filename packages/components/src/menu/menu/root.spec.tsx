@@ -6,10 +6,10 @@ import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import type { MenuItem } from './item';
-import { type Ref, Root, selectedElements } from './root';
+import type { MenuMenuItem } from './item';
+import { Menu, type MenuRef, selectedElements } from './root';
 
-const items: Array<MenuItem> = [
+const items: Array<MenuMenuItem> = [
 	{ type: 'item', value: 'v1', label: 'v1-label' },
 	{ type: 'item', value: 'v2', label: 'v2-label', disabled: true },
 	{ type: 'item', value: 'v3', label: 'v3-label' },
@@ -41,9 +41,9 @@ const items: Array<MenuItem> = [
 ];
 
 describe('Menu', async () => {
-	let ref: Ref;
+	let ref: MenuRef;
 	const ct = await ComponentTester.build('Menu', props => (
-		<Root {...props} multiple items={items} value={['v1', 'v233']} ref={el => (ref = el)} />
+		<Menu {...props} multiple items={items} value={['v1', 'v233']} ref={el => (ref = el)} />
 	));
 
 	test('ref', async () => {

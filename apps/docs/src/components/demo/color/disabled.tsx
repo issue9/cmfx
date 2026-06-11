@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Color.Root
+			<Color
 				palette={palette()}
 				value="rgb(255 10 10)"
 				spaces={[
@@ -28,7 +28,7 @@ export default function (props: MountProps): JSX.Element {
 					new Color.WebSafeSpace('#fff', '#000'),
 					new Color.PresetSpace('#fff', '#000', 'white', 'oklch(1 1 1)', 'rgb(1 2 3)'),
 				]}
-			></Color.Root>
+			></Color>
 		</>
 	);
 }

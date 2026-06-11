@@ -30,10 +30,10 @@ export function Image(props: Props): JSX.Element {
 		initValue: { src: '', alt: '' },
 	});
 
-	let dlg: Dialog.RootRef;
+	let dlg: Dialog.Ref;
 	return (
 		<>
-			<Button.Root
+			<Button
 				title={l.t('_c.editor.addImage')}
 				kind="flat"
 				square
@@ -43,9 +43,9 @@ export function Image(props: Props): JSX.Element {
 				}}
 			>
 				<IconImage />
-			</Button.Root>
+			</Button>
 
-			<Dialog.Root
+			<Dialog
 				ref={el => (dlg = el)}
 				mainClass={styles['image-main']}
 				footer={
@@ -76,14 +76,14 @@ export function Image(props: Props): JSX.Element {
 			>
 				<F inDialog>
 					<Field label="src" name="src">
-						<InputText.Root />
+						<InputText />
 					</Field>
 
 					<Field label="alt" name="alt">
-						<InputText.Root />
+						<InputText />
 					</Field>
 				</F>
-			</Dialog.Root>
+			</Dialog>
 		</>
 	);
 }

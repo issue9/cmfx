@@ -213,8 +213,8 @@ function Doc(props: DocProps): JSX.Element {
 	const route = useCurrentMatches()();
 	const title = route[route.length - 1].route.info?.title;
 
-	let articleRef!: Markdown.RootRef;
-	let navRef: Nav.RootRef;
+	let articleRef!: Markdown.Ref;
+	let navRef: Nav.Ref;
 
 	const text = createMemo(() => {
 		const articles = fileObject2Map(props.articles);
@@ -238,7 +238,7 @@ function Doc(props: DocProps): JSX.Element {
 				? typeObj.get(l.match(locales, origin.locale))
 				: typeObj.values().next().value;
 
-		const obj: Markdown.RootProps['components'] = {};
+		const obj: Markdown.Props['components'] = {};
 		ret.forEach(t => {
 			obj[`${t.pkg}%${t.name}`] = () => <APIDoc api={t} />;
 		});
@@ -246,29 +246,29 @@ function Doc(props: DocProps): JSX.Element {
 	});
 
 	return (
-		<Page.Root title={title} class={styles.docs}>
-			<Markdown.Root
+		<Page title={title} class={styles.docs}>
+			<Markdown
 				class={styles.doc}
 				ref={el => (articleRef = el)}
 				text={text()}
 				components={components()}
 				onComplete={() => navRef.refresh()}
 			/>
-			<Nav.Root
+			<Nav
 				minHeaderCount={5}
 				class={styles.nav}
 				ref={el => (navRef = el)}
 				target={articleRef.root()}
 				query="h2,h3,h4,h5,h6"
 			/>
-		</Page.Root>
+		</Page>
 	);
 }
 
 /**
  * 提供了文档浏览的路由定义
  */
-export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | undefined>): RouteDefinition {
+export function buildRoute(prefix: string, setDrawer: Setter<Drawer.Ref | undefined>): RouteDefinition {
 	if (!prefix.endsWith('/')) {
 		prefix += '/';
 	}
@@ -277,9 +277,9 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 		path: prefix,
 		component: (props: ParentProps) => {
 			const l = useLocale();
-			let menuRef: Menu.RootRef;
+			let menuRef: Menu.Ref;
 
-			let ref: Drawer.RootRef;
+			let ref: Drawer.Ref;
 			onMount(() => {
 				setDrawer(ref);
 				menuRef.scrollSelectedIntoView();
@@ -287,7 +287,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 			onCleanup(() => setDrawer(undefined));
 
 			return (
-				<Drawer.Root
+				<Drawer
 					initValue
 					floating={floatingWidth}
 					ref={el => (ref = el)}
@@ -295,8 +295,8 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.RootRef | un
 					mainClass={joinClass('surface')}
 					main={props.children}
 				>
-					<Menu.Root ref={el => (menuRef = el)} class="min-w-60" layout="inline" items={buildMenus(l, prefix)} />
-				</Drawer.Root>
+					<Menu ref={el => (menuRef = el)} class="min-w-60" layout="inline" items={buildMenus(l, prefix)} />
+				</Drawer>
 			);
 		},
 		children: routes,

@@ -5,14 +5,14 @@
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type Ref, Root } from './root';
+import { BackTop, type BackTopRef } from './root';
 
 describe('BackTop', async () => {
-	let ref: Ref;
+	let ref: BackTopRef;
 	const ct = await ComponentTester.build('BackTop', props => (
-		<Root {...props} ref={el => (ref = el)}>
+		<BackTop {...props} ref={el => (ref = el)}>
 			abc
-		</Root>
+		</BackTop>
 	));
 
 	test('ref', async () => {

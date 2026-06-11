@@ -29,8 +29,8 @@ interface Props {
 export function Roles(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
-	let tableRef: RemoteTable.RootRef<Role>;
-	let dialogRef: Dialog.RootRef;
+	let tableRef: RemoteTable.Ref<Role>;
+	let dialogRef: Dialog.Ref;
 	const current = new Form.ObjectAccessor({} as Role);
 	const currentID = current.accessor('id');
 
@@ -74,8 +74,8 @@ export function Roles(props: Props): JSX.Element {
 	};
 
 	return (
-		<Page.Root title="_p.roles.rolesManager" class={styles.roles}>
-			<Dialog.Root
+		<Page title="_p.roles.rolesManager" class={styles.roles}>
+			<Dialog
 				ref={el => (dialogRef = el)}
 				header={currentID.getValue() ? l.t('_p.editItem') : l.t('_p.newItem')}
 				footer={
@@ -88,12 +88,12 @@ export function Roles(props: Props): JSX.Element {
 				}
 			>
 				<form class={styles.form}>
-					<InputText.Root accessor={current.accessor<string>('name')} />
-					<TextArea.Root accessor={current.accessor<string>('description')} />
+					<InputText accessor={current.accessor<string>('name')} />
+					<TextArea accessor={current.accessor<string>('description')} />
 				</form>
-			</Dialog.Root>
+			</Dialog>
 
-			<RemoteTable.Root
+			<RemoteTable
 				rest={rest}
 				ref={el => (tableRef = el)}
 				path="/roles"
@@ -109,7 +109,7 @@ export function Roles(props: Props): JSX.Element {
 						label: l.t('_p.actions'),
 						renderContent: ((_, __, obj) => (
 							<div class="flex gap-x-2">
-								<Button.Root
+								<Button
 									square
 									rounded
 									palette="tertiary"
@@ -117,8 +117,8 @@ export function Roles(props: Props): JSX.Element {
 									title={l.t('_p.editItem')}
 								>
 									<IconEdit />
-								</Button.Root>
-								<Button.Root
+								</Button>
+								<Button
 									square
 									rounded
 									palette="tertiary"
@@ -127,18 +127,18 @@ export function Roles(props: Props): JSX.Element {
 									title={l.t('_p.roles.editPermission')}
 								>
 									<IconPasskey />
-								</Button.Root>
+								</Button>
 								<RemoteTable.DeleteAction table={tableRef} id={obj!.id} />
 							</div>
 						)) as DataTable.Column<Role>['renderContent'],
 					},
 				]}
 				toolbar={
-					<Button.Root palette="primary" onclick={() => edit('')}>
+					<Button palette="primary" onclick={() => edit('')}>
 						{l.t('_p.newItem')}
-					</Button.Root>
+					</Button>
 				}
 			/>
-		</Page.Root>
+		</Page>
 	);
 }

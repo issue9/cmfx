@@ -1,7 +1,7 @@
 [
 	{
 		"kind": "interface",
-		"name": "Settings.RootProps",
+		"name": "Settings.Props",
 		"properties": [
 			{
 				"name": "onReset",
@@ -53,7 +53,7 @@
 				}
 			}
 		],
-		"name": "Settings.RootRef",
+		"name": "Settings.Ref",
 		"pkg": "@cmfx/components"
 	},
 	{

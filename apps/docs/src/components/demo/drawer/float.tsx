@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 		}
 	});
 
-	const [ref, setRef] = createSignal<Drawer.RootRef>();
+	const [ref, setRef] = createSignal<Drawer.Ref>();
 
 	return (
 		<>
@@ -33,18 +33,18 @@ export default function (props: MountProps): JSX.Element {
 				<Pos />
 			</Portal>
 
-			<Button.Root
+			<Button
 				onclick={() => {
 					ref()?.toggle();
 				}}
 			>
 				ref.toggle
-			</Button.Root>
+			</Button>
 
 			<Show when={ref()}>{r => <Drawer.ToggleButton drawer={r()} />}</Show>
 			<Drawer.ToggleButton drawer={ref()} />
 
-			<Drawer.Root
+			<Drawer
 				ref={setRef}
 				pos={pos()}
 				palette="primary"
@@ -67,7 +67,7 @@ export default function (props: MountProps): JSX.Element {
 					aside
 					<br />
 				</div>
-			</Drawer.Root>
+			</Drawer>
 		</>
 	);
 }

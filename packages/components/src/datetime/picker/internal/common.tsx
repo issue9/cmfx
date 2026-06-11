@@ -13,8 +13,8 @@ import { Form } from '@components/form';
 import styles from './style.module.css';
 
 export interface CommonRef extends BaseRef<HTMLFieldSetElement> {
-	// MonthView.RootRef 中的 jump 等方法无法精准到时间部分，不对外公开。
-	monthView(): MonthView.RootRef;
+	// MonthView.Ref 中的 jump 等方法无法精准到时间部分，不对外公开。
+	monthView(): MonthView.Ref;
 }
 
 export interface CommonProps extends BaseProps, Omit<Form.DataProps, 'rounded'>, RefProps<CommonRef> {
@@ -61,13 +61,13 @@ export interface CommonProps extends BaseProps, Omit<Form.DataProps, 'rounded'>,
 
 	popover?: boolean | 'manual' | 'auto';
 
-	readonly onWeekClick?: MonthView.RootProps['onWeekClick'];
-	readonly onPaging?: MonthView.RootProps['onPaging'];
-	readonly onEnter?: MonthView.RootProps['onEnter'];
-	readonly onLeave?: MonthView.RootProps['onLeave'];
-	readonly onClick?: MonthView.RootProps['onClick'];
+	readonly onWeekClick?: MonthView.Props['onWeekClick'];
+	readonly onPaging?: MonthView.Props['onPaging'];
+	readonly onEnter?: MonthView.Props['onEnter'];
+	readonly onLeave?: MonthView.Props['onLeave'];
+	readonly onClick?: MonthView.Props['onClick'];
 	readonly plugins?: Array<DatetimePlugin>;
-	readonly onTimeChange?: Time.RootProps['onChange'];
+	readonly onTimeChange?: Time.Props['onChange'];
 	readonly initTime?: Date;
 }
 
@@ -77,7 +77,7 @@ export const presetProps: Partial<CommonProps> = {
 
 export function CommonPanel(props: CommonProps): JSX.Element {
 	let rootRef: HTMLFieldSetElement;
-	const [timeRef, setTimeRef] = createSignal<Time.RootRef>();
+	const [timeRef, setTimeRef] = createSignal<Time.Ref>();
 
 	let resizeObserver: ResizeObserver;
 	createEffect(() => {
@@ -111,7 +111,7 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 			style={props.style}
 			ref={el => (rootRef = el)}
 		>
-			<MonthView.Root
+			<MonthView
 				initValue={new Date()}
 				min={props.min}
 				max={props.max}
@@ -144,7 +144,7 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 
 			<Show when={props.time}>
 				<Form.FieldProvider isolation>
-					<Time.Root
+					<Time
 						disabled={props.disabled}
 						readonly={props.readonly}
 						value={props.initTime}

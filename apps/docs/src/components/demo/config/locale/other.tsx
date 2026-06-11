@@ -30,20 +30,20 @@ export default function (): JSX.Element {
 
 				<div class="flex flex-col">
 					<div class="flex">
-						<Button.Root onclick={() => setLocale('en')}>en</Button.Root>
-						<Button.Root onclick={() => setLocale('zh-Hans')}>zh-Hans</Button.Root>
+						<Button onclick={() => setLocale('en')}>en</Button>
+						<Button onclick={() => setLocale('zh-Hans')}>zh-Hans</Button>
 					</div>
 
 					<div class="flex">
-						<Button.Root onclick={() => setStyle('full')}>full</Button.Root>
-						<Button.Root onclick={() => setStyle('short')}>short</Button.Root>
-						<Button.Root onclick={() => setStyle('narrow')}>narrow</Button.Root>
+						<Button onclick={() => setStyle('full')}>full</Button>
+						<Button onclick={() => setStyle('short')}>short</Button>
+						<Button onclick={() => setStyle('narrow')}>narrow</Button>
 					</div>
 
 					<div class="flex">
-						<Button.Root onclick={() => setTZ('Asia/Shanghai')}>Asia/Shanghai</Button.Root>
-						<Button.Root onclick={() => setTZ('Africa/Abidjan')}>Africa/Abidjan</Button.Root>
-						<Button.Root onclick={() => setTZ('UTC')}>UTC</Button.Root>
+						<Button onclick={() => setTZ('Asia/Shanghai')}>Asia/Shanghai</Button>
+						<Button onclick={() => setTZ('Africa/Abidjan')}>Africa/Abidjan</Button>
+						<Button onclick={() => setTZ('UTC')}>UTC</Button>
 					</div>
 				</div>
 			</LocaleProvider>

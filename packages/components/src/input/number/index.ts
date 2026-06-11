@@ -2,4 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as InputNumber from './mod';
+import { InputNumber as C } from './root';
+
+export const InputNumber = C;
+
+export namespace InputNumber {
+	export type Props = import('./root').InputNumberProps;
+	export type Ref = import('./root').InputNumberRef;
+}

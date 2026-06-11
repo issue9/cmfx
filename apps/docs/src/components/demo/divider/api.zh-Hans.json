@@ -1,6 +1,6 @@
 [
 	{
-		"name": "Divider.RootProps",
+		"name": "Divider.Props",
 		"kind": "intersection",
 		"types": [
 			{
@@ -88,7 +88,7 @@
 				}
 			}
 		],
-		"name": "Divider.RootRef",
+		"name": "Divider.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

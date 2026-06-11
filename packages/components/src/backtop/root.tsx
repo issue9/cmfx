@@ -11,7 +11,7 @@ import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
-export interface Ref extends BaseRef<Button.RootRef> {
+export interface BackTopRef extends BaseRef<Button.Ref> {
 	/**
 	 * 返回页面顶部
 	 *
@@ -21,7 +21,7 @@ export interface Ref extends BaseRef<Button.RootRef> {
 	backTop(): void;
 }
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+export interface BackTopProps extends BaseProps, ParentProps, RefProps<BackTopRef> {
 	/**
 	 * 当容器顶部不可见区域达到此值时才会显示按钮，默认为 10。
 	 *
@@ -43,11 +43,11 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * @remarks
  * 该组件会向上查找包含 overflow-y、overflow-block 或是 overflow 样式的组件，如果能找到，将功能用在此组件上。
  */
-export function Root(props: Props): JSX.Element {
+export function BackTop(props: BackTopProps): JSX.Element {
 	const l = useLocale();
 	props = mergeProps({ distance: 10 }, props);
 
-	let ref: Button.RootRef;
+	let ref: Button.Ref;
 	let scroller: HTMLElement | undefined;
 
 	const calcVisible = () => {
@@ -78,7 +78,7 @@ export function Root(props: Props): JSX.Element {
 	});
 
 	return (
-		<Button.Root
+		<Button
 			square
 			rounded={props.rounded}
 			palette={props.palette}
@@ -98,6 +98,6 @@ export function Root(props: Props): JSX.Element {
 			onclick={() => backTop()}
 		>
 			{props.children ?? <IconVerticalAlignTop aria-hidden="true" />}
-		</Button.Root>
+		</Button>
 	);
 }

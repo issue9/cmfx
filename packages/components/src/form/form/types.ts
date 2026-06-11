@@ -6,7 +6,7 @@ import type { Layout } from '@components/base';
 
 export const labelAlignments = ['start', 'center', 'end'] as const;
 
-export type LabelAlignment = (typeof labelAlignments)[number];
+export type FormLabelAlignment = (typeof labelAlignments)[number];
 
 /**
  * Form 和 Field 共有的属性
@@ -58,7 +58,7 @@ export interface CommonProps {
 	 * @reactive
 	 * @defaultValue layout === 'horizontal' ? 'end' : 'start'
 	 */
-	labelAlign?: LabelAlignment;
+	labelAlign?: FormLabelAlignment;
 
 	/**
 	 * 是否显示表单项组件中帮助信息和错误信息

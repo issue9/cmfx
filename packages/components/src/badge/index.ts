@@ -2,4 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as Badge from './mod';
+import { badgeCorners, Badge as C } from './root';
+
+export const Badge = Object.assign(C, { corners: badgeCorners });
+
+export namespace Badge {
+	export type Props = import('./root').BadgeProps;
+	export type Ref = import('./root').BadgeRef;
+	export type Corner = import('./root').BadgeCorner;
+}

@@ -5,7 +5,7 @@
 import type { Drawer } from '@cmfx/components';
 import type { Type } from '@cmfx/vite-plugin-api';
 
-export const floatingWidth: Drawer.RootProps['floating'] = 'lg';
+export const floatingWidth: Drawer.Props['floating'] = 'lg';
 
 export type FileObject<T> = Record<string, T>;
 

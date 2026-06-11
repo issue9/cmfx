@@ -11,7 +11,7 @@ import type { AvailableEnumType } from '@components/base';
  *
  * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Option<K extends AvailableEnumType = string> = {
+export type CheckboxGroupOption<K extends AvailableEnumType = string> = {
 	value: K;
 	label: JSX.Element;
 	disabled?: boolean;
@@ -22,4 +22,4 @@ export type Option<K extends AvailableEnumType = string> = {
  *
  * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Options<T extends AvailableEnumType = string> = Array<Option<T>>;
+export type CheckboxGroupOptions<T extends AvailableEnumType = string> = Array<CheckboxGroupOption<T>>;
