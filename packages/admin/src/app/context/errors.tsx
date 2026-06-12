@@ -40,7 +40,7 @@ export function NotFound(): JSX.Element {
 /**
  * 错误处理方法
  *
- * @param err - 错误信息，如果是 {@LINK APIError}，则会显示专门的插画页面；
+ * @param err - 错误信息，如果是 {@link APIError}，则会显示专门的插画页面；
  * @param reset - 重置方法；
  * @remarks
  * 这是 {@link ErrorBoundary} 的 fallback 类型。

@@ -4,6 +4,8 @@
 
 import type { Flattenable, Problem, Return, Validator } from '@cmfx/core';
 
+import type { OnProblem } from '@components/base';
+
 /**
  * 初始化 API 的参数
  *
@@ -28,7 +30,7 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
 	 * 该方法仅在 {@link load} 和 {@link submit} 的调用过程中会调用。
 	 * {@link submit} 会自动处理状态码为 400 的错误。onProblem 只需要处理其它情况即可。
 	 */
-	readonly onProblem?: (p: Problem<PE>) => Promise<void>;
+	readonly onProblem?: OnProblem<PE>;
 
 	/**
 	 * 在接口正常返回时调用的方法

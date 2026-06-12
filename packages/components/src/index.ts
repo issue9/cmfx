@@ -4,7 +4,19 @@
 
 import './style.css';
 
-import './polyfill';
+// TODO: safari 暂不支持 requestIdleCallback。
+// https://caniuse.com/?search=requestIdleCallback
+window.requestIdleCallback =
+	window.requestIdleCallback ||
+	function reqIdleCallback(cb: IdleRequestCallback) {
+		const start = Date.now();
+		return window.setTimeout(() => {
+			cb({
+				didTimeout: false,
+				timeRemaining: () => Math.max(0, 50 - (Date.now() - start)),
+			});
+		}, 1);
+	};
 
 export * from './appbar';
 export * from './avatar';

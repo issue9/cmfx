@@ -85,7 +85,7 @@ export function Admins(props: Props): JSX.Element {
 						{l.t('_p.newItem')}
 					</Button>
 				}
-				queryForm={(api, Field) => (
+				queryForm={(_, Field) => (
 					<>
 						<Field name="text">
 							<InputText />
