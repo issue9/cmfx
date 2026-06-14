@@ -27,7 +27,7 @@ describe('API', async () => {
 
 		await expect(async () => {
 			await API.build(id, s, 'localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
-		}).rejects.toThrowError('参数 baseURL 必须是一个有效果的 URL');
+		}).rejects.toThrow('参数 baseURL 必须是一个有效果的 URL');
 	});
 
 	test('buildURL', async () => {
@@ -35,7 +35,7 @@ describe('API', async () => {
 		expect(api.buildURL('path')).toEqual('http://localhost/path');
 		expect(() => {
 			api.buildURL('');
-		}).toThrowError('参数 path 不能为空');
+		}).toThrow('参数 path 不能为空');
 	});
 
 	testREST(api);

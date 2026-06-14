@@ -66,13 +66,9 @@ export interface DataTableColumn<T extends object> extends ExportColumn<T> {
  *
  * @param id - 对应当前列 {@link DataTableColumn#id}；
  * @param val - 如果该 id 存在于 T 中，那返回其在 T 中的值，如果不存在则是 undefined；
- * @param obj - 表示是当前行的对象；
+ * @param row - 表示是当前行的对象；
  */
-export type CellRenderFunc<T extends object> = <K = keyof T>(
-	id: string | K,
-	val?: K extends keyof T ? T[K] : unknown,
-	obj?: T,
-) => JSX.Element;
+export type CellRenderFunc<T extends object> = (row: T, val?: T[keyof T], id?: keyof T) => JSX.Element;
 
 export type PreProcessColumn<T extends object> = Omit<DataTableColumn<T>, 'renderContent' | 'renderLabel'> & {
 	renderContent: CellRenderFunc<T>;
@@ -108,7 +104,7 @@ export function preProcessColumns<T extends object>(
 			typeof col.renderLabel === 'function'
 				? col.renderLabel
 				: (): JSX.Element => {
-						return (col.renderLabel as JSX.Element) ?? col.label ?? col.id.toString();
+						return (col.renderLabel as JSX.Element) ?? (typeof col.label === 'function' ? col.label() : col.label);
 					};
 
 		return {
@@ -128,16 +124,15 @@ export function preProcessColumns<T extends object>(
  * @param key 列的键名，需要该列具有唯一性；
  * @returns 列定义和选择中的行由 key 值组成的数组；
  */
-export function selectionColumn<T extends object, K extends keyof T = keyof T>(
-	key: K,
-): [col: DataTableColumn<T>, Store<Array<T[K]>>] {
-	const [sel, setSel] = createStore<Array<T[K]>>([]);
+export function selectionColumn<T extends object>(key: keyof T): [col: DataTableColumn<T>, Store<Array<T[keyof T]>>] {
+	const [sel, setSel] = createStore<Array<T[keyof T]>>([]);
 
 	const col = {
 		id: key,
 		isUnexported: true,
 		cellClass: noPrint,
 
+		label: '',
 		renderLabel: () => {
 			const ctx = useTableContext() as Context<T>;
 			const keys = createMemo(() => {
@@ -150,7 +145,7 @@ export function selectionColumn<T extends object, K extends keyof T = keyof T>(
 					indeterminate={sel.length > 0 && sel.length < (keys()?.length ?? 0)}
 					onChange={chk => {
 						if (chk) {
-							setSel(keys() as Array<T[K]>);
+							setSel(keys() as Array<T[keyof T]>);
 						} else {
 							setSel([]);
 						}
@@ -159,7 +154,7 @@ export function selectionColumn<T extends object, K extends keyof T = keyof T>(
 			);
 		},
 
-		renderContent: ((_, val: T[K]) => {
+		renderContent: ((_, val: T[keyof T]) => {
 			return (
 				<Checkbox
 					checked={val && sel.includes(val)}

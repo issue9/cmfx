@@ -127,7 +127,7 @@ const messages = {
 			noStriped: 'No striped',
 			stickyHeader: 'Sticky header',
 			downloadFilename: 'The filename of download',
-			deleteRow: 'Delete row',
+			areYouSureDeleteThisRow: 'Are you sure to delete this row?',
 		},
 		tour: {
 			prev: 'Prev',

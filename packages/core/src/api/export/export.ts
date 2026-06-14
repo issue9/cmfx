@@ -62,13 +62,7 @@ export class Exporter<T extends object, Q extends Query> {
 			};
 		});
 
-		const header: Array<string> = [];
-		for (const c of cols) {
-			if (!c.isUnexported) {
-				header.push(c.label ?? c.id.toString());
-			}
-		}
-		this.#header = header;
+		this.#header = [];
 	}
 
 	/**
@@ -81,8 +75,7 @@ export class Exporter<T extends object, Q extends Query> {
 				if (c.isUnexported) {
 					continue;
 				}
-				const val = (row[c.id as keyof T] ?? undefined) as Parameters<CellRenderFunc<T>>[1];
-				line.push(c.content(c.id, val, row));
+				line.push(c.content(row, c.id ? row[c.id] : undefined, c.id));
 			}
 
 			this.#rows.push(line.map(v => (v === undefined ? null : v)));
@@ -93,6 +86,13 @@ export class Exporter<T extends object, Q extends Query> {
 	 * 从服务器获取全部数据到当前浏览器
 	 */
 	async fetch(load: FetchFunc<T, Q>, q: Q): Promise<void> {
+		// 表头需要计算，不能在构造函数中提前生成。
+		for (const c of this.#columns) {
+			if (!c.isUnexported) {
+				this.#header.push(typeof c.label === 'function' ? c.label() : c.label);
+			}
+		}
+
 		const ret = await load(q);
 
 		if (ret === undefined) {

@@ -5,18 +5,20 @@
 import type { Query } from '@cmfx/core';
 
 import { selectionColumn } from './column';
-import { buildRESTLoad } from './rest';
-import { Root as C } from './table';
+import { buildREST, type DataTableDeleteButtonProps } from './rest';
+import type { DataTableProps, DataTableRef, DataTableSearchConverter, DataTableSearchParams } from './table';
+import { DataTable as C } from './table';
 
 export const DataTable = Object.assign(C, {
 	selectionColumn,
-	buildRESTLoad,
+	buildREST,
 });
 
 export namespace DataTable {
 	export type Column<T extends object> = import('./column').DataTableColumn<T>;
-	export type Props<T extends object, Q extends Query> = import('./table').DataTableProps<T, Q>;
-	export type Ref = import('./table').DataTableRef;
-	export type SearchConverter<Q extends Query> = import('./table').DataTableSearchConverter<Q>;
-	export type SearchParams<Q extends Query> = import('./table').DataTableSearchParams<Q>;
+	export type Props<T extends object, Q extends Query> = DataTableProps<T, Q>;
+	export type Ref<T extends object> = DataTableRef<T>;
+	export type SearchConverter<Q extends Query> = DataTableSearchConverter<Q>;
+	export type SearchParams<Q extends Query> = DataTableSearchParams<Q>;
+	export type DeleteButtonProps = DataTableDeleteButtonProps;
 }

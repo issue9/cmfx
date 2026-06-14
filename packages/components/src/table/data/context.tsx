@@ -16,6 +16,7 @@ export type FormBuilder<Q extends Query> = (
 	Field: Component<Form.FieldProps<Q>>,
 ) => JSX.Element;
 
+// NOTE: 接口比较乱，仅供组件内部使用。
 export type Context<T extends object, Q extends Query = Query> = {
 	root(): HTMLDivElement;
 	table(): HTMLTableElement;
@@ -26,6 +27,9 @@ export type Context<T extends object, Q extends Query = Query> = {
 	striped: Signal<Table.Props['striped']>;
 	form: ReturnType<typeof Form.create<Q>>;
 	total: number;
+
+	// 从 DataTable 组件传递过来的列配置
+
 	columns: Array<PreProcessColumn<T>>;
 	load: FetchFunc<T, Q>;
 	queryForm?: FormBuilder<Q>;

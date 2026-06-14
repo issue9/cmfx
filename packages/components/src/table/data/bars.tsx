@@ -32,9 +32,9 @@ export function QueryBar<T extends object, Q extends Query>(): JSX.Element {
 	const l = useLocale();
 	const ctx = useTableContext() as Context<T, Q>;
 	const [F, Field, api] = ctx.form;
+	const e = new Exporter<T, Q>(ctx.columns);
 
 	const exports = async (ext: ExportType) => {
-		const e = new Exporter<T, Q>(ctx.columns);
 		const qq = await api.validValue();
 		if (!qq) {
 			return;

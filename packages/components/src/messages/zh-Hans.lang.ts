@@ -128,7 +128,7 @@ const messages: Messages = {
 			noStriped: '无',
 			stickyHeader: '固定表格头',
 			downloadFilename: '下载的文件名',
-			deleteRow: '删除',
+			areYouSureDeleteThisRow: '确定要删除这一行吗？',
 		},
 		tour: {
 			prev: '前一项',

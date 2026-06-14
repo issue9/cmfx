@@ -6,12 +6,12 @@ import type { Query } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import { type DataTableRef, Root } from './table';
+import { DataTable, type DataTableRef } from './table';
 
 describe('DataTable', async () => {
-	let ref: DataTableRef;
+	let ref: DataTableRef<object>;
 	const ct = await ComponentTester.build('DataTable', props => (
-		<Root<object, Query>
+		<DataTable<object, Query>
 			{...props}
 			load={async (_: Query): Promise<object[]> => {
 				return [];
@@ -24,7 +24,9 @@ describe('DataTable', async () => {
 	test('props', async () => ct.testProps());
 
 	test('ref', async () => {
-		expect(ref!.root()).not.toBeUndefined();
-		expect(ref!.table()).not.toBeUndefined();
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+		expect(ref.table()).toBeDefined();
+		expect(ref.items()).toBeDefined();
 	});
 });

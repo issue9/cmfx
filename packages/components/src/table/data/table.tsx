@@ -15,11 +15,11 @@ import { Empty } from '@components/result';
 import { Spin } from '@components/spin';
 import { Table } from '@components/table/table';
 import { PageBar, QueryBar, Toolbar } from './bars';
-import { type CellRenderFunc, type DataTableColumn, preProcessColumns } from './column';
+import { type DataTableColumn, preProcessColumns } from './column';
 import { type FormBuilder, Provider } from './context';
 import styles from './style.module.css';
 
-export interface DataTableRef extends BaseRef<HTMLDivElement> {
+export interface DataTableRef<T extends object> extends BaseRef<HTMLDivElement> {
 	/**
 	 * 组件中的表格元素
 	 */
@@ -29,6 +29,8 @@ export interface DataTableRef extends BaseRef<HTMLDivElement> {
 	 * 刷新当前页的内容
 	 */
 	refresh(): Promise<void>;
+
+	items(): Array<T>;
 }
 
 /**
@@ -53,7 +55,7 @@ export interface DataTableSearchConverter<Q extends Query> {
 	fromQuery(query: Q): DataTableSearchParams<Q>;
 }
 
-interface InternalProps<T extends object, Q extends Query> extends BaseProps, RefProps<DataTableRef> {
+interface Base<T extends object, Q extends Query> extends BaseProps, RefProps<DataTableRef<T>> {
 	/**
 	 * 列的定义
 	 */
@@ -99,7 +101,7 @@ interface InternalProps<T extends object, Q extends Query> extends BaseProps, Re
 	systemToolbar?: boolean;
 }
 
-interface PagingProps<T extends object, Q extends Query> extends InternalProps<T, Q> {
+export interface PagingProps<T extends object, Q extends Query> extends Base<T, Q> {
 	/**
 	 * 加载数据的方法
 	 */
@@ -125,7 +127,7 @@ interface PagingProps<T extends object, Q extends Query> extends InternalProps<T
 	readonly paging: true;
 }
 
-interface NoPagingProps<T extends object, Q extends Query> extends InternalProps<T, Q> {
+export interface NoPagingProps<T extends object, Q extends Query> extends Base<T, Q> {
 	/**
 	 * 加载数据的方法
 	 */
@@ -142,7 +144,7 @@ export type DataTableProps<T extends object, Q extends Query> = PagingProps<T, Q
 /**
  * 基础的表格组件
  */
-export function Root<T extends object, Q extends Query>(props: DataTableProps<T, Q>) {
+export function DataTable<T extends object, Q extends Query>(props: DataTableProps<T, Q>) {
 	const [, opt] = useOptions();
 
 	props = mergeProps(
@@ -214,6 +216,7 @@ export function Root<T extends object, Q extends Query>(props: DataTableProps<T,
 						refresh: async () => {
 							await refetch();
 						},
+						items: () => items() ?? [],
 					});
 				}
 			}}
@@ -281,12 +284,8 @@ export function Root<T extends object, Q extends Query>(props: DataTableProps<T,
 									<tr>
 										<For each={cols}>
 											{h => {
-												const cell = h.id in row ? row[h.id as keyof T] : undefined;
-												return (
-													<td class={h.cellClass}>
-														{h.renderContent(h.id, cell as Parameters<CellRenderFunc<T>>[1], row)}
-													</td>
-												);
+												const cell = h.id ? row[h.id] : undefined;
+												return <td class={h.cellClass}>{h.renderContent(row, cell, h.id)}</td>;
 											}}
 										</For>
 									</tr>
