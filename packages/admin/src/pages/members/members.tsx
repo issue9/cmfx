@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, InputText, Page, RemoteTable, useLocale } from '@cmfx/components';
-import type { Query } from '@cmfx/core';
+import { Button, DataTable, InputText, Page, useLocale } from '@cmfx/components';
+import { noPrint, type Query } from '@cmfx/core';
 import { type Component, createMemo, type JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';
 import IconLockOpen from '~icons/material-symbols/lock-open-right';
@@ -28,7 +28,7 @@ export interface ActionProps {
 	/**
 	 * 对整个表格的引用
 	 */
-	table?: RemoteTable.Ref<Member>;
+	table?: DataTable.Ref<Member>;
 }
 
 interface Props {
@@ -49,6 +49,28 @@ interface Q extends Query {
 	sex: Array<Sex>;
 }
 
+class QuerySearchConverter implements DataTable.SearchConverter<Q> {
+	to(params: DataTable.SearchParams<Q>): Q {
+		return {
+			page: params.page ? parseInt(params.page, 10) : undefined,
+			size: params.size ? parseInt(params.size, 10) : undefined,
+			text: params.text || '',
+			state: (params.state || ['normal', 'locked']) as Array<State>,
+			sex: (params.sex || ['male', 'female', 'unknown']) as Array<Sex>,
+		};
+	}
+
+	from(query: Q): DataTable.SearchParams<Q> {
+		return {
+			page: query.page?.toString() || '1',
+			size: query.size?.toString() || '20',
+			text: query.text,
+			state: query.state ? query.state.join(',') : '',
+			sex: query.sex ? query.sex.join(',') : '',
+		};
+	}
+}
+
 /**
  * 会员列表组件
  */
@@ -56,14 +78,7 @@ export function Members(props: Props): JSX.Element {
 	const rest = useREST();
 	const l = useLocale();
 
-	const q: Q = {
-		text: '',
-		page: 1,
-		state: ['normal', 'locked'],
-		sex: ['male', 'female', 'unknown'],
-	};
-
-	let ref: RemoteTable.Ref<Member>;
+	let ref: DataTable.Ref<Member>;
 
 	const sexes = createMemo(() => {
 		return localeSexes(l);
@@ -72,23 +87,29 @@ export function Members(props: Props): JSX.Element {
 		return localeStates(l);
 	});
 
+	const [load, DeleteAction] = DataTable.buildREST<Member, Q>(rest, '/members', handleProblem);
+
 	return (
 		<Page title="_p.member.membersManager">
-			<RemoteTable<Member, Q>
-				rest={rest}
-				ref={el => {
-					ref = el;
-				}}
-				inSearch
+			<DataTable<Member, Q>
+				ref={el => (ref = el)}
+				inSearch={new QuerySearchConverter()}
 				paging
-				path="/members"
-				queries={q}
+				load={load}
 				systemToolbar
-				queryForm={qa => (
+				queryForm={(_, Field) => (
 					<>
-						<InputText accessor={qa.accessor<string>('text')} />
-						<StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
-						<SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
+						<Field name="text">
+							<InputText />
+						</Field>
+
+						<Field name="state">
+							<StateSelector multiple />
+						</Field>
+
+						<Field name="sex">
+							<SexSelector multiple />
+						</Field>
 					</>
 				)}
 				columns={[
@@ -97,7 +118,7 @@ export function Members(props: Props): JSX.Element {
 					{
 						id: 'sex',
 						label: l.t('_p.sex'),
-						content: (_: string, v) => {
+						content: (_, v) => {
 							return sexes().find(val => val.value === v)?.label;
 						},
 					},
@@ -110,39 +131,36 @@ export function Members(props: Props): JSX.Element {
 					{
 						id: 'state',
 						label: l.t('_p.state'),
-						content: (_, v) => {
-							return states().find(val => val.value === v)?.label;
-						},
+						content: (_, v) => states().find(val => val.value === v)?.label,
 					},
 					{
-						id: 'actions',
-						cellClass: 'no-print',
+						cellClass: noPrint,
 						label: l.t('_p.actions'),
 						isUnexported: true,
-						renderContent: (_, __, obj?: Member) => {
+						renderContent: row => {
 							return (
 								<div class="flex gap-x-2">
-									<Show when={obj?.state !== 'deleted'}>
+									<Show when={row?.state !== 'deleted'}>
 										<Button
 											type="a"
 											square
 											rounded
 											palette="tertiary"
-											href={`${props.routePrefix}/${obj!.id}`}
+											href={`${props.routePrefix}/${row!.id}`}
 											title={l.t('_p.member.view')}
 										>
 											<IconVisibility />
 										</Button>
 									</Show>
 
-									<Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
+									<Show when={row?.state !== 'locked' && row?.state !== 'deleted'}>
 										<Button
 											square
 											rounded
 											palette="error"
 											title={l.t('_p.admin.lockUser')}
 											onclick={async () => {
-												const r = await rest.post(`/members/${obj!.id}/locked`);
+												const r = await rest.post(`/members/${row!.id}/locked`);
 												if (!r.ok) {
 													await handleProblem(r.body!);
 													return;
@@ -154,14 +172,14 @@ export function Members(props: Props): JSX.Element {
 										</Button>
 									</Show>
 
-									<Show when={obj?.state === 'locked'}>
+									<Show when={row?.state === 'locked'}>
 										<Button
 											square
 											rounded
 											palette="tertiary"
 											title={l.t('_p.admin.unlockUser')}
 											onclick={async () => {
-												const r = await rest.delete(`/members/${obj!.id}/locked`);
+												const r = await rest.delete(`/members/${row!.id}/locked`);
 												if (!r.ok) {
 													await handleProblem(r.body!);
 													return;
@@ -173,11 +191,11 @@ export function Members(props: Props): JSX.Element {
 										</Button>
 									</Show>
 
-									<Show when={obj?.state !== 'deleted'}>
-										<RemoteTable.DeleteAction table={ref} id={obj!.id} />
+									<Show when={row?.state !== 'deleted'}>
+										<DeleteAction id={row.id} />
 									</Show>
 
-									<Show when={props.actions}>{props.actions!({ id: obj?.id as number, member: obj, table: ref })}</Show>
+									<Show when={props.actions}>{props.actions!({ id: row?.id as number, member: row, table: ref })}</Show>
 								</div>
 							);
 						},

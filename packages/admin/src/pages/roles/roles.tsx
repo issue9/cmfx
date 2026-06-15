@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { DataTable } from '@cmfx/components';
-import { Button, Dialog, Form, InputText, Page, RemoteTable, TextArea, useLocale } from '@cmfx/components';
-import type { Return } from '@cmfx/core';
+import { Button, DataTable, Dialog, Form, InputText, Page, TextArea, useLocale } from '@cmfx/components';
+import type { Query, Return } from '@cmfx/core';
 import type { JSX } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 import IconEdit from '~icons/material-symbols/edit';
 import IconPasskey from '~icons/material-symbols/passkey';
 
@@ -29,20 +29,27 @@ interface Props {
 export function Roles(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
-	let tableRef: RemoteTable.Ref<Role>;
+	let tableRef: DataTable.Ref<Role>;
 	let dialogRef: Dialog.Ref;
-	const current = new Form.ObjectAccessor({} as Role);
-	const currentID = current.accessor('id');
+
+	const [F, Field, formAPI] = Form.create<Role>({
+		initValue: {
+			name: '',
+			description: '',
+		},
+	});
 
 	rest.api().cache('/roles', '/roles/*');
+
+	const [load, DeleteAction] = DataTable.buildREST<Role, Query, false>(rest, '/roles', handleProblem);
 
 	// 保存数据
 	const save = async (): Promise<undefined> => {
 		let ret: Return<Role>;
-		const id = currentID.getValue();
 
-		const obj = await current.object();
-		delete obj?.id;
+		const obj = unwrap(formAPI.getValue());
+		const id = obj.id;
+		delete obj.id;
 		if (id) {
 			ret = await rest.put(`/roles/${id}`, obj);
 		} else {
@@ -58,16 +65,20 @@ export function Roles(props: Props): JSX.Element {
 
 	const edit = (id: string) => {
 		if (id) {
-			const curr = tableRef.items()!.find(v => v.id === id);
-			current.accessor('id').setValue(id);
-			current.accessor('name').setValue(curr!.name);
-			current.accessor('description').setValue(curr!.description);
-			current.accessor('parent').setValue(curr!.parent);
+			const curr = tableRef.items().find(v => v.id === id);
+			formAPI.setValue({
+				id: id,
+				name: curr!.name,
+				description: curr!.description,
+				parent: curr!.parent,
+			});
 		} else {
-			current.accessor('id').setValue('');
-			current.accessor('name').setValue('');
-			current.accessor('description').setValue('');
-			current.accessor('parent').setValue('');
+			formAPI.setValue({
+				id: id,
+				name: '',
+				description: '',
+				parent: '',
+			});
 		}
 
 		dialogRef.root().showModal();
@@ -77,7 +88,7 @@ export function Roles(props: Props): JSX.Element {
 		<Page title="_p.roles.rolesManager" class={styles.roles}>
 			<Dialog
 				ref={el => (dialogRef = el)}
-				header={currentID.getValue() ? l.t('_p.editItem') : l.t('_p.newItem')}
+				header={formAPI.getValue().name ? l.t('_p.editItem') : l.t('_p.newItem')}
 				footer={
 					<>
 						<Dialog.CancelButton value="cancel" onclick={save}>
@@ -87,35 +98,30 @@ export function Roles(props: Props): JSX.Element {
 					</>
 				}
 			>
-				<form class={styles.form}>
-					<InputText accessor={current.accessor<string>('name')} />
-					<TextArea accessor={current.accessor<string>('description')} />
-				</form>
+				<F inDialog>
+					<Field name="name">
+						<InputText />
+					</Field>
+					<Field name="description">
+						<TextArea />
+					</Field>
+				</F>
 			</Dialog>
 
-			<RemoteTable
-				rest={rest}
+			<DataTable
 				ref={el => (tableRef = el)}
-				path="/roles"
-				queries={{}}
+				load={load}
 				systemToolbar
 				columns={[
 					{ id: 'id', label: l.t('_p.id') },
 					{ id: 'name', label: l.t('_p.roles.name') },
 					{ id: 'description', label: l.t('_p.roles.description') },
 					{
-						id: 'actions',
 						cellClass: 'no-print',
 						label: l.t('_p.actions'),
-						renderContent: ((_, __, obj) => (
+						renderContent: (row => (
 							<div class="flex gap-x-2">
-								<Button
-									square
-									rounded
-									palette="tertiary"
-									onclick={() => edit(obj!.id!)}
-									title={l.t('_p.editItem')}
-								>
+								<Button square rounded palette="tertiary" onclick={() => edit(row.id!)} title={l.t('_p.editItem')}>
 									<IconEdit />
 								</Button>
 								<Button
@@ -123,12 +129,12 @@ export function Roles(props: Props): JSX.Element {
 									rounded
 									palette="tertiary"
 									type="a"
-									href={`${props.routePrefix}/${obj!.id}/permission`}
+									href={`${props.routePrefix}/${row.id}/permission`}
 									title={l.t('_p.roles.editPermission')}
 								>
 									<IconPasskey />
 								</Button>
-								<RemoteTable.DeleteAction table={tableRef} id={obj!.id} />
+								<DeleteAction id={row.id!} />
 							</div>
 						)) as DataTable.Column<Role>['renderContent'],
 					},

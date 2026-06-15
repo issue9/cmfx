@@ -11,7 +11,7 @@ import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 import { handleProblem, useREST } from '@admin/app';
 import { SexSelector } from '@admin/components';
 import { roles } from '@admin/pages/roles';
-import { type Sex, sexSchema } from '@admin/schemas';
+import { sexSchema } from '@admin/schemas';
 
 interface Props {
 	/**
@@ -33,7 +33,7 @@ export function New(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	const api = new Form.API<z.infer<typeof adminSchema>>({
+	const [F, Field] = Form.create<z.infer<typeof adminSchema>>({
 		initValue: { sex: 'unknown', name: '', nickname: '', username: '', password: '', roles: [] },
 		submit: async obj => {
 			return await rest.post('/admins', obj);
@@ -47,23 +47,31 @@ export function New(props: Props): JSX.Element {
 
 	return (
 		<Page title="_p.admin.admin" class="max-w-2xl">
-			<Form class="flex flex-col" api={api}>
-				<InputText class="w-full" accessor={api.accessor<string>('username')} label={l.t('_p.current.username')} />
-				<InputText class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<InputText class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
-				<InputPassword
-					class="w-full"
-					autocomplete="new-password"
-					accessor={api.accessor<string>('password')}
-					label={l.t('_p.current.password')}
-				/>
-				<roles.Selector
-					class="w-full"
-					multiple
-					accessor={api.accessor<Array<string>>('roles')}
-					label={l.t('_p.roles.roles')}
-				/>
-				<SexSelector label={l.t('_p.sex')} class="w-full" accessor={api.accessor<Sex>('sex')} />
+			<F>
+				<Field name="username" label={l.t('_p.current.username')}>
+					<InputText />
+				</Field>
+
+				<Field name="name" label={l.t('_p.admin.name')}>
+					<InputText />
+				</Field>
+
+				<Field name="nickname" label={l.t('_p.nickname')}>
+					<InputText />
+				</Field>
+
+				<Field name="password" label={l.t('_p.current.password')}>
+					<InputPassword autocomplete="new-password" />
+				</Field>
+
+				<Field name="roles" label={l.t('_p.roles.roles')}>
+					<roles.Selector multiple />
+				</Field>
+
+				<Field name="sex" label={l.t('_p.sex')}>
+					<SexSelector />
+				</Field>
+
 				<div class="flex w-full justify-between gap-5">
 					<Button type="a" href={props.backURL} palette="secondary">
 						<IconArrowBack />
@@ -73,7 +81,7 @@ export function New(props: Props): JSX.Element {
 						{l.t('_c.ok')}
 					</Button>
 				</div>
-			</Form>
+			</F>
 		</Page>
 	);
 }

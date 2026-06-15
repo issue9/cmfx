@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 export type { ArrayElement } from './array';
+export type { Converter } from './convert';
 export type { Flatten, Keys as FlattenKeys, Object as Flattenable } from './flatten';
 export { flatten } from './flatten';
 export type {

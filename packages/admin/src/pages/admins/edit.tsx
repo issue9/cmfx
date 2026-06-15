@@ -13,7 +13,7 @@ import { handleProblem } from '@admin/app';
 import { passportSchema, useREST } from '@admin/app/context';
 import { type Passport, SexSelector } from '@admin/components';
 import { roles } from '@admin/pages/roles';
-import { type Sex, sexSchema } from '@admin/schemas';
+import { sexSchema } from '@admin/schemas';
 
 interface Props {
 	/**
@@ -39,8 +39,7 @@ export function Edit(props: Props): JSX.Element {
 
 	const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
-	const nav = useNavigate();
-	const api = new Form.API<Admin>({
+	const [F, Field, api] = Form.create<Admin>({
 		initValue: { sex: 'unknown', name: '', nickname: '', roles: [], passports: [] },
 		submit: async obj => {
 			return await rest.patch(`/admins/${ps.id}`, obj);
@@ -48,6 +47,8 @@ export function Edit(props: Props): JSX.Element {
 		onProblem: handleProblem,
 		onSuccess: () => nav(props.backURL),
 	});
+
+	const nav = useNavigate();
 
 	onMount(async () => {
 		const r1 = await rest.get<Admin>(`/admins/${ps.id}`);
@@ -68,16 +69,23 @@ export function Edit(props: Props): JSX.Element {
 
 	return (
 		<Page title="_p.admin.admin" class="max-w-2xl">
-			<Form class="flex flex-col" api={api}>
-				<InputText class="w-full" accessor={api.accessor<string>('name')} label={l.t('_p.admin.name')} />
-				<InputText class="w-full" accessor={api.accessor<string>('nickname')} label={l.t('_p.nickname')} />
-				<roles.Selector
-					class="w-full"
-					multiple
-					accessor={api.accessor<Array<string>>('roles')}
-					label={l.t('_p.roles.roles')}
-				/>
-				<SexSelector class="w-full" accessor={api.accessor<Sex>('sex')} label={l.t('_p.sex')} />
+			<F class="flex flex-col">
+				<Field label={l.t('_p.admin.name')} name="name">
+					<InputText />
+				</Field>
+
+				<Field label={l.t('_p.admin.nickname')} name="nickname">
+					<InputText />
+				</Field>
+
+				<Field label={l.t('_p.roles.roles')} name="roles">
+					<roles.Selector multiple />
+				</Field>
+
+				<Field label={l.t('_p.sex')} name="sex">
+					<SexSelector />
+				</Field>
+
 				<div class="flex w-full justify-between gap-5">
 					<Button type="a" href={props.backURL} palette="secondary">
 						<IconArrowBack />
@@ -90,7 +98,7 @@ export function Edit(props: Props): JSX.Element {
 						{l.t('_c.ok')}
 					</Button>
 				</div>
-			</Form>
+			</F>
 
 			<Divider padding="8px">{l.t('_p.admin.passport')}</Divider>
 
@@ -104,10 +112,7 @@ export function Edit(props: Props): JSX.Element {
 				<tbody>
 					<For each={passports()}>
 						{item => {
-							const uid = api
-								.accessor<Admin['passports']>('passports')
-								.getValue()!
-								.find(v => v.id === item.id)?.id;
+							const uid = api.getValue().passports.find(v => v.id === item.id)?.id;
 							return (
 								<tr>
 									<td class="flex items-center">

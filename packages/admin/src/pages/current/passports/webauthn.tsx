@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, Dialog, Form, InputText, Label, RemoteTable, useLocale } from '@cmfx/components';
-import { type Token, zodValidator } from '@cmfx/core';
+import { Button, ConfirmButton, DataTable, Dialog, Form, InputText, Label, useLocale } from '@cmfx/components';
+import { type Query, type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';
 import { z } from 'zod';
@@ -92,11 +92,12 @@ export class Webauthn implements PassportComponents {
 				return token;
 			},
 			onProblem: async p => {
-				if (p.status === 401) {
-					api.setError(p.title);
-					return;
+				if (p) {
+					if (p.status === 401) {
+						api.setError(p.title);
+						return;
+					}
 				}
-
 				await handleProblem(p);
 			},
 			onSuccess: async () => nav(opt.routes.private.home),
@@ -127,7 +128,9 @@ export class Webauthn implements PassportComponents {
 		const l = useLocale();
 		const rest = useREST();
 		let dialogRef: Dialog.Ref;
-		let tableRef: RemoteTable.Ref<Credential>;
+		let tableRef!: DataTable.Ref<Credential>;
+
+		const [load] = DataTable.buildREST<Credential, Query, false>(rest, `/passports/${this.#id}/credentials`);
 
 		return (
 			<>
@@ -148,11 +151,8 @@ export class Webauthn implements PassportComponents {
 					header={<Label icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label>}
 				>
 					<div class="overflow-auto">
-						<RemoteTable<Credential>
-							rest={rest}
-							ref={el => (tableRef = el)}
-							queries={{}}
-							path={`/passports/${this.#id}/credentials`}
+						<DataTable
+							load={load}
 							columns={[
 								{ id: 'id', label: l.t('_p.id') },
 								{ id: 'ua', label: l.t('_p.current.ua') },

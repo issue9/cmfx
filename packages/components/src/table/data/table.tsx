@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { isPage, type Page, type Query } from '@cmfx/core';
+import { type Converter, isPage, type Page, type Query } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, For, type JSX, mergeProps, Show } from 'solid-js';
 
@@ -43,17 +43,7 @@ export type DataTableSearchParams<T extends Query> = Partial<Record<keyof T, str
 /**
  * {@link DataTableSearchParams} 与 {@link Query} 之间相互转换的接口
  */
-export interface DataTableSearchConverter<Q extends Query> {
-	/**
-	 * 将地址栏中的参数转换为类型 Q
-	 */
-	toQuery(params: DataTableSearchParams<Q>): Q;
-
-	/**
-	 * 将类型 Q 转换为符合地址栏中的参数类型
-	 */
-	fromQuery(query: Q): DataTableSearchParams<Q>;
-}
+export type DataTableSearchConverter<Q extends Query> = Converter<Q, DataTableSearchParams<Q>>;
 
 interface Base<T extends object, Q extends Query> extends BaseProps, RefProps<DataTableRef<T>> {
 	/**
@@ -172,14 +162,14 @@ export function DataTable<T extends object, Q extends Query>(props: DataTablePro
 	const [searchG, searchS] = useSearchParams<DataTableSearchParams<Q>>();
 	const form = Form.create<Q>({
 		initValue: props.inSearch
-			? props.inSearch.toQuery(searchG)
+			? props.inSearch.to(searchG)
 			: ({
 					page: 1,
 					size: props.paging ? (props.pageSize ?? opt.pageSize) : opt.pageSize,
 				} as Q),
 	});
 	if (props.inSearch) {
-		form[2].onChange(v => searchS(props.inSearch!.fromQuery(v)));
+		form[2].onChange(v => searchS(props.inSearch!.from(v)));
 	}
 
 	const [items, { refetch }] = createResource(async () => {

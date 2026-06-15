@@ -45,7 +45,7 @@ export class Pwd implements PassportComponents {
 		const usr = useAdmin();
 		const nav = useNavigate();
 
-		const api = new Form.API<z.infer<typeof accountSchema>, Token>({
+		const [F, Field, api] = Form.create<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', password: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -55,40 +55,42 @@ export class Pwd implements PassportComponents {
 				return ret;
 			},
 			onProblem: async p => {
-				if (p.status === 401) {
-					api.setError(p.title);
-					return;
+				if (p) {
+					if (p.status === 401) {
+						api.setError(p.title);
+						return;
+					}
 				}
-
 				await handleProblem(p);
 			},
 			onSuccess: async () => nav(opt.routes.private.home),
 		});
 
 		return (
-			<Form class={styles.password} api={api}>
-				<Form.Message api={api} closable />
+			<F class={styles.password}>
+				<Form.Message closable />
 
-				<InputText
-					hasHelp
-					prefix={<IconPerson class={styles['text-field']} />}
-					autocomplete="username"
-					placeholder={l.t('_p.current.username')}
-					accessor={api.accessor<string>('username')}
-				/>
-				<InputPassword
-					hasHelp
-					prefix={<IconPassword class={styles['text-field']} />}
-					autocomplete="current-password"
-					placeholder={l.t('_p.current.password')}
-					accessor={api.accessor<string>('password')}
-				/>
+				<Field name="username">
+					<InputText
+						prefix={<IconPerson class={styles['text-field']} />}
+						autocomplete="username"
+						placeholder={l.t('_p.current.username')}
+					/>
+				</Field>
 
-				<Form.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
+				<Field name="password">
+					<InputPassword
+						prefix={<IconPassword class={styles['text-field']} />}
+						autocomplete="current-password"
+						placeholder={l.t('_p.current.password')}
+					/>
+				</Field>
+
+				<Form.Submit palette="primary" disabled={api.getValue().username === ''}>
 					{l.t('_c.ok')}
 				</Form.Submit>
 				<Form.Reset palette="secondary"> {l.t('_c.reset')} </Form.Reset>
-			</Form>
+			</F>
 		);
 	}
 
@@ -109,7 +111,7 @@ export class Pwd implements PassportComponents {
 				path: ['new'],
 			});
 
-		const api = new Form.API<z.infer<typeof valueSchema>>({
+		const [F, Field] = Form.create<z.infer<typeof valueSchema>>({
 			initValue: { old: '', new: '' },
 			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
 			validOnChange: true,
@@ -142,11 +144,17 @@ export class Pwd implements PassportComponents {
 						</Dialog.Toolbar>
 					}
 				>
-					<Form class={styles['action-form']} inDialog api={api}>
-						<InputText placeholder={l.t('_p.current.oldPassword')} accessor={api.accessor<string>('old')} />
-						<InputText placeholder={l.t('_p.current.newPassword')} accessor={api.accessor<string>('new')} />
+					<F class={styles['action-form']} inDialog>
+						<Field name="old">
+							<InputText placeholder={l.t('_p.current.oldPassword')} />
+						</Field>
+
+						<Field name="new">
+							<InputText placeholder={l.t('_p.current.newPassword')} />
+						</Field>
+
 						<Form.Submit class="ms-auto">{l.t('_c.ok')}</Form.Submit>
-					</Form>
+					</F>
 				</Dialog>
 			</>
 		);

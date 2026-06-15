@@ -53,7 +53,7 @@ export class TOTP implements PassportComponents {
 		const nav = useNavigate();
 		const usr = useAdmin();
 
-		const api = new Form.API<z.infer<typeof accountSchema>, Token>({
+		const [F, Field, api] = Form.create<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', code: '' },
 			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
@@ -63,40 +63,42 @@ export class TOTP implements PassportComponents {
 				return ret;
 			},
 			onProblem: async p => {
-				if (p.status === 401) {
-					api.setError(p.title);
-					return;
+				if (p) {
+					if (p.status === 401) {
+						api.setError(p.title);
+						return;
+					}
 				}
-
 				await handleProblem(p);
 			},
 			onSuccess: async () => nav(opt.routes.private.home),
 		});
 
 		return (
-			<Form class={styles.totp} api={api}>
-				<Form.Message api={api} />
+			<F class={styles.totp}>
+				<Form.Message />
 
-				<InputText
-					hasHelp
-					prefix={<IconPerson class={styles['text-field']} />}
-					autocomplete="username"
-					placeholder={l.t('_p.current.username')}
-					accessor={api.accessor<string>('username')}
-				/>
-				<InputText
-					hasHelp
-					prefix={<IconPin class={styles['text-field']} />}
-					autocomplete="one-time-code"
-					placeholder={l.t('_p.current.verifyCode')}
-					accessor={api.accessor<string>('code')}
-				/>
+				<Field name="username">
+					<InputText
+						prefix={<IconPerson class={styles['text-field']} />}
+						autocomplete="username"
+						placeholder={l.t('_p.current.username')}
+					/>
+				</Field>
 
-				<Form.Submit palette="primary" disabled={api.accessor<string>('username').getValue() === ''}>
+				<Field name="code">
+					<InputText
+						prefix={<IconPin class={styles['text-field']} />}
+						autocomplete="one-time-code"
+						placeholder={l.t('_p.current.verifyCode')}
+					/>
+				</Field>
+
+				<Form.Submit palette="primary" disabled={api.getValue().username === ''}>
 					{l.t('_c.ok')}
 				</Form.Submit>
 				<Form.Reset palette="secondary"> {l.t('_c.reset')} </Form.Reset>
-			</Form>
+			</F>
 		);
 	}
 
@@ -113,7 +115,7 @@ export class TOTP implements PassportComponents {
 			code: codeSchema.clone(),
 		});
 
-		const api = new Form.API<z.infer<typeof requestSchema>>({
+		const [F, Field] = Form.create<z.infer<typeof requestSchema>>({
 			initValue: { code: '' },
 			validator: zodValidator<z.infer<typeof requestSchema>>(requestSchema.clone(), l),
 			validOnChange: true,
@@ -168,14 +170,18 @@ export class TOTP implements PassportComponents {
 					</Button>
 
 					<Dialog ref={el => (dialogRef = el)} header={l.t('_p.current.bindTOTP')}>
-						<Form class={styles['action-form']} inDialog api={api}>
+						<F class={styles['action-form']} inDialog>
 							<p title={qr()}>
 								<QRCode type="rounded" value={qr()} />
 							</p>
 							<br />
-							<InputText hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={api.accessor('code')} />
+
+							<Field name="code">
+								<InputText placeholder={l.t('_p.current.verifyCode')} />
+							</Field>
+
 							<Form.Submit class="ms-auto">{l.t('_c.ok')}</Form.Submit>
-						</Form>
+						</F>
 					</Dialog>
 				</Show>
 			</>

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { InputText, Page, RemoteTable, useLocale } from '@cmfx/components';
-import type { Query as Q } from '@cmfx/core';
+import { DataTable, InputText, Page, useLocale } from '@cmfx/components';
+import type { Query } from '@cmfx/core';
 import Bowser from 'bowser';
 import type { JSX } from 'solid-js';
 
@@ -16,38 +16,50 @@ type SecurityLog = {
 	created: string;
 };
 
-interface Query extends Q {
+interface Q extends Query {
 	text: string;
 	//'created.start'?: string;
 	//'created.end'?: string;
+}
+
+class QuerySearchConverter implements DataTable.SearchConverter<Q> {
+	to(params: DataTable.SearchParams<Q>): Q {
+		return {
+			page: params.page ? parseInt(params.page, 10) : undefined,
+			size: params.size ? parseInt(params.size, 10) : undefined,
+			text: params.text || '',
+		};
+	}
+
+	from(query: Q): DataTable.SearchParams<Q> {
+		return {
+			page: query.page?.toString() || '1',
+			size: query.size?.toString() || '20',
+			text: query.text,
+		};
+	}
 }
 
 export function SecurityLogs(): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	const q: Query = {
-		page: 1,
-		text: '',
-		size: 20,
-	};
+	const [load] = DataTable.buildREST<SecurityLog, Q>(rest, '/securitylog');
 
 	return (
 		<Page title="_p.current.securitylog">
-			<RemoteTable<SecurityLog, Query>
-				rest={rest}
-				path="/securitylog"
+			<DataTable<SecurityLog, Q>
+				load={load}
 				paging
-				inSearch
+				inSearch={new QuerySearchConverter()}
 				systemToolbar
-				queries={q}
 				columns={[
 					{ id: 'content', label: l.t('_p.current.content') },
 					{ id: 'ip', label: l.t('_p.current.ip') },
 					{
 						id: 'ua',
 						label: l.t('_p.current.ua'),
-						content: (_: string, val?: string) => {
+						content: (_, val) => {
 							if (!val) {
 								return '';
 							}
@@ -65,14 +77,16 @@ export function SecurityLogs(): JSX.Element {
 					{
 						id: 'created',
 						label: l.t('_p.created'),
-						content: (_: string, val?: string) => {
+						content: (_, val) => {
 							return l.datetimeFormat().format(new Date(val!));
 						},
 					},
 				]}
-				queryForm={qa => (
+				queryForm={(_, Field) => (
 					<>
-						<InputText accessor={qa.accessor<string>('text')} />
+						<Field name="text">
+							<InputText />
+						</Field>
 					</>
 				)}
 			/>

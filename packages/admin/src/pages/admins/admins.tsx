@@ -38,7 +38,7 @@ interface Q extends Query {
 }
 
 class QuerySearchConverter implements DataTable.SearchConverter<Q> {
-	toQuery(params: DataTable.SearchParams<Q>): Q {
+	to(params: DataTable.SearchParams<Q>): Q {
 		return {
 			page: params.page ? parseInt(params.page, 10) : undefined,
 			size: params.size ? parseInt(params.size, 10) : undefined,
@@ -48,7 +48,7 @@ class QuerySearchConverter implements DataTable.SearchConverter<Q> {
 		};
 	}
 
-	fromQuery(query: Q): DataTable.SearchParams<Q> {
+	from(query: Q): DataTable.SearchParams<Q> {
 		return {
 			page: query.page?.toString() || '1',
 			size: query.size?.toString() || '20',
@@ -63,7 +63,7 @@ export function Admins(props: Props): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	let ref: DataTable.Ref;
+	let ref: DataTable.Ref<Admin>;
 
 	const sexes = createMemo(() => {
 		return localeSexes(l);
@@ -72,13 +72,15 @@ export function Admins(props: Props): JSX.Element {
 		return localeStates(l);
 	});
 
+	const [load, DeleteAction] = DataTable.buildREST<Admin, Q>(rest, '/admins', handleProblem);
+
 	return (
 		<Page title="_p.admin.adminsManager">
 			<DataTable<Admin, Q>
 				ref={el => (ref = el)}
 				inSearch={new QuerySearchConverter()}
 				paging
-				load={DataTable.buildRESTLoad(rest, '/admins', TODO)}
+				load={load}
 				systemToolbar
 				toolbar={
 					<Button type="a" palette="primary" href={`${props.routePrefix}/0`}>
@@ -125,11 +127,11 @@ export function Admins(props: Props): JSX.Element {
 						},
 					},
 					{
-						id: 'actions',
+						id: 'id',
 						cellClass: 'no-print',
 						label: l.t('_p.actions'),
 						isUnexported: true,
-						renderContent: (_, __, obj?: Admin) => {
+						renderContent: (obj: Admin) => {
 							return (
 								<div class="flex gap-x-2">
 									<Show when={obj?.state !== 'deleted'}>
@@ -183,8 +185,8 @@ export function Admins(props: Props): JSX.Element {
 										</Button>
 									</Show>
 
-									<Show when={obj?.state !== 'deleted'}>
-										<DataTable.DeleteAction table={ref} id={obj!.id} />
+									<Show when={obj.state !== 'deleted'}>
+										<DeleteAction id={obj.id} />
 									</Show>
 								</div>
 							);

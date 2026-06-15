@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type DataTable, Label, Page, RemoteTable, useLocale } from '@cmfx/components';
-import { type Duration, formatDuration, type Method, parseDuration, type Query } from '@cmfx/core';
+import { Choice, DataTable, InputText, Label, Page, useLocale } from '@cmfx/components';
+import { type Duration, formatDuration, type Method, methods, parseDuration, type Query } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import IconRoutes from '~icons/material-symbols/route';
 
@@ -32,24 +32,49 @@ interface Q extends Query {
 	text: string;
 }
 
+class QuerySearchConverter implements DataTable.SearchConverter<Q> {
+	to(params: DataTable.SearchParams<Q>): Q {
+		return {
+			page: params.page ? parseInt(params.page, 10) : undefined,
+			size: params.size ? parseInt(params.size, 10) : undefined,
+			text: params.text || '',
+			method: (params.method || []) as Array<Method>,
+		};
+	}
+
+	from(query: Q): DataTable.SearchParams<Q> {
+		return {
+			page: query.page?.toString() || '1',
+			size: query.size?.toString() || '20',
+			text: query.text,
+			method: query.method ? query.method.join(',') : '',
+		};
+	}
+}
+
 export function Routes(): JSX.Element {
 	const l = useLocale();
-	const api = useREST();
-
-	const queries: Q = {
-		method: ['GET', 'DELETE', 'PUT', 'PATCH', 'POST'],
-		text: '',
-	};
+	const rest = useREST();
+	const [load] = DataTable.buildREST<Route, Q>(rest, '/system/routes');
 
 	return (
 		<Page title="_p.system.routesViewer">
-			<RemoteTable
-				rest={api}
+			<DataTable
+				paging
+				load={load}
 				systemToolbar
-				queries={queries}
-				path="/system/routes"
-				hoverable
+				inSearch={new QuerySearchConverter()}
 				toolbar={<Label icon={<IconRoutes />}>{l.t('_p.system.routesViewer')}</Label>}
+				queryForm={(_, Field) => (
+					<>
+						<Field name="method">
+							<Choice options={methods.map(v => ({ type: 'item', value: v, label: v.toUpperCase() }))} />
+						</Field>
+						<Field name="text">
+							<InputText />
+						</Field>
+					</>
+				)}
 				columns={
 					[
 						{ id: 'router', label: l.t('_p.system.router') },

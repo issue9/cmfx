@@ -22,7 +22,7 @@ export function General(): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	const api = new Form.API<General>({
+	const [F, Field] = Form.create<General>({
 		initValue: {
 			name: '',
 			shortName: '',
@@ -38,16 +38,27 @@ export function General(): JSX.Element {
 	});
 
 	return (
-		<Form api={api} layout="vertical">
-			<InputText label={l.t('_p.system.settings.name')} accessor={api.accessor('name')} />
-			<InputText label={l.t('_p.system.settings.shortName')} accessor={api.accessor('shortName')} />
-			<InputText label={l.t('_p.system.settings.description')} accessor={api.accessor('description')} />
-			<InputText label={l.t('_p.system.settings.logo')} accessor={api.accessor('logo')} />
+		<F layout="vertical">
+			<Field label={l.t('_p.system.settings.name')} name="name">
+				<InputText />
+			</Field>
+
+			<Field label={l.t('_p.system.settings.shortName')} name="shortName">
+				<InputText />
+			</Field>
+
+			<Field label={l.t('_p.system.settings.description')} name="description">
+				<InputText />
+			</Field>
+
+			<Field label={l.t('_p.system.settings.logo')} name="logo">
+				<InputText />
+			</Field>
 
 			<footer class={styles.actions}>
 				<Form.Reset>{l.t('_c.reset')}</Form.Reset>
 				<Form.Submit>{l.t('_c.ok')}</Form.Submit>
 			</footer>
-		</Form>
+		</F>
 	);
 }

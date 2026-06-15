@@ -22,7 +22,7 @@ export function Settings(): JSX.Element {
 			<Tab
 				class={styles.tab}
 				value="general"
-				onChange={(v: Type) => setVal(v)}
+				onChange={setVal}
 				layout="vertical"
 				panelClass={styles.tabpanel}
 				items={[

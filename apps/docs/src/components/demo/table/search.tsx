@@ -57,11 +57,11 @@ export default function (props: MountProps): JSX.Element {
 	const [SystemToolbar, systemToolbar] = boolSelector('systemToolbar', true);
 
 	const columns: Array<DataTable.Column<Item>> = [
-		{ id: 'id' },
-		{ id: 'name' },
-		{ id: 'address' },
+		{ label: 'id' },
+		{ label: 'name' },
+		{ label: 'address' },
 		{
-			id: 'action',
+			label: 'action',
 			renderLabel: 'ACTIONS',
 			renderContent: () => {
 				return <button type="button">...</button>;
@@ -81,14 +81,14 @@ export default function (props: MountProps): JSX.Element {
 			<DataTable
 				paging
 				inSearch={{
-					toQuery: params => {
+					to: params => {
 						return {
 							page: params.page !== undefined ? parseInt(params.page, 10) : 1,
 							size: params.size !== undefined ? parseInt(params.size, 10) : 10,
 							txt: params.txt ? params.txt : '',
 						};
 					},
-					fromQuery: q => {
+					from: q => {
 						return {
 							page: q.page?.toString(),
 							size: q.size?.toString(),

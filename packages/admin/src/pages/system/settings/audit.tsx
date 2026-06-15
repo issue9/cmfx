@@ -20,7 +20,7 @@ export function Audit(): JSX.Element {
 	const l = useLocale();
 	const rest = useREST();
 
-	const api = new Form.API<Audit>({
+	const [F, Field, api] = Form.create<Audit>({
 		initValue: { keywords: [], urlBlacklist: [] },
 		load: async () => {
 			return await rest.get('/system/settings/audit');
@@ -31,20 +31,19 @@ export function Audit(): JSX.Element {
 	});
 
 	return (
-		<Form api={api} layout="vertical">
-			<InputText
-				label={l.t('_p.system.settings.keywords')}
-				accessor={Form.array2StringAccessor(',', api.accessor('keywords'))}
-			/>
-			<InputText
-				label={l.t('_p.system.settings.urlBlacklist')}
-				accessor={Form.array2StringAccessor(',', api.accessor('urlBlacklist'))}
-			/>
+		<F layout="vertical">
+			<Field label={l.t('_p.system.settings.keywords')} name="keywords">
+				<InputText accessor={Form.array2StringAccessor(',', api.accessor('keywords'))} />
+			</Field>
+
+			<Field label={l.t('_p.system.settings.urlBlacklist')} name="urlBlacklist">
+				<InputText accessor={Form.array2StringAccessor(',', api.accessor('urlBlacklist'))} />
+			</Field>
 
 			<footer class={styles.actions}>
 				<Form.Reset>{l.t('_c.reset')}</Form.Reset>
 				<Form.Submit>{l.t('_c.ok')}</Form.Submit>
 			</footer>
-		</Form>
+		</F>
 	);
 }
