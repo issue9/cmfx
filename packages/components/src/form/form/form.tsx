@@ -7,7 +7,7 @@ import type { JSX, ParentProps } from 'solid-js';
 import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show } from 'solid-js';
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
-import { Button as Btn } from '@components/button';
+import { Button as Btn } from '@components/button/button';
 import { ContextNotFoundError, useLocale } from '@components/context';
 import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
