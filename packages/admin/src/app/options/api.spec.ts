@@ -17,15 +17,15 @@ test('sanitizeAPI', () => {
 
 	expect(() => {
 		sanitizeAPI(Object.assign({}, api, { token: '' }));
-	}).toThrowError('api.token 不能为空');
+	}).toThrow('api.token 不能为空');
 
 	expect(() => {
 		sanitizeAPI(Object.assign({}, api, { info: '' }));
-	}).toThrowError('api.info 不能为空');
+	}).toThrow('api.info 不能为空');
 
 	expect(() => {
 		sanitizeAPI(Object.assign({}, api, { base: 'localhost' }));
-	}).toThrowError('base 格式错误');
+	}).toThrow('base 格式错误');
 
 	let o = Object.assign({}, api);
 	o = sanitizeAPI(o);

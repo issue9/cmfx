@@ -25,17 +25,17 @@ const type2Palette: ReadonlyMap<MessageType, Palette> = new Map<MessageType, Pal
 	['info', 'secondary'],
 ]);
 
-export interface Ref extends BaseRef<HTMLDivElement> {
+export interface MessageRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 从 DOM 中移除当前组件
 	 *
 	 * @remarks
-	 * 该行为可能受到 {@link Props#onClose} 的影响。
+	 * 该行为可能受到 {@link MessageProps#onClose} 的影响。
 	 */
 	close(): Promise<void>;
 }
 
-export interface Props extends BaseProps, RefProps<Ref> {
+export interface MessageProps extends BaseProps, RefProps<MessageRef> {
 	/**
 	 * 显示的图标
 	 *
@@ -98,7 +98,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 /**
  * 信息框，notify 和 alert 的共用组件
  */
-export function Message(props: Props): JSX.Element {
+export function Message(props: MessageProps): JSX.Element {
 	props = mergeProps({ type: 'info' as MessageType }, props);
 
 	const l = useLocale();

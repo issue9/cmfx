@@ -4,8 +4,8 @@
 
 import tailwindcss from '@tailwindcss/vite';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
-import { defineConfig } from 'vite';
 import dts from 'unplugin-dts/vite';
+import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
 import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';

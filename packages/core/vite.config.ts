@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import browserslistToEsbuild from 'browserslist-to-esbuild';
-import { defineConfig } from 'vite';
 import dts from 'unplugin-dts/vite';
+import { defineConfig } from 'vite';
 
 import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
 import pkg from './package.json' with { type: 'json' };

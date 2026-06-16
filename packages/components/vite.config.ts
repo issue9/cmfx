@@ -4,16 +4,17 @@
 
 import tailwindcss from '@tailwindcss/vite';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
+import dts from 'unplugin-dts/vite';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
-import dts from 'unplugin-dts/vite';
 import solidPlugin from 'vite-plugin-solid';
 
 import customIcons from '../../build/unplugin-icons';
 import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
 import pkg from './package.json' with { type: 'json' };
+import cfg from './tsconfig.json' with { type: 'json' };
 
-const outDir = './lib';
+const outDir = cfg.compilerOptions.outDir;
 
 // https://vitejs.dev/config/
 export default defineConfig({

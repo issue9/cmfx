@@ -2,14 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { JSX, ParentProps } from 'solid-js';
-import { mergeProps } from 'solid-js';
+import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 
-import type { BaseRef, Layout, RefProps } from '@components/base';
-import { classList } from '@components/base';
+import { type BaseRef, classList, type Layout, type RefProps } from '@components/base';
 import styles from '@components/button/common/style.module.css';
-import type { Props as BaseProps } from '@components/button/common/types';
-import { presetProps as presetBaseProps } from '@components/button/common/types';
+import { type Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';
 
 export type GroupButtonRef = BaseRef<HTMLFieldSetElement>;
 

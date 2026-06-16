@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { MessageType, Props, Ref } from './message';
+export type { MessageProps, MessageRef, MessageType } from './message';
 export { Message, messageTypes } from './message';

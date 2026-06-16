@@ -6,10 +6,10 @@ import { HashRouter, type RouteDefinition, type Router, type RouteSectionProps }
 import type { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
+import { OptionsProvider } from '@components/context/options/context';
+import { type Options, requiredOptions } from '@components/context/options/options';
 import { DialogProvider } from '@components/dialog/system';
 import { NotifyProvider } from '@components/notify/notify/notify';
-import { OptionsProvider } from './options/context';
-import { type Options, requiredOptions } from './options/options';
 import styles from './style.module.css';
 
 /**

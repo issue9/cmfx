@@ -5,5 +5,4 @@
 export * from './errors';
 export * from './locale';
 export * from './options';
-export { run } from './run';
 export * from './theme';

@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 
 import { Button } from '@components/button/button';
-import { ComponentTester } from '@components/context/options/context.spec.tsx';
+import { ComponentTester } from '@components/context/options/context.spec';
 import { GroupButton, type GroupButtonRef } from './root';
 
 describe('ButtonGroup', async () => {

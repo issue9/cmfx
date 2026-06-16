@@ -10,8 +10,7 @@ import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps 
 import type { BaseRef, RefProps } from '@components/base';
 import { classList, PropsError } from '@components/base';
 import styles from '@components/button/common/style.module.css';
-import type { Props as BaseProps } from '@components/button/common/types';
-import { presetProps as presetBaseProps } from '@components/button/common/types';
+import { type Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';
 
 export type ButtonRef<
 	A extends boolean = false,

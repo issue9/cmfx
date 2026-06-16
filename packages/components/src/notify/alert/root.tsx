@@ -4,7 +4,7 @@
 
 import type { JSX } from 'solid-js';
 
-import { Message, type Props as MessageProps, type Ref as MessageRef } from '@components/notify/message';
+import { Message, type MessageProps, type MessageRef } from '@components/notify/message';
 
 export type AlertProps = Omit<MessageProps, 'transitionDuration' | 'closeAriaLabel'>;
 
@@ -13,6 +13,6 @@ export type AlertRef = MessageRef;
 /**
  * 警告框
  */
-export function Root(props: AlertProps): JSX.Element {
+export function Alert(props: AlertProps): JSX.Element {
 	return <Message {...props} />;
 }

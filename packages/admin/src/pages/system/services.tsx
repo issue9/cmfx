@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import { DataTable, Label, Page, useLocale } from '@cmfx/components';
-import type { Query } from '@cmfx/core';
 import { createMemo, type JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
 import IconTask from '~icons/material-symbols/task';
@@ -65,8 +64,8 @@ export function Services(): JSX.Element {
 				<Label icon={<IconSubtitle />} tag="legend">
 					{l.t('_p.system.services')}
 				</Label>
-				<DataTable<Task, Query>
-					load={async (_: Query) => (await items())?.services}
+				<DataTable
+					load={async () => (await items())?.services}
 					columns={[
 						{ id: 'title', label: l.t('_p.system.title') },
 						{
@@ -87,7 +86,7 @@ export function Services(): JSX.Element {
 				<Label icon={<IconTask />} tag="legend">
 					{l.t('_p.system.jobs')}
 				</Label>
-				<DataTable<Job, Query>
+				<DataTable
 					load={async () => (await items())?.jobs}
 					columns={[
 						{ id: 'title', label: l.t('_p.system.title') },

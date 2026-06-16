@@ -32,7 +32,7 @@ catalog:
   '@tiptap/pm': ^3.26.1
   '@tiptap/starter-kit': ^3.26.1
   '@vitejs/plugin-basic-ssl': ^2.3.0
-  '@vitest/coverage-v8': ^4.1.8
+  '@vitest/coverage-v8': ^4.1.9
   autoprefixer: ^10.5.0
   bowser: ^2.14.1
   browserslist: ^4.28.2
@@ -56,10 +56,21 @@ catalog:
   vite: ^8.0.16
   unplugin-dts: ^1.0.2
   vite-plugin-solid: ^2.11.12
-  vitest: ^4.1.8
+  vitest: ^4.1.9
   vitest-fetch-mock: ^0.4.5
   yaml: ^2.9.0
   zod: ^4.4.3
 
 ignoredBuiltDependencies:
   - '@tailwindcss/oxide'
+
+minimumReleaseAgeExclude:
+  - '@vitest/coverage-v8@4.1.9'
+  - '@vitest/expect@4.1.9'
+  - '@vitest/mocker@4.1.9'
+  - '@vitest/pretty-format@4.1.9'
+  - '@vitest/runner@4.1.9'
+  - '@vitest/snapshot@4.1.9'
+  - '@vitest/spy@4.1.9'
+  - '@vitest/utils@4.1.9'
+  - vitest@4.1.9

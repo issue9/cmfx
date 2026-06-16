@@ -9,8 +9,7 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import type { AvailableEnumType, Layout, RefProps } from '@components/base';
 import { Button } from '@components/button/button';
 import styles from '@components/button/common/style.module.css';
-import type { Props as BaseProps } from '@components/button/common/types';
-import { presetProps as presetBaseProps } from '@components/button/common/types';
+import { type Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';
 import { ButtonGroup } from '@components/button/group';
 import { Dropdown } from '@components/menu';
 

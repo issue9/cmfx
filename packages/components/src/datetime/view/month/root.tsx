@@ -267,7 +267,7 @@ export function MonthView(props: MonthViewProps): JSX.Element {
 
 // 要求 start 早于 end，且不能同时为 undefined
 export function isCovered(day: Date, covered?: [start?: Date, end?: Date]) {
-	if (!covered || covered.length !== 2 || equal(covered, [undefined, undefined])) {
+	if (covered?.length !== 2 || equal(covered, [undefined, undefined])) {
 		return false;
 	}
 

@@ -7,12 +7,12 @@
  */
 export interface Converter<T, F> {
 	/**
-	 * 将地址栏中的参数转换为类型 Q
+	 * 将类型 F 转换为类型 T
 	 */
-	to(params: F): T;
+	to(f: F): T;
 
 	/**
-	 * 将类型 Q 转换为符合地址栏中的参数类型
+	 * 将类型 T 转换为类型 F
 	 */
-	from(query: T): F;
+	from(t: T): F;
 }
