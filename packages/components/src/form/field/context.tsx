@@ -8,6 +8,7 @@ import { createContext, createEffect, createSignal, createUniqueId, splitProps, 
 
 import type { ChangeFunc, StyleProps, ValueProps } from '@components/base';
 import type { FormFieldAccessor } from '@components/form/api';
+import { useForm } from '../form';
 
 export type FormFieldContext<T> = FormFieldAccessor<T> &
 	StyleProps & {
@@ -59,11 +60,15 @@ export function FieldProvider<T>(props: FieldProviderProps<T>): JSX.Element {
  * 可以使用 {@link FieldProvider} 重新将 {@link FormFieldContext} 提供给内部组件。
  * 或是使用将 isolation 属性设置为 true 的 {@link FieldProvider} 来隔离内部组件的上下文。
  */
-export function useField<T>(props?: ValueProps<T>): FormFieldContext<T> | undefined;
 export function useField<T>(props: ValueProps<T>, fake: true): FormFieldContext<T>;
+export function useField<T>(props?: ValueProps<T>): FormFieldContext<T> | undefined;
 export function useField<T>(props?: ValueProps<T>, fake?: true): FormFieldContext<T> | undefined {
-	let ctx = useContext(fieldContext as Context<FieldContextWithInited<T>>);
+	// 需要考虑以下三种情况
+	// 1. 位于 Form 和 Field 之内，不考虑 props 的属性；
+	// 2. 位于 Field 之内但是没有 Form，需要考虑 props 的属性；
+	// 3. 没有 Form 和 Field 包裹，需要考虑 props 的属性；
 
+	let ctx = useContext(fieldContext as Context<FieldContextWithInited<T>>);
 	// 如果位于 Form.Field 外部，且需要创建假的上下文
 	if (!ctx && fake) {
 		ctx = createFakeField(props?.value, props?.onChange);
@@ -78,7 +83,8 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FormFieldContex
 		return ctx;
 	}
 
-	if (props && !ctx.isFake) {
+	const f = useForm();
+	if (props && !f) {
 		createEffect(() => {
 			ctx.setValue(props.value);
 		});
@@ -98,7 +104,7 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FormFieldContex
  * @remarks
  * 当通过 {@link useField} 无法获取到父元素的上下文时，可以使用该函数创建一个假的上下文。
  */
-export function createFakeField<T>(val: T | undefined, onChange?: ChangeFunc<T | undefined>): FormFieldContext<T> {
+export function createFakeField<T>(val?: T, onChange?: ChangeFunc<T | undefined>): FormFieldContext<T> {
 	const preset = structuredClone(val);
 	const [v, sv] = createSignal<T | undefined>(val);
 	const [extra, setExtra] = createSignal<JSX.Element | undefined>();

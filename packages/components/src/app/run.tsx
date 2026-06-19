@@ -7,7 +7,7 @@ import type { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { OptionsProvider } from '@components/context/options/context';
-import { type Options, requiredOptions } from '@components/context/options/options';
+import { type Options, initEnv } from '@components/context/options/options';
 import { DialogProvider } from '@components/dialog/system';
 import { NotifyProvider } from '@components/notify/notify/notify';
 import styles from './style.module.css';
@@ -28,15 +28,15 @@ import styles from './style.module.css';
  * @param routes - 路由数据；
  * @param router - 指定路由类型，默认为 {@link HashRouter}；
  */
-export function run(
+export async function run(
 	app: Component<RouteSectionProps>,
 	mountedElement: HTMLElement,
 	o: Options,
 	routes: Array<RouteDefinition>,
 	router: typeof Router = HashRouter,
-): void {
+): Promise<void> {
 	mountedElement.classList.add(styles.root);
-	const opt = requiredOptions(o);
+	const opt = await initEnv(o);
 
 	const Root = (props: RouteSectionProps) => {
 		return (

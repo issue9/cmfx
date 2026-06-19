@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, useLocale, useOptions } from '@cmfx/components';
+import { Page, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { type JSX, onMount } from 'solid-js';
 
@@ -11,7 +11,6 @@ import styles from './style.module.css';
 
 export function Logout(): JSX.Element {
 	const opt = useAdminOptions();
-	const [, origin] = useOptions();
 	const usr = useAdmin();
 	const l = useLocale();
 	const nav = useNavigate();
@@ -24,7 +23,7 @@ export function Logout(): JSX.Element {
 	// 在网络不通时，ctx.logout 可能会非常耗时，所以此处展示一个简单的提示页面。
 	return (
 		<Page title="_p.current.logout" class={styles.logout}>
-			{origin.loading({})}
+			{usr.loading()}
 			{l.t('_p.current.loggingOut')}
 		</Page>
 	);

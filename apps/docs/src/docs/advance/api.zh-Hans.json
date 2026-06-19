@@ -882,7 +882,7 @@
 		"kind": "function",
 		"name": "handleProblem",
 		"summary": "将\n`Problem`\n作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\n\n",
-		"type": "function handleProblem<P>(p: Problem<P>): Promise<void>",
+		"type": "function handleProblem<P>(p?: Problem<P>): Promise<void>",
 		"typeParams": [
 			{
 				"name": "P",
@@ -893,8 +893,7 @@
 		"params": [
 			{
 				"name": "p",
-				"summary": "如果该值空，则会抛出异常；\n\n",
-				"type": "Problem<P>"
+				"type": "Problem<P> | undefined"
 			}
 		],
 		"return": {

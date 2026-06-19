@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type DisplayStyle, Hotkey, I18n } from '@cmfx/core';
+import type { DisplayStyle } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
-import { createContext, createResource, Match, Switch, splitProps, useContext } from 'solid-js';
+import { createContext, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import type { Mode, Scheme } from '@components/base';
@@ -41,44 +41,20 @@ const optionsContext = createContext<OptionsContext>();
  * 这是用于初始化项目的最外层组件，不保证任何属性是否有响应状态。
  */
 export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
-	Hotkey.init(); // 初始化快捷键
-
-	I18n.init(props.locale);
-	const [messageResource] = createResource(
-		true,
-		async () => {
-			for (const [key, loaders] of Object.entries(props.messages)) {
-				await I18n.addDict(key, ...loaders);
-			}
-			return true;
-		},
-		{ initialValue: true },
-	);
-
 	const [, opt] = splitProps(props, ['children']);
 	const accessor = buildAccessor(opt);
 
-	// NOTE: 需要通过 messageResource.loading 等待 createResource 完成，才能真正加载组件。
-
 	return (
 		<optionsContext.Provider value={{ origin: opt, accessor: accessor }}>
-			<Switch fallback={props.loading({})}>
-				<Match when={!messageResource.loading}>
-					<ThemeProvider
-						mode={accessor.getMode()}
-						styleElement={document.documentElement}
-						scheme={accessor.getScheme()}
-					>
-						<LocaleProvider
-							id={accessor.getLocale()}
-							displayStyle={accessor.getDisplayStyle()}
-							timezone={accessor.getTimezone()}
-						>
-							{props.children}
-						</LocaleProvider>
-					</ThemeProvider>
-				</Match>
-			</Switch>
+			<ThemeProvider mode={accessor.getMode()} styleElement={document.documentElement} scheme={accessor.getScheme()}>
+				<LocaleProvider
+					id={accessor.getLocale()}
+					displayStyle={accessor.getDisplayStyle()}
+					timezone={accessor.getTimezone()}
+				>
+					{props.children}
+				</LocaleProvider>
+			</ThemeProvider>
 		</optionsContext.Provider>
 	);
 }

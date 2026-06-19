@@ -384,7 +384,7 @@
 		"name": "Form.useField",
 		"summary": "获取可以用于操作父元素 Form.Field 组件的接口\n\n",
 		"remarks": "所有在位于 Form.Field 内部的组件中调用的 useField 都会返回一个对象，若需要在外部调用，需要传入\n`fake`\n参数。\n\n\nNOTE: 如果在一个用 useField 的组件之内，嵌套了另一个使用 useField 的组件，\n可以使用\n`FieldProvider`\n重新将\n`FormFieldContext`\n提供给内部组件。\n或是使用将 isolation 属性设置为 true 的\n`FieldProvider`\n来隔离内部组件的上下文。\n\n",
-		"type": "declare function useField<T>(props?: ValueProps<T>): FormFieldContext<T> | undefined",
+		"type": "declare function useField<T>(props: ValueProps<T>, fake: true): FormFieldContext<T>",
 		"typeParams": [
 			{
 				"name": "T",
@@ -396,11 +396,16 @@
 			{
 				"name": "props",
 				"summary": "如果 props.onChange 存在，则会将其注册到\n`FormFieldContext`\n，且会跟踪 props.value 的变化；\n\n",
-				"type": "ValueProps<T> | undefined"
+				"type": "ValueProps<T>"
+			},
+			{
+				"name": "fake",
+				"summary": "如果为 true，则在无法从上下文中获取对象时，会创建一个假的对象返回；\n\n",
+				"type": "true"
 			}
 		],
 		"return": {
-			"type": "FormFieldContext<T> | undefined"
+			"type": "FormFieldContext<T>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -411,6 +416,11 @@
 			{
 				"name": "T",
 				"type": "Flattenable"
+			},
+			{
+				"name": "F",
+				"type": "any",
+				"init": "Flatten<T>[FlattenKeys<T>]"
 			}
 		],
 		"properties": [
@@ -432,6 +442,13 @@
 				"summary": "字段名\n\n",
 				"remarks": "如果指定了该值，则必须要套在 Form 之内，会从 Form 中获取对应名称的字段值。\n否则表示一个类似 label 的组件，用于包含一个带有数据的字段。\n\n",
 				"type": "FlattenKeys<T> | undefined",
+				"readonly": true
+			},
+			{
+				"name": "conv",
+				"summary": "对 name 指定的字段作个类型转换\n\n",
+				"remarks": "Field 的子元素接受的数据类型是固定的，如果碰到不同类型的数据，可以使用此转换，\n比如 DatePicker 组件只接受 Date 类型的数据，但是某此接口可能使用了时间戳或是字符串表示时间，\n可以在此字段指定一个将时间戳或是字符转换为 Date 的方法传递给子组件。\n\n",
+				"type": "Converter<Flatten<T>[FlattenKeys<T>], F> | undefined",
 				"readonly": true
 			},
 			{

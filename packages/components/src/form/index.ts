@@ -6,7 +6,15 @@ import type { Flattenable } from '@cmfx/core';
 
 import { API } from './api';
 import { create } from './create';
-import { Field, FieldProvider, useField } from './field';
+import {
+	Array2StringConverter,
+	convert,
+	Field,
+	FieldProvider,
+	Number2DateConverter,
+	String2DateConverter,
+	useField,
+} from './field';
 import { Button, Form as C, labelAlignments, Message, Reset, Submit, useForm } from './form';
 
 export const Form = Object.assign(C, {
@@ -21,6 +29,10 @@ export const Form = Object.assign(C, {
 	API,
 	FieldProvider,
 	useField,
+	convert,
+	Number2DateConverter,
+	Array2StringConverter,
+	String2DateConverter,
 });
 
 export namespace Form {

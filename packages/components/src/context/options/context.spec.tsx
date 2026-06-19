@@ -3,15 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { Config, sleep } from '@cmfx/core';
-import { HashRouter } from '@solidjs/router';
-import { render } from '@solidjs/testing-library';
-import type { JSX, ParentProps } from 'solid-js';
-import { afterAll, expect, test } from 'vitest';
+import { MemoryRouter } from '@solidjs/router';
+import { render, renderHook } from '@solidjs/testing-library';
+import { type JSX, type ParentProps, splitProps } from 'solid-js';
+import { afterAll, describe, expect, test } from 'vitest';
 
 import type { BaseProps } from '@components/base';
 import { schemes } from '@components/scheme';
-import { buildAccessor, OptionsProvider } from './context';
-import { type Options, requiredOptions } from './options';
+import { buildAccessor, OptionsProvider, useOptions } from './context';
+import { type Options, type ReqOptions, initEnv } from './options';
 
 // 提供用于测试的配置项
 const options: Options = {
@@ -33,15 +33,17 @@ const options: Options = {
 	stays: 2000,
 };
 
+export async function initTestEnv(): Promise<ReqOptions> {
+	return await initEnv(options);
+}
+
 /**
  * 提供了一个用于测试的环境，包含了基础的环境配置。
  */
-export function Provider(props: ParentProps) {
-	const opt = requiredOptions(options);
-	const Root = () => {
-		return <OptionsProvider {...opt}>{props.children}</OptionsProvider>;
-	};
-	return <HashRouter root={Root}>{[]}</HashRouter>;
+export function Provider(props: ParentProps<ReqOptions>): JSX.Element {
+	const [, p] = splitProps(props, ['children']);
+	const Root = () => <OptionsProvider {...p}>{props.children}</OptionsProvider>;
+	return <MemoryRouter root={Root}>{[]}</MemoryRouter>;
 }
 
 type Result = ReturnType<typeof render>;
@@ -70,7 +72,8 @@ export class ComponentTester {
 	 */
 	static async build(name: string, r: (props: BaseProps) => JSX.Element, dur: number = 500): Promise<ComponentTester> {
 		const props = { palette: 'primary', class: 'custom-cls', style: { '--custom-style': 'red' } } as const;
-		const result = render(() => r(props), { wrapper: Provider });
+		const o = await initTestEnv()
+		const result = render(() => r(props), { wrapper: props => <Provider {...o}>{props.children}</Provider> });
 
 		await sleep(dur); // Provider 是异步的，需要等待其完成加载。
 		afterAll(result.unmount);
@@ -113,11 +116,35 @@ export class ComponentTester {
 	}
 }
 
-test('buildAccessor', () => {
-	const req = requiredOptions(options);
+test('buildAccessor', async () => {
+	const req = await initTestEnv();
 	const accessor = buildAccessor(req);
 	expect(accessor).not.toBeUndefined();
 
 	accessor.setTitle('t');
 	expect(document.title, `t${options.titleSeparator}${options.title}`);
+});
+
+describe('useOptions', async () => {
+	const o = await initTestEnv();
+	const { result, cleanup } = renderHook(() => useOptions(), {
+		wrapper: props => <Provider {...o}>{props.children}</Provider>,
+	});
+
+	test('get', async () => {
+
+		expect(result).toBeDefined();
+		expect(result[0].getDisplayStyle()).toEqual('full');
+
+	});
+
+	test('get/set', () => {
+		expect(result[0].getStays()).toEqual(2000);
+		result[0].setStays(500);
+		expect(result[0].getStays()).toEqual(500);
+
+		afterAll(cleanup);
+	});
+
+	afterAll(cleanup);
 });

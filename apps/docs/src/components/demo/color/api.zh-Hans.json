@@ -226,5 +226,60 @@
 			"type": "string"
 		},
 		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "interface",
+		"name": "Color.Space",
+		"summary": "定义了颜色空间需要实现的接口\n\n",
+		"properties": [
+			{
+				"name": "id",
+				"summary": "表示当前拾取框的唯一 ID\n\n",
+				"type": "string"
+			},
+			{
+				"name": "localeID",
+				"summary": "表示当前拾取框的翻译 ID\n\n",
+				"type": "string"
+			}
+		],
+		"methods": [
+			{
+				"name": "include",
+				"summary": "判定给定的值是否属于当前的实例\n\n",
+				"remarks": "可能存在多个实现都返回 true 的情况。\n\n",
+				"type": "include(value: string): boolean",
+				"params": [
+					{
+						"name": "value",
+						"type": "string"
+					}
+				],
+				"return": {
+					"type": "boolean"
+				}
+			},
+			{
+				"name": "panel",
+				"summary": "实现实例的面板\n\n",
+				"type": "panel(s: Accessor, parent: HTMLElement): JSX.Element",
+				"params": [
+					{
+						"name": "s",
+						"summary": "访问器函数，用于获取颜色值；\n\n",
+						"type": "Accessor"
+					},
+					{
+						"name": "parent",
+						"summary": "父元素，用于计算颜色变量的真实值；\n\n",
+						"type": "HTMLElement"
+					}
+				],
+				"return": {
+					"type": "JSX.Element"
+				}
+			}
+		],
+		"pkg": "@cmfx/components"
 	}
 ]

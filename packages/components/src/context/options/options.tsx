@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
+import { Hotkey, I18n } from '@cmfx/core';
 import type { Component } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 
@@ -163,17 +164,17 @@ export const presetOptions: PickOptional<Options> = {
 } as const;
 
 /**
- * 由 {@link requiredOptions} 返回的对象，所有字段都是必填的。同时也是 useOptions 的返回类型。
+ * 由 {@link initEnv} 返回的对象，所有字段都是必填的。同时也是 useOptions 的返回类型。
  */
 export type ReqOptions = Required<Omit<Options, 'scheme'> & { scheme: Scheme }>;
 
 /**
- * 将 opt 转换为 ReqOptions 类型
+ * 初始化环境并返回 {@link ReqOptions} 类型
  *
  * @remarks
  * 如果 opt 中存在某个属性，则使用 opt 中的值，否则使用 presetOptions 中的默认值。
  */
-export function requiredOptions(opt: Options): ReqOptions {
+export async function initEnv(opt: Options): Promise<ReqOptions> {
 	const o = Object.assign(presetOptions, opt) as Required<Options>;
 
 	let scheme: Scheme | undefined;
@@ -189,6 +190,14 @@ export function requiredOptions(opt: Options): ReqOptions {
 	}
 
 	o.scheme = scheme; // 此处保证 o.scheme 只能为 Scheme 类型
+
+	// 一些全局内容的初始化
+
+	Hotkey.init(); // 初始化快捷键
+	I18n.init(o.locale);
+	for (const [key, loaders] of Object.entries(o.messages)) {
+		await I18n.addDict(key, ...loaders);
+	}
 
 	return o as ReqOptions;
 }

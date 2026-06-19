@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Flattenable } from '@cmfx/core';
+import type { Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
 import { type Component, type JSX, mergeProps } from 'solid-js';
 
 import { API, type Options } from './api';
@@ -20,12 +20,20 @@ type FormCreatorProps<T extends Flattenable, R = never, P = never> = Omit<FormPr
  */
 export function create<T extends Flattenable, R = never, P = never>(
 	opt: Options<T, R, P>,
-): [Form: Component<FormCreatorProps<T, R, P>>, Field: Component<FormFieldProps<T>>, api: API<T, R, P>] {
+): [
+	Form: Component<FormCreatorProps<T, R, P>>,
+	Field: <F = Flatten<T>[FlattenKeys<T>]>(p: FormFieldProps<T, F>) => JSX.Element,
+	api: API<T, R, P>,
+] {
 	const api = new API(opt);
 
 	const form = (props: FormCreatorProps<T, R, P>): JSX.Element => {
 		return Form<T, R, P>(mergeProps({ api }, props));
 	};
 
-	return [form, Field<T>, api];
+	const field = <F = Flatten<T>[FlattenKeys<T>]>(props: FormFieldProps<T, F>): JSX.Element => {
+		return Field<T, F>(props);
+	};
+
+	return [form, field, api];
 }

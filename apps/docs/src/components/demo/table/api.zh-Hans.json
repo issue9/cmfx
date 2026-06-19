@@ -286,6 +286,12 @@
 	{
 		"kind": "interface",
 		"name": "DataTable.Ref",
+		"typeParams": [
+			{
+				"name": "T",
+				"type": "object"
+			}
+		],
 		"methods": [
 			{
 				"name": "table",
@@ -301,6 +307,13 @@
 				"type": "refresh(): Promise<void>",
 				"return": {
 					"type": "Promise<void>"
+				}
+			},
+			{
+				"name": "items",
+				"type": "items(): Array<T>",
+				"return": {
+					"type": "T[]"
 				}
 			},
 			{
@@ -356,13 +369,14 @@
 			},
 			{
 				"name": "id",
-				"summary": "导出列在对象 T 中的字段名，如果是自定义列，也可以是不存在于 T 中。\n\n",
-				"type": "string | keyof T"
+				"summary": "导出列在对象 T 中的字段名\n\n",
+				"remarks": "`content`\n的第二参数根据此值从 T 中取值。\n可以为空，则\n`content`\n的第二参数为空。\n\n",
+				"type": "keyof T | undefined"
 			},
 			{
 				"name": "label",
-				"summary": "导出列的标题，如果为空将直接采用 id\n\n",
-				"type": "string | undefined"
+				"summary": "导出列的标题\n\n",
+				"type": "string | (() => string)"
 			},
 			{
 				"name": "content",
