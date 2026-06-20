@@ -97,7 +97,7 @@ export class Extractor {
 		const chk = project.checker;
 
 		for (const decl of decls) {
-			let node: Node;
+			let node: Node | undefined;
 
 			if (items.length > 1) {
 				for (const item of items.slice(1)) {
@@ -145,6 +145,10 @@ export class Extractor {
 					// export namespace { export type x=y; export type G<T>=Y<T>}
 					if (items.length > 1 && Node.isTypeAliasDeclaration(node)) {
 						const tn = node.getTypeNode();
+						if (!tn) {
+							continue
+						}
+
 						const xt = chk.getTypeAtLocation(tn);
 						const typeName = Node.isTypeReference(tn) ? tn.getTypeName().getText() : tn.getText();
 						const n = entryPoint.getSymbol(typeName.trim());

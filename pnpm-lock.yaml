@@ -10,8 +10,8 @@ catalogs:
       specifier: ^2.5.0
       version: 2.5.0
     '@iconify/json':
-      specifier: ^2.2.486
-      version: 2.2.486
+      specifier: ^2.2.488
+      version: 2.2.488
     '@iconsets/svg-morpheus-ts':
       specifier: ^1.4.14
       version: 1.4.14
@@ -58,8 +58,8 @@ catalogs:
       specifier: ^3.27.1
       version: 3.27.1
     '@tiptap/extension-text-style':
-      specifier: ^3.26.1
-      version: 3.26.1
+      specifier: ^3.27.1
+      version: 3.27.1
     '@tiptap/extensions':
       specifier: ^3.27.1
       version: 3.27.1
@@ -169,7 +169,7 @@ importers:
         version: 2.5.0
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.486
+        version: 2.2.488
       '@solidjs/testing-library':
         specifier: 'catalog:'
         version: 0.8.10(@solidjs/router@0.16.1(solid-js@1.9.13))(solid-js@1.9.13)
@@ -214,7 +214,7 @@ importers:
         version: link:../../packages/illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.486
+        version: 2.2.488
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.16.1(solid-js@1.9.13)
@@ -284,7 +284,7 @@ importers:
         version: link:../../build/vite-plugin-api
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.486
+        version: 2.2.488
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.16.1(solid-js@1.9.13)
@@ -410,7 +410,7 @@ importers:
         version: link:../illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.486
+        version: 2.2.488
       '@scure/base':
         specifier: 'catalog:'
         version: 2.2.0
@@ -474,7 +474,7 @@ importers:
         version: link:../core
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.486
+        version: 2.2.488
       '@iconsets/svg-morpheus-ts':
         specifier: 'catalog:'
         version: 1.4.14
@@ -501,7 +501,7 @@ importers:
         version: 3.27.1(@tiptap/core@3.27.1(@tiptap/pm@3.27.1))
       '@tiptap/extension-text-style':
         specifier: 'catalog:'
-        version: 3.26.1(@tiptap/core@3.27.1(@tiptap/pm@3.27.1))
+        version: 3.27.1(@tiptap/core@3.27.1(@tiptap/pm@3.27.1))
       '@tiptap/extensions':
         specifier: 'catalog:'
         version: 3.27.1(@tiptap/core@3.27.1(@tiptap/pm@3.27.1))(@tiptap/pm@3.27.1)
@@ -1076,8 +1076,8 @@ packages:
   '@formatjs/icu-skeleton-parser@2.1.10':
     resolution: {integrity: sha512-XuSva+8ZGawk8VnD5VD6UeH8KarQ/Z022zgjHDoHmlNiAewstXuuzXc0Hk5pGFSdG+nNw5bfJKXqj1ZXHn9yUA==}
 
-  '@iconify/json@2.2.486':
-    resolution: {integrity: sha512-ybeEhKPvniErZvczHk0p3xZgG/uAYT2Lo9YwkJr57cr6lr7xq8ezVWzzoAGaxZnsxSF54cyYmyPT/QIi9cc9Uw==}
+  '@iconify/json@2.2.488':
+    resolution: {integrity: sha512-W2MfGS0n1GugWhQn7SLgRKNH1JonVsKG/O9vO/htP7j3k1bGt54R1mbN9uaZlQ99uCCu65IR5UgQM66E8Cm+Fw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -1709,10 +1709,10 @@ packages:
     peerDependencies:
       '@tiptap/core': 3.27.1
 
-  '@tiptap/extension-text-style@3.26.1':
-    resolution: {integrity: sha512-V8t7qOyLH7IBR2HjjJVZ9rUHTnuFToJx07L9PN9PpgQLhz9q8Jah4gAwmjLBXDRG2YaXImGK0RwKKCU/yHhwOg==}
+  '@tiptap/extension-text-style@3.27.1':
+    resolution: {integrity: sha512-J48WIl+6YDYTFPhWXUBQk+u7+AKVUqTdvrZOQyPYCGuQMgHrYzgWrI5+HeEifUgXJ5rMIWWP3qytp7KhVVqpDQ==}
     peerDependencies:
-      '@tiptap/core': 3.26.1
+      '@tiptap/core': 3.27.1
 
   '@tiptap/extension-text@3.27.1':
     resolution: {integrity: sha512-6ZwaZwSrDh+KFFv6V1J79oO37yPs7y1bFxvk1/9Ih2rn3Xr5AWz+eMS+n8RpH3djBVVAQpdIAeYQgcn+VCSsTg==}
@@ -3264,7 +3264,7 @@ snapshots:
 
   '@formatjs/icu-skeleton-parser@2.1.10': {}
 
-  '@iconify/json@2.2.486':
+  '@iconify/json@2.2.488':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 2.0.3
@@ -3786,7 +3786,7 @@ snapshots:
     dependencies:
       '@tiptap/core': 3.27.1(@tiptap/pm@3.27.1)
 
-  '@tiptap/extension-text-style@3.26.1(@tiptap/core@3.27.1(@tiptap/pm@3.27.1))':
+  '@tiptap/extension-text-style@3.27.1(@tiptap/core@3.27.1(@tiptap/pm@3.27.1))':
     dependencies:
       '@tiptap/core': 3.27.1(@tiptap/pm@3.27.1)
 

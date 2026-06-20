@@ -112,7 +112,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 
 			expect(intf.typeParams).length(1);
 			expect(intf.typeParams![0].name).toEqual('T');
-			expect(intf.typeParams![0].summary?.trim()).toEqual('导出数据中每行数据的类型');
+			expect(intf.typeParams![0].summary?.trim()).toEqual('导出数据中每行数据的类型；');
 			expect(intf.typeParams![0].type).toEqual('object');
 		}
 	});

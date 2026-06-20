@@ -4,8 +4,8 @@
 
 import { Config, sleep } from '@cmfx/core';
 import { MemoryRouter } from '@solidjs/router';
-import { render, renderHook } from '@solidjs/testing-library';
-import { type JSX, type ParentProps, splitProps } from 'solid-js';
+import { render, renderHook, testEffect } from '@solidjs/testing-library';
+import { createEffect, type JSX, type ParentProps, splitProps } from 'solid-js';
 import { afterAll, describe, expect, test } from 'vitest';
 
 import type { BaseProps } from '@components/base';
@@ -34,7 +34,17 @@ const options: Options = {
 };
 
 export async function initTestEnv(): Promise<ReqOptions> {
-	return await initEnv(options);
+	const [opt, complete] = initEnv(options);
+
+	await testEffect(done => {
+		createEffect(() => {
+			if (complete()) {
+				done();
+			}
+		});
+	});
+
+	return opt;
 }
 
 /**
