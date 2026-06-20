@@ -32,9 +32,7 @@ export function APIDoc(props: { api: Type }): JSX.Element {
 				<span class={styles.pkg}>{props.api.pkg}</span>
 			</div>
 			<Show when={props.api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
-			<Show when={props.api.remarks}>
-				{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}
-			</Show>
+			<Show when={props.api.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
 
 			<Switch>
 				<Match when={props.api.kind === 'literal' ? props.api : undefined}>
@@ -294,9 +292,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 
 			<Show when={props.isMethod}>
 				<Show when={props.func.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
-				<Show when={props.func.remarks}>
-					{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}
-				</Show>
+				<Show when={props.func.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
 			</Show>
 
 			<TypeParams typeParams={props.func.typeParams} />

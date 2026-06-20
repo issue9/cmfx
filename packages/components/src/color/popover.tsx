@@ -111,6 +111,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 				}
 			}}
 		>
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: static */}
 			<div
 				ref={el => (activatorRef = el)}
 				class={classList(

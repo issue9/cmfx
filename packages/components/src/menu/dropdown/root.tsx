@@ -194,6 +194,7 @@ export function Dropdown<T extends AvailableEnumType = string>(props: DropdownPr
 
 	return (
 		<div class={joinClass(props.palette, props.class)} style={props.style} aria-haspopup ref={el => (rootRef = el)}>
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: 触发器的容器 */}
 			<div
 				ref={el => setTriggerRef(el)}
 				onmouseenter={() => {

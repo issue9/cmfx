@@ -26,13 +26,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<PrintButton
-				element={() => elem}
-				disabled={disabled()}
-				rounded={rounded()}
-				kind={kind()}
-				palette={palette()}
-			/>
+			<PrintButton element={() => elem} disabled={disabled()} rounded={rounded()} kind={kind()} palette={palette()} />
 		</div>
 	);
 }

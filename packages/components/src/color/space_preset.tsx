@@ -40,7 +40,8 @@ export class PresetSpace implements ColorSpace {
 			<div class={styles.presets}>
 				<For each={this.#values}>
 					{v => (
-						<span
+						<button
+							type="button"
 							class={joinClass(undefined, styles.color, access.getValue() === v ? styles.selected : '')}
 							style={{ background: v }}
 							title={v}

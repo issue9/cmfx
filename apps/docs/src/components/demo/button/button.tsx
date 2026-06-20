@@ -32,14 +32,7 @@ export default function (props: MountProps): JSX.Element {
 					with icon
 				</Button>
 
-				<Button
-					square
-					title="secondary"
-					disabled={disabled()}
-					rounded={rounded()}
-					kind={kind()}
-					palette="secondary"
-				>
+				<Button square title="secondary" disabled={disabled()} rounded={rounded()} kind={kind()} palette="secondary">
 					<IconSync />
 				</Button>
 				<Button rounded kind="fill" palette="tertiary">

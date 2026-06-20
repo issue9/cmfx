@@ -125,6 +125,7 @@ export function Panel(props: PanelProps): JSX.Element {
 		>
 			<header>
 				<div class={styles.start}>
+					{/** biome-ignore lint/a11y/noStaticElementInteractions: static */}
 					<div
 						onclick={() => clipboardRef.writeText(field.getValue() ?? '')}
 						class={styles.value}
@@ -139,6 +140,7 @@ export function Panel(props: PanelProps): JSX.Element {
 					</div>
 					<Show when={props.wcag}>
 						{val => (
+							// biome-ignore lint/a11y/noStaticElementInteractions: 可以是 span
 							<span
 								onclick={() => setApca(!apca())}
 								class={styles['wcag-value']}

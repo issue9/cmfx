@@ -11,7 +11,7 @@ import { afterAll, describe, expect, test } from 'vitest';
 import type { BaseProps } from '@components/base';
 import { schemes } from '@components/scheme';
 import { buildAccessor, OptionsProvider, useOptions } from './context';
-import { type Options, type ReqOptions, initEnv } from './options';
+import { initEnv, type Options, type ReqOptions } from './options';
 
 // 提供用于测试的配置项
 const options: Options = {
@@ -72,7 +72,7 @@ export class ComponentTester {
 	 */
 	static async build(name: string, r: (props: BaseProps) => JSX.Element, dur: number = 500): Promise<ComponentTester> {
 		const props = { palette: 'primary', class: 'custom-cls', style: { '--custom-style': 'red' } } as const;
-		const o = await initTestEnv()
+		const o = await initTestEnv();
 		const result = render(() => r(props), { wrapper: props => <Provider {...o}>{props.children}</Provider> });
 
 		await sleep(dur); // Provider 是异步的，需要等待其完成加载。
@@ -132,10 +132,8 @@ describe('useOptions', async () => {
 	});
 
 	test('get', async () => {
-
 		expect(result).toBeDefined();
 		expect(result[0].getDisplayStyle()).toEqual('full');
-
 	});
 
 	test('get/set', () => {

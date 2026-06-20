@@ -44,15 +44,7 @@ export default function (props: MountProps): JSX.Element {
 					undefined
 				</Button>
 
-				<Button
-					type="a"
-					href="./"
-					disabled={disabled()}
-					rounded={rounded()}
-					kind={kind()}
-					palette="tertiary"
-					square
-				>
+				<Button type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="tertiary" square>
 					<IconFace />
 				</Button>
 				<Button type="a" href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">

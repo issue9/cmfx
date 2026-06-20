@@ -93,6 +93,7 @@ export function MonthPanel(props: MonthPanelProps): JSX.Element {
 			class={styles.panel}
 		>
 			<header class={styles.month}>
+				{/** biome-ignore lint/a11y/noStaticElementInteractions: 只需要 onclick */}
 				<span
 					class={styles.title}
 					onclick={e => {

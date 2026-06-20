@@ -15,7 +15,7 @@
 		> header {
 			@apply flex gap-1 justify-between items-center text-lg;
 			@apply border-b border-b-palette-border;
-			@apply pb-1 pt-2;
+			@apply pb-1 pt-2 px-2;
 
 			> p {
 				@apply flex;

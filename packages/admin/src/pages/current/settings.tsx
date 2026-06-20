@@ -68,11 +68,7 @@ export function Settings(): JSX.Element {
 							]}
 						/>
 
-						<Checkbox
-							label={l.t('_p.current.float')}
-							checked={lay.float()[0]()}
-							onChange={v => lay.float()[1](!!v)}
-						/>
+						<Checkbox label={l.t('_p.current.float')} checked={lay.float()[0]()} onChange={v => lay.float()[1](!!v)} />
 
 						<Form.Field label={chk} layout="horizontal">
 							<Slider

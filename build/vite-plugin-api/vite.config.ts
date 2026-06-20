@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { defineConfig } from 'vite';
 import dts from 'unplugin-dts/vite';
+import { defineConfig } from 'vite';
 
 import { buildPostBanner, pluginTarget, vitePluginCopyFile } from '../vite.config.common';
 import pkg from './package.json' with { type: 'json' };

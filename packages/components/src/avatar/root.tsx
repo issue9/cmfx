@@ -64,6 +64,7 @@ export function Avatar(props: AvatarProps): JSX.Element {
 	});
 
 	return (
+		// biome-ignore lint/a11y/noStaticElementInteractions: static
 		<div
 			class={joinClass(props.palette, styles.avatar, props.rounded ? styles.rounded : '', props.class)}
 			style={props.style}

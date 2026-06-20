@@ -102,8 +102,6 @@ export function createSearch(hk?: Hotkey): Component {
 		const opt = useAdminOptions();
 		const l = useLocale();
 
-		return (
-			<Search class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, buildItems(l, opt.menus))} />
-		);
+		return <Search class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, buildItems(l, opt.menus))} />;
 	};
 }

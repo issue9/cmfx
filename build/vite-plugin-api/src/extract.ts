@@ -20,7 +20,6 @@ import type {
 	TypeChecker,
 	TypeNode,
 	TypeParameterDeclaration,
-	VariableDeclaration,
 	Type as XType,
 } from 'ts-morph';
 import { Node, Scope } from 'ts-morph';

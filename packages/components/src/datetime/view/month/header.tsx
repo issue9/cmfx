@@ -27,8 +27,9 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: M
 	return (
 		<header>
 			<p>
+				{/** biome-ignore lint/a11y/noStaticElementInteractions: 只需要 onclick */}
 				<span
-					// biome-ignore lint/a11y/noNoninteractiveTabindex: tabIndex
+					// biome-ignore lint/a11y/noNoninteractiveTabindex: tabindex
 					tabIndex={0}
 					onclick={e => {
 						if (props.readonly || props.disabled) {

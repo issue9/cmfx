@@ -57,6 +57,10 @@ export function params(s: SchemeStore): JSX.Element {
 							selectedClass=""
 							items={schemes}
 							onChange={e => {
+								if (!e) {
+									return;
+								}
+
 								const obj = opt.schemes.get(e);
 								if (!obj) {
 									Notify.notify(l.t('_d.theme.predefinedSchemesNotFound', { name: e }));
@@ -230,15 +234,7 @@ function PalettePicker(props: { palette: Palette; schemes: SchemeStore }): JSX.E
 
 	return (
 		<Form.Field layout="vertical" label={props.palette}>
-			<Slider
-				min={0}
-				max={360}
-				step={0.01}
-				fitHeight
-				ref={el => (rangeRef = el)}
-				value={hue()}
-				onChange={setHue}
-			/>
+			<Slider min={0} max={360} step={0.01} fitHeight ref={el => (rangeRef = el)} value={hue()} onChange={setHue} />
 		</Form.Field>
 	);
 }

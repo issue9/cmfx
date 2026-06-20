@@ -448,7 +448,7 @@
 				"name": "conv",
 				"summary": "对 name 指定的字段作个类型转换\n\n",
 				"remarks": "Field 的子元素接受的数据类型是固定的，如果碰到不同类型的数据，可以使用此转换，\n比如 DatePicker 组件只接受 Date 类型的数据，但是某此接口可能使用了时间戳或是字符串表示时间，\n可以在此字段指定一个将时间戳或是字符转换为 Date 的方法传递给子组件。\n\n",
-				"type": "Converter<Flatten<T>[FlattenKeys<T>], F> | undefined",
+				"type": "Converter<Flatten<T>[FlattenKeys<T>] | undefined, F | undefined> | undefined",
 				"readonly": true
 			},
 			{

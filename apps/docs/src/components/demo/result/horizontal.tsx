@@ -18,12 +18,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Result
-				layout="horizontal"
-				title="internal server error"
-				palette={palette()}
-				illustration={<amico.Error404 />}
-			>
+			<Result layout="horizontal" title="internal server error" palette={palette()} illustration={<amico.Error404 />}>
 				自定义内容!
 			</Result>
 		</>

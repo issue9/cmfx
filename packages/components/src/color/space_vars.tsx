@@ -315,7 +315,8 @@ export class TailwindVarsSpace implements ColorSpace {
 						);
 
 						return (
-							<span
+							<button
+								type="button"
 								class={cls}
 								style={{ background: v }}
 								title={v}

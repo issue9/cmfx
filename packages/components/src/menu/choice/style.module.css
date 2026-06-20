@@ -7,11 +7,11 @@
 @reference "../../style.css";
 
 @layer components {
-		.activator {
-			@apply rounded-md border border-palette-border flex place-items-center px-2 py-1 cursor-pointer outline-none box-border;
-			@apply has-[:focus:enabled]:border-palette-border-focused;
-			@apply has-[:hover:enabled]:border-palette-border-focused;
-			@apply has-[:active:enabled]:border-palette-border-actived;
+	.activator {
+		@apply rounded-md border border-palette-border flex place-items-center px-2 py-1 cursor-pointer outline-none box-border;
+		@apply has-[:focus:enabled]:border-palette-border-focused;
+		@apply has-[:hover:enabled]:border-palette-border-focused;
+		@apply has-[:active:enabled]:border-palette-border-actived;
 
 		.input {
 			@apply bg-transparent flex flex-wrap w-full gap-1 cursor-pointer items-center peer-read-only:cursor-default;
