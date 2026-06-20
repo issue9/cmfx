@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { HashRouter, type RouteDefinition, type Router, type RouteSectionProps } from '@solidjs/router';
-import type { Component } from 'solid-js';
+import { type Component, Match, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { OptionsProvider } from '@components/context/options/context';
-import { type Options, initEnv } from '@components/context/options/options';
+import { initEnv, type Options } from '@components/context/options/options';
 import { DialogProvider } from '@components/dialog/system';
 import { NotifyProvider } from '@components/notify/notify/notify';
 import styles from './style.module.css';
@@ -28,23 +28,28 @@ import styles from './style.module.css';
  * @param routes - 路由数据；
  * @param router - 指定路由类型，默认为 {@link HashRouter}；
  */
-export async function run(
+export function run(
 	app: Component<RouteSectionProps>,
 	mountedElement: HTMLElement,
 	o: Options,
 	routes: Array<RouteDefinition>,
 	router: typeof Router = HashRouter,
-): Promise<void> {
+): void {
 	mountedElement.classList.add(styles.root);
-	const opt = await initEnv(o);
+
+	const [opt, complete] = initEnv(o);
 
 	const Root = (props: RouteSectionProps) => {
 		return (
-			<OptionsProvider {...opt}>
-				<DialogProvider mount={mountedElement} palette="primary">
-					<NotifyProvider mount={mountedElement}>{app(props)}</NotifyProvider>
-				</DialogProvider>
-			</OptionsProvider>
+			<Switch fallback={opt.loading({})}>
+				<Match when={complete()}>
+					<OptionsProvider {...opt}>
+						<DialogProvider mount={mountedElement} palette="primary">
+							<NotifyProvider mount={mountedElement}>{app(props)}</NotifyProvider>
+						</DialogProvider>
+					</OptionsProvider>
+				</Match>
+			</Switch>
 		);
 	};
 

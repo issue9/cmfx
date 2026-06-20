@@ -4,7 +4,7 @@
 
 import type { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import { Hotkey, I18n } from '@cmfx/core';
-import type { Component } from 'solid-js';
+import { type Accessor, type Component, createSignal } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 
 import { type BaseProps, joinClass, type Mode, type Scheme } from '@components/base';
@@ -169,12 +169,16 @@ export const presetOptions: PickOptional<Options> = {
 export type ReqOptions = Required<Omit<Options, 'scheme'> & { scheme: Scheme }>;
 
 /**
- * 初始化环境并返回 {@link ReqOptions} 类型
+ * 根据 {@link Options} 初始化环境
+ *
+ * @returns 返回以下几个参数：
+ * - {@link ReqOptions}：初始化后的环境选项；
+ * - {@link Accessor<boolean>}：一个访问器，用于检查环境是否已完成初始化；
  *
  * @remarks
  * 如果 opt 中存在某个属性，则使用 opt 中的值，否则使用 presetOptions 中的默认值。
  */
-export async function initEnv(opt: Options): Promise<ReqOptions> {
+export function initEnv(opt: Options): [ReqOptions, Accessor<boolean>] {
 	const o = Object.assign(presetOptions, opt) as Required<Options>;
 
 	let scheme: Scheme | undefined;
@@ -195,9 +199,12 @@ export async function initEnv(opt: Options): Promise<ReqOptions> {
 
 	Hotkey.init(); // 初始化快捷键
 	I18n.init(o.locale);
-	for (const [key, loaders] of Object.entries(o.messages)) {
-		await I18n.addDict(key, ...loaders);
-	}
 
-	return o as ReqOptions;
+	const promises = Object.entries(o.messages).map(async ([key, loaders]) => {
+		await I18n.addDict(key, ...loaders);
+	});
+	const [complete, setComplete] = createSignal(false);
+	Promise.all(promises).then(() => setComplete(true));
+
+	return [o as ReqOptions, complete];
 }
