@@ -146,7 +146,7 @@ export class Extractor {
 					if (items.length > 1 && Node.isTypeAliasDeclaration(node)) {
 						const tn = node.getTypeNode();
 						if (!tn) {
-							continue
+							continue;
 						}
 
 						const xt = chk.getTypeAtLocation(tn);

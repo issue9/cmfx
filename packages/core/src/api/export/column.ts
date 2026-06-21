@@ -6,7 +6,6 @@
  * 定义导出列的相关信息
  *
  * @typeParam T - 导出数据中每行数据的类型；
- * @typeParam UE - 是否不需要导出该列；
  */
 export interface Column<T extends object> {
 	/**
