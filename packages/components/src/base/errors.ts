@@ -34,4 +34,4 @@ export class PropsError extends Error {
 /**
  * 定义了对 {@link Problem} 的处理函数类型
  */
-export type OnProblem<E = never> = (p?: Problem<E>) => Promise<void>;
+export type ProblemHandler<E = never> = (p?: Problem<E>) => Promise<void>;

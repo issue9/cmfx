@@ -24,7 +24,7 @@ type StoreX<T extends Flattenable> = [get: Store<T>, set: SetStoreFunction<T>];
  * @typeParam R - 表示服务端返回的类型；
  * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export class API<T extends Flattenable, R = never, P = never> {
+export class API<T extends Flattenable, R = unknown, P = never> {
 	readonly #onProblem?: Options<T, R, P>['onProblem'];
 	readonly #load?: Options<T, R, P>['load'];
 	readonly #submit?: Options<T, R, P>['submit'];
@@ -345,7 +345,7 @@ export class API<T extends Flattenable, R = never, P = never> {
 				}
 			}
 
-			return ret.ok;
+			return !!ret.ok;
 		} finally {
 			this.#spinning[1](false);
 		}

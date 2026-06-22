@@ -15,7 +15,7 @@ import { type FormContext, FormProvider, useForm } from './context';
 
 export type FormRef = BaseRef<HTMLFormElement>;
 
-export interface FormProps<T extends Flattenable, R = never, P = never>
+export interface FormProps<T extends Flattenable, R = unknown, P = never>
 	extends BaseProps,
 		FormContext<T, R, P>,
 		ParentProps,
@@ -31,7 +31,7 @@ export interface FormProps<T extends Flattenable, R = never, P = never>
 	inDialog?: boolean;
 }
 
-export function Form<T extends Flattenable, R = never, P = never>(props: FormProps<T, R, P>): JSX.Element {
+export function Form<T extends Flattenable, R = unknown, P = never>(props: FormProps<T, R, P>): JSX.Element {
 	const l = useLocale();
 
 	props = mergeProps(

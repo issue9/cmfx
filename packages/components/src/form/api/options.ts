@@ -4,7 +4,7 @@
 
 import type { Flattenable, Problem, Return, Validator } from '@cmfx/core';
 
-import type { OnProblem } from '@components/base';
+import type { ProblemHandler } from '@components/base';
 
 /**
  * 初始化 API 的参数
@@ -13,7 +13,7 @@ import type { OnProblem } from '@components/base';
  * @typeParam R - 表示服务端返回的类型；
  * @typeParam PE - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export interface Options<T extends Flattenable, R = never, PE = never> {
+export interface Options<T extends Flattenable, R = unknown, PE = never> {
 	/**
 	 * 初始值
 	 *
@@ -30,7 +30,7 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
 	 * 该方法仅在 {@link load} 和 {@link submit} 的调用过程中会调用。
 	 * {@link submit} 会自动处理状态码为 400 的错误。onProblem 只需要处理其它情况即可。
 	 */
-	readonly onProblem?: OnProblem<PE>;
+	readonly onProblem?: ProblemHandler<PE>;
 
 	/**
 	 * 在接口正常返回时调用的方法

@@ -3,110 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { newCache } from './cache';
-import type { Mimetype, Serializer } from './serializer';
-import { serializers } from './serializer';
+import type { Method, Problem, REST, ReqInit, Return } from './rest';
+import { createREST } from './rest';
+import { type Mimetype, type Serializer, serializers } from './serializer';
 import type { SSEToken, Token } from './token';
 import { delToken, getToken, state, writeToken } from './token';
-import type { Method, Problem, Return } from './types';
-
-/**
- * API 请求时的额外参数
- */
-export type ReqInit = Omit<RequestInit, 'method' | 'body'>;
-
-/**
- * RESTful 接口的基本操作方法
- */
-export interface REST {
-	/**
-	 * 返回关联的 {@link API} 对象
-	 */
-	api(): API;
-
-	/**
-	 * DELETE 请求
-	 *
-	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
-	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
-	 * @param init - 请求的额外参数；
-	 */
-	delete<R = never, PE = never>(path: string, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
-
-	/**
-	 * POST 请求
-	 *
-	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
-	 * @param body - 请求对象，会由 {@link Serializer} 进行转换，可以为空；
-	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
-	 * @param init - 请求的额外参数；
-	 */
-	post<R = never, PE = never>(path: string, body?: unknown, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
-
-	/**
-	 * PUT 请求
-	 *
-	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
-	 * @param body - 请求对象，会由 {@link Serializer} 进行转换，可以为空；
-	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
-	 * @param init - 请求的额外参数；
-	 */
-	put<R = never, PE = never>(path: string, body?: unknown, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
-
-	/**
-	 * PATCH 请求
-	 *
-	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
-	 * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
-	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
-	 * @param init - 请求的额外参数；
-	 */
-	patch<R = never, PE = never>(path: string, body?: unknown, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
-
-	/**
-	 * GET 请求
-	 *
-	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
-	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
-	 * @param init - 请求的额外参数；
-	 */
-	get<R = never, PE = never>(path: string, token?: boolean, init?: ReqInit): Promise<Return<R, PE>>;
-
-	/**
-	 * 执行普通的 API 请求
-	 *
-	 * @param path - 相对于 {@link API#baseURL} 的请求地址；
-	 * @param method - 请求方法；
-	 * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
-	 * @param token - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-	 * @param init - 请求的额外参数；
-	 * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
-	 * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
-	 */
-	request<R = never, PE = never>(
-		path: string,
-		method: Method,
-		obj?: unknown,
-		token?: boolean,
-		init?: ReqInit,
-	): Promise<Return<R, PE>>;
-
-	/**
-	 * 执行上传操作
-	 *
-	 * @param path - 相对于 {@link API#baseURL} 的上传地址；
-	 * @param obj - 上传的对象；
-	 * @param token - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 init.headers 参数的相关设置覆盖；
-	 * @param method - 请求方法，默认为 'POST'；
-	 * @param init - 请求的额外参数；
-	 */
-	upload<R = never, PE = never>(
-		path: string,
-		obj: FormData,
-		method?: 'POST' | 'PATCH' | 'PUT',
-		token?: boolean,
-		init?: ReqInit,
-	): Promise<Return<R, PE>>;
-}
 
 /**
  * 封装了访问后端接口的基本功能
@@ -200,85 +101,12 @@ export class API implements REST {
 	 * 基于当前实现和参数 init 创建一个新的 {@link REST} 实例
 	 *
 	 * @param init - 请求的额外参数；
+	 * @param onProblem - 请求失败时的回调函数
+	 *  如果指定该参数，所有的接口将在失败时使用此方法进行处理，并返回空值，
+	 *  只有在接口的数据都正常时才返回相关的数据；
 	 */
 	rest(init?: Omit<ReqInit, 'signal'>): REST {
-		const self = this;
-
-		const mergeInit = (r?: ReqInit): ReqInit | undefined => {
-			if (!init && !r) {
-				return undefined;
-			}
-			if (init && !r) {
-				return init;
-			}
-			if (r && !init) {
-				return r;
-			}
-			return Object.assign(init!, r);
-		};
-
-		const request = async <R = never, PE = never>(
-			path: string,
-			method: Method,
-			obj?: unknown,
-			token = true,
-			init?: ReqInit,
-		): Promise<Return<R, PE>> => {
-			return await self.request<R, PE>(path, method, obj, token, mergeInit(init));
-		};
-
-		return {
-			request,
-
-			api(): API {
-				return self;
-			},
-
-			async get<R = never, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'GET', undefined, token, init);
-			},
-
-			async post<R = never, PE = never>(
-				path: string,
-				body: BodyInit,
-				token = true,
-				init?: ReqInit,
-			): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'POST', body, token, init);
-			},
-
-			async put<R = never, PE = never>(
-				path: string,
-				body: BodyInit,
-				token = true,
-				init?: ReqInit,
-			): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'PUT', body, token, init);
-			},
-
-			async patch<R = never, PE = never>(
-				path: string,
-				body: BodyInit,
-				token = true,
-				init?: ReqInit,
-			): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'PATCH', body, token, init);
-			},
-
-			async delete<R = never, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
-				return await request<R, PE>(path, 'DELETE', undefined, token, init);
-			},
-
-			async upload<R = never, PE = never>(
-				path: string,
-				obj: FormData,
-				m: 'POST' | 'PATCH' | 'PUT' = 'POST',
-				token = true,
-				init?: ReqInit,
-			): Promise<Return<R, PE>> {
-				return await self.upload<R, PE>(path, obj, m, token, mergeInit(init));
-			},
-		};
+		return createREST(this, init);
 	}
 
 	/**
@@ -363,11 +191,11 @@ export class API implements REST {
 		return this;
 	}
 
-	async delete<R = never, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
+	async delete<R = unknown, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
 		return this.request<R, PE>(path, 'DELETE', undefined, token, init);
 	}
 
-	async post<R = never, PE = never>(
+	async post<R = unknown, PE = never>(
 		path: string,
 		body?: unknown,
 		token = true,
@@ -376,11 +204,16 @@ export class API implements REST {
 		return this.request<R, PE>(path, 'POST', body, token, init);
 	}
 
-	async put<R = never, PE = never>(path: string, body?: unknown, token = true, init?: ReqInit): Promise<Return<R, PE>> {
+	async put<R = unknown, PE = never>(
+		path: string,
+		body?: unknown,
+		token = true,
+		init?: ReqInit,
+	): Promise<Return<R, PE>> {
 		return this.request<R, PE>(path, 'PUT', body, token, init);
 	}
 
-	async patch<R = never, PE = never>(
+	async patch<R = unknown, PE = never>(
 		path: string,
 		body?: unknown,
 		token = true,
@@ -389,11 +222,11 @@ export class API implements REST {
 		return this.request<R, PE>(path, 'PATCH', body, token, init);
 	}
 
-	async get<R = never, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
+	async get<R = unknown, PE = never>(path: string, token = true, init?: ReqInit): Promise<Return<R, PE>> {
 		return this.request<R, PE>(path, 'GET', undefined, token, init);
 	}
 
-	async request<R = never, PE = never>(
+	async request<R = unknown, PE = never>(
 		path: string,
 		method: Method,
 		obj?: unknown,
@@ -419,7 +252,7 @@ export class API implements REST {
 		return this.#fetchWithArgument<R, PE>(path, method, body, init);
 	}
 
-	async upload<R = never, PE = never>(
+	async upload<R = unknown, PE = never>(
 		path: string,
 		obj: FormData,
 		method: 'POST' | 'PATCH' | 'PUT' = 'POST',
@@ -541,7 +374,7 @@ export class API implements REST {
 	 * @param body - 请求体；
 	 * @param init - 其它的 RequestInit 参数；
 	 */
-	async #fetchWithArgument<R = never, PE = never>(
+	async #fetchWithArgument<R = unknown, PE = never>(
 		path: string,
 		method: Method,
 		body?: BodyInit | null,
@@ -581,7 +414,7 @@ export class API implements REST {
 	 * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
 	 * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
 	 */
-	async #fetch<R = never, PE = never>(req: Request): Promise<Return<R, PE>> {
+	async #fetch<R = unknown, PE = never>(req: Request): Promise<Return<R, PE>> {
 		const isGET = req.method === 'GET';
 		const fullPath = req.url;
 

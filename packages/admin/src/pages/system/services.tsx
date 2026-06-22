@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DataTable, Label, Page, useLocale } from '@cmfx/components';
+import { DataTable, handleProblem, Label, Page, useLocale } from '@cmfx/components';
 import { createMemo, type JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
 import IconTask from '~icons/material-symbols/task';
 
-import { handleProblem, useREST } from '@admin/app';
+import { useREST } from '@admin/app';
 import type { MessagesKey } from '@admin/messages';
 import styles from './style.module.css';
 
@@ -48,7 +48,7 @@ export function Services(): JSX.Element {
 	const items = createMemo(async () => {
 		const ret = await reest.get<Service>('/system/services');
 		if (!ret.ok) {
-			await handleProblem(ret.body!);
+			await handleProblem(ret.body);
 			return;
 		}
 		return ret.body;

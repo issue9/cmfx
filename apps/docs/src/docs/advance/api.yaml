@@ -21,7 +21,7 @@
             - ValidResult
             - APIError
 
-- pkg: "@cmfx/admin"
+- pkg: "@cmfx/components"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:

@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DataTable, InputText, Page, useLocale } from '@cmfx/components';
+import { Button, DataTable, handleProblem, InputText, Page, useLocale } from '@cmfx/components';
 import type { Query } from '@cmfx/core';
 import { createMemo, type JSX, Show } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
 import IconLock from '~icons/material-symbols/lock';
 import IconLockOpenRight from '~icons/material-symbols/lock-open-right';
 
-import { handleProblem, useREST } from '@admin/app';
+import { useREST } from '@admin/app';
 import { localeSexes, localeStates, SexSelector, StateSelector } from '@admin/components';
 import type { Sex, State } from '@admin/schemas';
 
@@ -156,7 +156,7 @@ export function Admins(props: Props): JSX.Element {
 											onclick={async () => {
 												const r = await rest.post(`/admins/${obj!.id}/locked`);
 												if (!r.ok) {
-													await handleProblem(r.body!);
+													await handleProblem(r.body);
 													return;
 												}
 												await ref.refresh();
@@ -175,7 +175,7 @@ export function Admins(props: Props): JSX.Element {
 											onclick={async () => {
 												const r = await rest.delete(`/admins/${obj!.id}/locked`);
 												if (!r.ok) {
-													await handleProblem(r.body!);
+													await handleProblem(r.body);
 													return;
 												}
 												await ref.refresh();

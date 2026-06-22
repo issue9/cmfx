@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Checkbox, Page, useLocale } from '@cmfx/components';
+import { Button, Checkbox, handleProblem, Page, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, type JSX } from 'solid-js';
 
-import { handleProblem, useREST } from '@admin/app';
+import { useREST } from '@admin/app';
 import styles from './style.module.css';
 
 interface Resource {
@@ -36,7 +36,7 @@ export function Permission(): JSX.Element {
 				return;
 			}
 
-			await handleProblem(ret.body!);
+			await handleProblem(ret.body);
 			return;
 		}
 
@@ -51,7 +51,7 @@ export function Permission(): JSX.Element {
 
 			const ret = await rest.get<Array<Resource>>('/resources');
 			if (!ret.ok) {
-				await handleProblem(ret.body!);
+				await handleProblem(ret.body);
 				return;
 			}
 			setResources(ret.body!);
@@ -61,7 +61,7 @@ export function Permission(): JSX.Element {
 	const save = async () => {
 		const ret = await rest.put(`/roles/${ps.id}/resources`, current());
 		if (!ret.ok) {
-			await handleProblem(ret.body!);
+			await handleProblem(ret.body);
 			return;
 		}
 		nav(-1);

@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, InputText, Page, Table, useLocale } from '@cmfx/components';
+import { Button, Divider, Form, handleProblem, InputText, Page, Table, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, type JSX, onMount } from 'solid-js';
 import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 import IconHelp from '~icons/material-symbols/help';
 
-import { handleProblem } from '@admin/app';
 import { passportSchema, useREST } from '@admin/app/context';
 import { type Passport, SexSelector } from '@admin/components';
 import { roles } from '@admin/pages/roles';
@@ -56,12 +55,12 @@ export function Edit(props: Props): JSX.Element {
 			api.setPreset(r1.body!);
 			api.setValue(r1.body!);
 		} else {
-			await handleProblem(r1.body!);
+			await handleProblem(r1.body);
 		}
 
 		const r2 = await rest.get<Array<Passport>>('/passports');
 		if (!r2.ok) {
-			await handleProblem(r2.body!);
+			await handleProblem(r2.body);
 			return;
 		}
 		setPassports(r2.body!);

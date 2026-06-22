@@ -5,8 +5,8 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { sleep } from '@core/time';
-import type { REST } from './api';
 import { API } from './api';
+import type { REST } from './rest';
 import type { Token } from './token';
 import { writeToken } from './token';
 
@@ -47,7 +47,7 @@ function testREST(rest: REST) {
 		fetchMock.mockResponseOnce('123');
 
 		const data = await rest.get('/abc');
-		expect(data.ok).toBeTruthy();
+		expect(data.ok).toBe(true);
 		expect(data.status).toEqual(200);
 		expect(data.body).toEqual<number>(123);
 	});

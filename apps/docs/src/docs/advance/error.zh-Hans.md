@@ -9,8 +9,7 @@
 由后端返回的错误类型为 `Problem`，这是一个符合 [RFC7807](https://datatracker.ietf.org/doc/html/rfc7807) 的错误描述对象，
 可以由 `APIError` 的 fromProblem 方法转换为 `APIError` 类型。
 用户可以根据自身的需求处理部分错误，比如 403 等。无须处理的可以交给专门的处理函数 `handleProblem`。
-@```@cmfx/core%Problem,handleProblem```@
-@```@cmfx/admin%handleProblem```@
+@```@cmfx/components%handleProblem```@
 
 ### ErrorBoundary
 

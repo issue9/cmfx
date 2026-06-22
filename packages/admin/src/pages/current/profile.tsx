@@ -2,13 +2,25 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, Avatar, Button, Divider, Form, InputText, Page, Table, Upload, useLocale } from '@cmfx/components';
+import {
+	Album,
+	Avatar,
+	Button,
+	Divider,
+	Form,
+	handleProblem,
+	InputText,
+	Page,
+	Table,
+	Upload,
+	useLocale,
+} from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
 import IconCamera from '~icons/material-symbols/photo-camera';
 
-import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
+import { useAdmin, useOptions, useREST } from '@admin/app';
 import { type Passport, SexSelector } from '@admin/components';
 import { sexSchema } from '@admin/schemas';
 import type { PassportComponents } from './passports';
@@ -69,7 +81,7 @@ export function Profile(props: Props): JSX.Element {
 	onMount(async () => {
 		const r = await rest.get<Array<Passport>>('/passports');
 		if (!r.ok) {
-			await handleProblem(r.body!);
+			await handleProblem(r.body);
 			return;
 		}
 		setPassports(r.body!);
@@ -83,7 +95,7 @@ export function Profile(props: Props): JSX.Element {
 				upload={async data => {
 					const ret = await rest.upload<Array<string>>('/uploads', data);
 					if (!ret.ok) {
-						await handleProblem(ret.body!);
+						await handleProblem(ret.body);
 						return undefined;
 					}
 					return ret.body;
@@ -112,7 +124,7 @@ export function Profile(props: Props): JSX.Element {
 
 									const r = await rest.patch('/info', { avatar: ret[0] });
 									if (!r.ok) {
-										await handleProblem(r.body!);
+										await handleProblem(r.body);
 										return;
 									}
 									await usr.refetch();

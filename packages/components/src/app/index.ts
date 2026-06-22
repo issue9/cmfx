@@ -2,4 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
+export { handleProblem, notifyProblem, throwProblem } from './problem';
 export { run } from './run';

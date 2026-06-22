@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Problem } from './types';
+import type { Problem } from './rest';
 
 /**
  * 表示与后端交互过程中的错误信息

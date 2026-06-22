@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, Form, InputPassword, InputText, useLocale } from '@cmfx/components';
+import { Button, Dialog, Form, handleProblem, InputPassword, InputText, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
@@ -11,7 +11,7 @@ import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
 import IconPerson from '~icons/material-symbols/person';
 
-import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
+import { useAdmin, useOptions, useREST } from '@admin/app';
 import { usernameSchema } from '@admin/schemas';
 import type { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';

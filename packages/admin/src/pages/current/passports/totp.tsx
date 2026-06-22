@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, Dialog, Form, InputText, QRCode, useLocale } from '@cmfx/components';
+import { Button, ConfirmButton, Dialog, Form, handleProblem, InputText, QRCode, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';
@@ -12,7 +12,7 @@ import IconLinkOff from '~icons/material-symbols/link-off';
 import IconPerson from '~icons/material-symbols/person';
 import IconPin from '~icons/material-symbols/pin';
 
-import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
+import { useAdmin, useOptions, useREST } from '@admin/app';
 import { usernameSchema } from '@admin/schemas';
 import { encodeBase32 } from './base';
 import type { PassportComponents, RefreshFunc } from './passports';
@@ -138,7 +138,7 @@ export class TOTP implements PassportComponents {
 						onclick={async () => {
 							const r = await rest.delete(`/passports/${this.#id}`);
 							if (!r.ok) {
-								await handleProblem(r.body!);
+								await handleProblem(r.body);
 								return;
 							}
 							await f();
@@ -156,7 +156,7 @@ export class TOTP implements PassportComponents {
 						onclick={async () => {
 							const r = await rest.post<Secret>(`/passports/${this.#id}/secret`);
 							if (!r.ok) {
-								await handleProblem(r.body!);
+								await handleProblem(r.body);
 								return;
 							}
 

@@ -37,7 +37,7 @@ export const Form = Object.assign(C, {
 
 export namespace Form {
 	export type FieldAccessor<T> = import('./api').FormFieldAccessor<T>;
-	export type Props<T extends Flattenable, R = never, P = never> = import('./form').FormProps<T, R, P>;
+	export type Props<T extends Flattenable, R = unknown, P = never> = import('./form').FormProps<T, R, P>;
 	export type Ref = import('./form').FormRef;
 	export type LabelAlignment = import('./form').FormLabelAlignment;
 	export type MessageProps = import('./form').FormMessageProps;

@@ -3,13 +3,23 @@
 // SPDX-License-Identifier: MIT
 
 import type { BaseProps, Mode } from '@cmfx/components';
-import { Appbar, Choice, joinClass, modes, Page, Transition, useLocale, useOptions } from '@cmfx/components';
+import {
+	Appbar,
+	Choice,
+	handleProblem,
+	joinClass,
+	modes,
+	Page,
+	Transition,
+	useLocale,
+	useOptions,
+} from '@cmfx/components';
 import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import { createEffect, createResource, createSignal, ErrorBoundary, For, Match, Show, Switch } from 'solid-js';
 
-import { handleProblem, useAdmin, useOptions as useAdminOptions, useREST } from '@admin/app';
+import { useAdmin, useOptions as useAdminOptions, useREST } from '@admin/app';
 import { errorHandler } from '@admin/app/context';
 import type { Passport } from '@admin/components';
 import type { PassportComponents } from './passports';
@@ -67,7 +77,7 @@ function LoginBox(props: Props): JSX.Element {
 	const [passports] = createResource<Array<Choice.Option>>(async () => {
 		const r = await rest.get<Array<Passport>>('/passports');
 		if (!r.ok) {
-			await handleProblem(r.body!);
+			await handleProblem(r.body);
 			return [];
 		}
 		return r.body!.map(v => ({ type: 'item', value: v.id, label: v.desc }));

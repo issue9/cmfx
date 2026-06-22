@@ -2,7 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ChartAxis, ConfirmButton, Divider, Formatter, joinClass, Label, Page, Tab, useLocale } from '@cmfx/components';
+import {
+	ChartAxis,
+	ConfirmButton,
+	Divider,
+	Formatter,
+	handleProblem,
+	joinClass,
+	Label,
+	Page,
+	Tab,
+	useLocale,
+} from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, type JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
 import IconDatabase from '~icons/material-symbols/database';
@@ -10,7 +21,7 @@ import IconDataset from '~icons/material-symbols/dataset';
 import IconInfo from '~icons/material-symbols/info';
 import IconChart from '~icons/material-symbols/ssid-chart';
 
-import { handleProblem, useREST } from '@admin/app';
+import { useREST } from '@admin/app';
 import styles from './style.module.css';
 
 const mb = 1024 * 1024;
@@ -23,7 +34,7 @@ export function Info(): JSX.Element {
 	const [info] = createResource(async () => {
 		const ret = await rest.get<Info>('/system/info');
 		if (!ret.ok) {
-			await handleProblem(ret.body!);
+			await handleProblem(ret.body);
 			return;
 		}
 		return ret.body;
@@ -42,7 +53,7 @@ export function Info(): JSX.Element {
 	const [backup, { refetch }] = createResource(async () => {
 		const ret = await rest.get<Backup>('/system/backup');
 		if (!ret.ok) {
-			await handleProblem(ret.body!);
+			await handleProblem(ret.body);
 			return;
 		}
 		return ret.body;
@@ -239,7 +250,7 @@ export function Info(): JSX.Element {
 					onclick={async () => {
 						const ret = await rest.post('/system/backup');
 						if (!ret.ok) {
-							await handleProblem(ret.body!);
+							await handleProblem(ret.body);
 							return;
 						}
 						await refetch();
@@ -260,7 +271,7 @@ export function Info(): JSX.Element {
 									onclick={async () => {
 										const ret = await rest.delete(`/system/backup/${item.path}`);
 										if (!ret.ok) {
-											await handleProblem(ret.body!);
+											await handleProblem(ret.body);
 											return;
 										}
 										await refetch();

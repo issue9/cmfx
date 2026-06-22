@@ -2,7 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, DataTable, Dialog, Form, InputText, Label, useLocale } from '@cmfx/components';
+import {
+	Button,
+	ConfirmButton,
+	DataTable,
+	Dialog,
+	Form,
+	handleProblem,
+	InputText,
+	Label,
+	useLocale,
+} from '@cmfx/components';
 import { type Query, type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';
@@ -14,7 +24,7 @@ import IconDelete from '~icons/material-symbols/delete';
 import IconLinkOff from '~icons/material-symbols/link-off';
 import IconPerson from '~icons/material-symbols/person';
 
-import { handleProblem, useAdmin, useOptions, useREST } from '@admin/app';
+import { useAdmin, useOptions, useREST } from '@admin/app';
 import { usernameSchema } from '@admin/schemas';
 import { decodeBase64, encodeBase64 } from './base';
 import type { PassportComponents, RefreshFunc } from './passports';
@@ -173,7 +183,7 @@ export class Webauthn implements PassportComponents {
 											onclick={async () => {
 												const r1 = await rest.delete(`/passports/${this.#id}/credentials/${val}`);
 												if (!r1.ok) {
-													await handleProblem(r1.body!);
+													await handleProblem(r1.body);
 													return;
 												}
 
@@ -194,7 +204,7 @@ export class Webauthn implements PassportComponents {
 										onclick={async () => {
 											const cco = await rest.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
 											if (!cco.ok) {
-												await handleProblem(cco.body!);
+												await handleProblem(cco.body);
 												return;
 											}
 
@@ -217,7 +227,7 @@ export class Webauthn implements PassportComponents {
 
 											const reg = await rest.post(`/passports/${this.#id}/register`, pc);
 											if (!reg.ok) {
-												await handleProblem(reg.body!);
+												await handleProblem(reg.body);
 												return;
 											}
 
@@ -235,7 +245,7 @@ export class Webauthn implements PassportComponents {
 										onclick={async () => {
 											const r1 = await rest.delete(`/passports/${this.#id}`);
 											if (!r1.ok) {
-												await handleProblem(r1.body!);
+												await handleProblem(r1.body);
 												return;
 											}
 											await refresh();

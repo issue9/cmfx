@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, InputPassword, InputText, Notify, Page, useLocale } from '@cmfx/components';
+import { Button, Form, handleProblem, InputPassword, InputText, Notify, Page, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
-import { handleProblem, useREST } from '@admin/app';
+import { useREST } from '@admin/app';
 import { SexSelector } from '@admin/components';
 import { roles } from '@admin/pages/roles';
 import { sexSchema } from '@admin/schemas';
@@ -38,7 +38,7 @@ export function New(props: Props): JSX.Element {
 		submit: async obj => {
 			return await rest.post('/admins', obj);
 		},
-		onProblem: p => handleProblem(p),
+		onProblem: handleProblem,
 		onSuccess: async () => {
 			await Notify.notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
 			useNavigate()(-1);

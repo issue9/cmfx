@@ -10,7 +10,7 @@ import { Field, type FormFieldProps } from './field';
 import type { FormProps } from './form';
 import { Form } from './form';
 
-type FormCreatorProps<T extends Flattenable, R = never, P = never> = Omit<FormProps<T, R, P>, 'api'>;
+type FormCreatorProps<T extends Flattenable, R = unknown, P = never> = Omit<FormProps<T, R, P>, 'api'>;
 
 /**
  * 创建指定类型的 Form 和 Filed 组件
@@ -18,7 +18,7 @@ type FormCreatorProps<T extends Flattenable, R = never, P = never> = Omit<FormPr
  * @param opt 初始化选项
  * @returns 返回三个参数，[Form, Field, api]，分别与 Form、Form.Field 和 Form.API 相对应。
  */
-export function create<T extends Flattenable, R = never, P = never>(
+export function create<T extends Flattenable, R = unknown, P = never>(
 	opt: Options<T, R, P>,
 ): [
 	Form: Component<FormCreatorProps<T, R, P>>,

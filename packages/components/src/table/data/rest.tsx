@@ -6,7 +6,7 @@ import { type Query, query2Search, type REST } from '@cmfx/core';
 import { type Component, mergeProps, splitProps } from 'solid-js';
 import IconDelete from '~icons/material-symbols/delete';
 
-import type { OnProblem } from '@components/base';
+import type { ProblemHandler } from '@components/base';
 import { ConfirmButton } from '@components/button';
 import { useLocale } from '@components/context';
 import { useTableContext } from './context';
@@ -33,9 +33,9 @@ type Loader<T extends object, Q extends Query, P extends boolean = true> = P ext
 export function buildREST<T extends object, Q extends Query = Query, P extends boolean = true>(
 	rest: REST,
 	path: string,
-	onProblem?: OnProblem,
+	onProblem?: ProblemHandler,
 ): [load: Loader<T, Q, P>, del: Component<DataTableDeleteButtonProps>] {
-	const load: Loader<T, Q, P> = async q => {
+	const load = (async q => {
 		const ret = await rest.get(path + query2Search(q));
 		if (!ret.ok) {
 			if (ret.status !== 404 && onProblem) {
@@ -44,7 +44,7 @@ export function buildREST<T extends object, Q extends Query = Query, P extends b
 			return undefined;
 		}
 		return ret.body;
-	};
+	}) as Loader<T, Q, P>;
 
 	const del: Component<DataTableDeleteButtonProps> = props => {
 		const l = useLocale();
