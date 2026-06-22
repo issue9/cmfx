@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, handleProblem, InputText, Page, Table, useLocale } from '@cmfx/components';
+import { Button, Divider, Form, InputText, Page, Table, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, type JSX, onMount } from 'solid-js';
 import * as z from 'zod';
@@ -32,7 +32,7 @@ const adminSchema = z.object({
 type Admin = z.infer<typeof adminSchema>;
 
 export function Edit(props: Props): JSX.Element {
-	const rest = useREST();
+	const [rest, handleProblem] = useREST();
 	const l = useLocale();
 	const ps = useParams<{ id: string }>();
 

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseProps, Breakpoint, Layout, Mode, Scheme } from '@cmfx/components';
-import { presetOptions as xpo } from '@cmfx/components';
+import type { BaseProps, Breakpoint, Layout, Mode, ProblemHandler, Scheme } from '@cmfx/components';
+import { handleProblem, presetOptions as xpo } from '@cmfx/components';
 import type { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import type { Component } from 'solid-js';
 
@@ -173,6 +173,13 @@ export interface Options {
 	 * @defaultValue 5000
 	 */
 	stays?: number;
+
+	/**
+	 * 对 {@link Problem} 的处理函数。
+	 *
+	 * @defaultValue {@link handleProblem}
+	 */
+	problemHandler?: ProblemHandler;
 }
 
 // 大部分的默认值在 @cmfx/components 中是已经定义过的。
@@ -193,6 +200,7 @@ const presetOptions: Readonly<PickOptional<Options>> = {
 	displayStyle: xpo.displayStyle,
 	timezone: xpo.timezone,
 	stays: xpo.stays,
+	problemHandler: handleProblem,
 } as const;
 
 type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };

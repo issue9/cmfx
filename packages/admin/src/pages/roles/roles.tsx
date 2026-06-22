@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DataTable, Dialog, Form, handleProblem, InputText, Page, TextArea, useLocale } from '@cmfx/components';
+import { Button, DataTable, Dialog, Form, InputText, Page, TextArea, useLocale } from '@cmfx/components';
 import type { Query, Return } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { unwrap } from 'solid-js/store';
@@ -28,7 +28,7 @@ interface Props {
 
 export function Roles(props: Props): JSX.Element {
 	const l = useLocale();
-	const rest = useREST();
+	const [rest, handleProblem] = useREST();
 	let tableRef: DataTable.Ref<Role>;
 	let dialogRef: Dialog.Ref;
 

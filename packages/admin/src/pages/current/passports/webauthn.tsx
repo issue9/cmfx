@@ -2,17 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Button,
-	ConfirmButton,
-	DataTable,
-	Dialog,
-	Form,
-	handleProblem,
-	InputText,
-	Label,
-	useLocale,
-} from '@cmfx/components';
+import { Button, ConfirmButton, DataTable, Dialog, Form, InputText, Label, useLocale } from '@cmfx/components';
 import { type Query, type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';
@@ -50,7 +40,7 @@ export class Webauthn implements PassportComponents {
 	}
 
 	Login(): JSX.Element {
-		const rest = useREST();
+		const [rest, handleProblem] = useREST();
 		const l = useLocale();
 		const usr = useAdmin();
 		const [account, setAccount] = createSignal('');
@@ -136,7 +126,7 @@ export class Webauthn implements PassportComponents {
 
 	Actions(refresh: RefreshFunc): JSX.Element {
 		const l = useLocale();
-		const rest = useREST();
+		const [rest, handleProblem] = useREST();
 		let dialogRef: Dialog.Ref;
 		let tableRef!: DataTable.Ref<Credential>;
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, handleProblem } from '@cmfx/components';
+import { Choice } from '@cmfx/components';
 import { createSignal, type JSX, onMount } from 'solid-js';
 
 import { useREST } from '@admin/app';
@@ -18,10 +18,10 @@ export type Props = SProps | MProps;
 
 export function Selector(props: Props): JSX.Element {
 	const [roles, setRoles] = createSignal<Array<Choice.Option<string>>>([]);
-	const api = useREST();
+	const [rest, handleProblem] = useREST();
 
 	onMount(async () => {
-		const r = await api.get<Array<Role>>('/roles');
+		const r = await rest.get<Array<Role>>('/roles');
 		if (!r.ok) {
 			await handleProblem(r.body);
 			return;

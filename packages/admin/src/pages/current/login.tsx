@@ -3,17 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { BaseProps, Mode } from '@cmfx/components';
-import {
-	Appbar,
-	Choice,
-	handleProblem,
-	joinClass,
-	modes,
-	Page,
-	Transition,
-	useLocale,
-	useOptions,
-} from '@cmfx/components';
+import { Appbar, Choice, joinClass, modes, Page, Transition, useLocale, useOptions } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import type { JSX } from 'solid-js';
@@ -61,7 +51,7 @@ export function Login(props: Props): JSX.Element {
 }
 
 function LoginBox(props: Props): JSX.Element {
-	const rest = useREST();
+	const [rest, handleProblem] = useREST();
 	const l = useLocale();
 	const [q, setQ] = useSearchParams<{ type: string }>();
 	const [, opt] = useOptions();

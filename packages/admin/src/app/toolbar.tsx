@@ -32,7 +32,7 @@ export function createFullscreen(hk?: Hotkey): Component {
 export function createClear(hk?: Hotkey): Component {
 	return () => {
 		const l = useLocale();
-		const api = useAPI();
+		const [api] = useAPI();
 		const usr = useAdmin();
 		const opt = useAdminOptions();
 		const nav = useNavigate();

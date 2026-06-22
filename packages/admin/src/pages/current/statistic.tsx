@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { handleProblem, useLocale, Statistic as XS } from '@cmfx/components';
+import { useLocale, Statistic as XS } from '@cmfx/components';
 import { createSignal, type JSX, onMount } from 'solid-js';
 import IconCalendar from '~icons/material-symbols/calendar-month';
 import IconToday from '~icons/material-symbols/calendar-today';
@@ -25,10 +25,10 @@ export function Statistic(): JSX.Element {
 	});
 
 	const l = useLocale();
-	const api = useREST();
+	const [rest, handleProblem] = useREST();
 
 	onMount(async () => {
-		const r = await api.get<Statistic>('/statistic/member');
+		const r = await rest.get<Statistic>('/statistic/member');
 		if (!r.ok) {
 			await handleProblem(r.body);
 			return;

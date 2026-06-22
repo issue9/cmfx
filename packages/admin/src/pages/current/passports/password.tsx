@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, Form, handleProblem, InputPassword, InputText, useLocale } from '@cmfx/components';
+import { Button, Dialog, Form, InputPassword, InputText, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
@@ -40,7 +40,7 @@ export class Pwd implements PassportComponents {
 
 	Login(): JSX.Element {
 		const l = useLocale();
-		const rest = useREST();
+		const [rest, handleProblem] = useREST();
 		const opt = useOptions();
 		const usr = useAdmin();
 		const nav = useNavigate();
@@ -97,7 +97,7 @@ export class Pwd implements PassportComponents {
 	Actions(_: RefreshFunc): JSX.Element {
 		let dialogRef: Dialog.Ref;
 		const l = useLocale();
-		const rest = useREST();
+		const [rest, handleProblem] = useREST();
 		const usr = useAdmin();
 
 		const valueSchema = z

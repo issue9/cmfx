@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { handleProblem, joinClass, Page, useLocale } from '@cmfx/components';
+import { joinClass, Page, useLocale } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { type Component, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 
@@ -26,7 +26,7 @@ export interface Props {
 }
 
 export function View(props: Props): JSX.Element {
-	const api = useREST();
+	const [rest, handleProblem] = useREST();
 	const opt = useOptions();
 	const l = useLocale();
 	const id = parseInt(useParams().id ?? '0', 10);
@@ -41,7 +41,7 @@ export function View(props: Props): JSX.Element {
 	const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
 	onMount(async () => {
-		const r = await api.get<Member>(`/members/${id}`);
+		const r = await rest.get<Member>(`/members/${id}`);
 		if (!r.ok) {
 			await handleProblem(r.body);
 			return;
@@ -53,7 +53,7 @@ export function View(props: Props): JSX.Element {
 		}
 		setMember(r.body!);
 
-		const r2 = await api.get<Array<Passport>>('/passports');
+		const r2 = await rest.get<Array<Passport>>('/passports');
 		if (!r2.ok) {
 			await handleProblem(r2.body);
 			return;

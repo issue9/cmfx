@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError, useLocale } from '@cmfx/components';
+import { ContextNotFoundError, type ProblemHandler, useLocale } from '@cmfx/components';
 import type { API, REST } from '@cmfx/core';
 import { createContext, type JSX, type ParentProps, useContext } from 'solid-js';
+
+import { useOptions } from './options';
 
 const apiContext = createContext<API>();
 
@@ -21,13 +23,15 @@ export function APIProvider(props: ParentProps<{ api: API }>): JSX.Element {
 /**
  * 返回 {@link API} 对象
  */
-export function useAPI(): API {
+export function useAPI(): [API, ProblemHandler] {
+	const opt = useOptions();
+
 	const ctx = useContext(apiContext);
 	if (!ctx) {
 		throw new ContextNotFoundError('apiContext');
 	}
 
-	return ctx;
+	return [ctx, opt.problemHandler];
 }
 
 /**
@@ -36,8 +40,10 @@ export function useAPI(): API {
  * @remarks
  * 与 {@link useAPI} 的不同点在于只提供了基本的功能，但是会添加一个基于当前环境的 Accept-Language 报头信息。
  */
-export function useREST(): REST {
-	const api = useAPI();
+export function useREST(): [REST, ProblemHandler] {
+	const [api, h] = useAPI();
 	const l = useLocale();
-	return api.rest({ headers: { 'Accept-Language': l.locale.toString() } });
+
+	const rest = api.rest({ headers: { 'Accept-Language': l.locale.toString() } });
+	return [rest, h];
 }

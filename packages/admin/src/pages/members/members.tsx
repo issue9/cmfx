@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DataTable, handleProblem, InputText, Page, useLocale } from '@cmfx/components';
+import { Button, DataTable, InputText, Page, useLocale } from '@cmfx/components';
 import { noPrint, type Query } from '@cmfx/core';
 import { type Component, createMemo, type JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';
@@ -75,7 +75,7 @@ class QuerySearchConverter implements DataTable.SearchConverter<Q> {
  * 会员列表组件
  */
 export function Members(props: Props): JSX.Element {
-	const rest = useREST();
+	const [rest, handleProblem] = useREST();
 	const l = useLocale();
 
 	let ref: DataTable.Ref<Member>;

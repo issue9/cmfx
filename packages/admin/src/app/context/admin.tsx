@@ -44,7 +44,7 @@ const adminContext = createContext<ResourceReturn<Admin | undefined>>();
 export function AdminProvider(props: ParentProps) {
 	const l = useLocale();
 	const opt = useAdminOptions();
-	const api = useAPI();
+	const [api] = useAPI();
 
 	const res = createResource(async (): Promise<Admin | undefined> => {
 		if (!api.isLogin()) {
@@ -79,7 +79,7 @@ export function useAdmin() {
 	}
 	const [info, actions] = admin;
 
-	const rest = useREST();
+	const [rest] = useREST();
 	const [set] = useOptions();
 
 	return {

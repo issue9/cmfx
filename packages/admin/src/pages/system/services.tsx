@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DataTable, handleProblem, Label, Page, useLocale } from '@cmfx/components';
+import { DataTable, Label, Page, useLocale } from '@cmfx/components';
 import { createMemo, type JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
 import IconTask from '~icons/material-symbols/task';
@@ -39,14 +39,14 @@ export const stateMap: Array<[State, MessagesKey]> = [
  * 服务列表页面
  */
 export function Services(): JSX.Element {
-	const reest = useREST();
+	const [rest, handleProblem] = useREST();
 	const l = useLocale();
 	const f = createMemo(() => {
 		return l.datetimeFormat().format;
 	});
 
 	const items = createMemo(async () => {
-		const ret = await reest.get<Service>('/system/services');
+		const ret = await rest.get<Service>('/system/services');
 		if (!ret.ok) {
 			await handleProblem(ret.body);
 			return;

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, Dialog, Form, handleProblem, InputText, QRCode, useLocale } from '@cmfx/components';
+import { Button, ConfirmButton, Dialog, Form, InputText, QRCode, useLocale } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';
@@ -48,7 +48,7 @@ export class TOTP implements PassportComponents {
 
 	Login(): JSX.Element {
 		const l = useLocale();
-		const rest = useREST();
+		const [rest, handleProblem] = useREST();
 		const opt = useOptions();
 		const nav = useNavigate();
 		const usr = useAdmin();
@@ -104,7 +104,7 @@ export class TOTP implements PassportComponents {
 
 	Actions(f: RefreshFunc, username?: string): JSX.Element {
 		const l = useLocale();
-		const rest = useREST();
+		const [rest, handleProblem] = useREST();
 		const opt = useOptions();
 		const usr = useAdmin();
 

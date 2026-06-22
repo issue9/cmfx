@@ -2,19 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Album,
-	Avatar,
-	Button,
-	Divider,
-	Form,
-	handleProblem,
-	InputText,
-	Page,
-	Table,
-	Upload,
-	useLocale,
-} from '@cmfx/components';
+import { Album, Avatar, Button, Divider, Form, InputText, Page, Table, Upload, useLocale } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
@@ -37,7 +25,7 @@ const infoSchema = z.object({
 });
 
 export function Profile(props: Props): JSX.Element {
-	const rest = useREST();
+	const [rest, handleProblem] = useREST();
 	const opt = useOptions();
 	const usr = useAdmin();
 	const l = useLocale();

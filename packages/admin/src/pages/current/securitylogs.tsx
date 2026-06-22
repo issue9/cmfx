@@ -42,7 +42,7 @@ class QuerySearchConverter implements DataTable.SearchConverter<Q> {
 
 export function SecurityLogs(): JSX.Element {
 	const l = useLocale();
-	const rest = useREST();
+	const [rest] = useREST();
 
 	const [load] = DataTable.buildREST<SecurityLog, Q>(rest, '/securitylog');
 

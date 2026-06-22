@@ -54,7 +54,7 @@ class QuerySearchConverter implements DataTable.SearchConverter<Q> {
 
 export function Routes(): JSX.Element {
 	const l = useLocale();
-	const rest = useREST();
+	const [rest] = useREST();
 	const [load] = DataTable.buildREST<Route, Q>(rest, '/system/routes');
 
 	return (

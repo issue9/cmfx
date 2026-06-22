@@ -18,7 +18,7 @@ type Audit = z.infer<typeof auditSchema>;
 
 export function Audit(): JSX.Element {
 	const l = useLocale();
-	const rest = useREST();
+	const [rest] = useREST();
 
 	const [F, Field] = Form.create<Audit>({
 		initValue: { keywords: [], urlBlacklist: [] },

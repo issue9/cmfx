@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, handleProblem, InputPassword, InputText, Notify, Page, useLocale } from '@cmfx/components';
+import { Button, Form, InputPassword, InputText, Notify, Page, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import * as z from 'zod';
@@ -31,7 +31,7 @@ const adminSchema = z.object({
 
 export function New(props: Props): JSX.Element {
 	const l = useLocale();
-	const rest = useREST();
+	const [rest, handleProblem] = useREST();
 
 	const [F, Field] = Form.create<z.infer<typeof adminSchema>>({
 		initValue: { sex: 'unknown', name: '', nickname: '', username: '', password: '', roles: [] },

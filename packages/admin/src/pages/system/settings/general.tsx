@@ -20,7 +20,7 @@ type General = z.infer<typeof generalSchema>;
 
 export function General(): JSX.Element {
 	const l = useLocale();
-	const rest = useREST();
+	const [rest] = useREST();
 
 	const [F, Field] = Form.create<General>({
 		initValue: {

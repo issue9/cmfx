@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Checkbox, handleProblem, Page, useLocale } from '@cmfx/components';
+import { Button, Checkbox, Page, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, type JSX } from 'solid-js';
 
@@ -21,7 +21,7 @@ interface RoleResource {
 }
 
 export function Permission(): JSX.Element {
-	const rest = useREST();
+	const [rest, handleProblem] = useREST();
 	const l = useLocale();
 	const ps = useParams<{ id: string }>();
 	const nav = useNavigate();
