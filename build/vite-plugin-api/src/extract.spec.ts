@@ -138,7 +138,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 			expect(del!.typeParams![0].name).toEqual('R');
 			expect(del!.typeParams![0].summary).toBeUndefined();
 			expect(del!.typeParams![0].type).toEqual('any');
-			expect(del!.typeParams![0].init).toEqual('never');
+			expect(del!.typeParams![0].init).toEqual('unknown');
 
 			expect(del!.typeParams![1].name).toEqual('PE');
 			expect(del!.typeParams![1].summary).toBeUndefined();

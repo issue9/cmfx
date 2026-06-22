@@ -881,13 +881,13 @@
 	{
 		"kind": "function",
 		"name": "handleProblem",
-		"summary": "将\n`Problem`\n作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。\n\n",
-		"type": "function handleProblem<P>(p?: Problem<P>): Promise<void>",
+		"summary": "框架默认对\n`Problem`\n的处理方式\n\n",
+		"type": "function handleProblem<P = never>(p?: Problem<P>): Promise<void>",
 		"typeParams": [
 			{
 				"name": "P",
-				"summary": "`Problem`\n的泛型参数 E；\n\n",
-				"type": "any"
+				"type": "any",
+				"init": "never"
 			}
 		],
 		"params": [
@@ -899,6 +899,6 @@
 		"return": {
 			"type": "Promise<void>"
 		},
-		"pkg": "@cmfx/admin"
+		"pkg": "@cmfx/components"
 	}
 ]

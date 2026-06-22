@@ -13,7 +13,7 @@
 				"name": "R",
 				"summary": "表示服务端返回的类型；\n\n",
 				"type": "any",
-				"init": "never"
+				"init": "unknown"
 			},
 			{
 				"name": "P",
@@ -249,7 +249,7 @@
 			{
 				"name": "R",
 				"type": "any",
-				"init": "never"
+				"init": "unknown"
 			},
 			{
 				"name": "P",
@@ -357,7 +357,7 @@
 		"kind": "function",
 		"name": "Form.useForm",
 		"summary": "获取最近一个表单的上下文环境\n\n\nT - 表单的数据类型；\n\n",
-		"type": "declare function useForm<T extends Flattenable, R = never, P = never>(): FormContext<T, R, P> | undefined",
+		"type": "declare function useForm<T extends Flattenable, R = unknown, P = never>(): FormContext<T, R, P> | undefined",
 		"typeParams": [
 			{
 				"name": "T",
@@ -366,7 +366,7 @@
 			{
 				"name": "R",
 				"type": "any",
-				"init": "never"
+				"init": "unknown"
 			},
 			{
 				"name": "P",
