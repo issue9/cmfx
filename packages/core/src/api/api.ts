@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { newCache } from './cache';
+import { APIError } from './errors';
 import type { Method, Problem, REST, ReqInit, Return } from './rest';
 import { createREST } from './rest';
 import { type Mimetype, type Serializer, serializers } from './serializer';
@@ -101,7 +102,6 @@ export class API implements REST {
 	 * 基于当前实现和参数 init 创建一个新的 {@link REST} 实例
 	 *
 	 * @param init - 请求的额外参数；
-	 * @param onProblem - 请求失败时的回调函数
 	 *  如果指定该参数，所有的接口将在失败时使用此方法进行处理，并返回空值，
 	 *  只有在接口的数据都正常时才返回相关的数据；
 	 */
@@ -367,7 +367,7 @@ export class API implements REST {
 	}
 
 	/**
-	 * 对 {@link API#'#fetch'} 的二次包装，可以指定一些关键参数。
+	 * 对 {@link #fetch} 的二次包装，可以指定一些关键参数。
 	 *
 	 * @param path - 请求路径，相对于 baseURL 的路径；
 	 * @param method - 请求方法；
@@ -486,10 +486,7 @@ export class API implements REST {
 	 * @param needLogin - 是否需要登录状态才能访问；
 	 * 如果该值为 true，那么需要 path 参数提供的地址应该包含一 POST 请求，用于获取一个临时的访问令牌；
 	 */
-	async eventSource(
-		path: string,
-		needLogin?: boolean,
-	): Promise<Pick<EventSource, 'addEventListener' | 'removeEventListener'> | undefined> {
+	async eventSource(path: string, needLogin?: boolean): Promise<EventSource> {
 		// NOTE: 刷新页面可能导致 EventSource 无效
 
 		if (this.#events.has(path)) {
@@ -500,10 +497,20 @@ export class API implements REST {
 			return item[0];
 		}
 
-		const es = await this.#initEventSource(path, needLogin);
-		if (es) {
-			this.#events.set(path, [es, !!needLogin]);
+		if (needLogin) {
+			const r = await this.post<SSEToken>(path);
+			if (!r.ok) {
+				if (r.body) {
+					throw APIError.fromProblem(r.body);
+				}
+				throw new APIError(r.status, '请求 SSE token 时发生未知道错误');
+			}
+
+			path = `${path}?token=${r.body!.token}`;
 		}
+
+		const es = new EventSource(this.buildURL(path));
+		this.#events.set(path, [es, !!needLogin]);
 		return es;
 	}
 
@@ -515,47 +522,5 @@ export class API implements REST {
 			item[0].close();
 		}
 		this.#events.clear();
-	}
-
-	// 初始化 EventSource
-	async #initEventSource(path: string, needLogin?: boolean): Promise<EventSource | undefined> {
-		if (needLogin) {
-			const r = await this.post<SSEToken>(path);
-			if (!r.ok) {
-				console.error(r.body);
-				throw new Error(r.body!.title);
-			}
-
-			path = `${path}?token=${r.body!.token}`;
-		}
-
-		// watch 返回 Promise 和 Connect 两个对象，
-		// Promise 监视 Connect.val 的变化，直到其变为 true，Promise 才会 resolve。
-		interface Connect {
-			val: boolean;
-		}
-		const watch = (): [Promise<unknown>, Connect] => {
-			const connect: Connect = { val: false };
-			let proxy: Connect;
-			const p = new Promise(resolve => {
-				proxy = new Proxy(connect, {
-					set(target: Connect, p: string, val: boolean) {
-						if (val) {
-							resolve(val);
-						}
-						return Reflect.set(target, p, val);
-					},
-				}); // end new Proxy
-			});
-			return [p, proxy!];
-		};
-
-		const [p, proxy] = watch();
-		const es = new EventSource(this.buildURL(path));
-		es.addEventListener('open', () => {
-			proxy.val = true;
-		});
-		await p;
-		return es;
 	}
 }
