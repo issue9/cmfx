@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice } from '@cmfx/components';
+import { Choice, useREST } from '@cmfx/components';
 import { createSignal, type JSX, onMount } from 'solid-js';
 
-import { useREST } from '@admin/app';
 import type { Role } from './roles';
 
 type P = Choice.Props<string>;

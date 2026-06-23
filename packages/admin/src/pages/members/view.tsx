@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, Page, useLocale } from '@cmfx/components';
+import { joinClass, Page, useLocale, useREST } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { type Component, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';
 
-import { useOptions, useREST } from '@admin/app';
+import { useOptions } from '@admin/app';
 import { localeSexes, localeStates, type Passport } from '@admin/components';
 import styles from './style.module.css';
 import type { Member } from './types';

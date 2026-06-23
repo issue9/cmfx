@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { run } from './run';
+export { APIProvider, useAPI, useREST } from './rest';

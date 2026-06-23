@@ -4,6 +4,6 @@
 
 export { create } from './app';
 export type { Admin } from './context';
-export { adminSchema, useAdmin, useAPI, useLayout, useOptions, useREST } from './context';
+export { adminSchema, useAdmin, useLayout, useOptions } from './context';
 export type { Options } from './options';
 export { createClear, createFullscreen, createSearch } from './toolbar';

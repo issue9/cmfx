@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import type { BaseProps, Mode } from '@cmfx/components';
-import { Appbar, Choice, joinClass, modes, Page, Transition, useLocale, useOptions } from '@cmfx/components';
+import { Appbar, Choice, joinClass, modes, Page, Transition, useLocale, useOptions, useREST } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import { createEffect, createResource, createSignal, ErrorBoundary, For, Match, Show, Switch } from 'solid-js';
 
-import { useAdmin, useOptions as useAdminOptions, useREST } from '@admin/app';
+import { useAdmin, useOptions as useAdminOptions } from '@admin/app';
 import { errorHandler } from '@admin/app/context';
 import type { Passport } from '@admin/components';
 import type { PassportComponents } from './passports';

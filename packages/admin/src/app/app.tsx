@@ -2,21 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { run, useOptions as useXOptions } from '@cmfx/components';
+import { APIProvider, run, useOptions as useXOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, type RouteDefinition, type Router } from '@solidjs/router';
 import { ErrorBoundary, type JSX, Match, type ParentProps, Switch } from 'solid-js';
 
-import {
-	AdminProvider,
-	APIProvider,
-	AppLayout,
-	errorHandler,
-	NotFound,
-	OptionsProvider,
-	useAdmin,
-	useOptions,
-} from './context';
+import { AdminProvider, AppLayout, errorHandler, NotFound, OptionsProvider, useAdmin, useOptions } from './context';
 import { build as buildOptions, type Options, presetConfigName } from './options';
 
 /**

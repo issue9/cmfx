@@ -2,19 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError, type ProblemHandler, useLocale } from '@cmfx/components';
 import type { API, REST } from '@cmfx/core';
 import { createContext, type JSX, type ParentProps, useContext } from 'solid-js';
 
-import { useOptions } from './options';
+import { ContextNotFoundError } from '@components/context/errors';
+import { useLocale } from '@components/context/locale';
+import { type ProblemHandler, useOptions } from '@components/context/options';
 
 const apiContext = createContext<API>();
 
 /**
  * 初始化 {@link useAPI} 和 {@link useREST} 的使用环境
- *
- * @remarks
- * 依赖 {@link OptionsProvider} 组件，必须在其之内使用。
  */
 export function APIProvider(props: ParentProps<{ api: API }>): JSX.Element {
 	return <apiContext.Provider value={props.api}>{props.children}</apiContext.Provider>;
@@ -24,7 +22,7 @@ export function APIProvider(props: ParentProps<{ api: API }>): JSX.Element {
  * 返回 {@link API} 对象
  */
 export function useAPI(): [API, ProblemHandler] {
-	const opt = useOptions();
+	const [, opt] = useOptions();
 
 	const ctx = useContext(apiContext);
 	if (!ctx) {

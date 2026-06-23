@@ -2,12 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, DataTable, InputText, Label, Page, useLocale } from '@cmfx/components';
+import { Choice, DataTable, InputText, Label, Page, useLocale, useREST } from '@cmfx/components';
 import { type Duration, formatDuration, type Method, methods, parseDuration, type Query } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import IconRoutes from '~icons/material-symbols/route';
-
-import { useREST } from '@admin/app';
 
 type Route = {
 	method: string;

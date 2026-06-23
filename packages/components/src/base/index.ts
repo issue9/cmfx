@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { type ProblemHandler, PropsError } from './errors';
+export { PropsError } from './errors';
 export { classList, handleEvent, joinClass, style2String } from './func';
 export type { Breakpoint, Mode, Palette, Radius, Scheme } from './theme';
 export { breakpoints, modes, palettes } from './theme';

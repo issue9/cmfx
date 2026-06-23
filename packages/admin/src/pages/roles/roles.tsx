@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DataTable, Dialog, Form, InputText, Page, TextArea, useLocale } from '@cmfx/components';
+import { Button, DataTable, Dialog, Form, InputText, Page, TextArea, useLocale, useREST } from '@cmfx/components';
 import type { Query, Return } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 import IconEdit from '~icons/material-symbols/edit';
 import IconPasskey from '~icons/material-symbols/passkey';
 
-import { useREST } from '@admin/app';
 import styles from './style.module.css';
 
 export type Role = {

@@ -9,6 +9,7 @@ import { default as IconLoading } from '~icons/cmfx/loading';
 
 import { type BaseProps, joinClass, type Mode, type Scheme } from '@components/base';
 import { readScheme } from '@components/context/theme/scheme';
+import { handleProblem, type ProblemHandler } from './problem';
 import styles from './style.module.css';
 
 /**
@@ -135,6 +136,11 @@ export interface Options {
 	 * @defaultValue 20
 	 */
 	pageSize?: number;
+
+	/**
+	 * 对 {@link Problem} 的处理函数
+	 */
+	problemHandler?: ProblemHandler;
 }
 
 /**
@@ -161,6 +167,7 @@ export const presetOptions: PickOptional<Options> = {
 	titleSeparator: ' - ',
 	pageSizes: [10, 20, 50, 100],
 	pageSize: 20,
+	problemHandler: handleProblem,
 } as const;
 
 /**

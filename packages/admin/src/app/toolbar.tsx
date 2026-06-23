@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import type { Menu } from '@cmfx/components';
-import { Button, Dropdown, Search, ToggleButton, useLocale, useOptions } from '@cmfx/components';
+import { Button, Dropdown, Search, ToggleButton, useAPI, useLocale, useOptions } from '@cmfx/components';
 import type { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import type { Component } from 'solid-js';
 import IconClear from '~icons/material-symbols/delete-rounded';
 
-import { useAdmin, useOptions as useAdminOptions, useAPI } from './context';
+import { useAdmin, useOptions as useAdminOptions } from './context';
 import { buildItems } from './options';
 import styles from './style.module.css';
 

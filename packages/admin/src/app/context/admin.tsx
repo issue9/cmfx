@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError, Notify, useLocale, useOptions } from '@cmfx/components';
+import { ContextNotFoundError, Notify, useAPI, useLocale, useOptions, useREST } from '@cmfx/components';
 import type { Return, Token } from '@cmfx/core';
 import { createContext, createResource, type ParentProps, type ResourceReturn, useContext } from 'solid-js';
 import { z } from 'zod';
@@ -10,7 +10,6 @@ import { z } from 'zod';
 import { presetConfigName } from '@admin/app/options';
 import { sexSchema, stateSchema } from '@admin/schemas';
 import { useOptions as useAdminOptions } from './options';
-import { useAPI, useREST } from './rest';
 
 export const passportSchema = z.object({
 	id: z.string(),

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale, Statistic as XS } from '@cmfx/components';
+import { useLocale, useREST, Statistic as XS } from '@cmfx/components';
 import { createSignal, type JSX, onMount } from 'solid-js';
 import IconCalendar from '~icons/material-symbols/calendar-month';
 import IconToday from '~icons/material-symbols/calendar-today';
@@ -11,7 +11,6 @@ import IconGroup from '~icons/material-symbols/group';
 import IconPersonChk from '~icons/material-symbols/person-check';
 import IconRecord from '~icons/material-symbols/record-voice-over';
 
-import { useREST } from '@admin/app';
 import styles from './style.module.css';
 
 export function Statistic(): JSX.Element {

@@ -4,7 +4,7 @@
 
 import type { Flattenable, Problem, Return, Validator } from '@cmfx/core';
 
-import type { ProblemHandler } from '@components/base';
+import type { ProblemHandler } from '@components/context';
 
 /**
  * 初始化 API 的参数

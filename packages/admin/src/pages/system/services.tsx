@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DataTable, Label, Page, useLocale } from '@cmfx/components';
+import { DataTable, Label, Page, useLocale, useREST } from '@cmfx/components';
 import { createMemo, type JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
 import IconTask from '~icons/material-symbols/task';
 
-import { useREST } from '@admin/app';
 import type { MessagesKey } from '@admin/messages';
 import styles from './style.module.css';
 

@@ -6,3 +6,4 @@ export type { OptionsAccessor } from './context';
 export { useOptions } from './context';
 export type { Options } from './options';
 export { presetOptions } from './options';
+export { handleProblem, notifyProblem, type ProblemHandler, throwProblem } from './problem';

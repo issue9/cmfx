@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DataTable, InputText, Page, useLocale } from '@cmfx/components';
+import { Button, DataTable, InputText, Page, useLocale, useREST } from '@cmfx/components';
 import { noPrint, type Query } from '@cmfx/core';
 import { type Component, createMemo, type JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';
 import IconLockOpen from '~icons/material-symbols/lock-open-right';
 import IconVisibility from '~icons/material-symbols/visibility';
 
-import { useREST } from '@admin/app';
 import { localeSexes, localeStates, SexSelector, StateSelector } from '@admin/components';
 import type { Sex, State } from '@admin/schemas';
 import type { Member } from './types';

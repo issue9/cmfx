@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Form, InputText, useLocale } from '@cmfx/components';
+import { Form, InputText, useLocale, useREST } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { z } from 'zod';
 
-import { useREST } from '@admin/app';
 import styles from './style.module.css';
 
 const auditSchema = z.object({
