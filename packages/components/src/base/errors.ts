@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Problem } from '@cmfx/core';
-
 /**
  * 表示组件的属性字段错误
  */
@@ -30,8 +28,3 @@ export class PropsError extends Error {
 		return this.#prop;
 	}
 }
-
-/**
- * 定义了对 {@link Problem} 的处理函数类型
- */
-export type ProblemHandler<E = never> = (p?: Problem<E>) => Promise<void>;

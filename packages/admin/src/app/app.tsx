@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { APIProvider, run, useOptions as useXOptions } from '@cmfx/components';
+import { APIProvider, run, useOptions as useXOptions, type Options as XOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, type RouteDefinition, type Router } from '@solidjs/router';
 import { ErrorBoundary, type JSX, Match, type ParentProps, Switch } from 'solid-js';
@@ -55,7 +55,8 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 		pageSizes: opt.api.pageSizes,
 		pageSize: opt.api.pageSize,
 		stays: opt.stays,
-	};
+		problemHandler: opt.problemHandler,
+	} satisfies XOptions;
 
 	const api = await API.build(
 		`${opt.id}-token`,

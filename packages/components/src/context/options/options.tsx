@@ -139,6 +139,8 @@ export interface Options {
 
 	/**
 	 * 对 {@link Problem} 的处理函数
+	 *
+	 * @defaultValue {@link handleProblem}
 	 */
 	problemHandler?: ProblemHandler;
 }
