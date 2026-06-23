@@ -192,7 +192,7 @@ export function Members(props: Props): JSX.Element {
 									</Show>
 
 									<Show when={row?.state !== 'deleted'}>
-										<DeleteAction id={row.id} />
+										<DeleteAction square rounded id={row.id} />
 									</Show>
 
 									<Show when={props.actions}>{props.actions!({ id: row?.id as number, member: row, table: ref })}</Show>

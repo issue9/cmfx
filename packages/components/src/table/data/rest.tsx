@@ -53,7 +53,8 @@ export function buildREST<T extends object, Q extends Query = Query, P extends b
 		props = mergeProps(
 			{
 				prompt: l.t('_c.data.areYouSureDeleteThisRow'),
-			},
+				palette: 'error',
+			} as DataTableDeleteButtonProps,
 			props,
 		);
 

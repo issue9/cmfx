@@ -42,7 +42,7 @@ const membersPage = members.build('/members');
 const currentPage = current.build('/current', () => {
 	return (
 		<>
-			<current.MemberStatisticPanel />
+			<current.Statistic />
 			<div class="flex gap-4">
 				<Card class="basis-1/2">1/2</Card>
 				<Card class="basis-1/2">1/2</Card>

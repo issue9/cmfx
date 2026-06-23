@@ -134,7 +134,7 @@ export function Roles(props: Props): JSX.Element {
 								>
 									<IconPasskey />
 								</Button>
-								<DeleteAction id={row.id!} />
+								<DeleteAction square rounded id={row.id!} />
 							</div>
 						)) as DataTable.Column<Role>['renderContent'],
 					},

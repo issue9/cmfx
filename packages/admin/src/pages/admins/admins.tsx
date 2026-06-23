@@ -186,7 +186,7 @@ export function Admins(props: Props): JSX.Element {
 									</Show>
 
 									<Show when={obj.state !== 'deleted'}>
-										<DeleteAction id={obj.id} />
+										<DeleteAction square rounded id={obj.id} />
 									</Show>
 								</div>
 							);

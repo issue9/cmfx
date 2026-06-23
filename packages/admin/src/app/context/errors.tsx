@@ -188,7 +188,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 		}
 	} else if (err instanceof Error) {
 		// TODO: 改为 Error.isError https://caniuse.com/?search=isError
-		console.error(err.name, err.message);
+		console.error(err.name, err.message, err.stack);
 		return unknown(err.name, err.message);
 	}
 
