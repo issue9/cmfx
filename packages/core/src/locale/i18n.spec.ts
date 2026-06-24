@@ -11,6 +11,10 @@ describe('i18n', async () => {
 	I18n.init('en');
 	expect(I18n.languageSize()).toEqual(0);
 
+	test('system', () => {
+		expect(I18n.system).toBeDefined();
+	});
+
 	test('createObject', () => {
 		const obj1 = I18n.createObject();
 		obj1.set('zh', { lang: 'zh' });

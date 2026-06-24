@@ -78,7 +78,7 @@ export interface Options {
 	/**
 	 * 初始的本地化语言 ID，当在 {@link config} 中存在时，当前值将被忽略。
 	 *
-	 * @defaultValue `document.documentElement.lang || navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en')`
+	 * @defaultValue `document.documentElement.lang || I18n.system`
 	 */
 	locale?: string;
 
@@ -150,10 +150,7 @@ export interface Options {
  */
 export const presetOptions: PickOptional<Options> = {
 	fontSize: '14px',
-	locale:
-		document.documentElement.lang ||
-		navigator.language ||
-		(navigator.languages.length > 0 ? navigator.languages[0] : 'en'),
+	locale: document.documentElement.lang || I18n.system,
 	loading: (props: BaseProps) => (
 		<div class={styles.loading} role="progressbar">
 			<IconLoading style={props.style} class={joinClass(props.palette, props.class)} aria-hidden={true} />

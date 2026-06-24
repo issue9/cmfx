@@ -17,6 +17,13 @@ export class I18n implements Locale {
 	static #messages: Map<string, Map<string, IntlMessageFormat>> = new Map();
 
 	/**
+	 * 获取浏览当前的语言环境
+	 */
+	static get system(): string {
+		return navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en');
+	}
+
+	/**
 	 * 初始化
 	 *
 	 * @param fallback - 在找不到对应在的语言时采用的默认值；
@@ -188,10 +195,14 @@ export class I18n implements Locale {
 	/**
 	 * 构造函数
 	 * @param locale - 本地化字符串；
-	 * @param style - 显示风格；
+	 * @param style - 显示风格，默认为 narrow；
 	 * @param tz - 时区，如果为空则采用 `Intl.DateTimeFormat().resolvedOptions().timeZone`；
 	 */
-	constructor(locale: string, style: DisplayStyle, tz?: string) {
+	constructor(
+		locale: string,
+		style: DisplayStyle = 'narrow',
+		tz: string = Intl.DateTimeFormat().resolvedOptions().timeZone,
+	) {
 		locale = I18n.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
 		const curr = I18n.#messages.get(locale);
 		if (curr) {
@@ -224,7 +235,7 @@ export class I18n implements Locale {
 		}
 		this.#displayNames = new Intl.DisplayNames(this.locale, { type: 'language', languageDisplay: 'dialect' });
 
-		this.#timezone = tz || Intl.DateTimeFormat().resolvedOptions().timeZone;
+		this.#timezone = tz;
 	}
 
 	get locale(): Intl.Locale {

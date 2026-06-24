@@ -86,7 +86,7 @@ export function useLocale(): Locale {
 		tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
 			return ctx().tt(locale, key, args);
 		},
-	};
+	} satisfies Locale;
 }
 
 /**
