@@ -485,12 +485,16 @@ export class API implements REST {
 	 * @param path - SSE 服务的地址；
 	 * @param needLogin - 是否需要登录状态才能访问；
 	 * 如果该值为 true，那么需要 path 参数提供的地址应该包含一 POST 请求，用于获取一个临时的访问令牌；
+	 * @remarks
+	 * 实例会被保存，多次调用相同的地址，会返回同一个实例。如非确定，不应该主动关闭 {@link EventSurce} 对象。
 	 */
 	async eventSource(path: string, needLogin?: boolean): Promise<EventSource> {
 		// NOTE: 刷新页面可能导致 EventSource 无效
 
-		if (this.#events.has(path)) {
-			const item = this.#events.get(path)!;
+		const id = path; // id 用于保存 es 实例，path 后续可能被修改。
+
+		if (this.#events.has(id)) {
+			const item = this.#events.get(id)!;
 			if (item[1] !== needLogin) {
 				throw new Error('参数 needLogin 与现有的实例不一致');
 			}
@@ -510,7 +514,7 @@ export class API implements REST {
 		}
 
 		const es = new EventSource(this.buildURL(path));
-		this.#events.set(path, [es, !!needLogin]);
+		this.#events.set(id, [es, !!needLogin]);
 		return es;
 	}
 
