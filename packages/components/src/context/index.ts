@@ -6,4 +6,5 @@ export * from './errors';
 export * from './locale';
 export * from './options';
 export * from './rest';
+export * from './sse';
 export * from './theme';

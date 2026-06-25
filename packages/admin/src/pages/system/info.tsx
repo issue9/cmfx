@@ -13,6 +13,7 @@ import {
 	Tab,
 	useLocale,
 	useREST,
+	useSSE,
 } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, type JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
@@ -122,26 +123,9 @@ export function Info(): JSX.Element {
 		}
 	};
 
-	let es: EventSource;
-	onMount(async () => {
-		es = await rest.api().eventSource('/sse', true);
-		es.addEventListener('systat', systatMessage);
-
-		const r = await rest.post('/system/systat');
-		if (!r.ok) {
-			handleProblem(r.body);
-		}
-	});
-
-	onCleanup(async () => {
-		const r = await rest.delete('/system/systat');
-		if (!r.ok) {
-			handleProblem(r.body);
-		}
-		if (es) {
-			es.removeEventListener('systat', systatMessage);
-		}
-	});
+	const [mount, unmount] = useSSE('systat', systatMessage, '/system/systat', rest, handleProblem);
+	onMount(mount);
+	onCleanup(unmount);
 
 	return (
 		<Page title="_p.system.serverInfo" class={joinClass(undefined, styles.info)}>

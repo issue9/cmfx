@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { APIProvider, run, useOptions as useXOptions, type Options as XOptions } from '@cmfx/components';
+import { APIProvider, run, SSEProvider, useOptions as useXOptions, type Options as XOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, type RouteDefinition, type Router } from '@solidjs/router';
 import { ErrorBoundary, type JSX, Match, type ParentProps, Switch } from 'solid-js';
@@ -97,7 +97,9 @@ function Private(props: ParentProps): JSX.Element {
 				<Navigate href={opt.routes.public.home} />
 			</Match>
 			<Match when={usr.info()}>
-				<AppLayout>{props.children}</AppLayout>
+				<SSEProvider path="/sse" auth>
+					<AppLayout>{props.children}</AppLayout>
+				</SSEProvider>
 			</Match>
 		</Switch>
 	);
