@@ -14,7 +14,7 @@ const apiContext = createContext<API>();
 /**
  * 初始化 {@link useAPI} 和 {@link useREST} 的使用环境
  */
-export function APIProvider(props: ParentProps<{ api: API }>): JSX.Element {
+export function APIProvider(props: ParentProps<{ readonly api: API }>): JSX.Element {
 	return <apiContext.Provider value={props.api}>{props.children}</apiContext.Provider>;
 }
 

@@ -13,6 +13,7 @@ import {
 	Tab,
 	useLocale,
 	useREST,
+	useSSE,
 } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, type JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
@@ -91,53 +92,40 @@ export function Info(): JSX.Element {
 		}
 	});
 
-	onMount(async () => {
-		const fixed = (num: number) => Math.round(num * 100) / 100; // 固定小数点
-		const es = await rest.api().eventSource('/sse', true);
+	const fixed = (num: number) => Math.round(num * 100) / 100; // 固定小数点
+	const systatMessage = (s: MessageEvent) => {
+		const d = JSON.parse(s.data) as Stats;
+		const os = d.os;
+		const pro = d.process;
 
-		es!.addEventListener('systat', (s: MessageEvent) => {
-			const d = JSON.parse(s.data) as Stats;
-			const os = d.os;
-			const pro = d.process;
+		const start = d.created.indexOf(':');
+		const end = d.created.indexOf('.');
+		const created = d.created.slice(start + 1, end);
 
-			const start = d.created.indexOf(':');
-			const end = d.created.indexOf('.');
-			const created = d.created.slice(start + 1, end);
+		setCPU(prev => [...prev, { os: fixed(os.cpu), process: fixed(pro.cpu), created: created }]);
+		setMem(prev => [...prev, { os: fixed(os.mem / mb), process: fixed(pro.mem / mb), created: created }]);
+		setConns(prev => [...prev, { os: fixed(os.net.conns), process: fixed(pro.conns), created: created }]);
+		setGoroutines(prev => [...prev, { os: 0, process: fixed(pro.goroutines), created: created }]);
 
-			setCPU(prev => [...prev, { os: fixed(os.cpu), process: fixed(pro.cpu), created: created }]);
-			setMem(prev => [...prev, { os: fixed(os.mem / mb), process: fixed(pro.mem / mb), created: created }]);
-			setConns(prev => [...prev, { os: fixed(os.net.conns), process: fixed(pro.conns), created: created }]);
-			setGoroutines(prev => [...prev, { os: 0, process: fixed(pro.goroutines), created: created }]);
-
-			switch (stat()) {
-				case 'cpu':
-					axisRef.append({ os: fixed(os.cpu), process: fixed(pro.cpu), created: created });
-					//setData(cpu());
-					break;
-				case 'mem':
-					axisRef.append({ os: fixed(os.mem / mb), process: fixed(pro.mem / mb), created: created });
-					//setData(mem());
-					break;
-				case 'conns':
-					axisRef.append({ os: fixed(os.net.conns), process: fixed(pro.conns), created: created });
-					//setData(conns());
-					break;
-				case 'goroutines':
-					axisRef.append({ os: 0, process: fixed(pro.goroutines), created: created });
-					//setData(goroutines());
-					break;
-			}
-		});
-
-		const r = await rest.post('/system/systat');
-		if (!r.ok) {
-			console.error(r.body);
+		switch (stat()) {
+			case 'cpu':
+				axisRef.append({ os: fixed(os.cpu), process: fixed(pro.cpu), created: created });
+				break;
+			case 'mem':
+				axisRef.append({ os: fixed(os.mem / mb), process: fixed(pro.mem / mb), created: created });
+				break;
+			case 'conns':
+				axisRef.append({ os: fixed(os.net.conns), process: fixed(pro.conns), created: created });
+				break;
+			case 'goroutines':
+				axisRef.append({ os: 0, process: fixed(pro.goroutines), created: created });
+				break;
 		}
-	});
+	};
 
-	onCleanup(async () => {
-		await rest.delete('/system/systat');
-	});
+	const [mount, unmount] = useSSE('systat', systatMessage, '/system/systat', rest, handleProblem);
+	onMount(mount);
+	onCleanup(unmount);
 
 	return (
 		<Page title="_p.system.serverInfo" class={joinClass(undefined, styles.info)}>
