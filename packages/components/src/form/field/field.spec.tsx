@@ -70,7 +70,7 @@ describe('Field', () => {
 		});
 
 		expect(result).toBeDefined();
-		expect(result?.isFake).toBeUndefined();
+		expect(result?.inForm).toBe(true);
 		expect(result?.getValue()).toEqual(new Date('1970-01-02'));
 
 		api.setValue({ biritday: '1980-01-02', name: '6' });

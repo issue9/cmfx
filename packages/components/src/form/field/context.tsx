@@ -8,7 +8,6 @@ import { createContext, createEffect, createSignal, createUniqueId, splitProps, 
 
 import type { ChangeFunc, StyleProps, ValueProps } from '@components/base';
 import type { FormFieldAccessor } from '@components/form/api';
-import { useForm } from '../form';
 
 export type FormFieldContext<T> = FormFieldAccessor<T> & StyleProps;
 
@@ -73,8 +72,7 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FormFieldContex
 		return ctx;
 	}
 
-	const f = useForm();
-	if (props && !f) {
+	if (props && !ctx.inForm) {
 		createEffect(() => {
 			ctx.setValue(props.value);
 		});
