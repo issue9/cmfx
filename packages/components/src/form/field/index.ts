@@ -11,5 +11,5 @@ export {
 	String2DateConverter,
 } from './convert';
 export type { FormDataProps } from './data';
-export type { FormFieldProps } from './field';
+export type { FormFieldProps, FormFieldRef } from './field';
 export { Field } from './field';

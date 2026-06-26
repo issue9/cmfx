@@ -6,7 +6,7 @@ import type { Flattenable } from '@cmfx/core';
 
 import { API, type FormFieldAccessor } from './api';
 import { create } from './create';
-import type { FormDataProps, FormFieldContext, FormFieldProps } from './field';
+import type { FormDataProps, FormFieldContext, FormFieldProps, FormFieldRef } from './field';
 import {
 	Array2StringConverter,
 	convert,
@@ -46,6 +46,7 @@ export namespace Form {
 	export type LabelAlignment = FormLabelAlignment;
 	export type MessageProps = FormMessageProps;
 	export type FieldContext<T> = FormFieldContext<T>;
+	export type FieldRef = FormFieldRef;
 	export type DataProps = FormDataProps;
 	export type FieldProps<T extends Flattenable> = FormFieldProps<T>;
 	export type PopoverProps = FormPopoverProps;

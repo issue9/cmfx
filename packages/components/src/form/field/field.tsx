@@ -5,7 +5,7 @@
 import type { Converter, Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
 import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
-import { type BaseProps, type ChangeFunc, joinClass } from '@components/base';
+import { type BaseProps, type BaseRef, type ChangeFunc, joinClass, type RefProps } from '@components/base';
 import { ContextNotFoundError } from '@components/context';
 import type { FormFieldAccessor } from '@components/form/api';
 import { type CommonProps, useForm } from '@components/form/form';
@@ -13,10 +13,13 @@ import { area2Style, calcAreas } from './area';
 import { createFakeField, FieldProvider } from './context';
 import styles from './style.module.css';
 
+export type FormFieldRef = BaseRef<HTMLDivElement>;
+
 export interface FormFieldProps<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>
 	extends CommonProps,
 		BaseProps,
-		ParentProps {
+		ParentProps,
+		RefProps<FormFieldRef> {
 	/**
 	 * 字段标签
 	 *
@@ -111,7 +114,17 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 	) as FormFieldAccessor<F>['onChange'];
 
 	return (
-		<div class={joinClass(props.palette, styles.field, props.class)} style={props.style}>
+		<div
+			class={joinClass(props.palette, styles.field, props.class)}
+			style={props.style}
+			ref={el => {
+				if (props.ref) {
+					props.ref({
+						root: () => el,
+					});
+				}
+			}}
+		>
 			<label
 				for={field.id}
 				style={{
