@@ -18,7 +18,7 @@ import {
 } from './field';
 import type { FormLabelAlignment, FormMessageProps, FormProps, FormRef } from './form';
 import { Button, Form as C, labelAlignments, Message, Reset, Submit, useForm } from './form';
-import { type FormPopoverProps, type FormPopoverRef, Popover } from './popover';
+import { type FormPopoverProps, type FormPopoverRef, type FormPopoverType, formPopoverTypes, Popover } from './popover';
 
 export const Form = Object.assign(C, {
 	Button,
@@ -37,18 +37,23 @@ export const Form = Object.assign(C, {
 	Array2StringConverter,
 	String2DateConverter,
 	Popover,
+	popoverTypes: formPopoverTypes,
 });
 
 export namespace Form {
 	export type FieldAccessor<T> = FormFieldAccessor<T>;
+
 	export type Props<T extends Flattenable, R = unknown, P = never> = FormProps<T, R, P>;
 	export type Ref = FormRef;
 	export type LabelAlignment = FormLabelAlignment;
 	export type MessageProps = FormMessageProps;
+
 	export type FieldContext<T> = FormFieldContext<T>;
 	export type FieldRef = FormFieldRef;
 	export type DataProps = FormDataProps;
 	export type FieldProps<T extends Flattenable> = FormFieldProps<T>;
-	export type PopoverProps = FormPopoverProps;
+
+	export type PopoverProps<T> = FormPopoverProps<T>;
 	export type PopoverRef = FormPopoverRef;
+	export type PopoverType = FormPopoverType;
 }

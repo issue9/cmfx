@@ -2,46 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition } from '@cmfx/core';
-import { createMemo, createSignal, type JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { createMemo, createSignal, type JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { type BaseRef, joinClass, type RefProps } from '@components/base';
+import { joinClass, type RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import type { Base, PanelRef } from './panel';
 import { Panel } from './panel';
 import styles from './style.module.css';
 
-export interface PopoverRef extends BaseRef<HTMLDivElement> {
-	/**
-	 * 显示颜色拾取面板
-	 */
-	showPopover(): void;
-
-	/**
-	 * 隐藏颜色拾取面板
-	 */
-	hidePopover(): void;
-
-	/**
-	 * 切换颜色拾取面板的显示状态
-	 */
-	togglePopover(): void;
-}
+export type PopoverRef = Form.PopoverRef;
 
 export interface PopoverProps extends Base, RefProps<PopoverRef> {
 	placeholder?: string;
 
-	/**
-	 * 指定弹出对话框的方式
-	 *
-	 * @remarks
-	 * - `click`: 点击显示；
-	 * - `hover`: 悬停显示；
-	 */
-	readonly popover: 'click' | 'hover';
+	readonly popover: Form.PopoverType;
 
 	/**
 	 * 作用在显示元素上的样式
@@ -61,15 +38,33 @@ export interface PopoverProps extends Base, RefProps<PopoverRef> {
 export function Popover(props: PopoverProps): JSX.Element {
 	const l = useLocale();
 
-	const field = Form.useField(props, true);
+	//const field = Form.useField(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
-	const [, panelProps] = splitProps(props, ['ref', 'rounded', 'activatorClass', 'popover', 'placeholder']);
-
-	const [hover, setHover] = createSignal(false);
+	const [, panelProps] = splitProps(props, [
+		'ref',
+		'rounded',
+		'activatorClass',
+		'popover',
+		'placeholder',
+		'value',
+		'onChange',
+	]);
 
 	let panelRef: PanelRef;
-	let anchorRef: HTMLElement;
+	let rootRef!: PopoverRef;
+
+	const [hover, setHover] = createSignal(false);
+	const setHoverTrue = () => setHover(true);
+	const setHoverFalse = () => setHover(false);
+	onMount(() => {
+		rootRef.activator().addEventListener('mouseenter', setHoverTrue);
+		rootRef.activator().addEventListener('mouseleave', setHoverFalse);
+	});
+	onCleanup(() => {
+		rootRef.activator().removeEventListener('mouseenter', setHoverTrue);
+		rootRef.activator().removeEventListener('mouseleave', setHoverFalse);
+	});
 
 	const formatter = createMemo(
 		() =>
@@ -80,71 +75,48 @@ export function Popover(props: PopoverProps): JSX.Element {
 			}),
 	);
 
-	const show = () => {
-		panelRef.root().showPopover();
-		const ab = anchorRef.getBoundingClientRect();
-		adjustPopoverPosition(panelRef.root(), ab, 2);
-	};
-	const hide = () => panelRef.root().hidePopover();
-	const toggle = () => panelRef.root().togglePopover();
-
 	return (
-		<div
-			class={joinClass(props.palette, props.class)}
+		<Form.Popover
+			value={props.value}
+			onChange={props.onChange}
+			popover={() => panelRef.root()}
+			activatorClass={joinClass(undefined, styles.container, props.activatorClass)}
+			type={props.popover}
+			rounded={props.rounded}
+			readonly={props.readonly}
+			disabled={props.disabled}
+			palette={props.palette}
+			class={joinClass(undefined, styles.popover, props.class)}
 			style={props.style}
 			ref={el => {
+				rootRef = el;
 				if (props.ref) {
-					props.ref({
-						root: () => el,
-						showPopover: show,
-						hidePopover: hide,
-						togglePopover: toggle,
-					});
+					props.ref(el);
 				}
 			}}
+			formatter={f => {
+				return (
+					<>
+						<input
+							class={styles.input}
+							tabIndex={props.tabindex}
+							disabled={props.disabled}
+							readOnly
+							placeholder={props.placeholder}
+							value={f.getValue() ? formatter().format(f.getValue()) : ''}
+						/>
+						<Show when={hover() && f.getValue()} fallback={<IconExpandAll />}>
+							<IconClose
+								onClick={(e: MouseEvent) => {
+									e.stopPropagation();
+									f.setValue(undefined);
+								}}
+							/>
+						</Show>
+					</>
+				);
+			}}
 		>
-			{/** biome-ignore lint/a11y/noStaticElementInteractions: Mouse 事件上是为了达到 label 效果 */}
-			<div
-				ref={el => (anchorRef = el)}
-				onMouseEnter={() => setHover(true)}
-				onMouseLeave={() => setHover(false)}
-				onclick={() => {
-					if (props.popover === 'click') {
-						show();
-					}
-				}}
-				onmouseenter={() => {
-					if (props.popover === 'hover') {
-						show();
-					}
-				}}
-				onmouseleave={() => {
-					if (props.popover === 'hover') {
-						hide();
-					}
-				}}
-				class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '', field.class)}
-				style={field.style}
-				aria-haspopup
-			>
-				<input
-					class={styles.input}
-					tabIndex={props.tabindex}
-					disabled={props.disabled}
-					readOnly
-					placeholder={props.placeholder}
-					value={field.getValue() ? formatter().format(field.getValue()) : ''}
-				/>
-				<Show when={hover() && field.getValue()} fallback={<IconExpandAll />}>
-					<IconClose
-						onClick={(e: MouseEvent) => {
-							e.stopPropagation();
-							field.setValue(undefined);
-						}}
-					/>
-				</Show>
-			</div>
-
 			<Panel
 				ref={el => {
 					panelRef = el;
@@ -152,6 +124,6 @@ export function Popover(props: PopoverProps): JSX.Element {
 				}}
 				{...panelProps}
 			/>
-		</div>
+		</Form.Popover>
 	);
 }

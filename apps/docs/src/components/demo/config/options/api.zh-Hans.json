@@ -104,6 +104,11 @@
 				"summary": "表格等需要分页对象的每页默认数量\n\n",
 				"type": "number | undefined",
 				"def": "20\n\n"
+			},
+			{
+				"name": "problemHandler",
+				"summary": "对\n`Problem`\n的处理函数\n\n",
+				"type": "ProblemHandler<never> | undefined"
 			}
 		],
 		"pkg": "@cmfx/components"

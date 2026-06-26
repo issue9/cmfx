@@ -18,7 +18,7 @@
 	}
 
 	.activator.rounded {
-		@apply rounded-full;
+		@apply rounded-full!;
 	}
 
 	.activator.disabled {

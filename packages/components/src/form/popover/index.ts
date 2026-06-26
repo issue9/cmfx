@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { FormPopoverProps, FormPopoverRef } from './popover';
-export { Popover } from './popover';
+export type { FormPopoverProps, FormPopoverRef, FormPopoverType } from './popover';
+export { formPopoverTypes, Popover } from './popover';

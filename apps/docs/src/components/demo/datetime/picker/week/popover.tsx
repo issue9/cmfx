@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type MountProps, WeekPicker, type WeekValueType } from '@cmfx/components';
+import { Button, type MonthView, type MountProps, WeekPicker } from '@cmfx/components';
 import { getISOWeek } from '@cmfx/core';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
@@ -13,8 +13,9 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+	const [Rounded, rounded] = boolSelector('rounded');
 
-	const [value, setValue] = createSignal<WeekValueType | undefined>(undefined);
+	const [value, setValue] = createSignal<MonthView.WeekValueType | undefined>(undefined);
 	const [valShow, setValShow] = createSignal<string>('');
 
 	return (
@@ -23,12 +24,14 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Disabled />
 				<Readonly />
+				<Rounded />
 				<Button onclick={() => setValue()}>set undefined</Button>
 				<Button onclick={() => setValue(getISOWeek(new Date()))}>now</Button>
 			</Portal>
 
 			<div title="panel" class="flex flex-col items-start">
 				<WeekPicker
+					rounded={rounded()}
 					popover="click"
 					palette={palette()}
 					readonly={readonly()}

@@ -21,6 +21,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Minmax, minmax] = boolSelector('minmax');
 	const [Weeks, weeks] = boolSelector('weeks');
 	const [Time, time] = boolSelector('time');
+	const [Rounded, rounded] = boolSelector('rounded');
 
 	const [val, setValue] = createSignal<Date | undefined>(undefined);
 	const [valWithTime, setValWithTime] = createSignal<Date | undefined>(undefined);
@@ -31,6 +32,7 @@ export default function (props: MountProps): JSX.Element {
 		<div>
 			<Portal mount={props.mount}>
 				<Palette />
+				<Rounded />
 				<Disabled />
 				<Readonly />
 				<Weekend />
@@ -70,6 +72,7 @@ export default function (props: MountProps): JSX.Element {
 			<div class="flex flex-col items-start">
 				<DatePicker
 					popover="click"
+					rounded={rounded()}
 					time={time()}
 					min={minmax() ? min : undefined}
 					max={minmax() ? max : undefined}
@@ -91,6 +94,7 @@ export default function (props: MountProps): JSX.Element {
 			<div class="flex flex-col items-start">
 				<DatePicker
 					popover="hover"
+					rounded={rounded()}
 					min={minmax() ? min : undefined}
 					max={minmax() ? max : undefined}
 					time={!time()}

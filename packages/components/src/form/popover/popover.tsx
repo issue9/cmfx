@@ -3,32 +3,50 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
-import { type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
+import { createEffect, createSignal, type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, classList, joinClass, type RefProps } from '@components/base';
-import { ContextNotFoundError } from '@components/context';
+import { type BaseProps, type BaseRef, classList, joinClass, type RefProps, type ValueProps } from '@components/base';
 import { type FormDataProps, type FormFieldContext, useField } from '@components/form/field';
 import { useForm } from '@components/form/form';
 import styles from './style.module.css';
 
 export interface FormPopoverRef extends BaseRef<HTMLDivElement> {
 	/**
-	 * 显示颜色拾取面板
+	 * 弹出面板
 	 */
 	showPopover(): void;
 
 	/**
-	 * 隐藏颜色拾取面板
+	 * 隐藏面板
 	 */
 	hidePopover(): void;
 
 	/**
-	 * 切换颜色拾取面板的显示状态
+	 * 切换面板的显示状态
 	 */
 	togglePopover(): void;
+
+	/**
+	 * 触发弹出面板的元素
+	 */
+	activator(): HTMLDivElement;
+
+	/**
+	 * 弹出面板的元素
+	 */
+	popover(): HTMLElement;
 }
 
-export interface FormPopoverProps extends BaseProps, FormDataProps, RefProps<FormPopoverRef> {
+export const formPopoverTypes = ['click', 'hover'] as const;
+
+export type FormPopoverType = (typeof formPopoverTypes)[number];
+
+export interface FormPopoverProps<T>
+	extends BaseProps,
+		ParentProps,
+		ValueProps<T>,
+		FormDataProps,
+		RefProps<FormPopoverRef> {
 	/**
 	 * 指定弹出对话框的方式
 	 *
@@ -37,15 +55,15 @@ export interface FormPopoverProps extends BaseProps, FormDataProps, RefProps<For
 	 * - `click`: 点击显示；
 	 * - `hover`: 悬停显示；
 	 */
-	readonly type?: 'click' | 'hover';
+	readonly type?: FormPopoverType;
 
 	/**
-	 * 指定弹出面板实例
+	 * 获取弹出面板实例
 	 */
-	readonly popover: HTMLElement;
+	readonly popover: () => HTMLElement;
 
 	/**
-	 * 作用在显示元素上的样式
+	 * 作用在触发元素上的样式
 	 *
 	 * @reactive
 	 */
@@ -54,32 +72,42 @@ export interface FormPopoverProps extends BaseProps, FormDataProps, RefProps<For
 	/**
 	 * 格式化显示值的函数
 	 */
-	readonly formatter: (f: FormFieldContext<unknown>) => JSX.Element;
+	readonly formatter: (f: FormFieldContext<T>) => JSX.Element;
 }
 
-export function Popover(props: FormPopoverProps): JSX.Element {
-	let activatorRef: HTMLElement;
+/**
+ * 将一个能按受 {@link ValueProps} 的表单元素改装成弹出元素的样式
+ *
+ * @remarks
+ * 大部分支持 `popover` 属性的表单项组件都是通过使用此组件实现支持的
+ */
+export function Popover<T>(props: FormPopoverProps<T>): JSX.Element {
+	let activatorRef: HTMLDivElement;
 
-	const field = useField();
-	if (!field) {
-		throw new ContextNotFoundError('fieldContext');
-	}
+	const field = useField(props, true);
 
 	const form = useForm();
-	props = mergeProps({ tabindex: 0, type: 'click' } as FormPopoverProps, form, props);
+	props = mergeProps({ tabindex: 0, type: 'click' } as FormPopoverProps<T>, form, props);
 
 	const show = () => {
-		props.popover.showPopover();
+		props.popover().showPopover();
 
 		const anchor = activatorRef.getBoundingClientRect();
-		adjustPopoverPosition(props.popover, anchor, 0, 'bottom', 'start');
+		adjustPopoverPosition(props.popover(), anchor, 0, 'bottom', 'start');
 	};
-	const hide = () => props.popover.hidePopover();
-	const toggle = () => props.popover.togglePopover();
+	const hide = () => props.popover().hidePopover();
+	const toggle = () => props.popover().togglePopover();
 
-	// 注册 label 的事件
-	const label = document.getElementById(field.id());
+	const [hover, setHover] = createSignal(false);
+	const setHoverTrue = () => setHover(true);
+	const setHoverFalse = () => setHover(false);
+
+	let label: HTMLLabelElement | undefined | null;
+
 	onMount(() => {
+		props.popover().popover = 'auto';
+		label = field.fieldRef?.root().querySelector(`label[for="${field.id}"]`);
+
 		if (label) {
 			if (props.type === 'click') {
 				label.addEventListener('click', show);
@@ -87,6 +115,19 @@ export function Popover(props: FormPopoverProps): JSX.Element {
 				label.addEventListener('mouseenter', show);
 				label.addEventListener('mouseleave', hide);
 			}
+		}
+
+		if (props.type === 'hover') {
+			props.popover().addEventListener('mouseenter', setHoverTrue);
+			props.popover().addEventListener('mouseleave', setHoverFalse);
+
+			createEffect(() => {
+				if (hover()) {
+					show();
+				} else {
+					hide();
+				}
+			});
 		}
 	});
 
@@ -98,6 +139,11 @@ export function Popover(props: FormPopoverProps): JSX.Element {
 				label.removeEventListener('mouseenter', show);
 				label.removeEventListener('mouseleave', hide);
 			}
+		}
+
+		if (props.type === 'hover') {
+			props.popover().removeEventListener('mouseenter', setHoverTrue);
+			props.popover().removeEventListener('mouseleave', setHoverFalse);
 		}
 	});
 
@@ -112,6 +158,8 @@ export function Popover(props: FormPopoverProps): JSX.Element {
 						showPopover: show,
 						hidePopover: hide,
 						togglePopover: toggle,
+						activator: () => activatorRef,
+						popover: () => props.popover(),
 					});
 				}
 			}}
@@ -137,17 +185,19 @@ export function Popover(props: FormPopoverProps): JSX.Element {
 				}}
 				onmouseenter={() => {
 					if (props.type === 'hover') {
-						show();
+						setHover(true);
 					}
 				}}
 				onmouseleave={() => {
 					if (props.type === 'hover') {
-						hide();
+						setHover(false);
 					}
 				}}
 				style={props.style}
-			/>
-			{props.formatter(field)}
+			>
+				{props.formatter(field)}
+			</div>
+			{props.children}
 		</div>
 	);
 }
