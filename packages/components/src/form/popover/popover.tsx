@@ -118,6 +118,7 @@ export function Popover(props: FormPopoverProps): JSX.Element {
 		>
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: static */}
 			<div
+				aria-haspopup
 				ref={el => (activatorRef = el)}
 				class={classList(
 					undefined,

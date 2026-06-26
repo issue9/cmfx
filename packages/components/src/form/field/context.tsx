@@ -10,17 +10,7 @@ import type { ChangeFunc, StyleProps, ValueProps } from '@components/base';
 import type { FormFieldAccessor } from '@components/form/api';
 import { useForm } from '../form';
 
-export type FormFieldContext<T> = FormFieldAccessor<T> &
-	StyleProps & {
-		/**
-		 * 表示该上下文环境的值是否真的是从 <Form.Field> 中获取的
-		 *
-		 * @remarks
-		 * 当 Form.Field 未指定 name 属性时，会创建一个假的对象供 Form.useField 返回。
-		 * 通过当前属性可判断该对象是否真的源自 Form.Field.name 指定的数据对象。
-		 */
-		isFake?: boolean;
-	};
+export type FormFieldContext<T> = FormFieldAccessor<T> & StyleProps;
 
 // inited 表示该上下文是否已经调用 useField 初始化过，这样可以防止多次调用 useField 多次注册 onChange 事件。
 type FieldContextWithInited<T> = FormFieldContext<T> & { inited?: boolean };
@@ -133,8 +123,9 @@ export function createFakeField<T>(val?: T, onChange?: ChangeFunc<T | undefined>
 	};
 
 	return {
-		id: () => id,
-		name: () => id,
+		id,
+		name: id,
+
 		reset: (silent?: boolean) => setValue(structuredClone(preset), silent),
 
 		setError: () => {},
@@ -146,6 +137,5 @@ export function createFakeField<T>(val?: T, onChange?: ChangeFunc<T | undefined>
 
 		getExtra: extra,
 		setExtra: setExtra,
-		isFake: true,
 	};
 }

@@ -113,7 +113,7 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 	return (
 		<div class={joinClass(props.palette, styles.field, props.class)} style={props.style}>
 			<label
-				for={field.id()}
+				for={field.id}
 				style={{
 					...area2Style(areas().label),
 					width: props.labelWidth,
@@ -149,7 +149,7 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 				onChange={onChange}
 				getExtra={field.getExtra}
 				setExtra={field.setExtra}
-				isFake={('isFake' in field ? field?.isFake : undefined) as boolean}
+				inForm={field.inForm}
 				isolation={('isolation' in props ? props.isolation : undefined) as boolean}
 			>
 				{props.children}

@@ -19,7 +19,7 @@ describe('Field', () => {
 		});
 
 		expect(result).toBeDefined();
-		expect(result?.isFake).toBe(true);
+		expect(result?.inForm).toBeFalsy();
 		expect(result?.getValue()).toEqual(5);
 
 		afterAll(cleanup);
@@ -43,7 +43,7 @@ describe('Field', () => {
 		});
 
 		expect(result).toBeDefined();
-		expect(result?.isFake).toBeUndefined();
+		expect(result?.inForm).toBe(true);
 		expect(result?.getValue()).toEqual(5);
 
 		api.setValue({ age: 6, name: '6' });

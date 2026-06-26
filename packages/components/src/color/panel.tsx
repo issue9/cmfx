@@ -49,7 +49,7 @@ export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<string
 	/**
 	 * 指定的颜色拾取面板的类型
 	 */
-	spaces: ReadonlyArray<ColorSpace>;
+	readonly spaces: ReadonlyArray<ColorSpace>;
 }
 
 export interface PanelProps extends Base, RefProps<PanelRef> {

@@ -89,7 +89,7 @@ export function TextArea(props: TextAreaProps): JSX.Element {
 			ref={el => (rootRef = el)}
 		>
 			<textarea
-				id={field.id()}
+				id={field.id}
 				inputMode={props.inputMode}
 				class={joinClass(undefined, styles.textarea, props.rounded ? styles.rounded : '')}
 				tabIndex={props.tabindex}

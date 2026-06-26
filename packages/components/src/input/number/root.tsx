@@ -112,7 +112,7 @@ export function InputNumber(props: InputNumberProps): JSX.Element {
 			style={style2String(field.style, props.style)}
 			palette={props.palette}
 			type="number"
-			id={field.id()}
+			id={field.id}
 			prefix={props.prefix}
 			suffix={suffix}
 			rounded={props.rounded}

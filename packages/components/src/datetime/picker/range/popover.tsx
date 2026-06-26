@@ -125,7 +125,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 				aria-haspopup
 			>
 				<input
-					id={field.id()}
+					id={field.id}
 					readOnly
 					disabled={props.disabled}
 					placeholder={props.placeholder}
