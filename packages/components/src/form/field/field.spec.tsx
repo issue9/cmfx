@@ -5,14 +5,24 @@
 import { renderHook } from '@solidjs/testing-library';
 import { afterAll, describe, expect, test } from 'vitest';
 
-import { initTestEnv, Provider } from '@components/context/options/context.spec';
+import { ComponentTester, initTestEnv, Provider } from '@components/context/options/context.spec';
 import { API } from '@components/form/api';
 import { Form } from '@components/form/form';
-import { useField } from './context';
+import { type FormFieldRef, useField } from './context';
 import { String2DateConverter } from './convert';
 import { Field } from './field';
 
-describe('Field', () => {
+describe('Field', async () => {
+	let ref: FormFieldRef;
+	const ct = await ComponentTester.build('Color.Panel', props => <Field ref={el => (ref = el)} {...props} />);
+
+	test('props', () => ct.testProps());
+
+	test('ref', () => {
+		expect(ref).toBeDefined();
+		expect(ref.root()).toBeInstanceOf(HTMLDivElement);
+	});
+
 	test('notInForm', () => {
 		const { result, cleanup } = renderHook(() => useField({ value: 5 }), {
 			wrapper: props => <Field label="label">{props.children}</Field>,
@@ -21,6 +31,7 @@ describe('Field', () => {
 		expect(result).toBeDefined();
 		expect(result?.inForm).toBeFalsy();
 		expect(result?.getValue()).toEqual(5);
+		expect(result?.fieldRef).toBeDefined();
 
 		afterAll(cleanup);
 	});
@@ -45,6 +56,7 @@ describe('Field', () => {
 		expect(result).toBeDefined();
 		expect(result?.inForm).toBe(true);
 		expect(result?.getValue()).toEqual(5);
+		expect(result?.fieldRef).toBeDefined();
 
 		api.setValue({ age: 6, name: '6' });
 		expect(result?.getValue()).toEqual(6);
@@ -72,6 +84,7 @@ describe('Field', () => {
 		expect(result).toBeDefined();
 		expect(result?.inForm).toBe(true);
 		expect(result?.getValue()).toEqual(new Date('1970-01-02'));
+		expect(result?.fieldRef).toBeDefined();
 
 		api.setValue({ biritday: '1980-01-02', name: '6' });
 		expect(result?.getValue()).toEqual(new Date('1980-01-02'));

@@ -6,10 +6,18 @@ import equal from 'fast-deep-equal';
 import type { Context, JSX, ParentProps } from 'solid-js';
 import { createContext, createEffect, createSignal, createUniqueId, splitProps, untrack, useContext } from 'solid-js';
 
-import type { ChangeFunc, StyleProps, ValueProps } from '@components/base';
+import type { BaseRef, ChangeFunc, StyleProps, ValueProps } from '@components/base';
 import type { FormFieldAccessor } from '@components/form/api';
 
-export type FormFieldContext<T> = FormFieldAccessor<T> & StyleProps;
+export type FormFieldRef = BaseRef<HTMLDivElement>;
+
+export type FormFieldContext<T> = FormFieldAccessor<T> &
+	StyleProps & {
+		/**
+		 * 调用 {@link FieldProvider} 组件的 {@link FormField}
+		 */
+		fieldRef?: FormFieldRef;
+	};
 
 // inited 表示该上下文是否已经调用 useField 初始化过，这样可以防止多次调用 useField 多次注册 onChange 事件。
 type FieldContextWithInited<T> = FormFieldContext<T> & { inited?: boolean };
@@ -26,6 +34,9 @@ export type FieldProviderProps<T> = ParentProps<
 	  }
 >;
 
+/**
+ * 提供一个表单字段的上下文，用于在表单内部的组件获取表单字段的关联属性。
+ */
 export function FieldProvider<T>(props: FieldProviderProps<T>): JSX.Element {
 	const [, val] = splitProps(props, ['children', 'isolation']);
 

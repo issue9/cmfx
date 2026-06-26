@@ -49,6 +49,7 @@ describe('FieldProvider', async () => {
 
 		expect(result).toBeDefined();
 		expect(result.inForm).toBeFalsy();
+		expect(result?.fieldRef).toBeUndefined();
 
 		afterAll(cleanup);
 	});
@@ -63,6 +64,7 @@ describe('FieldProvider', async () => {
 
 		expect(result).toBeDefined();
 		expect(result?.inForm).toBe(true);
+		expect(result?.fieldRef).toBeUndefined();
 
 		expect(result?.id).toBeDefined();
 		expect(result?.name).toEqual('age');

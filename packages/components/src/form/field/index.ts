@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { FormFieldContext } from './context';
+export type { FormFieldContext, FormFieldRef } from './context';
 export { FieldProvider, useField } from './context';
 export {
 	Array2StringConverter,
@@ -11,5 +11,5 @@ export {
 	String2DateConverter,
 } from './convert';
 export type { FormDataProps } from './data';
-export type { FormFieldProps, FormFieldRef } from './field';
+export type { FormFieldProps } from './field';
 export { Field } from './field';
