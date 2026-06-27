@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 			textarea: 'textarea',
 		},
 		submit: async () => ({ ok: false, status: 500, body: { type: '500', title: '请求未处理', status: 500 } }),
-		onProblem: p => Notify.notify('error', p.title),
+		onProblem: p => Notify.notify('error', p?.title),
 	});
 
 	return (

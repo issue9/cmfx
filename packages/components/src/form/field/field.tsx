@@ -76,7 +76,7 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 		props,
 	);
 
-	const areas = createMemo(() => calcAreas(props.layout!, props.feedback));
+	const areas = createMemo(() => calcAreas(props.layout!, props.feedback, !!props.label));
 
 	// 如果未指定 name 属性，无法定位判断哪个字段，直接创建一个假的对象
 	const field = props.name ? form!.api.createFieldAccessor(props.name) : createFakeField();
@@ -124,17 +124,21 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 				}
 			}}
 		>
-			<label
-				for={field.id}
-				style={{
-					...area2Style(areas().label),
-					width: props.labelWidth,
-					'text-align': props.labelAlign,
-					cursor: 'default',
-				}}
-			>
-				{props.label}
-			</label>
+			<Show when={areas().label}>
+				{c => (
+					<label
+						for={field.id}
+						style={{
+							...area2Style(c()),
+							width: props.labelWidth,
+							'text-align': props.labelAlign,
+							cursor: 'default',
+						}}
+					>
+						{props.label}
+					</label>
+				)}
+			</Show>
 
 			<Show when={areas().help}>
 				{h => (

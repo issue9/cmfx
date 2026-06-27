@@ -24,7 +24,7 @@ export type ChoiceOption<T extends AvailableEnumType = string> = Menu.MenuItem<T
 
 export type ChoiceOptions<T extends AvailableEnumType = string> = Array<ChoiceOption<T>>;
 
-interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps<ChoiceRef> {
+interface Base<T extends AvailableEnumType = string> extends BaseProps, Form.DataProps, RefProps<ChoiceRef> {
 	placeholder?: string;
 
 	/**
@@ -46,20 +46,14 @@ interface Base<T extends AvailableEnumType = string> extends BaseProps, RefProps
 	closable?: boolean;
 }
 
-export interface ChoiceMultipleProps<T extends AvailableEnumType = string>
-	extends Form.DataProps,
-		ValueProps<Array<T>>,
-		Base<T> {
+export interface ChoiceMultipleProps<T extends AvailableEnumType = string> extends ValueProps<Array<T>>, Base<T> {
 	/**
 	 * 是否多选
 	 */
 	multiple: true;
 }
 
-export interface ChoiceSingleProps<T extends AvailableEnumType = string>
-	extends Form.DataProps,
-		ValueProps<T>,
-		Base<T> {
+export interface ChoiceSingleProps<T extends AvailableEnumType = string> extends ValueProps<T>, Base<T> {
 	/**
 	 * 是否多选
 	 */
