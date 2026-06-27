@@ -5,18 +5,19 @@
 import type { Converter, Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
 import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
-import { type BaseProps, type ChangeFunc, joinClass } from '@components/base';
+import { type BaseProps, type ChangeFunc, joinClass, type RefProps } from '@components/base';
 import { ContextNotFoundError } from '@components/context';
 import type { FormFieldAccessor } from '@components/form/api';
 import { type CommonProps, useForm } from '@components/form/form';
 import { area2Style, calcAreas } from './area';
-import { createFakeField, FieldProvider } from './context';
+import { createFakeField, FieldProvider, type FormFieldRef } from './context';
 import styles from './style.module.css';
 
 export interface FormFieldProps<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>
 	extends CommonProps,
 		BaseProps,
-		ParentProps {
+		ParentProps,
+		RefProps<FormFieldRef> {
 	/**
 	 * 字段标签
 	 *
@@ -110,10 +111,21 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 			: field.onChange
 	) as FormFieldAccessor<F>['onChange'];
 
+	let ref: FormFieldRef | undefined;
+
 	return (
-		<div class={joinClass(props.palette, styles.field, props.class)} style={props.style}>
+		<div
+			class={joinClass(props.palette, styles.field, props.class)}
+			style={props.style}
+			ref={el => {
+				ref = { root: () => el };
+				if (props.ref) {
+					props.ref(ref);
+				}
+			}}
+		>
 			<label
-				for={field.id()}
+				for={field.id}
 				style={{
 					...area2Style(areas().label),
 					width: props.labelWidth,
@@ -149,8 +161,9 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 				onChange={onChange}
 				getExtra={field.getExtra}
 				setExtra={field.setExtra}
-				isFake={('isFake' in field ? field?.isFake : undefined) as boolean}
+				inForm={field.inForm}
 				isolation={('isolation' in props ? props.isolation : undefined) as boolean}
+				fieldRef={ref}
 			>
 				{props.children}
 			</FieldProvider>

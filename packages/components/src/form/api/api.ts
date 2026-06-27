@@ -266,8 +266,9 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 		};
 
 		return {
-			id: () => id,
-			name: () => name as string,
+			id: id,
+			name: name as string,
+			inForm: true,
 
 			getError(): string | undefined {
 				return parent.getError(name);

@@ -158,7 +158,7 @@ export function Slider(props: SliderProps): JSX.Element {
 					}
 				}}
 				onwheel={wheel}
-				name={field.name()}
+				name={field.name}
 				onChange={e => {
 					if (!props.readonly && !props.disabled) {
 						const v = parseFloat(e.target.value);

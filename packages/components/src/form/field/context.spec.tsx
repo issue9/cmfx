@@ -48,7 +48,8 @@ describe('FieldProvider', async () => {
 		});
 
 		expect(result).toBeDefined();
-		expect(result.isFake).toBe(true);
+		expect(result.inForm).toBeFalsy();
+		expect(result?.fieldRef).toBeUndefined();
 
 		afterAll(cleanup);
 	});
@@ -62,10 +63,11 @@ describe('FieldProvider', async () => {
 		});
 
 		expect(result).toBeDefined();
-		expect(result?.isFake).not.toBe(false);
+		expect(result?.inForm).toBe(true);
+		expect(result?.fieldRef).toBeUndefined();
 
-		expect(result?.id()).toBeDefined();
-		expect(result?.name()).toEqual('age');
+		expect(result?.id).toBeDefined();
+		expect(result?.name).toEqual('age');
 
 		expect(result?.getValue()).toEqual(20);
 		result?.setValue(25);
@@ -96,8 +98,8 @@ describe('FieldProvider', async () => {
 
 		expect(result).toBeDefined();
 
-		expect(result?.id()).toBeDefined();
-		expect(result?.name()).toEqual('name');
+		expect(result?.id).toBeDefined();
+		expect(result?.name).toEqual('name');
 
 		expect(result?.getValue()).toBeUndefined();
 		result?.setValue('f2');
@@ -120,9 +122,10 @@ describe('createFakeField', () => {
 		changeCount++;
 	});
 
-	test('id/name', () => {
+	test('id/name/inForm', () => {
 		expect(ctx.name).toBeDefined();
-		expect(ctx.id()).toBeDefined();
+		expect(ctx.id).toBeDefined();
+		expect(ctx.inForm).toBeFalsy();
 	});
 
 	test('value', () => {

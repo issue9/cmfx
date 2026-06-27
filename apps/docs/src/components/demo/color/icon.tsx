@@ -16,7 +16,8 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
-	const [F, Field] = Form.create({ initValue: { a: 'oklch(1% 0.3 100)' } });
+	const api = new Form.API({ initValue: { a: 'oklch(1% 0.3 100)' } })
+	type Type = { a: string };
 
 	return (
 		<>
@@ -28,8 +29,8 @@ export default function (props: MountProps): JSX.Element {
 				<Layout />
 			</Portal>
 
-			<F>
-				<Field name="a" label="picker label" layout={layout()}>
+			<Form api={api}>
+				<Form.Field<Type> name="a" label="picker label" layout={layout()}>
 					<Color
 						popover="hover"
 						readonly={readonly()}
@@ -40,8 +41,8 @@ export default function (props: MountProps): JSX.Element {
 					>
 						<IconPerson />
 					</Color>
-				</Field>
-			</F>
+				</Form.Field>
+			</Form>
 		</>
 	);
 }

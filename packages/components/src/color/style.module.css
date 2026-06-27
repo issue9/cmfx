@@ -81,22 +81,4 @@
 			}
 		}
 	}
-
-	.activator {
-		@apply rounded-sm cursor-pointer;
-		@apply overflow-clip;
-		@apply cursor-pointer;
-	}
-
-	.activator.readonly {
-		@apply cursor-default pointer-events-none;
-	}
-
-	.activator.rounded {
-		@apply rounded-full;
-	}
-
-	.activator.disabled {
-		@apply pointer-events-none;
-	}
 }

@@ -25,10 +25,6 @@
 		}
 	}
 
-	.container.rounded {
-		@apply rounded-full!;
-	}
-
 	.week {
 		@apply px-2 pb-2;
 

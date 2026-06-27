@@ -4,8 +4,9 @@
 
 import type { Flattenable } from '@cmfx/core';
 
-import { API } from './api';
+import { API, type FormFieldAccessor } from './api';
 import { create } from './create';
+import type { FormDataProps, FormFieldContext, FormFieldProps, FormFieldRef } from './field';
 import {
 	Array2StringConverter,
 	convert,
@@ -15,7 +16,9 @@ import {
 	String2DateConverter,
 	useField,
 } from './field';
+import type { FormLabelAlignment, FormMessageProps, FormProps, FormRef } from './form';
 import { Button, Form as C, labelAlignments, Message, Reset, Submit, useForm } from './form';
+import { type FormPopoverProps, type FormPopoverRef, type FormPopoverType, formPopoverTypes, Popover } from './popover';
 
 export const Form = Object.assign(C, {
 	Button,
@@ -33,15 +36,24 @@ export const Form = Object.assign(C, {
 	Number2DateConverter,
 	Array2StringConverter,
 	String2DateConverter,
+	Popover,
+	popoverTypes: formPopoverTypes,
 });
 
 export namespace Form {
-	export type FieldAccessor<T> = import('./api').FormFieldAccessor<T>;
-	export type Props<T extends Flattenable, R = unknown, P = never> = import('./form').FormProps<T, R, P>;
-	export type Ref = import('./form').FormRef;
-	export type LabelAlignment = import('./form').FormLabelAlignment;
-	export type MessageProps = import('./form').FormMessageProps;
-	export type FieldContext<T> = import('./field').FormFieldContext<T>;
-	export type DataProps = import('./field').FormDataProps;
-	export type FieldProps<T extends Flattenable> = import('./field').FormFieldProps<T>;
+	export type FieldAccessor<T> = FormFieldAccessor<T>;
+
+	export type Props<T extends Flattenable, R = unknown, P = never> = FormProps<T, R, P>;
+	export type Ref = FormRef;
+	export type LabelAlignment = FormLabelAlignment;
+	export type MessageProps = FormMessageProps;
+
+	export type FieldContext<T> = FormFieldContext<T>;
+	export type FieldRef = FormFieldRef;
+	export type DataProps = FormDataProps;
+	export type FieldProps<T extends Flattenable> = FormFieldProps<T>;
+
+	export type PopoverProps<T> = FormPopoverProps<T>;
+	export type PopoverRef = FormPopoverRef;
+	export type PopoverType = FormPopoverType;
 }

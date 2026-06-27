@@ -114,7 +114,7 @@ export function InputText(props: InputTextProps): JSX.Element {
 		return (
 			<InputBase
 				{...p}
-				id={field.id()}
+				id={field.id}
 				prefix={props.prefix}
 				suffix={props.suffix}
 				rounded={props.rounded}

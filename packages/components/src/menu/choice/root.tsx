@@ -106,7 +106,7 @@ export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<
 	const trigger = (
 		<div class={joinClass(undefined, styles.activator, props.rounded ? styles.rounded : '')}>
 			<input
-				id={field.id()}
+				id={field.id}
 				tabIndex={props.tabindex}
 				class="peer hidden"
 				disabled={props.disabled}

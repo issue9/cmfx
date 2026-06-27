@@ -15,7 +15,7 @@ export interface FormFieldAccessor<T> {
 	/**
 	 * 字段的唯一标识
 	 */
-	id(): string;
+	readonly id: string;
 
 	/**
 	 * 字段的名称
@@ -23,7 +23,12 @@ export interface FormFieldAccessor<T> {
 	 * @remarks
 	 * 在某些场合下可能用到，比如可能会用在 radio group 中 input 的 name 属性。
 	 */
-	name(): string;
+	readonly name: string;
+
+	/**
+	 * 当前接口操作的值是否是某个表单中的值
+	 */
+	readonly inForm?: boolean;
 
 	/**
 	 * 获取当前元素的错误信息，如果没有错误则返回 undefined

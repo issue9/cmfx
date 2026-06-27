@@ -6,20 +6,17 @@ import equal from 'fast-deep-equal';
 import type { Context, JSX, ParentProps } from 'solid-js';
 import { createContext, createEffect, createSignal, createUniqueId, splitProps, untrack, useContext } from 'solid-js';
 
-import type { ChangeFunc, StyleProps, ValueProps } from '@components/base';
+import type { BaseRef, ChangeFunc, StyleProps, ValueProps } from '@components/base';
 import type { FormFieldAccessor } from '@components/form/api';
-import { useForm } from '../form';
+
+export type FormFieldRef = BaseRef<HTMLDivElement>;
 
 export type FormFieldContext<T> = FormFieldAccessor<T> &
 	StyleProps & {
 		/**
-		 * 表示该上下文环境的值是否真的是从 <Form.Field> 中获取的
-		 *
-		 * @remarks
-		 * 当 Form.Field 未指定 name 属性时，会创建一个假的对象供 Form.useField 返回。
-		 * 通过当前属性可判断该对象是否真的源自 Form.Field.name 指定的数据对象。
+		 * 调用 {@link FieldProvider} 组件的 {@link FormField}
 		 */
-		isFake?: boolean;
+		fieldRef?: FormFieldRef;
 	};
 
 // inited 表示该上下文是否已经调用 useField 初始化过，这样可以防止多次调用 useField 多次注册 onChange 事件。
@@ -37,6 +34,9 @@ export type FieldProviderProps<T> = ParentProps<
 	  }
 >;
 
+/**
+ * 提供一个表单字段的上下文，用于在表单内部的组件获取表单字段的关联属性。
+ */
 export function FieldProvider<T>(props: FieldProviderProps<T>): JSX.Element {
 	const [, val] = splitProps(props, ['children', 'isolation']);
 
@@ -83,8 +83,7 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FormFieldContex
 		return ctx;
 	}
 
-	const f = useForm();
-	if (props && !f) {
+	if (props && !ctx.inForm) {
 		createEffect(() => {
 			ctx.setValue(props.value);
 		});
@@ -133,8 +132,9 @@ export function createFakeField<T>(val?: T, onChange?: ChangeFunc<T | undefined>
 	};
 
 	return {
-		id: () => id,
-		name: () => id,
+		id,
+		name: id,
+
 		reset: (silent?: boolean) => setValue(structuredClone(preset), silent),
 
 		setError: () => {},
@@ -146,6 +146,5 @@ export function createFakeField<T>(val?: T, onChange?: ChangeFunc<T | undefined>
 
 		getExtra: extra,
 		setExtra: setExtra,
-		isFake: true,
 	};
 }

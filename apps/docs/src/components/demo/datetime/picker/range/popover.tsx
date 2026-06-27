@@ -22,6 +22,8 @@ export default function (props: MountProps): JSX.Element {
 	const [Shortcut, shortcut] = boolSelector('shortcuts(range)');
 	const [week, setWeek] = createSignal<Week>(0);
 	const [range, setRange] = createSignal<DateRangePicker.ValueType>();
+	const [Time, time] = boolSelector('time');
+	const [Rounded, rounded] = boolSelector('rounded');
 
 	return (
 		<>
@@ -33,6 +35,8 @@ export default function (props: MountProps): JSX.Element {
 				<Minmax />
 				<Weeks />
 				<Shortcut />
+				<Time />
+				<Rounded />
 				<input
 					type="number"
 					min="0"
@@ -63,6 +67,8 @@ export default function (props: MountProps): JSX.Element {
 
 			<DateRangePicker
 				popover="click"
+				rounded={rounded()}
+				time={time()}
 				min={minmax() ? min : undefined}
 				max={minmax() ? max : undefined}
 				shortcuts={shortcut()}
@@ -81,6 +87,8 @@ export default function (props: MountProps): JSX.Element {
 
 			<DateRangePicker
 				popover="hover"
+				rounded={rounded()}
+				time={!time()}
 				min={minmax() ? min : undefined}
 				max={minmax() ? max : undefined}
 				shortcuts={shortcut()}
@@ -90,7 +98,6 @@ export default function (props: MountProps): JSX.Element {
 				readonly={readonly()}
 				disabled={disabled()}
 				weekBase={week()}
-				time
 				value={range()}
 				onChange={val => {
 					setRange(val);

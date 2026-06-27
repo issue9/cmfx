@@ -36,7 +36,7 @@
 		}
 	}
 
-	.activator-container {
+	.container {
 		@apply rounded-md border border-palette-border flex items-center px-2 py-1 cursor-pointer outline-none;
 		@apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
 		@apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;
@@ -49,11 +49,7 @@
 		}
 	}
 
-	.activator-container:focus {
+	.container:focus {
 		@apply border-palette-border-focused;
-	}
-
-	.activator-container.rounded {
-		@apply rounded-full!;
 	}
 }

@@ -114,7 +114,7 @@ export function RadioGroup<T extends AvailableEnumType = string>(props: RadioGro
 						checked={item.value === field.getValue()}
 						rounded={props.rounded}
 						value={field.getValue()}
-						name={field.name()}
+						name={field.name}
 						onChange={() => {
 							if (!props.readonly && !props.disabled && field.getValue() !== item.value) {
 								field.setValue(item.value);
