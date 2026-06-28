@@ -5,7 +5,8 @@
 import { adjustPopoverPosition } from '@cmfx/core';
 import { createEffect, createSignal, type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, classList, joinClass, type RefProps, type ValueProps } from '@components/base';
+import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
+import { classList, joinClass, style2String } from '@components/base';
 import { type FormDataProps, type FormFieldContext, useField } from '@components/form/field';
 import { useForm } from '@components/form/form';
 import styles from './style.module.css';
@@ -149,8 +150,8 @@ export function Popover<T>(props: FormPopoverProps<T>): JSX.Element {
 
 	return (
 		<div
-			class={joinClass(props.palette, props.class)}
-			style={props.style}
+			class={joinClass(props.palette, field.class, props.class)}
+			style={style2String(field.style, props.style)}
 			ref={el => {
 				if (props.ref) {
 					props.ref({

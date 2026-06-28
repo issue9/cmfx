@@ -5,6 +5,7 @@
 import { type JSX, mergeProps, splitProps } from 'solid-js';
 
 import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
+import { joinClass, style2String } from '@components/base';
 import { CommonPanel, type CommonProps, presetProps } from '@components/datetime/picker/internal';
 import type { Week } from '@components/datetime/utils';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
@@ -68,17 +69,18 @@ export interface PanelProps extends Base, RefProps<PanelRef> {
  * 日期选择的面板
  */
 export function Panel(props: PanelProps): JSX.Element {
-	props = mergeProps(presetProps as PanelProps, props);
 	const form = Form.useForm();
-	props = mergeProps({ tabindex: 0 }, form, props);
+	props = mergeProps(presetProps as PanelProps, { tabindex: 0 }, form, props);
 
 	const field = Form.useField(props, true);
-	const [_, p] = splitProps(props, ['ref', 'onChange', 'value']);
+	const [_, panelProps] = splitProps(props, ['ref', 'onChange', 'value', 'class', 'style']);
 	let time: Date | undefined = field.getValue();
 
 	return (
 		<CommonPanel
-			{...p}
+			{...panelProps}
+			class={joinClass(undefined, field.class, props.class)}
+			style={style2String(field.style, props.style)}
 			initTime={time}
 			onTimeChange={e => {
 				const old = field.getValue();

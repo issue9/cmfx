@@ -16,7 +16,7 @@ import {
 	splitProps,
 } from 'solid-js';
 
-import { type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
+import { type BaseRef, joinClass, type RefProps, style2String, type ValueProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import type { CommonProps, CommonRef } from '@components/datetime/picker/internal';
@@ -184,8 +184,8 @@ export function Panel(props: PanelProps): JSX.Element {
 		<fieldset
 			disabled={props.disabled}
 			popover={props.popover}
-			class={joinClass(props.palette, styles.range, props.class)}
-			style={props.style}
+			class={joinClass(props.palette, styles.range, field.class, props.class)}
+			style={style2String(field.style, props.style)}
 			ref={el => {
 				if (props.ref) {
 					props.ref({ root: () => el });
