@@ -37,10 +37,7 @@ export interface UploadRef extends BaseRef<HTMLInputElement> {
 	upload(): Promise<Array<string> | undefined>;
 }
 
-export interface UploadProps
-	extends Omit<Form.DataProps, 'rounded' | 'value' | 'onChange'>,
-		ValueProps<Array<string>>,
-		BaseProps {
+export interface UploadProps extends Omit<Form.DataProps, 'rounded'>, ValueProps<Array<string>>, BaseProps {
 	/**
 	 * 上传文件在表单中的名称
 	 */
