@@ -71,9 +71,9 @@ export interface FormPopoverProps<T>
 	activatorClass?: string;
 
 	/**
-	 * 格式化显示值的函数
+	 * 触发元素的内容
 	 */
-	readonly formatter: (f: FormFieldContext<T>) => JSX.Element;
+	readonly activator: (f: FormFieldContext<T>) => JSX.Element;
 }
 
 /**
@@ -198,7 +198,7 @@ export function Popover<T>(props: FormPopoverProps<T>): JSX.Element {
 				}}
 				style={props.style}
 			>
-				{props.formatter(field)}
+				{props.activator(field)}
 			</div>
 			{props.children}
 		</div>

@@ -80,7 +80,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 			value={props.value}
 			onChange={props.onChange}
 			popover={() => panelRef.root()}
-			activatorClass={joinClass(undefined, styles.container, props.activatorClass)}
+			activatorClass={joinClass(undefined, styles.activator, props.activatorClass)}
 			type={props.popover}
 			rounded={props.rounded}
 			readonly={props.readonly}
@@ -94,7 +94,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 					props.ref(el);
 				}
 			}}
-			formatter={f => {
+			activator={f => {
 				return (
 					<>
 						<input

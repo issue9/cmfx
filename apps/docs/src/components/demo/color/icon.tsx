@@ -15,6 +15,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+	const [Coloring, coloring] = boolSelector('coloring');
 
 	type Type = { a: string };
 	const api = new Form.API<Type>({ initValue: { a: 'oklch(1% 0.3 100)' } });
@@ -27,6 +28,7 @@ export default function (props: MountProps): JSX.Element {
 				<Readonly />
 				<Rounded />
 				<Layout />
+				<Coloring />
 			</Portal>
 
 			<Form api={api}>
@@ -37,6 +39,8 @@ export default function (props: MountProps): JSX.Element {
 						disabled={disabled()}
 						palette={palette()}
 						rounded={rounded()}
+						coloring={coloring()}
+						placeholder="placeholder"
 						spaces={[new Color.TailwindVarsSpace(), new Color.OKLCHSpace(), new Color.HSLSpace(), new Color.RGBSpace()]}
 					>
 						<IconPerson />

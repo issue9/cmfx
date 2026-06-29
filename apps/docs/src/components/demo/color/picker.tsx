@@ -13,6 +13,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+	const [Coloring, coloring] = boolSelector('coloring');
 
 	const [color, setColor] = createSignal<string | undefined>('oklch(1% 0.3 100)');
 
@@ -23,6 +24,7 @@ export default function (props: MountProps): JSX.Element {
 				<Disabled />
 				<Readonly />
 				<Rounded />
+				<Coloring />
 			</Portal>
 
 			<Color
@@ -34,6 +36,7 @@ export default function (props: MountProps): JSX.Element {
 				value={color()}
 				onChange={v => setColor(v)}
 				rounded={rounded()}
+				coloring={coloring()}
 				activatorClass="border border-palette-border min-w-8 min-h-8"
 				spaces={[new Color.TailwindVarsSpace(), new Color.OKLCHSpace(), new Color.HSLSpace(), new Color.RGBSpace()]}
 			/>

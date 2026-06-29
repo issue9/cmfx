@@ -12,7 +12,7 @@ describe('Popover', async () => {
 	const ct = await ComponentTester.build('Popover', props => (
 		<Popover
 			popover={() => document.querySelector('p')!}
-			formatter={() => <div>formatter</div>}
+			activator={() => <div>formatter</div>}
 			type="click"
 			{...props}
 			ref={el => (ref = el)}

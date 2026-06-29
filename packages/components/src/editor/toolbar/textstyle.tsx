@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { adjustPopoverPosition } from '@cmfx/core';
 import { createEffect, createSignal, type JSX, on, onCleanup, onMount } from 'solid-js';
 import IconClose from '~icons/material-symbols/cancel-rounded';
 import IconColor from '~icons/material-symbols/colors-rounded';
@@ -24,7 +25,7 @@ import type { Props } from './types';
 export function Color(props: Props): JSX.Element {
 	const l = useLocale();
 
-	const [val, setVal] = createSignal<string | undefined>('color', props.editor.getAttributes('textStyle').color);
+	const [val, setVal] = createSignal<string | undefined>(props.editor.getAttributes('textStyle').color);
 	let isSelectUpdate = false; // 是否来自 selectionUpdate 事件，如果是来自该事件，不需要执行 setColor 操作
 
 	createEffect(
@@ -54,7 +55,7 @@ export function Color(props: Props): JSX.Element {
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
 	onCleanup(() => props.editor.off('selectionUpdate', selectionUpdate));
 
-	let picker: XColor.Ref<true>;
+	let picker: XColor.Ref<false>;
 	return (
 		<Button
 			title={l.t('_c.editor.textColor')}
@@ -64,13 +65,17 @@ export function Color(props: Props): JSX.Element {
 			checked={!!val()}
 			onclick={e => {
 				if (e.currentTarget === e.target) {
-					picker.showPopover();
+					picker.root().togglePopover();
+					adjustPopoverPosition(picker.root(), e.currentTarget.getBoundingClientRect());
 				}
 			}}
 		>
+			<IconColor style={{ color: val() }} />
 			<XColor
-				popover="click"
-				ref={el => (picker = el)}
+				ref={el => {
+					el.root().popover = 'auto';
+					picker = el;
+				}}
 				value={val()}
 				spaces={[
 					new XColor.TailwindVarsSpace(),
@@ -81,9 +86,7 @@ export function Color(props: Props): JSX.Element {
 				]}
 				activatorClass={styles['color-activator']}
 				onChange={v => setVal(v)}
-			>
-				<IconColor />
-			</XColor>
+			/>
 		</Button>
 	);
 }
@@ -127,7 +130,7 @@ export function BackgroundColor(props: Props): JSX.Element {
 	onMount(() => props.editor.on('selectionUpdate', selectionUpdate));
 	onCleanup(() => props.editor.off('selectionUpdate', selectionUpdate));
 
-	let picker: XColor.Ref<true>;
+	let picker: XColor.Ref;
 	return (
 		<Button
 			title={l.t('_c.editor.backgroundColor')}
@@ -137,13 +140,17 @@ export function BackgroundColor(props: Props): JSX.Element {
 			checked={!!val()}
 			onclick={e => {
 				if (e.currentTarget === e.target) {
-					picker.showPopover();
+					picker.root().togglePopover();
+					adjustPopoverPosition(picker.root(), e.currentTarget.getBoundingClientRect());
 				}
 			}}
 		>
+			<IconBackgroundColor style={{ color: val() }} />
 			<XColor
-				popover="click"
-				ref={el => (picker = el)}
+				ref={el => {
+					el.root().popover = 'auto';
+					picker = el;
+				}}
 				value={val()}
 				onChange={v => setVal(v)}
 				spaces={[
@@ -154,9 +161,7 @@ export function BackgroundColor(props: Props): JSX.Element {
 					new XColor.WebSafeSpace(),
 				]}
 				activatorClass={styles['color-activator']}
-			>
-				<IconBackgroundColor />
-			</XColor>
+			/>
 		</Button>
 	);
 }
