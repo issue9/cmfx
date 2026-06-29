@@ -10,7 +10,7 @@ import { paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
-	const [val, setVal] = createSignal();
+	const [val, setVal] = createSignal<string>();
 
 	return (
 		<>

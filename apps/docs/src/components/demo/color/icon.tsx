@@ -16,8 +16,8 @@ export default function (props: MountProps): JSX.Element {
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
-	const api = new Form.API({ initValue: { a: 'oklch(1% 0.3 100)' } })
 	type Type = { a: string };
+	const api = new Form.API<Type>({ initValue: { a: 'oklch(1% 0.3 100)' } });
 
 	return (
 		<>

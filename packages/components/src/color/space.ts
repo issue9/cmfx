@@ -33,8 +33,8 @@ export interface ColorSpace {
 	/**
 	 * 实现实例的面板
 	 *
-	 * @param s - 访问器函数，用于获取颜色值；
-	 * @param parent - 父元素，用于计算颜色变量的真实值；
+	 * @param props.s - 访问器函数，用于获取颜色值；
+	 * @param props.parent - 父元素，用于计算颜色变量的真实值；
 	 */
-	panel(s: Accessor, parent: HTMLElement): JSX.Element;
+	panel(props: { s: Accessor; parent: HTMLElement }): JSX.Element;
 }

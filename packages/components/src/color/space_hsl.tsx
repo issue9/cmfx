@@ -55,13 +55,13 @@ export class HSLSpace implements ColorSpace {
 		return value.startsWith('hsl(');
 	}
 
-	panel(access: Accessor, parent: HTMLElement): JSX.Element {
+	panel(props: { s: Accessor; parent: HTMLElement }): JSX.Element {
 		let hRef: Slider.Ref;
 		let sRef: Slider.Ref;
 		let lRef: Slider.Ref;
 		let aRef: Slider.Ref;
 
-		const c = new Color(var2Color(parent, untrack(access.getValue)) ?? 'hsl(180 50 50)').to('hsl');
+		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'hsl(180 50 50)').to('hsl');
 		const [F, Field, api] = Form.create<HSL>({
 			initValue: { h: this.#h ?? c.h, s: this.#s ?? c.s, l: this.#l ?? c.l, a: this.#a ?? c.a },
 		});
@@ -72,7 +72,7 @@ export class HSLSpace implements ColorSpace {
 			const ss = store.s;
 			const ll = store.l;
 			const aa = store.a;
-			access.setValue(fmtHSL(hh, ss, ll, aa), true);
+			props.s.setValue(fmtHSL(hh, ss, ll, aa));
 
 			hRef.input().style.background = `linear-gradient(to right, ${fmtHSL(0, ss, ll, aa)},
                 ${fmtHSL(20, ss, ll, aa)}, ${fmtHSL(40, ss, ll, aa)}, ${fmtHSL(60, ss, ll, aa)},

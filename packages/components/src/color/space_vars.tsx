@@ -302,7 +302,7 @@ export class TailwindVarsSpace implements ColorSpace {
 		return vars.includes(value);
 	}
 
-	panel(access: Accessor, _: HTMLElement): JSX.Element {
+	panel(props: { s: Accessor; parent: HTMLElement }): JSX.Element {
 		return (
 			<div class={styles.vars}>
 				<For each={vars}>
@@ -310,7 +310,7 @@ export class TailwindVarsSpace implements ColorSpace {
 						const cls = joinClass(
 							undefined,
 							styles.color,
-							v === access.getValue() ? styles.selected : '',
+							v === props.s.getValue() ? styles.selected : '',
 							this.#disabled.includes(v) ? styles.disabled : '',
 						);
 
@@ -324,7 +324,7 @@ export class TailwindVarsSpace implements ColorSpace {
 									if (this.#disabled.includes(v)) {
 										return;
 									}
-									access.setValue(v);
+									props.s.setValue(v);
 								}}
 							/>
 						);

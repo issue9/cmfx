@@ -35,18 +35,18 @@ export class PresetSpace implements ColorSpace {
 		return this.#values.includes(value);
 	}
 
-	panel(access: Accessor, _: HTMLElement): JSX.Element {
+	panel(props: { s: Accessor; parent: HTMLElement }): JSX.Element {
 		return (
 			<div class={styles.presets}>
 				<For each={this.#values}>
 					{v => (
 						<button
 							type="button"
-							class={joinClass(undefined, styles.color, access.getValue() === v ? styles.selected : '')}
+							class={joinClass(undefined, styles.color, props.s.getValue() === v ? styles.selected : '')}
 							style={{ background: v }}
 							title={v}
 							onclick={() => {
-								access.setValue(v);
+								props.s.setValue(v);
 							}}
 						/>
 					)}

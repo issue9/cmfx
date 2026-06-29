@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
-import { createSignal, type JSX, mergeProps, Show, untrack } from 'solid-js';
+import { createSignal, type JSX, mergeProps, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 import IconClose from '~icons/material-symbols/cancel';
 
@@ -68,44 +68,34 @@ export function Panel(props: PanelProps): JSX.Element {
 		}
 	}
 
-	const field = Form.useField<string>(props, true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
 	const l = useLocale();
 
-	const [id, setID] = createSignal(props.spaces[0].id);
-	const choiceOptions: Choice.Options<string> = props.spaces.map(space => ({
-		type: 'item',
-		value: space.id,
-		label: l.t(space.localeID),
-	}));
+	const [space, setSpace] = createSignal<string | undefined>(props.spaces[0].id);
 
-	const changeID = (v?: string) => {
-		if (v && v !== untrack(id)) {
-			setID(v);
-		}
-	};
-
+	const field = Form.useField<string>(props, true);
 	field.onChange(v => {
 		if (!v) {
 			return;
 		}
 
 		// 当前面板包含了当前选中的值
-		if (props.spaces.find(v => v.id === id())?.include(v)) {
+		if (props.spaces.find(v => v.id === space())?.include(v)) {
 			return;
 		}
 
 		for (const p of props.spaces) {
 			if (p.include(v)) {
-				changeID(p.id);
+				setSpace(p.id);
 				return;
 			}
 		}
 	});
 
 	const [apca, setApca] = createSignal(false);
+
 	let contentRef: HTMLDivElement;
 	let mainRef!: HTMLElement;
 	let clipboardRef: ClipboardAPI.Ref;
@@ -118,7 +108,7 @@ export function Panel(props: PanelProps): JSX.Element {
 				if (props.ref) {
 					props.ref({
 						root: () => el,
-						switchSpace: changeID,
+						switchSpace: setSpace,
 					});
 				}
 			}}
@@ -171,7 +161,7 @@ export function Panel(props: PanelProps): JSX.Element {
 								// 切换到符合当前颜色的拾取色板
 								const picker = props.spaces.find(v => v.include(color));
 								if (picker) {
-									changeID(picker.id);
+									setSpace(picker.id);
 								}
 							}}
 						>
@@ -181,11 +171,23 @@ export function Panel(props: PanelProps): JSX.Element {
 					<Button kind="border" square onclick={() => field.setValue(undefined)}>
 						<IconClose />
 					</Button>
-					<Choice options={choiceOptions} value={id()} onChange={v => changeID(v)} />
+					<Form.FieldProvider isolation>
+						<Choice
+							options={props.spaces.map(s => ({
+								type: 'item',
+								value: s.id,
+								label: l.t(s.localeID),
+							}))}
+							value={space()}
+							onChange={setSpace}
+						/>
+					</Form.FieldProvider>
 				</div>
 			</header>
 
-			<main ref={el => (mainRef = el)}>{props.spaces.find(p => p.id === id())?.panel(field, mainRef)}</main>
+			<main ref={el => (mainRef = el)}>
+				{props.spaces.find(p => p.id === space())?.panel({ s: field, parent: mainRef })}
+			</main>
 		</div>
 	);
 }

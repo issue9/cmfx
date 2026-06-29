@@ -35,7 +35,15 @@ export function Popover(props: PopoverProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
-	const [panelProps, _] = splitProps(props, ['palette', 'wcag', 'spaces', 'value', 'onChange']);
+	const [panelProps, _] = splitProps(props, [
+		'wcag',
+		'spaces',
+		'value',
+		'onChange',
+		'disabled',
+		'readonly',
+		'tabindex',
+	]);
 
 	return (
 		<Form.Popover

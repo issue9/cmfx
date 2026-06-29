@@ -55,13 +55,13 @@ export class OKLCHSpace implements ColorSpace {
 		return value.startsWith('oklch(');
 	}
 
-	panel(access: Accessor, parent: HTMLElement): JSX.Element {
+	panel(props: { s: Accessor; parent: HTMLElement }): JSX.Element {
 		let rl: Slider.Ref;
 		let rc: Slider.Ref;
 		let rh: Slider.Ref;
 		let ra: Slider.Ref;
 
-		const c = new Color(var2Color(parent, untrack(access.getValue)) ?? 'oklch(1 .4 1)').to('oklch');
+		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'oklch(1 .4 1)').to('oklch');
 		const [F, Field, api] = Form.create<OKLCH>({
 			initValue: { l: this.#l ?? c.l, c: this.#c ?? c.c, h: this.#h ?? c.h, a: this.#a ?? c.a },
 		});
@@ -73,7 +73,7 @@ export class OKLCHSpace implements ColorSpace {
 			const cc = store.c;
 			const hh = store.h;
 			const aa = store.a;
-			access.setValue(fmtOKLCH(ll, cc, hh, aa));
+			props.s.setValue(fmtOKLCH(ll, cc, hh, aa));
 
 			rl.input().style.background = `linear-gradient(to right, ${fmtOKLCH(0, cc, hh, aa)},
                         ${fmtOKLCH(0.1, cc, hh, aa)}, ${fmtOKLCH(0.2, cc, hh, aa)}, ${fmtOKLCH(0.3, cc, hh, aa)},

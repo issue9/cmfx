@@ -55,13 +55,13 @@ export class RGBSpace implements ColorSpace {
 		return value.startsWith('rgb(');
 	}
 
-	panel(access: Accessor, parent: HTMLElement): JSX.Element {
+	panel(props: { s: Accessor; parent: HTMLElement }): JSX.Element {
 		let rRef: Slider.Ref;
 		let gRef: Slider.Ref;
 		let bRef: Slider.Ref;
 		let aRef: Slider.Ref;
 
-		const c = new Color(var2Color(parent, untrack(access.getValue)) ?? 'rgb(1 1 1)').to('srgb');
+		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'rgb(1 1 1)').to('srgb');
 		const [F, Field, api] = Form.create<RGB>({
 			initValue: { r: this.#r ?? c.r, g: this.#g ?? c.g, b: this.#b ?? c.b, a: this.#a ?? c.a },
 		});
@@ -91,7 +91,7 @@ export class RGBSpace implements ColorSpace {
 			const gg = store.g;
 			const bb = store.b;
 			const aa = store.a;
-			access.setValue(fmtRGB(rr, gg, bb, aa));
+			props.s.setValue(fmtRGB(rr, gg, bb, aa));
 
 			aRef.input().style.background = `linear-gradient(to right, ${fmtRGB(rr, gg, bb, 0)},
                 ${fmtRGB(rr, gg, bb, 0.1)},${fmtRGB(rr, gg, bb, 0.2)},${fmtRGB(rr, gg, bb, 0.3)},${fmtRGB(rr, gg, bb, 0.4)},
