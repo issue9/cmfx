@@ -24,4 +24,8 @@
 	.activator.disabled {
 		@apply pointer-events-none;
 	}
+
+	.popover {
+		@apply shadow-lg;
+	}
 }

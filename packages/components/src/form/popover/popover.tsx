@@ -107,6 +107,8 @@ export function Popover<T>(props: FormPopoverProps<T>): JSX.Element {
 
 	onMount(() => {
 		props.popover().popover = 'auto';
+		props.popover().classList.add(styles.popover);
+
 		label = field.fieldRef?.root().querySelector(`label[for="${field.id}"]`);
 
 		if (label) {

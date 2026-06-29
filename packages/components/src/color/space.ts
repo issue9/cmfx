@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Converter } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 
 import type { Form } from '@components/form';
@@ -38,3 +39,19 @@ export interface ColorSpace {
 	 */
 	panel(props: { s: Accessor; parent: HTMLElement }): JSX.Element;
 }
+
+class AlphaConverter implements Converter<number | undefined, number> {
+	from(n: number | undefined): number {
+		return n === undefined ? 1 : n;
+	}
+	to(n: number): number | undefined {
+		return n;
+	}
+}
+
+/**
+ * 透明度的转换
+ *
+ * colorjs.io 中对于透明度为 1 的颜色值，会将透明度的值设置为 undefined，此实例就是为了处理该情况的。
+ */
+export const alphaConverter = new AlphaConverter();

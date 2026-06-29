@@ -85,7 +85,7 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 		props.conv
 			? () => {
 					const v = field.getValue();
-					return v ? props.conv!.from(v as Flatten<T>[FlattenKeys<T>] | undefined) : v;
+					return props.conv!.from(v as Flatten<T>[FlattenKeys<T>] | undefined);
 				}
 			: field.getValue
 	) as FormFieldAccessor<F>['getValue'];
@@ -93,7 +93,7 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 	const setValue = (
 		props.conv
 			? (v, silent) => {
-					field.setValue(v ? props.conv!.to(v) : undefined, silent);
+					field.setValue(props.conv!.to(v), silent);
 				}
 			: field.setValue
 	) as FormFieldAccessor<F>['setValue'];

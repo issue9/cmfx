@@ -8,7 +8,7 @@ import { createEffect, type JSX, untrack } from 'solid-js';
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Slider } from '@components/slider';
-import type { Accessor, ColorSpace } from './space';
+import { type Accessor, alphaConverter, type ColorSpace } from './space';
 import { var2Color } from './space_vars';
 import styles from './style.module.css';
 
@@ -146,12 +146,12 @@ export class OKLCHSpace implements ColorSpace {
 					/>
 				</Field>
 
-				<Field label={l.t('_c.color.alpha')} name="a">
+				<Field label={l.t('_c.color.alpha')} name="a" conv={alphaConverter}>
 					<Slider
 						fitHeight
 						ref={el => (ra = el)}
 						disabled={!!this.#a}
-						format={v => `${v ? v.toFixed(2) : 0}`}
+						format={v => `${v === undefined ? 1 : v.toFixed(2)}`}
 						min={0}
 						max={1}
 						step={0.01}
