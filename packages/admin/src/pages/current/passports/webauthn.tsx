@@ -128,7 +128,7 @@ export class Webauthn implements PassportComponents {
 		const l = useLocale();
 		const [rest, handleProblem] = useREST();
 		let dialogRef: Dialog.Ref;
-		let tableRef!: DataTable.Ref<Credential>;
+		let tableRef: DataTable.Ref<Credential>;
 
 		const [load] = DataTable.buildREST<Credential, Query, false>(rest, `/passports/${this.#id}/credentials`);
 
@@ -153,6 +153,7 @@ export class Webauthn implements PassportComponents {
 					<div class="overflow-auto">
 						<DataTable
 							load={load}
+							ref={el => (tableRef = el)}
 							columns={[
 								{ id: 'id', label: l.t('_p.id') },
 								{ id: 'ua', label: l.t('_p.current.ua') },

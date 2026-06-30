@@ -132,7 +132,6 @@ export class Extractor {
 						}
 
 						node = list[0];
-						found = true;
 					}
 				}
 			} else {

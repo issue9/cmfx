@@ -60,7 +60,7 @@ export function classList(
  * @returns 由参数组合的 class 属性值；
  */
 export function joinClass(palette?: Palette, ...cls: Array<string | undefined | null>): string | undefined {
-	if (cls) {
+	if (cls.length > 0) {
 		cls = cls.filter(v => v !== undefined && v !== '' && v !== null);
 	}
 

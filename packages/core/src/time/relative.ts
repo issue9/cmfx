@@ -27,14 +27,13 @@ export function nano2IntlRelative(nano: number): [number, Intl.RelativeTimeForma
 
 	for (let i = 1; i < nameValues.length; i++) {
 		const item = nameValues[i];
-		let rem = nano / item[1];
+		const rem = nano / item[1];
 		if (Math.abs(rem) < 1) {
 			// 只有小数了，则采用前一个元素；
 			break;
 		} else {
 			value = round(rem, 0);
 			prevUnit = item[0];
-			rem = nano / item[1];
 		}
 	}
 

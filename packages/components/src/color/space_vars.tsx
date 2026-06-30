@@ -287,7 +287,7 @@ export class TailwindVarsSpace implements ColorSpace {
 	 * @param disabled - 禁用的颜色列表；
 	 */
 	constructor(...disabled: Array<string>) {
-		this.#disabled = disabled ?? [];
+		this.#disabled = disabled;
 	}
 
 	get id(): string {

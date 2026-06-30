@@ -11,7 +11,7 @@ test('token', () => {
 	const id = 'cmfx-token-name';
 	const s = window.sessionStorage;
 	expect(getToken(id, s)).toBeUndefined();
-	expect(delToken(id, s));
+	delToken(id, s);
 
 	const t: Token = {
 		access_token: 'access',
@@ -31,7 +31,7 @@ test('token', () => {
 	expect(rt.access_exp).toBeGreaterThan(now);
 	expect(rt.refresh_exp).toBeGreaterThan(rt.access_exp);
 
-	expect(delToken(id, s));
+	delToken(id, s);
 	expect(getToken(id, s)).toBeUndefined();
 });
 
