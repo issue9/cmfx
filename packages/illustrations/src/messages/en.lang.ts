@@ -17,6 +17,7 @@ const messages = {
 		building: 'Building...',
 		userLogin: 'User Login',
 		offline: 'Offline',
+		myWallet: 'My Wallet',
 	},
 };
 
