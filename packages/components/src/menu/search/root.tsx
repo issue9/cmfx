@@ -53,7 +53,7 @@ export interface SearchProps extends BaseProps, RefProps<SearchRef> {
 	 */
 	inputMode?: InputBase.TextProps['inputMode'];
 
-	onSearch: (text: string) => Promise<Array<Menu.MenuItem>>;
+	onSearch: (text: string) => Promise<Array<Menu.Item>>;
 
 	/**
 	 * 选择弹出项时触发的事件
@@ -72,7 +72,7 @@ export function Root(props: SearchProps): JSX.Element {
 	props = mergeProps({ placeholder: l.t('_c.search') } as SearchProps, props);
 
 	let dropdownRef: Dropdown.Ref;
-	const [candidate, setCandidate] = createSignal<Array<Menu.MenuItem>>([]);
+	const [candidate, setCandidate] = createSignal<Array<Menu.Item>>([]);
 
 	const [value, setValue] = createSignal('');
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown, Markdown, Table, useLocale } from '@cmfx/components';
+import { type ChangeFunc, Dropdown, Markdown, Table, useLocale } from '@cmfx/components';
 import type {
 	Class,
 	ClassMethod,
@@ -57,7 +57,7 @@ export function APIDoc(props: { api: Type }): JSX.Element {
 }
 
 function LiteralBody(props: { literal: Literal }): JSX.Element {
-	return tscode(props.literal.type);
+	return tsCode(props.literal.type);
 }
 
 function UnionBody(props: { union: Union }): JSX.Element {
@@ -85,7 +85,7 @@ function UnionBody(props: { union: Union }): JSX.Element {
 	const [properties, setProperties] = createSignal<Array<InterfaceProperty | ClassProperty>>();
 	const [methods, setMethods] = createSignal<Array<InterfaceMethod | ClassMethod>>();
 
-	const change = (v: string) => {
+	const change: ChangeFunc<string | undefined> = (v?: string, _?: string): void => {
 		for (const p of props.union.types) {
 			if (p.kind === 'interface' || p.kind === 'class') {
 				if (p.properties && p.properties.length > 0) {
@@ -193,8 +193,8 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 						{p => (
 							<tr>
 								<th>{p.name}</th>
-								<td>{tscode(p.type)}</td>
-								<td>{tscode(p.init)}</td>
+								<td>{tsCode(p.type)}</td>
+								<td>{tsCode(p.init)}</td>
 								<td>
 									<Markdown tag="p" text={p.summary} />
 								</td>
@@ -223,7 +223,7 @@ interface PropertiesProps {
 
 	// 以下为区分联合类型字段的相关属性
 
-	onchange?: (value: string) => void; // 区分联合类型切换时触发的事件
+	onchange?: ChangeFunc<string | undefined>; // 区分联合类型切换时触发的事件
 	discriminants?: Array<string>; // 区分联合类型选项列表
 	discriminant?: string; // 区分联合类型在 {@link props} 中的列表
 }
@@ -263,8 +263,8 @@ function Properties(props: PropertiesProps): JSX.Element {
 										</Dropdown>
 									</Show>
 								</th>
-								<td>{tscode(field.type)}</td>
-								<td>{tscode(field.def)}</td>
+								<td>{tsCode(field.type)}</td>
+								<td>{tsCode(field.def)}</td>
 								<td>
 									<Show when={field.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
 									<Show when={field.remarks}>
@@ -288,7 +288,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 
 	return (
 		<div class={styles.func}>
-			{tscode(props.func.type)}
+			{tsCode(props.func.type)}
 
 			<Show when={props.isMethod}>
 				<Show when={props.func.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
@@ -311,7 +311,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 						{param => (
 							<tr>
 								<td>{param.name}</td>
-								<td>{tscode(param.type)}</td>
+								<td>{tsCode(param.type)}</td>
 								<td>
 									<Markdown tag="p" text={param.summary} />
 								</td>
@@ -320,7 +320,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 					</For>
 					<tr>
 						<td>{l.t('_d.stages.returnValue')}</td>
-						<td>{tscode(props.func.return.type)}</td>
+						<td>{tsCode(props.func.return.type)}</td>
 						<td>
 							<Markdown tag="p" text={props.func.return.summary} />
 						</td>
@@ -352,6 +352,6 @@ function Chips(props: { reactive?: boolean; readonly?: boolean; getter?: boolean
 	);
 }
 
-function tscode(code?: string, tag: keyof HTMLElementTagNameMap = 'p'): JSX.Element {
+function tsCode(code?: string, tag: keyof HTMLElementTagNameMap = 'p'): JSX.Element {
 	return code ? <Markdown tag={tag} text={`\`\`\`ts\n${code.trim()}\n\`\`\``} /> : '';
 }

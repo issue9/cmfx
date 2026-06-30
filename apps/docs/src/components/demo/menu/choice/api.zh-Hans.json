@@ -226,7 +226,7 @@
 		"types": [
 			{
 				"kind": "interface",
-				"name": "MenuDivider",
+				"name": "MenuItemDivider",
 				"properties": [
 					{
 						"name": "type",
@@ -236,7 +236,7 @@
 			},
 			{
 				"kind": "interface",
-				"name": "MenuGroup",
+				"name": "MenuItemGroup",
 				"typeParams": [
 					{
 						"name": "T",
@@ -256,13 +256,13 @@
 					{
 						"name": "items",
 						"summary": "分组的子项\n\n",
-						"type": "MenuMenuItem<T>[]"
+						"type": "MenuItem<T>[]"
 					}
 				]
 			},
 			{
 				"kind": "interface",
-				"name": "MenuItem",
+				"name": "MenuItemItem",
 				"typeParams": [
 					{
 						"name": "T",
@@ -286,7 +286,7 @@
 						"name": "items",
 						"summary": "子项\n\n",
 						"remarks": "该值为空时，\n`value`\n不能为空。\n\n",
-						"type": "MenuMenuItem<T>[] | undefined"
+						"type": "MenuItem<T>[] | undefined"
 					},
 					{
 						"name": "label",

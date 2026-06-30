@@ -10,15 +10,15 @@ import type { AvailableEnumType } from '@components/base';
 /**
  * 菜单项
  */
-export type MenuMenuItem<T extends AvailableEnumType = string> = MenuDivider | MenuGroup<T> | MenuItem<T>;
+export type MenuItem<T extends AvailableEnumType = string> = MenuItemDivider | MenuItemGroup<T> | MenuItemItem<T>;
 
 // 分隔符
-export interface MenuDivider {
+export interface MenuItemDivider {
 	type: 'divider';
 }
 
 // 分组
-export interface MenuGroup<T extends AvailableEnumType = string> {
+export interface MenuItemGroup<T extends AvailableEnumType = string> {
 	type: 'group';
 
 	label: JSX.Element;
@@ -26,10 +26,10 @@ export interface MenuGroup<T extends AvailableEnumType = string> {
 	/**
 	 * 分组的子项
 	 */
-	items: Array<MenuMenuItem<T>>;
+	items: Array<MenuItem<T>>;
 }
 
-export interface MenuItem<T extends AvailableEnumType = string> {
+export interface MenuItemItem<T extends AvailableEnumType = string> {
 	/**
 	 * 表示普通的菜单项，如果为 a 表示这是一个链接。
 	 */
@@ -38,7 +38,7 @@ export interface MenuItem<T extends AvailableEnumType = string> {
 	/**
 	 * 表示当前项的唯一值
 	 *
-	 * @remarks 该值为空时，{@link MenuMenuItem#items} 不能为空，
+	 * @remarks 该值为空时，{@link MenuItem#items} 不能为空，
 	 * 如果 {@link "type"} 为 a 时，当前值表示链接的地址。
 	 */
 	value?: T;
@@ -46,9 +46,9 @@ export interface MenuItem<T extends AvailableEnumType = string> {
 	/**
 	 * 子项
 	 *
-	 * @remarks 该值为空时，{@link MenuMenuItem#value} 不能为空。
+	 * @remarks 该值为空时，{@link MenuItem#value} 不能为空。
 	 */
-	items?: Array<MenuMenuItem<T>>;
+	items?: Array<MenuItem<T>>;
 
 	/**
 	 * 菜单项的内容
@@ -63,7 +63,7 @@ export interface MenuItem<T extends AvailableEnumType = string> {
 	/**
 	 * 菜单项尾部的内容
 	 *
-	 * @remarks 当 {@link MenuMenuItem#items} 不为空时，该值无效。
+	 * @remarks 当 {@link MenuItem#items} 不为空时，该值无效。
 	 */
 	suffix?: JSX.Element;
 
@@ -78,19 +78,22 @@ export interface MenuItem<T extends AvailableEnumType = string> {
 	hotkey?: Hotkey;
 }
 
-export type RenderTypeItem<T extends AvailableEnumType = string> = MenuMenuItem<T> & {
+export type RenderTypeItem<T extends AvailableEnumType = string> = MenuItem<T> & {
 	level: number;
 	items?: Array<RenderMenuItem<T>>;
 };
 
-type RenderTypeGroup<T extends AvailableEnumType = string> = Omit<MenuGroup<T>, 'items'> & {
+type RenderTypeGroup<T extends AvailableEnumType = string> = Omit<MenuItemGroup<T>, 'items'> & {
 	items: Array<RenderMenuItem<T>>;
 };
 
 /**
  * 经过处理后可直接用于渲染的菜单项
  */
-export type RenderMenuItem<T extends AvailableEnumType = string> = MenuDivider | RenderTypeGroup<T> | RenderTypeItem<T>;
+export type RenderMenuItem<T extends AvailableEnumType = string> =
+	| MenuItemDivider
+	| RenderTypeGroup<T>
+	| RenderTypeItem<T>;
 
 /**
  * 生成易于渲染的菜单项数据，主要是根据参数生成了 CSS 样式。
@@ -99,7 +102,7 @@ export type RenderMenuItem<T extends AvailableEnumType = string> = MenuDivider |
  * @param level - 当前菜单项的层级；
  */
 export function buildRenderItemType<T extends AvailableEnumType = string>(
-	items: Array<MenuMenuItem<T>>,
+	items: Array<MenuItem<T>>,
 	level: number,
 ): Array<RenderMenuItem<T>> {
 	return items.map(item => {

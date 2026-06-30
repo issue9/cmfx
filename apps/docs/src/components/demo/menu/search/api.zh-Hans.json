@@ -39,7 +39,7 @@
 			},
 			{
 				"name": "onSearch",
-				"type": "(text: string) => Promise<Array<Menu.MenuItem>>"
+				"type": "(text: string) => Promise<Array<Menu.Item>>"
 			},
 			{
 				"name": "onSelect",

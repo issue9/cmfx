@@ -47,9 +47,9 @@ export default function Overview(prefix: string): JSX.Element {
 						</legend>
 						<For each={group.items}>
 							{item => (
-								<A href={(item as Menu.Item).value!}>
-									<Card header={(item as Menu.Item).label} class={styles.card}>
-										<div class={styles.icon}>{(item as Menu.Item).prefix}</div>
+								<A href={(item as Menu.ItemItem).value!}>
+									<Card header={(item as Menu.ItemItem).label} class={styles.card}>
+										<div class={styles.icon}>{(item as Menu.ItemItem).prefix}</div>
 									</Card>
 								</A>
 							)}
@@ -62,12 +62,12 @@ export default function Overview(prefix: string): JSX.Element {
 }
 
 // 生成 Drawer 组件的侧边栏菜单
-export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
+export function buildMenus(l: Locale, prefix: string): Array<Menu.Item> {
 	if (!prefix.endsWith('/')) {
 		prefix += '/';
 	}
 
-	const menus: Array<Menu.MenuItem> = [
+	const menus: Array<Menu.Item> = [
 		{ type: 'a', label: l.t('_d.demo.overview'), value: prefix, suffix: routes.length }, // 指向 overview
 		{ type: 'group', label: l.t('_d.demo.general'), items: [] },
 		{ type: 'group', label: l.t('_d.demo.layout'), items: [] },
@@ -79,9 +79,9 @@ export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
 		{ type: 'group', label: l.t('_d.demo.function'), items: [] },
 	];
 
-	const append = (group: Menu.MenuItem, r: ArrayElement<typeof routes>) => {
+	const append = (group: Menu.Item, r: ArrayElement<typeof routes>) => {
 		const p = Array.isArray(r.path) ? r.path[0] : r.path;
-		(group as Menu.Group).items.push({
+		(group as Menu.ItemGroup).items.push({
 			type: 'a',
 			label: l.t(r.info?.title),
 			value: prefix + p,

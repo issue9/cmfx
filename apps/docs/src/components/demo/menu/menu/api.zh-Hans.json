@@ -37,7 +37,7 @@
 					{
 						"name": "items",
 						"summary": "菜单项\n\n",
-						"type": "MenuMenuItem<T>[]",
+						"type": "MenuItem<T>[]",
 						"reactive": true
 					},
 					{
@@ -134,7 +134,7 @@
 					{
 						"name": "items",
 						"summary": "菜单项\n\n",
-						"type": "MenuMenuItem<T>[]",
+						"type": "MenuItem<T>[]",
 						"reactive": true
 					},
 					{
@@ -233,60 +233,104 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"kind": "interface",
 		"name": "Menu.Item",
-		"typeParams": [
+		"summary": "菜单项\n\n",
+		"kind": "union",
+		"types": [
 			{
-				"name": "T",
-				"type": "AvailableEnumType",
-				"init": "string"
+				"kind": "interface",
+				"name": "MenuItemDivider",
+				"properties": [
+					{
+						"name": "type",
+						"type": "\"divider\""
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "MenuItemGroup",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "AvailableEnumType",
+						"init": "string"
+					}
+				],
+				"properties": [
+					{
+						"name": "type",
+						"type": "\"group\""
+					},
+					{
+						"name": "label",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "items",
+						"summary": "分组的子项\n\n",
+						"type": "MenuItem<T>[]"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "MenuItemItem",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "AvailableEnumType",
+						"init": "string"
+					}
+				],
+				"properties": [
+					{
+						"name": "type",
+						"summary": "表示普通的菜单项，如果为 a 表示这是一个链接。\n\n",
+						"type": "\"a\" | \"item\""
+					},
+					{
+						"name": "value",
+						"summary": "表示当前项的唯一值\n\n",
+						"remarks": "该值为空时，\n`items`\n不能为空，\n如果\n`type`\n为 a 时，当前值表示链接的地址。\n\n",
+						"type": "T | undefined"
+					},
+					{
+						"name": "items",
+						"summary": "子项\n\n",
+						"remarks": "该值为空时，\n`value`\n不能为空。\n\n",
+						"type": "MenuItem<T>[] | undefined"
+					},
+					{
+						"name": "label",
+						"summary": "菜单项的内容\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "prefix",
+						"summary": "菜单项前置的内容\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "suffix",
+						"summary": "菜单项尾部的内容\n\n",
+						"remarks": "当\n`items`\n不为空时，该值无效。\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "disabled",
+						"summary": "是否禁用该项\n\n",
+						"type": "boolean | undefined"
+					},
+					{
+						"name": "hotkey",
+						"summary": "快捷键\n\n",
+						"type": "Hotkey | undefined"
+					}
+				]
 			}
 		],
-		"properties": [
-			{
-				"name": "type",
-				"summary": "表示普通的菜单项，如果为 a 表示这是一个链接。\n\n",
-				"type": "\"a\" | \"item\""
-			},
-			{
-				"name": "value",
-				"summary": "表示当前项的唯一值\n\n",
-				"remarks": "该值为空时，\n`items`\n不能为空，\n如果\n`type`\n为 a 时，当前值表示链接的地址。\n\n",
-				"type": "T | undefined"
-			},
-			{
-				"name": "items",
-				"summary": "子项\n\n",
-				"remarks": "该值为空时，\n`value`\n不能为空。\n\n",
-				"type": "MenuMenuItem<T>[] | undefined"
-			},
-			{
-				"name": "label",
-				"summary": "菜单项的内容\n\n",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "prefix",
-				"summary": "菜单项前置的内容\n\n",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "suffix",
-				"summary": "菜单项尾部的内容\n\n",
-				"remarks": "当\n`items`\n不为空时，该值无效。\n\n",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "disabled",
-				"summary": "是否禁用该项\n\n",
-				"type": "boolean | undefined"
-			},
-			{
-				"name": "hotkey",
-				"summary": "快捷键\n\n",
-				"type": "Hotkey | undefined"
-			}
-		],
+		"discriminant": "type",
 		"pkg": "@cmfx/components"
 	}
 ]

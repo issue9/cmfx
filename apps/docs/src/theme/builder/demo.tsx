@@ -262,11 +262,11 @@ function Components(): JSX.Element {
 	};
 
 	const columns: Array<DataTable.Column<Item>> = [
-		{ id: 'id' },
-		{ id: 'name' },
-		{ id: 'address' },
+		{ id: 'id', label: 'id' },
+		{ id: 'name', label: 'name' },
+		{ id: 'address', label: 'address' },
 		{
-			id: 'action',
+			label: 'action',
 			renderLabel: 'ACTIONS',
 			isUnexported: true,
 			renderContent: () => {

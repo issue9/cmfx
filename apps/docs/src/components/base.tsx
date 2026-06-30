@@ -57,15 +57,9 @@ export function numeric<T extends number = number>(
 	const num = (): JSX.Element => {
 		const l = useLocale();
 		return (
-			<InputNumber
-				class="w-20"
-				label={l.t(label)}
-				min={min}
-				max={max}
-				step={step}
-				value={get()}
-				onChange={v => set(v)}
-			/>
+			<Form.Field label={l.t(label)}>
+				<InputNumber class="w-20" min={min} max={max} step={step} value={get()} onChange={set} />
+			</Form.Field>
 		);
 	};
 	return [num, get, set];

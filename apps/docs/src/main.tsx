@@ -63,17 +63,17 @@ const [themeRef, setThemeRef] = createSignal<Drawer.Ref>();
 
 function InternalApp(props: RouteSectionProps): JSX.Element {
 	const l = useLocale();
-	const [act] = useOptions();
+	const [act, opt] = useOptions();
 	const [dir, setDir] = createSignal<'ltr' | 'rtl' | 'auto'>('auto');
 	const theme = useTheme();
 
-	const menus: Array<Menu.MenuItem> = [
+	const menus: Array<Menu.Item> = [
 		...buildComponentsMenus(l, componentsRoute),
 		...buildDocsMenus(l, docsRoute),
 		{ type: 'a', value: contributeRoute, label: l.t('_d.contribute.contribute') },
 	];
 	const search = async (value: string) => {
-		const items: Array<Menu.MenuItem> = [];
+		const items: Array<Menu.Item> = [];
 
 		for (const m of menus) {
 			if (m.type === 'a' && m.label && (m.label as string).toLowerCase().includes(value.toLowerCase())) {
@@ -111,7 +111,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 						<Dropdown
 							trigger="hover"
 							value={l.match(Array.from(languageIcons.keys()), act.getLocale())}
-							onChange={e => act.setLocale(e)}
+							onChange={e => act.setLocale(e ?? opt.locale)}
 							items={l.locales.map(locale => ({
 								type: 'item',
 								label: locale[1],
@@ -124,18 +124,18 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 							</Button>
 						</Dropdown>
 
-						<Dropdown
+						<Dropdown<Mode | 'theme-builder'>
 							ref={el => (themeDropdown = el)}
 							trigger="hover"
 							multiple
 							value={modeValues()}
 							onChange={(val, old) => {
-								const n = val.filter(v => modes.includes(v as Mode)); // 提取新值中的有关 Mode 类型的
-								const o = old ? old.filter(v => modes.includes(v as Mode)) : []; // 提取旧值中的有关 Mode 类型的
-								const m = n.filter(v => !o.includes(v)); // 提取只存在于新值中的 Mode 类型值
+								const n = val?.filter(v => modes.includes(v as Mode)); // 提取新值中的有关 Mode 类型的
+								const o = old?.filter(v => modes.includes(v as Mode)); // 提取旧值中的有关 Mode 类型的
+								const m = n?.filter(v => !o?.includes(v)); // 提取只存在于新值中的 Mode 类型值
 								if (m && m.length > 0) {
 									// 如果存在 m，则删除 val 中所有的 Mode 值，并添加 m 至 val。
-									const v = val.filter(v => !modes.includes(v as Mode));
+									const v = val ? val.filter(v => !modes.includes(v as Mode)) : [];
 									const mode = m[0];
 									v.push(mode);
 									setModeValues(v as Array<Mode>);
@@ -161,7 +161,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 							trigger="hover"
 							value={dir()}
 							onChange={e => {
-								setDir(e);
+								setDir(e ?? 'auto');
 								document.documentElement.setAttribute('dir', dir());
 							}}
 							items={[

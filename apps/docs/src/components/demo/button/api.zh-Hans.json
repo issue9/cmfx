@@ -481,7 +481,7 @@
 							{
 								"name": "items",
 								"summary": "菜单项\n\n",
-								"type": "MenuMenuItem<T>[]",
+								"type": "MenuItem<T>[]",
 								"reactive": true
 							},
 							{
@@ -643,7 +643,7 @@
 							{
 								"name": "items",
 								"summary": "菜单项\n\n",
-								"type": "MenuMenuItem<T>[]",
+								"type": "MenuItem<T>[]",
 								"reactive": true
 							},
 							{

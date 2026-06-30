@@ -20,7 +20,7 @@ export type ChoiceRef = BaseRef<HTMLDivElement>;
  * @remarks
  * 直接采用了与 {@link MenuItem} 相同的类型，但是对为 type 为 a 的项是忽略处理的。
  */
-export type ChoiceOption<T extends AvailableEnumType = string> = Menu.MenuItem<T>;
+export type ChoiceOption<T extends AvailableEnumType = string> = Menu.Item<T>;
 
 export type ChoiceOptions<T extends AvailableEnumType = string> = Array<ChoiceOption<T>>;
 
@@ -71,8 +71,8 @@ export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
-	const getSelectedMenuItems = (vals: Array<T>): Array<Menu.Item<T>> => {
-		const items: Array<Menu.Item<T>> = [];
+	const getSelectedMenuItems = (vals: Array<T>): Array<Menu.ItemItem<T>> => {
+		const items: Array<Menu.ItemItem<T>> = [];
 		if (props.multiple) {
 			walk(i => {
 				if (vals.includes(i.value!)) {
@@ -192,7 +192,7 @@ export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<
  * @param opts - 遍历对象；
  */
 function walk<T extends AvailableEnumType = string>(
-	f: (val: Menu.Item<T>) => boolean | undefined,
+	f: (val: Menu.ItemItem<T>) => boolean | undefined,
 	opts?: Array<ChoiceOption<T>>,
 ) {
 	if (!opts || opts.length === 0) {

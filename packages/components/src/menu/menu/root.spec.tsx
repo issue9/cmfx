@@ -6,10 +6,10 @@ import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@components/context/options/context.spec';
-import type { MenuMenuItem } from './item';
+import type { MenuItem } from './item';
 import { Menu, type MenuRef, selectedElements } from './root';
 
-const items: Array<MenuMenuItem> = [
+const items: Array<MenuItem> = [
 	{ type: 'item', value: 'v1', label: 'v1-label' },
 	{ type: 'item', value: 'v2', label: 'v2-label', disabled: true },
 	{ type: 'item', value: 'v3', label: 'v3-label' },

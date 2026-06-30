@@ -43,7 +43,7 @@ export function params(s: SchemeStore): JSX.Element {
 
 	const schemes = Array.from(opt.schemes).map(s => {
 		return { type: 'item', value: s[0], label: s[0] };
-	}) as Array<Menu.MenuItem>;
+	}) satisfies Array<Menu.Item>;
 
 	const source = createMemo(() => JSON.stringify(s[0], null, 4));
 

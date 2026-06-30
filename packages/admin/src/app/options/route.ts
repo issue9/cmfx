@@ -84,8 +84,8 @@ export type MenuItem =
 			suffix?: JSX.Element;
 	  };
 
-export function buildItems(l: Locale, menus: Array<MenuItem>): Array<Menu.MenuItem> {
-	const items: Array<Menu.MenuItem> = [];
+export function buildItems(l: Locale, menus: Array<MenuItem>): Array<Menu.Item> {
+	const items: Array<Menu.Item> = [];
 	menus.forEach(mi => {
 		switch (mi.type) {
 			case 'divider':

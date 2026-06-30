@@ -82,7 +82,7 @@ export function createClear(hk?: Hotkey): Component {
  * @param hk - 工具栏；
  */
 export function createSearch(hk?: Hotkey): Component {
-	const search = async (value: string, menus: Array<Menu.MenuItem>): Promise<Array<Menu.Item>> => {
+	const search = async (value: string, menus: Array<Menu.Item>): Promise<Array<Menu.Item>> => {
 		const items: Array<Menu.Item> = [];
 
 		for (const m of menus) {

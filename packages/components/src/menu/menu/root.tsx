@@ -27,7 +27,7 @@ import { classList, joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
 import { IconSet } from '@components/icon';
-import { buildRenderItemType, type MenuMenuItem, type RenderMenuItem } from './item';
+import { buildRenderItemType, type MenuItem, type RenderMenuItem } from './item';
 import styles from './style.module.css';
 
 export type MenuTag = 'nav' | 'menu';
@@ -64,7 +64,7 @@ interface Base<T extends AvailableEnumType = string, TAG extends MenuTag = 'menu
 	 *
 	 * @reactive
 	 */
-	items: Array<MenuMenuItem<T>>;
+	items: Array<MenuItem<T>>;
 
 	/**
 	 * 根元素的标签类型

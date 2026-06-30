@@ -81,7 +81,7 @@ export function InputText(props: InputTextProps): JSX.Element {
 		});
 	}
 
-	const [candidate, setCandidate] = createSignal<Array<Menu.MenuItem>>([]);
+	const [candidate, setCandidate] = createSignal<Array<Menu.Item>>([]);
 
 	createEffect(() => {
 		if (props.count) {

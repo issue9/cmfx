@@ -160,18 +160,18 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 ] as const;
 
 // 生成 Drawer 组件的侧边栏菜单
-export function buildMenus(l: Locale, prefix: string): Array<Menu.MenuItem> {
+export function buildMenus(l: Locale, prefix: string): Array<Menu.Item> {
 	if (!prefix.endsWith('/')) {
 		prefix += '/';
 	}
 
-	const menus: Array<Menu.Group> = [
+	const menus: Array<Menu.ItemGroup> = [
 		{ type: 'group', label: l.t('_d.docs.intro'), items: [] },
 		{ type: 'group', label: l.t('_d.docs.usage'), items: [] },
 		{ type: 'group', label: l.t('_d.docs.advance'), items: [] },
 	];
 
-	const append = (group: Menu.Group, r: ArrayElement<typeof routes>) => {
+	const append = (group: Menu.ItemGroup, r: ArrayElement<typeof routes>) => {
 		const p = Array.isArray(r.path) ? r.path[0] : r.path;
 		group.items.push({ type: 'a', label: l.t(r.info?.title), value: prefix + p });
 	};
@@ -233,10 +233,14 @@ function Doc(props: DocProps): JSX.Element {
 		const typeObj = fileObject2Map(props.types);
 		const locales = Array.from(typeObj.keys());
 
-		const ret: Array<Type> =
+		const ret: Array<Type> | undefined =
 			typeObj.size > 1 // >1 表示有多种语言
 				? typeObj.get(l.match(locales, origin.locale))
 				: typeObj.values().next().value;
+
+		if (!ret) {
+			return;
+		}
 
 		const obj: Markdown.Props['components'] = {};
 		ret.forEach(t => {
