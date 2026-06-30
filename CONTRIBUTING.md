@@ -132,7 +132,7 @@ close #1
 - apps/admin 适配 `apps/server` 的后台管理演示代码；
 - apps/docs 生成项目文档；
 - assets 一些资源文件；
-- build/vite-plugin-about vite 插件，用于生成 `pakcages/admin` 下关于页面的信息；
+- build/vite-plugin-about vite 插件，用于生成 `packages/admin` 下关于页面的信息；
 - build/vite-plugin-api vite 插件，用于提取文档内容；
 - cmfx 后端源码的主目录；
 - packages/core 前端的核心代码库，包含了与后端的通信以及和具体 UI 无关的一些逻辑处理；
