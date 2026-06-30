@@ -51,6 +51,10 @@ jobs:
     name: test-go
     runs-on: ${{ matrix.os }}
 
+    permissions:
+      contents: read
+      pull-requests: write
+
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
