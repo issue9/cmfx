@@ -13,8 +13,6 @@
 					},
 					{
 						"name": "popover",
-						"summary": "指定弹出对话框的方式\n\n",
-						"remarks": "-\n`click`\n: 点击显示；\n-\n`hover`\n: 悬停显示；\n\n",
 						"type": "\"click\" | \"hover\"",
 						"readonly": true
 					},

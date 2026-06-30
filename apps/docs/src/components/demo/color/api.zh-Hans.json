@@ -8,11 +8,19 @@
 				"name": "PopoverProps",
 				"properties": [
 					{
+						"name": "placeholder",
+						"type": "string | undefined"
+					},
+					{
 						"name": "popover",
-						"summary": "指定弹出对话框的方式\n\n",
-						"remarks": "-\n`click`\n: 点击显示；\n-\n`hover`\n: 悬停显示；\n\n",
 						"type": "\"click\" | \"hover\"",
 						"readonly": true
+					},
+					{
+						"name": "coloring",
+						"summary": "是否将文本的字体颜色改为当前的颜色值\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
 					},
 					{
 						"name": "activatorClass",
@@ -36,7 +44,8 @@
 					{
 						"name": "spaces",
 						"summary": "指定的颜色拾取面板的类型\n\n",
-						"type": "readonly ColorSpace[]"
+						"type": "readonly ColorSpace[]",
+						"readonly": true
 					},
 					{
 						"name": "tabindex",
@@ -120,7 +129,8 @@
 					{
 						"name": "spaces",
 						"summary": "指定的颜色拾取面板的类型\n\n",
-						"type": "readonly ColorSpace[]"
+						"type": "readonly ColorSpace[]",
+						"readonly": true
 					},
 					{
 						"name": "tabindex",
@@ -262,17 +272,11 @@
 			{
 				"name": "panel",
 				"summary": "实现实例的面板\n\n",
-				"type": "panel(s: Accessor, parent: HTMLElement): JSX.Element",
+				"type": "panel(props: {\r\n        s: Accessor;\r\n        parent: HTMLElement;\r\n    }): JSX.Element",
 				"params": [
 					{
-						"name": "s",
-						"summary": "访问器函数，用于获取颜色值；\n\n",
-						"type": "Accessor"
-					},
-					{
-						"name": "parent",
-						"summary": "父元素，用于计算颜色变量的真实值；\n\n",
-						"type": "HTMLElement"
+						"name": "props",
+						"type": "{ s: Accessor; parent: HTMLElement; }"
 					}
 				],
 				"return": {

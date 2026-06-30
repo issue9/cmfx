@@ -10,7 +10,6 @@ ignore (
 	./build/vite-plugin-api
 
 	./coverage
-	./docs
 	./node_modules
 
 	./packages

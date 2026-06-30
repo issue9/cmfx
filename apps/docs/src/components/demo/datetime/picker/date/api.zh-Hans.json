@@ -13,12 +13,20 @@
 					},
 					{
 						"name": "rounded",
-						"type": "boolean | undefined"
+						"summary": "是否圆角\n\n",
+						"type": "boolean | undefined",
+						"reactive": true
 					},
 					{
 						"name": "popover",
 						"type": "\"click\" | \"hover\"",
 						"readonly": true
+					},
+					{
+						"name": "activatorClass",
+						"summary": "作用在显示元素上的样式\n\n",
+						"type": "string | undefined",
+						"reactive": true
 					},
 					{
 						"name": "time",

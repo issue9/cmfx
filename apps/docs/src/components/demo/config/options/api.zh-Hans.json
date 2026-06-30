@@ -56,7 +56,7 @@
 				"name": "locale",
 				"summary": "初始的本地化语言 ID，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
 				"type": "string | undefined",
-				"def": "`document.documentElement.lang || navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en')`\n\n"
+				"def": "`document.documentElement.lang || I18n.system`\n\n"
 			},
 			{
 				"name": "displayStyle",
@@ -108,7 +108,8 @@
 			{
 				"name": "problemHandler",
 				"summary": "对\n`Problem`\n的处理函数\n\n",
-				"type": "ProblemHandler<never> | undefined"
+				"type": "ProblemHandler<never> | undefined",
+				"def": "`handleProblem`\n\n"
 			}
 		],
 		"pkg": "@cmfx/components"

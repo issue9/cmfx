@@ -7,7 +7,7 @@
 		"paths": {
 			"@docs/*": ["./src/*"]
 		},
-		"outDir": "../../docs"
+		"outDir": "./dist"
 	},
 	"include": [
 		"src/**/api.*.json",

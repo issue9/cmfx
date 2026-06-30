@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
 		build: {
 			target: browserslistToEsbuild(),
 			minify: true,
-			outDir: '../../docs',
+			outDir: './dist',
 			rollupOptions: {
 				output: {
 					postBanner: buildPostBanner(pkg),
@@ -78,7 +78,6 @@ export default defineConfig(({ mode }) => {
 			}),
 			tailwindcss(),
 			vitePluginCopyFile([
-				{ src: '../../LICENSE', dest: '../../docs' },
 				{
 					before: true, // 需要在打包之前完成复制
 					src: '../../assets/brand-static.svg',
@@ -87,6 +86,7 @@ export default defineConfig(({ mode }) => {
 						return content.replace(/currentColor/g, '#00a1f1');
 					},
 				},
+				{ src: '../../LICENSE', dest: './dist' },
 			]),
 			solidPlugin(),
 		],

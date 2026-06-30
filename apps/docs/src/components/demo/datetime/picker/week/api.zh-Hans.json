@@ -21,6 +21,12 @@
 						"readonly": true
 					},
 					{
+						"name": "activatorClass",
+						"summary": "作用在显示元素上的样式\n\n",
+						"type": "string | undefined",
+						"reactive": true
+					},
+					{
 						"name": "min",
 						"summary": "允许的最小日期\n\n",
 						"type": "Date | undefined"

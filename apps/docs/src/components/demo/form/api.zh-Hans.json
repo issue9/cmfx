@@ -521,6 +521,11 @@
 			{
 				"name": "children",
 				"type": "JSX.Element"
+			},
+			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined"
 			}
 		],
 		"pkg": "@cmfx/components"
