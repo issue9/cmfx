@@ -7,10 +7,10 @@ import IconCode from '~icons/mingcute/code-fill';
 import type { Info } from '@docs/components/base';
 import { default as Basic } from './basic';
 import { default as basic } from './basic.tsx?raw';
+import { default as Change } from './change';
+import { default as change } from './change.tsx?raw';
 import { default as Decorate } from './decorate';
 import { default as decorate } from './decorate.tsx?raw';
-import { default as Oninput } from './oninput';
-import { default as oninput } from './oninput.tsx?raw';
 import { default as Scrollable } from './scrollable';
 import { default as scrollable } from './scrollable.tsx?raw';
 
@@ -25,7 +25,7 @@ export default function (): Info {
 		stages: [
 			{ component: Basic, source: basic, id: 'basic' },
 			{ component: Scrollable, source: scrollable, id: 'scrollable' },
-			{ component: Oninput, source: oninput, id: 'oninput' },
+			{ component: Change, source: change, id: 'change' },
 			{ component: Decorate, source: decorate, id: 'decorate' },
 		],
 	};

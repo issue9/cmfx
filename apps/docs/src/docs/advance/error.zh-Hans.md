@@ -14,7 +14,7 @@
 ### ErrorBoundary
 
 solidjs 的 ErrorBoundary 如果想要捕获异步方法中的异步，需要将其转换为同步的方法：
-```ts border,toolbar
+```tsx
 import { ErrorBoundary } from 'solid-js/web';
 
 function AsyncComponent(): JSX.Element {

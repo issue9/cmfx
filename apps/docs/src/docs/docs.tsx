@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, joinClass, Markdown, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Code, Drawer, joinClass, Markdown, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import type { ArrayElement, Locale } from '@cmfx/core';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
@@ -257,6 +257,7 @@ function Doc(props: DocProps): JSX.Element {
 				text={text()}
 				components={components()}
 				onComplete={() => navRef.refresh()}
+				decorates={[Code.borderDecorate, Code.createToolbarDecorate()]}
 			/>
 			<Nav
 				minHeaderCount={5}

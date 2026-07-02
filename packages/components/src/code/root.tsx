@@ -6,36 +6,19 @@ import type { BundledLanguage, BundledTheme } from 'shiki/bundle/full';
 import { createEffect, createSignal, getOwner, type JSX, onCleanup, runWithOwner } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
-import { withDecorate } from './decorate';
+import { type BaseProps, type BaseRef, type ChangeFunc, joinClass, type RefProps } from '@components/base';
+import { type CodeDecorate, withDecorate } from './decorate';
 import { highlight } from './shiki';
 
 export type CodeRef = BaseRef<HTMLElement>;
 
-export interface CodeProps extends BaseProps, RefProps<CodeRef> {
+export interface Base extends BaseProps, RefProps<CodeRef> {
 	/**
 	 * 代码
 	 *
 	 * @reactive
 	 */
 	children: string;
-
-	/**
-	 * 是否可编辑
-	 *
-	 * @reactive
-	 * @remarks
-	 * 编辑内容并不会重新渲染内容，一些高亮内容可能不再准确。
-	 */
-	editable?: boolean;
-
-	/**
-	 * 修改内容触发的事件
-	 *
-	 * @remarks
-	 * 仅在 {@link CodeProps#editable} 为 true 时生效。
-	 */
-	oninput?: (value: string) => void;
 
 	/**
 	 * 内容自动换行
@@ -66,13 +49,44 @@ export interface CodeProps extends BaseProps, RefProps<CodeRef> {
 	theme?: BundledTheme;
 
 	/**
-	 * 装饰器名称
+	 * 装饰器
+	 *
+	 * @reactive
+	 */
+	decorates?: Array<CodeDecorate>;
+}
+
+export interface CodeNormalProps extends Base {
+	/**
+	 * 是否可编辑
+	 *
+	 * @reactive
+	 * @remarks
+	 * 编辑内容并不会重新渲染内容，一些高亮内容可能不再准确。
+	 */
+	editable?: false;
+}
+
+export interface CodeEditableProps extends Base {
+	/**
+	 * 是否可编辑
+	 *
+	 * @reactive
+	 * @remarks
+	 * 编辑内容并不会重新渲染内容，一些高亮内容可能不再准确。
+	 */
+	editable: true;
+
+	/**
+	 * 修改内容触发的事件
 	 *
 	 * @remarks
-	 * 该值可由 {@link getDecorates} 获取。
+	 * 仅在 {@link CodeProps#editable} 为 true 时生效。
 	 */
-	decorates?: Array<string>;
+	readonly onChange?: ChangeFunc<string>;
 }
+
+export type CodeProps = CodeEditableProps | CodeNormalProps;
 
 /**
  * 代码显示组件
@@ -82,63 +96,68 @@ export interface CodeProps extends BaseProps, RefProps<CodeRef> {
  * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
  */
 export function Code(props: CodeProps): JSX.Element {
-	const [html, setHTML] = createSignal<HTMLElement>();
 	const owner = getOwner();
-
-	const disposes: Array<() => void> = [];
+	let dispose: (() => void) | undefined;
 	const cancel = () => {
-		if (disposes.length === 0) {
-			return;
+		if (dispose) {
+			dispose();
+			dispose = undefined;
 		}
-
-		for (const d of disposes) {
-			d();
-		}
-		disposes.length = 0;
 	};
 
-	onCleanup(() => cancel());
+	onCleanup(cancel);
+
+	const [html, setHTML] = createSignal<string>(props.children);
+	createEffect(() => setHTML(props.children));
+
+	const [preElement, setPreElement] = createSignal<HTMLPreElement>();
 
 	createEffect(async () => {
+		cancel();
+
 		const cls = joinClass(props.palette, props.class);
-		const pre = await highlight(
-			props.children,
-			props.lang,
-			props.ln,
-			props.wrap,
-			cls,
-			props.style,
-			props.theme,
-			props.decorates?.join(','),
-		);
-		setHTML(template(pre)() as HTMLElement);
+		const preHTML = await highlight(html(), props.lang, props.ln, props.wrap, cls, props.style, props.theme);
+		const preElem = template(preHTML)() as HTMLPreElement;
 
 		if (props.ref) {
 			props.ref({
-				root: () => html()!,
+				root: () => preElem,
 			});
 		}
+
+		setPreElement(preElem);
 	});
 
+	// 监视 editable 的变化
 	createEffect(() => {
-		cancel();
-
-		const el = html();
-		if (!el) {
+		const preElem = preElement();
+		if (!preElem) {
 			return;
 		}
 
-		el.contentEditable = props.editable ? 'plaintext-only' : 'false';
-		el.addEventListener('input', e => {
+		preElem.contentEditable = props.editable ? 'plaintext-only' : 'false';
+		preElem.addEventListener('change', e => {
 			const txt = (e.currentTarget as HTMLElement).innerText;
-			props.children = txt;
-			if (props.oninput) {
-				props.oninput(txt);
+			setHTML(txt);
+			if (props.editable && props.onChange) {
+				props.onChange(txt);
 			}
 		});
-
-		runWithOwner(owner, () => disposes.push(withDecorate(el)));
 	});
 
-	return <>{html()}</>;
+	// 监视 decorates 的变化
+	createEffect(() => {
+		cancel();
+
+		const preElem = preElement();
+		if (!preElem) {
+			return;
+		}
+
+		if (props.decorates) {
+			dispose = runWithOwner(owner, () => withDecorate(preElem, ...props.decorates!));
+		}
+	});
+
+	return <>{preElement()}</>;
 }

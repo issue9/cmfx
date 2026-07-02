@@ -7,8 +7,8 @@
 #### 可滚动
 @```demo-scrollable```@
 
-#### oninput
-@```demo-oninput```@
+#### onChange
+@```demo-change```@
 
 #### decorate
 @```demo-decorate```@

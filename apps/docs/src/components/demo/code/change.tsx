@@ -31,7 +31,7 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				lang="tsx"
 				editable={editable()}
-				oninput={v => console.log(v)}
+				onChange={v => console.log(v)}
 			>
 				{`/*
  * SPDX-FileCopyrightText: 2025 caixw

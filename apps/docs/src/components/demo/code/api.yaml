@@ -13,6 +13,7 @@
             - Code.buildHighlighter
             - Code.highlight
 
-            - Code.decorates
-            - Code.registerDecorate
+            - Code.toolbarDecorate
+            - Code.borderDecorate
+            - Code.copyButtonDecorate
             - Code.withDecorate

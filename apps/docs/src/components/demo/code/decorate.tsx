@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Code, type MountProps } from '@cmfx/components';
-import type { JSX } from 'solid-js';
+import { createMemo, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arrayMultipleSelector, boolSelector, paletteSelector } from '@docs/components/base';
@@ -11,7 +11,22 @@ import { arrayMultipleSelector, boolSelector, paletteSelector } from '@docs/comp
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Editable, editable] = boolSelector('_d.demo.editable');
-	const [Decorate, decorate] = arrayMultipleSelector('装饰器', Code.decorates());
+	const [Decorate, decorate] = arrayMultipleSelector('装饰器', ['copy', 'border', 'toolbar']);
+
+	const decorates = createMemo(() => {
+		return decorate()?.map<Code.Decorate>(d => {
+			switch (d) {
+				case 'copy':
+					return Code.copyButtonDecorate;
+				case 'border':
+					return Code.borderDecorate;
+				case 'toolbar':
+					return Code.toolbarDecorate;
+				default:
+					throw new Error(`无效的枚举值： ${d}`);
+			}
+		});
+	});
 
 	return (
 		<div>
@@ -20,7 +35,7 @@ export default function (props: MountProps): JSX.Element {
 				<Editable />
 				<Decorate />
 			</Portal>
-			<Code editable={editable()} ln={0} wrap palette={palette()} class="h-50" lang="css" decorates={decorate()}>
+			<Code editable={editable()} ln={0} wrap palette={palette()} class="h-50" lang="css" decorates={decorates()}>
 				{`/*
  * SPDX-FileCopyrightText: 2025 caixw
  *

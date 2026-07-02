@@ -113,7 +113,14 @@ export default function Stage(props: Props): JSX.Element {
 
 			<Show when={props.source}>
 				{s => (
-					<Code wrap ln={0} lang="tsx" class={styles.code} style={{ height: codeHeight() }} decorates={['toolbar']}>
+					<Code
+						wrap
+						ln={0}
+						lang="tsx"
+						class={styles.code}
+						style={{ height: codeHeight() }}
+						decorates={[Code.createToolbarDecorate('copy', 'fit', 'print', 'title')]}
+					>
 						{s()}
 					</Code>
 				)}

@@ -2,21 +2,25 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { getDecorates, registerDecorate, withDecorate } from './decorate';
-import { Code as C } from './root';
-import { buildHighlighter, highlight } from './shiki';
+import { borderDecorate, type CodeDecorate, copyButtonDecorate, createToolbarDecorate, withDecorate } from './decorate';
+import { Code as C, type CodeEditableProps, type CodeNormalProps, type CodeProps, type CodeRef } from './root';
+import { buildHighlighter, type CodeHighlighter, highlight } from './shiki';
 
 export const Code = Object.assign(C, {
-	decorates: getDecorates,
-	registerDecorate,
 	withDecorate,
 	buildHighlighter,
 	highlight,
+	borderDecorate,
+	copyButtonDecorate,
+	createToolbarDecorate,
 });
 
 export namespace Code {
-	export type Props = import('./root').CodeProps;
-	export type Ref = import('./root').CodeRef;
-	export type Highlighter = import('./shiki').CodeHighlighter;
-	export type Decorate = import('./decorate').CodeDecorate;
+	export type Props = CodeProps;
+	export type Ref = CodeRef;
+	export type NormalProps = CodeNormalProps;
+	export type EditableProps = CodeEditableProps;
+
+	export type Highlighter = CodeHighlighter;
+	export type Decorate = CodeDecorate;
 }

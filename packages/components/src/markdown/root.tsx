@@ -29,19 +29,21 @@ export interface MarkdownProps<T extends keyof HTMLElementTagNameMap = 'article'
 	/**
 	 * 指定渲染的组件
 	 */
-	components?: Record<string, () => JSX.Element>;
+	readonly components?: Record<string, () => JSX.Element>;
 
 	/**
 	 * 自定义标签
 	 *
 	 * @defaultValue 'article'
 	 */
-	tag?: T;
+	readonly tag?: T;
 
 	/**
 	 * 在完成渲染时的回调
 	 */
-	onComplete?: () => void;
+	readonly onComplete?: () => void;
+
+	readonly decorates?: Code.Props['decorates'];
 }
 
 /**
@@ -50,7 +52,7 @@ export interface MarkdownProps<T extends keyof HTMLElementTagNameMap = 'article'
  * @remarks
  * 需要需要支持代码高亮，可参考 {@link Code} 的实现。
  *
- * 还支持将组件渲染到最终的输出结果中，分为代码一样，分为 inline 和 block。
+ * 还支持将组件渲染到最终的输出结果中，和代码块一样，分为 inline 和 block。
  *  - inline 为 @`id`@，最终会生成一个 `<span></span>` 元素，并从 {@link MarkdownProps#components} 中获取对应的组件渲染到元素之内。
  *  - block 为 `@```id```@`，最终会生成一个 `<div></div>` 元素，并从 {@link MarkdownProps#components} 中获取对应的组件渲染到元素之内。
  */
@@ -65,16 +67,12 @@ export function Markdown<T extends keyof HTMLElementTagNameMap = 'article'>(prop
 	const [html, setHTML] = createSignal(props.text);
 	let ref: HTMLElement;
 
-	const disposes: Array<() => void> = [];
+	const disposes: Array<(() => void) | undefined> = [];
 	const cancel = () => {
-		if (disposes.length === 0) {
-			return;
+		if (disposes.length > 0) {
+			disposes.map(d => d?.());
+			disposes.length = 0;
 		}
-
-		for (const d of disposes) {
-			d();
-		}
-		disposes.length = 0;
 	};
 
 	onCleanup(() => cancel());
@@ -97,7 +95,7 @@ export function Markdown<T extends keyof HTMLElementTagNameMap = 'article'>(prop
 
 			Object.entries(props.components).forEach(([id, fn]) => {
 				ref.querySelectorAll(`[data-markdown-component="${id}"]`)?.forEach(el => {
-					runWithOwner(owner, () => disposes.push(render(fn, el)));
+					disposes.push(runWithOwner(owner, () => render(fn, el)));
 				});
 			});
 
@@ -105,8 +103,8 @@ export function Markdown<T extends keyof HTMLElementTagNameMap = 'article'>(prop
 				props.onComplete();
 			}
 
-			if (ref) {
-				runWithOwner(owner, () => disposes.push(Code.withDecorate(ref)));
+			if (ref && props.decorates) {
+				disposes.push(runWithOwner(owner, () => Code.withDecorate(ref, ...props.decorates!)));
 			}
 		});
 	});
@@ -132,21 +130,11 @@ function code() {
 		switch (token.type) {
 			case 'code':
 				{
-					const langs = token.lang.split(' ');
 					Object.assign(token, {
 						type: 'html',
 						block: true,
-						lang: langs[0],
-						text: await Code.highlight(
-							token.text,
-							langs[0],
-							undefined,
-							true,
-							undefined,
-							undefined,
-							undefined,
-							langs[1],
-						),
+						lang: token.lang,
+						text: await Code.highlight(token.text, token.lang, undefined, true, undefined, undefined, undefined),
 					});
 				}
 				break;

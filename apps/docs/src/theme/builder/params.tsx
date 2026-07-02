@@ -103,7 +103,7 @@ export function params(s: SchemeStore): JSX.Element {
 					</Dialog.Toolbar>
 				}
 			>
-				<Code lang="json" class="h-full" ln={0} decorates={['copy-button']}>
+				<Code lang="json" class="h-full" ln={0} decorates={[Code.copyButtonDecorate]}>
 					{source()}
 				</Code>
 			</Dialog>
