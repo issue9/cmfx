@@ -8,16 +8,16 @@ import type { Problem } from './rest';
  * 表示与后端交互过程中的错误信息
  */
 export class APIError extends Error {
-	#status: number;
-	#title?: string;
-	#headers?: Headers;
-
 	/**
 	 * 将 {@link Problem} 转换为 {@link APIError} 对象
 	 */
 	static fromProblem<E>(p: Problem<E>): APIError {
 		return new APIError(p.status, p?.title, p.headers, p?.detail);
 	}
+
+	readonly #status: number;
+	readonly #title?: string;
+	readonly #headers?: Headers;
 
 	/**
 	 * 构造函数
@@ -39,6 +39,9 @@ export class APIError extends Error {
 
 	/**
 	 * 表示 HTTP 状态码
+	 *
+	 * @remarks
+	 * 如果该值为 0，表示发生在请求生效之前，比如网络出问题，或是浏览器本身的问题等。
 	 */
 	get status(): number {
 		return this.#status;

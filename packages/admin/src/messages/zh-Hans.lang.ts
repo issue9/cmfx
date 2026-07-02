@@ -47,6 +47,7 @@ const messages: typeof m = {
 			internalServerError: '服务端内部发生错误',
 			serverUnavailable: '服务暂不可用',
 			gatewayTimeout: '请求网关超时',
+			noNetwork: '没有网络',
 
 			// 以下为一些内置的错误提示信息
 			canNotBeEmpty: '不能为空',

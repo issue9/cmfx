@@ -65,9 +65,9 @@
 			{
 				"name": "echarts",
 				"summary": "返回 echarts 的操作实例\n\n",
-				"type": "echarts(): echarts.ECharts",
+				"type": "echarts(): echarts.ECharts | undefined",
 				"return": {
-					"type": "echarts.ECharts"
+					"type": "echarts.ECharts | undefined"
 				}
 			},
 			{
@@ -411,9 +411,9 @@
 			{
 				"name": "echarts",
 				"summary": "返回 echarts 的操作实例\n\n",
-				"type": "echarts(): echarts.ECharts",
+				"type": "echarts(): echarts.ECharts | undefined",
 				"return": {
-					"type": "echarts.ECharts"
+					"type": "echarts.ECharts | undefined"
 				}
 			},
 			{

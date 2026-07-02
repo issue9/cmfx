@@ -19,18 +19,26 @@
 			{
 				"name": "components",
 				"summary": "指定渲染的组件\n\n",
-				"type": "Record<string, () => JSX.Element> | undefined"
+				"type": "Record<string, () => JSX.Element> | undefined",
+				"readonly": true
 			},
 			{
 				"name": "tag",
 				"summary": "自定义标签\n\n",
 				"type": "T | undefined",
-				"def": "'article'\n\n"
+				"def": "'article'\n\n",
+				"readonly": true
 			},
 			{
 				"name": "onComplete",
 				"summary": "在完成渲染时的回调\n\n",
-				"type": "(() => void) | undefined"
+				"type": "(() => void) | undefined",
+				"readonly": true
+			},
+			{
+				"name": "decorates",
+				"type": "CodeDecorate[] | undefined",
+				"readonly": true
 			},
 			{
 				"name": "palette",

@@ -837,6 +837,7 @@
 			{
 				"name": "status",
 				"summary": "表示 HTTP 状态码\n\n",
+				"remarks": "如果该值为 0，表示发生在请求生效之前，比如网络出问题，或是浏览器本身的问题等。\n\n",
 				"type": "number",
 				"getter": true
 			},

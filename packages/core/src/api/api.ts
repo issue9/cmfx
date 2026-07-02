@@ -424,7 +424,11 @@ export class API implements REST {
 		}
 		const isMatched = !!resp; // 是否是从缓存中匹配到的数据
 		if (!resp) {
-			resp = await fetch(req);
+			try {
+				resp = await fetch(req);
+			} catch (e) {
+				throw new APIError(0, 'fetch', undefined, Error.isError(e) ? e.message : `${e}`);
+			}
 		}
 
 		// 200-299
@@ -486,7 +490,7 @@ export class API implements REST {
 	 * @param needLogin - 是否需要登录状态才能访问；
 	 * 如果该值为 true，那么需要 path 参数提供的地址应该包含一 POST 请求，用于获取一个临时的访问令牌；
 	 * @remarks
-	 * 实例会被保存，多次调用相同的地址，会返回同一个实例。如非确定，不应该主动关闭 {@link EventSurce} 对象。
+	 * 实例会被保存，多次调用相同的地址，会返回同一个实例。如非确定，不应该主动关闭 {@link EventSource} 对象。
 	 */
 	async eventSource(path: string, needLogin?: boolean): Promise<EventSource> {
 		// NOTE: 刷新页面可能导致 EventSource 无效

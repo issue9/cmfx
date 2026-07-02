@@ -6,7 +6,7 @@ import { Button, Result, useLocale } from '@cmfx/components';
 import { APIError } from '@cmfx/core';
 import { amico } from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
-import { createMemo, createSignal, type JSX } from 'solid-js';
+import { createMemo, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
 import { useOptions } from './options';
 import styles from './style.module.css';
@@ -65,6 +65,38 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					</Button>
 					<Button palette="primary" onclick={reset}>
 						{l.t('_c.reset')}
+					</Button>
+				</div>
+			</Result>
+		);
+	};
+
+	const offline = (): JSX.Element => {
+		const text = l.t('_p.error.noNetwork');
+
+		const [disabled, setDisabled] = createSignal(true);
+		const setDisabledTrue = () => setDisabled(true);
+		const setDisabledFalse = () => setDisabled(false);
+		onMount(() => {
+			window.addEventListener('online', setDisabledFalse);
+			window.addEventListener('offline', setDisabledTrue);
+		});
+		onCleanup(() => {
+			window.removeEventListener('online', setDisabledFalse);
+			window.removeEventListener('offline', setDisabledTrue);
+		});
+
+		return (
+			<Result palette="error" title={text} illustration={<amico.Offline text={text} />}>
+				<div class={styles['error-actions']}>
+					<Button palette="primary" type="a" href={opt.routes.private.home}>
+						{l.t('_p.error.backHome')}
+					</Button>
+					<Button palette="primary" onclick={() => nav(-1)}>
+						{l.t('_p.error.backPrev')}
+					</Button>
+					<Button palette="primary" disabled={disabled()} onclick={() => window.location.reload()}>
+						{l.t('_c.refresh')}
 					</Button>
 				</div>
 			</Result>
@@ -183,8 +215,10 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 						</div>
 					</Result>
 				);
+			case 0:
+				return offline();
 			default:
-				return unknown(l.t('_p.error.unknownError'));
+				return navigator.onLine ? unknown(l.t('_p.error.unknownError'), err.message) : offline();
 		}
 	} else if (err instanceof Error) {
 		// TODO: 改为 Error.isError https://caniuse.com/?search=isError
