@@ -15,7 +15,7 @@ export interface ChartRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 返回 echarts 的操作实例
 	 */
-	echarts(): echarts.ECharts;
+	echarts(): echarts.ECharts | undefined;
 
 	/**
 	 * 更新图表数据
@@ -70,7 +70,7 @@ export function Chart(props: ChartProps): JSX.Element {
 	const [opt] = useOptions();
 	const l = useLocale();
 
-	let inst: echarts.ECharts;
+	let inst: echarts.ECharts | undefined;
 
 	const theme = {
 		// TODO: https://github.com/apache/echarts/issues/20757
@@ -83,22 +83,21 @@ export function Chart(props: ChartProps): JSX.Element {
 		*/
 	};
 
-	const resize = () => {
-		inst.resize();
-	};
+	const resize = () => inst?.resize();
 
 	onMount(() => {
 		window.addEventListener('resize', resize);
 	});
 
 	onCleanup(() => {
-		inst.dispose();
 		window.removeEventListener('resize', resize);
+		inst?.dispose();
+		inst = undefined;
 	});
 
 	createEffect(
 		on(isReducedMotion, () => {
-			inst.setOption({ animation: !isReducedMotion() });
+			inst?.setOption({ animation: !isReducedMotion() });
 		}),
 	);
 
@@ -127,7 +126,7 @@ export function Chart(props: ChartProps): JSX.Element {
 					props.ref({
 						root: () => el,
 						echarts: () => inst,
-						update: o => inst.setOption(o),
+						update: o => inst?.setOption(o),
 					});
 				}
 			}}
