@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { APIError } from '@cmfx/core';
 import { expect, test } from 'vitest';
+
+import { APIError } from './errors';
 
 test('APIError', () => {
 	const e = new APIError(500, 'title', new Headers({ 'Retry-After': '10' }), 'msg');

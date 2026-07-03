@@ -206,17 +206,17 @@ function NotFound(): JSX.Element {
 	const nav = useNavigate();
 
 	const text = createMemo(() => {
-		return l.t('_d.error.pageNotFound');
+		return l.t('_p.error.pageNotFound');
 	});
 
 	return (
 		<Result palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
 			<div class={styles['error-actions']}>
 				<Button palette="primary" type="a" href="/">
-					{l.t('_d.error.backHome')}
+					{l.t('_p.error.backHome')}
 				</Button>
 				<Button palette="primary" type="button" onclick={() => nav(-1)}>
-					{l.t('_d.error.backPrev')}
+					{l.t('_p.error.backPrev')}
 				</Button>
 			</div>
 		</Result>

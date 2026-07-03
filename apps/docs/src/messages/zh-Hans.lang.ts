@@ -26,11 +26,6 @@ const messages: typeof m = {
 			property: '属性',
 			returnValue: '返回值',
 		},
-		error: {
-			pageNotFound: '页面不存在',
-			backHome: '返回首页',
-			backPrev: '返回上一页',
-		},
 		main: {
 			home: '首页',
 			docs: '文档',

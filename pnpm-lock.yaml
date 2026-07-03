@@ -270,6 +270,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@cmfx/admin':
+        specifier: workspace:*
+        version: link:../../packages/admin
       '@cmfx/components':
         specifier: workspace:*
         version: link:../../packages/components

@@ -14,6 +14,7 @@ export const options: Options = {
 	timezone: 'Asia/Shanghai',
 	messages: {
 		en: [
+			async () => (await import('@cmfx/admin/en.lang')).default,
 			async () => (await import('@cmfx/components/en.lang')).default,
 			async () => (await import('@cmfx/illustrations/en.lang')).default,
 			async () => (await import('./messages/en.lang.js')).default,
@@ -21,6 +22,7 @@ export const options: Options = {
 			createZodLocaleLoader((await import('../node_modules/zod/v4/locales/en.js')).default),
 		],
 		'zh-Hans': [
+			async () => (await import('@cmfx/admin/zh-Hans.lang')).default,
 			async () => (await import('@cmfx/components/zh-Hans.lang')).default,
 			async () => (await import('@cmfx/illustrations/zh-Hans.lang')).default,
 			async () => (await import('./messages/zh-Hans.lang.js')).default,

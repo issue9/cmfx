@@ -34,8 +34,8 @@ const messages = {
 			unknown: 'Unknown',
 		},
 		error: {
-			backHome: 'Back home',
-			backPrev: 'Back prev page',
+			backHome: 'Back to home',
+			backPrev: 'Back to previous page',
 			unknownError: 'Unknown error',
 			badRequest: 'Bad request',
 			unauthorized: 'Unauthorized',

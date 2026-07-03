@@ -14,13 +14,13 @@ import styles from './style.module.css';
 /**
  * 404 错误
  */
-export function NotFound(): JSX.Element {
+export function NotFound(err?: APIError): JSX.Element {
 	const l = useLocale();
 	const opt = useOptions();
 	const nav = useNavigate();
 
 	const text = createMemo(() => {
-		return l.t('_p.error.pageNotFound');
+		return err?.title || l.t('_p.error.pageNotFound');
 	});
 
 	return (
@@ -109,7 +109,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 		let text: string;
 		switch (err.status) {
 			case 400:
-				text = l.t('_p.error.badRequest');
+				text = err.title || l.t('_p.error.badRequest');
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error400 text={text} />}>
 						<div class={styles['error-actions']}>
@@ -126,7 +126,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					return <Navigate href={/*@once*/ opt.routes.public.home} />;
 				}
 
-				text = l.t('_p.error.unauthorized');
+				text = err.title || l.t('_p.error.unauthorized');
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error401 text={text} />}>
 						<div class={styles['error-actions']}>
@@ -139,7 +139,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				);
 			}
 			case 403:
-				text = l.t('_p.error.forbidden');
+				text = err.title || l.t('_p.error.forbidden');
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error403 text={text} />}>
 						<div class={styles['error-actions']}>
@@ -154,9 +154,9 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					</Result>
 				);
 			case 404:
-				return NotFound();
+				return NotFound(err);
 			case 429:
-				text = l.t('_p.error.tooManyRequests');
+				text = err.title || l.t('_p.error.tooManyRequests');
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error429 text={text} />}>
 						<div class={styles['error-actions']}>
@@ -168,7 +168,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					</Result>
 				);
 			case 500:
-				text = l.t('_p.error.internalServerError');
+				text = err.title || l.t('_p.error.internalServerError');
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error500 text={text} />}>
 						<div class={styles['error-actions']}>
@@ -183,9 +183,9 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					</Result>
 				);
 			case 503:
-				text = l.t('_p.error.serverUnavailable');
+				text = err.title || l.t('_p.error.serverUnavailable');
 				return (
-					<Result palette="error" title={text} illustration={<amico.Error503 text={text} />}>
+					<Result palette="error" title={text} illustration={<amico.Error503 text={err.title} />}>
 						<div class={styles['error-actions']}>
 							<Button palette="primary" type="a" href={opt.routes.private.home}>
 								{l.t('_p.error.backHome')}
@@ -201,7 +201,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					</Result>
 				);
 			case 504:
-				text = l.t('_p.error.gatewayTimeout');
+				text = err.title || l.t('_p.error.gatewayTimeout');
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error504 text={text} />}>
 						<div class={styles['error-actions']}>

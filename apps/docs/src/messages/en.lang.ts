@@ -24,11 +24,6 @@ const messages = {
 			property: 'Property',
 			returnValue: 'Return value',
 		},
-		error: {
-			pageNotFound: 'Page not found',
-			backHome: 'Back to home',
-			backPrev: 'Back to previous page',
-		},
 		main: {
 			home: 'Home',
 			docs: 'Documentation',
