@@ -38,7 +38,8 @@ export interface MenuItemItem<T extends AvailableEnumType = string> {
 	/**
 	 * 表示当前项的唯一值
 	 *
-	 * @remarks 该值为空时，{@link MenuItem#items} 不能为空，
+	 * @remarks
+	 * 该值为空时，{@link MenuItem#items} 不能为空，
 	 * 如果 {@link "type"} 为 a 时，当前值表示链接的地址。
 	 */
 	value?: T;
@@ -46,7 +47,8 @@ export interface MenuItemItem<T extends AvailableEnumType = string> {
 	/**
 	 * 子项
 	 *
-	 * @remarks 该值为空时，{@link MenuItem#value} 不能为空。
+	 * @remarks
+	 * 该值为空时，{@link MenuItem#value} 不能为空。
 	 */
 	items?: Array<MenuItem<T>>;
 
@@ -63,7 +65,8 @@ export interface MenuItemItem<T extends AvailableEnumType = string> {
 	/**
 	 * 菜单项尾部的内容
 	 *
-	 * @remarks 当 {@link MenuItem#items} 不为空时，该值无效。
+	 * @remarks
+	 * 当 {@link MenuItem#items} 不为空时，该值无效。
 	 */
 	suffix?: JSX.Element;
 

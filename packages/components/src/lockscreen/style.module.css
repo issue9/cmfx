@@ -1,0 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../style.css";
+
+@layer components {
+	.lock-screen {
+		@apply w-full h-full relative;
+
+		.screen {
+			@apply w-full h-full z-dialog absolute top-0 left-0;
+		}
+
+		.locked {
+			@apply block;
+		}
+
+		.unlocked {
+			@apply hidden;
+		}
+	}
+}
