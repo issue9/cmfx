@@ -7,9 +7,9 @@ import { describe, expect, test } from 'vitest';
 import { ComponentTester } from '@components/context/options/context.spec';
 import { LockScreen, type LockScreenRef } from './root';
 
-describe('Markdown', async () => {
+describe('LockScreen', async () => {
 	let ref: LockScreenRef;
-	const ct = await ComponentTester.build('Markdown', props => <LockScreen {...props} ref={el => (ref = el)} />);
+	const ct = await ComponentTester.build('LockScreen', props => <LockScreen {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

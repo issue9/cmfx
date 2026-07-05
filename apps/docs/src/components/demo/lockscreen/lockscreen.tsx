@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LockScreen, type MountProps } from '@cmfx/components';
+import { Button, LockScreen, type MountProps, Notify, useOptions } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -10,6 +10,7 @@ import { paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
+	const [, opt] = useOptions();
 
 	const Content = (): JSX.Element => {
 		const ctx = LockScreen.use();
@@ -26,7 +27,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<LockScreen palette={palette()}>
+			<LockScreen palette={palette()} avatar={opt.logo} name='admin' logout={() => Notify.info('logout')}>
 				<Content />
 			</LockScreen>
 		</>

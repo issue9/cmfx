@@ -86,6 +86,11 @@ const messages = {
 			alignJustify: 'Align justify',
 			addImage: 'Add image',
 		},
+		lockScreen: {
+			unlock: 'Unlock',
+			logout: 'Logout',
+			enterPassword: 'Enter password',
+		},
 		pagination: {
 			prev: 'Prev',
 			next: 'Next',

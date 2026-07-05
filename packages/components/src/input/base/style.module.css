@@ -8,7 +8,7 @@
 
 @layer components {
 	.input {
-		@apply rounded-md border border-palette-border flex justify-between text-center w-full h-full;
+		@apply rounded-md border border-palette-border flex justify-between text-center w-full;
 
 		@apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
 		@apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;

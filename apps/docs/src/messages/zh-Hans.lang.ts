@@ -119,7 +119,7 @@ const messages: typeof m = {
 			formatter: 'Formatter 格式化',
 			icon: 'Icon 图标',
 			illustrations: 'Illustrations 插画',
-			input: 'Input 输入框基础',
+			input: 'Input 输入框',
 			label: 'Label 标题',
 			localeConfig: 'Locale Config 国际化配置',
 			lockScreen: 'Lock Screen 锁屏',
