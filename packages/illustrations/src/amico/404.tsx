@@ -3,7 +3,7 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, type Props } from '../common/props';
+import { buildClass, type Props } from '@illustrations/common';
 
 /**
  * 表示 404 错误的 SVG 插画组件
