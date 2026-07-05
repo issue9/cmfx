@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 
 import styles from './style.module.css';
 
@@ -17,6 +18,14 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	text?: string;
 }
 
-export function buildClass(props: Props): string | undefined {
-	return joinClass(props.palette, styles.illustration, props.class);
+export function buildSVGProps(props: Props): JSX.SvgSVGAttributes<SVGSVGElement> {
+	return {
+		xmlns: 'http://www.w3.org/2000/svg',
+		viewBox: '0 0 500 500',
+		class: joinClass(props.palette, styles.illustration, props.class),
+		style: props.style,
+		role: 'presentation',
+		'aria-hidden': true,
+		ref: el => props.ref?.({ root: () => el }),
+	};
 }

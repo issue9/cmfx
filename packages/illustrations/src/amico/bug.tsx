@@ -3,7 +3,7 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildClass, type Props } from '@illustrations/common';
+import { buildSVGProps, type Props } from '@illustrations/common';
 
 /**
  * 表示未知错误的 SVG 插画组件
@@ -14,15 +14,7 @@ export default function BUG(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 500 500"
-			class={buildClass(props)}
-			style={props.style}
-			role="presentation"
-			aria-hidden={true}
-			ref={el => props.ref?.({ root: () => el })}
-		>
+		<svg {...buildSVGProps(props)}>
 			<title>{props.text || l.t('_i.bug')}</title>
 			<defs>
 				<path
