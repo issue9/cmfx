@@ -283,6 +283,49 @@
 						"type": "T | undefined"
 					},
 					{
+						"name": "label",
+						"summary": "菜单项的内容\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "prefix",
+						"summary": "菜单项前置的内容\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "suffix",
+						"summary": "菜单项尾部的内容\n\n",
+						"remarks": "当\n`items`\n不为空时，该值无效。\n\n",
+						"type": "JSX.Element"
+					},
+					{
+						"name": "disabled",
+						"summary": "是否禁用该项\n\n",
+						"type": "boolean | undefined"
+					},
+					{
+						"name": "hotkey",
+						"summary": "快捷键\n\n",
+						"type": "Hotkey | undefined"
+					}
+				]
+			},
+			{
+				"kind": "interface",
+				"name": "MenuItemItems",
+				"typeParams": [
+					{
+						"name": "T",
+						"type": "AvailableEnumType",
+						"init": "string"
+					}
+				],
+				"properties": [
+					{
+						"name": "type",
+						"type": "\"items\""
+					},
+					{
 						"name": "items",
 						"summary": "子项\n\n",
 						"remarks": "该值为空时，\n`value`\n不能为空。\n\n",
@@ -308,11 +351,6 @@
 						"name": "disabled",
 						"summary": "是否禁用该项\n\n",
 						"type": "boolean | undefined"
-					},
-					{
-						"name": "hotkey",
-						"summary": "快捷键\n\n",
-						"type": "Hotkey | undefined"
 					}
 				]
 			}

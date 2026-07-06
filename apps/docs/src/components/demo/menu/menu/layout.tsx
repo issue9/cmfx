@@ -25,7 +25,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('primary');
 	const [SelectedCls, selectedCls] = selectedClassSelector(undefined);
 
-	const items: Array<Menu.MenuItem<number>> = [
+	const items: Array<Menu.Item<number>> = [
 		{ type: 'item', value: 1, label: 'v1', prefix: <IconFace />, disabled: true },
 		{ type: 'item', value: 2, label: 'v2' },
 		{ type: 'divider' },
@@ -36,14 +36,12 @@ export default function (props: MountProps): JSX.Element {
 				{ type: 'item', value: 22, label: 'v22' },
 				{ type: 'divider' },
 				{
-					type: 'item',
-					value: 23,
+					type: 'items',
 					label: 'v23',
 					items: [
 						{ type: 'item', value: 233, label: 'v233' },
 						{
-							type: 'item',
-							value: 234,
+							type: 'items',
 							label: 'v234',
 							items: [
 								{ type: 'item', value: 2341, label: 'v2341' },
@@ -58,16 +56,14 @@ export default function (props: MountProps): JSX.Element {
 		},
 		{ type: 'item', value: 3, label: 'v3' },
 		{
-			type: 'item',
-			value: 4,
+			type: 'items',
 			label: '很长很长很长的标题-v4',
 			prefix: <IconFace />,
 			items: [
 				{ type: 'item', value: 41, label: 'v41' },
 				{ type: 'divider' },
 				{
-					type: 'item',
-					value: 42,
+					type: 'items',
 					label: 'v42',
 					prefix: <IconFace />,
 					items: [

@@ -204,13 +204,12 @@ function walk<T extends AvailableEnumType = string>(
 			case 'group':
 				walk<T>(f, o.items);
 				break;
+			case 'items':
+				walk<T>(f, o.items);
+				break;
 			case 'item':
-				if (o.items && o.items.length > 0) {
-					walk<T>(f, o.items);
-				} else {
-					if (f(o)) {
-						return;
-					}
+				if (f(o)) {
+					return;
 				}
 				break;
 			// NOTE: 自动忽略 a
