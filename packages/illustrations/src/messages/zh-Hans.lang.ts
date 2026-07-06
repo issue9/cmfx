@@ -20,6 +20,7 @@ const messages: typeof m = {
 		userLogin: '欢迎回来',
 		offline: '无网络',
 		myWallet: '钱包',
+		about: '关于',
 	},
 };
 

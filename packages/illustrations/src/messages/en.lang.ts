@@ -18,6 +18,7 @@ const messages = {
 		userLogin: 'User Login',
 		offline: 'Offline',
 		myWallet: 'My Wallet',
+		about: 'About',
 	},
 };
 
