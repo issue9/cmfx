@@ -92,6 +92,8 @@ const messages: Messages = {
 			unlock: '解锁',
 			logout: '退出当前登录账号',
 			enterPassword: '请输入锁屏密码',
+			cancel: '取消',
+			lock: '锁定',
 		},
 		pagination: {
 			prev: '前一页',

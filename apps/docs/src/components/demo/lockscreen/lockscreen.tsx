@@ -11,15 +11,7 @@ import { paletteSelector } from '@docs/components/base';
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [, opt] = useOptions();
-
-	const Content = (): JSX.Element => {
-		const ctx = LockScreen.use();
-		return (
-			<div class="h-100 w-100 bg-palette-bg">
-				<Button onclick={() => ctx.lock()}>lock</Button>
-			</div>
-		);
-	};
+	let ref: LockScreen.Ref;
 
 	return (
 		<>
@@ -27,8 +19,16 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<LockScreen palette={palette()} avatar={opt.logo} name='admin' logout={() => Notify.info('logout')}>
-				<Content />
+			<LockScreen
+				ref={el => (ref = el)}
+				palette={palette()}
+				avatar={opt.logo}
+				name="admin"
+				logout={() => Notify.info('logout')}
+			>
+				<div class="h-100 w-100 bg-red-500">
+					<Button onclick={() => ref.lock()}>lock</Button>
+				</div>
 			</LockScreen>
 		</>
 	);

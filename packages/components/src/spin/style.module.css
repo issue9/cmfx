@@ -10,9 +10,9 @@
 	.spin {
 		@apply relative;
 
-		.indicator {
+		.overlay {
 			@apply cursor-wait;
-			@apply px-4 items-center justify-center w-full h-full top-0 start-0 absolute flex;
+			@apply px-4 items-center justify-center w-full h-full top-0 inset-s-0 absolute flex;
 			@apply bg-transparent;
 		}
 	}

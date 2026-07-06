@@ -7,27 +7,15 @@
 @reference "../style.css";
 
 @layer components {
-	.lock-screen {
-		@apply w-full h-full relative;
+	.screen {
+		@apply bg-palette-bg! cursor-default! p-0!;
 
-		.screen {
-			@apply w-full h-full z-dialog absolute top-0 left-0 bg-palette-bg;
+		.password {
+			@apply xl:w-60 w-full h-full flex flex-col items-center justify-center gap-4 mx-auto;
 
-			.password {
-				@apply w-60 h-full flex flex-col items-center justify-center gap-4 mx-auto;
-
-				.btn {
-					@apply w-full;
-				}
+			.item {
+				@apply w-full;
 			}
-		}
-
-		.screen.locked {
-			@apply block;
-		}
-
-		.screen.unlocked {
-			@apply hidden;
 		}
 	}
 }

@@ -90,6 +90,8 @@ const messages = {
 			unlock: 'Unlock',
 			logout: 'Logout',
 			enterPassword: 'Enter password',
+			cancel: 'Cancel',
+			lock: 'Lock',
 		},
 		pagination: {
 			prev: 'Prev',
