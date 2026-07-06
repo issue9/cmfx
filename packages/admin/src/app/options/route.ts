@@ -36,6 +36,20 @@ interface Group {
 	routes: Array<RouteDefinition>;
 }
 
+interface ItemBase {
+	/**
+	 * 图标名称
+	 */
+	icon?: JSX.Element;
+
+	/**
+	 * 菜单的标题的翻译 ID
+	 */
+	label: string;
+
+	suffix?: JSX.Element;
+}
+
 export type MenuItem =
 	| {
 			type: 'divider';
@@ -53,36 +67,27 @@ export type MenuItem =
 			 */
 			items: Array<MenuItem>;
 	  }
-	| {
-			type: 'item';
-
-			/**
-			 * 图标名称
-			 */
-			icon?: JSX.Element;
-
-			/**
-			 * 菜单的标题的翻译 ID
-			 */
-			label: string;
-
-			/**
-			 * 路由的跳转路径，如果是分组项，此值为空。
-			 */
-			path?: string;
+	| ({
+			type: 'items';
 
 			/**
 			 * 子菜单
 			 */
 			items?: Array<MenuItem>;
+	  } & ItemBase)
+	| ({
+			type: 'item';
+
+			/**
+			 * 路由的跳转路径
+			 */
+			path?: string;
 
 			/**
 			 * 快捷键
 			 */
 			hotkey?: Hotkey;
-
-			suffix?: JSX.Element;
-	  };
+	  } & ItemBase);
 
 export function buildItems(l: Locale, menus: Array<MenuItem>): Array<Menu.Item> {
 	const items: Array<Menu.Item> = [];
@@ -98,15 +103,23 @@ export function buildItems(l: Locale, menus: Array<MenuItem>): Array<Menu.Item> 
 					items: buildItems(l, mi.items),
 				});
 				break;
+			case 'items':
+				items.push({
+					type: 'items',
+					prefix: mi.icon,
+					label: l.t(mi.label),
+					suffix: mi.suffix,
+					items: mi.items ? buildItems(l, mi.items) : undefined,
+				});
+				break;
 			case 'item':
 				items.push({
 					type: 'a',
 					prefix: mi.icon,
 					label: l.t(mi.label),
+					suffix: mi.suffix,
 					value: mi.path,
 					hotkey: mi.hotkey,
-					items: mi.items ? buildItems(l, mi.items) : undefined,
-					suffix: mi.suffix,
 				});
 				break;
 		}

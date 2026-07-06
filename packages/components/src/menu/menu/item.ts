@@ -7,6 +7,30 @@ import type { JSX } from 'solid-js';
 
 import type { AvailableEnumType } from '@components/base';
 
+interface ItemBase {
+	/**
+	 * 菜单项的内容
+	 */
+	label: JSX.Element;
+
+	/**
+	 * 菜单项前置的内容
+	 */
+	prefix?: JSX.Element;
+
+	/**
+	 * 菜单项尾部的内容
+	 *
+	 * @remarks 当 {@link MenuItem#items} 不为空时，该值无效。
+	 */
+	suffix?: JSX.Element;
+
+	/**
+	 * 是否禁用该项
+	 */
+	disabled?: boolean;
+}
+
 /**
  * 菜单项
  */
@@ -33,7 +57,7 @@ export interface MenuItemGroup<T extends AvailableEnumType = string> {
 	items: Array<MenuItem<T>>;
 }
 
-export interface MenuItemItems<T extends AvailableEnumType = string> {
+export interface MenuItemItems<T extends AvailableEnumType = string> extends ItemBase {
 	type: 'items';
 
 	/**
@@ -42,31 +66,9 @@ export interface MenuItemItems<T extends AvailableEnumType = string> {
 	 * @remarks 该值为空时，{@link MenuItem#value} 不能为空。
 	 */
 	items: Array<MenuItem<T>>;
-
-	/**
-	 * 菜单项的内容
-	 */
-	label: JSX.Element;
-
-	/**
-	 * 菜单项前置的内容
-	 */
-	prefix?: JSX.Element;
-
-	/**
-	 * 菜单项尾部的内容
-	 *
-	 * @remarks 当 {@link MenuItem#items} 不为空时，该值无效。
-	 */
-	suffix?: JSX.Element;
-
-	/**
-	 * 是否禁用该项
-	 */
-	disabled?: boolean;
 }
 
-export interface MenuItemItem<T extends AvailableEnumType = string> {
+export interface MenuItemItem<T extends AvailableEnumType = string> extends ItemBase {
 	/**
 	 * 表示普通的菜单项，如果为 a 表示这是一个链接。
 	 */
@@ -75,32 +77,10 @@ export interface MenuItemItem<T extends AvailableEnumType = string> {
 	/**
 	 * 表示当前项的唯一值
 	 *
-	 * @remarks 该值为空时，{@link MenuItem#items} 不能为空，
+	 * @remarks
 	 * 如果 {@link "type"} 为 a 时，当前值表示链接的地址。
 	 */
 	value?: T;
-
-	/**
-	 * 菜单项的内容
-	 */
-	label: JSX.Element;
-
-	/**
-	 * 菜单项前置的内容
-	 */
-	prefix?: JSX.Element;
-
-	/**
-	 * 菜单项尾部的内容
-	 *
-	 * @remarks 当 {@link MenuItem#items} 不为空时，该值无效。
-	 */
-	suffix?: JSX.Element;
-
-	/**
-	 * 是否禁用该项
-	 */
-	disabled?: boolean;
 
 	/**
 	 * 快捷键
