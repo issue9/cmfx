@@ -23,6 +23,8 @@ import { default as E503 } from './503';
 import { default as e503 } from './503.tsx?raw';
 import { default as E504 } from './504';
 import { default as e504 } from './504.tsx?raw';
+import { default as About } from './about';
+import { default as about } from './about.tsx?raw';
 import { default as BUG } from './bug';
 import { default as bug } from './bug.tsx?raw';
 import { default as Building } from './building';
@@ -54,6 +56,7 @@ export default function (): Info {
 			{ component: Building, source: building, id: 'building' },
 			{ component: Login, source: login, id: 'login' },
 			{ component: Offline, source: offline, id: 'offline' },
+			{ component: About, source: about, id: 'about' },
 		],
 	};
 }

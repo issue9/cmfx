@@ -38,4 +38,7 @@
 #### offline
 @```demo-offline```@
 
+#### about
+@```demo-about```@
+
 @```api```@
