@@ -50,6 +50,6 @@ export class admins implements Pages {
 	}
 
 	menus(): ReturnType<Pages['menus']> {
-		return [{ type: 'item', icon: <IconAccount />, label: '_p.admin.admin', path: this.#prefix }];
+		return [{ type: 'a', icon: <IconAccount />, label: '_p.admin.admin', path: this.#prefix }];
 	}
 }

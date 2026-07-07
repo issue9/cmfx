@@ -164,6 +164,8 @@ function Horizontal(props: ParentProps): JSX.Element {
 		return joinClass('surface', styles.app, styles.horizontal, f ? styles.float : undefined);
 	});
 
+	const [items, change] = buildItems(l, opt.menus);
+
 	return (
 		<Drawer
 			class={cls()}
@@ -200,7 +202,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 				href={opt.routes.private.home}
 				class={styles.toolbar}
 			/>
-			<Menu class={styles.menu} ref={el => (menuRef = el)} layout="inline" items={buildItems(l, opt.menus)} />
+			<Menu class={styles.menu} ref={el => (menuRef = el)} layout="inline" items={items} onChange={change} />
 		</Drawer>
 	);
 }
@@ -235,6 +237,8 @@ function Vertical(props: ParentProps): JSX.Element {
 		return joinClass(f ? 'surface' : bgPalette, styles.app, styles.vertical, f ? styles.float : undefined);
 	});
 
+	const [items, change] = buildItems(l, opt.menus);
+
 	return (
 		<div class={cls()} style={style()}>
 			<Appbar
@@ -261,7 +265,7 @@ function Vertical(props: ParentProps): JSX.Element {
 					mainClass={joinClass('surface', styles.content)}
 					main={<ErrorBoundary fallback={errorHandler}>{props.children}</ErrorBoundary>}
 				>
-					<Menu ref={el => (menuRef = el)} layout="inline" items={buildItems(l, opt.menus)} />
+					<Menu ref={el => (menuRef = el)} layout="inline" items={items} onChange={change} />
 				</Drawer>
 			</main>
 		</div>
@@ -276,8 +280,10 @@ function UserMenu(): JSX.Element {
 	const usr = useAdmin();
 	const l = useLocale();
 
+	const [items, change] = buildItems(l, opt.userMenus);
+
 	return (
-		<Dropdown trigger="hover" items={buildItems(l, opt.userMenus)}>
+		<Dropdown trigger="hover" items={items} onChange={change}>
 			<Button kind="flat" class="ps-1">
 				<img alt="avatar" class={styles.avatar} src={usr.info()?.avatar} />
 				{usr.info()?.name}

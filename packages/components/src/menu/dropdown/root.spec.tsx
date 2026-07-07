@@ -20,13 +20,12 @@ const items: Array<MenuItem> = [
 			{ type: 'item', value: 'v22', label: 'v22-label' },
 			{ type: 'divider' },
 			{
-				type: 'item',
-				value: 'v23',
+				type: 'items',
 				label: 'v23-label',
 				items: [
 					{ type: 'item', value: 'v233', label: 'v233-label' },
 					{
-						type: 'item',
+						type: 'items',
 						label: 'v234-label',
 						items: [
 							{ type: 'item', value: 'v2341', label: 'v2341-label' },

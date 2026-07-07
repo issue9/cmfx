@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { AvailableEnumType } from '@components/base';
-import type { MenuItem, MenuItemDivider, MenuItemGroup, MenuItemItem } from './item';
+import type { MenuItem, MenuItemDivider, MenuItemGroup, MenuItemItem, MenuItemItems } from './item';
 import type { MenuMultipleProps, MenuProps, MenuRef, MenuSingleProps } from './root';
 import { Menu as C, type MenuTag } from './root';
 
@@ -23,5 +23,6 @@ export namespace Menu {
 	export type ItemDivider = MenuItemDivider;
 	export type ItemGroup<T extends AvailableEnumType = string> = MenuItemGroup<T>;
 	export type ItemItem<T extends AvailableEnumType = string> = MenuItemItem<T>;
+	export type ItemItems<T extends AvailableEnumType = string> = MenuItemItems<T>;
 	export type Item<T extends AvailableEnumType = string> = MenuItem<T>;
 }

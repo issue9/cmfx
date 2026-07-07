@@ -209,55 +209,16 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 					)}
 				</Match>
 
-				<Match when={item.type === 'item' || item.type === 'a' ? item : undefined}>
+				<Match when={item.type === 'items' ? item : undefined}>
 					{i => {
-						const hk = i().hotkey;
-						let liRef: HTMLLIElement | undefined;
-						if (hk) {
-							onMount(() => {
-								Hotkey.bind(hk, () => {
-									liRef!.click();
-								});
-							});
-							onCleanup(() => {
-								Hotkey.unbind(hk);
-							});
-						}
-
-						const val = i().value;
-
 						let iconRef: IconSet.Ref;
 						const [expanded, setExpanded] = createSignal(false);
-						const hasItems = i().items && i().items!.length > 0;
-						const isAnchor = item.type === 'a';
 
-						const isSelected = createMemo(() => {
-							if (!val) {
-								return false;
-							}
-
-							// AvailableEnumType 只能是 string 和 number，用 toString 没问题
-							const vs = val.toString();
-							return (
-								(!isAnchor && selected().includes(val)) ||
-								(isAnchor && !!useMatch(() => (vs[vs.length - 1] === '/' ? vs : `${vs}/*?`))())
-							);
-						});
-						const cls = createMemo(() =>
-							joinClass(
-								undefined,
-								styles.item,
-								i().disabled ? props.disabledClass : '',
-								isSelected() ? props.selectedClass : '',
-							),
-						);
+						const cls = createMemo(() => joinClass(undefined, styles.item, i().disabled ? props.disabledClass : ''));
 
 						return (
 							// biome-ignore lint/a11y/useKeyWithClickEvents: mouse
 							<li
-								ref={el => {
-									liRef = el;
-								}}
 								class={cls()}
 								onMouseEnter={e => {
 									if (layout === 'inline') {
@@ -312,39 +273,7 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 									}
 									e.stopPropagation();
 
-									if (!hasItems) {
-										if (props.multiple) {
-											const old = selected();
-											setSelected(prev => {
-												if (prev.includes(val!)) {
-													return prev.filter(item => item !== val);
-												} else {
-													return [...prev, val!];
-												}
-											});
-											if (props.onChange) {
-												props.onChange(selected(), old);
-											}
-										} else {
-											const old = selected();
-											setSelected([val!]);
-											if (props.onChange) {
-												props.onChange(val!, old[0]);
-											}
-
-											if (layout !== 'inline') {
-												// 单选，还得处理弹出内容关闭的问题
-												if (i().level > 0) {
-													let ul = e.currentTarget.parentElement!;
-													for (let lv = 1; lv < i().level; lv++) {
-														ul = ul.parentElement!.parentElement!;
-													}
-													ul.classList.remove('popopen');
-													ul.classList.add('pop');
-												}
-											}
-										}
-									} else if (layout === 'inline') {
+									if (layout === 'inline') {
 										// 点击带有子菜单且为 inline
 										setExpanded(!expanded());
 										iconRef.to(expanded() ? 'up' : 'down');
@@ -398,9 +327,145 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 								<Dynamic
 									class={styles.title}
 									role={props.multiple ? 'menuitemcheckbox' : 'menuitemradio'}
+									tabindex={0}
+									component="button"
+									style={{
+										'padding-inline-start':
+											layout === 'inline' ? `calc(var(--spacing) * (${i().level} * 4 + 3))` : undefined,
+									}}
+								>
+									<Show when={i().prefix}>{prefix => <div class={styles.icon}>{prefix()}</div>}</Show>
+									{i().label}
+									<Show when={i().suffix}>{suffix => <span class={styles.suffix}>{suffix()}</span>}</Show>
+									<Switch
+										fallback={
+											<IconArrowRight class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])} />
+										}
+									>
+										<Match when={layout === 'horizontal'}>
+											<Switch>
+												<Match when={i().level === 0}>
+													{<IconArrowDown class={joinClass(undefined, styles.icon, styles.suffix)} />}
+												</Match>
+												<Match when={i().level > 0}>
+													{
+														<IconArrowRight
+															class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])}
+														/>
+													}
+												</Match>
+											</Switch>
+										</Match>
+										<Match when={layout === 'inline'}>
+											<IconSet
+												ref={el => {
+													iconRef = el;
+												}}
+												rotation="none"
+												class={joinClass(undefined, styles.icon, styles.suffix)}
+												palette={props.palette}
+												icons={{ up: <IconArrowUp />, down: <IconArrowDown /> }}
+											/>
+										</Match>
+									</Switch>
+								</Dynamic>
+								<ul>
+									<For each={i().items}>{child => buildMenuItem(child)}</For>
+								</ul>
+							</li>
+						);
+					}}
+				</Match>
+
+				<Match when={item.type === 'item' || item.type === 'a' ? item : undefined}>
+					{i => {
+						const hk = i().hotkey;
+						let liRef: HTMLLIElement | undefined;
+						if (hk) {
+							onMount(() => {
+								Hotkey.bind(hk, () => {
+									liRef!.click();
+								});
+							});
+							onCleanup(() => {
+								Hotkey.unbind(hk);
+							});
+						}
+
+						const val = i().value;
+						const isAnchor = item.type === 'a';
+
+						const isSelected = createMemo(() => {
+							if (!val) {
+								return false;
+							}
+
+							// AvailableEnumType 只能是 string 和 number，用 toString 没问题
+							const vs = val.toString();
+							return (
+								(!isAnchor && selected().includes(val)) ||
+								(isAnchor && !!useMatch(() => (vs[vs.length - 1] === '/' ? vs : `${vs}/*?`))())
+							);
+						});
+						const cls = createMemo(() =>
+							joinClass(
+								undefined,
+								styles.item,
+								i().disabled ? props.disabledClass : '',
+								isSelected() ? props.selectedClass : '',
+							),
+						);
+
+						return (
+							// biome-ignore lint/a11y/useKeyWithClickEvents: mouse
+							<li
+								ref={el => (liRef = el)}
+								class={cls()}
+								onClick={async e => {
+									if (i().disabled) {
+										return;
+									}
+									e.stopPropagation();
+
+									if (props.multiple) {
+										const old = selected();
+										setSelected(prev => {
+											if (prev.includes(val!)) {
+												return prev.filter(item => item !== val);
+											} else {
+												return [...prev, val!];
+											}
+										});
+										if (props.onChange) {
+											props.onChange(selected(), old);
+										}
+									} else {
+										const old = selected();
+										setSelected([val!]);
+										if (props.onChange) {
+											props.onChange(val!, old[0]);
+										}
+
+										if (layout !== 'inline') {
+											// 单选，还得处理弹出内容关闭的问题
+											if (i().level > 0) {
+												let ul = e.currentTarget.parentElement!;
+												for (let lv = 1; lv < i().level; lv++) {
+													ul = ul.parentElement!.parentElement!;
+												}
+												ul.classList.remove('popopen');
+												ul.classList.add('pop');
+											}
+										}
+									}
+								}}
+							>
+								<Dynamic
+									class={styles.title}
+									role={props.multiple ? 'menuitemcheckbox' : 'menuitemradio'}
 									aria-checked={isSelected()}
 									tabindex={0}
-									component={isAnchor && !hasItems ? A : 'button'}
+									component={isAnchor ? A : 'button'}
 									href={isAnchor && !i().disabled ? (val?.toString() ?? '') : ''}
 									style={{
 										'padding-inline-start':
@@ -410,49 +475,7 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 									<Show when={i().prefix}>{prefix => <div class={styles.icon}>{prefix()}</div>}</Show>
 									{i().label}
 									<Show when={i().suffix}>{suffix => <span class={styles.suffix}>{suffix()}</span>}</Show>
-									<Show when={hasItems}>
-										<Switch
-											fallback={
-												<IconArrowRight
-													class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])}
-												/>
-											}
-										>
-											<Match when={layout === 'horizontal'}>
-												<Switch>
-													<Match when={i().level === 0}>
-														{<IconArrowDown class={joinClass(undefined, styles.icon, styles.suffix)} />}
-													</Match>
-													<Match when={i().level > 0}>
-														{
-															<IconArrowRight
-																class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])}
-															/>
-														}
-													</Match>
-												</Switch>
-											</Match>
-											<Match when={layout === 'inline'}>
-												<IconSet
-													ref={el => {
-														iconRef = el;
-													}}
-													rotation="none"
-													class={joinClass(undefined, styles.icon, styles.suffix)}
-													palette={props.palette}
-													icons={{ up: <IconArrowUp />, down: <IconArrowDown /> }}
-												/>
-											</Match>
-										</Switch>
-									</Show>
 								</Dynamic>
-								<Show when={i().items}>
-									{items => (
-										<ul>
-											<For each={items()}>{child => buildMenuItem(child)}</For>
-										</ul>
-									)}
-								</Show>
 							</li>
 						);
 					}}

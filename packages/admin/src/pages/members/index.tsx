@@ -54,6 +54,6 @@ export class members implements Pages {
 	}
 
 	menus(): ReturnType<Pages['menus']> {
-		return [{ type: 'item', icon: <IconGroup />, label: '_p.member.member', path: this.#prefix }];
+		return [{ type: 'a', icon: <IconGroup />, label: '_p.member.member', path: this.#prefix }];
 	}
 }

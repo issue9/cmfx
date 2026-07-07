@@ -18,13 +18,12 @@ const items: Array<MenuItem> = [
 			{ type: 'item', value: 'v22', label: 'v22' },
 			{ type: 'divider' },
 			{
-				type: 'item',
-				value: 'v23',
+				type: 'items',
 				label: 'v23',
 				items: [
 					{ type: 'item', value: 'v233', label: 'v233' },
 					{
-						type: 'item',
+						type: 'items',
 						label: 'v234',
 						items: [
 							{ type: 'item', value: 'v2341', label: 'v2341' },
