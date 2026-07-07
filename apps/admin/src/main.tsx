@@ -93,26 +93,26 @@ const routes: Options['routes'] = {
 };
 
 const menus: Options['menus'] = [
-	{ type: 'item', icon: <IconDashboard />, label: '_p.current.dashboard', path: '/current/dashboard' },
-	{ type: 'item', label: 'nest.abc', path: '/test/5/test' },
+	{ type: 'a', icon: <IconDashboard />, label: '_p.current.dashboard', path: '/current/dashboard' },
+	{ type: 'a', label: 'nest.abc', path: '/test/5/test' },
 	{
 		type: 'group',
 		label: 'system',
 		items: [
 			{
-				type: 'item',
+				type: 'items',
 				label: 'administrator',
 				icon: <IconSettings />,
 				items: [...rolesPage.menus(), ...adminsPage.menus()],
 			},
 			{
-				type: 'item',
+				type: 'items',
 				label: '_p.system.system',
 				icon: <IconHost />,
 				items: [...systemPage.menus()],
 			},
 			{
-				type: 'item',
+				type: 'items',
 				label: '_p.member.member',
 				icon: <IconAccount />,
 				items: [...membersPage.menus()],

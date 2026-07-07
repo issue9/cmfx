@@ -79,13 +79,13 @@ export class system implements Pages {
 
 	menus(): ReturnType<Pages['menus']> {
 		const menus: ReturnType<Pages['menus']> = [
-			{ type: 'item', icon: <IconRoutes />, label: '_p.system.routes', path: `${this.#prefix}/routes` },
-			{ type: 'item', icon: <IconServices />, label: '_p.system.services', path: `${this.#prefix}/services` },
-			{ type: 'item', icon: <IconHelp />, label: '_p.system.serverInfo', path: `${this.#prefix}/info` },
-			{ type: 'item', icon: <IconSettings />, label: '_p.system.settings.settings', path: `${this.#prefix}/settings` },
+			{ type: 'a', icon: <IconRoutes />, label: '_p.system.routes', path: `${this.#prefix}/routes` },
+			{ type: 'a', icon: <IconServices />, label: '_p.system.services', path: `${this.#prefix}/services` },
+			{ type: 'a', icon: <IconHelp />, label: '_p.system.serverInfo', path: `${this.#prefix}/info` },
+			{ type: 'a', icon: <IconSettings />, label: '_p.system.settings.settings', path: `${this.#prefix}/settings` },
 		];
 		if (this.#about) {
-			menus.push({ type: 'item', icon: <IconInfo />, label: '_p.system.about', path: `${this.#prefix}/about` });
+			menus.push({ type: 'a', icon: <IconInfo />, label: '_p.system.about', path: `${this.#prefix}/about` });
 		}
 
 		return menus;

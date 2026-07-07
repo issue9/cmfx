@@ -210,17 +210,11 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 				</Match>
 
 				<Match when={item.type === 'items' ? item : undefined}>
-					{i=>{
+					{i => {
 						let iconRef: IconSet.Ref;
 						const [expanded, setExpanded] = createSignal(false);
 
-						const cls = createMemo(() =>
-							joinClass(
-								undefined,
-								styles.item,
-								i().disabled ? props.disabledClass : '',
-							),
-						);
+						const cls = createMemo(() => joinClass(undefined, styles.item, i().disabled ? props.disabledClass : ''));
 
 						return (
 							// biome-ignore lint/a11y/useKeyWithClickEvents: mouse
@@ -334,7 +328,7 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 									class={styles.title}
 									role={props.multiple ? 'menuitemcheckbox' : 'menuitemradio'}
 									tabindex={0}
-									component='button'
+									component="button"
 									style={{
 										'padding-inline-start':
 											layout === 'inline' ? `calc(var(--spacing) * (${i().level} * 4 + 3))` : undefined,
@@ -343,43 +337,41 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 									<Show when={i().prefix}>{prefix => <div class={styles.icon}>{prefix()}</div>}</Show>
 									{i().label}
 									<Show when={i().suffix}>{suffix => <span class={styles.suffix}>{suffix()}</span>}</Show>
-										<Switch
-											fallback={
-												<IconArrowRight
-													class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])}
-												/>
-											}
-										>
-											<Match when={layout === 'horizontal'}>
-												<Switch>
-													<Match when={i().level === 0}>
-														{<IconArrowDown class={joinClass(undefined, styles.icon, styles.suffix)} />}
-													</Match>
-													<Match when={i().level > 0}>
-														{
-															<IconArrowRight
-																class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])}
-															/>
-														}
-													</Match>
-												</Switch>
-											</Match>
-											<Match when={layout === 'inline'}>
-												<IconSet
-													ref={el => {
-														iconRef = el;
-													}}
-													rotation="none"
-													class={joinClass(undefined, styles.icon, styles.suffix)}
-													palette={props.palette}
-													icons={{ up: <IconArrowUp />, down: <IconArrowDown /> }}
-												/>
-											</Match>
-										</Switch>
+									<Switch
+										fallback={
+											<IconArrowRight class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])} />
+										}
+									>
+										<Match when={layout === 'horizontal'}>
+											<Switch>
+												<Match when={i().level === 0}>
+													{<IconArrowDown class={joinClass(undefined, styles.icon, styles.suffix)} />}
+												</Match>
+												<Match when={i().level > 0}>
+													{
+														<IconArrowRight
+															class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])}
+														/>
+													}
+												</Match>
+											</Switch>
+										</Match>
+										<Match when={layout === 'inline'}>
+											<IconSet
+												ref={el => {
+													iconRef = el;
+												}}
+												rotation="none"
+												class={joinClass(undefined, styles.icon, styles.suffix)}
+												palette={props.palette}
+												icons={{ up: <IconArrowUp />, down: <IconArrowDown /> }}
+											/>
+										</Match>
+									</Switch>
 								</Dynamic>
-										<ul>
-											<For each={i().items}>{child => buildMenuItem(child)}</For>
-										</ul>
+								<ul>
+									<For each={i().items}>{child => buildMenuItem(child)}</For>
+								</ul>
 							</li>
 						);
 					}}
@@ -427,48 +419,45 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 						return (
 							// biome-ignore lint/a11y/useKeyWithClickEvents: mouse
 							<li
-								ref={el =>
-									liRef = el
-								}
+								ref={el => (liRef = el)}
 								class={cls()}
-
 								onClick={async e => {
 									if (i().disabled) {
 										return;
 									}
 									e.stopPropagation();
 
-										if (props.multiple) {
-											const old = selected();
-											setSelected(prev => {
-												if (prev.includes(val!)) {
-													return prev.filter(item => item !== val);
-												} else {
-													return [...prev, val!];
-												}
-											});
-											if (props.onChange) {
-												props.onChange(selected(), old);
+									if (props.multiple) {
+										const old = selected();
+										setSelected(prev => {
+											if (prev.includes(val!)) {
+												return prev.filter(item => item !== val);
+											} else {
+												return [...prev, val!];
 											}
-										} else {
-											const old = selected();
-											setSelected([val!]);
-											if (props.onChange) {
-												props.onChange(val!, old[0]);
-											}
+										});
+										if (props.onChange) {
+											props.onChange(selected(), old);
+										}
+									} else {
+										const old = selected();
+										setSelected([val!]);
+										if (props.onChange) {
+											props.onChange(val!, old[0]);
+										}
 
-											if (layout !== 'inline') {
-												// 单选，还得处理弹出内容关闭的问题
-												if (i().level > 0) {
-													let ul = e.currentTarget.parentElement!;
-													for (let lv = 1; lv < i().level; lv++) {
-														ul = ul.parentElement!.parentElement!;
-													}
-													ul.classList.remove('popopen');
-													ul.classList.add('pop');
+										if (layout !== 'inline') {
+											// 单选，还得处理弹出内容关闭的问题
+											if (i().level > 0) {
+												let ul = e.currentTarget.parentElement!;
+												for (let lv = 1; lv < i().level; lv++) {
+													ul = ul.parentElement!.parentElement!;
 												}
+												ul.classList.remove('popopen');
+												ul.classList.add('pop');
 											}
 										}
+									}
 								}}
 							>
 								<Dynamic

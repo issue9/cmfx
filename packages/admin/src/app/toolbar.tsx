@@ -86,10 +86,13 @@ export function createSearch(hk?: Hotkey): Component {
 		const items: Array<Menu.Item> = [];
 
 		for (const m of menus) {
-			if (m.type === 'a' && m.items && m.items.length > 0) {
+			if (m.type === 'items') {
 				items.push(...(await search(value, m.items)));
-			} else if (m.type === 'a' && m.label && (m.label as string).toLowerCase().includes(value.toLowerCase())) {
-				items.push({ type: 'a', value: m.value, label: m.label });
+			} else if (
+				(m.type === 'a' || m.type === 'item') &&
+				(m.label as string).toLowerCase().includes(value.toLowerCase()) // 由 Options 生成的菜单，label 必然是字符串
+			) {
+				items.push({ type: m.type, value: m.value, label: m.label });
 			} else if (m.type === 'group' && m.items && m.items.length > 0) {
 				items.push(...(await search(value, m.items)));
 			}
@@ -102,6 +105,7 @@ export function createSearch(hk?: Hotkey): Component {
 		const opt = useAdminOptions();
 		const l = useLocale();
 
-		return <Search class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, buildItems(l, opt.menus))} />;
+		const [items, change] = buildItems(l, [...opt.menus, ...opt.userMenus]);
+		return <Search class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, items)} onSelect={change} />;
 	};
 }

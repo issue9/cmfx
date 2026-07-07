@@ -292,8 +292,13 @@
 					{
 						"name": "value",
 						"summary": "表示当前项的唯一值\n\n",
-						"remarks": "该值为空时，\n`items`\n不能为空，\n如果\n`type`\n为 a 时，当前值表示链接的地址。\n\n",
+						"remarks": "如果\n`type`\n为 a 时，当前值表示链接的地址。\n\n",
 						"type": "T | undefined"
+					},
+					{
+						"name": "hotkey",
+						"summary": "快捷键\n\n",
+						"type": "Hotkey | undefined"
 					},
 					{
 						"name": "label",
@@ -315,11 +320,6 @@
 						"name": "disabled",
 						"summary": "是否禁用该项\n\n",
 						"type": "boolean | undefined"
-					},
-					{
-						"name": "hotkey",
-						"summary": "快捷键\n\n",
-						"type": "Hotkey | undefined"
 					}
 				]
 			},
@@ -342,7 +342,7 @@
 						"name": "items",
 						"summary": "子项\n\n",
 						"remarks": "该值为空时，\n`value`\n不能为空。\n\n",
-						"type": "MenuItem<T>[] | undefined"
+						"type": "MenuItem<T>[]"
 					},
 					{
 						"name": "label",
