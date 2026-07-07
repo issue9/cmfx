@@ -20,9 +20,6 @@ interface ItemBase {
 
 	/**
 	 * 菜单项尾部的内容
-	 *
-	 * @remarks
-	 * 当 {@link MenuItem#items} 不为空时，该值无效。
 	 */
 	suffix?: JSX.Element;
 
@@ -63,8 +60,6 @@ export interface MenuItemItems<T extends AvailableEnumType = string> extends Ite
 
 	/**
 	 * 子项
-	 *
-	 * @remarks 该值为空时，{@link MenuItem#value} 不能为空。
 	 */
 	items: Array<MenuItem<T>>;
 }

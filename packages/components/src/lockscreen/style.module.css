@@ -8,7 +8,7 @@
 
 @layer components {
 	.screen {
-		@apply bg-palette-bg! cursor-default! p-0!;
+		@apply bg-palette-bg! cursor-default! p-0! z-dialog;
 
 		.password {
 			@apply xl:w-60 w-full h-full flex flex-col items-center justify-center gap-4 mx-auto;

@@ -8,7 +8,9 @@ import type { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import type { Component } from 'solid-js';
 import IconClear from '~icons/material-symbols/delete-rounded';
+import IconLock from '~icons/material-symbols/lock';
 
+import { useLockScreen } from './app';
 import { useAdmin, useOptions as useAdminOptions } from './context';
 import { buildItems } from './options';
 import styles from './style.module.css';
@@ -44,10 +46,10 @@ export function createClear(hk?: Hotkey): Component {
 				hotkey={hk}
 				trigger="hover"
 				items={[
-					{ type: 'item', value: 'clear-api-cache', label: l.t('_p.system.clearAPICache') },
-					{ type: 'item', value: 'clear-storage', label: l.t('_p.system.clearStorage') },
+					{ type: 'item', value: 'clear-api-cache', label: l.t('_p.toolbar.clearAPICache') },
+					{ type: 'item', value: 'clear-storage', label: l.t('_p.toolbar.clearStorage') },
 					{ type: 'divider' },
-					{ type: 'item', value: 'clear-all', label: l.t('_p.system.clearAllCache') },
+					{ type: 'item', value: 'clear-all', label: l.t('_p.toolbar.clearAllCache') },
 				]}
 				onChange={async val => {
 					switch (val) {
@@ -68,7 +70,7 @@ export function createClear(hk?: Hotkey): Component {
 					}
 				}}
 			>
-				<Button kind="flat" square title={l.t('_p.system.clearCache')}>
+				<Button kind="flat" square title={l.t('_p.toolbar.clearCache')}>
 					<IconClear />
 				</Button>
 			</Dropdown>
@@ -107,5 +109,29 @@ export function createSearch(hk?: Hotkey): Component {
 
 		const [items, change] = buildItems(l, [...opt.menus, ...opt.userMenus]);
 		return <Search class={styles.search} icon clear hotkey={hk} onSearch={v => search(v, items)} onSelect={change} />;
+	};
+}
+
+/**
+ * 创建一个锁屏的按钮
+ *
+ * @param hk - 快捷键；
+ */
+export function createLockScreen(hk?: Hotkey): Component {
+	return () => {
+		const ls = useLockScreen();
+		const l = useLocale();
+		return (
+			<Button
+				type="button"
+				square
+				kind="flat"
+				onclick={() => ls?.lock()}
+				title={l.t('_p.toolbar.lockScreen')}
+				hotkey={hk}
+			>
+				<IconLock />
+			</Button>
+		);
 	};
 }

@@ -10,6 +10,7 @@ import {
 	create,
 	createClear,
 	createFullscreen,
+	createLockScreen,
 	createSearch,
 	current,
 	members,
@@ -167,7 +168,7 @@ const o: Options = {
 	menus: menus,
 	floatingMinWidth: '4xl',
 	userMenus: currentPage.menus(),
-	toolbar: [createSearch(new Hotkey('k', 'control')), createClear(), createFullscreen()],
+	toolbar: [createSearch(new Hotkey('k', 'control')), createClear(), createFullscreen(), createLockScreen()],
 };
 
 create('app', o);

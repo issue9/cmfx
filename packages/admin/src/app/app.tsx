@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { APIProvider, run, SSEProvider, useOptions as useXOptions, type Options as XOptions } from '@cmfx/components';
+import type { Options as XOptions } from '@cmfx/components';
+import { APIProvider, LockScreen, run, SSEProvider, useOptions as useXOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, type RouteDefinition, type Router } from '@solidjs/router';
-import { ErrorBoundary, type JSX, Match, type ParentProps, Switch } from 'solid-js';
+import { createContext, ErrorBoundary, type JSX, Match, type ParentProps, Switch, useContext } from 'solid-js';
 
 import { AdminProvider, AppLayout, errorHandler, NotFound, OptionsProvider, useAdmin, useOptions } from './context';
 import { build as buildOptions, type Options, presetConfigName } from './options';
@@ -85,10 +86,20 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 	run(root, document.getElementById(elementID)!, xo, routes, router);
 }
 
+const lockScreenContext = createContext<{ lock(): void }>();
+
+/**
+ * 返回锁屏接口
+ */
+export function useLockScreen() {
+	return useContext(lockScreenContext);
+}
+
 function Private(props: ParentProps): JSX.Element {
 	const usr = useAdmin();
 	const opt = useOptions();
 	const [, xo] = useXOptions();
+	let lockScreenRef: LockScreen.Ref;
 
 	return (
 		<Switch>
@@ -97,9 +108,13 @@ function Private(props: ParentProps): JSX.Element {
 				<Navigate href={opt.routes.public.home} />
 			</Match>
 			<Match when={usr.info()}>
-				<SSEProvider path="/sse" auth>
-					<AppLayout>{props.children}</AppLayout>
-				</SSEProvider>
+				<LockScreen class="h-full" avatar={usr.info()?.avatar} name={usr.info()?.nickname} ref={el => (lockScreenRef = el)}>
+					<lockScreenContext.Provider value={{ lock: () => lockScreenRef.lock() }}>
+						<SSEProvider path="/sse" auth>
+							<AppLayout>{props.children}</AppLayout>
+						</SSEProvider>
+					</lockScreenContext.Provider>
+				</LockScreen>
 			</Match>
 		</Switch>
 	);
