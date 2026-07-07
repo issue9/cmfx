@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { buildRenderItemType, type MenuItem } from './item';
+import { buildRenderItemType, type MenuItem, type RenderMenuItem } from './item';
 
 const items: Array<MenuItem> = [
 	{ type: 'item', value: 'v1', label: 'v1' },
@@ -39,31 +39,30 @@ const items: Array<MenuItem> = [
 test('buildRenderItemType', () => {
 	const items1 = buildRenderItemType(structuredClone(items), 0);
 
-	expect(items1).toStrictEqual([
-		{ type: 'item', value: 'v1', label: 'v1', items: undefined, level: 0 },
-		{ type: 'item', value: 'v2', label: 'v2', items: undefined, level: 0, disabled: true },
-		{ type: 'item', value: 'v3', label: 'v3', items: undefined, level: 0 },
+	expect(items1).toStrictEqual<Array<RenderMenuItem>>([
+		{ type: 'item', value: 'v1', label: 'v1', level: 0 },
+		{ type: 'item', value: 'v2', label: 'v2', level: 0, disabled: true },
+		{ type: 'item', value: 'v3', label: 'v3', level: 0 },
 		{ type: 'divider' },
 		{
 			type: 'group',
 			label: 'group',
 			items: [
-				{ type: 'item', value: 'v22', label: 'v22', items: undefined, level: 0 },
+				{ type: 'item', value: 'v22', label: 'v22', level: 0 },
 				{ type: 'divider' },
 				{
-					type: 'item',
-					value: 'v23',
+					type: 'items',
 					label: 'v23',
 					level: 0,
 					items: [
-						{ type: 'item', value: 'v233', label: 'v233', level: 1, items: undefined },
+						{ type: 'item', value: 'v233', label: 'v233', level: 1 },
 						{
-							type: 'item',
+							type: 'items',
 							label: 'v234',
 							level: 1,
 							items: [
-								{ type: 'item', value: 'v2341', level: 2, items: undefined, label: 'v2341' },
-								{ type: 'item', value: 'v2343', level: 2, items: undefined, label: 'v2343' },
+								{ type: 'item', value: 'v2341', level: 2, label: 'v2341' },
+								{ type: 'item', value: 'v2343', level: 2, label: 'v2343' },
 							],
 						},
 					],

@@ -89,12 +89,12 @@ export interface MenuItemItem<T extends AvailableEnumType = string> extends Item
 	hotkey?: Hotkey;
 }
 
-export type RenderTypeItems<T extends AvailableEnumType = string> = MenuItemItems<T> & {
+type RenderTypeItems<T extends AvailableEnumType = string> = MenuItemItems<T> & {
 	level: number;
 	items: Array<RenderMenuItem<T>>;
 };
 
-export type RenderTypeItem<T extends AvailableEnumType = string> = MenuItemItem<T> & {
+type RenderTypeItem<T extends AvailableEnumType = string> = MenuItemItem<T> & {
 	level: number;
 };
 
