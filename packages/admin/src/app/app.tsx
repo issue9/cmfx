@@ -5,7 +5,7 @@
 import type { Options as XOptions } from '@cmfx/components';
 import { APIProvider, LockScreen, run, SSEProvider, useOptions as useXOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
-import { Navigate, type RouteDefinition, type Router } from '@solidjs/router';
+import { Navigate, type RouteDefinition, type Router, useNavigate } from '@solidjs/router';
 import { createContext, ErrorBoundary, type JSX, Match, type ParentProps, Switch, useContext } from 'solid-js';
 
 import { AdminProvider, AppLayout, errorHandler, NotFound, OptionsProvider, useAdmin, useOptions } from './context';
@@ -100,6 +100,7 @@ function Private(props: ParentProps): JSX.Element {
 	const opt = useOptions();
 	const [, xo] = useXOptions();
 	let lockScreenRef: LockScreen.Ref;
+	const nav = useNavigate();
 
 	return (
 		<Switch>
@@ -108,7 +109,16 @@ function Private(props: ParentProps): JSX.Element {
 				<Navigate href={opt.routes.public.home} />
 			</Match>
 			<Match when={usr.info()}>
-				<LockScreen class="h-full" avatar={usr.info()?.avatar} name={usr.info()?.nickname} ref={el => (lockScreenRef = el)}>
+				<LockScreen
+					class="h-full"
+					logout={async () => {
+						await usr.logout();
+						nav(opt.routes.public.home);
+					}}
+					avatar={usr.info()?.avatar}
+					name={usr.info()?.nickname}
+					ref={el => (lockScreenRef = el)}
+				>
 					<lockScreenContext.Provider value={{ lock: () => lockScreenRef.lock() }}>
 						<SSEProvider path="/sse" auth>
 							<AppLayout>{props.children}</AppLayout>

@@ -116,7 +116,6 @@ export function useAdmin() {
 		async logout() {
 			await rest.api().logout();
 			actions.mutate(); // 此操作不会调用从服务器更新数据
-			//setLoginState(false);
 			set.switchConfig(presetConfigName);
 		},
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { create, useLockScreen } from './app';
+export { create } from './app';
 export type { Admin } from './context';
 export { adminSchema, useAdmin, useLayout, useOptions } from './context';
 export type { Options } from './options';
