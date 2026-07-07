@@ -148,6 +148,10 @@ describe('createFakeField', () => {
 	test('error', () => {
 		expect(ctx.getError()).toBeUndefined();
 		ctx.setError('error');
+		expect(ctx.getError()).toEqual('error');
+
+		// 改值，重置了 ERROR
+		ctx.setValue(0);
 		expect(ctx.getError()).toBeUndefined();
 	});
 });

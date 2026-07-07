@@ -22,13 +22,12 @@ export default function (props: MountProps): JSX.Element {
 			<LockScreen
 				ref={el => (ref = el)}
 				palette={palette()}
+				class="h-100 w-100 bg-red-500"
 				avatar={opt.logo}
 				name="admin"
 				logout={() => Notify.info('logout')}
 			>
-				<div class="h-100 w-100 bg-red-500">
-					<Button onclick={() => ref.lock()}>lock</Button>
-				</div>
+				<Button onclick={() => ref.lock()}>lock</Button>
 			</LockScreen>
 		</>
 	);

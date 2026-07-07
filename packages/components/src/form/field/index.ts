@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 export type { FormFieldContext, FormFieldRef } from './context';
-export { FieldProvider, useField } from './context';
+export { createFakeField, FieldProvider, useField } from './context';
 export {
 	Array2StringConverter,
 	convert,

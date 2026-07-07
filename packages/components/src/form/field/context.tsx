@@ -100,6 +100,8 @@ export function useField<T>(props?: ValueProps<T>, fake?: true): FormFieldContex
 /**
  * 创建一个假的 FieldContext 对象
  *
+ * @param val - 初始值；
+ * @param onChange - 值变化时的回调函数，也可在之后通过返回对象的 onChange 方法添加；
  * @remarks
  * 当通过 {@link useField} 无法获取到父元素的上下文时，可以使用该函数创建一个假的上下文。
  */
@@ -107,6 +109,7 @@ export function createFakeField<T>(val?: T, onChange?: ChangeFunc<T | undefined>
 	const preset = structuredClone(val);
 	const [v, sv] = createSignal<T | undefined>(val);
 	const [extra, setExtra] = createSignal<JSX.Element | undefined>();
+	const [err, setErr] = createSignal<string | undefined>();
 	const id = createUniqueId();
 
 	const changes: Array<ChangeFunc<T | undefined>> = [];
@@ -124,6 +127,8 @@ export function createFakeField<T>(val?: T, onChange?: ChangeFunc<T | undefined>
 
 		sv(() => val);
 
+		setErr(); // 取消错误信息
+
 		if (!silent) {
 			for (const f of changes) {
 				f(val, old);
@@ -137,8 +142,8 @@ export function createFakeField<T>(val?: T, onChange?: ChangeFunc<T | undefined>
 
 		reset: (silent?: boolean) => setValue(structuredClone(preset), silent),
 
-		setError: () => {},
-		getError: () => undefined,
+		setError: setErr,
+		getError: err,
 
 		getValue: v,
 		setValue: setValue,

@@ -92,6 +92,8 @@ const messages = {
 			enterPassword: 'Enter password',
 			cancel: 'Cancel',
 			lock: 'Lock',
+			preventScreenLock: 'Prevent screen lock',
+			invalidPassword: 'Invalid password',
 		},
 		pagination: {
 			prev: 'Prev',

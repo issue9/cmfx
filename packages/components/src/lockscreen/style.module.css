@@ -16,6 +16,18 @@
 			.item {
 				@apply w-full;
 			}
+
+			.item.input {
+				@apply flex flex-col gap-1 items-stretch;
+
+				.error {
+					@apply text-error-fg;
+				}
+			}
+
+			.item.label {
+				@apply flex;
+			}
 		}
 	}
 }
