@@ -88,6 +88,15 @@ const messages: Messages = {
 			alignJustify: '两端对齐',
 			addImage: '添加图片',
 		},
+		lockScreen: {
+			unlock: '解锁',
+			logout: '退出当前登录账号',
+			enterPassword: '请输入锁屏密码',
+			cancel: '取消',
+			lock: '锁定',
+			preventScreenLock: '阻止系统锁屏',
+			invalidPassword: '无效的解锁密码',
+		},
 		pagination: {
 			prev: '前一页',
 			next: '下一页',

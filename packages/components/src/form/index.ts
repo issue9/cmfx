@@ -10,6 +10,7 @@ import type { FormDataProps, FormFieldContext, FormFieldProps, FormFieldRef } fr
 import {
 	Array2StringConverter,
 	convert,
+	createFakeField,
 	Field,
 	FieldProvider,
 	Number2DateConverter,
@@ -38,6 +39,7 @@ export const Form = Object.assign(C, {
 	String2DateConverter,
 	Popover,
 	popoverTypes: formPopoverTypes,
+	createFakeField,
 });
 
 export namespace Form {

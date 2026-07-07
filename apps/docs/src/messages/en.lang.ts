@@ -120,6 +120,7 @@ const messages = {
 			input: 'Input',
 			label: 'Label',
 			localeConfig: 'Locale Config',
+			lockScreen: 'Lock Screen',
 			markdown: 'Markdown',
 			misc: 'Misc',
 			menu: 'Menu',

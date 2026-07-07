@@ -1,0 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "../style.css";
+
+@layer components {
+	.screen {
+		@apply bg-palette-bg! cursor-default! p-0!;
+
+		.password {
+			@apply xl:w-60 w-full h-full flex flex-col items-center justify-center gap-4 mx-auto;
+
+			.item {
+				@apply w-full;
+			}
+
+			.item.input {
+				@apply flex flex-col gap-1 items-stretch;
+
+				.error {
+					@apply text-error-fg;
+				}
+			}
+
+			.item.label {
+				@apply flex;
+			}
+		}
+	}
+}
