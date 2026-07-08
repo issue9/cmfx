@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) => {
 
 		build: {
 			target: browserslistToEsbuild(),
+			minify: true,
 			sourcemap: true,
 			rolldownOptions: {
 				output: {

@@ -7,6 +7,7 @@ import { useParams } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 
 import type { Message } from '../locales';
+import styles from './style.module.css';
 
 export default function Test(): JSX.Element {
 	const ps = useParams();
@@ -15,8 +16,8 @@ export default function Test(): JSX.Element {
 	console.log(ps.id);
 
 	return (
-		<div>
-			{l.t<Message>('nest.abc') as string},{ps.id}
+		<div class={styles.test}>
+			{l.t<Message>('nest.abc')},{ps.id}
 		</div>
 	);
 }

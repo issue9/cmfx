@@ -14,6 +14,8 @@ import customIcons from '../../build/unplugin-icons';
 import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
 import pkg from './package.json' with { type: 'json' };
 
+const outDir = './dist';
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
 	return {
@@ -26,7 +28,7 @@ export default defineConfig(({ mode }) => {
 		build: {
 			target: browserslistToEsbuild(),
 			minify: true,
-			outDir: './dist',
+			outDir: outDir,
 			rollupOptions: {
 				output: {
 					postBanner: buildPostBanner(pkg),
@@ -93,7 +95,7 @@ export default defineConfig(({ mode }) => {
 						return content.replace(/currentColor/g, '#00a1f1');
 					},
 				},
-				{ src: '../../LICENSE', dest: './dist' },
+				{ src: '../../LICENSE', dest: outDir },
 			]),
 			solidPlugin(),
 		],

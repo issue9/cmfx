@@ -1,22 +1,11 @@
 {
 	"extends": "../../build/tsconfig.base.json",
 	"compilerOptions": {
-		"types": ["unplugin-icons/types/solid"],
+		"types": ["vite/client", "unplugin-icons/types/solid"],
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js"
 	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.mts",
-		"src/**/*.mjs",
-		"src/**/*.js",
-		"src/**/*.tsx",
-		"../../pakcages/**/*.tsx",
-		"../../pakcages/**/*.ts"
-	],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		}
-	]
+	"include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.mjs", "src/**/*.js", "src/**/*.tsx"],
+	"exclude": ["dist"],
+	"references": [{ "path": "./tsconfig.node.json" }]
 }

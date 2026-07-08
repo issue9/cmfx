@@ -2,6 +2,7 @@
 	"name": "@cmfx/root",
 	"version": "0.15.0",
 	"type": "module",
+	"description": "cmfx 是基于 Go + Solid 的快速后台管理开发框架",
 	"private": true,
 	"engines": {
 		"node": ">=24.0.0"
