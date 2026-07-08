@@ -313,7 +313,6 @@
 					{
 						"name": "suffix",
 						"summary": "菜单项尾部的内容\n\n",
-						"remarks": "当\n`items`\n不为空时，该值无效。\n\n",
 						"type": "JSX.Element"
 					},
 					{
@@ -341,7 +340,6 @@
 					{
 						"name": "items",
 						"summary": "子项\n\n",
-						"remarks": "该值为空时，\n`value`\n不能为空。\n\n",
 						"type": "MenuItem<T>[]"
 					},
 					{
@@ -357,7 +355,6 @@
 					{
 						"name": "suffix",
 						"summary": "菜单项尾部的内容\n\n",
-						"remarks": "当\n`items`\n不为空时，该值无效。\n\n",
 						"type": "JSX.Element"
 					},
 					{

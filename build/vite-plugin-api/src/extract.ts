@@ -226,12 +226,13 @@ export class Extractor {
 
 			if (unionTypes.every(intersectionIsLiteral)) {
 				// 字符串类型的联合类型
+				const t = typ.getText();
 				return {
 					name,
 					summary,
 					remarks,
 					kind: 'literal',
-					type: typ.getText(),
+					type: t.startsWith('import(') ? getThirdTypeName(t) : t,
 				} satisfies Literal;
 			}
 
@@ -648,4 +649,26 @@ export class Extractor {
 			init: decl.getDefault()?.getText() ?? undefined,
 		};
 	}
+}
+
+export function getThirdTypeName(p: string): string {
+	const start = p.lastIndexOf('/node_modules/');
+	if (start === -1) {
+		return p;
+	}
+
+	const name = p.slice(p.lastIndexOf('.')); // 获取类型名称部分
+
+	p = p.slice(start + '/node_modules/'.length, -name.length);
+	let end = p.indexOf('/');
+
+	// @namespace/pkg 格式，此时 end 必然不为空
+	if (p.slice(0, 1) === '@') {
+		const index = p.indexOf('/', end + 1); // 查找第二个 /
+		end = index === -1 ? p.indexOf('"', end + 1) : index;
+	} else {
+		end = end === -1 ? p.indexOf('"') : end;
+	}
+
+	return p.slice(0, end) + name;
 }

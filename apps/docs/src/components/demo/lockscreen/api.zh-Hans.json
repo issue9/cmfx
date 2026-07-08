@@ -4,10 +4,23 @@
 		"name": "LockScreen.Props",
 		"properties": [
 			{
-				"name": "action",
-				"summary": "指定锁屏的操作界面\n\n",
-				"type": "LockScreenAction | undefined",
-				"def": "`LockScreenPassword`\n\n"
+				"name": "logout",
+				"summary": "退出按钮上的操作\n\n",
+				"remarks": "当用户忘记锁屏密码时，可调用此方法执行退出操作。\n\n",
+				"type": "() => Promise<void>",
+				"readonly": true
+			},
+			{
+				"name": "avatar",
+				"summary": "头像\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "name",
+				"summary": "用户名\n\n",
+				"type": "string | undefined",
+				"reactive": true
 			},
 			{
 				"name": "children",
@@ -38,24 +51,6 @@
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
 				"type": "((m: REF) => void) | undefined"
-			},
-			{
-				"name": "logout",
-				"summary": "退出按钮上的操作\n\n",
-				"type": "(() => Promise<boolean>) | undefined",
-				"readonly": true
-			},
-			{
-				"name": "avatar",
-				"summary": "头像\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "name",
-				"summary": "用户名\n\n",
-				"type": "string | undefined",
-				"reactive": true
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -64,6 +59,14 @@
 		"kind": "interface",
 		"name": "LockScreen.Ref",
 		"methods": [
+			{
+				"name": "lock",
+				"summary": "执行锁屏操作\n\n",
+				"type": "lock(): void",
+				"return": {
+					"type": "void"
+				}
+			},
 			{
 				"name": "root",
 				"summary": "返回组件的根元素\n\n",

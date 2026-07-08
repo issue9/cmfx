@@ -163,11 +163,7 @@ function init(): JSX.Element {
 	};
 
 	systemInst = async (title: string, o?: NotificationOptions): Promise<Notification | undefined> => {
-		if (!('Notification' in window)) {
-			// 不支持
-			return;
-		} else if (Notification.permission === 'denied') {
-			// 明确拒绝
+		if (!('Notification' in window) || Notification.permission === 'denied') {
 			return;
 		} else if (Notification.permission !== 'granted') {
 			// 未明确的权限
@@ -176,18 +172,19 @@ function init(): JSX.Element {
 			}
 		}
 
-		o = Object.assign(
-			{},
-			{
-				badge: origin.logo,
-				icon: origin.logo,
-				lang: opt.getLocale(), // 使用的是全局的配置
-			},
-			o,
-		);
-
 		try {
-			return new Notification(title, o);
+			return new Notification(
+				title,
+				Object.assign(
+					{},
+					{
+						badge: origin.logo,
+						icon: origin.logo,
+						lang: opt.getLocale(), // 使用的是全局的配置
+					},
+					o,
+				),
+			);
 		} catch (e) {
 			console.error(e);
 			return;

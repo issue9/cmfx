@@ -5,7 +5,7 @@
 import path from 'node:path';
 import { describe, expect, test } from 'vitest';
 
-import { Extractor } from './extract';
+import { Extractor, getThirdTypeName } from './extract';
 import type { Interface, Intersection } from './types';
 
 describe('Extractor', { timeout: 20000 }, () => {
@@ -332,5 +332,45 @@ describe('Extractor', { timeout: 20000 }, () => {
 
 			expect(f.properties?.find(p => p.name === 'toggle')).toBeUndefined();
 		}
+	});
+
+	// 引用第三方库的
+	test('QRCode.DotType', () => {
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'QRCode.DotType');
+		expect(items).length(1);
+
+		const f = items![0];
+		expect(f.kind).toEqual('literal');
+
+		if (f.kind === 'literal') {
+			expect(f.name).toEqual('QRCode.DotType');
+			expect(f.type).toEqual('qr-code-styling.DotType');
+		}
+	});
+});
+
+describe('getThirdTypeName', () => {
+	test('namespace', () => {
+		expect(getThirdTypeName('import("/root/cmfx/node_modules/@cmfx/components").ButtonKind')).toEqual(
+			'@cmfx/components.ButtonKind',
+		);
+
+		expect(getThirdTypeName('import("/root/cmfx/node_modules/@cmfx/components/index.d.ts").ButtonKind')).toEqual(
+			'@cmfx/components.ButtonKind',
+		);
+	});
+
+	test('package', () => {
+		expect(
+			getThirdTypeName(
+				'import("/cmfx/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling/lib/types/index").CornerSquareType',
+			),
+		).toEqual('qr-code-styling.CornerSquareType');
+
+		expect(
+			getThirdTypeName(
+				'import("/node_modules/.pnpm/qr-code-styling@1.9.2/node_modules/qr-code-styling").CornerSquareType',
+			),
+		).toEqual('qr-code-styling.CornerSquareType');
 	});
 });
