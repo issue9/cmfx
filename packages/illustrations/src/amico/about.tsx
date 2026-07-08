@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/about-us-page/amico
  */
-export default function Error400(props: Props): JSX.Element {
+export default function About(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
