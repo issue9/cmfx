@@ -17,7 +17,7 @@ import {
 	roles,
 	system,
 } from '@cmfx/admin';
-import { Card, createChartLocaleLoader, Label, type Scheme, schemes, useLocale } from '@cmfx/components';
+import { Card, createChartLocaleLoader, Label, type Scheme, schemes } from '@cmfx/components';
 import { createZodLocaleLoader, Hotkey } from '@cmfx/core';
 import YAML from 'yaml';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';
@@ -46,10 +46,10 @@ const systemPage = system.build('/system', {
 		author: {
 			name: pkg.author.name,
 			url: pkg.author.url,
-			email: 'abc@example.com'
-		}
+			email: 'abc@example.com',
+		},
 	},
-	description: ()=>pkg.description
+	description: () => pkg.description,
 });
 const membersPage = members.build('/members');
 const currentPage = current.build('/current', () => {
