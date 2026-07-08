@@ -7,7 +7,6 @@ import { createEffect } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 import IconStart from '~icons/mdi/read-more';
 import IconAI from '~icons/mingcute/ai-fill';
-import IconGitee from '~icons/simple-icons/gitee';
 
 import pkg from '../../package.json';
 import styles from './style.module.css';
@@ -35,26 +34,10 @@ export default function Home() {
 					{l.t('_d.home.start')}
 				</Button>
 
-				<SplitButton
-					kind="fill"
-					items={[
-						{
-							type: 'a',
-							label: (
-								<>
-									<IconGitee class="me-1" />
-									Gitee
-								</>
-							),
-							value: 'https://gitee.com/issue9/cmfx',
-						},
-					]}
-				>
-					<Button class={styles.btn} type="a" href={pkg.repository.url}>
-						<IconGithub class="me-1" />
-						Github
-					</Button>
-				</SplitButton>
+				<Button kind="fill" class={styles.btn} type="a" href={pkg.repository.url}>
+					<IconGithub class="me-1" />
+					Github
+				</Button>
 
 				<SplitButton
 					kind="fill"

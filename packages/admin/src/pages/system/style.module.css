@@ -45,17 +45,25 @@
 	.about {
 		@apply @container/about;
 
-		> fieldset {
-			@apply grid grid-cols-1 border border-palette-border rounded-md px-4 py-3 bg-palette-bg;
-			@apply @2xl/about:grid-cols-2 @3xl/about:grid-cols-3 @5xl/about:grid-cols-4;
+		> fieldset.box {
+			@apply border border-palette-border rounded-md p-3 bg-palette-bg;
+		}
+
+		> fieldset.grid {
+			@apply grid gap-1;
+			@apply grid-cols-1 @2xl/about:grid-cols-2 @3xl/about:grid-cols-3 @5xl/about:grid-cols-4;
 
 			.item {
 				@apply flex flex-col p-2 text-palette-fg bg-palette-bg;
-				@apply hover:bg-palette-bg-focused hover:cursor-pointer hover:text-palette-fg-focused;
+				@apply hover:bg-palette-bg-focused hover:cursor-default hover:text-palette-fg-focused;
 				@apply transition;
 
-				.version {
+				.value {
 					@apply text-palette-fg-low;
+				}
+
+				.value.author {
+					@apply flex gap-2 items-center;
 				}
 			}
 		}

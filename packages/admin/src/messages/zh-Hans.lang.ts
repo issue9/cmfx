@@ -147,10 +147,21 @@ const messages: typeof m = {
 				'允许最大的连接数: {maxOpenConnections}\n当前打开的连接数: {openConnections}\n使用中的连接: {inUse}\n空闲的连接: {idle}',
 			waitCount: '待连接的数量',
 			waitDuration: '待连接的时间',
-			about: '关于',
-			srvDeps: '服务端环境依赖',
-			devDeps: '开发环境依赖',
-			prodDeps: '生产环境依赖',
+
+			about: {
+				about: '关于',
+				srvDeps: '服务端环境依赖',
+				devDeps: '开发环境依赖',
+				prodDeps: '生产环境依赖',
+				info: '项目信息',
+				name: '名称',
+				version: '版本',
+				lastUpdate: '最后更新时间',
+				license: '许可证',
+				homepage: '主页',
+				author: '作者',
+				description: '项目描述',
+			},
 
 			settings: {
 				settings: '设置',

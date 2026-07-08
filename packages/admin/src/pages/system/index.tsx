@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { VoidComponent } from 'solid-js';
 import IconServices from '~icons/eos-icons/service-plan';
 import IconHelp from '~icons/material-symbols/help';
 import IconInfo from '~icons/material-symbols/page-info';
@@ -10,7 +9,7 @@ import IconRoutes from '~icons/material-symbols/route';
 import IconSettings from '~icons/material-symbols/settings';
 
 import type { Pages } from '@admin/pages/pages';
-import { About } from './about';
+import { About, type Props } from './about';
 import { Info } from './info';
 import { Routes } from './routes';
 import { Services } from './services';
@@ -46,7 +45,7 @@ export class system implements Pages {
 	static Settings = Settings;
 
 	readonly #prefix: string;
-	readonly #about?: VoidComponent;
+	readonly #about?: Props;
 
 	/**
 	 * 构建 {@link system} 对象
@@ -54,12 +53,13 @@ export class system implements Pages {
 	 * @param prefix - 路由地址前缀；
 	 * @param about - 关于页面的附加内容，如果是 undefined 表示不显示关于页面；
 	 */
-	static build(prefix: string, about?: VoidComponent) {
+	static build(prefix: string, about?: Props) {
 		return new system(prefix, about);
 	}
 
-	private constructor(p: string, about?: VoidComponent) {
+	private constructor(p: string, about?: Props) {
 		this.#prefix = p;
+
 		this.#about = about;
 	}
 
@@ -71,7 +71,7 @@ export class system implements Pages {
 			{ path: `${this.#prefix}/settings`, component: Settings },
 		];
 		if (this.#about) {
-			routes.push({ path: `${this.#prefix}/about`, component: () => About({ description: this.#about }) });
+			routes.push({ path: `${this.#prefix}/about`, component: () => <About {...this.#about} /> });
 		}
 
 		return routes;
@@ -85,7 +85,7 @@ export class system implements Pages {
 			{ type: 'a', icon: <IconSettings />, label: '_p.system.settings.settings', path: `${this.#prefix}/settings` },
 		];
 		if (this.#about) {
-			menus.push({ type: 'a', icon: <IconInfo />, label: '_p.system.about', path: `${this.#prefix}/about` });
+			menus.push({ type: 'a', icon: <IconInfo />, label: '_p.system.about.about', path: `${this.#prefix}/about` });
 		}
 
 		return menus;

@@ -25,6 +25,7 @@ import IconDashboard from '~icons/material-symbols/dashboard';
 import IconHost from '~icons/material-symbols/host';
 import IconAccount from '~icons/material-symbols/supervisor-account';
 
+import pkg from '../../../package.json' with { type: 'json' };
 import { default as webYaml } from '../../server/web.yaml?raw';
 import { default as Test } from './pages/test';
 
@@ -35,9 +36,20 @@ current.initPassports();
 
 const rolesPage = roles.build('/roles');
 const adminsPage = admins.build('/admins');
-const systemPage = system.build('/system', () => {
-	const l = useLocale();
-	return <p>关于页面的内容，可以使用任意的 `use*` 方法。{l.t('_p.system.system')}</p>;
+const systemPage = system.build('/system', {
+	info: {
+		name: pkg.name,
+		version: pkg.version,
+		lastUpdate: new Date().toISOString(),
+		license: pkg.license,
+		homepage: pkg.homepage,
+		author: {
+			name: pkg.author.name,
+			url: pkg.author.url,
+			email: 'abc@example.com'
+		}
+	},
+	description: ()=>pkg.description
 });
 const membersPage = members.build('/members');
 const currentPage = current.build('/current', () => {

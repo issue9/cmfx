@@ -145,10 +145,21 @@ const messages = {
 				'Allow max open connections: {maxOpenConnections}\nopen connections: {openConnections}\nin use: {inUse}\nidle: {idle}',
 			waitCount: 'Wait count',
 			waitDuration: 'Wait duration',
-			about: 'About',
-			srvDeps: 'Server dependencies',
-			devDeps: 'Development dependencies',
-			prodDeps: 'Production dependencies',
+
+			about: {
+				about: 'About',
+				srvDeps: 'Server dependencies',
+				devDeps: 'Development dependencies',
+				prodDeps: 'Production dependencies',
+				info: 'Project information',
+				name: 'Name',
+				version: 'Version',
+				lastUpdate: 'Last update',
+				license: 'License',
+				homepage: 'Homepage',
+				author: 'Author',
+				description: 'Description',
+			},
 
 			settings: {
 				settings: 'Settings',
