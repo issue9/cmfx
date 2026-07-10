@@ -3,8 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Hotkey } from '@cmfx/core';
-
-import type { BaseProps } from '@components/base';
+import type { ThemeProps } from '@cmfx/themes';
 
 export const buttonKinds = ['flat', 'border', 'fill'] as const;
 
@@ -18,7 +17,7 @@ export const buttonKinds = ['flat', 'border', 'fill'] as const;
  */
 export type ButtonKind = (typeof buttonKinds)[number];
 
-export interface Props extends BaseProps {
+export interface Props extends ThemeProps {
 	/**
 	 * 是否禁用
 	 *

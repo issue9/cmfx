@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
-import type { BaseProps, BaseRef, Layout, RefProps } from '@components/base';
-import { joinClass, PropsError, style2String } from '@components/base';
+import type { BaseRef, Layout, RefProps } from '@components/base';
+import { PropsError } from '@components/base';
 import styles from './style.module.css';
 
 export type ResultRef = BaseRef<HTMLDivElement>;
 
-export interface ResultProps extends BaseProps, ParentProps, RefProps<ResultRef> {
+export interface ResultProps extends ThemeProps, ParentProps, RefProps<ResultRef> {
 	/**
 	 * 显示可选的插画
 	 *

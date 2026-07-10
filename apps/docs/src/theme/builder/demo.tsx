@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Mode, Palette } from '@cmfx/components';
 import {
 	Appbar,
 	Button,
@@ -14,12 +13,10 @@ import {
 	Form,
 	InputPassword,
 	InputText,
-	joinClass,
 	Menu,
-	palettes,
-	ThemeProvider,
 	useLocale,
 } from '@cmfx/components';
+import { joinClass, type Mode, type Palette, palettes, ThemeProvider } from '@cmfx/themes';
 import { createEffect, createSignal, For, type JSX, Match, Switch } from 'solid-js';
 import IconNone from '~icons/ic/round-contrast';
 import IconDark from '~icons/material-symbols/dark-mode';

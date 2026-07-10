@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createMemo, type JSX, mergeProps } from 'solid-js';
 
-import { type AvailableEnumType, type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { AvailableEnumType, BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface RadioRef extends BaseRef<HTMLLabelElement> {
@@ -14,7 +15,7 @@ export interface RadioRef extends BaseRef<HTMLLabelElement> {
 	input(): HTMLInputElement;
 }
 
-export interface RadioProps<T extends AvailableEnumType = string> extends BaseProps, RefProps<RadioRef> {
+export interface RadioProps<T extends AvailableEnumType = string> extends ThemeProps, RefProps<RadioRef> {
 	tabindex?: number;
 
 	label?: JSX.Element;

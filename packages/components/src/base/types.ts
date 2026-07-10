@@ -2,10 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { JSX } from 'solid-js';
-
-import type { Palette } from './theme';
-
 /**
  * 定义了可用于使用的枚举值类型，要求唯一且可比较。
  */
@@ -26,49 +22,6 @@ export type Layout = (typeof layouts)[number];
  * @typeParam T - 值的类型；
  */
 export type ChangeFunc<T> = (val: T, old?: T) => void;
-
-export interface StyleProps {
-	/**
-	 * 为组件的根元素指定 CSS 类名
-	 *
-	 * @remarks
-	 * 为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，
-	 * 以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。
-	 *
-	 * @reactive
-	 */
-	class?: string;
-
-	/**
-	 * 组件根元素的样式
-	 *
-	 * @remarks
-	 * 相对于 {@link class}，一些简短的样式设置，直接使用此属性更方便，
-	 * 还有一些自定义的样式变量也可以使用此属性设置。
-	 *
-	 * @reactive
-	 */
-	style?: JSX.DOMAttributes<HTMLElement>['style'];
-}
-
-/**
- * 组件的基本属性
- *
- * @remarks
- * 组件库的所有组件都继承了此接口，以实现统一的样式管理。
- */
-export interface Props extends StyleProps {
-	/**
-	 * 指定当前组件采用的色盘
-	 *
-	 * @remarks
-	 * 如果指定了此值，那么在组件内部的 CSS 引用的诸如 `--palette-bg` 等 CSS 变量都将使用此色盘对应的颜色。
-	 * 如果是 undefined，则表示从父元素继承。
-	 *
-	 * @reactive
-	 */
-	palette?: Palette;
-}
 
 /**
  * 用于指定组件的 ref 属性

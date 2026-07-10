@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import type { JSX } from 'solid-js';
 import { createEffect, createSignal, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 
-import { type BaseProps, joinClass, style2String } from '@components/base';
 import { Form } from '@components/form';
 import { InputBase } from '@components/input/base';
 import { Dropdown, type Menu } from '@components/menu';
 
 export type InputTextRef = InputBase.Ref;
 
-export interface InputTextProps extends BaseProps, InputBase.TextProps {
+export interface InputTextProps extends ThemeProps, InputBase.TextProps {
 	/**
 	 * 最小的字符数量
 	 *
@@ -110,7 +110,7 @@ export function InputText(props: InputTextProps): JSX.Element {
 		}
 	});
 
-	const Trigger = (p: BaseProps): JSX.Element => {
+	const Trigger = (p: ThemeProps): JSX.Element => {
 		return (
 			<InputBase
 				{...p}

@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { JSX } from 'solid-js';
-import { createMemo, createSignal, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import { joinClass } from '@cmfx/themes';
+import { createMemo, createSignal, type JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, type RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import type { Week } from '@components/datetime';

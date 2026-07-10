@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 
-import type { BaseProps, BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
+import type { BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
 
 export interface TabRef extends BaseRef<HTMLDivElement> {
 	/**
@@ -37,7 +38,7 @@ export interface TabItem {
 	disabled?: boolean;
 }
 
-export interface TabProps extends BaseProps, ParentProps, RefProps<TabRef> {
+export interface TabProps extends ThemeProps, ParentProps, RefProps<TabRef> {
 	/**
 	 * 所有的 tab 项
 	 *

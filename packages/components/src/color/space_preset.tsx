@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass } from '@cmfx/themes';
 import { For, type JSX } from 'solid-js';
 
-import { joinClass } from '@components/base';
 import type { Accessor, ColorSpace } from './space';
 import styles from './style.module.css';
 

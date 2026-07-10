@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { isReducedMotion, joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { bundleSvgsStringSync, easings, type Rotation, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
 import { createEffect, createMemo, type JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
-import { joinClass, style2String } from '@components/base';
-import { isReducedMotion, useOptions } from '@components/context';
+import type { BaseRef, RefProps } from '@components/base';
+import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export interface IconSetRef extends BaseRef<SVGSVGElement> {
@@ -41,7 +41,7 @@ export interface IconSetRef extends BaseRef<SVGSVGElement> {
 
 export const iconSetEasings = Object.keys(easings);
 
-export interface IconSetProps extends BaseProps, RefProps<IconSetRef> {
+export interface IconSetProps extends ThemeProps, RefProps<IconSetRef> {
 	/**
 	 * 图标集
 	 *

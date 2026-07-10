@@ -3,10 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { getScrollableParent } from '@cmfx/core';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import styles from './style.module.css';
@@ -21,7 +22,7 @@ export interface BackTopRef extends BaseRef<Button.Ref> {
 	backTop(): void;
 }
 
-export interface BackTopProps extends BaseProps, ParentProps, RefProps<BackTopRef> {
+export interface BackTopProps extends ThemeProps, ParentProps, RefProps<BackTopRef> {
 	/**
 	 * 当容器顶部不可见区域达到此值时才会显示按钮，默认为 10。
 	 *

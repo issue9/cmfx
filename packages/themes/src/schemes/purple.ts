@@ -4,7 +4,7 @@
 
 // 采用 oklch 作为颜色值
 
-import type { Scheme } from '@components/base';
+import type { Scheme } from '@themes/theme';
 
 export default {
 	error: 'oklch(30.66% 0.242 51.977)',

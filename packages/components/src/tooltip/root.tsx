@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition, type PopoverPosition } from '@cmfx/core';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass } from '@components/base';
+import type { BaseRef } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
@@ -26,7 +27,7 @@ export interface TooltipRef extends BaseRef<HTMLDivElement> {
 /**
  * Tooltip 组件的属性
  */
-export interface TooltipProps extends BaseProps, ParentProps {
+export interface TooltipProps extends ThemeProps, ParentProps {
 	/**
 	 * 停留时间
 	 *

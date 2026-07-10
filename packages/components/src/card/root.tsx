@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { type JSX, type ParentProps, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export type CardRef = BaseRef<HTMLDivElement>;
 
-export interface CardProps extends BaseProps, ParentProps, RefProps<CardRef> {
+export interface CardProps extends ThemeProps, ParentProps, RefProps<CardRef> {
 	/**
 	 * 卡片的标题部分
 	 *

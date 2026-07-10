@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
-import type { AnchorProps as XAnchorProps } from '@solidjs/router';
-import { A } from '@solidjs/router';
+import { classList } from '@cmfx/themes';
+import { A, type AnchorProps as XAnchorProps } from '@solidjs/router';
 import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 
 import type { BaseRef, RefProps } from '@components/base';
-import { classList, PropsError } from '@components/base';
+import { PropsError } from '@components/base';
 import styles from '@components/button/common/style.module.css';
 import { type Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';
 

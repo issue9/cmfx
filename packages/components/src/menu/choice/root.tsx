@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { createMemo, For, type JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import type { AvailableEnumType, BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
-import { joinClass, style2String } from '@components/base';
+import type { AvailableEnumType, BaseRef, RefProps, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';
@@ -24,7 +24,7 @@ export type ChoiceOption<T extends AvailableEnumType = string> = Menu.Item<T>;
 
 export type ChoiceOptions<T extends AvailableEnumType = string> = Array<ChoiceOption<T>>;
 
-interface Base<T extends AvailableEnumType = string> extends BaseProps, Form.DataProps, RefProps<ChoiceRef> {
+interface Base<T extends AvailableEnumType = string> extends ThemeProps, Form.DataProps, RefProps<ChoiceRef> {
 	placeholder?: string;
 
 	/**

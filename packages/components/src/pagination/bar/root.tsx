@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 
-import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
-import { joinClass, PropsError } from '@components/base';
+import type { BaseRef, ChangeFunc, RefProps } from '@components/base';
+import { PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Choice } from '@components/menu';
 import { Pagination } from '@components/pagination/pagination';
@@ -20,7 +21,7 @@ export interface PaginationBarRef extends BaseRef<HTMLDivElement> {
 	jump(p: number): void;
 }
 
-export interface PaginationBarProps extends BaseProps, RefProps<PaginationBarRef> {
+export interface PaginationBarProps extends ThemeProps, RefProps<PaginationBarRef> {
 	/**
 	 * 总共的数据量
 	 *

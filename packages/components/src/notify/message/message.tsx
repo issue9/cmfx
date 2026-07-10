@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createTimer, sleep } from '@cmfx/core';
+import { joinClass, type Palette, type ThemeProps } from '@cmfx/themes';
 import { createMemo, createUniqueId, type JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
 import IconError from '~icons/flowbite/close-circle-solid';
 import IconSuccess from '~icons/material-symbols/check-circle-rounded';
@@ -10,7 +11,7 @@ import IconClose from '~icons/material-symbols/close';
 import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
 
-import { type BaseProps, type BaseRef, joinClass, type Palette, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import styles from './style.module.css';
 
@@ -35,7 +36,7 @@ export interface MessageRef extends BaseRef<HTMLDivElement> {
 	close(): Promise<void>;
 }
 
-export interface MessageProps extends BaseProps, RefProps<MessageRef> {
+export interface MessageProps extends ThemeProps, RefProps<MessageRef> {
 	/**
 	 * 显示的图标
 	 *

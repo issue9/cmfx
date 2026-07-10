@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createMemo, For, type JSX, mergeProps, splitProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
-import { joinClass } from '@components/base';
+import type { AvailableEnumType, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
 import { Checkbox } from '@components/checkbox/checkbox';
 import { Form } from '@components/form';
 import type { CheckboxGroupOptions } from './options';
@@ -14,7 +14,7 @@ import styles from './style.module.css';
 export type CheckboxGroupRef = BaseRef<HTMLDivElement>;
 
 export interface CheckboxGroupProps<T extends AvailableEnumType = string>
-	extends BaseProps,
+	extends ThemeProps,
 		Form.DataProps,
 		ValueProps<Array<T>>,
 		RefProps<CheckboxGroupRef> {

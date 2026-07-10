@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { type JSX, mergeProps, splitProps } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
-import { joinClass, style2String } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import type { Week } from '@components/datetime/utils';
 import { MonthView } from '@components/datetime/view/month';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
@@ -15,7 +15,7 @@ import styles from './style.module.css';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Base extends BaseProps, ValueProps<MonthView.WeekValueType>, Omit<Form.DataProps, 'rounded'> {
+export interface Base extends ThemeProps, ValueProps<MonthView.WeekValueType>, Omit<Form.DataProps, 'rounded'> {
 	/**
 	 * 允许的最小日期
 	 */

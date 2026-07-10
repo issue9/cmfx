@@ -14,6 +14,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 	test('load', () => {
 		extractor.load(path.resolve(__dirname, '../../../packages/components'));
 		extractor.load(path.resolve(__dirname, '../../../packages/core'));
+		extractor.load(path.resolve(__dirname, '../../../packages/themes'));
 	});
 
 	test('class', () => {
@@ -65,15 +66,15 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('interface', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'BaseProps');
+		const items = extractor.extract('@cmfx/themes', 'index.d.ts', 'ThemeProps');
 		expect(items).length(1);
 
 		const intf = items![0];
 		expect(intf.kind).toEqual('interface');
 
 		if (intf.kind === 'interface') {
-			expect(intf.name).toEqual('BaseProps');
-			expect(intf.summary?.trim()).toEqual('组件的基本属性');
+			expect(intf.name).toEqual('ThemeProps');
+			expect(intf.summary?.trim()).toEqual('组件支持主题需要实现的属性');
 			expect(intf.remarks?.trim()).toEqual('组件库的所有组件都继承了此接口，以实现统一的样式管理。');
 
 			expect(intf.properties).length(3);
@@ -253,7 +254,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('function', () => {
-		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'joinClass');
+		const items = extractor.extract('@cmfx/themes', 'index.d.ts', 'joinClass');
 		expect(items).length(1);
 
 		const f = items![0];

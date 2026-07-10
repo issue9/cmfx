@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { classList, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
-import { classList } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export type TableRef = BaseRef<HTMLTableElement>;
 
-export interface TableProps extends BaseProps, ParentProps, RefProps<TableRef> {
+export interface TableProps extends ThemeProps, ParentProps, RefProps<TableRef> {
 	/**
 	 * 是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，
 	 * 但是可能会造成空间的巨大浪费。具体可查看：

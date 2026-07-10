@@ -2,7 +2,57 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Radius, Scheme } from '@components/base';
+export const breakpoints = ['3xs', 'xs', 'sm', 'md', 'lg', '2xl', '4xl', '6xl', '8xl'] as const;
+
+/**
+ * 容器查询能用的类型
+ *
+ * @remarks
+ * 不建议使用 @media (width>500) 等基于浏览器宽度的媒体查询。
+ * 而是使用最新的容器查询。
+ */
+export type Breakpoint = (typeof breakpoints)[number];
+
+/**
+ * 定义主题相关的各类变量
+ */
+export type Scheme = {
+	// NOTE: 主题颜色值是必须要全部定义，不能从父元素继承。
+	// 否则可能出现当前的 primary 与父类的 secondary 相同的情况。
+
+	primary: string;
+	secondary: string;
+	tertiary: string;
+
+	/**
+	 * 表示错误信息
+	 */
+	error: string;
+
+	/**
+	 * 一般用于大面积的背景色
+	 */
+	surface: string;
+
+	/**
+	 * 各种不同大小的组件的圆角设置
+	 */
+	radius: Radius;
+};
+
+/**
+ * 圆角参数的设置
+ *
+ * @remarks
+ * 属性名表示的是组件的大小。单位为 rem。
+ */
+export type Radius = {
+	xs: number;
+	sm: number;
+	md: number;
+	lg: number;
+	xl: number;
+};
 
 /**
  * 从 elem 上读取当前的主题配置

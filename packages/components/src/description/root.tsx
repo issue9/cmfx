@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { type JSX, type ParentProps, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Label } from '@components/label';
 import styles from './style.module.css';
 
 export type DescriptionRef = BaseRef<HTMLDivElement>;
 
-export interface DescriptionProps extends BaseProps, ParentProps, RefProps<DescriptionRef> {
+export interface DescriptionProps extends ThemeProps, ParentProps, RefProps<DescriptionRef> {
 	/**
 	 * 图标
 	 *

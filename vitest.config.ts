@@ -30,6 +30,7 @@ export default defineConfig({
 			'packages/components',
 			'packages/illustrations',
 			'packages/admin',
+			'packages/themes',
 
 			'apps/docs',
 

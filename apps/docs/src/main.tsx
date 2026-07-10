@@ -4,14 +4,12 @@
 
 import './style.css';
 
-import type { Mode } from '@cmfx/components';
 import {
 	Appbar,
 	Button,
 	Drawer,
 	Dropdown,
 	Menu,
-	modes,
 	Result,
 	run,
 	Search,
@@ -19,10 +17,10 @@ import {
 	Transition,
 	useLocale,
 	useOptions,
-	useTheme,
 } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { amico } from '@cmfx/illustrations';
+import { type Mode, modes, useTheme } from '@cmfx/themes';
 import { type RouteDefinition, type RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, type JSX, lazy } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';

@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ThemeProps } from '@cmfx/themes';
 import { createEffect, createSignal, For, type JSX, mergeProps } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
 import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
-import type { BaseProps, BaseRef, ChangeFunc, RefProps } from '@components/base';
+import type { BaseRef, ChangeFunc, RefProps } from '@components/base';
 import { PropsError } from '@components/base';
 import { Button, ButtonGroup } from '@components/button';
 import { useLocale } from '@components/context';
@@ -22,7 +23,7 @@ export interface PaginationRef extends BaseRef<ButtonGroup.Ref> {
 	jump(p: number): void;
 }
 
-export interface PaginationProps extends BaseProps, RefProps<PaginationRef> {
+export interface PaginationProps extends ThemeProps, RefProps<PaginationRef> {
 	/**
 	 * 总的页码数量
 	 *

@@ -212,6 +212,9 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../../packages/illustrations
+      '@cmfx/themes':
+        specifier: workspace:*
+        version: link:../../packages/themes
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.497
@@ -282,6 +285,9 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../../packages/illustrations
+      '@cmfx/themes':
+        specifier: workspace:*
+        version: link:../../packages/themes
       '@cmfx/vite-plugin-api':
         specifier: workspace:*
         version: link:../../build/vite-plugin-api
@@ -411,6 +417,9 @@ importers:
       '@cmfx/illustrations':
         specifier: workspace:*
         version: link:../illustrations
+      '@cmfx/themes':
+        specifier: workspace:*
+        version: link:../themes
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.497
@@ -475,6 +484,9 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core
+      '@cmfx/themes':
+        specifier: workspace:*
+        version: link:../themes
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.497
@@ -639,6 +651,9 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core
+      '@cmfx/themes':
+        specifier: workspace:*
+        version: link:../themes
       solid-js:
         specifier: 'catalog:'
         version: 1.9.14
@@ -673,6 +688,43 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@26.1.1)(@vitest/coverage-v8@4.1.10)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.1)(esbuild@0.27.3)(jiti@2.7.0)(yaml@2.9.0))
+
+  packages/themes:
+    dependencies:
+      '@cmfx/core':
+        specifier: workspace:*
+        version: link:../core
+      solid-js:
+        specifier: 'catalog:'
+        version: 1.9.14
+    devDependencies:
+      '@microsoft/api-extractor':
+        specifier: 'catalog:'
+        version: 7.58.9(@types/node@26.1.1)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.1.1
+      browserslist:
+        specifier: 'catalog:'
+        version: 4.28.5
+      browserslist-to-esbuild:
+        specifier: 'catalog:'
+        version: 2.1.1(browserslist@4.28.5)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      unplugin-dts:
+        specifier: 'catalog:'
+        version: 1.0.3(@microsoft/api-extractor@7.58.9(@types/node@26.1.1))(esbuild@0.27.3)(rolldown@1.1.3)(rollup@4.59.0)(typescript@6.0.3)(vite@8.1.3(@types/node@26.1.1)(esbuild@0.27.3)(jiti@2.7.0)(yaml@2.9.0))
+      vite:
+        specifier: 'catalog:'
+        version: 8.1.3(@types/node@26.1.1)(esbuild@0.27.3)(jiti@2.7.0)(yaml@2.9.0)
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.10(@types/node@26.1.1)(@vitest/coverage-v8@4.1.10)(jsdom@29.1.1)(vite@8.1.3(@types/node@26.1.1)(esbuild@0.27.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest-fetch-mock:
+        specifier: 'catalog:'
+        version: 0.4.5(vitest@4.1.10)
 
 packages:
 
@@ -3024,7 +3076,7 @@ snapshots:
     dependencies:
       '@babel/compat-data': 7.29.0
       '@babel/helper-validator-option': 7.27.1
-      browserslist: 4.28.4
+      browserslist: 4.28.5
       lru-cache: 5.1.1
       semver: 6.3.1
 

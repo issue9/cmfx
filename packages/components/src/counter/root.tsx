@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
@@ -16,7 +17,7 @@ export interface CounterRef extends BaseRef<HTMLDivElement> {
 	play(): Promise<void>;
 }
 
-export interface CounterProps extends BaseProps, RefProps<CounterRef> {
+export interface CounterProps extends ThemeProps, RefProps<CounterRef> {
 	/**
 	 * 起始数值
 	 *

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Layout, MountProps } from '@cmfx/components';
-import { Button, ButtonGroup, Code, joinClass, ThemeProvider, ToggleButton } from '@cmfx/components';
+import { Button, ButtonGroup, Code, type Layout, type MountProps, ToggleButton } from '@cmfx/components';
+import { joinClass, ThemeProvider } from '@cmfx/themes';
 import { type Component, createMemo, createSignal, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';

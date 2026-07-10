@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createSignal, type JSX, mergeProps } from 'solid-js';
 
-import { type BaseProps, joinClass, type RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
 import type { Week } from '@components/datetime/utils';
 import { MonthView } from '@components/datetime/view/month';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
@@ -15,7 +16,7 @@ export type CalenderRef = MonthView.Ref;
 /**
  * 日历 {@link Calendar} 的属性值
  */
-export interface CalenderProps extends BaseProps, RefProps<CalenderRef> {
+export interface CalenderProps extends ThemeProps, RefProps<CalenderRef> {
 	/**
 	 * 允许的最小日期
 	 *

@@ -24,7 +24,7 @@
 				"type": "\"system\" | \"dark\" | \"light\""
 			}
 		],
-		"pkg": "@cmfx/components"
+		"pkg": "@cmfx/themes"
 	},
 	{
 		"kind": "function",
@@ -34,7 +34,7 @@
 		"return": {
 			"type": "Theme"
 		},
-		"pkg": "@cmfx/components"
+		"pkg": "@cmfx/themes"
 	},
 	{
 		"kind": "interface",
@@ -52,7 +52,7 @@
 				"type": "\"system\" | \"dark\" | \"light\""
 			}
 		],
-		"pkg": "@cmfx/components"
+		"pkg": "@cmfx/themes"
 	},
 	{
 		"kind": "interface",
@@ -86,6 +86,6 @@
 			}
 		],
 		"name": "Scheme",
-		"pkg": "@cmfx/components"
+		"pkg": "@cmfx/themes"
 	}
 ]

@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type ValueProps } from '@components/base';
+import type { BaseRef, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 
 /**
@@ -37,7 +38,7 @@ export interface UploadRef extends BaseRef<HTMLInputElement> {
 	upload(): Promise<Array<string> | undefined>;
 }
 
-export interface UploadProps extends Omit<Form.DataProps, 'rounded'>, ValueProps<Array<string>>, BaseProps {
+export interface UploadProps extends Omit<Form.DataProps, 'rounded'>, ValueProps<Array<string>>, ThemeProps {
 	/**
 	 * 上传文件在表单中的名称
 	 */

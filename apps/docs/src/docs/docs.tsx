@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Code, Drawer, joinClass, Markdown, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Code, Drawer, Markdown, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
 import type { ArrayElement, Locale } from '@cmfx/core';
+import { joinClass } from '@cmfx/themes';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import type { JSX, ParentProps, Setter } from 'solid-js';

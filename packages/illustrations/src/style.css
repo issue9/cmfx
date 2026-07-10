@@ -5,6 +5,6 @@
  */
 
 @import "tailwindcss";
-@import "@cmfx/components/tailwind.css";
+@import "@cmfx/themes/tailwind.css";
 
 @source ".";

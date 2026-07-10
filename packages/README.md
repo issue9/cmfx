@@ -6,3 +6,4 @@
 - components 组件库；
 - admin 提供后台管理的基本页面；
 - illustrations 插图集组件；
+- themes 主题相关功能；

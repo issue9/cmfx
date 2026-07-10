@@ -75,6 +75,7 @@ export default defineConfig(({ mode }) => {
 				dts: [
 					[path.resolve(__dirname, '../../packages/core'), 'index.d.ts'],
 					[path.resolve(__dirname, '../../packages/components'), 'index.d.ts'],
+					[path.resolve(__dirname, '../../packages/themes'), 'index.d.ts'],
 					[path.resolve(__dirname, '../../packages/illustrations'), 'index.d.ts'],
 					[path.resolve(__dirname, '../../packages/admin'), 'index.d.ts'],
 				],

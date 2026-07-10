@@ -1,0 +1,58 @@
+{
+	"name": "@cmfx/themes",
+	"version": "0.15.0",
+	"type": "module",
+	"description": "提供 cmfx 前端主题相关的功能",
+	"author": {
+		"name": "caixw",
+		"url": "https://caixw.io"
+	},
+	"homepage": "https://github.com/issue9/cmfx",
+	"bugs": {
+		"url": "https://github.com/issue9/cmfx/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/issue9/cmfx",
+		"directory": "packages/themes"
+	},
+	"keywords": [
+		"cmfx",
+		"themes"
+	],
+	"license": "MIT",
+	"files": [
+		"lib/",
+		"README.md",
+		"LICENSE"
+	],
+	"types": "./lib/index.d.ts",
+	"module": "./lib/index.js",
+	"exports": {
+		".": {
+			"types": "./lib/index.d.ts",
+			"import": "./lib/index.js"
+		},
+		"./tailwind.css": "./lib/tailwind.css"
+	},
+	"scripts": {
+		"build": "vite build"
+	},
+	"peerDependencies": {
+		"solid-js": "catalog:"
+	},
+	"dependencies": {
+		"@cmfx/core": "workspace:*"
+	},
+	"devDependencies": {
+		"@microsoft/api-extractor": "catalog:",
+		"@types/node": "catalog:",
+		"browserslist": "catalog:",
+		"browserslist-to-esbuild": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"unplugin-dts": "catalog:",
+		"vitest-fetch-mock": "catalog:",
+		"vitest": "catalog:"
+	}
+}

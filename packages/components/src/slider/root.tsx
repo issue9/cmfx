@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import type { JSX } from 'solid-js';
 import { createEffect, createSignal, For, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
-import { joinClass, style2String } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 
@@ -17,7 +17,7 @@ export interface SliderRef extends BaseRef<HTMLDivElement> {
 	input(): HTMLInputElement;
 }
 
-export interface SliderProps extends Form.DataProps, ValueProps<number>, BaseProps, RefProps<SliderRef> {
+export interface SliderProps extends Form.DataProps, ValueProps<number>, ThemeProps, RefProps<SliderRef> {
 	/**
 	 * 最小值
 	 *

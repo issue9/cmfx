@@ -2,15 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { ContextNotFoundError } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { children, createContext, createEffect, For, mergeProps, splitProps, useContext } from 'solid-js';
 
-import type { Mode, Scheme } from '@components/base';
-import { ContextNotFoundError } from '@components/context/errors';
-import { changeMode } from './mode';
-import { writeScheme } from './scheme';
-
-const themeContext = createContext<Omit<Props, 'children'>>();
+import type { Scheme } from '@themes/theme';
+import { changeMode, type Mode } from '@themes/theme/mode';
+import { writeScheme } from '@themes/theme/scheme';
 
 /**
  * 提供与主题相关的接口
@@ -27,9 +25,9 @@ export interface Theme {
 	mode: Mode;
 }
 
-type OptionalTheme = Partial<Theme>;
+type ThemeContext = Partial<Theme>;
 
-export interface Props extends ParentProps, OptionalTheme {
+export interface Props extends ParentProps, ThemeContext {
 	/**
 	 * 指定用于保存当前主题样式的元素 ID
 	 *
@@ -39,6 +37,8 @@ export interface Props extends ParentProps, OptionalTheme {
 	 */
 	styleElement?: HTMLElement;
 }
+
+const themeContext = createContext<ThemeContext>();
 
 /**
  * 返回主题设置的参数
@@ -87,7 +87,7 @@ export function ThemeProvider(props: Props): JSX.Element {
 	}
 
 	// 保存着用于改变主题的函数列表，当 theme 发生变化时，会自动调用这些函数。
-	let list: Array<(t: OptionalTheme) => void> = [];
+	let list: Array<(t: ThemeContext) => void> = [];
 	createEffect(() => {
 		list.forEach(fn => {
 			fn(theme);
@@ -116,7 +116,7 @@ export function ThemeProvider(props: Props): JSX.Element {
 /**
  * 将主题 t 应用到元素 elem
  */
-export function applyTheme(elem: HTMLElement, t: OptionalTheme) {
+export function applyTheme(elem: HTMLElement, t: ThemeContext) {
 	elem.setAttribute('data-theme', '1');
 	writeScheme(elem, t.scheme);
 	changeMode(elem, t.mode);

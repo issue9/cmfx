@@ -20,10 +20,7 @@ const outDir = cfg.compilerOptions.outDir;
 export default defineConfig({
 	plugins: [
 		solidPlugin(),
-		vitePluginCopyFile([
-			{ src: '../../LICENSE', dest: '' },
-			{ src: './src/tailwind.css', dest: outDir },
-		]),
+		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),
 		Icons({
 			compiler: 'solid',
 			scale: 1,
@@ -32,7 +29,7 @@ export default defineConfig({
 		dts({
 			entryRoot: './src',
 			bundleTypes: true,
-			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts', './src/**/*.spec.tsx'],
+			exclude: ['node_modules/**', `**/${outDir}/**`, './src/**/*.spec.ts', './src/**/*.spec.tsx'],
 		}),
 		tailwindcss(),
 	],

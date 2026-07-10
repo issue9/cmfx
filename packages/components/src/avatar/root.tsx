@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createSignal, type JSX, Match, Show, Switch } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export type AvatarRef = BaseRef<HTMLDivElement>;
 
-export interface AvatarProps extends BaseProps, RefProps<AvatarRef> {
+export interface AvatarProps extends ThemeProps, RefProps<AvatarRef> {
 	/**
 	 * 是否圆角
 	 *

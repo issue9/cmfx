@@ -46,6 +46,7 @@
 	},
 	"dependencies": {
 		"@cmfx/core": "workspace:*",
+		"@cmfx/themes": "workspace:*",
 		"@iconify/json": "catalog:",
 		"@iconsets/svg-morpheus-ts": "catalog:",
 		"@solidjs/router": "catalog:",

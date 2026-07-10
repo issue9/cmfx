@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-- pkg: "@cmfx/components"
+- pkg: "@cmfx/themes"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:

@@ -4,6 +4,7 @@
 
 export * from './api';
 export * from './config';
+export * from './context';
 export * from './hotkey';
 export * from './locale';
 export * from './math';

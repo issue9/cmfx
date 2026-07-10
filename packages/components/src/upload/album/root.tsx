@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String } from '@cmfx/themes';
 import { createMemo, For, type JSX, mergeProps, onMount, Show } from 'solid-js';
 import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
-import { type BaseRef, joinClass, type RefProps, style2String } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Form } from '@components/form';
 import { Upload } from '@components/upload/upload';
 import { PreviewFile, PreviewURL } from './preview.tsx';

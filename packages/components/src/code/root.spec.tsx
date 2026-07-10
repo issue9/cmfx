@@ -15,7 +15,7 @@ describe('Code', async () => {
 		</Code>
 	));
 
-	test('props', () => ct.testProps());
+	test('props', () => ct.testProps(ref.root()));
 
 	test('ref', () => {
 		expect(ref).toBeDefined();

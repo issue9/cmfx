@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Menu, Palette, Scheme } from '@cmfx/components';
+import type { Menu } from '@cmfx/components';
 import {
 	Button,
 	ButtonGroup,
@@ -11,7 +11,6 @@ import {
 	Divider,
 	Dropdown,
 	Form,
-	joinClass,
 	Label,
 	Notify,
 	RadioGroup,
@@ -20,6 +19,7 @@ import {
 	useOptions,
 } from '@cmfx/components';
 import { type Locale, rand } from '@cmfx/core';
+import { joinClass, type Palette, type Scheme } from '@cmfx/themes';
 import Color from 'colorjs.io';
 import { createEffect, createMemo, createSignal, type JSX } from 'solid-js';
 import { unwrap } from 'solid-js/store';

@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createMemo, type JSX, mergeProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface CheckboxRef extends BaseRef<HTMLLabelElement> {
@@ -14,7 +15,7 @@ export interface CheckboxRef extends BaseRef<HTMLLabelElement> {
 	input(): HTMLInputElement;
 }
 
-export interface CheckboxProps extends BaseProps, RefProps<CheckboxRef> {
+export interface CheckboxProps extends ThemeProps, RefProps<CheckboxRef> {
 	tabindex?: number;
 
 	label?: JSX.Element;

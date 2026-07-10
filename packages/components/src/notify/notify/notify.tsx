@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
+import { joinClass } from '@cmfx/themes';
 import { getOwner, type JSX, type ParentProps, runWithOwner } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
 import type { MountProps } from '@components/base';
-import { joinClass } from '@components/base';
 import { useOptions } from '@components/context';
 import { Message, type MessageProps, type MessageType } from '@components/notify/message';
 import styles from './style.module.css';

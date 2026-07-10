@@ -2,17 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	Alert,
-	Checkbox,
-	Form,
-	joinClass,
-	Page,
-	RadioGroup,
-	Slider,
-	useLocale,
-	Settings as XSettings,
-} from '@cmfx/components';
+import { Alert, Checkbox, Form, Page, RadioGroup, Slider, useLocale, Settings as XSettings } from '@cmfx/components';
+import { joinClass } from '@cmfx/themes';
 import { createEffect, createSignal, type JSX } from 'solid-js';
 import IconLayout from '~icons/material-symbols/responsive-layout-rounded';
 import IconHorizontal from '~icons/ph/square-split-horizontal-fill';

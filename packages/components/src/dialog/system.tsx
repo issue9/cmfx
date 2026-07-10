@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ThemeProps } from '@cmfx/themes';
 import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import type { BaseProps, MountProps } from '@components/base';
+import type { MountProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Form } from '@components/form';
 import { InputText } from '@components/input';
@@ -15,7 +16,7 @@ import { Dialog } from './root';
 import styles from './style.module.css';
 import { Toolbar } from './toolbar';
 
-export type Props = BaseProps & ParentProps & MountProps;
+export type Props = ThemeProps & ParentProps & MountProps;
 
 const acceptValue = 'accept';
 
@@ -39,7 +40,7 @@ export function DialogProvider(props: Props): JSX.Element {
 
 let alertInst: typeof alert;
 
-function AlertProvider(props: BaseProps): JSX.Element {
+function AlertProvider(props: ThemeProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: DialogRef;
 	const l = useLocale();
@@ -94,7 +95,7 @@ export async function alert(msg: string): Promise<void> {
 
 let confirmInst: typeof confirm;
 
-function ConfirmProvider(props: BaseProps): JSX.Element {
+function ConfirmProvider(props: ThemeProps): JSX.Element {
 	const [msg, setMsg] = createSignal<string>();
 	let dlg: DialogRef;
 	const [, opt] = useOptions();
@@ -144,7 +145,7 @@ export async function confirm(msg?: string): Promise<boolean> {
 
 let promptInst: typeof prompt;
 
-function PromptProvider(props: BaseProps): JSX.Element {
+function PromptProvider(props: ThemeProps): JSX.Element {
 	let dlg: DialogRef;
 	const [msg, setMsg] = createSignal<string>();
 	const [value, setValue] = createSignal('');
