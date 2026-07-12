@@ -18,7 +18,7 @@
 				"name": "loading",
 				"summary": "表示加载状态的组件\n\n",
 				"remarks": "在页面未加载完成之前会显示此组件的内容。一般为一个动态的图标组件。\n\n",
-				"type": "Component<BaseProps> | undefined",
+				"type": "Component<ThemeProps> | undefined",
 				"def": "`~icons/cmfx/loading`\n\n"
 			},
 			{

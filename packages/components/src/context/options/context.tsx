@@ -2,15 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { DisplayStyle } from '@cmfx/core';
-import type { JSX, ParentProps } from 'solid-js';
-import { createContext, splitProps, useContext } from 'solid-js';
+import { ContextNotFoundError, type DisplayStyle } from '@cmfx/core';
+import { type Mode, type Scheme, ThemeProvider } from '@cmfx/themes';
+import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
-import type { Mode, Scheme } from '@components/base';
-import { ContextNotFoundError } from '@components/context/errors';
 import { LocaleProvider } from '@components/context/locale';
-import { ThemeProvider } from '@components/context/theme';
 import type { ReqOptions } from './options';
 
 const localeKey = 'locale';

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass } from '@cmfx/themes';
 import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { joinClass } from '@components/base';
 import { ComponentTester } from '@components/context/options/context.spec';
 import { Divider, type DividerProps, type DividerRef } from './root';
 import styles from './style.module.css';

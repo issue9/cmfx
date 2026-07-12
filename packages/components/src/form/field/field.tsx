@@ -3,10 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import type { Converter, Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
+import { ContextNotFoundError } from '@cmfx/core';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
-import { type BaseProps, type ChangeFunc, joinClass, type RefProps } from '@components/base';
-import { ContextNotFoundError } from '@components/context';
+import type { ChangeFunc, RefProps } from '@components/base';
 import type { FormFieldAccessor } from '@components/form/api';
 import { type CommonProps, useForm } from '@components/form/form';
 import { area2Style, calcAreas } from './area';
@@ -15,7 +16,7 @@ import styles from './style.module.css';
 
 export interface FormFieldProps<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>
 	extends CommonProps,
-		BaseProps,
+		ThemeProps,
 		ParentProps,
 		RefProps<FormFieldRef> {
 	/**

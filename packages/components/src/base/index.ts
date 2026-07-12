@@ -3,18 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 export { PropsError } from './errors';
-export { classList, handleEvent, joinClass, style2String } from './func';
-export type { Breakpoint, Mode, Palette, Radius, Scheme } from './theme';
-export { breakpoints, modes, palettes } from './theme';
+export { handleEvent } from './func';
 export type {
 	AvailableEnumType,
 	ChangeFunc,
 	Layout,
 	MountProps,
-	Props as BaseProps,
 	Ref as BaseRef,
 	RefProps,
-	StyleProps,
 	ValueProps,
 } from './types';
 export { layouts } from './types';

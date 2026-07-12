@@ -2,16 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createMemo, For, type JSX, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { hoursOptions, minutesOptions } from '@components/datetime/utils';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<Date>, BaseProps {}
+export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<Date>, ThemeProps {}
 
 export interface PanelProps extends Base, RefProps<PanelRef> {
 	readonly popover?: false;

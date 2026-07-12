@@ -4,11 +4,10 @@
 
 import type { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 import { Hotkey, I18n } from '@cmfx/core';
+import { joinClass, type Mode, readScheme, type Scheme, type ThemeProps } from '@cmfx/themes';
 import { type Accessor, type Component, createSignal } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 
-import { type BaseProps, joinClass, type Mode, type Scheme } from '@components/base';
-import { readScheme } from '@components/context/theme/scheme';
 import { handleProblem, type ProblemHandler } from './problem';
 import styles from './style.module.css';
 
@@ -34,7 +33,7 @@ export interface Options {
 	 *
 	 * @defaultValue `~icons/cmfx/loading`
 	 */
-	loading?: Component<BaseProps>;
+	loading?: Component<ThemeProps>;
 
 	/**
 	 * 字体大小，当在 {@link config} 中存在时，当前值将被忽略。
@@ -151,7 +150,7 @@ export interface Options {
 export const presetOptions: PickOptional<Options> = {
 	fontSize: '14px',
 	locale: document.documentElement.lang || I18n.system,
-	loading: (props: BaseProps) => (
+	loading: (props: ThemeProps) => (
 		<div class={styles.loading} role="progressbar">
 			<IconLoading style={props.style} class={joinClass(props.palette, props.class)} aria-hidden={true} />
 		</div>

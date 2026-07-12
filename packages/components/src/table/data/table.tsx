@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { type Converter, isPage, type Page, type Query } from '@cmfx/core';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, For, type JSX, mergeProps, Show } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
-import { joinClass } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Divider } from '@components/divider';
 import { Form } from '@components/form';
@@ -45,7 +45,7 @@ export type DataTableSearchParams<T extends Query> = Partial<Record<keyof T, str
  */
 export type DataTableSearchConverter<Q extends Query> = Converter<Q, DataTableSearchParams<Q>>;
 
-interface Base<T extends object, Q extends Query> extends BaseProps, RefProps<DataTableRef<T>> {
+interface Base<T extends object, Q extends Query> extends ThemeProps, RefProps<DataTableRef<T>> {
 	/**
 	 * 列的定义
 	 */

@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { FetchFunc, Query } from '@cmfx/core';
+import { ContextNotFoundError, type FetchFunc, type Query } from '@cmfx/core';
 import type { Component, JSX, ParentProps, Signal } from 'solid-js';
 import { createContext, splitProps, useContext } from 'solid-js';
 
-import { ContextNotFoundError } from '@components/context';
 import type { Form } from '@components/form';
 import type { Table } from '@components/table/table';
 import type { PreProcessColumn } from './column';

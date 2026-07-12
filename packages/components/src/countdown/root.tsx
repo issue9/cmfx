@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { createTimer, type Duration, ms, nano2IntlDuration, parseDuration } from '@cmfx/core';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { type Accessor, createMemo, createSignal, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
@@ -16,7 +17,7 @@ export type CountdownField = (typeof fields)[number];
 /**
  * 倒计时的计时器
  */
-export interface CountdownProps extends BaseProps, RefProps<CountdownRef> {
+export interface CountdownProps extends ThemeProps, RefProps<CountdownRef> {
 	/**
 	 * 时间段
 	 *

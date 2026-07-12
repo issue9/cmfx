@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { type JSX, mergeProps, splitProps } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
-import { joinClass, style2String } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { CommonPanel, type CommonProps, presetProps } from '@components/datetime/picker/internal';
 import type { Week } from '@components/datetime/utils';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
@@ -13,7 +13,7 @@ import { Form } from '@components/form';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Base extends BaseProps, ValueProps<Date>, Omit<Form.DataProps, 'rounded'> {
+export interface Base extends ThemeProps, ValueProps<Date>, Omit<Form.DataProps, 'rounded'> {
 	/**
 	 * 是否符带时间选择器
 	 */

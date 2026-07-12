@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createMemo, For, type JSX, mergeProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseProps, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
-import { joinClass, style2String } from '@components/base';
+import type { AvailableEnumType, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import { Radio } from '@components/radio/radio';
 import type { RadioGroupOptions } from './options';
@@ -14,7 +14,7 @@ import styles from './style.module.css';
 export type RadioGroupRef = BaseRef<HTMLDivElement>;
 
 export interface RadioGroupProps<T extends AvailableEnumType = string>
-	extends BaseProps,
+	extends ThemeProps,
 		Form.DataProps,
 		ValueProps<T>,
 		RefProps<RadioGroupRef> {

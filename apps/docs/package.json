@@ -25,6 +25,7 @@
 	"dependencies": {
 		"@cmfx/admin": "workspace:*",
 		"@cmfx/components": "workspace:*",
+		"@cmfx/themes": "workspace:*",
 		"@cmfx/core": "workspace:*",
 		"@cmfx/illustrations": "workspace:*",
 		"@cmfx/vite-plugin-api": "workspace:*",

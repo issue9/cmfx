@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createSignal, type JSX, mergeProps, Show, untrack } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps, type ValueProps } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 
@@ -20,7 +21,7 @@ export interface InputBaseRef extends BaseRef<HTMLDivElement> {
 	input(): HTMLInputElement;
 }
 
-interface Base extends BaseProps, Form.DataProps, RefProps<InputBaseRef> {
+interface Base extends ThemeProps, Form.DataProps, RefProps<InputBaseRef> {
 	/**
 	 * 文本框内顶部的内容
 	 *

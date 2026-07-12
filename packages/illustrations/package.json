@@ -45,6 +45,7 @@
 	"dependencies": {
 		"@cmfx/components": "workspace:*",
 		"@cmfx/core": "workspace:*",
+		"@cmfx/themes": "workspace:*",
 		"solid-js": "catalog:",
 		"tailwindcss": "catalog:"
 	},

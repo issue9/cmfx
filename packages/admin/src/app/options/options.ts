@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseProps, Breakpoint, Layout, Mode, ProblemHandler, Scheme } from '@cmfx/components';
+import type { Layout, ProblemHandler } from '@cmfx/components';
 import { handleProblem, presetOptions as xpo } from '@cmfx/components';
 import type { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
+import type { Breakpoint, Mode, Scheme, ThemeProps } from '@cmfx/themes';
 import type { Component } from 'solid-js';
 
 import { type API, sanitizeAPI } from './api';
@@ -90,7 +91,7 @@ export interface Options {
 	 */
 	logo: string;
 
-	loading?: Component<BaseProps>;
+	loading?: Component<ThemeProps>;
 
 	/**
 	 * 后台需要用到的 API 地址

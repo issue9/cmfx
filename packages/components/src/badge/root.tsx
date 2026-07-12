@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createMemo, type JSX, mergeProps, type ParentProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 /**
@@ -16,7 +17,7 @@ export type BadgeCorner = (typeof badgeCorners)[number];
 
 export type BadgeRef = BaseRef<HTMLDivElement>;
 
-export interface BadgeProps extends BaseProps, ParentProps, RefProps<BadgeRef> {
+export interface BadgeProps extends ThemeProps, ParentProps, RefProps<BadgeRef> {
 	/**
 	 * 位置
 	 *

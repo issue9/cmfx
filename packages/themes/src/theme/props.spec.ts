@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { classList, style2String } from './func';
+import { classList, style2String } from './props';
 
 test('classList', () => {
 	expect(classList()).toBeUndefined();

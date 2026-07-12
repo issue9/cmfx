@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createEffect, type JSX, Match, type ParentProps, Switch } from 'solid-js';
 
 import { BackTop } from '@components/backtop';
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import styles from './style.module.css';
 
@@ -16,7 +17,7 @@ export interface PageRef extends BaseRef<HTMLDivElement> {
 	backTop(): BackTop.Ref | undefined;
 }
 
-export interface PageProps extends BaseProps, ParentProps, RefProps<PageRef> {
+export interface PageProps extends ThemeProps, ParentProps, RefProps<PageRef> {
 	/**
 	 * 配置 {@link BackTop} 组件
 	 *

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError, Notify, useAPI, useLocale, useOptions, useREST } from '@cmfx/components';
-import type { Return, Token } from '@cmfx/core';
+import { Notify, useAPI, useLocale, useOptions, useREST } from '@cmfx/components';
+import { ContextNotFoundError, type Return, type Token } from '@cmfx/core';
 import { createContext, createResource, type ParentProps, type ResourceReturn, useContext } from 'solid-js';
 import { z } from 'zod';
 

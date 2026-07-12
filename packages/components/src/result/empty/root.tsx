@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ThemeProps } from '@cmfx/themes';
 import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 import IconNoData from '~icons/oui/index-close';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Result } from '@components/result/result';
 
 export type EmptyRef = BaseRef<Result.Ref>;
 
-export interface EmptyProps extends BaseProps, ParentProps, RefProps<EmptyRef> {
+export interface EmptyProps extends ThemeProps, ParentProps, RefProps<EmptyRef> {
 	/**
 	 * 图标
 	 *

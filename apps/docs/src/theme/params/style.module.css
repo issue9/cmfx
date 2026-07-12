@@ -1,0 +1,49 @@
+/*
+ * SPDX-FileCopyrightText: 2025-2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "@docs/style.css";
+
+@layer components {
+	.params {
+		@apply min-w-45 h-full overflow-clip flex flex-col border-e border-e-palette-border;
+
+		.toolbar {
+			@apply flex items-center justify-between gap-4 bg-palette-bg px-4 py-3 border-b border-b-palette-border;
+
+			.actions {
+				@apply flex gap-2;
+			}
+		}
+
+		.ps {
+			@apply flex flex-col gap-8 px-4 pb-4 pt-8 overflow-y-scroll h-full flex-1;
+
+			.param {
+				@apply flex flex-col gap-4;
+
+				.font-number {
+					@apply aspect-square text-center align-middle;
+				}
+
+				.radius {
+					@apply flex justify-between;
+
+					.title {
+						@apply min-w-8 inline-block;
+					}
+
+					.btns {
+						@apply aspect-square w-8 relative overflow-clip gap-1;
+
+						> div {
+							@apply absolute top-1/3 left-1/3 w-20 aspect-square border-2;
+						}
+					}
+				}
+			}
+		}
+	}
+}

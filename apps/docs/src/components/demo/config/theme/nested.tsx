@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type Scheme, ThemeProvider, useTheme } from '@cmfx/components';
+import { Button } from '@cmfx/components';
+import { type Scheme, ThemeProvider, useTheme } from '@cmfx/themes';
 import { createSignal, type JSX } from 'solid-js';
 
 export default function (): JSX.Element {

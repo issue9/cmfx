@@ -50,6 +50,7 @@
 	},
 	"dependencies": {
 		"@cmfx/core": "workspace:*",
+		"@cmfx/themes": "workspace:*",
 		"@cmfx/components": "workspace:*",
 		"@cmfx/illustrations": "workspace:*",
 		"@iconify/json": "catalog:",

@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createChartLocaleLoader, type Options, type Scheme, schemes } from '@cmfx/components';
+import { createChartLocaleLoader, type Options } from '@cmfx/components';
 import { Config, createZodLocaleLoader } from '@cmfx/core';
+import { type Scheme, schemes } from '@cmfx/themes';
 
 export const options: Options = {
 	config: new Config('docs', 'default', localStorage),

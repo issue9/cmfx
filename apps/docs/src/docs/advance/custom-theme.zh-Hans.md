@@ -4,6 +4,6 @@
 
 主题对象的结构如下：
 
-@```@cmfx/components%Scheme```@
+@```@cmfx/themes%Scheme```@
 
-@```@cmfx/components%Radius```@
+@```@cmfx/themes%Radius```@

@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { Marked, type Token, type TokenizerAndRendererExtension } from 'marked';
 import type { JSX, ValidComponent } from 'solid-js';
 import { createEffect, createSignal, getOwner, onCleanup, runWithOwner } from 'solid-js';
 import { Dynamic, render } from 'solid-js/web';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
-import { joinClass } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Code } from '@components/code';
 import styles from './style.module.css';
 
@@ -17,7 +17,7 @@ export type MarkdownRef<T extends keyof HTMLElementTagNameMap = 'article'> = Bas
 >;
 
 export interface MarkdownProps<T extends keyof HTMLElementTagNameMap = 'article'>
-	extends BaseProps,
+	extends ThemeProps,
 		RefProps<MarkdownRef<T>> {
 	/**
 	 * markdown 文本内容

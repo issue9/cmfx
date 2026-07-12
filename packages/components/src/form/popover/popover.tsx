@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
+import { classList, joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createSignal, type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
-import { classList, joinClass, style2String } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { type FormDataProps, type FormFieldContext, useField } from '@components/form/field';
 import { useForm } from '@components/form/form';
 import styles from './style.module.css';
@@ -43,7 +43,7 @@ export const formPopoverTypes = ['click', 'hover'] as const;
 export type FormPopoverType = (typeof formPopoverTypes)[number];
 
 export interface FormPopoverProps<T>
-	extends BaseProps,
+	extends ThemeProps,
 		ParentProps,
 		ValueProps<T>,
 		FormDataProps,

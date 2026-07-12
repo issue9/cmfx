@@ -2,7 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Mode } from '@components/base';
+export const modes = ['system', 'dark', 'light'] as const;
+
+/**
+ * 主题模式，可用的取值为 {@link modes}
+ */
+export type Mode = (typeof modes)[number];
 
 export const modeValues: ReadonlyMap<Mode, string> = new Map<Mode, string>([
 	['system', 'light dark'],

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createMemo, createSignal, For, type JSX, Match, mergeProps, Switch } from 'solid-js';
 
-import type { BaseProps, BaseRef, Layout, RefProps } from '@components/base';
-import { joinClass } from '@components/base';
+import type { BaseRef, Layout, RefProps } from '@components/base';
 import type { Ref as WizardRef, Step as WizardStep } from '@components/wizard/step';
 import styles from './style.module.css';
 
@@ -18,7 +18,7 @@ export interface StepperStep extends WizardStep {
 	icon?: JSX.Element | true | ((completed?: boolean) => JSX.Element | true);
 }
 
-export interface StepperProps extends BaseProps, RefProps<StepperRef> {
+export interface StepperProps extends ThemeProps, RefProps<StepperRef> {
 	steps: Array<StepperStep>;
 
 	/**

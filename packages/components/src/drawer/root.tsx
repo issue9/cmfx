@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { type Breakpoint, joinClass, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 import { createEffect, createSignal, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import type { BaseProps, BaseRef, Breakpoint, RefProps } from '@components/base';
-import { joinClass } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { ToggleButton as TB } from '@components/button';
 import { Transition } from '@components/transition';
 import styles from './style.module.css';
@@ -108,7 +108,7 @@ export function ToggleButton(p: DrawerToggleButtonProps): JSX.Element {
 	);
 }
 
-export interface DrawerProps extends BaseProps, ParentProps, RefProps<DrawerRef> {
+export interface DrawerProps extends ThemeProps, ParentProps, RefProps<DrawerRef> {
 	/**
 	 * 侧边栏的初始状态
 	 */

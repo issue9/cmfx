@@ -3,12 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import type { Flattenable } from '@cmfx/core';
+import { ContextNotFoundError } from '@cmfx/core';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Button as Btn } from '@components/button/button';
-import { ContextNotFoundError, useLocale } from '@components/context';
+import { useLocale } from '@components/context';
 import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
 import { type FormContext, FormProvider, useForm } from './context';
@@ -16,7 +18,7 @@ import { type FormContext, FormProvider, useForm } from './context';
 export type FormRef = BaseRef<HTMLFormElement>;
 
 export interface FormProps<T extends Flattenable, R = unknown, P = never>
-	extends BaseProps,
+	extends ThemeProps,
 		FormContext<T, R, P>,
 		ParentProps,
 		RefProps<FormRef> {
@@ -111,7 +113,7 @@ export function Form<T extends Flattenable, R = unknown, P = never>(props: FormP
 	);
 }
 
-export interface FormMessageProps extends BaseProps {
+export interface FormMessageProps extends ThemeProps {
 	/**
 	 * 是否显示关闭按钮
 	 *

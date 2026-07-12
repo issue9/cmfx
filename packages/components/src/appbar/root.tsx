@@ -2,19 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type StyleProps, type ThemeProps } from '@cmfx/themes';
 import { A } from '@solidjs/router';
-import type { JSX, ParentProps } from 'solid-js';
-import { Show } from 'solid-js';
+import { type JSX, type ParentProps, Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import type { BaseProps, RefProps, StyleProps } from '@components/base';
-import { type BaseRef, joinClass } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export type AppbarRef = BaseRef<HTMLElement>;
 
-export interface AppbarProps extends BaseProps, ParentProps, RefProps<AppbarRef> {
+export interface AppbarProps extends ThemeProps, ParentProps, RefProps<AppbarRef> {
 	/**
 	 * 首部的 LOGO 图片
 	 *

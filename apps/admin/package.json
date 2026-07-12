@@ -24,6 +24,7 @@
 	},
 	"dependencies": {
 		"@cmfx/admin": "workspace:*",
+		"@cmfx/themes": "workspace:*",
 		"@cmfx/components": "workspace:*",
 		"@cmfx/illustrations": "workspace:*",
 		"@cmfx/core": "workspace:*",

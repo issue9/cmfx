@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { Editor } from '@tiptap/core';
 import { Image } from '@tiptap/extension-image';
 import { Subscript } from '@tiptap/extension-subscript';
@@ -12,8 +13,7 @@ import { Placeholder } from '@tiptap/extensions';
 import { StarterKit } from '@tiptap/starter-kit';
 import { createEffect, type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
-import { joinClass, style2String } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 import { Toolbar } from './toolbar';
@@ -28,7 +28,7 @@ export interface EditorRef extends BaseRef<HTMLDivElement> {
 export interface EditorProps
 	extends Omit<Form.DataProps, 'rounded'>,
 		ValueProps<string>,
-		BaseProps,
+		ThemeProps,
 		RefProps<EditorRef> {
 	placeholder?: string;
 }

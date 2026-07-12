@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { movable } from '@cmfx/core';
+import type { ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 import { createSignal, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconMinimize from '~icons/material-symbols/minimize-rounded';
 
-import type { BaseProps } from '@components/base';
 import { Button, ToggleButton } from '@components/button';
 import { useLocale } from '@components/context';
 import { CancelButton } from './buttons';
@@ -20,7 +20,7 @@ import styles from './style.module.css';
  */
 export type DialogState = 'minimize' | 'maximize' | 'preset';
 
-export interface DialogToolbarProps extends BaseProps, ParentProps {
+export interface DialogToolbarProps extends ThemeProps, ParentProps {
 	/**
 	 * 初始的对话框状态
 	 *

@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import Color from 'colorjs.io';
 import { createSignal, type JSX, mergeProps, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 import IconClose from '~icons/material-symbols/cancel';
 
-import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
-import { joinClass, PropsError } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
+import { PropsError } from '@components/base';
 import { Button } from '@components/button';
 import { ClipboardAPI } from '@components/clipboard';
 import { useLocale } from '@components/context';
@@ -34,7 +35,7 @@ export interface PanelRef extends BaseRef<HTMLDivElement> {
 	switchSpace(id: string): void;
 }
 
-export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<string>, BaseProps {
+export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<string>, ThemeProps {
 	/**
 	 * 指定一个用于计算 WCAG 值的颜色
 	 *

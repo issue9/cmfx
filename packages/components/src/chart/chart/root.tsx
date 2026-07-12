@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { isReducedMotion, joinClass, type ThemeProps } from '@cmfx/themes';
 import * as echarts from 'echarts';
 import { createEffect, type JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
-import { isReducedMotion, useLocale, useOptions } from '@components/context';
+import type { BaseRef, RefProps } from '@components/base';
+import { useLocale, useOptions } from '@components/context';
 import { matchLocale } from './locale.ts';
 
 export type ChartOption = echarts.EChartsOption;
@@ -24,7 +25,7 @@ export interface ChartRef extends BaseRef<HTMLDivElement> {
 	update(o: ChartOption): void;
 }
 
-export interface ChartProps extends BaseProps, RefProps<ChartRef> {
+export interface ChartProps extends ThemeProps, RefProps<ChartRef> {
 	/**
 	 * 是否扩大可点击元素的响应范围
 	 *

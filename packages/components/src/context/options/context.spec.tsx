@@ -3,13 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { Config, sleep } from '@cmfx/core';
+import { schemes, type ThemeProps } from '@cmfx/themes';
 import { MemoryRouter } from '@solidjs/router';
 import { render, renderHook, testEffect } from '@solidjs/testing-library';
 import { createEffect, type JSX, type ParentProps, splitProps } from 'solid-js';
 import { afterAll, describe, expect, test } from 'vitest';
 
-import type { BaseProps } from '@components/base';
-import { schemes } from '@components/scheme';
 import { buildAccessor, OptionsProvider, useOptions } from './context';
 import { initEnv, type Options, type ReqOptions } from './options';
 
@@ -80,7 +79,7 @@ export class ComponentTester {
 	 * @param r - 生成组件的方法，需要将 props 传递给组件；
 	 * @param dur - 用于等待组件加载完成，默认为 500 毫秒。
 	 */
-	static async build(name: string, r: (props: BaseProps) => JSX.Element, dur: number = 500): Promise<ComponentTester> {
+	static async build(name: string, r: (props: ThemeProps) => JSX.Element, dur: number = 500): Promise<ComponentTester> {
 		const props = { palette: 'primary', class: 'custom-cls', style: { '--custom-style': 'red' } } as const;
 		const o = await initTestEnv();
 		const result = render(() => r(props), { wrapper: props => <Provider {...o}>{props.children}</Provider> });
@@ -99,7 +98,7 @@ export class ComponentTester {
 	}
 
 	/**
-	 * 测试 {@link BaseProps} 是否正确附加在组件上
+	 * 测试 {@link ThemeProps} 是否正确附加在组件上
 	 *
 	 * @param root - 组件的根元素，如果未提供，则默认为第一个子元素。
 	 */

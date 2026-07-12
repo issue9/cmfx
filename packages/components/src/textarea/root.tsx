@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createSignal, type JSX, mergeProps } from 'solid-js';
 
-import type { BaseProps, BaseRef, RefProps, ValueProps } from '@components/base';
-import { joinClass, style2String } from '@components/base';
+import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import type { InputBase } from '@components/input';
 import styles from './style.module.css';
@@ -17,7 +17,7 @@ export interface TextAreaRef extends BaseRef<HTMLDivElement> {
 	textarea(): HTMLTextAreaElement;
 }
 
-export interface TextAreaProps extends BaseProps, Form.DataProps, ValueProps<string>, RefProps<TextAreaRef> {
+export interface TextAreaProps extends ThemeProps, Form.DataProps, ValueProps<string>, RefProps<TextAreaRef> {
 	/**
 	 * 最小的字符数量
 	 *

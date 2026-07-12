@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { classList, style2String, type ThemeProps } from '@cmfx/themes';
 import { createMemo, type JSX, mergeProps, type ParentProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, classList, type Layout, type RefProps, style2String } from '@components/base';
+import type { BaseRef, Layout, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export type DividerRef = BaseRef<HTMLDivElement>;
@@ -37,7 +38,7 @@ export type DividerProps = ParentProps<
 		 * @reactive
 		 */
 		padding?: string;
-	} & BaseProps &
+	} & ThemeProps &
 		RefProps<DividerRef>
 >;
 

@@ -58,6 +58,13 @@ export default defineConfig(({ mode }) => {
 							{ find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') },
 
 							{
+								find: /^@cmfx\/themes\/(.*).lang/,
+								replacement: path.resolve(__dirname, `../../packages/themes/src/messages/$1.lang.ts`),
+							},
+							{ find: '@cmfx/themes', replacement: path.resolve(__dirname, '../../packages/themes/src') },
+							{ find: '@themes', replacement: path.resolve(__dirname, '../../packages/themes/src') },
+
+							{
 								find: /^@cmfx\/illustrations\/(.*).lang/,
 								replacement: path.resolve(__dirname, `../../packages/illustrations/src/messages/$1.lang.ts`),
 							},
@@ -75,6 +82,7 @@ export default defineConfig(({ mode }) => {
 				dts: [
 					[path.resolve(__dirname, '../../packages/core'), 'index.d.ts'],
 					[path.resolve(__dirname, '../../packages/components'), 'index.d.ts'],
+					[path.resolve(__dirname, '../../packages/themes'), 'index.d.ts'],
 					[path.resolve(__dirname, '../../packages/illustrations'), 'index.d.ts'],
 					[path.resolve(__dirname, '../../packages/admin'), 'index.d.ts'],
 				],

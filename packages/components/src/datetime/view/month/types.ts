@@ -3,8 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import type { getISOWeek } from '@cmfx/core';
+import type { ThemeProps } from '@cmfx/themes';
 
-import type { BaseProps, BaseRef, RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import type { Week } from '@components/datetime/utils';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
 
@@ -68,7 +69,7 @@ export interface API {
 
 export type MonthViewRef = API & BaseRef<HTMLFieldSetElement>;
 
-export interface MonthViewProps extends BaseProps, RefProps<MonthViewRef> {
+export interface MonthViewProps extends ThemeProps, RefProps<MonthViewRef> {
 	/**
 	 * 禁用
 	 *

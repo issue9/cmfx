@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import type {
 	CornerDotType,
 	CornerSquareType,
@@ -13,7 +14,7 @@ import type {
 import QRCodeStyling from 'qr-code-styling';
 import { createEffect, createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface QRCodeRef extends BaseRef<HTMLSpanElement> {
@@ -32,7 +33,7 @@ export interface QRCodeRef extends BaseRef<HTMLSpanElement> {
 	qrCodeStyling(): QRCodeStyling;
 }
 
-export interface QRCodeProps extends BaseProps, RefProps<QRCodeRef> {
+export interface QRCodeProps extends ThemeProps, RefProps<QRCodeRef> {
 	/**
 	 * 需要生成图片的值
 	 *

@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { classList, joinClass, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 
-import { type BaseProps, classList, joinClass } from '@components/base';
 import type { DialogRef } from './context';
 import { DialogProvider } from './context';
 import styles from './style.module.css';
 
-export interface DialogProps extends BaseProps, ParentProps {
+export interface DialogProps extends ThemeProps, ParentProps {
 	// https://caniuse.com/?search=closedby
 	// closedby
 

@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createSignal, type JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import IconClear from '~icons/material-symbols/close';
 import IconSearch from '~icons/material-symbols/search';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { useLocale } from '@components/context';
 import { InputBase } from '@components/input/base';
 import { Dropdown, type Menu } from '@components/menu';
@@ -15,7 +16,7 @@ import styles from './style.module.css';
 
 export type SearchRef = BaseRef<Dropdown.Ref>;
 
-export interface SearchProps extends BaseProps, RefProps<SearchRef> {
+export interface SearchProps extends ThemeProps, RefProps<SearchRef> {
 	hotkey?: Hotkey;
 
 	/**

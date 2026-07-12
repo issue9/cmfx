@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * 无法找到上下文环境，一般在 useContext 系列方法的调用中抛出。
+ * 无法找到上下文环境，一般在 solid 的 useContext 系列方法的调用中抛出。
  */
 export class ContextNotFoundError extends Error {
 	#name: string;

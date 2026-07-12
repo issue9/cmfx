@@ -4,7 +4,7 @@
 
 // 采用 tailwind 变量名作为颜色值
 
-import type { Scheme } from '@components/base';
+import type { Scheme } from '@themes/theme';
 
 export default {
 	primary: 'var(--color-blue-900)',

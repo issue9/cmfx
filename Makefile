@@ -36,7 +36,7 @@ gen:
 
 .PHONY: build build-go build-ts build-app
 .PHONY: build-ts-plugin-about build-ts-plugin-api build-ts-plugin
-.PHONY: build-ts-docs build-ts-admin-demo build-ts-core build-ts-components build-ts-illustrations build-ts-admin
+.PHONY: build-ts-docs build-ts-admin-demo build-ts-core build-ts-components build-ts-illustrations build-ts-admin build-ts-themes
 
 build: build-go build-ts
 
@@ -59,8 +59,11 @@ build-ts-plugin-api:
 build-ts-core:
 	pnpm --filter=./packages/core run build
 
-build-ts-components: build-ts-core
+build-ts-components: build-ts-core build-ts-themes
 	pnpm --filter=./packages/components run build
+
+build-ts-themes:
+	pnpm --filter=./packages/themes run build
 
 build-ts-illustrations: build-ts-components
 	pnpm --filter=./packages/illustrations run build
@@ -113,7 +116,7 @@ watch: watch-server watch-admin
 ########################### test ###################################
 
 .PHONY: test test-go test-ts lint-ts
-.PHONY: test-ts-core test-ts-components test-ts-admin
+.PHONY: test-ts-core test-ts-components test-ts-admin test-ts-themes
 .PHONY: test-ts-docs
 .PHONY: test-ts-plugin-about test-ts-plugin-api
 
@@ -136,6 +139,9 @@ test-ts-core: mk-coverage
 
 test-ts-docs: mk-coverage
 	pnpm run test --project=@cmfx/docs
+
+test-ts-themes: mk-coverage
+	pnpm run test --project=@cmfx/themes
 
 test-ts-components: mk-coverage build-ts-core
 	pnpm run test --project=@cmfx/components
@@ -176,7 +182,7 @@ changelog:
 
 publish-npm: build-ts
 	pnpm publish --filter=./packages/core --filter=./packages/components \
-	--filter=./packages/admin --filter=./packages/illustrations \
+	--filter=./packages/admin --filter=./packages/illustrations --filter=./packages/themes \
 	--filter=./build/vite-plugin-about --filter=./build/vite-plugin-api \
 	--access=public --no-git-checks
 

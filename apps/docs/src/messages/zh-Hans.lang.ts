@@ -171,6 +171,13 @@ const messages: typeof m = {
 			contrastMore: '提高对比度',
 			contrastLess: '降底对比度',
 			contrastNone: '正常对比度',
+			cssVars: 'CSS 变量',
+			name: '变量名',
+			value: '值',
+			action: '操作',
+			delete: '删除',
+			edit: '编辑',
+			add: '添加',
 		},
 	},
 };

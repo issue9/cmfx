@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseProps } from '@cmfx/components';
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createSignal, type JSX, Match, type ParentProps, Show, Switch, untrack } from 'solid-js';
 
 import { Avatar } from '@components/avatar';
-import { type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { Checkbox } from '@components/checkbox';
 import { useLocale, useOptions } from '@components/context';
@@ -22,7 +22,7 @@ export interface LockScreenRef extends BaseRef<HTMLDivElement> {
 	lock(): void;
 }
 
-export interface LockScreenProps extends ParentProps, BaseProps, RefProps<LockScreenRef> {
+export interface LockScreenProps extends ParentProps, ThemeProps, RefProps<LockScreenRef> {
 	/**
 	 * 退出按钮上的操作
 	 *

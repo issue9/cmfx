@@ -186,7 +186,7 @@
 			{
 				"name": "html",
 				"summary": "高亮代码\n\n",
-				"type": "html(code: string, lang: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], theme?: BundledTheme, decorate?: string): string",
+				"type": "html(code: string, lang: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: ThemeProps['style'], theme?: BundledTheme, decorate?: string): string",
 				"params": [
 					{
 						"name": "code",
@@ -274,7 +274,7 @@
 		"name": "Code.highlight",
 		"summary": "高亮代码\n\n",
 		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
-		"type": "declare function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], theme?: BundledTheme): Promise<string>",
+		"type": "declare function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: ThemeProps['style'], theme?: BundledTheme): Promise<string>",
 		"params": [
 			{
 				"name": "code",

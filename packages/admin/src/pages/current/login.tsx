@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseProps, Mode } from '@cmfx/components';
-import { Appbar, Choice, joinClass, modes, Page, Transition, useLocale, useOptions, useREST } from '@cmfx/components';
+import { Appbar, Choice, Page, Transition, useLocale, useOptions, useREST } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
+import { joinClass, type Mode, modes, type ThemeProps } from '@cmfx/themes';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import { createEffect, createResource, createSignal, ErrorBoundary, For, Match, Show, Switch } from 'solid-js';
@@ -15,7 +15,7 @@ import type { Passport } from '@admin/components';
 import type { PassportComponents } from './passports';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Props extends ThemeProps {
 	/**
 	 * 登录页面底部的链接
 	 */

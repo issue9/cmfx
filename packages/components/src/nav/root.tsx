@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createSignal, For, type JSX, mergeProps } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface NavRef extends BaseRef<HTMLElement> {
@@ -14,7 +15,7 @@ export interface NavRef extends BaseRef<HTMLElement> {
 	refresh(): void;
 }
 
-export interface NavProps extends BaseProps, RefProps<NavRef> {
+export interface NavProps extends ThemeProps, RefProps<NavRef> {
 	/**
 	 * 用于生成目录的元素
 	 *

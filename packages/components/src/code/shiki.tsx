@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
 import type {
 	BundledLanguage,
 	BundledTheme,
@@ -12,7 +13,6 @@ import type {
 } from 'shiki/bundle/full';
 import { codeToHtml, createHighlighter } from 'shiki/bundle/full';
 
-import { type BaseProps, joinClass, style2String } from '@components/base';
 import styles from './style.module.css';
 import { shikiTheme } from './theme';
 
@@ -35,7 +35,7 @@ export interface CodeHighlighter {
 		ln?: number,
 		wrap?: boolean,
 		cls?: string,
-		style?: BaseProps['style'],
+		style?: ThemeProps['style'],
 		theme?: BundledTheme,
 		decorate?: string,
 	): string;
@@ -77,7 +77,7 @@ export async function buildHighlighter(
 			ln?: number,
 			wrap?: boolean,
 			cls?: string,
-			style?: BaseProps['style'],
+			style?: ThemeProps['style'],
 			theme?: BundledTheme,
 		): string {
 			return h.codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, theme));
@@ -109,7 +109,7 @@ export async function highlight(
 	ln?: number,
 	wrap?: boolean,
 	cls?: string,
-	style?: BaseProps['style'],
+	style?: ThemeProps['style'],
 	theme?: BundledTheme,
 ): Promise<string> {
 	return await codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, theme));
@@ -121,7 +121,7 @@ function buildOptions(
 	ln?: number,
 	wrap?: boolean,
 	cls?: string,
-	style?: BaseProps['style'],
+	style?: ThemeProps['style'],
 	theme?: BundledTheme,
 ): CodeToHastOptions<BundledLanguage, BundledTheme> {
 	// 行号列的宽度，即使只有两行代码，但是从 9 开始计算行号，还是得有 2 位长度，所以得根据最后一行的行号确定行号的宽度。

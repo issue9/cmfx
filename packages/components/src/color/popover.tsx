@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 import { createSignal, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, type RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
 import { Form } from '@components/form';
 import { type Base, Panel, type PanelRef } from './panel';
 import styles from './style.module.css';

@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { type JSX, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Counter } from '@components/counter';
 import styles from './style.module.css';
 
 export type StatisticRef = BaseRef<HTMLDivElement>;
 
-export interface StatisticProps extends BaseProps, RefProps<StatisticRef> {
+export interface StatisticProps extends ThemeProps, RefProps<StatisticRef> {
 	/**
 	 * 显示的标题
 	 *

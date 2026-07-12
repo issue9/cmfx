@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createSignal, type JSX, onCleanup, Show } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type RefProps } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { Time } from '@components/datetime/time';
 import type { Week } from '@components/datetime/utils';
 import { MonthView } from '@components/datetime/view/month';
@@ -17,7 +18,7 @@ export interface CommonRef extends BaseRef<HTMLFieldSetElement> {
 	monthView(): MonthView.Ref;
 }
 
-export interface CommonProps extends BaseProps, Omit<Form.DataProps, 'rounded'>, RefProps<CommonRef> {
+export interface CommonProps extends ThemeProps, Omit<Form.DataProps, 'rounded'>, RefProps<CommonRef> {
 	/**
 	 * 是否符带时间选择器
 	 *

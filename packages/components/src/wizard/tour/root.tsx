@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { calcPopoverPosition, type PopoverPosition } from '@cmfx/core';
+import { joinClass, type Palette, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createMemo, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
-import { type BaseProps, type BaseRef, joinClass, type Palette } from '@components/base';
+import type { BaseRef } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
@@ -46,7 +47,7 @@ export interface TourStep extends WizardStep {
 	icon?: JSX.Element;
 }
 
-export interface TourProps extends BaseProps {
+export interface TourProps extends ThemeProps {
 	/**
 	 * 指定所有教程步骤
 	 */
