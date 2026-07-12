@@ -36,7 +36,7 @@ gen:
 
 .PHONY: build build-go build-ts build-app
 .PHONY: build-ts-plugin-about build-ts-plugin-api build-ts-plugin
-.PHONY: build-ts-docs build-ts-admin-demo build-ts-core build-ts-components build-ts-illustrations build-ts-admin build-ts-themes
+.PHONY: build-ts-docs build-ts-dashboard build-ts-core build-ts-components build-ts-illustrations build-ts-admin build-ts-themes
 
 build: build-go build-ts
 
@@ -47,7 +47,7 @@ build-ts-plugin: build-ts-plugin-about build-ts-plugin-api
 build-go: gen
 	go build -o=$(APPS_SERVER)/$(SERVER_BIN) -v $(APPS_SERVER)
 
-build-ts-docs: build-ts-admin-demo build-ts-plugin-api
+build-ts-docs: build-ts-dashboard build-ts-plugin-api
 	pnpm --filter=./apps/docs run build
 
 build-ts-plugin-about: build-ts-admin
@@ -71,8 +71,8 @@ build-ts-illustrations: build-ts-components
 build-ts-admin: build-ts-components build-ts-illustrations
 	pnpm --filter=./packages/admin run build
 
-build-ts-admin-demo: build-ts-admin build-ts-plugin-about
-	pnpm --filter=./apps/admin run build
+build-ts-dashboard: build-ts-admin build-ts-plugin-about
+	pnpm --filter=./apps/dashboard run build
 
 # 编译前端项目内容
 build-ts: build-ts-docs
@@ -101,8 +101,8 @@ init: build-app
 watch-server:
 	web watch -app=-a=serve $(APPS_SERVER)
 
-watch-admin:
-	pnpm --filter=./apps/admin run dev
+watch-dashboard:
+	pnpm --filter=./apps/dashboard run dev
 
 watch-docs:
 	pnpm --filter=./apps/docs run dev

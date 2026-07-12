@@ -23,7 +23,7 @@
 			"path": "./apps/docs/tsconfig.json"
 		},
 		{
-			"path": "./apps/admin/tsconfig.json"
+			"path": "./apps/dashboard/tsconfig.json"
 		}
 	]
 }

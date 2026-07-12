@@ -56,7 +56,8 @@
 								"!@admin/**",
 								"!@illustrations/**",
 								"!@themes/**",
-								"!@docs/**"
+								"!@docs/**",
+								"!@dashboard/**"
 							],
 							":BLANK_LINE:",
 							["**"]

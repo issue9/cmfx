@@ -3,7 +3,7 @@ packages:
   - build/vite-plugin-about
   - build/vite-plugin-api
   - apps/docs
-  - apps/admin
+  - apps/dashboard
 
 allowBuilds:
   esbuild: false

@@ -6,7 +6,7 @@ import { useLocale } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 
-import type { Message } from '../locales';
+import type { Message } from '@dashboard/messages';
 import styles from './style.module.css';
 
 export default function Test(): JSX.Element {

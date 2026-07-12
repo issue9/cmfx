@@ -1,5 +1,5 @@
 {
-	"name": "@cmfx/admin-demo",
+	"name": "@cmfx/dashboard",
 	"version": "0.15.0",
 	"private": true,
 	"type": "module",
@@ -14,7 +14,7 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/issue9/cmfx",
-		"directory": "apps/admin"
+		"directory": "apps/dashboard"
 	},
 	"license": "MIT",
 	"scripts": {
