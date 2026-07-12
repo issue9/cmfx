@@ -68,7 +68,8 @@ export function ThemeProvider(props: Props): JSX.Element {
 
 	const parent = useContext(themeContext);
 	const radius = Object.assign({}, parent?.scheme?.radius, props.scheme?.radius);
-	const scheme = Object.assign({}, { radius }, parent?.scheme, props.scheme);
+	const vars = Object.assign({}, parent?.scheme?.vars, props.scheme?.vars);
+	const scheme = Object.assign({}, { radius, vars }, parent?.scheme, props.scheme);
 	props = mergeProps(
 		{
 			mode: props.mode || parent?.mode,
