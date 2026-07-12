@@ -4,8 +4,7 @@
 
 import { Drawer, useLocale, useOptions } from '@cmfx/components';
 import { joinClass, useTheme } from '@cmfx/themes';
-import type { RouteDefinition } from '@solidjs/router';
-import { createEffect, onCleanup, onMount, type Setter } from 'solid-js';
+import { createEffect, type JSX, onCleanup, onMount, type Setter } from 'solid-js';
 import { createStore, unwrap } from 'solid-js/store';
 
 import { floatingWidth } from '@docs/utils';
@@ -14,44 +13,36 @@ import { params } from './params';
 import styles from './style.module.css';
 import { convertSchemeVar2Color } from './utils';
 
-/**
- * 生成路由项
- */
-export function buildRoute(path: string, setDrawer: Setter<Drawer.Ref | undefined>): RouteDefinition {
-	return {
-		path: path,
-		component: () => {
-			let drawerRef: Drawer.Ref;
-			onMount(() => {
-				setDrawer(drawerRef);
-			});
-			onCleanup(() => setDrawer(undefined));
+export function Builder(props: { setDrawer: Setter<Drawer.Ref | undefined> }): JSX.Element {
+	let drawerRef: Drawer.Ref;
+	onMount(() => {
+		props.setDrawer(drawerRef);
+	});
+	onCleanup(() => props.setDrawer(undefined));
 
-			const l = useLocale();
-			const [act] = useOptions();
+	const l = useLocale();
+	const [act] = useOptions();
 
-			const t = useTheme();
-			const scheme = createStore(convertSchemeVar2Color(unwrap(t.scheme)));
+	const t = useTheme();
+	const scheme = createStore(convertSchemeVar2Color(unwrap(t.scheme)));
 
-			createEffect(() => {
-				act.setTitle(l.t('_d.theme.builder'));
-			});
+	createEffect(() => {
+		act.setTitle(l.t('_d.theme.builder'));
+	});
 
-			return (
-				<Drawer
-					class={styles.builder}
-					floating={floatingWidth}
-					ref={el => {
-						drawerRef = el;
-						el.main().style.overflow = 'unset';
-					}}
-					palette="secondary"
-					mainClass={joinClass('surface')}
-					main={<Demo s={scheme} />}
-				>
-					{params(scheme)}
-				</Drawer>
-			);
-		},
-	};
+	return (
+		<Drawer
+			class={styles.builder}
+			floating={floatingWidth}
+			ref={el => {
+				drawerRef = el;
+				el.main().style.overflow = 'unset';
+			}}
+			palette="secondary"
+			mainClass={joinClass('surface')}
+			main={<Demo s={scheme} />}
+		>
+			{params(scheme)}
+		</Drawer>
+	);
 }

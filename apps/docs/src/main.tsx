@@ -43,7 +43,7 @@ import { buildRoute as buildContributeRoute } from './contribute';
 import { buildMenus as buildDocsMenus, buildRoute as buildDocsRoute } from './docs';
 import { options } from './options';
 import styles from './style.module.css';
-import { buildRoute as buildThemeRoute } from './theme/builder';
+import { buildRoute as buildThemeRoute } from './theme';
 
 const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
 	['en', <IconEN />],
