@@ -9,15 +9,13 @@ import { createStore, unwrap } from 'solid-js/store';
 
 import { floatingWidth } from '@docs/utils';
 import { Demo } from './demo';
-import { params } from './params';
+import { Params } from './params';
 import styles from './style.module.css';
 import { convertSchemeVar2Color } from './utils';
 
 export function Builder(props: { setDrawer: Setter<Drawer.Ref | undefined> }): JSX.Element {
 	let drawerRef: Drawer.Ref;
-	onMount(() => {
-		props.setDrawer(drawerRef);
-	});
+	onMount(() => props.setDrawer(drawerRef));
 	onCleanup(() => props.setDrawer(undefined));
 
 	const l = useLocale();
@@ -26,9 +24,7 @@ export function Builder(props: { setDrawer: Setter<Drawer.Ref | undefined> }): J
 	const t = useTheme();
 	const scheme = createStore(convertSchemeVar2Color(unwrap(t.scheme)));
 
-	createEffect(() => {
-		act.setTitle(l.t('_d.theme.builder'));
-	});
+	createEffect(() => act.setTitle(l.t('_d.theme.builder')));
 
 	return (
 		<Drawer
@@ -42,7 +38,7 @@ export function Builder(props: { setDrawer: Setter<Drawer.Ref | undefined> }): J
 			mainClass={joinClass('surface')}
 			main={<Demo s={scheme} />}
 		>
-			{params(scheme)}
+			<Params s={scheme} />
 		</Drawer>
 	);
 }

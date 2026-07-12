@@ -16,6 +16,10 @@ export function convertSchemeVar2Color(s: Scheme): Scheme {
 	const style = window.getComputedStyle(document.documentElement);
 
 	const ret = structuredClone(s);
+	if (!ret.vars) {
+		ret.vars = {};
+	}
+
 	for (const p of palettes) {
 		const colorVal = s[p];
 

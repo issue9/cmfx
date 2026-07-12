@@ -169,6 +169,13 @@ const messages = {
 			contrastMore: 'More',
 			contrastLess: 'Less',
 			contrastNone: 'None',
+			cssVars: 'CSS Variables',
+			name: 'Name',
+			value: 'Value',
+			action: 'Action',
+			delete: 'Delete',
+			edit: 'Edit',
+			add: 'Add',
 		},
 	},
 };

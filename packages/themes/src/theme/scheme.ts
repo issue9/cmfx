@@ -20,29 +20,29 @@ export type Scheme = {
 	// NOTE: 主题颜色值是必须要全部定义，不能从父元素继承。
 	// 否则可能出现当前的 primary 与父类的 secondary 相同的情况。
 
-	readonly primary: string;
-	readonly secondary: string;
-	readonly tertiary: string;
+	primary: string;
+	secondary: string;
+	tertiary: string;
 
 	/**
 	 * 表示错误信息
 	 */
-	readonly error: string;
+	error: string;
 
 	/**
 	 * 一般用于大面积的背景色
 	 */
-	readonly surface: string;
+	surface: string;
 
 	/**
 	 * 各种不同大小的组件的圆角设置
 	 */
-	readonly radius: Radius;
+	radius: Radius;
 
 	/**
 	 * 其它的 CSS 变量
 	 */
-	readonly vars?: Record<`--${string}`, string>;
+	vars?: Record<`--${string}`, string>;
 };
 
 /**
@@ -52,11 +52,11 @@ export type Scheme = {
  * 属性名表示的是组件的大小。单位为 rem。
  */
 export type Radius = {
-	readonly xs: number;
-	readonly sm: number;
-	readonly md: number;
-	readonly lg: number;
-	readonly xl: number;
+	xs: number;
+	sm: number;
+	md: number;
+	lg: number;
+	xl: number;
 };
 
 const noVarNames = [
