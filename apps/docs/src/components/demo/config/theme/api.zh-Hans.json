@@ -83,6 +83,11 @@
 				"name": "radius",
 				"summary": "各种不同大小的组件的圆角设置\n\n",
 				"type": "Radius"
+			},
+			{
+				"name": "vars",
+				"summary": "其它的 CSS 变量\n\n",
+				"type": "Record<`--${string}`, string> | undefined"
 			}
 		],
 		"name": "Scheme",

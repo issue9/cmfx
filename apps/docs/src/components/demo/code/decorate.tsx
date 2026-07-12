@@ -42,7 +42,7 @@ export default function (props: MountProps): JSX.Element {
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference '@docs/style.css';
 
 @layer components {
     .code {

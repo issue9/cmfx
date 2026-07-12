@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference "../style.css";
+@reference "@components/style.css";
 
 input[type="range"] {
 	@apply appearance-none w-full my-2 bg-palette-bg-low text-palette-fg h-2 rounded-md cursor-pointer;
