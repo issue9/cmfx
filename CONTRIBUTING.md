@@ -141,6 +141,7 @@ close #1
 - packages/components 前端组件库；
 - packages/illustrations 为前端组件库提供的插图；
 - packages/admin 前端的后台管理界面；
+- packages/themes 前端的主题库；
 
 ### 本地化
 

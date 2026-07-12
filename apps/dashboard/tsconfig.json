@@ -6,7 +6,7 @@
 		"jsxImportSource": "solid-js",
 		"paths": {
 			"@dashboard/*": ["./src/*"]
-		},
+		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.mjs", "src/**/*.js", "src/**/*.tsx"],
 	"exclude": ["dist"],

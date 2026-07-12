@@ -113,6 +113,13 @@ watch-docs:
 #  make watch -j2
 watch: watch-server watch-admin
 
+########################### preview ###################################
+
+.PHONY: preview preview-docs
+
+preview-docs:
+	pnpm --filter=./apps/docs run preview
+
 ########################### test ###################################
 
 .PHONY: test test-go test-ts lint-ts

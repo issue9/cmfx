@@ -57,7 +57,7 @@ export default defineConfig({
 				postBanner: buildPostBanner(pkg),
 			},
 			// 不需要打包的内容
-			external: ['solid-js', '@solidjs/router', '@cmfx/core', 'shiki/bundle/full'],
+			external: ['solid-js', '@solidjs/router', '@cmfx/core', '@cmfx/themes', 'shiki/bundle/full'],
 		},
 	},
 });
