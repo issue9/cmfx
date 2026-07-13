@@ -87,6 +87,7 @@ export function cssVarsParams(l: Locale, s: SchemeStore): JSX.Element {
 
 			<Dialog
 				ref={el => (dlg = el)}
+				mount={document.body}
 				header={
 					<Dialog.Toolbar close movable>
 						{l.t('_d.theme.cssVars')}

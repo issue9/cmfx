@@ -32,17 +32,17 @@ export interface RefProps<REF> {
 	/**
 	 * 对当前组件的一些次要操作可能会通过此方法给出
 	 */
-	ref?: (m: REF) => void;
+	readonly ref?: (m: REF) => void;
 }
 
 /**
- * 为 Portal 组件指定的挂载属性
+ * 为组件指定一个挂载节点
  */
 export interface MountProps {
 	/**
-	 * 为 Portal 指定挂载位置
+	 * 挂载节点
 	 */
-	mount?: Node;
+	readonly mount?: Node;
 }
 
 /**
@@ -74,5 +74,5 @@ export interface ValueProps<T> {
 	/**
 	 * {@link value} 变化时的回调方法
 	 */
-	onChange?: ChangeFunc<T | undefined>;
+	readonly onChange?: ChangeFunc<T | undefined>;
 }

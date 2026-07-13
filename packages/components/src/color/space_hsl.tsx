@@ -151,7 +151,6 @@ export class HSLSpace implements ColorSpace {
 						min={0}
 						max={1}
 						step={0.01}
-						onChange={v => console.log(v)}
 					/>
 				</Field>
 			</F>

@@ -84,6 +84,7 @@ export function Params(props: { s: SchemeStore }): JSX.Element {
 			<Dialog
 				class="h-1/3"
 				ref={el => (dlg = el)}
+				mount={document.body}
 				header={
 					<Dialog.Toolbar movable close>
 						<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>

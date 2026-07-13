@@ -4,16 +4,17 @@
 
 import { classList, joinClass, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
-import type { DialogRef } from './context';
-import { DialogProvider } from './context';
+import type { MountProps } from '@components/base';
+import { DialogProvider, type DialogRef } from './context';
 import styles from './style.module.css';
 
-export interface DialogProps extends ThemeProps, ParentProps {
+export interface DialogProps extends ThemeProps, ParentProps, MountProps {
 	// https://caniuse.com/?search=closedby
 	// closedby
 
-	ref: (m: DialogRef) => void;
+	readonly ref: (m: DialogRef) => void;
 
 	/**
 	 * 指定标题内容
@@ -68,7 +69,7 @@ function buildRef(ref: HTMLDialogElement): DialogRef {
 export function Dialog(props: DialogProps): JSX.Element {
 	let ref!: DialogRef;
 
-	return (
+	const dlg = (
 		<dialog
 			ref={el => {
 				ref = buildRef(el);
@@ -86,4 +87,6 @@ export function Dialog(props: DialogProps): JSX.Element {
 			</DialogProvider>
 		</dialog>
 	);
+
+	return props.mount ? <Portal mount={props.mount}>{dlg}</Portal> : dlg;
 }

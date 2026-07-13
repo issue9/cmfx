@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const api = new Form.API({
 		initValue: {},
 		submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
-		onProblem: async p => await Notify.notify(p.title),
+		onProblem: async p => (p ? await Notify.notify(p.title) : console.error('未知的错误')),
 	});
 
 	return (
@@ -31,6 +31,7 @@ export default function (props: MountProps): JSX.Element {
 			</Button>
 			<Dialog
 				palette={palette()}
+				mount={document.body}
 				ref={el => (dlg2 = el)}
 				header={
 					<Dialog.Toolbar movable close min max>
