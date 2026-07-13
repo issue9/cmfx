@@ -7,8 +7,7 @@ import type { ArrayElement, Locale } from '@cmfx/core';
 import { joinClass } from '@cmfx/themes';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import type { JSX, ParentProps, Setter } from 'solid-js';
-import { createMemo, onCleanup, onMount } from 'solid-js';
+import { createMemo, type JSX, onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
 
 import { APIDoc } from '@docs/apidoc';
 import { type APIFileObject, fileObject2Map, floatingWidth, type TextFileObject } from '@docs/utils';

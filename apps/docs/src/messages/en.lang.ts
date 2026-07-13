@@ -176,6 +176,7 @@ const messages = {
 			delete: 'Delete',
 			edit: 'Edit',
 			add: 'Add',
+			apca: 'APCA',
 		},
 	},
 };

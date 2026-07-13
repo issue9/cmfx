@@ -178,6 +178,7 @@ const messages: typeof m = {
 			delete: '删除',
 			edit: '编辑',
 			add: '添加',
+			apca: 'APCA',
 		},
 	},
 };
