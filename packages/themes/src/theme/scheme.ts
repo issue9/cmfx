@@ -59,27 +59,30 @@ export type Radius = {
 	xl: number;
 };
 
-const noVarNames = [
+// 非自定义变量的名称前缀
+const noVarPrefix = [
 	'--radius-xs',
 	'--radius-sm',
 	'--radius-md',
 	'--radius-lg',
 	'--radius-xl',
+
 	'--primary',
 	'--secondary',
 	'--tertiary',
 	'--error',
 	'--surface',
+
+	'--palette-',
+	'--default-transition-duration'
 ] as const;
 
 /**
  * 从 elem 上读取当前的主题配置
+ *
+ * @param elem - 要读取的元素。默认为 document.documentElement；
  */
-export function readScheme(elem?: HTMLElement): Scheme {
-	if (!elem) {
-		elem = document.documentElement;
-	}
-
+export function readScheme(elem: HTMLElement = document.documentElement): Scheme {
 	const xs = elem.style.getPropertyValue('--radius-xs');
 	const sm = elem.style.getPropertyValue('--radius-sm');
 	const md = elem.style.getPropertyValue('--radius-md');
@@ -96,8 +99,8 @@ export function readScheme(elem?: HTMLElement): Scheme {
 	const vars: Scheme['vars'] = {};
 	for (let i = 0; i < elem.style.length; i++) {
 		const name = elem.style.item(i);
-		if (name?.startsWith('--') && !noVarNames.includes(name as (typeof noVarNames)[number])) {
-			vars[name] = elem.style.getPropertyValue(name);
+		if (name?.startsWith('--') && noVarPrefix.every(n => !name.startsWith(n))) {
+			vars[name as keyof Scheme['vars']] = elem.style.getPropertyValue(name);
 		}
 	}
 
@@ -149,7 +152,7 @@ export function writeScheme(elem: HTMLElement, s?: Scheme) {
 			if (rule instanceof CSSStyleRule) {
 				if (rule.selectorText === ':root') {
 					Object.entries(rule.style).forEach(([_, key]) => {
-						if (!key.startsWith('--')) {
+						if (!key.startsWith('--') || noVarPrefix.every(p => !key.startsWith(p))) {
 							return;
 						}
 

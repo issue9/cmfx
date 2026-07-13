@@ -12,13 +12,11 @@ import type { createStore } from 'solid-js/store';
  * 会对 s 进行 structuredClone，需要注意其中是否包含不可复制元素。
  */
 export function convertSchemeVar2Color(s: Scheme): Scheme {
+	const ret = structuredClone(s);
+	ret.vars ||= {};
+
 	// 主题无法引用非全局的 CSS 变量。所以这里统一从全局解析变量的值
 	const style = window.getComputedStyle(document.documentElement);
-
-	const ret = structuredClone(s);
-	if (!ret.vars) {
-		ret.vars = {};
-	}
 
 	for (const p of palettes) {
 		const colorVal = s[p];

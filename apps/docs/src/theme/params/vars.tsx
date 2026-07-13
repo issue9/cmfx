@@ -26,11 +26,11 @@ export function cssVarsParams(l: Locale, s: SchemeStore): JSX.Element {
 				{l.t('_d.theme.cssVars')}
 			</Divider>
 
-			<Table>
+			<Table class={styles.vars}>
 				<thead>
 					<tr>
-						<th>{l.t('_d.theme.name')}</th>
-						<th>{l.t('_d.theme.value')}</th>
+						<th class={styles.name}>{l.t('_d.theme.name')}</th>
+						<th class={styles.value}>{l.t('_d.theme.value')}</th>
 						<th>{l.t('_d.theme.action')}</th>
 					</tr>
 				</thead>

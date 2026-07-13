@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Appbar, Button, ButtonGroup, useLocale } from '@cmfx/components';
-import { type Mode, ThemeProvider } from '@cmfx/themes';
+import { type Mode, ThemeProvider, useTheme } from '@cmfx/themes';
 import { createSignal, type JSX, Match, Switch } from 'solid-js';
 import IconNone from '~icons/ic/round-contrast';
 import IconDark from '~icons/material-symbols/dark-mode';
@@ -33,7 +33,7 @@ export function Demo(props: { s: SchemeStore }): JSX.Element {
 
 	const [contrast, setContrast] = createSignal<Contrast>('none');
 	const [typ, setTyp] = createSignal<'components' | 'palettes'>('components');
-	const [mode, setMode] = createSignal<Mode>('light');
+	const [mode, setMode] = createSignal<Mode>(useTheme().mode);
 
 	// NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
 	// 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。

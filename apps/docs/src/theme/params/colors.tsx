@@ -35,11 +35,11 @@ function PalettePicker(props: { palette: Palette; schemes: SchemeStore }): JSX.E
 	let rangeRef: Slider.Ref;
 	const palette = props.schemes[0][props.palette];
 
-	const c = new Color(palette ?? 'transparent');
+	const c = new Color(palette || 'transparent');
 	const [hue, setHue] = createSignal<number>(c.h!);
 	createEffect(() => {
 		c.h = hue();
-		props.schemes[1]({ [props.palette]: c.toString() });
+		props.schemes[1](props.palette, c.toString());
 	});
 
 	createEffect(() => {

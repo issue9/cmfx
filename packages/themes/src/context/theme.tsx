@@ -35,7 +35,7 @@ export interface Props extends ParentProps, ThemeContext {
 	 * 当指定了该值，会将主题的样式写在此元素上。否则样式会依次写在 {@link children} 元素上。
 	 * 某些情况下可能存在一个无任何展示内容的父元素，此时可以指定其作为保存主题样式的元素。
 	 */
-	styleElement?: HTMLElement;
+	readonly styleElement?: HTMLElement;
 }
 
 const themeContext = createContext<ThemeContext>();
@@ -67,13 +67,25 @@ export function ThemeProvider(props: Props): JSX.Element {
 	// 所以后续所有属性都可以从顶层对象获取当前实例不存在的参数并合并入当前实例。
 
 	const parent = useContext(themeContext);
-	const radius = Object.assign({}, parent?.scheme?.radius, props.scheme?.radius);
-	const vars = Object.assign({}, parent?.scheme?.vars, props.scheme?.vars);
-	const scheme = Object.assign({}, { radius, vars }, parent?.scheme, props.scheme);
 	props = mergeProps(
 		{
-			mode: props.mode || parent?.mode,
-			scheme,
+			mode: parent?.mode,
+			scheme: {
+				primary: parent?.scheme?.primary ?? 'transparent',
+				secondary: parent?.scheme?.secondary ?? 'transparent',
+				tertiary: parent?.scheme?.tertiary ?? 'transparent',
+				error: parent?.scheme?.error ?? 'transparent',
+				surface: parent?.scheme?.surface ?? 'transparent',
+
+				radius: parent?.scheme?.radius || {
+					xs: 0,
+					sm: 0,
+					md: 0,
+					lg: 0,
+					xl: 0,
+				},
+				vars: parent?.scheme?.vars || {},
+			} satisfies Scheme,
 		},
 		props,
 	);
@@ -81,9 +93,12 @@ export function ThemeProvider(props: Props): JSX.Element {
 	const [, theme] = splitProps(props, ['children', 'styleElement']);
 
 	if (props.styleElement) {
+		applyTheme(props.styleElement, theme);
+
 		createEffect(() => {
 			applyTheme(props.styleElement!, theme);
 		});
+
 		return <themeContext.Provider value={theme}>{props.children}</themeContext.Provider>;
 	}
 

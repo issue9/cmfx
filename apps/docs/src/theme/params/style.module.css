@@ -43,6 +43,16 @@
 						}
 					}
 				}
+
+				.vars {
+					.name {
+						@apply w-20;
+					}
+
+					.value {
+						@apply w-22;
+					}
+				}
 			}
 		}
 	}
