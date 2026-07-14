@@ -21,7 +21,7 @@ export default function (props: MountProps): JSX.Element {
 				case 'border':
 					return Code.borderDecorate;
 				case 'toolbar':
-					return Code.toolbarDecorate;
+					return Code.createToolbarDecorate();
 				default:
 					throw new Error(`无效的枚举值： ${d}`);
 			}

@@ -95,7 +95,8 @@
 					{
 						"name": "ref",
 						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-						"type": "((m: REF) => void) | undefined"
+						"type": "((m: REF) => void) | undefined",
+						"readonly": true
 					}
 				]
 			},
@@ -191,7 +192,8 @@
 					{
 						"name": "ref",
 						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-						"type": "((m: REF) => void) | undefined"
+						"type": "((m: REF) => void) | undefined",
+						"readonly": true
 					}
 				]
 			}
@@ -269,7 +271,8 @@
 							{
 								"name": "ref",
 								"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-								"type": "((m: REF) => void) | undefined"
+								"type": "((m: REF) => void) | undefined",
+								"readonly": true
 							}
 						]
 					}
@@ -318,7 +321,8 @@
 							{
 								"name": "ref",
 								"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-								"type": "((m: REF) => void) | undefined"
+								"type": "((m: REF) => void) | undefined",
+								"readonly": true
 							}
 						]
 					}
@@ -421,7 +425,8 @@
 							{
 								"name": "ref",
 								"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-								"type": "((m: REF) => void) | undefined"
+								"type": "((m: REF) => void) | undefined",
+								"readonly": true
 							}
 						]
 					},
@@ -458,7 +463,8 @@
 							{
 								"name": "onChange",
 								"summary": "`value`\n变化时的回调方法\n\n",
-								"type": "ChangeFunc<T | undefined> | undefined"
+								"type": "ChangeFunc<T | undefined> | undefined",
+								"readonly": true
 							},
 							{
 								"name": "hotkey",
@@ -582,7 +588,8 @@
 							{
 								"name": "ref",
 								"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-								"type": "((m: REF) => void) | undefined"
+								"type": "((m: REF) => void) | undefined",
+								"readonly": true
 							}
 						]
 					},
@@ -619,7 +626,8 @@
 							{
 								"name": "onChange",
 								"summary": "`value`\n变化时的回调方法\n\n",
-								"type": "ChangeFunc<T | undefined> | undefined"
+								"type": "ChangeFunc<T | undefined> | undefined",
+								"readonly": true
 							},
 							{
 								"name": "hotkey",
@@ -805,7 +813,8 @@
 			{
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined"
+				"type": "((m: REF) => void) | undefined",
+				"readonly": true
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -905,7 +914,8 @@
 			{
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined"
+				"type": "((m: REF) => void) | undefined",
+				"readonly": true
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -1033,7 +1043,8 @@
 			{
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined"
+				"type": "((m: REF) => void) | undefined",
+				"readonly": true
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -1096,7 +1107,8 @@
 					{
 						"name": "ref",
 						"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-						"type": "((m: REF) => void) | undefined"
+						"type": "((m: REF) => void) | undefined",
+						"readonly": true
 					},
 					{
 						"name": "onToggle",
@@ -1187,7 +1199,8 @@
 			{
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined"
+				"type": "((m: REF) => void) | undefined",
+				"readonly": true
 			},
 			{
 				"name": "onToggle",

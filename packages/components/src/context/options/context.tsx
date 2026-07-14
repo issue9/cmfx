@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError, type DisplayStyle } from '@cmfx/core';
+import { ContextNotFoundError, type DisplayStyle, LogicError } from '@cmfx/core';
 import { type Mode, type Scheme, ThemeProvider } from '@cmfx/themes';
 import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
@@ -219,7 +219,7 @@ export function buildAccessor(o: ReqOptions) {
 		setScheme(scheme: string | Scheme): void {
 			const s = structuredClone(typeof scheme === 'string' ? o.schemes.get(scheme) : scheme);
 			if (!s) {
-				throw new Error(`无效的主题: ${scheme}`);
+				throw new LogicError(`无效的主题: ${scheme}`);
 			}
 
 			set({ scheme: s });

@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { PropsError } from '@cmfx/core';
 import { joinClass, style2String } from '@cmfx/themes';
 import { type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
-import { PropsError, type RefProps } from '@components/base';
+import type { RefProps } from '@components/base';
 import { Button } from '@components/button';
 import { Form } from '@components/form';
 import { InputBase } from '@components/input/base';

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
-import { Hotkey, I18n } from '@cmfx/core';
+import { Hotkey, I18n, LogicError } from '@cmfx/core';
 import { joinClass, type Mode, readScheme, type Scheme, type ThemeProps } from '@cmfx/themes';
 import { type Accessor, type Component, createSignal } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
@@ -195,7 +195,7 @@ export function initEnv(opt: Options): [ReqOptions, Accessor<boolean>] {
 	}
 
 	if (!scheme) {
-		throw new Error('无法正确初始化主题的相关内容，请确保 scheme 和 schemes 是否正确');
+		throw new LogicError('无法正确初始化主题的相关内容，请确保 scheme 和 schemes 是否正确');
 	}
 
 	o.scheme = scheme; // 此处保证 o.scheme 只能为 Scheme 类型

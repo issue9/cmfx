@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { PropsError } from './errors';
 export { handleEvent } from './func';
 export type {
 	AvailableEnumType,

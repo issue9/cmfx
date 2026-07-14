@@ -5,7 +5,8 @@
 		"properties": [
 			{
 				"name": "ref",
-				"type": "(m: DialogRef) => void"
+				"type": "(m: DialogRef) => void",
+				"readonly": true
 			},
 			{
 				"name": "header",
@@ -53,6 +54,12 @@
 			{
 				"name": "children",
 				"type": "JSX.Element"
+			},
+			{
+				"name": "mount",
+				"summary": "挂载节点\n\n",
+				"type": "Node | undefined",
+				"readonly": true
 			}
 		],
 		"pkg": "@cmfx/components"

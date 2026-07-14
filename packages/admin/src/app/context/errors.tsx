@@ -12,32 +12,6 @@ import { useOptions } from './options';
 import styles from './style.module.css';
 
 /**
- * 404 错误
- */
-export function NotFound(err?: APIError): JSX.Element {
-	const l = useLocale();
-	const opt = useOptions();
-	const nav = useNavigate();
-
-	const text = createMemo(() => {
-		return err?.title || l.t('_p.error.pageNotFound');
-	});
-
-	return (
-		<Result palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
-			<div class={styles['error-actions']}>
-				<Button palette="primary" type="a" href={opt.routes.private.home}>
-					{l.t('_p.error.backHome')}
-				</Button>
-				<Button palette="primary" onclick={() => nav(-1)}>
-					{l.t('_p.error.backPrev')}
-				</Button>
-			</div>
-		</Result>
-	);
-}
-
-/**
  * 错误处理方法
  *
  * @param err - 错误信息，如果是 {@link APIError}，则会显示专门的插画页面；
@@ -49,7 +23,6 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// NOTE: APIError 错误，需要重新刷新整个页面才有效果，而其它错误，可能仅仅是 UI 问题，使用 reset 就可以了。
 
 	const opt = useOptions();
-	const nav = useNavigate();
 	const l = useLocale();
 
 	// 未知错误
@@ -57,12 +30,8 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 		return (
 			<Result palette="error" title={title} description={msg} illustration={<amico.BUG />}>
 				<div class={styles['error-actions']}>
-					<Button palette="primary" type="a" href={opt.routes.private.home}>
-						{l.t('_p.error.backHome')}
-					</Button>
-					<Button palette="primary" onclick={() => nav(-1)}>
-						{l.t('_p.error.backPrev')}
-					</Button>
+					<BackHome />
+					<BackPrev />
 					<Button palette="primary" onclick={reset}>
 						{l.t('_c.reset')}
 					</Button>
@@ -89,12 +58,8 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 		return (
 			<Result palette="error" title={text} illustration={<amico.Offline text={text} />}>
 				<div class={styles['error-actions']}>
-					<Button palette="primary" type="a" href={opt.routes.private.home}>
-						{l.t('_p.error.backHome')}
-					</Button>
-					<Button palette="primary" onclick={() => nav(-1)}>
-						{l.t('_p.error.backPrev')}
-					</Button>
+					<BackHome />
+					<BackPrev />
 					<Button palette="primary" disabled={disabled()} onclick={() => window.location.reload()}>
 						{l.t('_c.refresh')}
 					</Button>
@@ -104,8 +69,6 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	};
 
 	if (err instanceof APIError) {
-		console.error(err.name, err.message);
-
 		let text: string;
 		switch (err.status) {
 			case 400:
@@ -113,9 +76,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error400 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" onclick={() => nav(-1)}>
-								{l.t('_p.error.backPrev')}
-							</Button>
+							<BackPrev />
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result>
@@ -130,9 +91,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error401 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" onclick={() => nav(-1)}>
-								{l.t('_p.error.backPrev')}
-							</Button>
+							<BackPrev />
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result>
@@ -143,12 +102,8 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error403 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" type="a" href={opt.routes.private.home}>
-								{l.t('_p.error.backHome')}
-							</Button>
-							<Button palette="primary" onclick={() => nav(-1)}>
-								{l.t('_p.error.backPrev')}
-							</Button>
+							<BackHome />
+							<BackPrev />
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result>
@@ -160,9 +115,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error429 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" onclick={() => nav(-1)}>
-								{l.t('_p.error.backPrev')}
-							</Button>
+							<BackPrev />
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result>
@@ -172,12 +125,8 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error500 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" type="a" href={opt.routes.private.home}>
-								{l.t('_p.error.backHome')}
-							</Button>
-							<Button palette="primary" onclick={() => nav(-1)}>
-								{l.t('_p.error.backPrev')}
-							</Button>
+							<BackHome />
+							<BackPrev />
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result>
@@ -187,15 +136,8 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error503 text={err.title} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" type="a" href={opt.routes.private.home}>
-								{l.t('_p.error.backHome')}
-							</Button>
-							<Button palette="primary" onclick={() => nav(-1)}>
-								{l.t('_p.error.backPrev')}
-							</Button>
-							<Button palette="primary" onclick={() => window.location.reload()}>
-								{l.t('_c.refresh')}
-							</Button>
+							<BackHome />
+							<BackPrev />
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result>
@@ -205,18 +147,12 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 				return (
 					<Result palette="error" title={text} illustration={<amico.Error504 text={text} />}>
 						<div class={styles['error-actions']}>
-							<Button palette="primary" type="a" href={opt.routes.private.home}>
-								{l.t('_p.error.backHome')}
-							</Button>
-							<Button palette="primary" onclick={() => nav(-1)}>
-								{l.t('_p.error.backPrev')}
-							</Button>
+							<BackHome />
+							<BackPrev />
 							<RefreshButton retry={err.headers?.get('Retry-After')} />
 						</div>
 					</Result>
 				);
-			case 0:
-				return offline();
 			default:
 				return navigator.onLine ? unknown(l.t('_p.error.unknownError'), err.message) : offline();
 		}
@@ -228,6 +164,52 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 
 	console.error(err);
 	return unknown(l.t('_p.error.unknownError'), `${err}`);
+}
+
+/**
+ * 404 错误
+ */
+export function NotFound(err?: Error): JSX.Element {
+	const l = useLocale();
+
+	const text = createMemo(() => {
+		if (!err) {
+			return l.t('_p.error.pageNotFound');
+		}
+		if (err instanceof APIError) {
+			return err.title;
+		}
+		return err.name;
+	});
+
+	return (
+		<Result palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
+			<div class={styles['error-actions']}>
+				<BackHome />
+				<BackPrev />
+			</div>
+		</Result>
+	);
+}
+
+function BackHome(): JSX.Element {
+	const l = useLocale();
+	const opt = useOptions();
+	return (
+		<Button palette="primary" type="a" href={opt.routes.private.home}>
+			{l.t('_p.error.backHome')}
+		</Button>
+	);
+}
+
+function BackPrev(): JSX.Element {
+	const l = useLocale();
+	const nav = useNavigate();
+	return (
+		<Button palette="primary" onclick={() => nav(-1)}>
+			{l.t('_p.error.backPrev')}
+		</Button>
+	);
 }
 
 /**

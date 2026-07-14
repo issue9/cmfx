@@ -4,6 +4,7 @@
 
 import IntlMessageFormat from 'intl-messageformat';
 
+import { LogicError } from '@core/errors';
 import { flatten } from '@core/types';
 import type { Dict, DictKeys, Loader } from './dict';
 import type { DisplayStyle, Locale, TranslateArgs } from './locale';
@@ -164,7 +165,7 @@ export class I18n implements Locale {
 					try {
 						msgs.set(item[0], new IntlMessageFormat(item[1], locale));
 					} catch (err) {
-						throw new Error(`解析 ${item[1]} 是出现了错误 ${err}`);
+						throw new LogicError(`解析 ${item[1]} 是出现了错误 ${err}`);
 					}
 				});
 			}

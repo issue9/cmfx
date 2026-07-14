@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { NetworkError } from '@core/errors';
 import type { Problem } from './rest';
 
 /**
  * 表示与后端交互过程中的错误信息
  */
-export class APIError extends Error {
+export class APIError extends NetworkError {
 	/**
 	 * 将 {@link Problem} 转换为 {@link APIError} 对象
 	 */
@@ -29,7 +30,6 @@ export class APIError extends Error {
 	 */
 	constructor(status: number, title?: string, headers?: Headers, message?: string) {
 		super(message);
-		Object.setPrototypeOf(this, new.target.prototype);
 
 		this.#status = status;
 		this.#title = title;

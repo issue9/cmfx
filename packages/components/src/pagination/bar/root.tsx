@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { PropsError } from '@cmfx/core';
 import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 
 import type { BaseRef, ChangeFunc, RefProps } from '@components/base';
-import { PropsError } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { Choice } from '@components/menu';
 import { Pagination } from '@components/pagination/pagination';
@@ -79,7 +79,7 @@ export function PaginationBar(props: PaginationBarProps): JSX.Element {
 	);
 
 	if (!props.sizes!.includes(props.size!)) {
-		throw new PropsError('size', `${props.size} 必须存在于 props.sizes: ${props.sizes}`);
+		throw new PropsError('size', `${props.size} 不存在于 props.sizes: ${props.sizes}`);
 	}
 
 	const l = useLocale();

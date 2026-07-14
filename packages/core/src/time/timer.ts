@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { LogicError } from '@core/errors';
+
 /**
  * 创建一个可暂停的计时器
  *
@@ -14,7 +16,7 @@
 export function createTimer(startTime: number, step: number, tick?: (value: number) => void) {
 	const absStep = Math.abs(step);
 	if (startTime / absStep < 2) {
-		throw new Error('timeout 的值最起码是 2*step');
+		throw new LogicError('timeout 的值最起码是 2*step');
 	}
 
 	let timer: number | undefined;

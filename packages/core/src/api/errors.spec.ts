@@ -11,6 +11,6 @@ test('APIError', () => {
 
 	expect(e).toBeInstanceOf(APIError);
 	expect(e).toBeInstanceOf(Error);
-	//expect(Error.isError(e)).toBeTruthy();
+	expect(Error.isError(e)).toBe(true);
 	expect(e.status).toEqual(500);
 });

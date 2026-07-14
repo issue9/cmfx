@@ -7,7 +7,8 @@
 				"name": "styleElement",
 				"summary": "指定用于保存当前主题样式的元素 ID\n\n",
 				"remarks": "当指定了该值，会将主题的样式写在此元素上。否则样式会依次写在\n`children`\n元素上。\n某些情况下可能存在一个无任何展示内容的父元素，此时可以指定其作为保存主题样式的元素。\n\n",
-				"type": "HTMLElement | undefined"
+				"type": "HTMLElement | undefined",
+				"readonly": true
 			},
 			{
 				"name": "children",

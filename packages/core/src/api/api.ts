@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { LogicError, NetworkError } from '@core/errors';
 import { newCache } from './cache';
 import { APIError } from './errors';
 import type { Method, Problem, REST, ReqInit, Return } from './rest';
@@ -75,7 +76,7 @@ export class API implements REST {
 		init?: Omit<ReqInit, 'signal'>,
 	) {
 		if (!baseURL.includes('://')) {
-			throw new Error('参数 baseURL 必须是一个有效果的 URL');
+			throw new LogicError('参数 baseURL 必须是一个有效果的 URL');
 		}
 
 		this.#init = init;
@@ -178,7 +179,7 @@ export class API implements REST {
 	 */
 	buildURL(path: string): string {
 		if (path.length === 0) {
-			throw new Error('参数 path 不能为空');
+			throw new LogicError('参数 path 不能为空');
 		}
 
 		if (path.charAt(0) !== '/') {
@@ -427,7 +428,7 @@ export class API implements REST {
 			try {
 				resp = await fetch(req);
 			} catch (e) {
-				throw new APIError(0, 'fetch', undefined, Error.isError(e) ? e.message : `${e}`);
+				throw new NetworkError(Error.isError(e) ? e.message : `${e}`);
 			}
 		}
 
@@ -500,7 +501,7 @@ export class API implements REST {
 		if (this.#events.has(id)) {
 			const item = this.#events.get(id)!;
 			if (item[1] !== needLogin) {
-				throw new Error('参数 needLogin 与现有的实例不一致');
+				throw new LogicError('参数 needLogin 与现有的实例不一致');
 			}
 			return item[0];
 		}

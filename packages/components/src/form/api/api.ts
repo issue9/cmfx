@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Flatten, Flattenable, FlattenKeys, Params, Problem, Validator } from '@cmfx/core';
-import { flatten } from '@cmfx/core';
+import { flatten, LogicError } from '@cmfx/core';
 import equal from 'fast-deep-equal';
 import { createSignal, createUniqueId, type JSX, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
@@ -340,7 +340,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 			} else {
 				if (this.#onProblem) {
 					if (!ret.body) {
-						throw new Error('后端未返回正确的 Problem 对象');
+						throw new LogicError('后端未返回正确的 Problem 对象');
 					}
 					await this.#onProblem(ret.body);
 				}
@@ -380,7 +380,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 			}
 
 			if (!ret.body) {
-				throw new Error('后端未返回正确的 Problem 对象');
+				throw new LogicError('后端未返回正确的 Problem 对象');
 			}
 
 			if (ret.status === 400) {

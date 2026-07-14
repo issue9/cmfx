@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Mimetype, PickOptional } from '@cmfx/core';
+import { LogicError, type Mimetype, type PickOptional } from '@cmfx/core';
 
 /**
  * 与访问后端 API 相关的配置项
@@ -76,7 +76,7 @@ export function sanitizeAPI(api: API): Required<API> {
 	const a = Object.assign(presetAPI, api);
 
 	if (a.base.length === 0 || (!api.base.startsWith('http://') && !api.base.startsWith('https://'))) {
-		throw new Error('base 格式错误');
+		throw new LogicError('base 格式错误');
 	}
 	if (a.base.charAt(a.base.length - 1) === '/') {
 		// 保证不以 / 结尾
@@ -87,7 +87,7 @@ export function sanitizeAPI(api: API): Required<API> {
 	a.info = checkAPIPath(a.info, 'info');
 
 	if (!a.pageSizes!.includes(a.pageSize!)) {
-		throw new Error('pageSize 必须存在于 pageSizes 之中');
+		throw new LogicError('pageSize 必须存在于 pageSizes 之中');
 	}
 
 	return a as Required<API>;
@@ -95,7 +95,7 @@ export function sanitizeAPI(api: API): Required<API> {
 
 function checkAPIPath(path: string, key: string): string {
 	if (!path.length) {
-		throw new Error(`api.${key} 不能为空`);
+		throw new LogicError(`api.${key} 不能为空`);
 	}
 
 	if (path.charAt(0) !== '/') {

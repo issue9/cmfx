@@ -4,6 +4,8 @@
 
 import Browser from 'bowser';
 
+import { LogicError } from '@core/errors';
+
 export const modifiers = ['meta', 'alt', 'control', 'shift'] as const;
 
 /**
@@ -132,7 +134,7 @@ export class Hotkey {
 	static bind(hotkey: Hotkey, handler: Handler): void {
 		for (const [hk] of Hotkey.#handlers) {
 			if (hk.equal(hotkey)) {
-				throw new Error(`快捷键 ${hotkey.toString()} 已经存在`);
+				throw new LogicError(`快捷键 ${hotkey.toString()} 已经存在`);
 			}
 		}
 
