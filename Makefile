@@ -96,7 +96,7 @@ init: build-app
 
 ########################### watch ###################################
 
-.PHONY: watch-server watch-admin watch-docs watch
+.PHONY: watch-server watch-dashboard watch-docs watch
 
 watch-server:
 	web watch -app=-a=serve $(APPS_SERVER)
@@ -111,7 +111,7 @@ watch-docs:
 #
 # 需要采用 -j 执行并行命令，比如：
 #  make watch -j2
-watch: watch-server watch-admin
+watch: watch-server watch-dashboard
 
 ########################### preview ###################################
 

@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Result, useLocale } from '@cmfx/components';
-import { APIError } from '@cmfx/core';
-import { amico } from '@cmfx/illustrations';
+import { APIError, NetworkError, PermissionError, RuntimeError } from '@cmfx/core';
+import { amico, type Props as IProps } from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
-import { createMemo, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
+import { type Component, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
+import { useAdmin } from './admin';
 import { useOptions } from './options';
 import styles from './style.module.css';
 
@@ -40,8 +41,8 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 		);
 	};
 
-	const offline = (): JSX.Element => {
-		const text = l.t('_p.error.noNetwork');
+	const offline = (err?: APIError): JSX.Element => {
+		const text = err?.title || l.t('_p.error.noNetwork');
 
 		const [disabled, setDisabled] = createSignal(true);
 		const setDisabledTrue = () => setDisabled(true);
@@ -68,95 +69,52 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 		);
 	};
 
-	if (err instanceof APIError) {
-		let text: string;
-		switch (err.status) {
-			case 400:
-				text = err.title || l.t('_p.error.badRequest');
-				return (
-					<Result palette="error" title={text} illustration={<amico.Error400 text={text} />}>
-						<div class={styles['error-actions']}>
-							<BackPrev />
-							<RefreshButton retry={err.headers?.get('Retry-After')} />
-						</div>
-					</Result>
-				);
-			case 401: {
-				const loc = useLocation();
-				if (loc.pathname !== opt.routes.public.home) {
-					return <Navigate href={/*@once*/ opt.routes.public.home} />;
+	if (err instanceof RuntimeError) {
+		if (err instanceof APIError) {
+			switch (err.status) {
+				case 400:
+					return Error4XX(amico.Error400, err.title || l.t('_p.error.badRequest'));
+				case 401: {
+					const loc = useLocation();
+					if (loc.pathname !== opt.routes.public.home) {
+						return <Navigate href={/*@once*/ opt.routes.public.home} />;
+					}
+					return Error4XX(amico.Error401, err.title || l.t('_p.error.unauthorized'));
 				}
-
-				text = err.title || l.t('_p.error.unauthorized');
-				return (
-					<Result palette="error" title={text} illustration={<amico.Error401 text={text} />}>
-						<div class={styles['error-actions']}>
-							<BackPrev />
-							<RefreshButton retry={err.headers?.get('Retry-After')} />
-						</div>
-					</Result>
-				);
+				case 403:
+					return Error4XX(amico.Error403, err.title || l.t('_p.error.forbidden'));
+				case 404:
+					return NotFound(err);
+				case 429:
+					return Error4XX(amico.Error429, err.title || l.t('_p.error.tooManyRequests'));
+				case 500:
+					return Error5XX(
+						amico.Error500,
+						err.title || l.t('_p.error.internalServerError'),
+						err.headers?.get('Retry-After'),
+					);
+				case 503:
+					return Error5XX(
+						amico.Error503,
+						err.title || l.t('_p.error.serverUnavailable'),
+						err.headers?.get('Retry-After'),
+					);
+				case 504:
+					return Error5XX(amico.Error504, err.title || l.t('_p.error.gatewayTimeout'), err.headers?.get('Retry-After'));
+				default:
+					return navigator.onLine ? unknown(l.t('_p.error.unknownError'), err.message) : offline(err);
 			}
-			case 403:
-				text = err.title || l.t('_p.error.forbidden');
-				return (
-					<Result palette="error" title={text} illustration={<amico.Error403 text={text} />}>
-						<div class={styles['error-actions']}>
-							<BackHome />
-							<BackPrev />
-							<RefreshButton retry={err.headers?.get('Retry-After')} />
-						</div>
-					</Result>
-				);
-			case 404:
-				return NotFound(err);
-			case 429:
-				text = err.title || l.t('_p.error.tooManyRequests');
-				return (
-					<Result palette="error" title={text} illustration={<amico.Error429 text={text} />}>
-						<div class={styles['error-actions']}>
-							<BackPrev />
-							<RefreshButton retry={err.headers?.get('Retry-After')} />
-						</div>
-					</Result>
-				);
-			case 500:
-				text = err.title || l.t('_p.error.internalServerError');
-				return (
-					<Result palette="error" title={text} illustration={<amico.Error500 text={text} />}>
-						<div class={styles['error-actions']}>
-							<BackHome />
-							<BackPrev />
-							<RefreshButton retry={err.headers?.get('Retry-After')} />
-						</div>
-					</Result>
-				);
-			case 503:
-				text = err.title || l.t('_p.error.serverUnavailable');
-				return (
-					<Result palette="error" title={text} illustration={<amico.Error503 text={err.title} />}>
-						<div class={styles['error-actions']}>
-							<BackHome />
-							<BackPrev />
-							<RefreshButton retry={err.headers?.get('Retry-After')} />
-						</div>
-					</Result>
-				);
-			case 504:
-				text = err.title || l.t('_p.error.gatewayTimeout');
-				return (
-					<Result palette="error" title={text} illustration={<amico.Error504 text={text} />}>
-						<div class={styles['error-actions']}>
-							<BackHome />
-							<BackPrev />
-							<RefreshButton retry={err.headers?.get('Retry-After')} />
-						</div>
-					</Result>
-				);
-			default:
-				return navigator.onLine ? unknown(l.t('_p.error.unknownError'), err.message) : offline();
+		} else if (err instanceof NetworkError) {
+			// 其它网络错误
+			return navigator.onLine ? unknown(l.t('_p.error.unknownError'), err.message) : offline();
+		} else if (err instanceof PermissionError) {
+			return Error4XX(amico.Error403, l.t('_p.error.forbidden'));
 		}
-	} else if (err instanceof Error) {
+
+		return unknown(err.name, err.message);
+	}
+
+	if (err instanceof Error) {
 		// TODO: 改为 Error.isError https://caniuse.com/?search=isError
 		console.error(err.name, err.message, err.stack);
 		return unknown(err.name, err.message);
@@ -166,24 +124,21 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	return unknown(l.t('_p.error.unknownError'), `${err}`);
 }
 
-/**
- * 404 错误
- */
-export function NotFound(err?: Error): JSX.Element {
-	const l = useLocale();
-
-	const text = createMemo(() => {
-		if (!err) {
-			return l.t('_p.error.pageNotFound');
-		}
-		if (err instanceof APIError) {
-			return err.title;
-		}
-		return err.name;
-	});
-
+function Error5XX(illustration: Component<IProps>, text: string, retry: string | undefined | null): JSX.Element {
 	return (
-		<Result palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
+		<Result palette="error" title={text} illustration={illustration({ text })}>
+			<div class={styles['error-actions']}>
+				<BackHome />
+				<BackPrev />
+				<RefreshButton retry={retry} />
+			</div>
+		</Result>
+	);
+}
+
+function Error4XX(illustration: Component<IProps>, text: string): JSX.Element {
+	return (
+		<Result palette="error" title={text} illustration={illustration({ text })}>
 			<div class={styles['error-actions']}>
 				<BackHome />
 				<BackPrev />
@@ -192,11 +147,27 @@ export function NotFound(err?: Error): JSX.Element {
 	);
 }
 
+/**
+ * 404 错误
+ */
+export function NotFound(err?: Error): JSX.Element {
+	const l = useLocale();
+	const text = err ? (err instanceof APIError ? err.title : err.name) : l.t('_p.error.pageNotFound');
+	return Error4XX(amico.Error404, text!);
+}
+
+/**
+ * 返回首页的按钮
+ *
+ * @remarks
+ * 根据是否登录的状态，返回不同的首页。
+ */
 function BackHome(): JSX.Element {
+	const admin = useAdmin();
 	const l = useLocale();
 	const opt = useOptions();
 	return (
-		<Button palette="primary" type="a" href={opt.routes.private.home}>
+		<Button palette="primary" type="a" href={admin.info()?.id ? opt.routes.private.home : opt.routes.public.home}>
 			{l.t('_p.error.backHome')}
 		</Button>
 	);
