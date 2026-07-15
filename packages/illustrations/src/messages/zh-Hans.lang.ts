@@ -21,6 +21,7 @@ const messages: typeof m = {
 		offline: '无网络',
 		myWallet: '钱包',
 		about: '关于',
+		empty: '没有数据',
 	},
 };
 

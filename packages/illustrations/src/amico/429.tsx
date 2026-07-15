@@ -152,7 +152,7 @@ export default function Error429(props: Props): JSX.Element {
 				/>
 				<path
 					d="M241.18,54.57h0c-1-.63-2.39-.58-3.93.32L86.71,141.58a11.34,11.34,0,0,0-4.13,4.61l5.79,3.35a11.34,11.34,0,0,1,4.13-4.61L243,58.25a3.85,3.85,0,0,1,3.82-.4Z"
-					style="fill:#fff;opacity:0.3"
+					style="fill:#fff;opacity:.3"
 				/>
 				<path
 					d="M81.31,150.93,81.58,272A3.87,3.87,0,0,0,83,275.41h0l.3.17,5.59,3.26a3.82,3.82,0,0,1-1.55-3.46l-.27-121.1a10.47,10.47,0,0,1,1.27-4.75l-5.79-3.35A10.59,10.59,0,0,0,81.31,150.93Z"
@@ -296,10 +296,10 @@ export default function Error429(props: Props): JSX.Element {
 					style="fill:#fff;opacity:.4"
 				/>
 				<polygon points="197.61 382.55 165.61 393.05 196.59 424.61 228.6 414.11 197.61 382.55" fill="currentColor" />
-				<polygon points="202.24 401.12 196.59 424.61 165.61 393.05 202.24 401.12" style="fill:#fff;opacity:0.5" />
+				<polygon points="202.24 401.12 196.59 424.61 165.61 393.05 202.24 401.12" style="fill:#fff;opacity:.5" />
 				<polygon
 					points="197.61 382.55 228.6 414.11 196.59 424.61 165.61 393.05 196.59 424.61 202.24 401.12 165.61 393.05 197.61 382.55"
-					style="fill:#fff;opacity:0.3"
+					style="fill:#fff;opacity:.3"
 				/>
 				<polygon points="229.25 366.64 193.02 370.42 204.28 406.1 240.51 402.33 229.25 366.64" fill="currentColor" />
 				<polygon points="229.25 366.64 240.51 402.33 210.52 387.7 229.25 366.64" style="fill:#fff;opacity:.6" />
@@ -424,11 +424,11 @@ export default function Error429(props: Props): JSX.Element {
 				/>
 				<path
 					d="M335,131.15a7.37,7.37,0,0,0-1.93-2.41h0a6.7,6.7,0,0,0-.87-.6L267.75,91a2.4,2.4,0,0,0-3.6,2.08c0-5.2,6.3-6.89,9.53-5l64.43,37.18a7.17,7.17,0,0,1,2.69,2.72Z"
-					style="fill:#fff;opacity:0.4"
+					style="fill:#fff;opacity:.4"
 				/>
 				<path
 					d="M335.8,173.93V134.39a6.11,6.11,0,0,0-.06-.86,7.68,7.68,0,0,0-.75-2.38l5.81-3.24a7.26,7.26,0,0,1,.93,3.53V171c0,4.84-4.11,8.12-9.52,5A2.4,2.4,0,0,0,335.8,173.93Z"
-					style="fill:#fff;opacity:0.2"
+					style="fill:#fff;opacity:.2"
 				/>
 				<use href="#illustrations-429-18" fill="currentColor" />
 				<use href="#illustrations-429-18" style="fill:#fff;opacity:.4" />

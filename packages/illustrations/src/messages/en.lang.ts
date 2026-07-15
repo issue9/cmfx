@@ -19,6 +19,7 @@ const messages = {
 		offline: 'Offline',
 		myWallet: 'My Wallet',
 		about: 'About',
+		empty: 'Empty',
 	},
 };
 

@@ -29,6 +29,8 @@ import { default as BUG } from './bug';
 import { default as bug } from './bug.tsx?raw';
 import { default as Building } from './building';
 import { default as building } from './building.tsx?raw';
+import { default as Empty } from './empty';
+import { default as empty } from './empty.tsx?raw';
 import { default as Login } from './login';
 import { default as login } from './login.tsx?raw';
 import { default as Offline } from './offline';
@@ -57,6 +59,7 @@ export default function (): Info {
 			{ component: Login, source: login, id: 'login' },
 			{ component: Offline, source: offline, id: 'offline' },
 			{ component: About, source: about, id: 'about' },
+			{ component: Empty, source: empty, id: 'empty' },
 		],
 	};
 }
