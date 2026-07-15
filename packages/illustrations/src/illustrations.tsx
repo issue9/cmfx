@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type JSX, Match, mergeProps, Switch } from 'solid-js';
+import { type Component, type JSX, Match, mergeProps, Switch } from 'solid-js';
 
 import type { Props as CommonProps } from '@illustrations/common';
 import * as amico from './amico';
@@ -24,43 +24,45 @@ export interface Props extends CommonProps {
 const presetProps: Props = { gallery: 'amico' } as const;
 
 export function Error401(props: Props): JSX.Element {
-	props = mergeProps(presetProps, props);
-	return (
-		<Switch>
-			<Match when={props.gallery === 'amico'}>
-				<amico.Error401 {...props} />
-			</Match>
-			<Match when={props.gallery === 'undraw'}>
-				<undraw.Error401 {...props} />
-			</Match>
-		</Switch>
-	);
+	return createSwitch(amico.Error401, undraw.Error401)(props);
 }
 
 export function Error402(props: Props): JSX.Element {
-	props = mergeProps(presetProps, props);
-	return (
-		<Switch>
-			<Match when={props.gallery === 'amico'}>
-				<amico.Error402 {...props} />
-			</Match>
-			<Match when={props.gallery === 'undraw'}>
-				<undraw.Error402 {...props} />
-			</Match>
-		</Switch>
-	);
+	return createSwitch(amico.Error402, undraw.Error402)(props);
 }
 
 export function Error403(props: Props): JSX.Element {
-	props = mergeProps(presetProps, props);
-	return (
-		<Switch>
-			<Match when={props.gallery === 'amico'}>
-				<amico.Error403 {...props} />
-			</Match>
-			<Match when={props.gallery === 'undraw'}>
-				<undraw.Error403 {...props} />
-			</Match>
-		</Switch>
-	);
+	return createSwitch(amico.Error403, undraw.Error403)(props);
+}
+
+export function Error404(props: Props): JSX.Element {
+	return createSwitch(amico.Error404, undraw.Error404)(props);
+}
+
+export function Error429(props: Props): JSX.Element {
+	return createSwitch(amico.Error429, undraw.Error429)(props);
+}
+
+export function Error500(props: Props): JSX.Element {
+	return createSwitch(amico.Error500, undraw.Error500)(props);
+}
+
+export function Error503(props: Props): JSX.Element {
+	return createSwitch(amico.Error503, undraw.Error503)(props);
+}
+
+function createSwitch(A: Component<CommonProps>, U: Component<CommonProps>): Component<Props> {
+	return (props: Props): JSX.Element => {
+		props = mergeProps(presetProps, props);
+		return (
+			<Switch>
+				<Match when={props.gallery === 'amico'}>
+					<A {...props} />
+				</Match>
+				<Match when={props.gallery === 'undraw'}>
+					<U {...props} />
+				</Match>
+			</Switch>
+		);
+	};
 }

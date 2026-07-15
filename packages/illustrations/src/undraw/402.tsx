@@ -5,7 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildUndrawProps, type Props } from '@illustrations/common';
 
-export default function UndrawError401(props: Props): JSX.Element {
+export default function UndrawError402(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (

@@ -4,6 +4,11 @@
 		"name": "Props",
 		"properties": [
 			{
+				"name": "gallery",
+				"summary": "图片集\n\n\n'amico'\n\n",
+				"type": "\"amico\" | \"undraw\" | undefined"
+			},
+			{
 				"name": "text",
 				"summary": "组件内的提示文字\n\n",
 				"type": "string | undefined",
