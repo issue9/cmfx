@@ -3,7 +3,7 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
 /**
  * 表示 403 错误的 SVG 插画组件
@@ -14,7 +14,7 @@ export default function AmicoError403(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.forbidden')}</title>
 			<defs>
 				<polygon id="illustrations-403-1" points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" />

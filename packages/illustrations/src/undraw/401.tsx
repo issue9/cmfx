@@ -1,29 +1,32 @@
 // 图片源码来源于 https://undraw.co/illustrations 遵循其自身的软件许可
 
-import { joinClass, useLocale } from '@cmfx/components';
+import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import type { Props } from '@illustrations/common';
-import styles from '@illustrations/common/style.module.css';
+import { buildUndrawProps, type Props } from '@illustrations/common';
 
 export default function UndrawError401(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
 		<svg
-			xmlns="http://www.w3.org/2000/svg"
+			{...buildUndrawProps(props)}
 			width="818.55304"
 			height="686.94758"
 			viewBox="0 0 818.55304 686.94758"
-			role="presentation"
-			aria-hidden
-			class={joinClass(props.palette, styles.illustration, props.class)}
-			style={props.style}
 			data-artist="Katerina Limpitsouni"
 			data-source="https://undraw.co/"
 		>
 			<title>{props.text || l.t('_i.unauthorized')}</title>
-			<rect x="104.52602" y="93.87406" width="578.55461" height="591.62109" rx="17.3886" ry="17.3886" fill="var(--palette-4-bg)" />
+			<rect
+				x="104.52602"
+				y="93.87406"
+				width="578.55461"
+				height="591.62109"
+				rx="17.3886"
+				ry="17.3886"
+				fill="var(--palette-4-bg)"
+			/>
 			<path
 				d="M657.83595,686.94758H129.77074c-14.72105,0-26.69724-11.97619-26.69724-26.69724V119.12007c0-14.72105,11.97619-26.69724,26.69724-26.69724h528.06521c14.71964,0,26.69582,11.97619,26.69582,26.69724v541.13027c0,14.72105-11.97619,26.69724-26.69582,26.69724ZM129.77074,95.32649c-13.12035,0-23.79358,10.67323-23.79358,23.79358v541.13027c0,13.12035,10.67323,23.79358,23.79358,23.79358h528.06521c13.11894,0,23.79216-10.67323,23.79216-23.79358V119.12007c0-13.12035-10.67323-23.79358-23.79216-23.79358H129.77074Z"
 				fill="var(--palette-3-fg)"

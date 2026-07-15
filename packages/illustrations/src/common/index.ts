@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { buildSVGProps, type Props, type Ref } from './props';
+export { buildStorySetProps, buildUndrawProps, type Props, type Ref } from './props';

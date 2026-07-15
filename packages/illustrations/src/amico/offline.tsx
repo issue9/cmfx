@@ -3,7 +3,7 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
 /**
  * 表示无网络的 SVG 插画组件
@@ -14,7 +14,7 @@ export default function AmicoOffline(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.offline')}</title>
 
 			<ellipse cx="250" cy="343.75" rx="243.12" ry="144.62" fill="var(--palette-2-bg-low)" />

@@ -3,7 +3,7 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
 /**
  * 表示没有内容的 SVG 插画组件
@@ -14,7 +14,7 @@ export default function AmicoEmpty(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.empty')}</title>
 			<ellipse cx="253.74" cy="341.76" rx="235.29" ry="135.85" fill="var(--palette-2-bg-low)" />
 			<g id="freepik--Shadow--inject-46">
