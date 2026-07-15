@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/403-error-forbidden/amico
  */
-export default function Error403(props: Props): JSX.Element {
+export default function AmicoError403(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (

@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/504-error-gateway-timeout/amico
  */
-export default function Error504(props: Props): JSX.Element {
+export default function AmicoError504(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (

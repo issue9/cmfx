@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/empty/amico
  */
-export default function Empty(props: Props): JSX.Element {
+export default function AmicoEmpty(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (

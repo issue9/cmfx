@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/500-internal-server-error/amico
  */
-export default function Error500(props: Props): JSX.Element {
+export default function AmicoError500(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (

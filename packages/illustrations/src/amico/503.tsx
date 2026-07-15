@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/503-error-service-unavailable/amico
  */
-export default function Error503(props: Props): JSX.Element {
+export default function AmicoError503(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (

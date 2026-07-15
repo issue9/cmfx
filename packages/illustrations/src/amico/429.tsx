@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/error-429/amico
  */
-export default function Error429(props: Props): JSX.Element {
+export default function AmicoError429(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (

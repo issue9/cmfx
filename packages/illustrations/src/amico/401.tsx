@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/401-error-unauthorized/amico
  */
-export default function Error401(props: Props): JSX.Element {
+export default function AmicoError401(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (

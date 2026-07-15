@@ -10,7 +10,7 @@ import { buildSVGProps, type Props } from '@illustrations/common';
  *
  * https://storyset.com/illustration/going-offline/amico
  */
-export default function Offline(props: Props): JSX.Element {
+export default function AmicoOffline(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
