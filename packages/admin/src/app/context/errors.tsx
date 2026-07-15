@@ -76,18 +76,6 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 
 		let text: string;
 		switch (err.status) {
-			case 400:
-				text = l.t('_p.error.badRequest');
-				return (
-					<Result palette="error" title={text} illustration={<amico.Error400 text={text} />}>
-						<div class={styles['error-actions']}>
-							<Button palette="primary" onclick={() => nav(-1)}>
-								{l.t('_p.error.backPrev')}
-							</Button>
-							<RefreshButton retry={err.headers?.get('Retry-After')} />
-						</div>
-					</Result>
-				);
 			case 401: {
 				const loc = useLocation();
 				if (loc.pathname !== opt.routes.public.home) {

@@ -5,8 +5,6 @@
 import IconIllustration from '~icons/uil/illustration';
 
 import type { Info } from '@docs/components/base';
-import { default as E400 } from './400';
-import { default as e400 } from './400.tsx?raw';
 import { default as E401 } from './401';
 import { default as e401 } from './401.tsx?raw';
 import { default as E402 } from './402';
@@ -23,8 +21,6 @@ import { default as E503 } from './503';
 import { default as e503 } from './503.tsx?raw';
 import { default as E504 } from './504';
 import { default as e504 } from './504.tsx?raw';
-import { default as About } from './about';
-import { default as about } from './about.tsx?raw';
 import { default as BUG } from './bug';
 import { default as bug } from './bug.tsx?raw';
 import { default as Building } from './building';
@@ -45,7 +41,6 @@ export default function (): Info {
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [
-			{ component: E400, source: e400, id: '400' },
 			{ component: E401, source: e401, id: '401' },
 			{ component: E402, source: e402, id: '402' },
 			{ component: E403, source: e403, id: '403' },
@@ -58,7 +53,6 @@ export default function (): Info {
 			{ component: Building, source: building, id: 'building' },
 			{ component: Login, source: login, id: 'login' },
 			{ component: Offline, source: offline, id: 'offline' },
-			{ component: About, source: about, id: 'about' },
 			{ component: Empty, source: empty, id: 'empty' },
 		],
 	};

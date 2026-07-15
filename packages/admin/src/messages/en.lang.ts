@@ -37,7 +37,6 @@ const messages = {
 			backHome: 'Back home',
 			backPrev: 'Back prev page',
 			unknownError: 'Unknown error',
-			badRequest: 'Bad request',
 			unauthorized: 'Unauthorized',
 			forbidden: 'Forbidden',
 			pageNotFound: 'Page not found',
