@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示未知错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/bug-fixing/amico
- */
+// https://storyset.com/illustration/bug-fixing/amico
 export default function AmicoBUG(props: Props): JSX.Element {
 	const l = useLocale();
 

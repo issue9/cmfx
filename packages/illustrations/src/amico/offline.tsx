@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示无网络的 SVG 插画组件
- *
- * https://storyset.com/illustration/going-offline/amico
- */
+// https://storyset.com/illustration/going-offline/amico
 export default function AmicoOffline(props: Props): JSX.Element {
 	const l = useLocale();
 

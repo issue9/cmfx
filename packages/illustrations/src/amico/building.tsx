@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示项目正在升级或是创建的 SVG 插画组件
- *
- * https://storyset.com/illustration/under-construction/amico
- */
+// https://storyset.com/illustration/under-construction/amico
 export default function AmicoBuilding(props: Props): JSX.Element {
 	const l = useLocale();
 

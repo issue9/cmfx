@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 401 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/401-error-unauthorized/amico
- */
+// https://storyset.com/illustration/401-error-unauthorized/amico
 export default function AmicoError401(props: Props): JSX.Element {
 	const l = useLocale();
 

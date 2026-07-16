@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 403 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/403-error-forbidden/amico
- */
+// https://storyset.com/illustration/403-error-forbidden/amico
 export default function AmicoError403(props: Props): JSX.Element {
 	const l = useLocale();
 

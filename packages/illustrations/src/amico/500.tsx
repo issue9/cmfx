@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 500 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/500-internal-server-error/amico
- */
+// https://storyset.com/illustration/500-internal-server-error/amico
 export default function AmicoError500(props: Props): JSX.Element {
 	const l = useLocale();
 

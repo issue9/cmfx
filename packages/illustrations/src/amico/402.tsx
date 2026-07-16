@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 402 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/e-wallet/amico
- */
+// https://storyset.com/illustration/e-wallet/amico
 export default function AmicoError402(props: Props): JSX.Element {
 	const l = useLocale();
 

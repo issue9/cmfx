@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 504 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/504-error-gateway-timeout/amico
- */
+// https://storyset.com/illustration/504-error-gateway-timeout/amico
 export default function AmicoError504(props: Props): JSX.Element {
 	const l = useLocale();
 

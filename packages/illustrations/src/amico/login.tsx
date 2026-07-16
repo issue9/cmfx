@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示登录的 SVG 插画组件
- *
- * https://storyset.com/illustration/login/amico
- */
+// https://storyset.com/illustration/login/amico
 export default function AmicoLogin(props: Props): JSX.Element {
 	const l = useLocale();
 

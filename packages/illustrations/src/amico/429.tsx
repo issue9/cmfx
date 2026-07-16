@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 429 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/error-429/amico
- */
+// https://storyset.com/illustration/error-429/amico
 export default function AmicoError429(props: Props): JSX.Element {
 	const l = useLocale();
 

@@ -5,11 +5,7 @@ import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示没有内容的 SVG 插画组件
- *
- * https://storyset.com/illustration/empty/amico
- */
+// https://storyset.com/illustration/empty/amico
 export default function AmicoEmpty(props: Props): JSX.Element {
 	const l = useLocale();
 
