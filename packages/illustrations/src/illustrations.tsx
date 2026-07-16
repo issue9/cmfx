@@ -67,6 +67,14 @@ export function Empty(props: Props): JSX.Element {
 	return createSwitch(amico.Empty, undraw.Empty)(props);
 }
 
+export function Login(props: Props): JSX.Element {
+	return createSwitch(amico.Login, undraw.Login)(props);
+}
+
+export function Offline(props: Props): JSX.Element {
+	return createSwitch(amico.Offline, undraw.Offline)(props);
+}
+
 function createSwitch(A: Component<CommonProps>, U: Component<CommonProps>): Component<Props> {
 	return (props: Props): JSX.Element => {
 		props = mergeProps(presetProps, props);
