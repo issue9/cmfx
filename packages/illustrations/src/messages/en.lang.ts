@@ -4,7 +4,6 @@
 
 const messages = {
 	_i: {
-		badRequest: 'Bad Request',
 		unauthorized: 'Unauthorized',
 		paymentRequired: 'Payment Required',
 		forbidden: 'Forbidden',
@@ -19,6 +18,7 @@ const messages = {
 		offline: 'Offline',
 		myWallet: 'My Wallet',
 		about: 'About',
+		empty: 'Empty',
 	},
 };
 

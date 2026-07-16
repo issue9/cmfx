@@ -3,18 +3,14 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 402 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/e-wallet/amico
- */
-export default function Error402(props: Props): JSX.Element {
+// https://storyset.com/illustration/e-wallet/amico
+export default function AmicoError402(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.paymentRequired')}</title>
 			<defs>
 				<path
@@ -616,7 +612,7 @@ export default function Error402(props: Props): JSX.Element {
 				/>
 				<path
 					d="M230.53,240.82V338l-2.95,1.7c-2.69,1.54-4.89.32-4.93-2.71a.25.25,0,0,1,0-.14l0-65.72V250.05a10,10,0,0,1,1.45-4.88c.1-.2.23-.39.34-.58l.53-.73.1-.14c.19-.23.39-.46.59-.68a8.48,8.48,0,0,1,1.93-1.56l2-1.18h0Z"
-					style="fill:currentColor"
+					fill="currentColor"
 				/>
 				<polygon points="230.53 337.98 234.61 335.62 234.61 264.2 230.53 266.56 230.53 337.98" fill="#fafafa" />
 

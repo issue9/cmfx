@@ -39,7 +39,6 @@ const messages: typeof m = {
 			backHome: '返回首页',
 			backPrev: '返回上一页',
 			unknownError: '未知错误',
-			badRequest: '请求参数错误',
 			unauthorized: '需登录之后才能访问',
 			forbidden: '无权访问当前页面',
 			pageNotFound: '访问的页面不存在',

@@ -3,18 +3,14 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示登录的 SVG 插画组件
- *
- * https://storyset.com/illustration/login/amico
- */
-export default function Login(props: Props): JSX.Element {
+// https://storyset.com/illustration/login/amico
+export default function AmicoLogin(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.userLogin')}</title>
 			<defs>
 				<path
@@ -127,7 +123,7 @@ export default function Login(props: Props): JSX.Element {
 					/>
 					<path
 						d="M326.53,63.15h0c.59,0,.68.74.68,1.18V217.79a5.68,5.68,0,0,1-2.55,4.4L102,350.83a1,1,0,0,1-.5.16c-.56,0-1-.86-1-1.84V196.43A5.74,5.74,0,0,1,103,192L325.67,63.43a1.77,1.77,0,0,1,.86-.28m0-1a2.8,2.8,0,0,0-1.36.42L102.48,191.16a6.73,6.73,0,0,0-3,5.27V349.15c0,1.54.86,2.84,2,2.84a2,2,0,0,0,1-.29L325.16,223.06a6.71,6.71,0,0,0,3-5.27V64.33c0-1.38-.68-2.18-1.68-2.18Z"
-						style="fill:#e0e0e0"
+						fill="#e0e0e0"
 					/>
 					<path
 						d="M96.82,349.59c.33.17,2.7,1.52,3.74,2.12a3.11,3.11,0,0,1-1.12-2.56V206.4l-3.9-2.28V346.94A3,3,0,0,0,96.82,349.59Z"
@@ -223,16 +219,6 @@ export default function Login(props: Props): JSX.Element {
 				<path
 					d="M226.57,181.65c-1.8-1.05-4.1-.87-6.46.49l-2.67,1.54A18,18,0,0,0,209.18,198v2.77c2.62,1.45,6.19,1.2,10.14-1.07a29.53,29.53,0,0,0,10.13-10.62v-1.34C229.45,184.92,228.41,182.71,226.57,181.65Z"
 					fill="#fff"
-				/>
-			</g>
-			<g id="freepik--Clouds--inject-33">
-				<path
-					d="M377.12,80l3.18,1.22v-7c0-5.56,4.43-6.89,9.24-4.11h0c4.82,2.78,8.72,9.53,8.72,15.09v1a4.65,4.65,0,0,1,4,.62h0a13.86,13.86,0,0,1,6.27,10.87v.46l4.44,2.56a9.14,9.14,0,0,1,4.13,7.15c0,2.64-1.85,3.71-4.13,2.39L377.12,89.54A9.09,9.09,0,0,1,373,82.39C373,79.76,374.83,78.69,377.12,80Z"
-					fill="#e6e6e6"
-				/>
-				<path
-					d="M419.71,74.46l5.77,3.33a6.47,6.47,0,0,1-.05-.76V75.36c0-3,2.08-4.18,4.66-2.69a9,9,0,0,1,2.78,2.67c.42-3.74,3.36-5.13,6.92-3.08a15.45,15.45,0,0,1,7,12.09v2.5a6.59,6.59,0,0,1-.59,2.9L451,92.51A5.74,5.74,0,0,1,453.56,97c0,1.65-1.16,2.32-2.59,1.5l-31.26-18A5.72,5.72,0,0,1,417.12,76C417.12,74.31,418.28,73.64,419.71,74.46Z"
-					fill="#e6e6e6"
 				/>
 			</g>
 			<g id="freepik--Character--inject-33">

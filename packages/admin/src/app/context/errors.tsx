@@ -72,8 +72,6 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	if (err instanceof RuntimeError) {
 		if (err instanceof APIError) {
 			switch (err.status) {
-				case 400:
-					return Error4XX(amico.Error400, err.title || l.t('_p.error.badRequest'));
 				case 401: {
 					const loc = useLocation();
 					if (loc.pathname !== opt.routes.public.home) {

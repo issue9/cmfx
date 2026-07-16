@@ -3,18 +3,14 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 401 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/401-error-unauthorized/amico
- */
-export default function Error401(props: Props): JSX.Element {
+// https://storyset.com/illustration/401-error-unauthorized/amico
+export default function AmicoError401(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.unauthorized')}</title>
 			<defs>
 				<path
@@ -55,7 +51,7 @@ export default function Error401(props: Props): JSX.Element {
 				/>
 				<path
 					d="M256.69,171.06c-2.55-12.95-11.57-26.65-22.32-32.86L220.21,130a2.69,2.69,0,0,0-2.72-.26L66.23,217.09a2.69,2.69,0,0,0-1.11,2.48v20.51l36,20.79Z"
-					style="fill:currentColor"
+					fill="currentColor"
 				/>
 				<path
 					d="M251.71,157.3l-165,95.26L65.12,240.08V219.57a2.69,2.69,0,0,1,1.11-2.48l151.26-87.33a2.65,2.65,0,0,1,2.71.27l14.17,8.17C241.28,142.2,247.49,149.29,251.71,157.3Z"
@@ -63,7 +59,7 @@ export default function Error401(props: Props): JSX.Element {
 				/>
 				<path
 					d="M257.41,316.21v-4.16L101.13,402.28l-36-20.8V402A8.48,8.48,0,0,0,69,408.65l14.16,8.18c6.37,3.68,12.13,4,16.3,1.61l151.22-87.31C254.82,328.73,257.41,323.56,257.41,316.21Z"
-					style="fill:currentColor"
+					fill="currentColor"
 				/>
 				<path
 					d="M117.45,262.43l57.38-33.13c1.06-.62,1.92-.12,1.92,1.1v45.47a4.25,4.25,0,0,1-1.91,3.33l-57.39,33.13c-1.06.61-1.92.11-1.92-1.11V265.75A4.24,4.24,0,0,1,117.45,262.43Z"
@@ -364,7 +360,7 @@ export default function Error401(props: Props): JSX.Element {
 				/>
 				<path
 					d="M68.66,221.28l12.69,7.32c11.72,6.77,21.26,23.29,21.26,36.82V403.53c0,8.08-3.44,12.9-9.2,12.9a17.55,17.55,0,0,1-8.51-2.67l-14.17-8.18A5.06,5.06,0,0,1,68.66,402V221.28m-1.42-4.46c-1.26,0-2.12,1-2.12,2.75V402A8.48,8.48,0,0,0,69,408.65l14.16,8.18A21,21,0,0,0,93.41,420c7.56,0,12.75-6,12.75-16.45V265.42c0-14.69-10.32-32.55-23-39.89L69,217.35a3.47,3.47,0,0,0-1.72-.53Z"
-					style="fill:currentColor"
+					fill="currentColor"
 				/>
 				<path
 					d="M68.66,221.28l12.69,7.32c11.72,6.77,21.26,23.29,21.26,36.82V403.53c0,8.08-3.44,12.9-9.2,12.9a17.55,17.55,0,0,1-8.51-2.67l-14.17-8.18A5.06,5.06,0,0,1,68.66,402V221.28m-1.42-4.46c-1.26,0-2.12,1-2.12,2.75V402A8.48,8.48,0,0,0,69,408.65l14.16,8.18A21,21,0,0,0,93.41,420c7.56,0,12.75-6,12.75-16.45V265.42c0-14.69-10.32-32.55-23-39.89L69,217.35a3.47,3.47,0,0,0-1.72-.53Z"
@@ -474,7 +470,7 @@ export default function Error401(props: Props): JSX.Element {
 					<path d="M394.17,108.46l3.78.59a2,2,0,0,0-1.65-2.24A1.86,1.86,0,0,0,394.17,108.46Z" fill="#263238" />
 					<path d="M379.81,108.67l3.84-.42a1.86,1.86,0,0,0-2.06-1.73A2,2,0,0,0,379.81,108.67Z" fill="#263238" />
 					<path d="M389.14,113.94l-.51,8.94-5-1.3,5-7.74A1.25,1.25,0,0,1,389.14,113.94Z" fill="#b16668" />
-					<circle cx="391.49" cy="126.21" r="1.49" style="fill:#b16668" />
+					<circle cx="391.49" cy="126.21" r="1.49" fill="#b16668" />
 					<path
 						d="M378.77,172.8c1.42-10,8.6-24.53,12.25-28.52,4.44-4.85,8.71-12.76,9-16.59,0,0,14.78,1.14,20.36-8.33A39.36,39.36,0,0,1,412,140.18s-14.6,5.33-19.95,10.37C384.66,157.53,378.77,172.8,378.77,172.8Z"
 						fill="#37474f"
@@ -496,7 +492,7 @@ export default function Error401(props: Props): JSX.Element {
 				<g id="freepik--exclamation-marks--inject-182">
 					<path
 						d="M363.51,85a1,1,0,0,1,.08-.75,1,1,0,0,1,.57-.47l4.37-1.32a1,1,0,0,1,1.21.65l1.06,3.5a.92.92,0,0,1-.08.74,1,1,0,0,1-.57.48l-4.37,1.31a1,1,0,0,1-1.21-.65Zm-5.7-18.87a1,1,0,0,1,.65-1.22l4.37-1.32a1,1,0,0,1,.74.08.92.92,0,0,1,.47.57l4.51,14.93a1,1,0,0,1-.65,1.21l-4.36,1.32a.92.92,0,0,1-.74-.08.93.93,0,0,1-.48-.57Z"
-						style="fill:currentColor"
+						fill="currentColor"
 					/>
 					<use href="#illustrations-401-1" fill="currentColor" />
 					<use href="#illustrations-401-1" style="fill:#fff;opacity:.6" />
@@ -509,7 +505,7 @@ export default function Error401(props: Props): JSX.Element {
 				<use href="#illustrations-401-3" opacity=".3" />
 				<path
 					d="M365.32,239.58,346.88,229l-16.6-9.6-30.46-17.57a2.86,2.86,0,0,0-2.56-.4l-.18.1a1.31,1.31,0,0,0-.47.4,2.79,2.79,0,0,0-.36.47.29.29,0,0,1-.08.18c0,.14-.1.33-.13.51a3.58,3.58,0,0,0-.12,1V347.38a8.51,8.51,0,0,0,3.9,6.74L365.32,392a3.4,3.4,0,0,0,1.34.46,2,2,0,0,0,1.26-.13,2.66,2.66,0,0,0,1.3-2.61V246.37A8.76,8.76,0,0,0,365.32,239.58Zm-24.5,4-16.63-9.6a9.85,9.85,0,0,1-4.6-7.61c0-2.74,2.06-3.8,4.6-2.31l1.94,1.11,14.69,8.48A9.83,9.83,0,0,1,345,239a6.6,6.6,0,0,1,.43,2.27C345.4,244,343.34,245,340.82,243.54Z"
-					style="fill:currentColor"
+					fill="currentColor"
 				/>
 				<path
 					d="M355.87,259.38l-46.6-26.91c-.84-.48-1.51-.09-1.51.87v71.85a3.32,3.32,0,0,0,1.51,2.62l46.6,26.86c.84.48,1.51.09,1.51-.88V262A3.31,3.31,0,0,0,355.87,259.38Z"
@@ -527,8 +523,8 @@ export default function Error401(props: Props): JSX.Element {
 					d="M342.44,276.37,333.11,271l-.54-.31L322.7,265c-.6-.35-1.08,0-1.08.82v1.39a3.89,3.89,0,0,0,1.07,2.24c.57.75,2.67,3.65,4.41,4.81a4,4,0,0,0,2.07.68l2.42-.09a2,2,0,0,1,1,.32h0a3.67,3.67,0,0,1,1,.82l2.41,2.88a5.82,5.82,0,0,0,6.49,2c.58-.08,1.06-.2,1.06-1v-1.39A2.61,2.61,0,0,0,342.44,276.37Z"
 					fill="#455a64"
 				/>
-				<path d="M339.05,276c.08,1.48-.69,2.33-1.77,1.92a4.6,4.6,0,0,1-2.33-3.48Z" style="fill:currentColor" />
-				<path d="M326.09,268.46a5.15,5.15,0,0,0,1.77,4c1.09.84,2.1.49,2.33-.79Z" style="fill:currentColor" />
+				<path d="M339.05,276c.08,1.48-.69,2.33-1.77,1.92a4.6,4.6,0,0,1-2.33-3.48Z" fill="currentColor" />
+				<path d="M326.09,268.46a5.15,5.15,0,0,0,1.77,4c1.09.84,2.1.49,2.33-.79Z" fill="currentColor" />
 				<path
 					d="M343.84,297.93l8.35-2.44c-1.89-3.41-9.58-13.74-9.58-13.74-1.27,10.24-6.09,10.07-10,7.78s-8.77-7.66-10-19.37c0,0-7.69,1.44-9.58,2.67l8.35,12.08s-4.29-.86-5.16,1-2.35,24.46-2.35,24.46l18.78,10.85,18.78,10.84s-1.49-24.33-2.35-27.18S343.84,297.93,343.84,297.93Z"
 					fill="#455a64"
@@ -573,26 +569,25 @@ export default function Error401(props: Props): JSX.Element {
 				<use href="#illustrations-401-4" fill="currentColor" />
 				<use href="#illustrations-401-4" opacity=".15" />
 			</g>
-			<g id="freepik--error-401--inject-182">
-				<text
-					x="142"
-					y="210"
-					text-anchor="middle"
-					transform="skewY(-30)"
-					style="font-size:3.7rem;font-weight:bold;fill:currentColor"
-				>
-					401
-				</text>
-				<text
-					x="142"
-					y="235"
-					text-anchor="middle"
-					transform="skewY(-30)"
-					style="font-size:.9rem;fill:var(--palette-fg-low)"
-				>
-					{props.text || l.t('_i.unauthorized')}
-				</text>
-			</g>
+
+			<text
+				x="142"
+				y="210"
+				text-anchor="middle"
+				transform="skewY(-30)"
+				style="font-size:3.7rem;font-weight:bold;fill:currentColor"
+			>
+				401
+			</text>
+			<text
+				x="142"
+				y="235"
+				text-anchor="middle"
+				transform="skewY(-30)"
+				style="font-size:.9rem;fill:var(--palette-fg-low)"
+			>
+				{props.text || l.t('_i.unauthorized')}
+			</text>
 		</svg>
 	);
 }
