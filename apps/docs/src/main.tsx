@@ -19,7 +19,7 @@ import {
 	useOptions,
 } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
-import { amico } from '@cmfx/illustrations';
+import { Error404 } from '@cmfx/illustrations';
 import { type Mode, modes, useTheme } from '@cmfx/themes';
 import { type RouteDefinition, type RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, type JSX, lazy } from 'solid-js';
@@ -41,7 +41,7 @@ import pkg from '../package.json';
 import { buildMenus as buildComponentsMenus, buildRoute as buildComponentsRoute } from './components';
 import { buildRoute as buildContributeRoute } from './contribute';
 import { buildMenus as buildDocsMenus, buildRoute as buildDocsRoute } from './docs';
-import { options } from './options';
+import { illustrationsGallery, options } from './options';
 import styles from './style.module.css';
 import { buildRoute as buildThemeRoute } from './theme';
 
@@ -208,7 +208,7 @@ function NotFound(): JSX.Element {
 	});
 
 	return (
-		<Result palette="error" title={text()} illustration={<amico.Error404 text={text()} />}>
+		<Result palette="error" title={text()} illustration={<Error404 gallery={illustrationsGallery} text={text()} />}>
 			<div class={styles['error-actions']}>
 				<Button palette="primary" type="a" href="/">
 					{l.t('_p.error.backHome')}

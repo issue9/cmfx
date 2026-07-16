@@ -5,6 +5,7 @@
 import type { Layout, ProblemHandler } from '@cmfx/components';
 import { handleProblem, presetOptions as xpo } from '@cmfx/components';
 import type { DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
+import type { Gallery } from '@cmfx/illustrations';
 import type { Breakpoint, Mode, Scheme, ThemeProps } from '@cmfx/themes';
 import type { Component } from 'solid-js';
 
@@ -181,6 +182,13 @@ export interface Options {
 	 * @defaultValue {@link handleProblem}
 	 */
 	problemHandler?: ProblemHandler;
+
+	/**
+	 * 使用的插图集
+	 *
+	 * @defaultValue 'amico'
+	 */
+	illustrationGallery?: Gallery;
 }
 
 // 大部分的默认值在 @cmfx/components 中是已经定义过的。
@@ -202,6 +210,7 @@ const presetOptions: Readonly<PickOptional<Options>> = {
 	timezone: xpo.timezone,
 	stays: xpo.stays,
 	problemHandler: handleProblem,
+	illustrationGallery: 'amico',
 } as const;
 
 type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };

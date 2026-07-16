@@ -4,7 +4,7 @@
 
 import { Button, Result, useLocale } from '@cmfx/components';
 import { APIError, NetworkError, PermissionError, RuntimeError } from '@cmfx/core';
-import { amico, type Props as IProps } from '@cmfx/illustrations';
+import * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { type Component, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
@@ -29,7 +29,12 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// 未知错误
 	const unknown = (title: string, msg?: string) => {
 		return (
-			<Result palette="error" title={title} description={msg} illustration={<amico.BUG />}>
+			<Result
+				palette="error"
+				title={title}
+				description={msg}
+				illustration={<illustrations.BUG gallery={opt.illustrationGallery} />}
+			>
 				<div class={styles['error-actions']}>
 					<BackHome />
 					<BackPrev />
@@ -57,7 +62,11 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 		});
 
 		return (
-			<Result palette="error" title={text} illustration={<amico.Offline text={text} />}>
+			<Result
+				palette="error"
+				title={text}
+				illustration={<illustrations.Offline gallery={opt.illustrationGallery} text={text} />}
+			>
 				<div class={styles['error-actions']}>
 					<BackHome />
 					<BackPrev />
@@ -77,28 +86,32 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					if (loc.pathname !== opt.routes.public.home) {
 						return <Navigate href={/*@once*/ opt.routes.public.home} />;
 					}
-					return Error4XX(amico.Error401, err.title || l.t('_p.error.unauthorized'));
+					return Error4XX(illustrations.Error401, err.title || l.t('_p.error.unauthorized'));
 				}
 				case 403:
-					return Error4XX(amico.Error403, err.title || l.t('_p.error.forbidden'));
+					return Error4XX(illustrations.Error403, err.title || l.t('_p.error.forbidden'));
 				case 404:
 					return NotFound(err);
 				case 429:
-					return Error4XX(amico.Error429, err.title || l.t('_p.error.tooManyRequests'));
+					return Error4XX(illustrations.Error429, err.title || l.t('_p.error.tooManyRequests'));
 				case 500:
 					return Error5XX(
-						amico.Error500,
+						illustrations.Error500,
 						err.title || l.t('_p.error.internalServerError'),
 						err.headers?.get('Retry-After'),
 					);
 				case 503:
 					return Error5XX(
-						amico.Error503,
+						illustrations.Error503,
 						err.title || l.t('_p.error.serverUnavailable'),
 						err.headers?.get('Retry-After'),
 					);
 				case 504:
-					return Error5XX(amico.Error504, err.title || l.t('_p.error.gatewayTimeout'), err.headers?.get('Retry-After'));
+					return Error5XX(
+						illustrations.Error504,
+						err.title || l.t('_p.error.gatewayTimeout'),
+						err.headers?.get('Retry-After'),
+					);
 				default:
 					return navigator.onLine ? unknown(l.t('_p.error.unknownError'), err.message) : offline(err);
 			}
@@ -106,7 +119,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			// 其它网络错误
 			return navigator.onLine ? unknown(l.t('_p.error.unknownError'), err.message) : offline();
 		} else if (err instanceof PermissionError) {
-			return Error4XX(amico.Error403, l.t('_p.error.forbidden'));
+			return Error4XX(illustrations.Error403, l.t('_p.error.forbidden'));
 		}
 
 		return unknown(err.name, err.message);
@@ -122,9 +135,14 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	return unknown(l.t('_p.error.unknownError'), `${err}`);
 }
 
-function Error5XX(illustration: Component<IProps>, text: string, retry: string | undefined | null): JSX.Element {
+function Error5XX(
+	illustration: Component<illustrations.Props>,
+	text: string,
+	retry: string | undefined | null,
+): JSX.Element {
+	const opt = useOptions();
 	return (
-		<Result palette="error" title={text} illustration={illustration({ text })}>
+		<Result palette="error" title={text} illustration={illustration({ text, gallery: opt.illustrationGallery })}>
 			<div class={styles['error-actions']}>
 				<BackHome />
 				<BackPrev />
@@ -134,9 +152,10 @@ function Error5XX(illustration: Component<IProps>, text: string, retry: string |
 	);
 }
 
-function Error4XX(illustration: Component<IProps>, text: string): JSX.Element {
+function Error4XX(illustration: Component<illustrations.Props>, text: string): JSX.Element {
+	const opt = useOptions();
 	return (
-		<Result palette="error" title={text} illustration={illustration({ text })}>
+		<Result palette="error" title={text} illustration={illustration({ text, gallery: opt.illustrationGallery })}>
 			<div class={styles['error-actions']}>
 				<BackHome />
 				<BackPrev />
@@ -151,7 +170,7 @@ function Error4XX(illustration: Component<IProps>, text: string): JSX.Element {
 export function NotFound(err?: Error): JSX.Element {
 	const l = useLocale();
 	const text = err ? (err instanceof APIError ? err.title : err.name) : l.t('_p.error.pageNotFound');
-	return Error4XX(amico.Error404, text!);
+	return Error4XX(illustrations.Error404, text!);
 }
 
 /**

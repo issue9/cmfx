@@ -30,11 +30,12 @@ const contrasts: ReadonlyMap<Contrast, Record<string, string>> = new Map([
  */
 export function Demo(props: { s: SchemeStore }): JSX.Element {
 	const l = useLocale();
+	const t = useTheme();
 
 	const [contrast, setContrast] = createSignal<Contrast>('none');
 	const [apca, setApca] = createSignal(false);
 	const [typ, setTyp] = createSignal<'components' | 'palettes'>('components');
-	const [mode, setMode] = createSignal<Mode>(useTheme().mode);
+	const [mode, setMode] = createSignal<Mode>(t.mode);
 
 	// NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
 	// 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
