@@ -51,6 +51,22 @@ export function Error503(props: Props): JSX.Element {
 	return createSwitch(amico.Error503, undraw.Error503)(props);
 }
 
+export function Error504(props: Props): JSX.Element {
+	return createSwitch(amico.Error504, undraw.Error504)(props);
+}
+
+export function BUG(props: Props): JSX.Element {
+	return createSwitch(amico.BUG, undraw.BUG)(props);
+}
+
+export function Building(props: Props): JSX.Element {
+	return createSwitch(amico.Building, undraw.Building)(props);
+}
+
+export function Empty(props: Props): JSX.Element {
+	return createSwitch(amico.Empty, undraw.Empty)(props);
+}
+
 function createSwitch(A: Component<CommonProps>, U: Component<CommonProps>): Component<Props> {
 	return (props: Props): JSX.Element => {
 		props = mergeProps(presetProps, props);

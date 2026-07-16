@@ -9,3 +9,7 @@ export { default as Error404 } from './404';
 export { default as Error429 } from './429';
 export { default as Error500 } from './500';
 export { default as Error503 } from './503';
+export { default as Error504 } from './504';
+export { default as BUG } from './bug';
+export { default as Building } from './building';
+export { default as Empty } from './empty';
