@@ -569,26 +569,25 @@ export default function AmicoError401(props: Props): JSX.Element {
 				<use href="#illustrations-401-4" fill="currentColor" />
 				<use href="#illustrations-401-4" opacity=".15" />
 			</g>
-			<g id="freepik--error-401--inject-182">
-				<text
-					x="142"
-					y="210"
-					text-anchor="middle"
-					transform="skewY(-30)"
-					style="font-size:3.7rem;font-weight:bold;fill:currentColor"
-				>
-					401
-				</text>
-				<text
-					x="142"
-					y="235"
-					text-anchor="middle"
-					transform="skewY(-30)"
-					style="font-size:.9rem;fill:var(--palette-fg-low)"
-				>
-					{props.text || l.t('_i.unauthorized')}
-				</text>
-			</g>
+
+			<text
+				x="142"
+				y="210"
+				text-anchor="middle"
+				transform="skewY(-30)"
+				style="font-size:3.7rem;font-weight:bold;fill:currentColor"
+			>
+				401
+			</text>
+			<text
+				x="142"
+				y="235"
+				text-anchor="middle"
+				transform="skewY(-30)"
+				style="font-size:.9rem;fill:var(--palette-fg-low)"
+			>
+				{props.text || l.t('_i.unauthorized')}
+			</text>
 		</svg>
 	);
 }
