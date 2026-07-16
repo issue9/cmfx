@@ -21,4 +21,7 @@
 
 本项目采用 [MIT](https://opensource.org/licenses/MIT) 开源授权许可证，完整的授权说明可在 [LICENSE](https://github.com/issue9/cmfx/blob/master/LICENSE) 文件中找到。
 
-插画源码来自 [storyset](https://storyset.com/amico)，其许可证可参考其 [terms](https://storyset.com/terms)。
+插画源码来自以下两个项目：
+
+- [storyset](https://storyset.com/amico)，其许可证可参考其 [terms](https://storyset.com/terms)。
+- [undraw](https://undraw.co/illustrations)，其许可证可参考其 [license](https://undraw.co/license)。

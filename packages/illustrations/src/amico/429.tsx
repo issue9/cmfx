@@ -3,18 +3,14 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 429 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/error-429/amico
- */
-export default function Error429(props: Props): JSX.Element {
+// https://storyset.com/illustration/error-429/amico
+export default function AmicoError429(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.tooManyRequests')}</title>
 			<defs>
 				<path id="illustrations-429-1" d="M135.44,280.79,98,259.19l-.12,43.94,55.94,32.31.07-22.64Z" />

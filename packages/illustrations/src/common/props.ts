@@ -18,7 +18,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 	text?: string;
 }
 
-export function buildSVGProps(props: Props): JSX.SvgSVGAttributes<SVGSVGElement> {
+export function buildStorySetProps(props: Props): JSX.SvgSVGAttributes<SVGSVGElement> {
 	return {
 		xmlns: 'http://www.w3.org/2000/svg',
 		viewBox: '0 0 500 500',
@@ -28,4 +28,15 @@ export function buildSVGProps(props: Props): JSX.SvgSVGAttributes<SVGSVGElement>
 		'aria-hidden': true,
 		ref: el => props.ref?.({ root: () => el }),
 	};
+}
+
+export function buildUndrawProps(props: Props): JSX.SvgSVGAttributes<SVGSVGElement> {
+	return {
+		xmlns: "http://www.w3.org/2000/svg",
+		role: "presentation",
+		'aria-hidden': true,
+		class: joinClass(props.palette, styles.illustration, props.class),
+		style: props.style,
+		ref: el => props.ref?.({ root: () => el }),
+	}
 }

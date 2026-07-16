@@ -3,18 +3,14 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 504 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/504-error-gateway-timeout/amico
- */
-export default function Error504(props: Props): JSX.Element {
+// https://storyset.com/illustration/504-error-gateway-timeout/amico
+export default function AmicoError504(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.gatewayTimeout')}</title>
 			<defs>
 				<path

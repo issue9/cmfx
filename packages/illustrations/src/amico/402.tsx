@@ -3,18 +3,14 @@
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
-import { buildSVGProps, type Props } from '@illustrations/common';
+import { buildStorySetProps, type Props } from '@illustrations/common';
 
-/**
- * 表示 402 错误的 SVG 插画组件
- *
- * https://storyset.com/illustration/e-wallet/amico
- */
-export default function Error402(props: Props): JSX.Element {
+// https://storyset.com/illustration/e-wallet/amico
+export default function AmicoError402(props: Props): JSX.Element {
 	const l = useLocale();
 
 	return (
-		<svg {...buildSVGProps(props)}>
+		<svg {...buildStorySetProps(props)}>
 			<title>{props.text || l.t('_i.paymentRequired')}</title>
 			<defs>
 				<path
