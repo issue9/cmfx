@@ -24,12 +24,12 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 	const routes: Array<RouteDefinition> = [
 		{
 			path: '/',
-			component: props => <>{props.children}</>,
+			component: (props: ParentProps) => <>{props.children}</>,
 			children: [...opt.routes.public.routes, { path: '*', component: () => NotFound() }],
 		},
 		{
 			path: '/',
-			component: props => <Private>{props.children}</Private>,
+			component: (props: ParentProps) => <Private>{props.children}</Private>,
 
 			// 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
 			children: [...opt.routes.private.routes, { path: '*', component: () => NotFound() }],

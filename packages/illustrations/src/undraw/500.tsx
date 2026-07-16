@@ -19,13 +19,27 @@ export default function UndrawError500(props: Props): JSX.Element {
 		>
 			<title>{props.text || l.t('_i.internalServerError')}</title>
 			<g transform="translate(-600 -236.768)">
-				<rect width="469" height="109" rx="8" transform="translate(729 734.232)" fill="var(--palette-3-fg-low)" opacity="0.299" />
+				<rect
+					width="469"
+					height="109"
+					rx="8"
+					transform="translate(729 734.232)"
+					fill="var(--palette-3-fg-low)"
+					opacity=".3"
+				/>
 				<path
 					d="M11.384,2.846a8.548,8.548,0,0,0-8.538,8.538V96.768a8.548,8.548,0,0,0,8.538,8.538h446.84a8.548,8.548,0,0,0,8.538-8.538V11.384a8.548,8.548,0,0,0-8.538-8.538H11.384m0-2.846h446.84a11.384,11.384,0,0,1,11.384,11.384V96.768a11.384,11.384,0,0,1-11.384,11.384H11.384A11.384,11.384,0,0,1,0,96.768V11.384A11.384,11.384,0,0,1,11.384,0Z"
 					transform="translate(728.432 734.748)"
 					fill="var(--palette-2-fg)"
 				/>
-				<rect width="469" height="108" rx="8" transform="translate(729 524.232)" fill="var(--palette-3-fg-low)" opacity="0.299" />
+				<rect
+					width="469"
+					height="108"
+					rx="8"
+					transform="translate(729 524.232)"
+					fill="var(--palette-3-fg-low)"
+					opacity=".3"
+				/>
 				<path
 					d="M11.384,2.846a8.548,8.548,0,0,0-8.538,8.538V96.768a8.548,8.548,0,0,0,8.538,8.538h446.84a8.548,8.548,0,0,0,8.538-8.538V11.384a8.548,8.548,0,0,0-8.538-8.538H11.384m0-2.846h446.84a11.384,11.384,0,0,1,11.384,11.384V96.768a11.384,11.384,0,0,1-11.384,11.384H11.384A11.384,11.384,0,0,1,0,96.768V11.384A11.384,11.384,0,0,1,11.384,0Z"
 					transform="translate(728.432 524.136)"
@@ -81,7 +95,14 @@ export default function UndrawError500(props: Props): JSX.Element {
 					fill="var(--palette-2-fg)"
 				/>
 				<g transform="translate(728.432 630.865)">
-					<rect width="469" height="107" rx="8" transform="translate(0.569 0.367)" fill="var(--palette-3-fg-low)" opacity="0.299" />
+					<rect
+						width="469"
+						height="107"
+						rx="8"
+						transform="translate(0.569 0.367)"
+						fill="var(--palette-3-fg-low)"
+						opacity=".3"
+					/>
 					<path
 						d="M11.384,2.846a8.548,8.548,0,0,0-8.538,8.538V96.768a8.548,8.548,0,0,0,8.538,8.538h446.84a8.548,8.548,0,0,0,8.538-8.538V11.384a8.548,8.548,0,0,0-8.538-8.538H11.384m0-2.846h446.84a11.384,11.384,0,0,1,11.384,11.384V96.768a11.384,11.384,0,0,1-11.384,11.384H11.384A11.384,11.384,0,0,1,0,96.768V11.384A11.384,11.384,0,0,1,11.384,0Z"
 						fill="var(--palette-2-fg)"

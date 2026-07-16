@@ -11,7 +11,7 @@
 export class RuntimeError extends Error {
 	constructor(message?: string) {
 		super(message);
-		this.name = 'RuntimeError'
+		this.name = 'RuntimeError';
 	}
 }
 
@@ -24,7 +24,7 @@ export class RuntimeError extends Error {
 export class NetworkError extends RuntimeError {
 	constructor(message?: string) {
 		super(message);
-		this.name = 'NetworkError'
+		this.name = 'NetworkError';
 	}
 }
 
@@ -34,6 +34,6 @@ export class NetworkError extends RuntimeError {
 export class PermissionError extends RuntimeError {
 	constructor(message?: string) {
 		super(message);
-		this.name = 'PermissionError'
+		this.name = 'PermissionError';
 	}
 }

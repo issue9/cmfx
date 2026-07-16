@@ -19,7 +19,7 @@ export function Palettes(props: { s: SchemeStore; c: Contrast; apca?: boolean })
 	);
 }
 
-function PaletteBlocks(props: { p: Palette; s: SchemeStore; c: Contrast, apca?: boolean }): JSX.Element {
+function PaletteBlocks(props: { p: Palette; s: SchemeStore; c: Contrast; apca?: boolean }): JSX.Element {
 	const raw = props.s[0];
 
 	let baseRef: HTMLDivElement;
@@ -51,16 +51,24 @@ function PaletteBlocks(props: { p: Palette; s: SchemeStore; c: Contrast, apca?: 
 		setHighWCAG(Color.wcag(highS.getPropertyValue('background-color'), highS.getPropertyValue('color'), props.apca));
 
 		const disabledS = window.getComputedStyle(disabledRef);
-		setDisabledWCAG(Color.wcag(disabledS.getPropertyValue('background-color'), disabledS.getPropertyValue('color'), props.apca));
+		setDisabledWCAG(
+			Color.wcag(disabledS.getPropertyValue('background-color'), disabledS.getPropertyValue('color'), props.apca),
+		);
 
 		const focusedS = window.getComputedStyle(focusedRef);
-		setFocusedWCAG(Color.wcag(focusedS.getPropertyValue('background-color'), focusedS.getPropertyValue('color'), props.apca));
+		setFocusedWCAG(
+			Color.wcag(focusedS.getPropertyValue('background-color'), focusedS.getPropertyValue('color'), props.apca),
+		);
 
 		const activedS = window.getComputedStyle(activedRef);
-		setActivedWCAG(Color.wcag(activedS.getPropertyValue('background-color'), activedS.getPropertyValue('color'), props.apca));
+		setActivedWCAG(
+			Color.wcag(activedS.getPropertyValue('background-color'), activedS.getPropertyValue('color'), props.apca),
+		);
 
 		const selectedS = window.getComputedStyle(selectedRef);
-		setSelectedWCAG(Color.wcag(selectedS.getPropertyValue('background-color'), selectedS.getPropertyValue('color'), props.apca));
+		setSelectedWCAG(
+			Color.wcag(selectedS.getPropertyValue('background-color'), selectedS.getPropertyValue('color'), props.apca),
+		);
 	});
 
 	return (

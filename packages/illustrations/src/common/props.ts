@@ -33,11 +33,11 @@ export function buildStorySetProps(props: Props): JSX.SvgSVGAttributes<SVGSVGEle
 
 export function buildUndrawProps(props: Props): JSX.SvgSVGAttributes<SVGSVGElement> {
 	return {
-		xmlns: "http://www.w3.org/2000/svg",
-		role: "presentation",
+		xmlns: 'http://www.w3.org/2000/svg',
+		role: 'presentation',
 		'aria-hidden': true,
 		class: joinClass(props.palette, styles.illustration, props.class),
 		style: props.style,
 		ref: el => props.ref?.({ root: () => el }),
-	}
+	};
 }

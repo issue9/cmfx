@@ -74,7 +74,7 @@ const noVarPrefix = [
 	'--surface',
 
 	'--palette-',
-	'--default-transition-duration'
+	'--default-transition-duration',
 ] as const;
 
 /**

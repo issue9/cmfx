@@ -5,8 +5,10 @@
 		"properties": [
 			{
 				"name": "gallery",
-				"summary": "图片集\n\n\n'amico'\n\n",
-				"type": "\"amico\" | \"undraw\" | undefined"
+				"summary": "图片集\n\n",
+				"remarks": "可用值包含以下可用项：\n-\n`amico`\n来自 [storyset](https://storyset.com/amico)，图片比较大，统一的尺寸；\n-\n`undraw`\n来自 [undraw](https://undraw.co/illustrations)，图片比较小，尺寸不统一；\n\n",
+				"type": "\"amico\" | \"undraw\" | undefined",
+				"def": "'amico'\n\n"
 			},
 			{
 				"name": "text",
