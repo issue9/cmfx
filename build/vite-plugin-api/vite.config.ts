@@ -5,7 +5,7 @@
 import dts from 'unplugin-dts/vite';
 import { defineConfig } from 'vite';
 
-import { buildPostBanner, pluginTarget, vitePluginCopyFile } from '../vite.config.common';
+import { buildPluginTarget, buildPostBanner, vitePluginCopyFile } from '../vite.config.common';
 import pkg from './package.json' with { type: 'json' };
 
 // https://vitejs.dev/config/
@@ -22,7 +22,7 @@ export default defineConfig({
 	build: {
 		minify: true,
 		outDir: './lib',
-		target: pluginTarget(),
+		target: buildPluginTarget(),
 		lib: {
 			entry: {
 				index: './src/index.ts',

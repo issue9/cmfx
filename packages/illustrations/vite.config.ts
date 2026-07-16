@@ -49,7 +49,7 @@ export default defineConfig({
 			},
 
 			// 不需要打包的内容
-			external: ['solid-js', '@cmfx/core', '@cmfx/components'],
+			external: pkg.peerDependencies ? Object.keys(pkg.peerDependencies) : undefined,
 		},
 	},
 });

@@ -15,7 +15,7 @@ import rootPkg from '../package.json' with { type: 'json' };
  * @remarks
  * 根据根目录下 package.json 中的 engines.node 字段的主版本号拼接而成
  */
-export function pluginTarget(): string {
+export function buildPluginTarget(): string {
 	// 该正则会跳过开头的 ^, ~, >, <, =, v 等符号
 	const match = rootPkg.engines.node.trim().match(/^[^0-9]*?(\d+)/);
 

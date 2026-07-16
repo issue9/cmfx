@@ -39,10 +39,8 @@
 		"build": "vite build"
 	},
 	"peerDependencies": {
+		"@cmfx/core": "workspace:*",
 		"solid-js": "catalog:"
-	},
-	"dependencies": {
-		"@cmfx/core": "workspace:*"
 	},
 	"devDependencies": {
 		"@microsoft/api-extractor": "catalog:",

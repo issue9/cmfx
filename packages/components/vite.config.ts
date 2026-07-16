@@ -16,6 +16,8 @@ import cfg from './tsconfig.json' with { type: 'json' };
 
 const outDir = cfg.compilerOptions.outDir;
 
+const external = pkg.peerDependencies ? Object.keys(pkg.peerDependencies) : undefined;
+
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
@@ -57,7 +59,7 @@ export default defineConfig({
 				postBanner: buildPostBanner(pkg),
 			},
 			// 不需要打包的内容
-			external: ['solid-js', '@solidjs/router', '@cmfx/core', '@cmfx/themes', 'shiki/bundle/full'],
+			external: external ? [...external, 'shiki/bundle/full'] : ['shiki/bundle/full'],
 		},
 	},
 });

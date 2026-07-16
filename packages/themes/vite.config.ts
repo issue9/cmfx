@@ -48,6 +48,8 @@ export default defineConfig({
 			output: {
 				postBanner: buildPostBanner(pkg),
 			},
+			// 不需要打包的内容
+			external: pkg.peerDependencies ? Object.keys(pkg.peerDependencies) : undefined,
 		},
 	},
 });

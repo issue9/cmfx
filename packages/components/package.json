@@ -44,12 +44,16 @@
 	"scripts": {
 		"build": "vite build"
 	},
-	"dependencies": {
+	"peerDependencies": {
 		"@cmfx/core": "workspace:*",
 		"@cmfx/themes": "workspace:*",
+		"@solidjs/router": "catalog:",
+		"solid-js": "catalog:"
+	},
+	"dependencies": {
+		"@cmfx/core": "workspace:*",
 		"@iconify/json": "catalog:",
 		"@iconsets/svg-morpheus-ts": "catalog:",
-		"@solidjs/router": "catalog:",
 		"@tiptap/core": "catalog:",
 		"@tiptap/extension-bubble-menu": "catalog:",
 		"@tiptap/extension-image": "catalog:",
@@ -66,7 +70,6 @@
 		"marked": "catalog:",
 		"qr-code-styling": "catalog:",
 		"shiki": "catalog:",
-		"solid-js": "catalog:",
 		"solid-transition-group": "catalog:",
 		"tailwindcss": "catalog:"
 	},

@@ -44,11 +44,13 @@
 	"scripts": {
 		"build": "vite build"
 	},
-	"dependencies": {
-		"@cmfx/components": "workspace:*",
+	"peerDependencies": {
 		"@cmfx/core": "workspace:*",
+		"@cmfx/components": "workspace:*",
 		"@cmfx/themes": "workspace:*",
-		"solid-js": "catalog:",
+		"solid-js": "catalog:"
+	},
+	"dependencies": {
 		"tailwindcss": "catalog:"
 	},
 	"devDependencies": {

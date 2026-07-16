@@ -38,13 +38,15 @@
 	"scripts": {
 		"build": "vite build"
 	},
+	"peerDependencies": {
+		"zod": "catalog:"
+	},
 	"dependencies": {
 		"bowser": "catalog:",
 		"cbor2": "catalog:",
 		"hucre": "catalog:",
 		"intl-messageformat": "catalog:",
-		"yaml": "catalog:",
-		"zod": "catalog:"
+		"yaml": "catalog:"
 	},
 	"devDependencies": {
 		"@microsoft/api-extractor": "catalog:",

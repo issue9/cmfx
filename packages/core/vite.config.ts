@@ -41,7 +41,7 @@ export default defineConfig({
 				postBanner: buildPostBanner(pkg),
 			},
 			// 不需要打包的内容
-			external: ['zod'],
+			external: pkg.peerDependencies ? Object.keys(pkg.peerDependencies) : undefined,
 		},
 	},
 });
