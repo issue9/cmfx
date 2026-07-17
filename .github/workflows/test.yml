@@ -8,10 +8,12 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      # Required to checkout the code
       contents: read
-      # Required to put a comment into the pull-request
       pull-requests: write
+
+    strategy:
+        matrix:
+          node: [24, 26]
 
     steps:
       - uses: actions/checkout@v6
@@ -19,7 +21,7 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: ${{ matrix.node }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v6
