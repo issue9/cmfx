@@ -49,11 +49,7 @@ export function Demo(props: { s: SchemeStore }): JSX.Element {
 						actions={
 							<>
 								<Show when={typ() === 'palettes'}>
-									{/** biome-ignore lint/a11y/noLabelWithoutControl: Checkbox 包含了 input */}
-									<label class={styles.apca}>
-										<Checkbox onChange={v => setApca(!!v)} />
-										{l.t('_d.theme.apca')}
-									</label>
+									<Checkbox class={styles.apca} onChange={v => setApca(!!v)} label={l.t('_d.theme.apca')} />
 								</Show>
 
 								<ButtonGroup>

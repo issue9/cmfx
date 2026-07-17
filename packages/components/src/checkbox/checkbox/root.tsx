@@ -85,6 +85,7 @@ export function Checkbox(props: CheckboxProps): JSX.Element {
 			props.palette,
 			props.block ? styles.block : '',
 			props.rounded ? styles.rounded : '',
+			props.readonly ? styles.readonly : '',
 			styles.checkbox,
 			props.class,
 		);

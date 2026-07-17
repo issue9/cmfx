@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Form, type MountProps, type Palette, RadioGroup } from '@cmfx/components';
+import { Form, type MountProps, RadioGroup } from '@cmfx/components';
+import type { Palette } from '@cmfx/themes';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const [palette, setPalette] = createSignal<Palette>('error');
+	const [palette, setPalette] = createSignal<Palette | undefined>('error');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
 	const [Readonly, readonly] = boolSelector('_d.demo.readonly');

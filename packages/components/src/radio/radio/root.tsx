@@ -81,6 +81,7 @@ export function Radio<T extends AvailableEnumType = string>(props: RadioProps<T>
 			props.palette,
 			props.block ? styles.block : '',
 			props.rounded ? styles.rounded : '',
+			props.readonly ? styles.readonly : '',
 			styles.radio,
 			props.class,
 		);

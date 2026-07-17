@@ -75,11 +75,11 @@
 		@apply rounded-full;
 	}
 
-	.checkbox:not(.block):has(:enabled):not([aria-readonly="true"]):focus-visible {
+	.checkbox:not(.block):has(:enabled):not(.readonly):focus-visible {
 		@apply text-palette-fg-focused;
 	}
 
-	.checkbox.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
+	.checkbox.block:has(:enabled):not(.readonly):focus-visible {
 		@apply text-palette-fg-focused border-palette-border-focused;
 	}
 
@@ -89,11 +89,11 @@
 		@apply bg-palette-bg-selected;
 	}
 
-	.checkbox[aria-readonly="true"]:has(:enabled):hover {
+	.checkbox.readonly:has(:enabled):hover {
 		@apply cursor-default;
 	}
 
-	.checkbox.block:has(:enabled):not([aria-readonly="true"]):hover {
+	.checkbox.block:has(:enabled):not(.readonly):hover {
 		@apply text-palette-fg-focused;
 		@apply border-palette-border-focused;
 		@apply bg-palette-bg-focused;
@@ -101,13 +101,13 @@
 
 	/* NOTE: active 要在 hover 之后，否则 hover 始终覆盖 active 的效果。 */
 
-	.checkbox.block:has(:enabled):not([aria-readonly="true"]):active {
+	.checkbox.block:has(:enabled):not(.readonly):active {
 		@apply text-palette-fg-actived;
 		@apply border-palette-border-actived;
 		@apply bg-palette-bg-actived;
 	}
 
-	.checkbox:not(.block):has(:enabled):not([aria-readonly="true"]):active {
+	.checkbox:not(.block):has(:enabled):not(.readonly):active {
 		@apply text-palette-fg-actived;
 	}
 

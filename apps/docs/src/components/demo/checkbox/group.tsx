@@ -17,7 +17,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded', true);
 
 	const [group, setGroup] = createSignal('');
-	const groupOptions: CheckboxGroup.Options = [
+	const groupOptions: CheckboxGroup.Options<string> = [
 		{ value: '1', label: <div>abc</div> },
 		{ value: '2', label: <div style="color:red">red</div> },
 		{

@@ -26,7 +26,7 @@
 			}
 
 			.item.label {
-				@apply flex;
+				@apply justify-start!;
 			}
 		}
 	}

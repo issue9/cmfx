@@ -150,11 +150,11 @@ export function LockScreen(props: LockScreenProps): JSX.Element {
 								{l.t('_c.lockScreen.logout')}
 							</Button>
 
-							{/** biome-ignore lint/a11y/noLabelWithoutControl: Checkbox 是对 input 的封装 */}
-							<label class={joinClass(undefined, styles.item, styles.label)}>
-								<Checkbox onChange={wakeRequestChange} />
-								{l.t('_c.lockScreen.preventScreenLock')}
-							</label>
+							<Checkbox
+								class={joinClass(undefined, styles.item, styles.label)}
+								onChange={wakeRequestChange}
+								label={l.t('_c.lockScreen.preventScreenLock')}
+							/>
 						</form>
 					</Match>
 				</Switch>

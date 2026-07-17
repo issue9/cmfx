@@ -76,33 +76,33 @@
 		@apply bg-palette-bg-selected;
 	}
 
-	.radio.block:has(:enabled):not(:has(:read-only)):focus-visible {
+	.radio.block:has(:enabled):not(.readonly):focus-visible {
 		/* 需要在 checked 之后，否则可能无效？ */
 		@apply text-palette-fg-focused;
 		@apply border-palette-border-focused;
 	}
 
-	.radio:not(.block):has(:enabled):not(:has(:read-only)):focus-visible {
+	.radio:not(.block):has(:enabled):not(.readonly):focus-visible {
 		@apply text-palette-fg-focused;
 	}
 
-	.radio.block:has(:enabled):not(:has(:read-only)):hover {
+	.radio.block:has(:enabled):not(.readonly):hover {
 		@apply text-palette-fg-focused;
 		@apply border-palette-border-focused;
 		@apply bg-palette-bg-focused;
 	}
 
-	.radio:not(.block):has(:enabled):not(:has(:read-only)):hover {
+	.radio:not(.block):has(:enabled):not(.readonly):hover {
 		@apply text-palette-fg-focused;
 	}
 
-	.radio.block:has(:enabled):not(:has(:read-only)):active {
+	.radio.block:has(:enabled):not(.readonly):active {
 		@apply text-palette-fg-actived;
 		@apply border-palette-border-actived;
 		@apply bg-palette-bg-actived;
 	}
 
-	.radio:not(.block):has(:enabled):not(:has(:read-only)):active {
+	.radio:not(.block):has(:enabled):not(.readonly):active {
 		@apply text-palette-fg-actived;
 	}
 
