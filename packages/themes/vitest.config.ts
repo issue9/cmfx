@@ -2,15 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { defineConfig, mergeConfig } from 'vitest/config';
+import solidPlugin from 'vite-plugin-solid';
+import { defineProject, mergeConfig } from 'vitest/config';
 
-import viteConfig from './vite.config';
+import { sharedWebConfig } from '../../vitest.config';
 
 export default mergeConfig(
-	viteConfig,
-	defineConfig({
-		test: {
-			environment: 'jsdom',
-		},
+	sharedWebConfig,
+	defineProject({
+		plugins: [solidPlugin()],
 	}),
 );

@@ -2,16 +2,26 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { defineConfig, mergeConfig } from 'vitest/config';
+import tailwindcss from '@tailwindcss/vite';
+import Icons from 'unplugin-icons/vite';
+import solidPlugin from 'vite-plugin-solid';
+import { defineProject, mergeConfig } from 'vitest/config';
 
-import viteConfig from './vite.config';
+import { sharedWebConfig } from '../../vitest.config';
 
 export default mergeConfig(
-	viteConfig,
-	defineConfig({
+	sharedWebConfig,
+	defineProject({
+		plugins: [
+			Icons({
+				compiler: 'solid',
+				scale: 1,
+			}),
+			tailwindcss(),
+			solidPlugin(),
+		],
 		test: {
 			setupFiles: ['./src/vitest_setup.ts'],
-			environment: 'jsdom',
 			server: {
 				deps: {
 					inline: ['@solidjs/router'], // vitest v4 必须要加
