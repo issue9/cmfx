@@ -8,3 +8,10 @@
 @import "@cmfx/components/tailwind.css";
 
 @source ".";
+
+:root 	{
+		color-scheme: light dark;
+
+		--illustration-text: light-dark(#333, #eee);
+		--illustration-bg: light-dark( #eee, #333);
+	}

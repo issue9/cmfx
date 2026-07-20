@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<Error504
 				gallery={gallery()}
-				class="aspect-square w-full bg-palette-bg"
+				class="aspect-square w-full"
 				palette={palette()}
 				text={custom() ? '自定义错误信息' : undefined}
 			/>

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * as amico from './amico';
+export * as bro from './amico';
 export type { Ref } from './common';
 export * from './illustrations';
 export * as undraw from './undraw';

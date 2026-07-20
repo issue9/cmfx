@@ -20,7 +20,7 @@ export default function (props: MountProps): JSX.Element {
 				<Gallery />
 			</Portal>
 
-			<BUG gallery={gallery()} class="aspect-square w-full bg-palette-bg" palette={palette()} />
+			<BUG gallery={gallery()} class="aspect-square w-full" palette={palette()} />
 		</>
 	);
 }
