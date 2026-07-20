@@ -11,7 +11,7 @@ import { arraySelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
-	const [Gallery, gallery] = arraySelector('选择集', galleries, 'amico');
+	const [Gallery, gallery] = arraySelector('选择集', galleries, 'bro');
 
 	return (
 		<>

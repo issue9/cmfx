@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type MountProps, Result } from '@cmfx/components';
-import { amico } from '@cmfx/illustrations';
+import { bro } from '@cmfx/illustrations';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -18,7 +18,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Result layout="vertical" title="page not found" palette={palette()} illustration={<amico.Error404 />} />
+			<Result layout="vertical" title="page not found" palette={palette()} illustration={<bro.Error404 />} />
 		</>
 	);
 }

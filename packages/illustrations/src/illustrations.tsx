@@ -5,7 +5,7 @@
 import { type Component, type JSX, Match, mergeProps, Switch } from 'solid-js';
 
 import type { Props as CommonProps } from '@illustrations/common';
-import * as bro from './amico';
+import * as bro from './bro';
 import * as undraw from './undraw';
 
 export const galleries = ['bro', 'undraw'] as const;
