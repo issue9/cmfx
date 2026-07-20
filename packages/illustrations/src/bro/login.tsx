@@ -1,11 +1,11 @@
-// 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
+// 图片源码来源于 https://storyset.com/bro 遵循其自身的软件许可
 
 import { useLocale } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';
 
-// https://storyset.com/illustration/login/amico
+// https://storyset.com/illustration/innovation/bro
 export default function BroLogin(props: Props): JSX.Element {
 	const l = useLocale();
 

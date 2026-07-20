@@ -16,7 +16,7 @@ export interface Props extends CommonProps {
 	/**
 	 * 图片集
 	 *
-	 * @defaultValue 'amico'
+	 * @defaultValue 'bro'
 	 *
 	 * @remarks
 	 * 可用值包含以下可用项：

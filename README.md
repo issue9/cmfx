@@ -21,5 +21,5 @@ cmfx 是基于 [Go](https://go.dev) + [Solid](https://www.solidjs.com) 的快速
 
 插画源码来自以下两个项目：
 
-- [storyset](https://storyset.com/amico)，其许可证可参考其 [terms](https://storyset.com/terms)。
+- [storyset](https://storyset.com/bro)，其许可证可参考其 [terms](https://storyset.com/terms)。
 - [undraw](https://undraw.co/illustrations)，其许可证可参考其 [license](https://undraw.co/license)。

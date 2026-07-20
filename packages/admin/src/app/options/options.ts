@@ -186,7 +186,7 @@ export interface Options {
 	/**
 	 * 使用的插图集
 	 *
-	 * @defaultValue 'amico'
+	 * @defaultValue 'bro'
 	 */
 	illustrationGallery?: Gallery;
 }
@@ -210,7 +210,7 @@ const presetOptions: Readonly<PickOptional<Options>> = {
 	timezone: xpo.timezone,
 	stays: xpo.stays,
 	problemHandler: handleProblem,
-	illustrationGallery: 'amico',
+	illustrationGallery: 'bro',
 } as const;
 
 type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };
