@@ -12,7 +12,7 @@ import { arraySelector, boolSelector, paletteSelector } from '@docs/components/b
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Custom, custom] = boolSelector('自定义错误信息', false);
-	const [Gallery, gallery] = arraySelector('选择集', galleries, 'amico');
+	const [Gallery, gallery] = arraySelector('选择集', galleries, 'bro');
 
 	return (
 		<>
@@ -24,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<Error402
 				gallery={gallery()}
-				class="aspect-square w-full bg-palette-bg"
+				class="aspect-square w-full"
 				palette={palette()}
 				text={custom() ? '自定义错误信息' : undefined}
 			/>
