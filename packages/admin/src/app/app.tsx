@@ -18,7 +18,7 @@ import { build as buildOptions, type Options, presetConfigName } from './options
  * @param o - 项目的初始化选项；
  * @param router - 指定路由对象，默认值同 {@link run} 中对应的参数；
  */
-export async function create(elementID: string, o: Options, router?: typeof Router) {
+export async function create(elementID: string, o: Options, router?: typeof Router): Promise<void> {
 	const opt = buildOptions(o);
 
 	const routes: Array<RouteDefinition> = [

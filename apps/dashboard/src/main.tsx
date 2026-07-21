@@ -184,4 +184,4 @@ const o: Options = {
 	toolbar: [createSearch(new Hotkey('k', 'control')), createClear(), createFullscreen(), createLockScreen()],
 };
 
-create('app', o);
+await create('app', o);

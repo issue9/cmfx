@@ -19,7 +19,7 @@ export class LogicError extends Error {
  * 无法找到上下文环境
  */
 export class ContextNotFoundError extends LogicError {
-	#ctx: string;
+	readonly #ctx: string;
 
 	constructor(name: string) {
 		super(`无法找到上下文环境：${name}`);
