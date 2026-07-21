@@ -46,9 +46,9 @@ export class current implements Pages {
 	 * @remarks 提供一个默认的登录页面。
 	 * 该页面并未包含在 {@link routes} 和 {@link menus} 中。
 	 */
-	static Login = (props: Omit<LoginProps, 'passports'>): JSX.Element => {
-		return <Login {...props} passports={current.#passports} />;
-	};
+	static Login = (props: Omit<LoginProps, 'passports'>): JSX.Element => (
+		<Login {...props} passports={current.#passports} />
+	);
 
 	/**
 	 * 退出页面
@@ -58,9 +58,7 @@ export class current implements Pages {
 	/**
 	 * 当前用户的个人信息面板
 	 */
-	static Profile = (): JSX.Element => {
-		return <Profile passports={current.#passports} />;
-	};
+	static Profile = (): JSX.Element => <Profile passports={current.#passports} />;
 
 	/**
 	 * 用户的安全日志
@@ -103,7 +101,7 @@ export class current implements Pages {
 	 * @param prefix - 路由前缀；
 	 * @param dashboard - 仪表盘内的组件；
 	 */
-	static build(prefix: string, dashboard?: Component) {
+	static build(prefix: string, dashboard?: Component): Pages {
 		return new current(prefix, dashboard);
 	}
 

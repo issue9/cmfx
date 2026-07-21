@@ -10,43 +10,24 @@
 	.login {
 		@apply justify-between h-full items-center @container/login;
 
-		background-image:
-			radial-gradient(
-				circle at 85% 5%,
-				color-mix(in lch, var(--surface-bg), transparent) 0%,
-				color-mix(in lch, var(--surface-bg-low), transparent) 50%,
-				color-mix(in lch, var(--surface-bg-high), transparent) 50%,
-				color-mix(in lch, var(--surface-bg), transparent) 100%
-			),
-			radial-gradient(
-				circle at 15% 15%,
-				color-mix(in lch, var(--secondary-bg), transparent) 0%,
-				color-mix(in lch, var(--secondary-bg-low), transparent) 50%,
-				color-mix(in lch, var(--secondary-bg-high), transparent) 50%,
-				color-mix(in lch, var(--secondary-bg), transparent) 100%
-			),
-			radial-gradient(
-				circle at 75% 95%,
-				color-mix(in lch, var(--tertiary-bg), transparent) 0%,
-				color-mix(in lch, var(--tertiary-bg-low), transparent) 50%,
-				color-mix(in lch, var(--tertiary-bg-high), transparent) 50%,
-				color-mix(in lch, var(--tertiary-bg), transparent) 100%
-			);
+		.content {
+			@apply flex justify-center items-center w-full gap-4;
 
-		.form {
-			@apply flex justify-center flex-col gap-2 w-full @lg/login:w-96 p-5;
-			@apply border border-palette-border rounded-md bg-palette-bg shadow-md;
-			@apply transition;
-
-			form {
-				@apply flex justify-center flex-col gap-2 w-full;
+			.illustration {
+				@apply w-1/2 @max-3xl/login:hidden;
 			}
 
-			.title {
-				@apply flex justify-between mb-8;
+			.login-form {
+				@apply flex justify-center flex-col gap-4 w-full @lg/login:w-96 p-8;
+				@apply border border-palette-border rounded-md bg-palette-bg shadow-2xl;
+				@apply transition;
 
-				> p {
-					@apply text-2xl;
+				.title {
+					@apply flex justify-between mb-8;
+
+					> p {
+						@apply text-2xl;
+					}
 				}
 			}
 		}

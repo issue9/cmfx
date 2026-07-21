@@ -176,7 +176,7 @@ const o: Options = {
 		acceptType: 'application/json',
 	},
 
-	title: 'Title',
+	title: 'cmfx 演示内容',
 	logo: '/brand-static.svg',
 	menus: menus,
 	floatingMinWidth: '4xl',

@@ -18,6 +18,8 @@ import styles from './style.module.css';
 export interface Props extends ThemeProps {
 	/**
 	 * 登录页面底部的链接
+	 *
+	 * @reactive
 	 */
 	footer?: Array<Link>;
 
@@ -85,13 +87,17 @@ function LoginBox(props: Props): JSX.Element {
 			/>
 
 			<ErrorBoundary fallback={errorHandler}>
-				<div class={styles.form}>
-					<div class={styles.title}>
-						<p>{l.t('_p.current.login')}</p>
-						<Choice value={passport()} onChange={setPassport} options={!passports.loading ? passports()! : []} />
-					</div>
-					<div>
-						<Transition>{props.passports.get(passport())?.Login()}</Transition>
+				<div class={styles.content}>
+					<adminOpt.illustrations.Login class={styles.illustration} />
+
+					<div class={joinClass('secondary', styles['login-form'])}>
+						<div class={styles.title}>
+							<p>{l.t('_p.current.login')}</p>
+							<Choice value={passport()} onChange={setPassport} options={!passports.loading ? passports()! : []} />
+						</div>
+						<div>
+							<Transition>{props.passports.get(passport())?.Login()}</Transition>
+						</div>
 					</div>
 				</div>
 			</ErrorBoundary>

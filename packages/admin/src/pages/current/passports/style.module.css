@@ -8,6 +8,8 @@
 
 @layer components {
 	.password {
+		@apply flex justify-center flex-col gap-4 w-full;
+
 		.text-field {
 			@apply px-1 py-0! shrink-0 self-center w-auto;
 		}
@@ -18,6 +20,8 @@
 	}
 
 	.totp {
+		@apply flex justify-center flex-col gap-4 w-full;
+
 		.text-field {
 			@apply px-1 py-0! shrink-0 self-center w-auto;
 		}
@@ -28,6 +32,7 @@
 	}
 
 	.webauthn {
+		@apply flex justify-center flex-col gap-4 w-full;
 		@apply gap-5!;
 
 		.text-field {
