@@ -4,7 +4,7 @@
 
 import { Button, Result, useLocale } from '@cmfx/components';
 import { APIError, NetworkError, PermissionError, RuntimeError } from '@cmfx/core';
-import * as illustrations from '@cmfx/illustrations';
+import type * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { type Component, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
@@ -29,12 +29,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 	// 未知错误
 	const unknown = (title: string, msg?: string) => {
 		return (
-			<Result
-				palette="error"
-				title={title}
-				description={msg}
-				illustration={<illustrations.BUG gallery={opt.illustrationGallery} />}
-			>
+			<Result palette="error" title={title} description={msg} illustration={<opt.illustrations.Bug />}>
 				<div class={styles['error-actions']}>
 					<BackHome />
 					<BackPrev />
@@ -62,11 +57,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 		});
 
 		return (
-			<Result
-				palette="error"
-				title={text}
-				illustration={<illustrations.Offline gallery={opt.illustrationGallery} text={text} />}
-			>
+			<Result palette="error" title={text} illustration={<opt.illustrations.Offline text={text} />}>
 				<div class={styles['error-actions']}>
 					<BackHome />
 					<BackPrev />
@@ -86,29 +77,31 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 					if (loc.pathname !== opt.routes.public.home) {
 						return <Navigate href={/*@once*/ opt.routes.public.home} />;
 					}
-					return Error4XX(illustrations.Error401, err.title || l.t('_p.error.unauthorized'));
+					return Error4XX(opt.illustrations.Error401, err.title || l.t('_p.error.unauthorized'));
 				}
+				case 402:
+					return Error4XX(opt.illustrations.Error402, err.title || l.t('_p.error.paymentRequired'));
 				case 403:
-					return Error4XX(illustrations.Error403, err.title || l.t('_p.error.forbidden'));
+					return Error4XX(opt.illustrations.Error403, err.title || l.t('_p.error.forbidden'));
 				case 404:
 					return NotFound(err);
 				case 429:
-					return Error4XX(illustrations.Error429, err.title || l.t('_p.error.tooManyRequests'));
+					return Error4XX(opt.illustrations.Error429, err.title || l.t('_p.error.tooManyRequests'));
 				case 500:
 					return Error5XX(
-						illustrations.Error500,
+						opt.illustrations.Error500,
 						err.title || l.t('_p.error.internalServerError'),
 						err.headers?.get('Retry-After'),
 					);
 				case 503:
 					return Error5XX(
-						illustrations.Error503,
+						opt.illustrations.Error503,
 						err.title || l.t('_p.error.serverUnavailable'),
 						err.headers?.get('Retry-After'),
 					);
 				case 504:
 					return Error5XX(
-						illustrations.Error504,
+						opt.illustrations.Error504,
 						err.title || l.t('_p.error.gatewayTimeout'),
 						err.headers?.get('Retry-After'),
 					);
@@ -119,7 +112,7 @@ export function errorHandler(err: unknown, reset: () => void): JSX.Element {
 			// 其它网络错误
 			return navigator.onLine ? unknown(l.t('_p.error.unknownError'), err.message) : offline();
 		} else if (err instanceof PermissionError) {
-			return Error4XX(illustrations.Error403, l.t('_p.error.forbidden'));
+			return Error4XX(opt.illustrations.Error403, l.t('_p.error.forbidden'));
 		}
 
 		return unknown(err.name, err.message);
@@ -140,9 +133,8 @@ function Error5XX(
 	text: string,
 	retry: string | undefined | null,
 ): JSX.Element {
-	const opt = useOptions();
 	return (
-		<Result palette="error" title={text} illustration={illustration({ text, gallery: opt.illustrationGallery })}>
+		<Result palette="error" title={text} illustration={illustration({ text })}>
 			<div class={styles['error-actions']}>
 				<BackHome />
 				<BackPrev />
@@ -153,9 +145,8 @@ function Error5XX(
 }
 
 function Error4XX(illustration: Component<illustrations.Props>, text: string): JSX.Element {
-	const opt = useOptions();
 	return (
-		<Result palette="error" title={text} illustration={illustration({ text, gallery: opt.illustrationGallery })}>
+		<Result palette="error" title={text} illustration={illustration({ text })}>
 			<div class={styles['error-actions']}>
 				<BackHome />
 				<BackPrev />
@@ -168,9 +159,10 @@ function Error4XX(illustration: Component<illustrations.Props>, text: string): J
  * 404 错误
  */
 export function NotFound(err?: Error): JSX.Element {
+	const opt = useOptions();
 	const l = useLocale();
 	const text = err ? (err instanceof APIError ? err.title : err.name) : l.t('_p.error.pageNotFound');
-	return Error4XX(illustrations.Error404, text!);
+	return Error4XX(opt.illustrations.Error404, text!);
 }
 
 /**

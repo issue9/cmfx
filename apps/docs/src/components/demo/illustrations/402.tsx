@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import type { MountProps } from '@cmfx/components';
-import { Error402, galleries } from '@cmfx/illustrations';
-import type { JSX } from 'solid-js';
+import { createGallery } from '@cmfx/illustrations';
+import { createMemo, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, paletteSelector } from '@docs/components/base';
@@ -12,7 +12,11 @@ import { arraySelector, boolSelector, paletteSelector } from '@docs/components/b
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Custom, custom] = boolSelector('自定义错误信息', false);
-	const [Gallery, gallery] = arraySelector('选择集', galleries, 'bro');
+	const [Gallery, gallery] = arraySelector('gallery', ['bro', 'undraw'], 'bro');
+
+	const c = createMemo(() => {
+		return createGallery(gallery() ?? 'bro').Error402;
+	});
 
 	return (
 		<>
@@ -22,12 +26,7 @@ export default function (props: MountProps): JSX.Element {
 				<Gallery />
 			</Portal>
 
-			<Error402
-				gallery={gallery()}
-				class="aspect-square w-full"
-				palette={palette()}
-				text={custom() ? '自定义错误信息' : undefined}
-			/>
+			{c()({ class: 'aspect-square w-full', palette: palette(), text: custom() ? '自定义错误信息' : undefined })}
 		</>
 	);
 }

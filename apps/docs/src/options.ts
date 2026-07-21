@@ -4,10 +4,7 @@
 
 import { createChartLocaleLoader, type Options } from '@cmfx/components';
 import { Config, createZodLocaleLoader } from '@cmfx/core';
-import type { Gallery } from '@cmfx/illustrations';
 import { type Scheme, schemes } from '@cmfx/themes';
-
-export const illustrationsGallery: Gallery = 'undraw';
 
 export const options: Options = {
 	config: new Config('docs', 'default', localStorage),

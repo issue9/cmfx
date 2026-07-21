@@ -45,6 +45,7 @@ const messages = {
 			serverUnavailable: 'Server unavailable',
 			gatewayTimeout: 'Gateway timeout',
 			noNetwork: 'No network',
+			paymentRequired: 'Payment required',
 
 			// 以下为一些内置的错误提示信息
 			canNotBeEmpty: 'Can not be empty',

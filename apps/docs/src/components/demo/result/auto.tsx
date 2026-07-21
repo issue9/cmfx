@@ -18,7 +18,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<Result title="网站更新中" layout="auto" palette={palette()} illustration={<bro.Error404 />}>
+			<Result title="网站更新中" layout="auto" palette={palette()} illustration={bro['404']({})}>
 				<div>网站更新中......</div>
 			</Result>
 		</>

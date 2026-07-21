@@ -4,16 +4,30 @@
 		"name": "Props",
 		"properties": [
 			{
-				"name": "gallery",
-				"summary": "图片集\n\n",
-				"remarks": "可用值包含以下可用项：\n-\n`amico`\n来自 [storyset](https://storyset.com/amico)，图片比较大，统一的尺寸；\n-\n`undraw`\n来自 [undraw](https://undraw.co/illustrations)，图片比较小，尺寸不统一；\n\n",
-				"type": "\"amico\" | \"undraw\" | undefined",
-				"def": "'amico'\n\n"
-			},
-			{
 				"name": "text",
 				"summary": "组件内的提示文字\n\n",
 				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "palette",
+				"summary": "指定当前组件采用的色盘\n\n",
+				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "class",
+				"summary": "为组件的根元素指定 CSS 类名\n\n",
+				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
 				"reactive": true
 			},
 			{
@@ -38,6 +52,27 @@
 			}
 		],
 		"name": "Ref",
+		"pkg": "@cmfx/illustrations"
+	},
+	{
+		"kind": "interface",
+		"name": "Gallery",
+		"pkg": "@cmfx/illustrations"
+	},
+	{
+		"kind": "function",
+		"name": "createGallery",
+		"summary": "创建指定名称的插图集\n\n",
+		"type": "function createGallery(name: 'bro' | 'undraw'): Gallery",
+		"params": [
+			{
+				"name": "name",
+				"type": "\"bro\" | \"undraw\""
+			}
+		],
+		"return": {
+			"type": "Gallery"
+		},
 		"pkg": "@cmfx/illustrations"
 	}
 ]
