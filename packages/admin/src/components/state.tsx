@@ -21,13 +21,9 @@ export function localeStates(l: Locale) {
 	]);
 }
 
-type P = Choice.Props<State>;
-
-interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
-
-interface MProps extends Omit<Extract<P, { multiple: true }>, 'options'> {}
-
-export type StateSelectorProps = SProps | MProps;
+export type StateSelectorProps =
+	| Omit<Choice.SingleProps<State>, 'options'>
+	| Omit<Choice.MultipleProps<State>, 'options'>;
 
 /**
  * 用户状态选择框

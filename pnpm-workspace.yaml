@@ -15,15 +15,15 @@ minimumReleaseAge: 0
 
 catalog:
   '@biomejs/biome': ^2.5.4
-  '@iconify/json': ^2.2.500
+  '@iconify/json': ^2.2.503
   '@iconsets/svg-morpheus-ts': ^1.4.14
-  '@microsoft/api-extractor': ^7.58.11
+  '@microsoft/api-extractor': ^7.58.12
   '@microsoft/tsdoc': ^0.16.0
   '@scure/base': ^2.2.0
   '@solidjs/router': ^0.16.2
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.3.3
-  '@testing-library/jest-dom': ^6.9.1
+  '@testing-library/jest-dom': ^7.0.0
   '@testing-library/user-event': ^14.6.1
   '@types/node': ^26.1.1
   '@tiptap/core': ^3.28.0
@@ -49,7 +49,7 @@ catalog:
   hucre: ^0.6.1
   intl-messageformat: ^11.2.12
   jsdom: ^29.1.1
-  marked: ^18.0.6
+  marked: ^18.0.7
   qr-code-styling: ^1.9.2
   shiki: ^4.3.1
   solid-js: ^1.9.14
@@ -60,7 +60,7 @@ catalog:
   unplugin-icons: ^23.0.1
   vite: ^8.1.5
   unplugin-dts: ^1.0.3
-  vite-plugin-solid: ^2.11.12
+  vite-plugin-solid: ^2.11.13
   vitest: ^4.1.10
   vitest-fetch-mock: ^0.4.5
   yaml: ^2.9.0

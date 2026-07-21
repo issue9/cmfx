@@ -21,13 +21,7 @@ export function localeSexes(l: Locale) {
 	]);
 }
 
-type P = Choice.Props<Sex>;
-
-interface SProps extends Omit<Extract<P, { multiple?: false }>, 'options'> {}
-
-interface MProps extends Omit<Extract<P, { multiple: true }>, 'options'> {}
-
-export type SexSelectorProps = SProps | MProps;
+export type SexSelectorProps = Omit<Choice.SingleProps<Sex>, 'options'> | Omit<Choice.MultipleProps<Sex>, 'options'>;
 
 /**
  * 性别选择框

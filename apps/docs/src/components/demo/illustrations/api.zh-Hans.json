@@ -62,12 +62,18 @@
 	{
 		"kind": "function",
 		"name": "createGallery",
-		"summary": "创建指定名称的插图集\n\n",
-		"type": "function createGallery(name: 'bro' | 'undraw'): Gallery",
+		"summary": "以指定名称的插画集为基础创建新的插画集\n\n",
+		"type": "function createGallery(base: 'bro' | 'undraw', optional?: Partial<Gallery>): Gallery",
 		"params": [
 			{
-				"name": "name",
+				"name": "base",
+				"summary": "基础插画集名称；\n\n",
 				"type": "\"bro\" | \"undraw\""
+			},
+			{
+				"name": "optional",
+				"summary": "可选的部分插画集，用于覆盖基础插画集的部分内容；\n\n",
+				"type": "Partial<Gallery> | undefined"
 			}
 		],
 		"return": {
