@@ -31,4 +31,4 @@ export const bro: Gallery = {
 	Empty,
 	Login,
 	Offline,
-};
+} as const;

@@ -88,7 +88,7 @@ function LoginBox(props: Props): JSX.Element {
 
 			<ErrorBoundary fallback={errorHandler}>
 				<div class={styles.content}>
-					<adminOpt.illustrations.Login class={styles.illustration} />
+					<adminOpt.illustrations.Login class={styles.illustration} text={adminOpt.title} />
 
 					<div class={joinClass('secondary', styles['login-form'])}>
 						<div class={styles.title}>

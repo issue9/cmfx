@@ -31,4 +31,4 @@ export const undraw: Gallery = {
 	Empty,
 	Login,
 	Offline,
-};
+} as const;

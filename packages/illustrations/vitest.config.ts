@@ -12,5 +12,13 @@ export default mergeConfig(
 	sharedWebConfig,
 	defineProject({
 		plugins: [tailwindcss(), solidPlugin()],
+		test: {
+			setupFiles: ['./src/vitest_setup.ts'],
+			server: {
+				deps: {
+					inline: ['@solidjs/router'], // vitest v4 必须要加
+				},
+			},
+		},
 	}),
 );
