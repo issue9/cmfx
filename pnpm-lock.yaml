@@ -701,6 +701,9 @@ importers:
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.58.12(@types/node@26.1.1)
+      '@tailwindcss/vite':
+        specifier: 'catalog:'
+        version: 4.3.3(vite@8.1.5(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
       '@types/node':
         specifier: 'catalog:'
         version: 26.1.1

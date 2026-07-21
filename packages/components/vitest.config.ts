@@ -23,6 +23,7 @@ export default mergeConfig(
 			tailwindcss(),
 		],
 		test: {
+			css: true,
 			setupFiles: ['./src/vitest_setup.ts'],
 			server: {
 				deps: {

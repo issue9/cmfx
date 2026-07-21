@@ -241,6 +241,7 @@
 	 * 当前色盘的颜色变量
 	 */
 
+	--palette-name: 'surface';
 	--palette-fg-low: var(--surface-fg-low);
 	--palette-fg: var(--surface-fg);
 	--palette-fg-high: var(--surface-fg-high);
@@ -295,6 +296,7 @@
 /********************* 预定义的调色板 **********************/
 
 .palette--primary {
+	--palette-name: 'primary';
 	--palette-fg-low: var(--primary-fg-low);
 	--palette-fg: var(--primary-fg);
 	--palette-fg-high: var(--primary-fg-high);
@@ -347,6 +349,7 @@
 }
 
 .palette--secondary {
+	--palette-name: 'secondary';
 	--palette-fg-low: var(--secondary-fg-low);
 	--palette-fg: var(--secondary-fg);
 	--palette-fg-high: var(--secondary-fg-high);
@@ -399,6 +402,7 @@
 }
 
 .palette--tertiary {
+	--palette-name: 'tertiary';
 	--palette-fg-low: var(--tertiary-fg-low);
 	--palette-fg: var(--tertiary-fg);
 	--palette-fg-high: var(--tertiary-fg-high);
@@ -451,6 +455,7 @@
 }
 
 .palette--error {
+	--palette-name: 'error';
 	--palette-fg-low: var(--error-fg-low);
 	--palette-fg: var(--error-fg);
 	--palette-fg-high: var(--error-fg-high);
@@ -503,6 +508,7 @@
 }
 
 .palette--surface {
+	--palette-name: 'surface';
 	--palette-fg-low: var(--surface-fg-low);
 	--palette-fg: var(--surface-fg);
 	--palette-fg-high: var(--surface-fg-high);
