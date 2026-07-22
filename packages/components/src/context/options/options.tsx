@@ -11,30 +11,14 @@ import { default as IconLoading } from '~icons/cmfx/loading';
 import { handleProblem, type ProblemHandler } from './problem';
 import styles from './style.module.css';
 
+export const notifyPositions = ['top', 'bottom'] as const;
+
+export type NotifyPosition = (typeof notifyPositions)[number];
+
 /**
- * 组件库的全局配置项
+ * 可配置的配置项
  */
-export interface Options {
-	/**
-	 * 提供用于保存配置项到 {@link Storage} 对象的接口
-	 */
-	config: Config;
-
-	/**
-	 * 项目的 LOGO
-	 */
-	logo: string;
-
-	/**
-	 * 表示加载状态的组件
-	 *
-	 * @remarks
-	 * 在页面未加载完成之前会显示此组件的内容。一般为一个动态的图标组件。
-	 *
-	 * @defaultValue `~icons/cmfx/loading`
-	 */
-	loading?: Component<ThemeProps>;
-
+export interface ConfigurableOptions {
 	/**
 	 * 字体大小，当在 {@link config} 中存在时，当前值将被忽略。
 	 */
@@ -49,16 +33,6 @@ export interface Options {
 	 * @defaultValue schemes 的第一个元素或是从 html 读取对应的变量作为默认值
 	 */
 	scheme?: string | Scheme;
-
-	/**
-	 * 支持的主题列表
-	 *
-	 * @remarks
-	 * {@link ../theme/schemes#schemes} 下定义部分主题可以直接在此处使用。
-	 *
-	 * @defaultValue `new Map()`
-	 */
-	schemes?: Map<string, Scheme>;
 
 	/**
 	 * 默认的主题模式，当在 {@link config} 中存在时，当前值将被忽略。
@@ -101,6 +75,48 @@ export interface Options {
 	 * @defaultValue 5000
 	 */
 	stays?: number;
+
+	/**
+	 * 通知的显示位置
+	 *
+	 * @defaultValue 'top'
+	 */
+	notifyPosition?: NotifyPosition;
+}
+
+/**
+ * 组件库的全局配置项
+ */
+export interface Options extends ConfigurableOptions {
+	/**
+	 * 提供用于保存配置项到 {@link Storage} 对象的接口
+	 */
+	config: Config;
+
+	/**
+	 * 项目的 LOGO
+	 */
+	logo: string;
+
+	/**
+	 * 表示加载状态的组件
+	 *
+	 * @remarks
+	 * 在页面未加载完成之前会显示此组件的内容。一般为一个动态的图标组件。
+	 *
+	 * @defaultValue `~icons/cmfx/loading`
+	 */
+	loading?: Component<ThemeProps>;
+
+	/**
+	 * 支持的主题列表
+	 *
+	 * @remarks
+	 * {@link ../theme/schemes#schemes} 下定义部分主题可以直接在此处使用。
+	 *
+	 * @defaultValue `new Map()`
+	 */
+	schemes?: Map<string, Scheme>;
 
 	/**
 	 * 当前支持的语言列表以及加载方法
@@ -162,6 +178,7 @@ export const presetOptions: PickOptional<Options> = {
 	mode: 'system',
 	timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 	stays: 5000,
+	notifyPosition: 'top',
 	titleSeparator: ' - ',
 	pageSizes: [10, 20, 50, 100],
 	pageSize: 20,

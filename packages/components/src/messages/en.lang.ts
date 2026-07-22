@@ -127,6 +127,10 @@ const messages = {
 			transitionDuration: 'Transition duration',
 			transitionDurationDesc:
 				'Sets the duration of all animation effects. If animations are disabled in the operating system, this setting will not be available.',
+			notifyPosition: 'Notify position',
+			notifyPositionDesc: 'Set the position of the notify',
+			topPosition: 'Top',
+			bottomPosition: 'Bottom',
 		},
 		table: {
 			nodata: 'No data',

@@ -21,5 +21,47 @@
 			"type": "void"
 		},
 		"pkg": "@cmfx/core"
+	},
+	{
+		"kind": "function",
+		"name": "palette",
+		"summary": "获取当前元素所属的色盘\n\n",
+		"type": "function palette(elem: HTMLElement, next?: number): Palette | undefined",
+		"params": [
+			{
+				"name": "elem",
+				"summary": "查询的元素；\n\n",
+				"type": "HTMLElement"
+			},
+			{
+				"name": "next",
+				"summary": "如果指定了该值，则表示当前色盘往后移动的数量；\n\n",
+				"type": "number | undefined"
+			}
+		],
+		"return": {
+			"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined"
+		},
+		"pkg": "@cmfx/themes"
+	},
+	{
+		"kind": "function",
+		"name": "nextPalette",
+		"summary": "计算色盘 p 之后 next 的色盘\n\n",
+		"type": "function nextPalette(p: Palette, next?: number): Palette",
+		"params": [
+			{
+				"name": "p",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\""
+			},
+			{
+				"name": "next",
+				"type": "number | undefined"
+			}
+		],
+		"return": {
+			"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\""
+		},
+		"pkg": "@cmfx/themes"
 	}
 ]

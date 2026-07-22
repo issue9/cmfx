@@ -9,15 +9,14 @@ import { Portal, render } from 'solid-js/web';
 
 import type { MountProps } from '@components/base';
 import { useOptions } from '@components/context';
+import { type NotifyPosition, notifyPositions } from '@components/context/options/options';
 import { Message, type MessageProps, type MessageType } from '@components/notify/message';
 import styles from './style.module.css';
 
 let notifyInst: typeof notify;
 let systemInst: typeof system;
 
-export const notifyPositions = ['top', 'bottom'] as const;
-
-export type NotifyPosition = (typeof notifyPositions)[number];
+export { type NotifyPosition, notifyPositions };
 
 /**
  * {@link notify} 的快捷方式，用于显示成功信息。
@@ -87,7 +86,7 @@ export async function notify(
 	type?: MessageType,
 	duration?: number,
 	system = false,
-	pos: NotifyPosition = 'top',
+	pos?: NotifyPosition,
 ): Promise<void> {
 	return await notifyInst(title, body, type, duration, system, pos);
 }
@@ -133,7 +132,7 @@ function init(): JSX.Element {
 		type?: MessageType,
 		duration?: number,
 		sys = false,
-		pos: NotifyPosition = 'top',
+		pos?: NotifyPosition,
 	): Promise<void> => {
 		if (sys && document.visibilityState === 'hidden') {
 			const n = await system(title, { body: body });
@@ -153,6 +152,7 @@ function init(): JSX.Element {
 			closable: true,
 		};
 
+		pos = pos ?? opt.getNotifyPosition();
 		switch (pos) {
 			case 'top':
 				runWithOwner(owner, () => render(() => <Message {...props} />, topRef));

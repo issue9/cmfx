@@ -8,16 +8,19 @@ import { createContext, type JSX, type ParentProps, splitProps, useContext } fro
 import { createStore } from 'solid-js/store';
 
 import { LocaleProvider } from '@components/context/locale';
-import type { ReqOptions } from './options';
+import type { ConfigurableOptions, NotifyPosition, ReqOptions } from './options';
 
-const localeKey = 'locale';
-const displayStyleKey = 'display-style';
-const schemeKey = 'scheme';
-const modeKey = 'mode';
-const tzKey = 'timezone';
-const staysKey = 'stays';
-const fontSizeKey = 'font-size';
-const transitionDurationKey = 'transition-duration';
+const keys: Record<keyof ConfigurableOptions, string> = {
+	fontSize: 'font-size',
+	scheme: 'scheme',
+	mode: 'mode',
+	transitionDuration: 'transition-duration',
+	locale: 'locale',
+	displayStyle: 'display-style',
+	timezone: 'timezone',
+	stays: 'stays',
+	notifyPosition: 'notify-position',
+} as const;
 
 /**
  * 提供了对全局配置的存取功能
@@ -83,19 +86,21 @@ export function buildAccessor(o: ReqOptions) {
 		stays: o.stays,
 		fontSize: o.fontSize,
 		transitionDuration: o.transitionDuration,
+		notifyPosition: o.notifyPosition,
 	});
 
 	const read = () => {
 		// 从配置内容中读取
 		set({
-			scheme: conf.get(schemeKey) ?? val.scheme,
-			mode: conf.get(modeKey) ?? val.mode,
-			locale: conf.get(localeKey) ?? val.locale,
-			displayStyle: conf.get(displayStyleKey) ?? val.displayStyle,
-			timezone: conf.get(tzKey) ?? val.timezone,
-			stays: conf.get(staysKey) ?? val.stays,
-			fontSize: conf.get(fontSizeKey) ?? val.fontSize,
-			transitionDuration: conf.get(transitionDurationKey) ?? val.transitionDuration,
+			scheme: conf.get(keys.scheme) ?? val.scheme,
+			mode: conf.get(keys.mode) ?? val.mode,
+			locale: conf.get(keys.locale) ?? val.locale,
+			displayStyle: conf.get(keys.displayStyle) ?? val.displayStyle,
+			timezone: conf.get(keys.timezone) ?? val.timezone,
+			stays: conf.get(keys.stays) ?? val.stays,
+			fontSize: conf.get(keys.fontSize) ?? val.fontSize,
+			transitionDuration: conf.get(keys.transitionDuration) ?? val.transitionDuration,
+			notifyPosition: conf.get(keys.notifyPosition) ?? val.notifyPosition,
 		});
 
 		if (val.fontSize !== document.documentElement.style.fontSize) {
@@ -150,7 +155,7 @@ export function buildAccessor(o: ReqOptions) {
 		 */
 		setFontSize(size: string): void {
 			set({ fontSize: size });
-			conf.set(fontSizeKey, size);
+			conf.set(keys.fontSize, size);
 			document.documentElement.style.fontSize = size;
 		},
 
@@ -163,7 +168,7 @@ export function buildAccessor(o: ReqOptions) {
 		 */
 		setTransitionDuration(duration: number): void {
 			set({ transitionDuration: duration });
-			conf.set(transitionDurationKey, duration);
+			conf.set(keys.transitionDuration, duration);
 			document.documentElement.style.setProperty('--default-transition-duration', `${duration}ms`);
 		},
 
@@ -178,7 +183,7 @@ export function buildAccessor(o: ReqOptions) {
 		 */
 		setLocale(id: string): void {
 			set({ locale: id });
-			conf.set(localeKey, id);
+			conf.set(keys.locale, id);
 			document.documentElement.lang = id;
 		},
 
@@ -191,7 +196,7 @@ export function buildAccessor(o: ReqOptions) {
 		 */
 		setDisplayStyle(style: DisplayStyle): void {
 			set({ displayStyle: style });
-			conf.set(displayStyleKey, style);
+			conf.set(keys.displayStyle, style);
 		},
 
 		getDisplayStyle(): DisplayStyle {
@@ -203,7 +208,7 @@ export function buildAccessor(o: ReqOptions) {
 		 */
 		setTimezone(tz: string): void {
 			set({ timezone: tz });
-			conf.set(tzKey, tz);
+			conf.set(keys.timezone, tz);
 		},
 
 		getTimezone(): string {
@@ -223,7 +228,7 @@ export function buildAccessor(o: ReqOptions) {
 			}
 
 			set({ scheme: s });
-			conf.set(schemeKey, s);
+			conf.set(keys.scheme, s);
 		},
 
 		getScheme(): Scheme {
@@ -235,7 +240,7 @@ export function buildAccessor(o: ReqOptions) {
 		 */
 		setMode(mode: Mode): void {
 			set({ mode: mode });
-			conf.set(modeKey, mode);
+			conf.set(keys.mode, mode);
 		},
 
 		getMode(): Mode {
@@ -247,11 +252,23 @@ export function buildAccessor(o: ReqOptions) {
 		 */
 		setStays(stay: number): void {
 			set({ stays: stay });
-			conf.set(staysKey, stay);
+			conf.set(keys.stays, stay);
 		},
 
 		getStays(): number {
 			return val.stays;
+		},
+
+		/**
+		 * 设置当前配置中通知的显示位置
+		 */
+		setNotifyPosition(position: NotifyPosition): void {
+			set({ notifyPosition: position });
+			conf.set(keys.notifyPosition, position);
+		},
+
+		getNotifyPosition(): NotifyPosition {
+			return val.notifyPosition;
 		},
 
 		/**

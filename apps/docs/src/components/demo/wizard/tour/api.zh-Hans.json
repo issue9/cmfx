@@ -11,7 +11,8 @@
 			{
 				"name": "accentPalette",
 				"summary": "突出元素的色盘\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined"
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"reactive": true
 			},
 			{
 				"name": "start",

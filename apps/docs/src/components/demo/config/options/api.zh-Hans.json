@@ -47,6 +47,12 @@
 				"def": "'system'\n\n"
 			},
 			{
+				"name": "palette",
+				"summary": "默认的主题调色板，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"def": "'surface'\n\n"
+			},
+			{
 				"name": "transitionDuration",
 				"summary": "动画效果的时长，单位为 ms。当在\n`config`\n中存在时，当前值将被忽略。\n\n",
 				"type": "number | undefined",

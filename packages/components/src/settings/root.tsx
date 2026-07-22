@@ -10,6 +10,7 @@ import IconTransitionDuration from '~icons/material-symbols/animated-images-roun
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
 import IconPalette from '~icons/material-symbols/palette';
+import IconPosition from '~icons/material-symbols/position-bottom-left';
 import IconReset from '~icons/material-symbols/reset-settings-outline-rounded';
 import IconMode from '~icons/material-symbols/settings-night-sight';
 import IconTranslate from '~icons/material-symbols/translate';
@@ -194,6 +195,25 @@ export function Settings(props: SettingsProps) {
 					max={10000}
 					step={500}
 					class={styles.stays}
+				/>
+			</Item>
+
+			{/***************************** notifyPosition *******************************/}
+			<Separator />
+			<Item
+				icon={<IconPosition />}
+				title={l.t('_c.settings.notifyPosition')}
+				desc={l.t('_c.settings.notifyPositionDesc')}
+			>
+				<RadioGroup
+					layout="horizontal"
+					class={styles.radios}
+					value={accessor.getNotifyPosition()}
+					onChange={v => accessor.setNotifyPosition(v ?? origin.notifyPosition)}
+					options={[
+						{ value: 'top', label: l.t('_c.settings.topPosition') },
+						{ value: 'bottom', label: l.t('_c.settings.bottomPosition') },
+					]}
 				/>
 			</Item>
 

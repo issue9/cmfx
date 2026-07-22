@@ -128,6 +128,10 @@ const messages: Messages = {
 			resetOptions: '重置设置项',
 			transitionDuration: '动画时长',
 			transitionDurationDesc: '设置所有动画效果的时长，如果操作系统禁用了动画，那么此处将无法设置！',
+			notifyPosition: '通知位置',
+			notifyPositionDesc: '设置通知出现的位置',
+			topPosition: '顶部',
+			bottomPosition: '底部',
 		},
 		table: {
 			nodata: '没有数据',

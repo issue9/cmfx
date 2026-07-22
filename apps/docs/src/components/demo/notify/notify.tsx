@@ -21,6 +21,7 @@ export default function (): JSX.Element {
 		<>
 			<div class="flex w-40 flex-col gap-2">
 				<Choice
+					closable
 					placeholder="type"
 					value={typ()}
 					onChange={setTyp}
@@ -33,6 +34,7 @@ export default function (): JSX.Element {
 					placeholder="position"
 					value={pos()}
 					onChange={setPos}
+					closable
 					options={Notify.positions.map(v => {
 						return { type: 'item', value: v, label: v };
 					})}
