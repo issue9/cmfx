@@ -13,6 +13,7 @@ import type {
 	InterfaceProperty,
 	Intersection,
 	Literal,
+	Tuple,
 	Type,
 	Union,
 } from '@cmfx/vite-plugin-api';
@@ -26,11 +27,12 @@ import styles from './style.module.css';
  */
 export function APIDoc(props: { api: Type }): JSX.Element {
 	return (
-		<section class={styles.api}>
-			<div class={styles.title}>
+		<details class={styles.api}>
+			<summary class={styles.title}>
 				<h4>{props.api.name}</h4>
 				<span class={styles.pkg}>{props.api.pkg}</span>
-			</div>
+			</summary>
+			<div class={styles.body}>
 			<Show when={props.api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
 			<Show when={props.api.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
 
@@ -51,13 +53,26 @@ export function APIDoc(props: { api: Type }): JSX.Element {
 				<Match when={props.api.kind === 'intersection' ? props.api : undefined}>
 					{intersection => <IntersectionBody intersection={intersection()} />}
 				</Match>
+				<Match when={props.api.kind === 'tuple' ? props.api : undefined}>
+					{tuple => <TupleBody tuple={tuple()} />}
+				</Match>
 			</Switch>
-		</section>
+			</div>
+		</details>
 	);
 }
 
 function LiteralBody(props: { literal: Literal }): JSX.Element {
 	return tsCode(props.literal.type);
+}
+
+function TupleBody(props: { tuple: Tuple }): JSX.Element {
+	return (
+		<>
+			<TypeParams typeParams={props.tuple.typeParams} />
+			{tsCode(props.tuple.type)}
+		</>
+	);
 }
 
 function UnionBody(props: { union: Union }): JSX.Element {

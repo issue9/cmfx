@@ -264,7 +264,7 @@ function Doc(props: DocProps): JSX.Element {
 				class={styles.nav}
 				ref={el => (navRef = el)}
 				target={articleRef.root()}
-				query="h2,h3,h4,h5,h6"
+				query="h2,h3,h4"
 			/>
 		</Page>
 	);

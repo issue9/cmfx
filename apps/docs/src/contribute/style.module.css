@@ -31,25 +31,12 @@
 			@apply text-xl font-bold mb-1 mt-4;
 		}
 
-		h4 {
-			@apply text-lg font-bold mb-1 mt-4;
-		}
-
-		h5 {
-			@apply text-lg font-bold mb-1 mt-4;
-		}
-
-		h6 {
-			@apply text-base font-bold mb-1 mt-4;
-		}
-
+		/* 表格中的可能存在 markdown 生成带 h1-h6 的 html */
 		table {
-			h1,
 			h2,
 			h3,
 			h4,
-			h5,
-			h6 {
+			h5 {
 				@apply text-base;
 			}
 		}

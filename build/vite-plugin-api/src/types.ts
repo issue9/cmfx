@@ -109,6 +109,15 @@ export interface Literal extends Named, Package {
 	type: string;
 }
 
+/**
+ * 元组
+ */
+export interface Tuple extends Named, Package {
+	kind: 'tuple';
+	type: string;
+	typeParams?: Array<TypeParameter>;
+}
+
 export interface Union extends Named, Package {
 	kind: 'union';
 
@@ -124,4 +133,4 @@ export interface Intersection extends Named, Package {
 	types: Array<Type>;
 }
 
-export type Type = Class | Interface | Func | Literal | Union | Intersection;
+export type Type = Class | Interface | Func | Literal | Union | Intersection | Tuple;

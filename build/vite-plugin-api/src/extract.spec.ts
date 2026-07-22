@@ -274,7 +274,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 			expect(ps).length(2);
 			expect(ps[0].name).toEqual('palette');
 			expect(ps[0].type).toEqual('"primary" | "secondary" | "tertiary" | "error" | "surface" | undefined');
-			expect(ps[0].summary?.trim()).toEqual('颜色主题；');
+			expect(ps[0].summary?.trim()).toEqual('色盘；');
 			expect(ps[1].name).toEqual('cls');
 			expect(ps[1].type).toEqual('(string | null | undefined)[]');
 			expect(ps[1].summary?.trim()).toEqual('CSS 类名列表；');
@@ -346,6 +346,19 @@ describe('Extractor', { timeout: 20000 }, () => {
 		if (f.kind === 'literal') {
 			expect(f.name).toEqual('QRCode.DotType');
 			expect(f.type).toEqual('qr-code-styling.DotType');
+		}
+	});
+
+	test('tuple', () => {
+		const items = extractor.extract('@cmfx/core', 'index.d.ts', 'ValidResult');
+		expect(items).length(1);
+
+		const intf = items![0];
+		expect(intf.kind).toEqual('tuple');
+		if (intf.kind === 'tuple') {
+			expect(intf.name).toEqual('ValidResult');
+			expect(intf.type).toEqual('[data: T | undefined, errors: Params<FlattenKeys<T>> | undefined]');
+			expect(intf.typeParams.length).toEqual(1);
 		}
 	});
 });

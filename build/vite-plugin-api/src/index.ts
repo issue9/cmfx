@@ -16,6 +16,7 @@ export type {
 	Literal,
 	Parameter,
 	Property,
+	Tuple,
 	Type,
 	TypeParameter,
 	Union,

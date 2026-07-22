@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer as C, ToggleButton } from './root';
+import { Drawer as C, type DrawerProps, type DrawerRef, type DrawerToggleButtonProps, ToggleButton } from './root';
 
 export const Drawer = Object.assign(C, { ToggleButton });
 
 export namespace Drawer {
-	export type Props = import('./root').DrawerProps;
-	export type Ref = import('./root').DrawerRef;
-	export type ToggleButtonProps = import('./root').DrawerToggleButtonProps;
+	export type Props = DrawerProps;
+	export type Ref = DrawerRef;
+	export type ToggleButtonProps = DrawerToggleButtonProps;
 }

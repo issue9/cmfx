@@ -16,7 +16,7 @@
 		}
 
 		.apis {
-			@apply mt-2 flex flex-col gap-2;
+			@apply mt-2 flex flex-col;
 
 			code {
 				/* 文档中的类型名称等 codespan 类型的简要代码 */
@@ -38,15 +38,7 @@
 			}
 
 			h3 {
-				@apply text-2xl mt-4 font-semibold;
-			}
-
-			h4 {
-				@apply text-xl my-2 font-medium;
-			}
-
-			h5 {
-				@apply my-1 font-medium;
+				@apply text-2xl my-4 font-semibold;
 			}
 
 			/* 表格中的可能存在 markdown 生成带 h1-h6 的 html */

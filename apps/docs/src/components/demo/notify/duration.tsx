@@ -15,7 +15,7 @@ export function typeSelector() {
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Type, typ] = typeSelector();
-	const [Closable, closable] = boolSelector('closable', true);
+	const [Closable, closable] = boolSelector('closable', false);
 
 	return (
 		<>

@@ -55,9 +55,7 @@ const componentsRoute = '/components/demo';
 const contributeRoute = '/contribute';
 const themeRoute = '/theme-builder';
 
-const [docsRef, setDocsRef] = createSignal<Drawer.Ref>();
-const [demoRef, setDemoRef] = createSignal<Drawer.Ref>();
-const [themeRef, setThemeRef] = createSignal<Drawer.Ref>();
+const [drawerRef, setDrawerRef] = createSignal<Drawer.Ref>();
 
 function InternalApp(props: RouteSectionProps): JSX.Element {
 	const l = useLocale();
@@ -102,9 +100,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 				title={options.title}
 				actions={
 					<>
-						<Drawer.ToggleButton kind="flat" drawer={docsRef()} />
-						<Drawer.ToggleButton kind="flat" drawer={demoRef()} />
-						<Drawer.ToggleButton kind="flat" drawer={themeRef()} />
+						<Drawer.ToggleButton kind="flat" drawer={drawerRef()} />
 
 						<Dropdown
 							trigger="hover"
@@ -224,9 +220,9 @@ function NotFound(): JSX.Element {
 const routes: Array<RouteDefinition> = [
 	{ path: '/', component: lazy(() => import('./home')) },
 
-	buildThemeRoute(themeRoute, setThemeRef),
-	buildComponentsRoute(componentsRoute, setDemoRef),
-	buildDocsRoute(docsRoute, setDocsRef),
+	buildThemeRoute(themeRoute, setDrawerRef),
+	buildComponentsRoute(componentsRoute, setDrawerRef),
+	buildDocsRoute(docsRoute, setDrawerRef),
 	buildContributeRoute(contributeRoute),
 	{ path: '*', component: NotFound },
 ];

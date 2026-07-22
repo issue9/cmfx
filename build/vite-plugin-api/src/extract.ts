@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import path from 'node:path';
 import { type DocComment, StandardTags } from '@microsoft/tsdoc';
 import type {
 	ClassDeclaration,
@@ -350,8 +351,22 @@ export class Extractor {
 			} satisfies Intersection;
 		} else {
 			// type x = Omit<x, 'a' | 'b'>
+			// type x = [a,b]
 			const intf = this.fromSymbols(typ.getProperties(), 'interface');
 			intf.name = name;
+
+			const tps = decl.getTypeParameters().map(param => this.fromTypeParamterDecleration(param, tsdoc));
+
+			// 没有属性，可能是元组
+			if (!intf.properties?.length && !intf.methods?.length) {
+				return {
+					kind: 'tuple',
+					name: name,
+					type: decl.getTypeNode()?.getText() ?? '',
+					typeParams: tps.length > 0 ? tps : undefined,
+				};
+			}
+
 			return intf;
 		}
 	}
@@ -366,6 +381,11 @@ export class Extractor {
 				const cm: Array<ClassMethod> = [];
 
 				for (const sym of symbols) {
+					if (isStandardLibrary(sym)) {
+						// 忽略标准库的属性
+						continue;
+					}
+
 					const decl = sym.getDeclarations()[0]!;
 
 					if (Node.isPropertyDeclaration(decl)) {
@@ -398,6 +418,11 @@ export class Extractor {
 				const im: Array<InterfaceMethod> = [];
 
 				for (const sym of symbols) {
+					if (isStandardLibrary(sym)) {
+						// 忽略标准库的属性
+						continue;
+					}
+
 					const decl = sym.getDeclarations()[0]!;
 
 					if (Node.isPropertySignature(decl)) {
@@ -445,7 +470,7 @@ export class Extractor {
 		const tsdoc = getTsdoc(this.#tsdocParser, decl);
 
 		const f = (p: PropertyDeclaration | MethodDeclaration | GetAccessorDeclaration | SetAccessorDeclaration) => {
-			return p.getScope() === Scope.Public && !p.getName().startsWith('#');
+			return !isStandardLibrary(p.getSymbol()) && p.getScope() === Scope.Public && !p.getName().startsWith('#');
 		};
 
 		const props: Array<ClassProperty> = decl
@@ -671,4 +696,21 @@ export function getThirdTypeName(p: string): string {
 	}
 
 	return p.slice(0, end) + name;
+}
+
+/**
+ * 判断该属性是否来自标准库
+ */
+function isStandardLibrary(s?: MSymbol): boolean {
+	const d = s?.getDeclarations()?.[0];
+	if (!d) {
+		return false;
+	}
+
+	const p = path.normalize(d.getSourceFile()?.getFilePath());
+	return (
+		p.includes(path.normalize('node_modules/typescript/lib')) ||
+		p.includes(path.normalize('@types')) || // @types/node 等
+		/[\\/]lib\.[^\\/]+\.d\.ts$/.test(p)
+	); // 匹配 lib.es5.d.ts 等
 }

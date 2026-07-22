@@ -55,8 +55,9 @@
 		"pkg": "@cmfx/illustrations"
 	},
 	{
-		"kind": "interface",
+		"kind": "tuple",
 		"name": "Gallery",
+		"type": "Record<(typeof names)[number], Component<Props>>",
 		"pkg": "@cmfx/illustrations"
 	},
 	{
