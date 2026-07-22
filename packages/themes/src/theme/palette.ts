@@ -19,8 +19,15 @@ export type Palette = (typeof palettes)[number];
  */
 export function palette(elem: HTMLElement, next: number = 0): Palette | undefined {
 	const style = window.getComputedStyle(elem);
-	const name = style.getPropertyValue('--palette-name').slice(1,-1) as Palette;
-	let index = palettes.indexOf(name) + next;
+	const name = style.getPropertyValue('--palette-name').slice(1, -1) as Palette;
+	return name ? nextPalette(name, next) : undefined;
+}
+
+/**
+ * 计算色盘 p 之后 next 的色盘
+ */
+export function nextPalette(p: Palette, next: number = 0): Palette {
+	let index = palettes.indexOf(p) + next;
 	index = index >= palettes.length ? index % palettes.length : index;
 	return palettes[index];
 }
