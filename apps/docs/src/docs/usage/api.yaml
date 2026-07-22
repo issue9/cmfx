@@ -7,3 +7,10 @@
       - entrypoint: "index.d.ts"
         types:
             - printElement
+
+- pkg: "@cmfx/themes"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - palette
+            - nextPalette

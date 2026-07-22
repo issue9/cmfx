@@ -7,7 +7,7 @@
 		"params": [
 			{
 				"name": "palette",
-				"summary": "颜色主题；\n\n",
+				"summary": "色盘；\n\n",
 				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined"
 			},
 			{

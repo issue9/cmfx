@@ -4,7 +4,7 @@
 
 import { Appbar, Choice, Page, Transition, useLocale, useOptions, useREST } from '@cmfx/components';
 import { I18n } from '@cmfx/core';
-import { joinClass, type Mode, modes, type ThemeProps } from '@cmfx/themes';
+import { joinClass, type Mode, modes, type StyleProps } from '@cmfx/themes';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import { createEffect, createResource, createSignal, ErrorBoundary, For, Match, Show, Switch } from 'solid-js';
@@ -15,7 +15,7 @@ import type { Passport } from '@admin/components';
 import type { PassportComponents } from './passports';
 import styles from './style.module.css';
 
-export interface Props extends ThemeProps {
+export interface Props extends StyleProps {
 	/**
 	 * 登录页面底部的链接
 	 *
@@ -76,7 +76,7 @@ function LoginBox(props: Props): JSX.Element {
 	});
 
 	return (
-		<Page backTop={false} title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
+		<Page backTop={false} title="_p.current.login" class={joinClass('surface', styles.login, props.class)}>
 			<Appbar
 				class={styles.toolbar}
 				title={opt.title}

@@ -27,10 +27,8 @@ import { errorHandler } from './errors';
 import { useOptions } from './options';
 import styles from './style.module.css';
 
-/**
- * 侧边栏和顶部工具栏的背景色
- */
-const bgPalette: Palette = 'tertiary';
+const sidePalette: Palette = 'secondary'; // 侧边栏和顶部工具栏的背景色
+const bgPalette: Palette = 'surface'; // 背景板的色盘
 
 /**
  * 在 Storage 中保存的配置项名称
@@ -153,7 +151,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 
 	const cls = createMemo(() => {
 		const f = layout.float()[0]();
-		return joinClass('surface', styles.app, styles.horizontal, f ? styles.float : undefined);
+		return joinClass(bgPalette, styles.app, styles.horizontal, f ? styles.float : undefined);
 	});
 
 	const [items, change] = buildItems(l, opt.menus);
@@ -164,15 +162,15 @@ function Horizontal(props: ParentProps): JSX.Element {
 			floating={opt.floatingMinWidth}
 			ref={setDrawerRef}
 			style={style()}
-			asideClass={joinClass(bgPalette, styles.aside)}
-			mainClass={joinClass(layout.float()[0]() ? 'surface' : bgPalette, styles.main)}
+			asideClass={joinClass(sidePalette, styles.aside)}
+			mainClass={joinClass(layout.float()[0]() ? bgPalette : sidePalette, styles.main)}
 			main={
 				<ErrorBoundary fallback={errorHandler}>
 					<div class="contents">
 						<Appbar
 							ref={el => (toolbar = el)}
 							class={styles.toolbar}
-							palette={bgPalette}
+							palette={sidePalette}
 							actions={
 								<>
 									<For each={opt.toolbar}>{Item => <Item />}</For>
@@ -182,7 +180,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 						>
 							<Drawer.ToggleButton drawer={drawerRef()} />
 						</Appbar>
-						<main class={joinClass('surface', styles.content)}>{props.children}</main>
+						<main class={joinClass(bgPalette, styles.content)}>{props.children}</main>
 					</div>
 				</ErrorBoundary>
 			}
@@ -226,7 +224,7 @@ function Vertical(props: ParentProps): JSX.Element {
 
 	const cls = createMemo(() => {
 		const f = layout.float()[0]();
-		return joinClass(f ? 'surface' : bgPalette, styles.app, styles.vertical, f ? styles.float : undefined);
+		return joinClass(f ? bgPalette : sidePalette, styles.app, styles.vertical, f ? styles.float : undefined);
 	});
 
 	const [items, change] = buildItems(l, opt.menus);
@@ -237,7 +235,7 @@ function Vertical(props: ParentProps): JSX.Element {
 				logo={<Appbar.Image src={opt.logo} alt={opt.title} />}
 				title={opt.title}
 				class={styles.toolbar}
-				palette={bgPalette}
+				palette={sidePalette}
 				href={opt.routes.private.home}
 				actions={
 					<>
@@ -253,8 +251,8 @@ function Vertical(props: ParentProps): JSX.Element {
 				<Drawer
 					floating={opt.floatingMinWidth}
 					ref={setDrawerRef}
-					asideClass={joinClass(bgPalette, styles.aside)}
-					mainClass={joinClass('surface', styles.content)}
+					asideClass={joinClass(sidePalette, styles.aside)}
+					mainClass={joinClass(bgPalette, styles.content)}
 					main={<ErrorBoundary fallback={errorHandler}>{props.children}</ErrorBoundary>}
 				>
 					<Menu ref={el => (menuRef = el)} layout="inline" items={items} onChange={change} />

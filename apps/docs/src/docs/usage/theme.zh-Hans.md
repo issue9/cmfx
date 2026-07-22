@@ -32,6 +32,12 @@
 在 tailwind 中可以使用 `bg-{palette/palette-*/primary/secondary/tertiary/error/surface}-{bg/fg/border}-{low/high}` 等对颜色进行访问。
 其中的 palette 和 palette-* 表示组件的当前色盘或是基于当前色盘的之后个 n 个色盘。
 
+还可以通过 `palette` 和 `nextPalette` 函数来获取当前元素的后面第 n 个色盘。
+
+@```@cmfx/themes%palette```@
+
+@```@cmfx/themes%nextPalette```@
+
 ## z-index
 
 定义了以下几个通用的 z-index 值：

@@ -55,6 +55,8 @@ export interface TourProps extends ThemeProps {
 
 	/**
 	 * 突出元素的色盘
+	 *
+	 * @reactive
 	 */
 	accentPalette?: Palette;
 

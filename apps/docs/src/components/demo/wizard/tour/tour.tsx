@@ -47,7 +47,7 @@ export default function (): JSX.Element {
 				ref={el => {
 					el.root().id = 'b4';
 				}}
-				class="ms-[200px]"
+				class="ms-50"
 			>
 				4444
 			</Button>
