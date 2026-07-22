@@ -535,12 +535,7 @@ export default function BroLogin(props: Props): JSX.Element {
 				/>
 				<path
 					d="M392.44,176.4a108.16,108.16,0,1,0-186.13,74.95c12.92,17.63,15.83,29.42,16.16,35.83a31.83,31.83,0,0,0-.57,5.87c0,24.26,27.93,43.93,62.38,43.93s62.39-19.67,62.39-43.93c.64-19.29,9.54-33.92,13.93-40A107.82,107.82,0,0,0,392.44,176.4Z"
-					fill="var(--palette-bg-low)"
-					opacity={0.3}
-				/>
-				<path
-					d="M392.44,176.4a108.16,108.16,0,1,0-186.13,74.95c12.92,17.63,15.83,29.42,16.16,35.83a31.83,31.83,0,0,0-.57,5.87c0,24.26,27.93,43.93,62.38,43.93s62.39-19.67,62.39-43.93c.64-19.29,9.54-33.92,13.93-40A107.82,107.82,0,0,0,392.44,176.4Z"
-					style="fill:none;stroke:#263238;stroke-linecap:round;stroke-linejoin:round"
+					style="fill:var(--palette-bg-low);stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;opacity:.3"
 				/>
 			</g>
 			<g id="freepik--gears-1--inject-47">
