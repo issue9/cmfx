@@ -42,6 +42,7 @@
 		"build": "vite build"
 	},
 	"devDependencies": {
+		"@microsoft/api-extractor": "catalog:",
 		"@types/node": "catalog:",
 		"vite": "catalog:",
 		"unplugin-dts": "catalog:",

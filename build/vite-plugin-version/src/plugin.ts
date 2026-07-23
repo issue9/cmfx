@@ -44,18 +44,18 @@ export interface Info {
  * 为项目生成版本信息
  */
 export function version(options: Options): Plugin<Options> {
-	options = Object.assign({ file: 'version.json', pkg: './package.json' }, options);
+	const opt = Object.assign({ file: 'version.json', pkg: './package.json' }, options) as Required<Options>;
 
 	return {
 		name: 'vite-plugin-cmfx-version',
 
 		writeBundle: async () => {
-			const pkg = path.join(__dirname, options.pkg);
+			const pkg = path.join(__dirname, opt.pkg);
 			const src = await fs.promises.readFile(pkg, 'utf-8');
 			const obj = JSON.parse(src);
 
 			const output = { version: obj.version, buildTime: new Date() } satisfies Info;
-			await fs.promises.writeFile(path.join(__dirname, options.output), JSON.stringify(output));
+			await fs.promises.writeFile(path.join(__dirname, opt.output), JSON.stringify(output));
 		},
 	};
 }

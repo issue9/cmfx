@@ -408,6 +408,9 @@ importers:
 
   build/vite-plugin-version:
     devDependencies:
+      '@microsoft/api-extractor':
+        specifier: 'catalog:'
+        version: 7.58.12(@types/node@26.1.1)
       '@types/node':
         specifier: 'catalog:'
         version: 26.1.1
