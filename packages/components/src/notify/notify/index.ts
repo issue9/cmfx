@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { NotifyOptions, NotifyPosition } from './notify';
 import { error, info, notify, notifyPositions, success, system, warning } from './notify';
 
 export const Notify = {
@@ -15,5 +16,6 @@ export const Notify = {
 };
 
 export namespace Notify {
-	export type Position = import('./notify').NotifyPosition;
+	export type Position = NotifyPosition;
+	export type Param = NotifyOptions;
 }

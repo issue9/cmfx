@@ -18,77 +18,85 @@ let systemInst: typeof system;
 
 export { type NotifyPosition, notifyPositions };
 
+export interface NotifyOptions {
+	/**
+	 * 具体内容，如果为空则只显示标题
+	 */
+	body?: string;
+
+	/**
+	 * 类型，仅对非系统通知的情况下有效
+	 */
+	type?: MessageType;
+
+	/**
+	 * 如果大于 0，超过此毫秒数时将自动关闭提示框
+	 */
+	duration?: number;
+
+	/**
+	 * 当处于后台时，是否使用系统通知。系统通知不会区分 type 类型且未必会成功
+	 */
+	system?: boolean;
+
+	/**
+	 * 弹出位置
+	 */
+	pos?: NotifyPosition;
+
+	/**
+	 * 点击确认按钮时触发的回调
+	 *
+	 * @remarks
+	 * 只有指定该值，才会显示确定按钮。该操作会关闭整个消息框，但是返回 true 可以取消关闭通知框。
+	 */
+	accept?: MessageProps['onAccept'];
+
+	/**
+	 * 点击取消按钮时触发的回调
+	 *
+	 * @remarks
+	 * 只有指定该值，才会显示取消按钮。该操作会关闭整个消息框，但是返回 true 可以取消关闭通知框。
+	 */
+	cancel?: MessageProps['onCancel'];
+}
+
 /**
  * {@link notify} 的快捷方式，用于显示成功信息。
  */
-export async function success(
-	title: string,
-	body?: string,
-	duration?: number,
-	system = false,
-	pos: NotifyPosition = 'top',
-): Promise<void> {
-	await notify(title, body, 'success', duration, system, pos);
+export async function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
+	await notify(title, o ? { ...o, type: 'success' } : { type: 'success' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示普通信息。
  */
-export async function info(
-	title: string,
-	body?: string,
-	duration?: number,
-	system = false,
-	pos: NotifyPosition = 'top',
-): Promise<void> {
-	await notify(title, body, 'info', duration, system, pos);
+export async function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
+	await notify(title, o ? { ...o, type: 'info' } : { type: 'info' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示警告信息。
  */
-export async function warning(
-	title: string,
-	body?: string,
-	duration?: number,
-	system = false,
-	pos: NotifyPosition = 'top',
-): Promise<void> {
-	await notify(title, body, 'warning', duration, system, pos);
+export async function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
+	await notify(title, o ? { ...o, type: 'warning' } : { type: 'warning' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示错误信息。
  */
-export async function error(
-	title: string,
-	body?: string,
-	duration?: number,
-	system = false,
-	pos: NotifyPosition = 'top',
-): Promise<void> {
-	await notify(title, body, 'error', duration, system, pos);
+export async function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
+	await notify(title, o ? { ...o, type: 'error' } : { type: 'error' });
 }
 
 /**
  * 发送一条通知给用户
  *
- * @param title - 标题；
- * @param body - 具体内容，如果为空则只显示标题；
- * @param type - 类型，仅对非系统通知的情况下有效；
- * @param duration - 如果大于 0，超过此毫秒数时将自动关闭提示框；
- * @param system - 当处于后台时，是否使用系统通知。系统通知不会区分 type 类型且未必会成功；
- * @param pos - 弹出位置；
+ * @param title - 通知标题；
+ * @param o - 其他选项；
  */
-export async function notify(
-	title: string,
-	body?: string,
-	type?: MessageType,
-	duration?: number,
-	system = false,
-	pos?: NotifyPosition,
-): Promise<void> {
-	return await notifyInst(title, body, type, duration, system, pos);
+export async function notify(title: string, o?: NotifyOptions): Promise<void> {
+	await notifyInst(title, o);
 }
 
 /**
@@ -126,33 +134,27 @@ function init(): JSX.Element {
 	let bottomRef: HTMLDivElement;
 	const owner = getOwner();
 
-	notifyInst = async (
-		title: string,
-		body?: string,
-		type?: MessageType,
-		duration?: number,
-		sys = false,
-		pos?: NotifyPosition,
-	): Promise<void> => {
-		if (sys && document.visibilityState === 'hidden') {
-			const n = await system(title, { body: body });
+	notifyInst = async (title: string, o?: NotifyOptions): Promise<void> => {
+		if (o?.system && document.visibilityState === 'hidden') {
+			const n = await system(title, { body: o?.body });
 
-			if (duration && n) {
-				await sleep(duration);
+			if (o?.duration && n) {
+				await sleep(o.duration);
 				n.close();
 			}
 			return;
 		}
 
 		const props: MessageProps = {
-			title,
-			body,
-			type,
-			duration: duration ?? opt.getStays(),
-			closable: true,
+			title: title,
+			body: o?.body,
+			type: o?.type,
+			duration: o?.duration ?? opt.getStays(),
+			onAccept: o?.accept,
+			onCancel: o?.cancel,
 		};
 
-		pos = pos ?? opt.getNotifyPosition();
+		const pos = o?.pos ?? opt.getNotifyPosition();
 		switch (pos) {
 			case 'top':
 				runWithOwner(owner, () => render(() => <Message {...props} />, topRef));

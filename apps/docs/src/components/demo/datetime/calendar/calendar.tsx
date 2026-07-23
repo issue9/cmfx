@@ -27,7 +27,7 @@ export default function (props: MountProps): JSX.Element {
 				<Num />
 			</Portal>
 
-			<div class="h-[600px] w-full">
+			<div class="h-150 w-full">
 				<Calendar
 					weekend={weekend()}
 					weekBase={num()}

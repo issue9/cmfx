@@ -3,10 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { createTimer, sleep } from '@cmfx/core';
-import { joinClass, type Palette, type ThemeProps } from '@cmfx/themes';
+import { joinClass, nextPalette, type Palette, type StyleProps } from '@cmfx/themes';
 import { createMemo, createUniqueId, type JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
 import IconError from '~icons/flowbite/close-circle-solid';
 import IconSuccess from '~icons/material-symbols/check-circle-rounded';
+import IconOK from '~icons/material-symbols/check-rounded';
 import IconClose from '~icons/material-symbols/close';
 import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
@@ -28,15 +29,17 @@ const type2Palette: ReadonlyMap<MessageType, Palette> = new Map<MessageType, Pal
 
 export interface MessageRef extends BaseRef<HTMLDivElement> {
 	/**
-	 * 从 DOM 中移除当前组件
-	 *
-	 * @remarks
-	 * 该行为可能受到 {@link MessageProps#onClose} 的影响。
+	 * 等同 close 按钮的操作，如果不存在则直接执行关闭操作
 	 */
-	close(): Promise<void>;
+	cancel(): Promise<void>;
+
+	/**
+	 * 等同 OK 按钮上的操作，如果不存在，则不执行任何操作。
+	 */
+	accept(): Promise<void>;
 }
 
-export interface MessageProps extends ThemeProps, RefProps<MessageRef> {
+export interface MessageProps extends StyleProps, RefProps<MessageRef> {
 	/**
 	 * 显示的图标
 	 *
@@ -69,6 +72,8 @@ export interface MessageProps extends ThemeProps, RefProps<MessageRef> {
 	 * 持续时间，单位毫秒。
 	 *
 	 * @reactive
+	 * @remarks
+	 * 当该值大于 0 时，如果 {#onCancel} 未指定，也会显示取消按钮。
 	 */
 	duration?: number;
 
@@ -77,30 +82,43 @@ export interface MessageProps extends ThemeProps, RefProps<MessageRef> {
 	 *
 	 * @reactive
 	 * @defaultValue 'info'
-	 *
-	 * @remarks
-	 * 该值最终是调整了 {@link palette} 属性，如果 type 与 palette 存在冲突，则以 type 为准。
 	 */
 	type?: MessageType;
 
 	/**
-	 * 是否带关闭按钮
+	 * 点击取消按钮时触发的回调
 	 *
-	 * @reactive
+	 * @remarks
+	 * 如果值为 true，表示显示取消按钮。
+	 * 该操作会关闭整个消息框，并当前组件从 DOM 中移除。
+	 *
+	 * @returns 返回 true 将阻止后续的移除操作。
 	 */
-	closable?: boolean;
+	readonly onCancel?: (() => Promise<boolean | undefined>) | true;
 
 	/**
-	 * 在将当前组件从 DOM 中移除之前执行的操作，返回 true 将阻止后续的移除操作。
+	 * 点击确认按钮时触发的回调
+	 *
+	 * @remarks
+	 * 只有指定该值，才会显示确定按钮。
+	 * 该操作会关闭整个消息框，并当前组件从 DOM 中移除。
+	 *
+	 * @returns 返回 true 将阻止后续的移除操作。
 	 */
-	onClose?: () => Promise<boolean | undefined>;
+	readonly onAccept?: () => Promise<boolean | undefined>;
 }
 
 /**
  * 信息框，notify 和 alert 的共用组件
  */
 export function Message(props: MessageProps): JSX.Element {
-	props = mergeProps({ type: 'info' as MessageType }, props);
+	props = mergeProps(
+		{
+			type: 'info',
+			onCancel: props.onCancel ?? (props.duration ? true : undefined),
+		} as MessageProps,
+		props,
+	);
 
 	const l = useLocale();
 	const [opt] = useOptions();
@@ -108,11 +126,7 @@ export function Message(props: MessageProps): JSX.Element {
 	let rootRef: HTMLDivElement;
 	let buttonRef: HTMLButtonElement;
 
-	const close = async () => {
-		if (props.onClose && (await props.onClose())) {
-			return;
-		}
-
+	const remove = async () => {
 		if (!opt.getTransitionDuration()) {
 			return;
 		}
@@ -122,17 +136,35 @@ export function Message(props: MessageProps): JSX.Element {
 		rootRef.remove();
 	};
 
+	const close = async () => {
+		if (typeof props.onCancel === 'function') {
+			if (await props.onCancel()) {
+				return;
+			}
+		}
+		await remove();
+	};
+
+	const accept = async () => {
+		if (props.onAccept) {
+			if (await props.onAccept()) {
+				return;
+			}
+		}
+		await remove();
+	};
+
 	onMount(() => {
 		const h = rootRef.getBoundingClientRect().height;
 		rootRef.style.height = `${h}px`; // 只有明确的高度，transition 动画才能触发。
 
-		if (props.duration) {
+		if (props.duration && buttonRef) {
 			const timeout = props.duration;
-			const timer = createTimer(timeout, -100, (t: number) => {
+			const timer = createTimer(timeout, -100, async (t: number) => {
 				const p = ((timeout - t) / timeout) * 100;
 				buttonRef.style.background = `conic-gradient(var(--palette-bg-low) 0% ${p}%, var(--palette-bg-high) ${p}% 100%)`;
 				if (t <= 0) {
-					close();
+					await remove();
 				}
 			});
 			timer.start();
@@ -148,9 +180,8 @@ export function Message(props: MessageProps): JSX.Element {
 		}
 	});
 
-	const cls = createMemo(() => {
-		return joinClass(props.type ? type2Palette.get(props.type) : props.palette, styles.message, props.class);
-	});
+	// 当前组件的色盘，由 mergeProps 保证 props.type 始终不为空
+	const palette = createMemo(() => type2Palette.get(props.type!)!);
 
 	const titleID = createUniqueId();
 	const contentID = createUniqueId();
@@ -164,14 +195,12 @@ export function Message(props: MessageProps): JSX.Element {
 		} // props.icon === false
 		leftRef.style.height = `${entries[0]!.borderBoxSize[0].blockSize.toString()}px`;
 	});
-	onMount(() => {
-		ob.observe(labelRef);
-	});
+	onMount(() => ob.observe(labelRef));
 	onCleanup(() => ob.disconnect());
 
 	return (
 		<div
-			class={cls()}
+			class={joinClass(palette(), styles.message, props.class)}
 			style={props.style}
 			role="alert"
 			aria-labelledby={titleID}
@@ -181,15 +210,14 @@ export function Message(props: MessageProps): JSX.Element {
 				if (props.ref) {
 					props.ref({
 						root: () => el,
-						async close() {
-							await close();
-						},
+						cancel: close,
+						accept,
 					});
 				}
 			}}
 		>
 			<Show when={props.icon !== false}>
-				<div class={styles.left} aria-hidden="true" ref={el => (leftRef = el)}>
+				<div class={styles.icon} aria-hidden="true" ref={el => (leftRef = el)}>
 					<Switch>
 						<Match when={props.icon}>{c => c()}</Match>
 						<Match when={props.type === 'error'}>
@@ -208,18 +236,30 @@ export function Message(props: MessageProps): JSX.Element {
 				</div>
 			</Show>
 
-			<div class={styles.right}>
+			<div class={styles.content}>
 				<div class={styles.label} ref={el => (labelRef = el)}>
 					<p id={titleID}>{props.title}</p>
-					<Show when={props.closable}>
-						<button
-							type="button"
-							class={styles['close-wrap']}
-							ref={el => (buttonRef = el)}
-							aria-label={l.t('_c.close')}
-						>
-							<IconClose onClick={close} class={styles.close} />
-						</button>
+
+					<Show when={props.onCancel || props.onAccept}>
+						<div class={styles.actions}>
+							<Show when={props.onCancel}>
+								<button
+									type="button"
+									class={styles.btn}
+									ref={el => (buttonRef = el)}
+									aria-label={l.t('_c.close')}
+									onClick={close}
+								>
+									<IconClose class={joinClass('error', styles.img)} />
+								</button>
+							</Show>
+
+							<Show when={props.onAccept}>
+								<button type="button" class={styles.btn} aria-label={l.t('_c.ok')} onClick={accept}>
+									<IconOK class={joinClass(nextPalette(palette(), 1), styles.img)} />
+								</button>
+							</Show>
+						</div>
 					</Show>
 				</div>
 

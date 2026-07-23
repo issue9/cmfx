@@ -72,6 +72,18 @@
 				"summary": "是否带关闭按钮\n\n",
 				"type": "boolean | undefined",
 				"reactive": true
+			},
+			{
+				"name": "accept",
+				"summary": "点击确认按钮时触发的回调\n\n",
+				"remarks": "只有指定该值，才会显示确定按钮。\n该操作会关闭整个消息框，但是\n#onClose\n可能会阻止关闭操作。\n\n",
+				"type": "(() => Promise<void>) | undefined"
+			},
+			{
+				"name": "cancel",
+				"summary": "点击取消按钮时触发的回调\n\n",
+				"remarks": "只有指定该值，才会显示取消按钮。\n该操作会关闭整个消息框，但是\n#onClose\n可能会阻止关闭操作。\n\n",
+				"type": "(() => Promise<void>) | undefined"
 			}
 		],
 		"name": "Alert.Props",
@@ -111,37 +123,17 @@
 		"kind": "function",
 		"name": "Notify.notify",
 		"summary": "发送一条通知给用户\n\n",
-		"type": "declare function notify(title: string, body?: string, type?: MessageType, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
+		"type": "declare function notify(title: string, o?: NotifyOptions): Promise<void>",
 		"params": [
 			{
 				"name": "title",
-				"summary": "标题；\n\n",
+				"summary": "通知标题；\n\n",
 				"type": "string"
 			},
 			{
-				"name": "body",
-				"summary": "具体内容，如果为空则只显示标题；\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "type",
-				"summary": "类型，仅对非系统通知的情况下有效；\n\n",
-				"type": "\"error\" | \"warning\" | \"success\" | \"info\" | undefined"
-			},
-			{
-				"name": "duration",
-				"summary": "如果大于 0，超过此毫秒数时将自动关闭提示框；\n\n",
-				"type": "number | undefined"
-			},
-			{
-				"name": "system",
-				"summary": "当处于后台时，是否使用系统通知。系统通知不会区分 type 类型且未必会成功；\n\n",
-				"type": "boolean | undefined"
-			},
-			{
-				"name": "pos",
-				"summary": "弹出位置；\n\n",
-				"type": "\"top\" | \"bottom\" | undefined"
+				"name": "o",
+				"summary": "其他选项；\n\n",
+				"type": "NotifyOptions | undefined"
 			}
 		],
 		"return": {
@@ -153,27 +145,15 @@
 		"kind": "function",
 		"name": "Notify.info",
 		"summary": "`notify`\n的快捷方式，用于显示普通信息。\n\n",
-		"type": "declare function info(title: string, body?: string, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
+		"type": "declare function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
 				"type": "string"
 			},
 			{
-				"name": "body",
-				"type": "string | undefined"
-			},
-			{
-				"name": "duration",
-				"type": "number | undefined"
-			},
-			{
-				"name": "system",
-				"type": "boolean | undefined"
-			},
-			{
-				"name": "pos",
-				"type": "\"top\" | \"bottom\" | undefined"
+				"name": "o",
+				"type": "Omit<NotifyOptions, \"type\"> | undefined"
 			}
 		],
 		"return": {
@@ -185,27 +165,15 @@
 		"kind": "function",
 		"name": "Notify.warning",
 		"summary": "`notify`\n的快捷方式，用于显示警告信息。\n\n",
-		"type": "declare function warning(title: string, body?: string, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
+		"type": "declare function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
 				"type": "string"
 			},
 			{
-				"name": "body",
-				"type": "string | undefined"
-			},
-			{
-				"name": "duration",
-				"type": "number | undefined"
-			},
-			{
-				"name": "system",
-				"type": "boolean | undefined"
-			},
-			{
-				"name": "pos",
-				"type": "\"top\" | \"bottom\" | undefined"
+				"name": "o",
+				"type": "Omit<NotifyOptions, \"type\"> | undefined"
 			}
 		],
 		"return": {
@@ -217,27 +185,15 @@
 		"kind": "function",
 		"name": "Notify.success",
 		"summary": "`notify`\n的快捷方式，用于显示成功信息。\n\n",
-		"type": "declare function success(title: string, body?: string, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
+		"type": "declare function success(title: string, o: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
 				"type": "string"
 			},
 			{
-				"name": "body",
-				"type": "string | undefined"
-			},
-			{
-				"name": "duration",
-				"type": "number | undefined"
-			},
-			{
-				"name": "system",
-				"type": "boolean | undefined"
-			},
-			{
-				"name": "pos",
-				"type": "\"top\" | \"bottom\" | undefined"
+				"name": "o",
+				"type": "Omit<NotifyOptions, \"type\">"
 			}
 		],
 		"return": {
@@ -249,27 +205,15 @@
 		"kind": "function",
 		"name": "Notify.error",
 		"summary": "`notify`\n的快捷方式，用于显示错误信息。\n\n",
-		"type": "declare function error(title: string, body?: string, duration?: number, system?: boolean, pos?: NotifyPosition): Promise<void>",
+		"type": "declare function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
 				"type": "string"
 			},
 			{
-				"name": "body",
-				"type": "string | undefined"
-			},
-			{
-				"name": "duration",
-				"type": "number | undefined"
-			},
-			{
-				"name": "system",
-				"type": "boolean | undefined"
-			},
-			{
-				"name": "pos",
-				"type": "\"top\" | \"bottom\" | undefined"
+				"name": "o",
+				"type": "Omit<NotifyOptions, \"type\"> | undefined"
 			}
 		],
 		"return": {

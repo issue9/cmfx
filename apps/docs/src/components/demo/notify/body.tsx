@@ -6,7 +6,7 @@ import { Alert, type MountProps } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { arraySelector, boolSelector, paletteSelector } from '@docs/components/base';
+import { arraySelector, paletteSelector } from '@docs/components/base';
 
 export function typeSelector() {
 	return arraySelector('types', Alert.types, 'error');
@@ -15,7 +15,6 @@ export function typeSelector() {
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Type, typ] = typeSelector();
-	const [Closable, closable] = boolSelector('closable');
 	const text = 'Alert Message Alert Message\nAlert Message Alert Message \n 使用 \\n 换行';
 
 	return (
@@ -23,14 +22,13 @@ export default function (props: MountProps): JSX.Element {
 			<Portal mount={props.mount}>
 				<Palette />
 				<Type />
-				<Closable />
 			</Portal>
-			<Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" body="Alert Message" />
+			<Alert palette={palette()} type={typ()} title="Alert Title" body="Alert Message" />
 
-			<Alert closable={closable()} palette={palette()} type={typ()} title="Alert Title" body={text} />
+			<Alert palette={palette()} type={typ()} title="Alert Title" body={text} />
 
 			<Alert
-				closable={closable()}
+				onCancel={true}
 				palette={palette()}
 				type={typ()}
 				icon={false}

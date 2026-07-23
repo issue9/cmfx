@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Choice, InputNumber, InputText, Notify } from '@cmfx/components';
+import { Alert, Button, Checkbox, Choice, InputNumber, InputText, Notify } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import { createSignal, type JSX } from 'solid-js';
 
@@ -11,10 +11,19 @@ export default function (): JSX.Element {
 	const [pos, setPos] = createSignal<Notify.Position>('top');
 	const [timeout, setTimeout] = createSignal(5000);
 	const [title, setTitle] = createSignal('title');
-	const [body, setBody] = createSignal('body');
+	const [accept, setAccept] = createSignal('accept');
+	const [body, setBody] = createSignal('');
+	const [bodyType, setBodyType] = createSignal<'empty' | 'line' | 'multiple'>('empty');
 
 	const click = async (): Promise<void> => {
-		await Notify.notify(title(), body(), typ(), timeout(), false, pos());
+		await Notify.notify(title(), {
+			body: body(),
+			type: typ(),
+			duration: timeout(),
+			system: false,
+			pos: pos(),
+			accept: accept() ? (): Promise<boolean | undefined> => Promise.resolve(false) : undefined,
+		});
 	};
 
 	return (
@@ -39,20 +48,35 @@ export default function (): JSX.Element {
 						return { type: 'item', value: v, label: v };
 					})}
 				/>
+				<Choice
+					placeholder="body"
+					value={bodyType()}
+					onChange={v => {
+						setBodyType(v!);
+						switch (v) {
+							case 'empty':
+								setBody('');
+								break;
+							case 'line':
+								setBody('line');
+								break;
+							case 'multiple':
+								setBody('body\nwith\nnewline');
+								break;
+						}
+					}}
+					options={[
+						{ type: 'item', value: 'empty', label: 'empty' },
+						{ type: 'item', value: 'line', label: 'line' },
+						{ type: 'item', value: 'multiple', label: 'multiple' },
+					]}
+				/>
 				<InputNumber step={500} placeholder="timeout" value={timeout()} onChange={setTimeout} />
 				<InputText placeholder="title" value={title()} onChange={setTitle} />
 				<InputText placeholder="body" value={body()} onChange={setBody} />
+				<Checkbox label="accept" onChange={setAccept} />
 				<Button palette="primary" onclick={click}>
 					notify
-				</Button>
-				<Button
-					palette="primary"
-					onclick={() => {
-						setBody('body\nwith\nnewline');
-						click();
-					}}
-				>
-					带换行 notify
 				</Button>
 			</div>
 
@@ -62,7 +86,7 @@ export default function (): JSX.Element {
 					palette="primary"
 					onclick={async () => {
 						await sleep(5000);
-						await Notify.error('error', '由浏览器转换而来,5 秒后自动关闭', 5000, true);
+						await Notify.error('error', { body: '由浏览器转换而来,5 秒后自动关闭', duration: 5000 });
 					}}
 				>
 					Notify.error(...system)

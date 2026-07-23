@@ -141,13 +141,12 @@ export function Message(props: FormMessageProps): JSX.Element {
 		<Show when={f.api.getError()}>
 			{err => (
 				<Alert
-					closable={props.closable}
 					duration={props.duration}
 					type="error"
 					title={err()}
 					class={props.class}
 					style={props.style}
-					onClose={async () => {
+					onCancel={async () => {
 						f.api.setError();
 						return undefined;
 					}}

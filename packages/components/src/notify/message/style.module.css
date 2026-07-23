@@ -12,25 +12,29 @@
 		@apply flex p-3 gap-2 items-start;
 		@apply transition-[height];
 
-		.left {
+		.icon {
 			@apply text-2xl flex justify-center items-center;
 		}
 
-		.right {
-			@apply flex flex-col items-start gap-1 flex-1;
+		.content {
+			@apply flex flex-col items-start gap-1 flex-1 flex-1;
 
 			.label {
-				@apply flex justify-between items-center w-full;
+				@apply flex justify-between items-center w-full gap-1;
 
-				/* 比 close 大一圈，用以显示进度 */
-				.close-wrap {
-					@apply flex items-center justify-center p-0.5 rounded-xs bg-palette-bg;
+				.actions {
+					@apply flex gap-1;
 
-					.close {
-						@apply bg-palette-bg text-palette-fg p-0.5 rounded-xs;
-						@apply hover:cursor-pointer hover:text-palette-fg-focused hover:bg-palette-bg-focused;
-						@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-						@apply transition;
+					/* 比 close 大一圈，用以显示进度 */
+					.btn {
+						@apply flex items-center justify-center p-0.5 rounded-xs bg-palette-bg;
+
+						.img {
+							@apply text-xl bg-palette-bg text-palette-fg p-0.5 rounded-xs;
+							@apply hover:cursor-pointer hover:text-palette-fg-focused hover:bg-palette-bg-focused;
+							@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+							@apply transition;
+						}
 					}
 				}
 			}

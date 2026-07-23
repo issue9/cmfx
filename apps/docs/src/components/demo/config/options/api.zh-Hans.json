@@ -22,65 +22,11 @@
 				"def": "`~icons/cmfx/loading`\n\n"
 			},
 			{
-				"name": "fontSize",
-				"summary": "字体大小，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "scheme",
-				"summary": "默认的主题样式，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"remarks": "如果是字符串，会尝试从\n`schemes`\n中获取对应的\n`Scheme`\n对象。\n\n",
-				"type": "string | Scheme | undefined",
-				"def": "schemes 的第一个元素或是从 html 读取对应的变量作为默认值\n\n"
-			},
-			{
 				"name": "schemes",
 				"summary": "支持的主题列表\n\n",
 				"remarks": "`schemes`\n下定义部分主题可以直接在此处使用。\n\n",
 				"type": "Map<string, Scheme> | undefined",
 				"def": "`new Map()`\n\n"
-			},
-			{
-				"name": "mode",
-				"summary": "默认的主题模式，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"type": "\"system\" | \"dark\" | \"light\" | undefined",
-				"def": "'system'\n\n"
-			},
-			{
-				"name": "palette",
-				"summary": "默认的主题调色板，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-				"def": "'surface'\n\n"
-			},
-			{
-				"name": "transitionDuration",
-				"summary": "动画效果的时长，单位为 ms。当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"type": "number | undefined",
-				"def": "300\n\n"
-			},
-			{
-				"name": "locale",
-				"summary": "初始的本地化语言 ID，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"type": "string | undefined",
-				"def": "`document.documentElement.lang || I18n.system`\n\n"
-			},
-			{
-				"name": "displayStyle",
-				"summary": "本地化的量词风格，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"type": "\"full\" | \"short\" | \"narrow\" | undefined",
-				"def": "'short'\n\n"
-			},
-			{
-				"name": "timezone",
-				"summary": "指定时区，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"type": "string | undefined",
-				"def": "`Intl.DateTimeFormat().resolvedOptions().timeZone`\n\n"
-			},
-			{
-				"name": "stays",
-				"summary": "提示框，通知栏等元素在界面上的默认停留时间。单位为 ms。当在\n`config`\n中存在时，当前值将被忽略。\n\n",
-				"type": "number | undefined",
-				"def": "5000\n\n"
 			},
 			{
 				"name": "messages",
@@ -116,6 +62,60 @@
 				"summary": "对\n`Problem`\n的处理函数\n\n",
 				"type": "ProblemHandler<never> | undefined",
 				"def": "`handleProblem`\n\n"
+			},
+			{
+				"name": "fontSize",
+				"summary": "字体大小，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "string | undefined"
+			},
+			{
+				"name": "scheme",
+				"summary": "默认的主题样式，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"remarks": "如果是字符串，会尝试从\n`schemes`\n中获取对应的\n`Scheme`\n对象。\n\n",
+				"type": "string | Scheme | undefined",
+				"def": "schemes 的第一个元素或是从 html 读取对应的变量作为默认值\n\n"
+			},
+			{
+				"name": "mode",
+				"summary": "默认的主题模式，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "\"system\" | \"dark\" | \"light\" | undefined",
+				"def": "'system'\n\n"
+			},
+			{
+				"name": "transitionDuration",
+				"summary": "动画效果的时长，单位为 ms。当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "number | undefined",
+				"def": "300\n\n"
+			},
+			{
+				"name": "locale",
+				"summary": "初始的本地化语言 ID，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "string | undefined",
+				"def": "`document.documentElement.lang || I18n.system`\n\n"
+			},
+			{
+				"name": "displayStyle",
+				"summary": "本地化的量词风格，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "\"full\" | \"short\" | \"narrow\" | undefined",
+				"def": "'short'\n\n"
+			},
+			{
+				"name": "timezone",
+				"summary": "指定时区，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "string | undefined",
+				"def": "`Intl.DateTimeFormat().resolvedOptions().timeZone`\n\n"
+			},
+			{
+				"name": "stays",
+				"summary": "提示框，通知栏等元素在界面上的默认停留时间。单位为 ms。当在\n`config`\n中存在时，当前值将被忽略。\n\n",
+				"type": "number | undefined",
+				"def": "5000\n\n"
+			},
+			{
+				"name": "notifyPosition",
+				"summary": "通知的显示位置\n\n",
+				"type": "\"top\" | \"bottom\" | undefined",
+				"def": "'top'\n\n"
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -127,7 +127,7 @@
 		"type": "function useOptions(): [accessor: OptionsAccessor, origin: ReqOptions]",
 		"return": {
 			"summary": "返回一个元组，包含以下属性：\n- 0: 提供对组件库选项的存取功能；\n- 1: 组件库选项的原始值；\n\n",
-			"type": "[accessor: { switchConfig(id: string): void; reset(): void; setTitle(v: string): void; setFontSize(size: string): void; getFontSize(): string; setTransitionDuration(duration: number): void; getTransitionDuration(): number; setLocale(id: string): void; getLocale(): string; setDisplayStyle(style: DisplayStyle): void; getDisplayStyle(): DisplayStyle; setTimezone(tz: string): void; getTimezone(): string; setScheme(scheme: string | Scheme): void; getScheme(): Scheme; setMode(mode: Mode): void; getMode(): Mode; setStays(stay: number): void; getStays(): number; clearStorage(): void; }, origin: Required<Omit<Options, \"scheme\"> & { scheme: Scheme; }>]"
+			"type": "[accessor: { switchConfig(id: string): void; reset(): void; setTitle(v: string): void; setFontSize(size: string): void; getFontSize(): string; setTransitionDuration(duration: number): void; getTransitionDuration(): number; setLocale(id: string): void; getLocale(): string; setDisplayStyle(style: DisplayStyle): void; getDisplayStyle(): DisplayStyle; setTimezone(tz: string): void; getTimezone(): string; setScheme(scheme: string | Scheme): void; getScheme(): Scheme; setMode(mode: Mode): void; getMode(): Mode; setStays(stay: number): void; getStays(): number; setNotifyPosition(position: NotifyPosition): void; getNotifyPosition(): NotifyPosition; clearStorage(): void; }, origin: Required<Omit<Options, \"scheme\"> & { scheme: Scheme; }>]"
 		},
 		"pkg": "@cmfx/components"
 	},

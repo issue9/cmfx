@@ -33,30 +33,30 @@ export function APIDoc(props: { api: Type }): JSX.Element {
 				<span class={styles.pkg}>{props.api.pkg}</span>
 			</summary>
 			<div class={styles.body}>
-			<Show when={props.api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
-			<Show when={props.api.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
+				<Show when={props.api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
+				<Show when={props.api.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
 
-			<Switch>
-				<Match when={props.api.kind === 'literal' ? props.api : undefined}>
-					{literal => <LiteralBody literal={literal()} />}
-				</Match>
-				<Match when={props.api.kind === 'class' ? props.api : undefined}>{cls => <ClassBody cls={cls()} />}</Match>
-				<Match when={props.api.kind === 'interface' ? props.api : undefined}>
-					{intf => <InterfaceBody intf={intf()} />}
-				</Match>
-				<Match when={props.api.kind === 'function' ? props.api : undefined}>
-					{func => <FunctionBody func={func()} />}
-				</Match>
-				<Match when={props.api.kind === 'union' ? props.api : undefined}>
-					{union => <UnionBody union={union()} />}
-				</Match>
-				<Match when={props.api.kind === 'intersection' ? props.api : undefined}>
-					{intersection => <IntersectionBody intersection={intersection()} />}
-				</Match>
-				<Match when={props.api.kind === 'tuple' ? props.api : undefined}>
-					{tuple => <TupleBody tuple={tuple()} />}
-				</Match>
-			</Switch>
+				<Switch>
+					<Match when={props.api.kind === 'literal' ? props.api : undefined}>
+						{literal => <LiteralBody literal={literal()} />}
+					</Match>
+					<Match when={props.api.kind === 'class' ? props.api : undefined}>{cls => <ClassBody cls={cls()} />}</Match>
+					<Match when={props.api.kind === 'interface' ? props.api : undefined}>
+						{intf => <InterfaceBody intf={intf()} />}
+					</Match>
+					<Match when={props.api.kind === 'function' ? props.api : undefined}>
+						{func => <FunctionBody func={func()} />}
+					</Match>
+					<Match when={props.api.kind === 'union' ? props.api : undefined}>
+						{union => <UnionBody union={union()} />}
+					</Match>
+					<Match when={props.api.kind === 'intersection' ? props.api : undefined}>
+						{intersection => <IntersectionBody intersection={intersection()} />}
+					</Match>
+					<Match when={props.api.kind === 'tuple' ? props.api : undefined}>
+						{tuple => <TupleBody tuple={tuple()} />}
+					</Match>
+				</Switch>
 			</div>
 		</details>
 	);

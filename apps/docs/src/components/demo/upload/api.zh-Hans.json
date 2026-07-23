@@ -241,14 +241,14 @@
 				"reactive": true
 			},
 			{
-				"name": "fieldName",
-				"summary": "上传文件在表单中的名称\n\n",
-				"type": "string"
-			},
-			{
 				"name": "accept",
 				"summary": "支持的文件列表，同 https://developer.mozilla.org/zh-CN/docs/Web/HTML/Attributes/accept，但改为数组类型。\n\n",
 				"type": "string[] | undefined"
+			},
+			{
+				"name": "fieldName",
+				"summary": "上传文件在表单中的名称\n\n",
+				"type": "string"
 			},
 			{
 				"name": "upload",
