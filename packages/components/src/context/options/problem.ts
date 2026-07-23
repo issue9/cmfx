@@ -5,7 +5,7 @@
 import { APIError, type Problem } from '@cmfx/core';
 
 // 防止在 index.ts 中因为 Object.assgin 引起的循环引用
-import { notify } from '@components/notify/notify/notify';
+import { error } from '@components/notify/notify/notify';
 
 /**
  * 定义了对 {@link Problem} 的处理函数类型
@@ -23,7 +23,7 @@ export async function throwProblem<P = never>(p?: Problem<P>): Promise<void> {
  */
 export async function notifyProblem<P = never>(p?: Problem<P>): Promise<void> {
 	if (p) {
-		await notify(p.title, p.detail, 'error');
+		await error(p.title, { body: p.detail });
 	}
 }
 

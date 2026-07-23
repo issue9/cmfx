@@ -12,7 +12,6 @@
 			{
 				"name": "type",
 				"summary": "警告的类型\n\n",
-				"remarks": "该值最终是调整了\n`palette`\n属性，如果 type 与 palette 存在冲突，则以 type 为准。\n\n",
 				"type": "\"error\" | \"warning\" | \"success\" | \"info\" | undefined",
 				"def": "'info'\n\n",
 				"reactive": true
@@ -37,16 +36,11 @@
 				"readonly": true
 			},
 			{
-				"name": "onClose",
-				"summary": "在将当前组件从 DOM 中移除之前执行的操作，返回 true 将阻止后续的移除操作。\n\n",
-				"type": "(() => Promise<boolean | undefined>) | undefined"
-			},
-			{
-				"name": "palette",
-				"summary": "指定当前组件采用的色盘\n\n",
-				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-				"reactive": true
+				"name": "onCancel",
+				"summary": "点击取消按钮时触发的回调\n\n",
+				"remarks": "如果值为 true，表示显示取消按钮。\n该操作会关闭整个消息框，并当前组件从 DOM 中移除。\n\n",
+				"type": "true | (() => Promise<boolean | undefined>) | undefined",
+				"readonly": true
 			},
 			{
 				"name": "body",
@@ -64,26 +58,16 @@
 			{
 				"name": "duration",
 				"summary": "持续时间，单位毫秒。\n\n",
+				"remarks": "当该值大于 0 时，如果\n#onCancel\n未指定，也会显示取消按钮。\n\n",
 				"type": "number | undefined",
 				"reactive": true
 			},
 			{
-				"name": "closable",
-				"summary": "是否带关闭按钮\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "accept",
+				"name": "onAccept",
 				"summary": "点击确认按钮时触发的回调\n\n",
-				"remarks": "只有指定该值，才会显示确定按钮。\n该操作会关闭整个消息框，但是\n#onClose\n可能会阻止关闭操作。\n\n",
-				"type": "(() => Promise<void>) | undefined"
-			},
-			{
-				"name": "cancel",
-				"summary": "点击取消按钮时触发的回调\n\n",
-				"remarks": "只有指定该值，才会显示取消按钮。\n该操作会关闭整个消息框，但是\n#onClose\n可能会阻止关闭操作。\n\n",
-				"type": "(() => Promise<void>) | undefined"
+				"remarks": "只有指定该值，才会显示确定按钮。\n该操作会关闭整个消息框，并当前组件从 DOM 中移除。\n\n",
+				"type": "(() => Promise<boolean | undefined>) | undefined",
+				"readonly": true
 			}
 		],
 		"name": "Alert.Props",
@@ -93,10 +77,17 @@
 		"kind": "interface",
 		"methods": [
 			{
-				"name": "close",
-				"summary": "从 DOM 中移除当前组件\n\n",
-				"remarks": "该行为可能受到\n`onClose`\n的影响。\n\n",
-				"type": "close(): Promise<void>",
+				"name": "cancel",
+				"summary": "等同 close 按钮的操作，如果不存在则直接执行关闭操作\n\n",
+				"type": "cancel(): Promise<void>",
+				"return": {
+					"type": "Promise<void>"
+				}
+			},
+			{
+				"name": "accept",
+				"summary": "等同 OK 按钮上的操作，如果不存在，则不执行任何操作。\n\n",
+				"type": "accept(): Promise<void>",
 				"return": {
 					"type": "Promise<void>"
 				}
@@ -185,7 +176,7 @@
 		"kind": "function",
 		"name": "Notify.success",
 		"summary": "`notify`\n的快捷方式，用于显示成功信息。\n\n",
-		"type": "declare function success(title: string, o: Omit<NotifyOptions, 'type'>): Promise<void>",
+		"type": "declare function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -193,7 +184,7 @@
 			},
 			{
 				"name": "o",
-				"type": "Omit<NotifyOptions, \"type\">"
+				"type": "Omit<NotifyOptions, \"type\"> | undefined"
 			}
 		],
 		"return": {

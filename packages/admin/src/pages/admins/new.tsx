@@ -39,7 +39,7 @@ export function New(props: Props): JSX.Element {
 		},
 		onProblem: handleProblem,
 		onSuccess: async () => {
-			await Notify.notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
+			await Notify.success(l.t('_p.admin.addSuccessful'));
 			useNavigate()(-1);
 		},
 	});
