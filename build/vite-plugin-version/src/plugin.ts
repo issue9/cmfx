@@ -21,6 +21,9 @@ export interface Options {
 	 * 输出的文件名
 	 *
 	 * @defaultValue 'version.json'
+	 *
+	 * @remarks
+	 * 始终是相对于 vite.config.ts 中 build.outDir 的。
 	 */
 	output?: string;
 }
@@ -43,19 +46,25 @@ export interface Info {
 /**
  * 为项目生成版本信息
  */
-export function version(options: Options): Plugin<Options> {
-	const opt = Object.assign({ file: 'version.json', pkg: './package.json' }, options) as Required<Options>;
+export function version(options?: Options): Plugin<Options> {
+	const opt = Object.assign({ output: 'version.json', pkg: 'package.json' }, options) as Required<Options>;
+	let outDir: string;
 
 	return {
 		name: 'vite-plugin-cmfx-version',
 
-		writeBundle: async () => {
-			const pkg = path.join(__dirname, opt.pkg);
-			const src = await fs.promises.readFile(pkg, 'utf-8');
+		configResolved(config) {
+			outDir = config.build.outDir;
+		},
+
+		async writeBundle() {
+			const src = await fs.promises.readFile(opt.pkg, 'utf-8');
 			const obj = JSON.parse(src);
 
-			const output = { version: obj.version, buildTime: new Date() } satisfies Info;
-			await fs.promises.writeFile(path.join(__dirname, opt.output), JSON.stringify(output));
+			const info = { version: obj.version, buildTime: new Date() } satisfies Info;
+			const p = path.join(outDir, opt.output);
+			console.info(`输出版本文件至 ${p}`);
+			await fs.promises.writeFile(p, JSON.stringify(info));
 		},
 	};
 }

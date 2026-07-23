@@ -4,6 +4,7 @@
 
 import path from 'node:path';
 import { api } from '@cmfx/vite-plugin-api';
+import { version } from '@cmfx/vite-plugin-version';
 import tailwindcss from '@tailwindcss/vite';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 import Icons from 'unplugin-icons/vite';
@@ -106,6 +107,7 @@ export default defineConfig(({ mode }) => {
 				{ src: '../../LICENSE', dest: outDir },
 			]),
 			solidPlugin(),
+			version(),
 		],
 	};
 });

@@ -4,6 +4,7 @@
 
 import path from 'node:path';
 import { about } from '@cmfx/vite-plugin-about';
+import { version } from '@cmfx/vite-plugin-version';
 import tailwindcss from '@tailwindcss/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
@@ -87,6 +88,7 @@ export default defineConfig(({ mode }) => {
 				packages: ['./package.json'],
 				gomods: ['../../go.mod'],
 			}),
+			version(),
 			vitePluginCopyFile([
 				{ src: '../../LICENSE', dest: '' },
 				{
