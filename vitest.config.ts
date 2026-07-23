@@ -16,6 +16,7 @@ export default defineConfig({
 
 			'build/vite-plugin-about',
 			'build/vite-plugin-api',
+			'build/vite-plugin-version',
 		],
 		coverage: {
 			enabled: true,

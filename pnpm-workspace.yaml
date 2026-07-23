@@ -2,6 +2,7 @@ packages:
   - packages/**
   - build/vite-plugin-about
   - build/vite-plugin-api
+  - build/vite-plugin-version
   - apps/docs
   - apps/dashboard
 

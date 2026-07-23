@@ -1,0 +1,14 @@
+{
+	"extends": "../tsconfig.node.json",
+	"compilerOptions": {
+		"declaration": true,
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+		"isolatedModules": true,
+		"rootDir": "./src",
+		"types": ["node"],
+		"outDir": "./lib"
+	},
+	"include": ["./src/**/*.ts", "../vite.config.common.ts"],
+	"exclude": ["lib", "node_modules"]
+}

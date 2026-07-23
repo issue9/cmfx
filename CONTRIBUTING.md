@@ -56,6 +56,7 @@ scope 表示修改的范围，可以为空，不作强制要求，但应该尽�
 - cmfx: 对 `/cmfx` 下的内容进行了修改；
 - plugin-about: 对 `/build/vite-plugin-about` 下的内容进行了修改；
 - plugin-api: 对 `/build/vite-plugin-api` 下的内容进行了修改；
+- plugin-version: 对 `/build/vite-plugin-version` 下的内容进行了修改；
 - assets: 对 `/assets` 下的内容进行了修改；
 
 subject 对此次变更的简要描述，一般事先控制在 **80 个字符**以内。
