@@ -34,7 +34,7 @@ export default defineConfig({
 			output: {
 				postBanner: buildPostBanner(pkg),
 			},
-			external: ['vite', 'node:fs', 'node:path', 'node:os'],
+			external: ['vite', 'node:fs', 'node:path'],
 		},
 	},
 });

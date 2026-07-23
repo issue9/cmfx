@@ -5,6 +5,7 @@
 import { readFileSync } from 'node:fs';
 import type { About, Package } from '@cmfx/admin/plugin';
 import { aboutName } from '@cmfx/admin/plugin';
+import type { Plugin } from 'vite';
 
 import pkg from '../package.json';
 import { initPnpmVersionSearch, parseGomods } from './files';
@@ -34,7 +35,7 @@ interface PackageJSON {
 /**
  * 用于生成关于页面的数据
  */
-export function about(options: Options) {
+export function about(options: Options): Plugin {
 	const about: About = {
 		version: '',
 		dependencies: [],

@@ -42,7 +42,7 @@ build: build-go build-ts
 
 build-app: build-go build-ts-admin build-ts-docs
 
-build-ts-plugin: build-ts-plugin-about build-ts-plugin-api
+build-ts-plugin: build-ts-plugin-about build-ts-plugin-api build-ts-plugin-version
 
 build-go: gen
 	go build -o=$(APPS_SERVER)/$(SERVER_BIN) -v $(APPS_SERVER)
@@ -55,6 +55,9 @@ build-ts-plugin-about: build-ts-admin
 
 build-ts-plugin-api:
 	pnpm --filter=./build/vite-plugin-api run build
+
+build-ts-plugin-version:
+	pnpm --filter=./build/vite-plugin-version run build
 
 build-ts-core:
 	pnpm --filter=./packages/core run build
@@ -141,6 +144,9 @@ test-ts-plugin-about: mk-coverage
 test-ts-plugin-api: mk-coverage
 	pnpm run test --project=@cmfx/vite-plugin-api
 
+test-ts-plugin-version: mk-coverage
+	pnpm run test --project=@cmfx/vite-plugin-version
+
 test-ts-core: mk-coverage
 	pnpm run test --project=@cmfx/core
 
@@ -190,7 +196,7 @@ changelog:
 publish-npm: build-ts
 	pnpm publish --filter=./packages/core --filter=./packages/components \
 	--filter=./packages/admin --filter=./packages/illustrations --filter=./packages/themes \
-	--filter=./build/vite-plugin-about --filter=./build/vite-plugin-api \
+	--filter=./build/vite-plugin-about --filter=./build/vite-plugin-api --filter=./build/vite-plugin-version \
 	--access=public --no-git-checks
 
 ########################### version ###################################
