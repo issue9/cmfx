@@ -52,7 +52,7 @@ export function buildPostBanner(pkg: { name: string; version: string; homepage: 
  *
  * @param targets - 要复制的文件列表；
  * @param targets.src - 源文件路径，如果是相对路径，则是相对于项目的 root；
- * @param targets.dest - 目标目录的路径，如果是相对路径，则是相对于项目的 root；
+ * @param targets.dest - 目标`目录`的路径，如果是相对路径，则是相对于项目的 root；
  * @param targets.transform - 可选的内容转换函数；
  * @param targets.before - 是否在打包前执行，默认是在打包之后才执行复制；
  */
@@ -62,17 +62,24 @@ export function vitePluginCopyFile(
 	let config: { root: string }; // vite 的配置对象
 
 	const copy = async (src: string, dest: string, transform?: (content: string) => string) => {
+		// dest 的绝对路径，如果不存在则创建
+		dest = path.isAbsolute(dest) ? dest : path.resolve(config.root, dest);
+		try {
+			await fs.promises.mkdir(dest, { recursive: true });
+		} catch (e) {
+			console.error(`创建目录 ${dest} 失败：`, e);
+		}
+
 		const from = path.isAbsolute(src) ? src : path.resolve(config.root, src);
 		const { base } = path.parse(from);
-		const to = path.join(path.isAbsolute(dest) ? dest : path.resolve(config.root, dest), base);
+		const to = path.join(dest, base);
 
 		if (!transform) {
-			fs.copyFile(from, to, err => {
-				if (err) {
-					console.error(`将文件从 ${from} 复制到 ${to} 是发生了如下错误：`, err);
-				} else {
-				}
-			});
+			try {
+				await fs.promises.copyFile(from, to);
+			} catch (e) {
+				console.error(`将文件从 ${from} 复制到 ${to} 时发生了如下错误：`, e);
+			}
 		} else {
 			const data = await fs.promises.readFile(from, 'utf-8');
 			const transformedData = transform(data);
