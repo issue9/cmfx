@@ -8,8 +8,8 @@
 
 @layer components {
 	.message {
+		@apply flex p-3 gap-2 items-start border border-palette-border;
 		@apply bg-palette-bg text-palette-fg rounded-md w-full h-auto overflow-y-hidden;
-		@apply flex p-3 gap-2 items-start;
 		@apply transition-[height];
 
 		.icon {
@@ -25,16 +25,8 @@
 				.actions {
 					@apply flex gap-1;
 
-					/* 比 close 大一圈，用以显示进度 */
 					.btn {
-						@apply flex items-center justify-center p-0.5 rounded-xs bg-palette-bg;
-
-						.img {
-							@apply text-xl bg-palette-bg text-palette-fg p-0.5 rounded-xs;
-							@apply hover:cursor-pointer hover:text-palette-fg-focused hover:bg-palette-bg-focused;
-							@apply active:bg-palette-bg-actived active:text-palette-fg-actived;
-							@apply transition;
-						}
+						@apply p-1;
 					}
 				}
 			}

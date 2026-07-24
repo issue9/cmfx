@@ -13,7 +13,8 @@ import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
 
 import type { BaseRef, RefProps } from '@components/base';
-import { useLocale, useOptions } from '@components/context';
+import { Button } from '@components/button/button';
+import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export const messageTypes = ['error', 'warning', 'success', 'info'] as const;
@@ -70,12 +71,8 @@ export interface MessageProps extends StyleProps, RefProps<MessageRef> {
 
 	/**
 	 * 持续时间，单位毫秒。
-	 *
-	 * @reactive
-	 * @remarks
-	 * 当该值大于 0 时，如果 {#onCancel} 未指定，也会显示取消按钮。
 	 */
-	duration?: number;
+	readonly duration?: number;
 
 	/**
 	 * 警告的类型
@@ -91,10 +88,8 @@ export interface MessageProps extends StyleProps, RefProps<MessageRef> {
 	 * @remarks
 	 * 如果值为 true，表示显示取消按钮。
 	 * 该操作会关闭整个消息框，并当前组件从 DOM 中移除。
-	 *
-	 * @returns 返回 true 将阻止后续的移除操作。
 	 */
-	readonly onCancel?: (() => Promise<boolean | undefined>) | true;
+	readonly onCancel?: (() => Promise<void>) | true;
 
 	/**
 	 * 点击确认按钮时触发的回调
@@ -102,10 +97,8 @@ export interface MessageProps extends StyleProps, RefProps<MessageRef> {
 	 * @remarks
 	 * 只有指定该值，才会显示确定按钮。
 	 * 该操作会关闭整个消息框，并当前组件从 DOM 中移除。
-	 *
-	 * @returns 返回 true 将阻止后续的移除操作。
 	 */
-	readonly onAccept?: () => Promise<boolean | undefined>;
+	readonly onAccept?: () => Promise<void>;
 }
 
 /**
@@ -115,16 +108,13 @@ export function Message(props: MessageProps): JSX.Element {
 	props = mergeProps(
 		{
 			type: 'info',
-			onCancel: props.onCancel ?? (props.duration ? true : undefined),
 		} as MessageProps,
 		props,
 	);
 
-	const l = useLocale();
 	const [opt] = useOptions();
 
 	let rootRef: HTMLDivElement;
-	let buttonRef: HTMLButtonElement;
 
 	const remove = async () => {
 		if (!opt.getTransitionDuration()) {
@@ -138,19 +128,13 @@ export function Message(props: MessageProps): JSX.Element {
 
 	const close = async () => {
 		if (typeof props.onCancel === 'function') {
-			if (await props.onCancel()) {
-				return;
-			}
+			await props.onCancel();
 		}
 		await remove();
 	};
 
 	const accept = async () => {
-		if (props.onAccept) {
-			if (await props.onAccept()) {
-				return;
-			}
-		}
+		await props.onAccept?.();
 		await remove();
 	};
 
@@ -158,11 +142,11 @@ export function Message(props: MessageProps): JSX.Element {
 		const h = rootRef.getBoundingClientRect().height;
 		rootRef.style.height = `${h}px`; // 只有明确的高度，transition 动画才能触发。
 
-		if (props.duration && buttonRef) {
+		if (props.duration) {
 			const timeout = props.duration;
 			const timer = createTimer(timeout, -100, async (t: number) => {
 				const p = ((timeout - t) / timeout) * 100;
-				buttonRef.style.background = `conic-gradient(var(--palette-bg-low) 0% ${p}%, var(--palette-bg-high) ${p}% 100%)`;
+				rootRef.style.background = `linear-gradient(to right, var(--palette-bg) 0% ${p}%, var(--palette-bg-low) ${p}% 100%)`;
 				if (t <= 0) {
 					await remove();
 				}
@@ -243,21 +227,14 @@ export function Message(props: MessageProps): JSX.Element {
 					<Show when={props.onCancel || props.onAccept}>
 						<div class={styles.actions}>
 							<Show when={props.onCancel}>
-								<button
-									type="button"
-									class={styles.btn}
-									ref={el => (buttonRef = el)}
-									aria-label={l.t('_c.close')}
-									onClick={close}
-								>
-									<IconClose class={joinClass('error', styles.img)} />
-								</button>
+								<Button square kind="fill" onclick={close} class={styles.btn} palette="error">
+									<IconClose />
+								</Button>
 							</Show>
-
 							<Show when={props.onAccept}>
-								<button type="button" class={styles.btn} aria-label={l.t('_c.ok')} onClick={accept}>
-									<IconOK class={joinClass(nextPalette(palette(), 1), styles.img)} />
-								</button>
+								<Button square kind="fill" onclick={accept} class={styles.btn} palette={nextPalette(palette(), 1)}>
+									<IconOK />
+								</Button>
 							</Show>
 						</div>
 					</Show>
