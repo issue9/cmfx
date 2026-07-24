@@ -2,24 +2,28 @@
 //
 // SPDX-License-Identifier: MIT
 
+// NOTE: 该文件由插件 vite-plugin-version 自动生成，请勿手动修改！
+
 // 这是一个在后台运行的 Worker，用于轮询 /version.json 检查版本更新
 //
-// NOTE: 所有 __XX__ 的内容会被插件替换为实际的值。
+// 所有 __XX__ 的内容会被插件替换为实际的值。
 //
 // 包含了两个事件：
 // - INIT: 主线程发送初始化消息，包含当前版本号。
 // - UPDATE: 检测到新版本时发送的通知消息。
 
-// 当前缓存的版本号
-let currentVersion;
+export interface VersionInfo {
+	version: string;
+	buildTime: Date;
+}
+
+let currentInfo: VersionInfo;
 
 /**
  * 请求 version.json 并返回版本信息
  * 每次请求添加时间戳参数以绕过浏览器缓存
- *
- * @returns {Promise<{ version: string; buildTime: string } | undefined>}
  */
-async function fetchVersionInfo() {
+async function fetchVersionInfo(): Promise<VersionInfo | undefined> {
 	try {
 		const url = `/__VERSION_FILE__?t=${Date.now()}`;
 		const resp = await fetch(url, {
@@ -45,34 +49,36 @@ async function fetchVersionInfo() {
  * 循环检测逻辑
  */
 async function check() {
+	if (!currentInfo) {
+		console.error('未初始化！');
+		return;
+	}
+
 	const info = await fetchVersionInfo();
 
-	if (info) {
-		if (!currentVersion) {
-			// 首次运行：初始化当前版本
-			currentVersion = info.version;
-		} else if (currentVersion !== info.version) {
-			// 检测到版本变化，并向主线程发送更新通知
-			self.postMessage({
-				type: "UPDATE",
-				version: info.version,
-				buildTime: info.buildTime,
-				oldVersion: currentVersion,
-			});
+	if (info && (currentInfo.version !== info.version || currentInfo.buildTime !== info.buildTime)) {
+		// 检测到版本变化，并向主线程发送更新通知
+		self.postMessage({
+			type: 'UPDATE',
+			version: info.version,
+			buildTime: info.buildTime,
+		});
 
-			currentVersion = info.version; // 更新缓存的版本号
-		}
+		currentInfo = info; // 更新缓存的版本号
 	}
 
 	// 轮询间隔，单位毫秒，会被实际值替换。
-	setTimeout(check, __INTERVAL__);
+	setTimeout(check, __INTERVAL__ ?? 60000);
 }
 
 // 监听主线程的消息，用于初始化当前版本。
 // 只有主线程触了消息，才会开始检测版本信息。
-self.onmessage = (e) => {
+self.addEventListener('message', e => {
 	if (e.data.type === 'INIT') {
-		currentVersion = e.data.version;
+		currentInfo = {
+			version: e.data.version,
+			buildTime: e.data.buildTime,
+		};
 		check();
 	}
-};
+});

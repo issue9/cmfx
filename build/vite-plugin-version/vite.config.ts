@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025-2026 caixw
+// SPDX-FileCopyrightText: 2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -14,9 +14,13 @@ export default defineConfig({
 		dts({
 			entryRoot: './src',
 			bundleTypes: true,
-			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts'],
+			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts', 'src/version/**'],
 		}),
-		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),
+		vitePluginCopyFile([
+			{ src: '../../LICENSE', dest: '' },
+			{ src: './src/version/init.ts', dest: 'lib/version' },
+			{ src: './src/version/checker.ts', dest: 'lib/version' },
+		]),
 	],
 
 	build: {

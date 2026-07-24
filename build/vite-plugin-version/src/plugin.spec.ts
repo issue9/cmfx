@@ -12,7 +12,8 @@ import { type Info, version } from './plugin';
 describe('version', async () => {
 	const p = version({
 		pkg: path.resolve(__dirname, '../package.json'),
-		output: 'version.json',
+		filename: 'version.json',
+		src: path.resolve(__dirname, '../public/version_checker')
 		// biome-ignore lint/suspicious/noExplicitAny: any
 	}) as any;
 
