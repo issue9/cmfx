@@ -23,7 +23,7 @@ export interface Options {
 	 * @defaultValue 'version.json'
 	 *
 	 * @remarks
-	 * 始终是相对于 vite.config.ts 中 build.outDir 的。
+	 * 始终是相对于 vite.config.ts 中 publicDir 的。
 	 */
 	output?: string;
 }
@@ -48,23 +48,31 @@ export interface Info {
  */
 export function version(options?: Options): Plugin<Options> {
 	const opt = Object.assign({ output: 'version.json', pkg: 'package.json' }, options) as Required<Options>;
-	let outDir: string;
+
+	// vite.config 中的 publicDir 配置项
+	let pubDir: string;
 
 	return {
 		name: 'vite-plugin-cmfx-version',
 
 		configResolved(config) {
-			outDir = config.build.outDir;
+			pubDir = config.publicDir;
 		},
 
-		async writeBundle() {
-			const src = await fs.promises.readFile(opt.pkg, 'utf-8');
-			const obj = JSON.parse(src);
+		async buildStart() {
+			try {
+				const src = await fs.promises.readFile(opt.pkg, 'utf-8');
+				const obj = JSON.parse(src);
+				const info = { version: obj.version, buildTime: new Date() } satisfies Info;
 
-			const info = { version: obj.version, buildTime: new Date() } satisfies Info;
-			const p = path.join(outDir, opt.output);
-			console.info(`输出版本文件至 ${p}`);
-			await fs.promises.writeFile(p, JSON.stringify(info));
+				await fs.promises.mkdir(pubDir, { recursive: true });
+				const output = path.join(pubDir, opt.output);
+
+				console.info(`输出版本文件至 ${output}`);
+				await fs.promises.writeFile(output, JSON.stringify(info));
+			} catch (err) {
+				throw new Error(`写入版本文件失败：${err}`);
+			}
 		},
 	};
 }
