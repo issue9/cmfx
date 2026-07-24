@@ -86,6 +86,7 @@ export async function error(title: string, o?: Omit<NotifyOptions, 'type'>): Pro
  *
  * @param title - 通知标题；
  * @param o - 其他选项；
+ * @returns true 表示用户点了 OK 按钮，其它情况下都返回 false；
  */
 export async function notify(title: string, o?: NotifyOptions): Promise<boolean> {
 	return await notifyInst(title, o);
