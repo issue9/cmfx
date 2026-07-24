@@ -11,6 +11,7 @@ import type { MountProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { type NotifyPosition, notifyPositions } from '@components/context/options/options';
 import { Message, type MessageProps, type MessageType } from '@components/notify/message';
+import { createDeferred } from './promise';
 import styles from './style.module.css';
 
 let notifyInst: typeof notify;
@@ -45,48 +46,39 @@ export interface NotifyOptions {
 	pos?: NotifyPosition;
 
 	/**
-	 * 点击确认按钮时触发的回调
+	 * 显示的操作按钮
 	 *
-	 * @remarks
-	 * 只有指定该值，才会显示确定按钮。该操作会关闭整个消息框，但是返回 true 可以取消关闭通知框。
+	 * @reactive
 	 */
-	accept?: MessageProps['onAccept'];
-
-	/**
-	 * 点击取消按钮时触发的回调
-	 *
-	 * @remarks
-	 * 只有指定该值，才会显示取消按钮。该操作会关闭整个消息框，但是返回 true 可以取消关闭通知框。
-	 */
-	cancel?: MessageProps['onCancel'];
+	actions?: Array<'accept' | 'cancel'>;
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示成功信息。
  */
-export async function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
-	await notify(title, o ? { ...o, type: 'success' } : { type: 'success' });
+export async function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean> {
+	return await notify(title, o ? { ...o, type: 'success' } : { type: 'success' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示普通信息。
  */
-export async function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
-	await notify(title, o ? { ...o, type: 'info' } : { type: 'info' });
+export async function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean> {
+	return await notify(title, o ? { ...o, type: 'info' } : { type: 'info' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示警告信息。
  */
-export async function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
-	await notify(title, o ? { ...o, type: 'warning' } : { type: 'warning' });
+export async function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean> {
+	return await notify(title, o ? { ...o, type: 'warning' } : { type: 'warning' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示错误信息。
  */
-export async function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
-	await notify(title, o ? { ...o, type: 'error' } : { type: 'error' });
+export async function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean> {
+	return await notify(title, o ? { ...o, type: 'error' } : { type: 'error' });
 }
 
 /**
@@ -95,8 +87,8 @@ export async function error(title: string, o?: Omit<NotifyOptions, 'type'>): Pro
  * @param title - 通知标题；
  * @param o - 其他选项；
  */
-export async function notify(title: string, o?: NotifyOptions): Promise<void> {
-	await notifyInst(title, o);
+export async function notify(title: string, o?: NotifyOptions): Promise<boolean> {
+	return await notifyInst(title, o);
 }
 
 /**
@@ -134,7 +126,7 @@ function init(): JSX.Element {
 	let bottomRef: HTMLDivElement;
 	const owner = getOwner();
 
-	notifyInst = async (title: string, o?: NotifyOptions): Promise<void> => {
+	notifyInst = async (title: string, o?: NotifyOptions): Promise<boolean> => {
 		if (o?.system && document.visibilityState === 'hidden') {
 			const n = await system(title, { body: o?.body });
 
@@ -142,16 +134,18 @@ function init(): JSX.Element {
 				await sleep(o.duration);
 				n.close();
 			}
-			return;
+			return new Promise<boolean>(resolve => resolve(false));
 		}
+
+		const [p, resolve] = createDeferred<boolean>();
 
 		const props: MessageProps = {
 			title: title,
 			body: o?.body,
 			type: o?.type,
 			duration: o?.duration ?? opt.getStays(),
-			onAccept: o?.accept,
-			onCancel: o?.cancel,
+			onAccept: o?.actions?.includes('accept') ? async () => resolve(true) : undefined,
+			onCancel: o?.actions?.includes('cancel') ? async () => resolve(false) : undefined,
 		};
 
 		const pos = o?.pos ?? opt.getNotifyPosition();
@@ -162,6 +156,8 @@ function init(): JSX.Element {
 			case 'bottom':
 				runWithOwner(owner, () => render(() => <Message {...props} />, bottomRef));
 		}
+
+		return p;
 	};
 
 	systemInst = async (title: string, o?: NotificationOptions): Promise<Notification | undefined> => {

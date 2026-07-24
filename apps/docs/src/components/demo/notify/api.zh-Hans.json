@@ -59,7 +59,7 @@
 				"name": "duration",
 				"summary": "持续时间，单位毫秒。\n\n",
 				"type": "number | undefined",
-				"reactive": true
+				"readonly": true
 			},
 			{
 				"name": "onAccept",
@@ -113,7 +113,7 @@
 		"kind": "function",
 		"name": "Notify.notify",
 		"summary": "发送一条通知给用户\n\n",
-		"type": "declare function notify(title: string, o?: NotifyOptions): Promise<void>",
+		"type": "declare function notify(title: string, o?: NotifyOptions): Promise<boolean>",
 		"params": [
 			{
 				"name": "title",
@@ -127,7 +127,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<void>"
+			"type": "Promise<boolean>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -135,7 +135,7 @@
 		"kind": "function",
 		"name": "Notify.info",
 		"summary": "`notify`\n的快捷方式，用于显示普通信息。\n\n",
-		"type": "declare function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
+		"type": "declare function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean>",
 		"params": [
 			{
 				"name": "title",
@@ -147,7 +147,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<void>"
+			"type": "Promise<boolean>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -155,7 +155,7 @@
 		"kind": "function",
 		"name": "Notify.warning",
 		"summary": "`notify`\n的快捷方式，用于显示警告信息。\n\n",
-		"type": "declare function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
+		"type": "declare function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean>",
 		"params": [
 			{
 				"name": "title",
@@ -167,7 +167,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<void>"
+			"type": "Promise<boolean>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -175,7 +175,7 @@
 		"kind": "function",
 		"name": "Notify.success",
 		"summary": "`notify`\n的快捷方式，用于显示成功信息。\n\n",
-		"type": "declare function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
+		"type": "declare function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean>",
 		"params": [
 			{
 				"name": "title",
@@ -187,7 +187,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<void>"
+			"type": "Promise<boolean>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -195,7 +195,7 @@
 		"kind": "function",
 		"name": "Notify.error",
 		"summary": "`notify`\n的快捷方式，用于显示错误信息。\n\n",
-		"type": "declare function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
+		"type": "declare function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean>",
 		"params": [
 			{
 				"name": "title",
@@ -207,7 +207,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<void>"
+			"type": "Promise<boolean>"
 		},
 		"pkg": "@cmfx/components"
 	},

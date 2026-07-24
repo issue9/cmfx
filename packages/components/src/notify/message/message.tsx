@@ -126,7 +126,7 @@ export function Message(props: MessageProps): JSX.Element {
 		rootRef.remove();
 	};
 
-	const close = async () => {
+	const cancel = async () => {
 		if (typeof props.onCancel === 'function') {
 			await props.onCancel();
 		}
@@ -148,7 +148,7 @@ export function Message(props: MessageProps): JSX.Element {
 				const p = ((timeout - t) / timeout) * 100;
 				rootRef.style.background = `linear-gradient(to right, var(--palette-bg) 0% ${p}%, var(--palette-bg-low) ${p}% 100%)`;
 				if (t <= 0) {
-					await remove();
+					await cancel();
 				}
 			});
 			timer.start();
@@ -194,7 +194,7 @@ export function Message(props: MessageProps): JSX.Element {
 				if (props.ref) {
 					props.ref({
 						root: () => el,
-						cancel: close,
+						cancel,
 						accept,
 					});
 				}
@@ -227,7 +227,7 @@ export function Message(props: MessageProps): JSX.Element {
 					<Show when={props.onCancel || props.onAccept}>
 						<div class={styles.actions}>
 							<Show when={props.onCancel}>
-								<Button square kind="fill" onclick={close} class={styles.btn} palette="error">
+								<Button square kind="fill" onclick={cancel} class={styles.btn} palette="error">
 									<IconClose />
 								</Button>
 							</Show>
