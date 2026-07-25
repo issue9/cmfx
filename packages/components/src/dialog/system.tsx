@@ -69,10 +69,10 @@ function AlertProvider(props: ThemeProps): JSX.Element {
 				</Toolbar>
 			}
 			ref={el => (dlg = el)}
-			class="min-w-60"
+			class={styles.system}
 			footer={
 				<footer class={styles.footer}>
-					<AcceptButton value="ok">{l.t('_c.ok')}</AcceptButton>
+					<AcceptButton class={styles.btn} value="ok">{l.t('_c.ok')}</AcceptButton>
 				</footer>
 			}
 		>
@@ -122,7 +122,7 @@ function ConfirmProvider(props: ThemeProps): JSX.Element {
 					{opt.title}
 				</Toolbar>
 			}
-			class="min-w-60"
+			class={styles.system}
 			ref={el => (dlg = el)}
 			footer={<Actions acceptValue={acceptValue} />}
 		>
@@ -179,7 +179,7 @@ function PromptProvider(props: ThemeProps): JSX.Element {
 				</Toolbar>
 			}
 			ref={el => (dlg = el)}
-			class="min-w-60"
+			class={styles.system}
 			footer={<Actions acceptValue={acceptValue} />}
 		>
 			<Form.Field layout="vertical" label={msg()} class="w-full">

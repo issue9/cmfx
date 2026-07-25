@@ -70,7 +70,7 @@ export function CancelButton(props: DialogButtonProps): JSX.Element {
 		<Button
 			{...p}
 			type="button"
-			palette={props.palette ?? 'secondary'}
+			palette={props.palette ?? 'error'}
 			onclick={async () => {
 				if (props.onclick) {
 					const result = await props.onclick();
@@ -132,6 +132,7 @@ export function Actions(props: DialogActionsProps): JSX.Element {
 	return (
 		<footer class={styles.footer}>
 			<CancelButton
+				class={styles.btn}
 				rounded={props.rounded}
 				square={props.square}
 				onclick={props.cancel}
@@ -140,6 +141,7 @@ export function Actions(props: DialogActionsProps): JSX.Element {
 				{l.t('_c.cancel')}
 			</CancelButton>
 			<AcceptButton
+				class={styles.btn}
 				rounded={props.rounded}
 				square={props.square}
 				onclick={props.accept}

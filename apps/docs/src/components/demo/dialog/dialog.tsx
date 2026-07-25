@@ -39,64 +39,62 @@ export default function (props: MountProps): JSX.Element {
 					</Dialog.Toolbar>
 				}
 			>
-				<div>
-					<Form inDialog api={api}>
-						<div class="flex flex-col">
-							<div class="py-3">form</div>
-							<div class="flex">
-								<Button onclick={() => dlg3.root().showModal()}>show modal</Button>
-								<Button
-									ref={el => {
-										el.root().value = 'submit';
-									}}
-									type="submit"
-									class="me-8"
-								>
-									submit
-								</Button>
-								<Button
-									ref={el => {
-										el.root().value = 'reset';
-									}}
-									type="reset"
-									class="me-8"
-								>
-									reset
-								</Button>
-								<Button
-									ref={el => {
-										el.root().value = 'button';
-									}}
-									type="button"
-									onclick={() => {
-										dlg2.move({ x: 8, y: 8 });
-									}}
-								>
-									move(8,8)
-								</Button>
-								<Button
-									ref={el => {
-										el.root().value = 'button';
-									}}
-									type="button"
-									onclick={() => {
-										dlg2.move();
-									}}
-								>
-									move to center
-								</Button>
-								<Button
-									ref={el => {
-										el.root().value = 'button';
-									}}
-									type="button"
-								>
-									button
-								</Button>
-							</div>
+				<Form inDialog api={api}>
+					<div class="flex flex-col">
+						<div class="py-3">form</div>
+						<div class="flex">
+							<Button onclick={() => dlg3.root().showModal()}>show modal</Button>
+							<Button
+								ref={el => {
+									el.root().value = 'submit';
+								}}
+								type="submit"
+								class="me-8"
+							>
+								submit
+							</Button>
+							<Button
+								ref={el => {
+									el.root().value = 'reset';
+								}}
+								type="reset"
+								class="me-8"
+							>
+								reset
+							</Button>
+							<Button
+								ref={el => {
+									el.root().value = 'button';
+								}}
+								type="button"
+								onclick={() => {
+									dlg2.move({ x: 8, y: 8 });
+								}}
+							>
+								move(8,8)
+							</Button>
+							<Button
+								ref={el => {
+									el.root().value = 'button';
+								}}
+								type="button"
+								onclick={() => {
+									dlg2.move();
+								}}
+							>
+								move to center
+							</Button>
+							<Button
+								ref={el => {
+									el.root().value = 'button';
+								}}
+								type="button"
+							>
+								button
+							</Button>
 						</div>
-					</Form>
-				</div>
+					</div>
+				</Form>
 			</Dialog>
 
 			<Dialog ref={el => (dlg3 = el)} header="header">

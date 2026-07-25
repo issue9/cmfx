@@ -25,20 +25,26 @@ dialog::backdrop {
 		@apply flex flex-col bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-border;
 		@apply shadow-md;
 
-		> header {
+		header.header {
 			@apply flex items-center justify-between p-2 border-b border-b-palette-border grow-0 shrink-0 gap-2;
+			@apply w-full;
 
 			.control {
 				@apply flex gap-1;
 			}
 		}
 
-		> main {
+		main.main {
 			@apply p-2 flex-1 min-h-0;
 		}
 
-		> footer {
-			@apply flex justify-end p-2 gap-2 border-t border-t-palette-border grow-0 shrink-0;
+		footer.footer {
+			@apply flex flex-wrap justify-end p-2 gap-2 border-t border-t-palette-border grow-0 shrink-0 w-full;
+			@apply @container/footer;
+
+			.btn {
+				@apply @max-sm/footer:w-full;
+			}
 		}
 	}
 
@@ -46,5 +52,9 @@ dialog::backdrop {
 		.scrollable {
 			@apply overflow-auto;
 		}
+	}
+
+	dialog.dialog.system {
+		@apply @md/root:min-w-60 @max-md/root:w-full;
 	}
 }

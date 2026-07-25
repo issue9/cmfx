@@ -37,12 +37,17 @@ export interface DialogProps extends ThemeProps, ParentProps, MountProps {
 	 */
 	scrollable?: boolean;
 
+	/**
+	 * 内容区域的类名
+	 *
+	 * @reactive
+	 */
 	mainClass?: string;
 }
 
 function buildRef(ref: HTMLDialogElement): DialogRef {
 	return {
-		root(): HTMLDialogElement {
+		root() {
 			return ref;
 		},
 
@@ -64,6 +69,7 @@ function buildRef(ref: HTMLDialogElement): DialogRef {
 /**
  * 对话框组件
  *
+ * @remarks
  * 采用的是 html 标准中的 dialog 标签。
  */
 export function Dialog(props: DialogProps): JSX.Element {
@@ -80,7 +86,7 @@ export function Dialog(props: DialogProps): JSX.Element {
 		>
 			<DialogProvider dialog={ref}>
 				{props.header}
-				<main class={classList(undefined, { [styles.scrollable]: props.scrollable }, props.mainClass)}>
+				<main class={classList(undefined, { [styles.scrollable]: props.scrollable }, styles.main, props.mainClass)}>
 					{props.children}
 				</main>
 				{props.footer}
