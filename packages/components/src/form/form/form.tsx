@@ -146,9 +146,9 @@ export function Message(props: FormMessageProps): JSX.Element {
 					title={err()}
 					class={props.class}
 					style={props.style}
-					onCancel={async () => {
+					onClose={async () => {
 						f.api.setError();
-						return undefined;
+						return false;
 					}}
 				/>
 			)}

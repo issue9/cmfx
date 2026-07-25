@@ -26,7 +26,7 @@ export default function (props: MountProps): JSX.Element {
 			<Alert type={typ()} title="Alert Title" body={text} />
 
 			<Alert
-				onCancel={true}
+				closeable
 				type={typ()}
 				icon={false}
 				title="Alert Title"

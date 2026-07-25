@@ -21,14 +21,6 @@
 
 			.label {
 				@apply flex justify-between items-center w-full gap-1;
-
-				.actions {
-					@apply flex gap-1;
-
-					.btn {
-						@apply p-1;
-					}
-				}
 			}
 
 			.body {

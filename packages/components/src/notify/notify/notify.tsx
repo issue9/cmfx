@@ -11,7 +11,6 @@ import type { MountProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { type NotifyPosition, notifyPositions } from '@components/context/options/options';
 import { Message, type MessageProps, type MessageType } from '@components/notify/message';
-import { createDeferred } from './promise';
 import styles from './style.module.css';
 
 let notifyInst: typeof notify;
@@ -44,40 +43,33 @@ export interface NotifyOptions {
 	 * 弹出位置
 	 */
 	pos?: NotifyPosition;
-
-	/**
-	 * 显示的操作按钮
-	 *
-	 * @reactive
-	 */
-	actions?: Array<'accept' | 'cancel'>;
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示成功信息。
  */
-export async function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean> {
+export async function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
 	return await notify(title, o ? { ...o, type: 'success' } : { type: 'success' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示普通信息。
  */
-export async function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean> {
+export async function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
 	return await notify(title, o ? { ...o, type: 'info' } : { type: 'info' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示警告信息。
  */
-export async function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean> {
+export async function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
 	return await notify(title, o ? { ...o, type: 'warning' } : { type: 'warning' });
 }
 
 /**
  * {@link notify} 的快捷方式，用于显示错误信息。
  */
-export async function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean> {
+export async function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void> {
 	return await notify(title, o ? { ...o, type: 'error' } : { type: 'error' });
 }
 
@@ -88,7 +80,7 @@ export async function error(title: string, o?: Omit<NotifyOptions, 'type'>): Pro
  * @param o - 其他选项；
  * @returns true 表示用户点了 OK 按钮，其它情况下都返回 false；
  */
-export async function notify(title: string, o?: NotifyOptions): Promise<boolean> {
+export async function notify(title: string, o?: NotifyOptions): Promise<void> {
 	return await notifyInst(title, o);
 }
 
@@ -127,7 +119,7 @@ function init(): JSX.Element {
 	let bottomRef: HTMLDivElement;
 	const owner = getOwner();
 
-	notifyInst = async (title: string, o?: NotifyOptions): Promise<boolean> => {
+	notifyInst = async (title: string, o?: NotifyOptions): Promise<void> => {
 		if (o?.system && document.visibilityState === 'hidden') {
 			const n = await system(title, { body: o?.body });
 
@@ -135,18 +127,15 @@ function init(): JSX.Element {
 				await sleep(o.duration);
 				n.close();
 			}
-			return new Promise<boolean>(resolve => resolve(false));
+			return;
 		}
-
-		const [p, resolve] = createDeferred<boolean>();
 
 		const props: MessageProps = {
 			title: title,
 			body: o?.body,
 			type: o?.type,
 			duration: o?.duration ?? opt.getStays(),
-			onAccept: o?.actions?.includes('accept') ? async () => resolve(true) : undefined,
-			onCancel: o?.actions?.includes('cancel') ? async () => resolve(false) : undefined,
+			closeable: true,
 		};
 
 		const pos = o?.pos ?? opt.getNotifyPosition();
@@ -157,8 +146,6 @@ function init(): JSX.Element {
 			case 'bottom':
 				runWithOwner(owner, () => render(() => <Message {...props} />, bottomRef));
 		}
-
-		return p;
 	};
 
 	systemInst = async (title: string, o?: NotificationOptions): Promise<Notification | undefined> => {

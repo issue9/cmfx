@@ -3,11 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { createTimer, sleep } from '@cmfx/core';
-import { joinClass, nextPalette, type Palette, type StyleProps } from '@cmfx/themes';
+import { joinClass, type Palette, type StyleProps } from '@cmfx/themes';
 import { createMemo, createUniqueId, type JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
 import IconError from '~icons/flowbite/close-circle-solid';
 import IconSuccess from '~icons/material-symbols/check-circle-rounded';
-import IconOK from '~icons/material-symbols/check-rounded';
 import IconClose from '~icons/material-symbols/close';
 import IconWarning from '~icons/material-symbols/error-rounded';
 import IconInfo from '~icons/material-symbols/info-rounded';
@@ -30,14 +29,9 @@ const type2Palette: ReadonlyMap<MessageType, Palette> = new Map<MessageType, Pal
 
 export interface MessageRef extends BaseRef<HTMLDivElement> {
 	/**
-	 * 等同 close 按钮的操作，如果不存在则直接执行关闭操作
+	 * 将当前组件从父元素移除
 	 */
-	cancel(): Promise<void>;
-
-	/**
-	 * 等同 OK 按钮上的操作，如果不存在，则不执行任何操作。
-	 */
-	accept(): Promise<void>;
+	close(): Promise<void>;
 }
 
 export interface MessageProps extends StyleProps, RefProps<MessageRef> {
@@ -83,22 +77,18 @@ export interface MessageProps extends StyleProps, RefProps<MessageRef> {
 	type?: MessageType;
 
 	/**
-	 * 点击取消按钮时触发的回调
+	 * 关闭组件之前触发的事件
 	 *
-	 * @remarks
-	 * 如果值为 true，表示显示取消按钮。
-	 * 该操作会关闭整个消息框，并当前组件从 DOM 中移除。
+	 * @returns 返回 true 会阻止组件关闭
 	 */
-	readonly onCancel?: (() => Promise<void>) | true;
+	readonly onClose?: () => Promise<boolean | undefined>;
 
 	/**
-	 * 点击确认按钮时触发的回调
+	 * 是否显示关闭按钮
 	 *
-	 * @remarks
-	 * 只有指定该值，才会显示确定按钮。
-	 * 该操作会关闭整个消息框，并当前组件从 DOM 中移除。
+	 * @reactive
 	 */
-	readonly onAccept?: () => Promise<void>;
+	closeable?: boolean;
 }
 
 /**
@@ -126,16 +116,10 @@ export function Message(props: MessageProps): JSX.Element {
 		rootRef.remove();
 	};
 
-	const cancel = async () => {
-		if (typeof props.onCancel === 'function') {
-			await props.onCancel();
+	const close = async () => {
+		if (!(await props.onClose?.())) {
+			await remove();
 		}
-		await remove();
-	};
-
-	const accept = async () => {
-		await props.onAccept?.();
-		await remove();
 	};
 
 	onMount(() => {
@@ -148,7 +132,7 @@ export function Message(props: MessageProps): JSX.Element {
 				const p = ((timeout - t) / timeout) * 100;
 				rootRef.style.background = `linear-gradient(to right, var(--palette-bg) 0% ${p}%, var(--palette-bg-low) ${p}% 100%)`;
 				if (t <= 0) {
-					await cancel();
+					await close();
 				}
 			});
 			timer.start();
@@ -194,8 +178,7 @@ export function Message(props: MessageProps): JSX.Element {
 				if (props.ref) {
 					props.ref({
 						root: () => el,
-						cancel,
-						accept,
+						close: close,
 					});
 				}
 			}}
@@ -223,20 +206,10 @@ export function Message(props: MessageProps): JSX.Element {
 			<div class={styles.content}>
 				<div class={styles.label} ref={el => (labelRef = el)}>
 					<p id={titleID}>{props.title}</p>
-
-					<Show when={props.onCancel || props.onAccept}>
-						<div class={styles.actions}>
-							<Show when={props.onCancel}>
-								<Button square kind="fill" onclick={cancel} class={styles.btn} palette="error">
-									<IconClose />
-								</Button>
-							</Show>
-							<Show when={props.onAccept}>
-								<Button square kind="fill" onclick={accept} class={styles.btn} palette={nextPalette(palette(), 1)}>
-									<IconOK />
-								</Button>
-							</Show>
-						</div>
+					<Show when={props.closeable}>
+						<Button square kind="fill" onclick={close} class="p-1" palette="error">
+							<IconClose />
+						</Button>
 					</Show>
 				</div>
 

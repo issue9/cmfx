@@ -2,43 +2,26 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Checkbox, Choice, InputNumber, InputText, Notify } from '@cmfx/components';
+import { Alert, Button, Choice, InputNumber, InputText, Notify } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
-import { createMemo, createSignal, type JSX } from 'solid-js';
+import { createSignal, type JSX } from 'solid-js';
 
 export default function (): JSX.Element {
 	const [typ, setTyp] = createSignal<Alert.Type>('success');
 	const [pos, setPos] = createSignal<Notify.Position>('top');
 	const [timeout, setTimeout] = createSignal(5000);
 	const [title, setTitle] = createSignal('title');
-	const [accept, setAccept] = createSignal(true);
-	const [cancel, setCancel] = createSignal(true);
 	const [body, setBody] = createSignal('');
 	const [bodyType, setBodyType] = createSignal<'empty' | 'line' | 'multiple'>('empty');
 
-	const actions = createMemo(() => {
-		const list: Notify.Param['actions'] = [];
-		const a = accept();
-		const c = cancel();
-
-		if (a) {
-			list.push('accept');
-		}
-		if (c) {
-			list.push('cancel');
-		}
-		return list;
-	});
 	const click = async (): Promise<void> => {
-		const ret = await Notify.notify(title(), {
+		await Notify.notify(title(), {
 			body: body(),
 			type: typ(),
 			duration: timeout(),
 			system: false,
 			pos: pos(),
-			actions: actions(),
 		});
-		console.log(ret);
 	};
 
 	return (
@@ -89,8 +72,6 @@ export default function (): JSX.Element {
 				<InputNumber step={500} placeholder="timeout" value={timeout()} onChange={setTimeout} />
 				<InputText placeholder="title" value={title()} onChange={setTitle} />
 				<InputText placeholder="body" value={body()} onChange={setBody} />
-				<Checkbox label="accept" onChange={setAccept} checked={accept()} />
-				<Checkbox label="cancel" onChange={setCancel} checked={cancel()} />
 				<Button palette="primary" onclick={click}>
 					notify
 				</Button>

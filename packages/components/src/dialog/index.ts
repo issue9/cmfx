@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AcceptButton, Actions, CancelButton } from './buttons';
-import { useDialog } from './context';
-import { Dialog as C } from './root';
+import { AcceptButton, Actions, CancelButton, type DialogActionsProps, type DialogButtonProps } from './buttons';
+import { type DialogRef, useDialog } from './context';
+import { Dialog as C, type DialogProps } from './root';
 import { alert, confirm, prompt } from './system';
-import { Toolbar } from './toolbar';
+import { type DialogState, type DialogToolbarProps, Toolbar } from './toolbar';
 
 export const Dialog = Object.assign(C, {
 	alert,
@@ -20,12 +20,12 @@ export const Dialog = Object.assign(C, {
 });
 
 export namespace Dialog {
-	export type Ref = import('./context').DialogRef;
-	export type Props = import('./root').DialogProps;
+	export type Ref = DialogRef;
+	export type Props = DialogProps;
 
-	export type State = import('./toolbar').DialogState;
-	export type ToolbarProps = import('./toolbar').DialogToolbarProps;
+	export type State = DialogState;
+	export type ToolbarProps = DialogToolbarProps;
 
-	export type ActionsProps = import('./buttons').DialogActionsProps;
-	export type ButtonProps = import('./buttons').DialogButtonProps;
+	export type ActionsProps = DialogActionsProps;
+	export type ButtonProps = DialogButtonProps;
 }

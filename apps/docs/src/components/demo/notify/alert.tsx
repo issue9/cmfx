@@ -28,11 +28,11 @@ export default function (props: MountProps): JSX.Element {
 				type={typ()}
 				title="由 onclose 阻止"
 				icon={<IconFace />}
-				onCancel={async () => await Notify.notify('cancel!')}
-				onAccept={async () => await Notify.success('accept！')}
+				closeable
+				onClose={async () => { await Notify.success('accept！'); return true; }}
 			/>
 
-			<Alert onCancel={true} type={typ()} title="Alert Title" icon={false} />
+			<Alert closeable type={typ()} title="Alert Title" icon={false} />
 		</div>
 	);
 }

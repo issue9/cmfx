@@ -20,7 +20,7 @@ export default function (props: MountProps): JSX.Element {
 			<Portal mount={props.mount}>
 				<Type />
 			</Portal>
-			<Alert onCancel={true} type={typ()} title="Alert Title" body="Alert Message" duration={5000} />
+			<Alert closeable type={typ()} title="Alert Title" body="Alert Message" duration={5000} />
 		</>
 	);
 }
