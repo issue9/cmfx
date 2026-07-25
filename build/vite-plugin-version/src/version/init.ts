@@ -15,13 +15,18 @@ export interface VersionInfo {
  * @param update 执行更新页面的操作；
  * @param old 旧的版本号信息；
  * @param save 执行保存新版本的操作；
+ *
+ * @remarks
+ * 返回的 Worker 实例可以接受以下几个事件：
+ *  - INIT 初始化事件，携带旧的版本号信息；
+ *  - REFRESH 新求立即检测版本信息；
  */
 export function initVersionCheckWorker(
 	update: (info: VersionInfo) => Promise<void>,
 	old: VersionInfo,
 	save: (info: VersionInfo) => Promise<void>,
 ): Worker {
-	const w = new Worker(new URL('./version_checker.ts', import.meta.url));
+	const w = new Worker(new URL('./checker.ts', import.meta.url));
 
 	w.addEventListener('message', async e => {
 		if (e.data.type === 'UPDATE') {
@@ -32,6 +37,7 @@ export function initVersionCheckWorker(
 	});
 
 	w.postMessage({ type: 'INIT', ...old });
+	w.postMessage({ type: 'REFRESH' });
 
 	return w;
 }

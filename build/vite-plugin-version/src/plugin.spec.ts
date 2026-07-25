@@ -10,30 +10,32 @@ import pkg from '../package.json' with { type: 'json' };
 import { type Info, version } from './plugin';
 
 describe('version', async () => {
-	const p = version({
+	const opt = {
 		pkg: path.resolve(__dirname, '../package.json'),
 		filename: 'version.json',
-		src: path.resolve(__dirname, '../public/version_checker')
-		// biome-ignore lint/suspicious/noExplicitAny: any
-	}) as any;
+		src: path.resolve(__dirname, '../public/version_checker'),
+	};
+
+	// biome-ignore lint/suspicious/noExplicitAny: any
+	const plugin = version(opt) as any;
 
 	test('name', () => {
-		expect(p.name, 'vite-plugin-cmfx-version');
+		expect(plugin.name, 'vite-plugin-cmfx-version');
 	});
 
 	test('configResolved', () => {
-		expect(typeof p.configResolved).toEqual('function');
-		if (typeof p.configResolved === 'function') {
-			p.configResolved({ publicDir: path.resolve(__dirname, '../public') });
+		expect(typeof plugin.configResolved).toEqual('function');
+		if (typeof plugin.configResolved === 'function') {
+			plugin.configResolved({ publicDir: path.resolve(__dirname, '../public') });
 		}
 	});
 
 	test('buildStart', async () => {
-		expect(typeof p.buildStart).toEqual('function');
-		if (typeof p.buildStart === 'function') {
-			await p.buildStart(null, null);
+		expect(typeof plugin.buildStart).toEqual('function');
+		if (typeof plugin.buildStart === 'function') {
+			await plugin.buildStart(null, null);
 
-			const content = await fs.promises.readFile(path.resolve(__dirname, '../public/version.json'), 'utf8');
+			const content = await fs.promises.readFile(path.resolve(__dirname, `../public/${opt.filename}`), 'utf8');
 			const info = JSON.parse(content) satisfies Info;
 			expect(info.version).toMatch(pkg.version);
 		}

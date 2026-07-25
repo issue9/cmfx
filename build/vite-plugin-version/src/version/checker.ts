@@ -8,9 +8,10 @@
 //
 // 所有 __XX__ 的内容会被插件替换为实际的值。
 //
-// 包含了两个事件：
-// - INIT: 主线程发送初始化消息，包含当前版本号。
-// - UPDATE: 检测到新版本时发送的通知消息。
+// 包含了以下几个事件：
+// - 发送 INIT: 主线程发送初始化消息，包含当前版本号。
+// - 发送 REFRESH: 主线程发送刷新消息，请求立即刷新版本信息。
+// - 接收 UPDATE: 检测到新版本时发送的通知消息。
 
 export interface VersionInfo {
 	version: string;
@@ -18,6 +19,8 @@ export interface VersionInfo {
 }
 
 let currentInfo: VersionInfo;
+
+let timeoutID: number | undefined;
 
 /**
  * 请求 version.json 并返回版本信息
@@ -39,7 +42,7 @@ async function fetchVersionInfo(): Promise<VersionInfo | undefined> {
 		if (typeof info.version === 'string') {
 			return info;
 		}
-		console.error('无效的 version.json 格式');
+		console.error('文件 __VERSION_FILE__ 格式无效');
 	} catch (error) {
 		console.warn(`检查版本失败：${error}`);
 	}
@@ -49,6 +52,11 @@ async function fetchVersionInfo(): Promise<VersionInfo | undefined> {
  * 循环检测逻辑
  */
 async function check() {
+	if (timeoutID) {
+		clearTimeout(timeoutID);
+		timeoutID = undefined;
+	}
+
 	if (!currentInfo) {
 		console.error('未初始化！');
 		return;
@@ -68,7 +76,7 @@ async function check() {
 	}
 
 	// 轮询间隔，单位毫秒，会被实际值替换。
-	setTimeout(check, __INTERVAL__ ?? 60000);
+	timeoutID = window.setTimeout(check, __INTERVAL__);
 }
 
 // 监听主线程的消息，用于初始化当前版本。
@@ -79,6 +87,10 @@ self.addEventListener('message', e => {
 			version: e.data.version,
 			buildTime: e.data.buildTime,
 		};
+		check();
+	}
+
+	if (e.data.type === 'REFRESH') {
 		check();
 	}
 });

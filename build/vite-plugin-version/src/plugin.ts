@@ -105,9 +105,9 @@ export function version(options?: Options): Plugin<Options> {
 				console.info(`输出版本文件至 ${output}`);
 				await fs.promises.writeFile(output, JSON.stringify(info));
 
-				// 复制 checker.ts 到 rootDir，且要替换其中的 ${VERSION_FILE} 为实际的版本文件名
+				// 替换 checker.ts 中的占位符
 				let txt = await fs.promises.readFile(checkerSrc, 'utf-8');
-				txt = txt.replace(/__VERSION_FILE__/, opt.filename).replace(/__INTERVAL__/, opt.interval.toString());
+				txt = txt.replace(/__VERSION_FILE__/g, opt.filename).replace(/__INTERVAL__/g, opt.interval.toString());
 				const checkerDest = path.join(srcDir, 'checker.ts');
 				await fs.promises.writeFile(checkerDest, txt);
 

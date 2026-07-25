@@ -20,6 +20,7 @@ export default defineConfig({
 			{ src: '../../LICENSE', dest: '' },
 			{ src: './src/version/init.ts', dest: 'lib/version' },
 			{ src: './src/version/checker.ts', dest: 'lib/version' },
+			{ src: './src/version/env.d.ts', dest: 'lib/version' },
 		]),
 	],
 

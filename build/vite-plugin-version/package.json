@@ -3,7 +3,7 @@
 	"version": "0.15.0",
 	"type": "module",
 	"main": "./lib/index.js",
-	"description": "为 cmfx 前端项目生成版本信息",
+	"description": "为 cmfx 前端项目生成版本检测相关代码",
 	"author": {
 		"name": "caixw",
 		"url": "https://caixw.io"

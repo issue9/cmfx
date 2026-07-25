@@ -5,7 +5,7 @@
 [![Test](https://github.com/issue9/cmfx/actions/workflows/test.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 
-为 cmfx 前端项目生成版本信息
+为 cmfx 前端项目生成版本检测相关代码
 
 ## 版权
 
