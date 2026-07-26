@@ -9,7 +9,7 @@ import { Avatar, type AvatarRef } from './root';
 
 describe('Avatar', async () => {
 	let ref: AvatarRef;
-	const ct = await ComponentTester.build('Appbar', props => (
+	const ct = await ComponentTester.build('Avatar', props => (
 		<Avatar value="../../../assets/brand-static.svg" {...props} ref={el => (ref = el)} />
 	));
 

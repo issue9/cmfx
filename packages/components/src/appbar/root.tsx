@@ -8,35 +8,24 @@ import { type JSX, type ParentProps, Show } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import type { BaseRef, RefProps } from '@components/base';
-import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export type AppbarRef = BaseRef<HTMLElement>;
 
 export interface AppbarProps extends ThemeProps, ParentProps, RefProps<AppbarRef> {
 	/**
-	 * 首部的 LOGO 图片
+	 * 产品名称显示区域
 	 *
 	 * @reactive
 	 */
-	logo?: JSX.Element;
+	brand?: JSX.Element;
 
 	/**
-	 * 首部的标题
+	 * 为 {@link #brand} 的根元素添加的 CSS 类
 	 *
 	 * @reactive
 	 */
-	title?: string;
-
-	/**
-	 * 首部的链接
-	 *
-	 * @remarks
-	 * 如果提供了 href，则 {@link title} 和 {@link logo} 将被渲染为一个链接内的元素。
-	 *
-	 * @reactive
-	 */
-	href?: string;
+	brandClass?: string;
 
 	/**
 	 * 尾部的按钮列表
@@ -75,12 +64,7 @@ export function Appbar(props: AppbarProps): JSX.Element {
 				}
 			}}
 		>
-			<Show when={props.logo || props.title}>
-				<Dynamic class={styles.title} component={props.href ? A : 'div'} href={props.href}>
-					<Show when={props.logo}>{c => c()}</Show>
-					<Show when={props.title}>{c => <h1 class={styles.name}>{c()}</h1>}</Show>
-				</Dynamic>
-			</Show>
+			<Show when={props.brand}>{c => <div class={joinClass(undefined, props.brandClass)}>{c()}</div>}</Show>
 
 			<Show when={props.children}>{c => <div class={styles.main}>{c()}</div>}</Show>
 
@@ -91,12 +75,39 @@ export function Appbar(props: AppbarProps): JSX.Element {
 	);
 }
 
-export interface AppbarImageProps extends StyleProps {
-	src?: string;
-	alt?: string;
+export interface AppbarBrandProps extends StyleProps {
+	/**
+	 * 产品 LOGO
+	 *
+	 * @reactive
+	 */
+	logo?: string;
+
+	/**
+	 * 产品名称
+	 *
+	 * @reactive
+	 */
+	title?: string;
+
+	/**
+	 * 指向的链接
+	 *
+	 * @reactive
+	 */
+	href?: string;
 }
 
-export function AppbarImage(props: AppbarImageProps): JSX.Element {
-	const [, origin] = useOptions();
-	return <img alt={props.alt || 'LOGO'} aria-hidden={true} class={styles.logo} src={props.src || origin.logo} />;
+/**
+ * 生成一个适用于 {@link AppbarProps#brand} 的组件
+ */
+export function AppbarBrand(props: AppbarBrandProps): JSX.Element {
+	return (
+		<Dynamic class={styles.brand} component={props.href ? A : 'div'} href={props.href}>
+			<Show when={props.logo}>
+				<img alt={props.title || 'LOGO'} aria-hidden={true} class={styles.logo} src={props.logo} />
+			</Show>
+			<Show when={props.title}>{c => <h1 class={styles.name}>{c()}</h1>}</Show>
+		</Dynamic>
+	);
 }

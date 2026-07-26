@@ -78,11 +78,9 @@ function LoginBox(props: Props): JSX.Element {
 	return (
 		<Page backTop={false} title="_p.current.login" class={joinClass('surface', styles.login, props.class)}>
 			<Appbar
+				brand={<Appbar.Brand href={adminOpt.routes.public.home} title={opt.title} logo={opt.logo} />}
 				class={styles.toolbar}
-				title={opt.title}
-				logo={<Appbar.Image src={opt.logo} alt={opt.title} />}
 				actionsClass={styles.actions}
-				href={adminOpt.routes.public.home}
 				actions={<Actions />}
 			/>
 

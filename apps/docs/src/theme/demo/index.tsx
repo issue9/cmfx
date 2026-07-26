@@ -44,7 +44,9 @@ export function Demo(props: { s: SchemeStore }): JSX.Element {
 			<ThemeProvider mode={mode()} scheme={props.s[0]}>
 				<div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
 					<Appbar
-						title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')}
+						brand={
+							<Appbar.Brand title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')} />
+						}
 						class={styles.appbar}
 						actions={
 							<>

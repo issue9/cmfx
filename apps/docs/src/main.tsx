@@ -94,10 +94,8 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 	return (
 		<div class={styles.main}>
 			<Appbar
-				href="/"
+				brand={<Appbar.Brand href="/" title={options.title} logo={opt.logo} />}
 				palette="secondary"
-				logo={<Appbar.Image />}
-				title={options.title}
 				actions={
 					<>
 						<Drawer.ToggleButton kind="flat" drawer={drawerRef()} />

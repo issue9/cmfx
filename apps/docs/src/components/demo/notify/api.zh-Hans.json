@@ -36,10 +36,9 @@
 				"readonly": true
 			},
 			{
-				"name": "onCancel",
-				"summary": "点击取消按钮时触发的回调\n\n",
-				"remarks": "如果值为 true，表示显示取消按钮。\n该操作会关闭整个消息框，并当前组件从 DOM 中移除。\n\n",
-				"type": "true | (() => Promise<void>) | undefined",
+				"name": "onClose",
+				"summary": "关闭组件之前触发的事件\n\n",
+				"type": "(() => Promise<boolean>) | undefined",
 				"readonly": true
 			},
 			{
@@ -62,11 +61,10 @@
 				"readonly": true
 			},
 			{
-				"name": "onAccept",
-				"summary": "点击确认按钮时触发的回调\n\n",
-				"remarks": "只有指定该值，才会显示确定按钮。\n该操作会关闭整个消息框，并当前组件从 DOM 中移除。\n\n",
-				"type": "(() => Promise<void>) | undefined",
-				"readonly": true
+				"name": "closeable",
+				"summary": "是否显示关闭按钮\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
 			}
 		],
 		"name": "Alert.Props",
@@ -76,17 +74,9 @@
 		"kind": "interface",
 		"methods": [
 			{
-				"name": "cancel",
-				"summary": "等同 close 按钮的操作，如果不存在则直接执行关闭操作\n\n",
-				"type": "cancel(): Promise<void>",
-				"return": {
-					"type": "Promise<void>"
-				}
-			},
-			{
-				"name": "accept",
-				"summary": "等同 OK 按钮上的操作，如果不存在，则不执行任何操作。\n\n",
-				"type": "accept(): Promise<void>",
+				"name": "close",
+				"summary": "将当前组件从父元素移除\n\n",
+				"type": "close(): Promise<void>",
 				"return": {
 					"type": "Promise<void>"
 				}
@@ -113,7 +103,7 @@
 		"kind": "function",
 		"name": "Notify.notify",
 		"summary": "发送一条通知给用户\n\n",
-		"type": "declare function notify(title: string, o?: NotifyOptions): Promise<boolean>",
+		"type": "declare function notify(title: string, o?: NotifyOptions): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -127,7 +117,8 @@
 			}
 		],
 		"return": {
-			"type": "Promise<boolean>"
+			"summary": "true 表示用户点了 OK 按钮，其它情况下都返回 false；\n\n",
+			"type": "Promise<void>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -135,7 +126,7 @@
 		"kind": "function",
 		"name": "Notify.info",
 		"summary": "`notify`\n的快捷方式，用于显示普通信息。\n\n",
-		"type": "declare function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean>",
+		"type": "declare function info(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -147,7 +138,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<boolean>"
+			"type": "Promise<void>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -155,7 +146,7 @@
 		"kind": "function",
 		"name": "Notify.warning",
 		"summary": "`notify`\n的快捷方式，用于显示警告信息。\n\n",
-		"type": "declare function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean>",
+		"type": "declare function warning(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -167,7 +158,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<boolean>"
+			"type": "Promise<void>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -175,7 +166,7 @@
 		"kind": "function",
 		"name": "Notify.success",
 		"summary": "`notify`\n的快捷方式，用于显示成功信息。\n\n",
-		"type": "declare function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean>",
+		"type": "declare function success(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -187,7 +178,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<boolean>"
+			"type": "Promise<void>"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -195,7 +186,7 @@
 		"kind": "function",
 		"name": "Notify.error",
 		"summary": "`notify`\n的快捷方式，用于显示错误信息。\n\n",
-		"type": "declare function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<boolean>",
+		"type": "declare function error(title: string, o?: Omit<NotifyOptions, 'type'>): Promise<void>",
 		"params": [
 			{
 				"name": "title",
@@ -207,7 +198,7 @@
 			}
 		],
 		"return": {
-			"type": "Promise<boolean>"
+			"type": "Promise<void>"
 		},
 		"pkg": "@cmfx/components"
 	},

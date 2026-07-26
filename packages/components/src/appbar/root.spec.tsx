@@ -10,7 +10,7 @@ import { Appbar, type AppbarRef } from './root';
 describe('Appbar', async () => {
 	let ref: AppbarRef;
 	const ct = await ComponentTester.build('Appbar', props => (
-		<Appbar title="title" {...props} ref={el => (ref = el)}>
+		<Appbar {...props} ref={el => (ref = el)}>
 			abc
 		</Appbar>
 	));

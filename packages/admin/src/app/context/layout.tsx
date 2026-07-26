@@ -187,9 +187,7 @@ function Horizontal(props: ParentProps): JSX.Element {
 		>
 			<Appbar
 				ref={el => (asideBar = el)}
-				logo={<Appbar.Image src={opt.logo} alt={opt.title} />}
-				title={opt.title}
-				href={opt.routes.private.home}
+				brand={<Appbar.Brand href={opt.routes.private.home} title={opt.title} logo={opt.logo} />}
 				class={styles.toolbar}
 			/>
 			<Menu class={styles.menu} ref={el => (menuRef = el)} layout="inline" items={items} onChange={change} />
@@ -232,11 +230,9 @@ function Vertical(props: ParentProps): JSX.Element {
 	return (
 		<div class={cls()} style={style()}>
 			<Appbar
-				logo={<Appbar.Image src={opt.logo} alt={opt.title} />}
-				title={opt.title}
+				brand={<Appbar.Brand href={opt.routes.private.home} title={opt.title} logo={opt.logo} />}
 				class={styles.toolbar}
 				palette={sidePalette}
-				href={opt.routes.private.home}
 				actions={
 					<>
 						<For each={opt.toolbar}>{Item => <Item />}</For>

@@ -84,7 +84,7 @@ export function Toolbar(props: DialogToolbarProps): JSX.Element {
 	let prevState: DialogState = state();
 
 	return (
-		<header ref={el => (toolbarRef = el)}  class={styles.header}>
+		<header ref={el => (toolbarRef = el)} class={styles.header}>
 			{props.children}
 			<div class={styles.control}>
 				<Show when={props.min && state() !== 'maximize'}>

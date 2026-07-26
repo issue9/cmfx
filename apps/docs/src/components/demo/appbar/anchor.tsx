@@ -19,10 +19,8 @@ export default function (props: MountProps) {
 			</Portal>
 
 			<Appbar
-				href="/"
+				brand={<Appbar.Brand title={opt.title} href="/" logo={opt.logo} />}
 				palette={palette()}
-				title={opt.title}
-				logo={<Appbar.Image src={opt.logo} />}
 				actions={
 					<>
 						<Button square>

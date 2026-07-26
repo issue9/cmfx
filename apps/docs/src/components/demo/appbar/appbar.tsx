@@ -20,8 +20,7 @@ export default function (props: MountProps) {
 
 			<Appbar
 				palette={palette()}
-				title="这个公司的名称有一点点长哦！"
-				logo={<Appbar.Image src={origin.logo} />}
+				brand={<Appbar.Brand title="这个公司的名称有一点点长哦！" logo={origin.logo} />}
 				actions={
 					<>
 						<Button square>

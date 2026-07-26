@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AppbarImage, Appbar as C } from './root';
+import { AppbarBrand, type AppbarBrandProps, type AppbarProps, type AppbarRef, Appbar as C } from './root';
 
-export const Appbar = Object.assign(C, { Image: AppbarImage });
+export const Appbar = Object.assign(C, { Brand: AppbarBrand });
 
 export namespace Appbar {
-	export type Props = import('./root').AppbarProps;
-	export type Ref = import('./root').AppbarRef;
-	export type ImageProps = import('./root').AppbarImageProps;
+	export type Props = AppbarProps;
+	export type Ref = AppbarRef;
+	export type ImageProps = AppbarBrandProps;
 }
