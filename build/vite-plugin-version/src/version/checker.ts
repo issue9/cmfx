@@ -10,7 +10,8 @@
 //
 // 包含了以下几个事件：
 // - 发送 INIT: 主线程发送初始化消息，包含当前版本号。
-// - 发送 REFRESH: 主线程发送刷新消息，请求立即刷新版本信息。
+// - 发送 CHECK: 主线程发送刷新消息，请求立即检测版本信息。
+// - 发送 PAUSE: 主线程发送暂停消息，暂停版本检测。
 // - 接收 UPDATE: 检测到新版本时发送的通知消息。
 
 export interface VersionInfo {
@@ -76,21 +77,27 @@ async function check() {
 	}
 
 	// 轮询间隔，单位毫秒，会被实际值替换。
-	timeoutID = window.setTimeout(check, __INTERVAL__);
+	timeoutID = self.setTimeout(check, __INTERVAL__);
 }
 
 // 监听主线程的消息，用于初始化当前版本。
 // 只有主线程触了消息，才会开始检测版本信息。
 self.addEventListener('message', e => {
-	if (e.data.type === 'INIT') {
-		currentInfo = {
-			version: e.data.version,
-			buildTime: e.data.buildTime,
-		};
-		check();
-	}
-
-	if (e.data.type === 'REFRESH') {
-		check();
+	switch (e.data.type) {
+		case 'INIT':
+			currentInfo = {
+				version: e.data.version,
+				buildTime: e.data.buildTime,
+			};
+			check();
+			break;
+		case 'CHECK':
+			check();
+			break;
+		case 'PAUSE':
+			self.clearTimeout(timeoutID);
+			break;
+		default:
+			break;
 	}
 });

@@ -19,7 +19,8 @@ export interface VersionInfo {
  * @remarks
  * 返回的 Worker 实例可以接受以下几个事件：
  *  - INIT 初始化事件，携带旧的版本号信息；
- *  - REFRESH 新求立即检测版本信息；
+ *  - CHECK 新求立即检测版本信息；
+ *  - PAUSE 暂停版本检测；
  */
 export function initVersionCheckWorker(
 	update: (info: VersionInfo) => Promise<void>,
@@ -37,7 +38,16 @@ export function initVersionCheckWorker(
 	});
 
 	w.postMessage({ type: 'INIT', ...old });
-	w.postMessage({ type: 'REFRESH' });
+	w.postMessage({ type: 'CHECK' });
+
+	// 根据页面状态决定是否需要后台持续进行版本检测
+	document.addEventListener('visibilitychange', () => {
+		if (document.visibilityState === 'hidden') {
+			w.postMessage({ type: 'PAUSE' });
+		} else {
+			w.postMessage({ type: 'CHECK' });
+		}
+	});
 
 	return w;
 }
