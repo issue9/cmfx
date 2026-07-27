@@ -3,53 +3,62 @@
 // SPDX-License-Identifier: MIT
 
 import { Appbar, AppLayout, Button, type MountProps, ToggleButton, useOptions } from '@cmfx/components';
+import { breakpoints } from '@cmfx/themes';
 import { Portal } from 'solid-js/web';
 import IconPerson from '~icons/material-symbols/person';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps) {
 	const [, opt] = useOptions();
 	const [Palette, palette] = paletteSelector('primary');
-	const [MainPalette, mainPalette] = paletteSelector('surface');
+	const [ToolbarPalette, toolbarPalette] = paletteSelector('surface');
+	const [AisdePalette, asidePalette] = paletteSelector('secondary');
 	const [Float, float] = boolSelector('float');
 	const [Layout, layout] = layoutSelector('layout');
+	const [FloatingBreakpoint, floatingBreakpoint] = arraySelector('floatingBreakpoint', breakpoints);
 
 	return (
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
-				<MainPalette />
+				<ToolbarPalette />
+				<AisdePalette />
 				<Float />
 				<Layout />
+				<FloatingBreakpoint />
 			</Portal>
 
 			<AppLayout
-				class="h-100 w-full"
+				class="h-100 w-full border border-red-500"
 				palette={palette()}
-				mainPalette={mainPalette()}
+				floatingMinWidth={floatingBreakpoint()}
+				toolbarPalette={toolbarPalette()}
+				asidePalette={asidePalette()}
 				layout={layout()}
 				brand={<Appbar.Brand logo={opt.logo} title={opt.title} />}
-				aside={<div class="min-h-20 min-w-5 border border-red-500">
-					<p>aaa</p>
-					<p>aaa</p>
-					<p>aaa</p>
-					<p>aaa</p>
-					<p>aaa</p>
-					<p>aaa</p>
-					<p>bbb</p>
-					<p>bbb</p>
-					<p>bbb</p>
-					<p>bbb</p>
-					<p>ccc</p>
-					<p>ccc</p>
-					<p>ccc</p>
-					<p>ccc</p>
-					<p>ddd</p>
-					<p>ddd</p>
-					<p>ddd</p>
-					<p>ddd</p>
-				</div>}
+				aside={
+					<div class="min-h-20 min-w-5 border border-red-500">
+						<p>aaa</p>
+						<p>aaa</p>
+						<p>aaa</p>
+						<p>aaa</p>
+						<p>aaa</p>
+						<p>aaa</p>
+						<p>bbb</p>
+						<p>bbb</p>
+						<p>bbb</p>
+						<p>bbb</p>
+						<p>ccc</p>
+						<p>ccc</p>
+						<p>ccc</p>
+						<p>ccc</p>
+						<p>ddd</p>
+						<p>ddd</p>
+						<p>ddd</p>
+						<p>ddd</p>
+					</div>
+				}
 				extra={
 					<Button square kind="flat" class="w-4">
 						<IconPerson />

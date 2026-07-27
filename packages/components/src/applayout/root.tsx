@@ -79,12 +79,20 @@ export interface AppLayoutProps extends ParentProps, ThemeProps, RefProps<AppLay
 	extra?: JSX.Element;
 
 	/**
-	 * 内容区域的色盘
+	 * 侧边栏的色盘
 	 *
-	 * @defaultValue props.palette ? nextPalette(props.palette, 1): 'surface'
+	 * @defaultValue props.palette ? nextPalette(props.palette, 2): 'tertiary'
 	 * @reactive
 	 */
-	mainPalette?: Palette;
+	asidePalette?: Palette;
+
+	/**
+	 * 工具栏的色盘
+	 *
+	 * @defaultValue props.palette ? nextPalette(props.palette, 1): 'secondary'
+	 * @reactive
+	 */
+	toolbarPalette?: Palette;
 }
 
 /**
@@ -104,8 +112,9 @@ export function AppLayout(props: AppLayoutProps): JSX.Element {
 	props = mergeProps(
 		{
 			layout: 'horizontal',
-			mainPalette: props.palette ? nextPalette(props.palette, 1) : 'surface',
-		} as AppLayoutProps,
+			asidePalette: props.palette ? nextPalette(props.palette, 2) : 'tertiary',
+			toolbarPalette: props.palette ? nextPalette(props.palette, 1) : 'secondary',
+		} satisfies AppLayoutProps,
 		props,
 	);
 
@@ -146,7 +155,7 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 
 	const cls = createMemo(() => {
 		const f = props.float;
-		return joinClass(props.mainPalette, styles.layout, props.class, styles.horizontal, f ? styles.float : undefined);
+		return joinClass(props.palette, styles.layout, props.class, styles.horizontal, f ? styles.float : undefined);
 	});
 
 	return (
@@ -158,15 +167,20 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 				props.ref?.({ root: el.root });
 			}}
 			style={style()}
-			asideClass={joinClass(props.palette, styles.drawer)}
-			mainClass={joinClass(props.float ? props.mainPalette : props.palette, styles.main)}
+			asideClass={joinClass(props.asidePalette, styles.drawer)}
+			mainClass={joinClass(props.palette, styles.main)}
 			main={
 				<div class="contents">
-					<Appbar ref={el => (toolbar = el)} class={styles.toolbar} palette={props.palette} actions={props.actions}>
+					<Appbar
+						ref={el => (toolbar = el)}
+						class={styles.toolbar}
+						palette={props.toolbarPalette}
+						actions={props.actions}
+					>
 						<Drawer.ToggleButton drawer={drawerRef()} />
 						{props.toolbar}
 					</Appbar>
-					<main class={joinClass(props.mainPalette, styles.content)}>{props.children}</main>
+					<main class={joinClass(props.palette, styles.content)}>{props.children}</main>
 				</div>
 			}
 		>
@@ -193,18 +207,12 @@ function Vertical(props: AppLayoutProps): JSX.Element {
 
 	const cls = createMemo(() => {
 		const f = props.float;
-		return joinClass(
-			f ? props.mainPalette : props.palette,
-			styles.layout,
-			styles.vertical,
-			props.class,
-			f ? styles.float : undefined,
-		);
+		return joinClass(props.palette, styles.layout, styles.vertical, props.class, f ? styles.float : undefined);
 	});
 
 	return (
 		<div class={cls()} style={style()} ref={el => props.ref?.({ root: () => el })}>
-			<Appbar brand={props.brand} class={styles.toolbar} palette={props.palette} actions={props.actions}>
+			<Appbar brand={props.brand} class={styles.toolbar} palette={props.toolbarPalette} actions={props.actions}>
 				<Drawer.ToggleButton drawer={drawerRef()} />
 			</Appbar>
 
@@ -212,8 +220,8 @@ function Vertical(props: AppLayoutProps): JSX.Element {
 				<Drawer
 					floating={props.floatingMinWidth}
 					ref={setDrawerRef}
-					asideClass={joinClass(props.palette, styles.drawer)}
-					mainClass={joinClass(props.mainPalette, styles.content)}
+					asideClass={joinClass(props.asidePalette, styles.drawer)}
+					mainClass={joinClass(props.palette, styles.content)}
 					main={props.children}
 				>
 					<div class={styles.aside}>{props.aside}</div>

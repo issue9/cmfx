@@ -72,7 +72,9 @@ function AlertProvider(props: ThemeProps): JSX.Element {
 			class={styles.system}
 			footer={
 				<footer class={styles.footer}>
-					<AcceptButton class={styles.btn} value="ok">{l.t('_c.ok')}</AcceptButton>
+					<AcceptButton class={styles.btn} value="ok">
+						{l.t('_c.ok')}
+					</AcceptButton>
 				</footer>
 			}
 		>

@@ -34,7 +34,7 @@
 			@apply flex flex-col;
 
 			.content {
-				@apply h-full flex-1 overflow-y-auto rounded-ss-md w-full bg-palette-bg;
+				@apply h-full flex-1 overflow-y-auto w-full bg-palette-bg;
 			}
 		}
 	}
@@ -46,7 +46,7 @@
 			@apply relative h-full flex-1 overflow-y-hidden;
 
 			.content {
-				@apply flex-1 overflow-y-auto rounded-ss-md;
+				@apply flex-1 overflow-y-auto;
 			}
 		}
 	}
@@ -61,6 +61,23 @@
 
 		.drawer {
 			@apply rounded-md shadow-md;
+		}
+
+		.content {
+			@apply rounded-md shadow-md;
+		}
+	}
+
+
+	.layout.horizontal.float {
+		.content {
+			@apply pt-2;
+		}
+	}
+
+	.layout.vertical.float {
+		.content {
+			@apply ps-2;
 		}
 	}
 
