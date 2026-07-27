@@ -8,7 +8,7 @@ import { API, Config } from '@cmfx/core';
 import { Navigate, type RouteDefinition, type Router, useNavigate } from '@solidjs/router';
 import { createContext, ErrorBoundary, type JSX, Match, type ParentProps, Switch, useContext } from 'solid-js';
 
-import { AdminProvider, AppLayout, errorHandler, NotFound, OptionsProvider, useAdmin, useOptions } from './context';
+import { AdminLayout, AdminProvider, errorHandler, NotFound, OptionsProvider, useAdmin, useOptions } from './context';
 import { build as buildOptions, type Options, presetConfigName } from './options';
 
 /**
@@ -121,7 +121,7 @@ function Private(props: ParentProps): JSX.Element {
 				>
 					<lockScreenContext.Provider value={{ lock: () => lockScreenRef.lock() }}>
 						<SSEProvider path="/sse" auth>
-							<AppLayout>{props.children}</AppLayout>
+							<AdminLayout>{props.children}</AdminLayout>
 						</SSEProvider>
 					</lockScreenContext.Provider>
 				</LockScreen>

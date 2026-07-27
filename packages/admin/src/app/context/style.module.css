@@ -7,57 +7,8 @@
 @reference "@admin/style.css";
 
 @layer components {
-	.app {
-		.aside {
-			@apply min-w-60;
-		}
-
-		.toolbar {
-			@apply px-4;
-		}
-	}
-
-	.app.horizontal {
-		.aside {
-			@apply overflow-y-auto h-full overflow-clip flex flex-col;
-
-			.menu {
-				@apply overflow-y-auto;
-			}
-		}
-
-		.main {
-			@apply flex flex-col;
-
-			.content {
-				@apply h-full flex-1 overflow-y-auto rounded-ss-md w-full bg-palette-bg;
-			}
-		}
-	}
-
-	.app.vertical {
-		@apply flex flex-col box-border overflow-hidden h-full bg-palette-bg text-palette-fg;
-
-		.main {
-			@apply relative h-full flex-1 overflow-y-hidden;
-
-			.content {
-				@apply h-full flex-1 overflow-y-auto rounded-ss-md;
-			}
-		}
-	}
-
-	.app.horizontal.float,
-	.app.vertical.float {
-		@apply p-2 gap-2;
-
-		.toolbar {
-			@apply rounded-md shadow-md;
-		}
-
-		.aside {
-			@apply rounded-md shadow-md;
-		}
+	.menu {
+		@apply overflow-y-auto;
 	}
 
 	.avatar {

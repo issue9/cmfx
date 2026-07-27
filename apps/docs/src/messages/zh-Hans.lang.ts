@@ -91,6 +91,7 @@ const messages: typeof m = {
 			// 组件名称
 
 			appbar: 'Appbar 应用栏',
+			applayout: 'AppLayout 应用布局',
 			avatar: 'Avatar 头像',
 			backtop: 'Backtop 返回顶部',
 			badge: 'Badge 微标',

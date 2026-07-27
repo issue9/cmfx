@@ -3,32 +3,16 @@
 // SPDX-License-Identifier: MIT
 
 import type { Layout } from '@cmfx/components';
-import { Appbar, Button, Drawer, Dropdown, Menu, useOptions as useComponentOptions, useLocale } from '@cmfx/components';
+import { Appbar, AppLayout, Button, Dropdown, Menu, useLocale, useOptions as useXOptions } from '@cmfx/components';
 import { ContextNotFoundError } from '@cmfx/core';
-import { joinClass, type Palette } from '@cmfx/themes';
 import type { JSX, ParentProps, Signal } from 'solid-js';
-import {
-	createContext,
-	createEffect,
-	createMemo,
-	createSignal,
-	ErrorBoundary,
-	For,
-	Match,
-	onCleanup,
-	onMount,
-	Switch,
-	useContext,
-} from 'solid-js';
+import { createContext, createEffect, createSignal, ErrorBoundary, For, onMount, useContext } from 'solid-js';
 
 import { buildItems } from '@admin/app/options';
 import { useAdmin } from './admin';
 import { errorHandler } from './errors';
 import { useOptions } from './options';
 import styles from './style.module.css';
-
-const sidePalette: Palette = 'secondary'; // 侧边栏和顶部工具栏的背景色
-const bgPalette: Palette = 'surface'; // 背景板的色盘
 
 /**
  * 在 Storage 中保存的配置项名称
@@ -69,9 +53,10 @@ export function useLayout(): LayoutContext {
 	return l;
 }
 
-export function AppLayout(props: ParentProps): JSX.Element {
-	const [, origin] = useComponentOptions();
+export function AdminLayout(props: ParentProps): JSX.Element {
+	const [, origin] = useXOptions();
 	const config = origin.config;
+	const l = useLocale();
 
 	const opt = useOptions();
 	const layout = createSignal(config.get<Layout>(layoutKey) ?? opt.layout);
@@ -79,22 +64,15 @@ export function AppLayout(props: ParentProps): JSX.Element {
 	const width = createSignal(config.get<number>(widthKey) ?? opt.width);
 
 	createEffect(() => {
-		// 监视 layout 变化，并写入配置对象。
 		config.set(layoutKey, layout[0]());
 		config.set(floatKey, float[0]());
 		config.set(widthKey, width[0]());
 	});
 
 	const ctx = {
-		layout() {
-			return layout;
-		},
-		float() {
-			return float;
-		},
-		width() {
-			return width;
-		},
+		layout: () => layout,
+		float: () => float,
+		width: () => width,
 		reset() {
 			layout[1](opt.layout);
 			float[1](opt.float);
@@ -102,159 +80,39 @@ export function AppLayout(props: ParentProps): JSX.Element {
 		},
 	};
 
-	return (
-		<layoutContext.Provider value={ctx}>
-			<Switch fallback={<Horizontal {...props} />}>
-				<Match when={layout[0]() === 'vertical'}>
-					<Vertical {...props} />
-				</Match>
-			</Switch>
-		</layoutContext.Provider>
-	);
-}
-
-function Horizontal(props: ParentProps): JSX.Element {
-	const opt = useOptions();
-	const l = useLocale();
-	const layout = useLayout();
-
 	let menuRef: Menu.Ref;
-	const [drawerRef, setDrawerRef] = createSignal<Drawer.Ref>();
-
 	onMount(() => {
 		if (menuRef) {
 			menuRef.scrollSelectedIntoView();
 		}
 	});
 
-	// 保证两个顶部工具栏高度相同
-	let asideBar: Appbar.Ref;
-	let toolbar: Appbar.Ref;
-	onMount(() => {
-		const ro = new ResizeObserver(entries => {
-			asideBar.root().style.height = `${entries[0]!.borderBoxSize[0].blockSize.toString()}px`;
-		});
-		ro.observe(toolbar.root());
-		onCleanup(() => ro.disconnect());
-	});
-
-	const style = createMemo(() => {
-		const w = layout.width();
-		if (!w[0]() || w[0]() === window.screen.width) {
-			return;
-		}
-		return {
-			width: `${w[0]()}px`,
-			margin: '0 auto',
-		} as JSX.CSSProperties;
-	});
-
-	const cls = createMemo(() => {
-		const f = layout.float()[0]();
-		return joinClass(bgPalette, styles.app, styles.horizontal, f ? styles.float : undefined);
-	});
-
 	const [items, change] = buildItems(l, opt.menus);
 
 	return (
-		<Drawer
-			class={cls()}
-			floating={opt.floatingMinWidth}
-			ref={setDrawerRef}
-			style={style()}
-			asideClass={joinClass(sidePalette, styles.aside)}
-			mainClass={joinClass(layout.float()[0]() ? bgPalette : sidePalette, styles.main)}
-			main={
-				<ErrorBoundary fallback={errorHandler}>
-					<div class="contents">
-						<Appbar
-							ref={el => (toolbar = el)}
-							class={styles.toolbar}
-							palette={sidePalette}
-							actions={
-								<>
-									<For each={opt.toolbar}>{Item => <Item />}</For>
-									<UserMenu />
-								</>
-							}
-						>
-							<Drawer.ToggleButton drawer={drawerRef()} />
-						</Appbar>
-						<main class={joinClass(bgPalette, styles.content)}>{props.children}</main>
-					</div>
-				</ErrorBoundary>
-			}
-		>
-			<Appbar
-				ref={el => (asideBar = el)}
-				brand={<Appbar.Brand href={opt.routes.private.home} title={opt.title} logo={opt.logo} />}
-				class={styles.toolbar}
-			/>
-			<Menu class={styles.menu} ref={el => (menuRef = el)} layout="inline" items={items} onChange={change} />
-		</Drawer>
-	);
-}
-
-function Vertical(props: ParentProps): JSX.Element {
-	const opt = useOptions();
-	const l = useLocale();
-	const layout = useLayout();
-
-	let menuRef: Menu.Ref;
-	const [drawerRef, setDrawerRef] = createSignal<Drawer.Ref>();
-
-	onMount(() => {
-		if (menuRef) {
-			menuRef.scrollSelectedIntoView();
-		}
-	});
-
-	const style = createMemo(() => {
-		const w = layout.width();
-		if (!w[0]() || w[0]() === window.screen.width) {
-			return;
-		}
-		return {
-			width: `${w[0]()}px`,
-			margin: '0 auto',
-		} as JSX.CSSProperties;
-	});
-
-	const cls = createMemo(() => {
-		const f = layout.float()[0]();
-		return joinClass(f ? bgPalette : sidePalette, styles.app, styles.vertical, f ? styles.float : undefined);
-	});
-
-	const [items, change] = buildItems(l, opt.menus);
-
-	return (
-		<div class={cls()} style={style()}>
-			<Appbar
-				brand={<Appbar.Brand href={opt.routes.private.home} title={opt.title} logo={opt.logo} />}
-				class={styles.toolbar}
-				palette={sidePalette}
-				actions={
-					<>
-						<For each={opt.toolbar}>{Item => <Item />}</For>
-						<UserMenu />
-					</>
-				}
-			>
-				<Drawer.ToggleButton drawer={drawerRef()} />
-			</Appbar>
-
-			<main class={styles.main}>
-				<Drawer
-					floating={opt.floatingMinWidth}
-					ref={setDrawerRef}
-					asideClass={joinClass(sidePalette, styles.aside)}
-					mainClass={joinClass(bgPalette, styles.content)}
-					main={<ErrorBoundary fallback={errorHandler}>{props.children}</ErrorBoundary>}
+		<ErrorBoundary fallback={errorHandler}>
+			<layoutContext.Provider value={ctx}>
+				<AppLayout
+					palette="secondary"
+					mainPalette="surface"
+					layout={layout[0]()}
+					float={float[0]()}
+					width={width[0]()}
+					brand={<Appbar.Brand href={opt.routes.private.home} title={opt.title} logo={opt.logo} />}
+					actions={
+						<>
+							<For each={opt.toolbar}>{Item => <Item />}</For>
+							<UserMenu />
+						</>
+					}
+					aside={
+						<Menu class={styles.menu} ref={el => (menuRef = el)} layout="inline" items={items} onChange={change} />
+					}
 				>
-					<Menu ref={el => (menuRef = el)} layout="inline" items={items} onChange={change} />
-				</Drawer>
-			</main>
-		</div>
+					{props.children}
+				</AppLayout>
+			</layoutContext.Provider>
+		</ErrorBoundary>
 	);
 }
 

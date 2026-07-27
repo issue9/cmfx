@@ -8,6 +8,7 @@ import './polyfill';
 
 export * from './app';
 export * from './appbar';
+export * from './applayout';
 export * from './avatar';
 export * from './backtop';
 export * from './badge';

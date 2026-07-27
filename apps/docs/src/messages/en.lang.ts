@@ -89,6 +89,7 @@ const messages = {
 			// 组件名称
 
 			appbar: 'Appbar',
+			applayout: 'AppLayout',
 			avatar: 'Avatar',
 			backtop: 'Backtop',
 			badge: 'Badge',

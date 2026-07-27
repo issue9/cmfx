@@ -38,7 +38,7 @@
 			{
 				"name": "onClose",
 				"summary": "关闭组件之前触发的事件\n\n",
-				"type": "(() => Promise<boolean>) | undefined",
+				"type": "(() => Promise<boolean | undefined>) | undefined",
 				"readonly": true
 			},
 			{

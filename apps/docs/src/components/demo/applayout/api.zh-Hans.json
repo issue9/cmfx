@@ -1,31 +1,56 @@
 [
 	{
 		"kind": "interface",
-		"name": "Appbar.Props",
+		"name": "AppLayout.Props",
 		"properties": [
 			{
-				"name": "brand",
-				"summary": "产品名称显示区域\n\n",
-				"type": "JSX.Element",
+				"name": "layout",
+				"summary": "布局\n\n",
+				"type": "\"horizontal\" | \"vertical\" | undefined",
+				"def": "'horizontal'\n\n",
 				"reactive": true
 			},
 			{
-				"name": "brandClass",
-				"summary": "为\n的根元素添加的 CSS 类\n\n",
-				"type": "string | undefined",
+				"name": "width",
+				"summary": "宽度\n\n",
+				"type": "number | undefined",
 				"reactive": true
+			},
+			{
+				"name": "float",
+				"summary": "浮动\n\n",
+				"type": "boolean | undefined",
+				"reactive": true
+			},
+			{
+				"name": "floatingMinWidth",
+				"summary": "侧边栏浮动最小宽度\n\n",
+				"type": "\"3xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"2xl\" | \"4xl\" | \"6xl\" | \"8xl\" | undefined",
+				"reactive": true
+			},
+			{
+				"name": "brand",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "toolbar",
+				"type": "JSX.Element"
 			},
 			{
 				"name": "actions",
-				"summary": "尾部的按钮列表\n\n",
-				"type": "JSX.Element",
-				"reactive": true
+				"type": "JSX.Element"
 			},
 			{
-				"name": "actionsClass",
-				"summary": "为 actions 的根元素添加 CSS 类\n\n",
-				"type": "string | undefined",
-				"reactive": true
+				"name": "aside",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "extra",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
 			},
 			{
 				"name": "palette",
@@ -49,10 +74,6 @@
 				"reactive": true
 			},
 			{
-				"name": "children",
-				"type": "JSX.Element"
-			},
-			{
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
 				"type": "((m: REF) => void) | undefined",
@@ -63,6 +84,7 @@
 	},
 	{
 		"kind": "interface",
+		"name": "AppLayout.Ref",
 		"methods": [
 			{
 				"name": "root",
@@ -73,7 +95,6 @@
 				}
 			}
 		],
-		"name": "Appbar.Ref",
 		"pkg": "@cmfx/components"
 	}
 ]

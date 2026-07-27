@@ -28,7 +28,9 @@
 			},
 			{
 				"name": "mainClass",
-				"type": "string | undefined"
+				"summary": "内容区域的类名\n\n",
+				"type": "string | undefined",
+				"reactive": true
 			},
 			{
 				"name": "palette",
