@@ -17,7 +17,6 @@ export default function (): Info {
 		kind: 'navigation',
 		title: '_d.demo.menu',
 		icon: IconMenu,
-		path: 'menu/menu',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [

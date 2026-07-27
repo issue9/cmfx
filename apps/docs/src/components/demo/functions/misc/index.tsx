@@ -11,7 +11,6 @@ export default function (): Info {
 		kind: 'function',
 		title: '_d.demo.misc',
 		icon: IconMisc,
-		path: 'functions/misc',
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 	};

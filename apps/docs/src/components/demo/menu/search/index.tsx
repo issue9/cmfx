@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'feedback',
 		title: '_d.demo.search',
 		icon: IconSearch,
-		path: 'menu/search',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Search, source: search, id: 'search' }],

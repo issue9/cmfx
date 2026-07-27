@@ -14,17 +14,18 @@ import styles from './style.module.css';
 
 const demos = import.meta.glob<{ default: () => Info }>('./demo/**/index.tsx', { eager: true });
 
-export const routes: Array<RouteDefinition> = Object.values(demos).map(d => {
-	const r = d.default();
+export const routes: Array<RouteDefinition> = Object.entries(demos).map(d => {
+	const path = d[0].slice('./demo/'.length, -'/index.tsx'.length);
+	const r = d[1].default();
 
 	const route: RouteDefinition = {
-		path: r.path,
+		path: path,
 		info: {
 			title: r.title,
 			kind: r.kind,
 			icon: r.icon,
 		},
-		component: () => <Stages dir={r.path} api={r.api} stages={r.stages} doc={r.doc} />,
+		component: () => <Stages dir={path} api={r.api} stages={r.stages} doc={r.doc} />,
 	};
 	return route;
 });

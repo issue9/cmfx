@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'layout',
 		title: '_d.demo.page',
 		icon: IconPage,
-		path: 'page',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Page, source: page, id: 'page' }],

@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'general',
 		title: '_d.demo.schemeSelector',
 		icon: IconTheme,
-		path: 'scheme/selector',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Selector, source: selector, id: 'basic' }],

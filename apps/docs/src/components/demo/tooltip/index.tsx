@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'feedback',
 		title: '_d.demo.tooltip',
 		icon: IconTooltip,
-		path: 'tooltip',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Tooltip, source: tooltip, id: 'tooltip' }],

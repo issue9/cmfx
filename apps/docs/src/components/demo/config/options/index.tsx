@@ -13,8 +13,6 @@ export default function (): Info {
 		kind: 'config',
 		title: '_d.demo.optionsConfig',
 		icon: IconOptionsConfig,
-		path: 'config/options',
-		header: import.meta.glob('./HEADER.*.md', { eager: true, query: '?raw', import: 'default' }),
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Options, source: options, id: 'options' }],

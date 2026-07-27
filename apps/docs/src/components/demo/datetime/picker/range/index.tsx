@@ -15,7 +15,6 @@ export default function (): Info {
 		kind: 'data-input',
 		title: '_d.demo.dateRangePicker',
 		icon: IconDateRangePicker,
-		path: 'datetime/picker/range',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [

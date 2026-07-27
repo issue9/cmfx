@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'data-display',
 		title: '_d.demo.statistic',
 		icon: IconStatistic,
-		path: 'statistic',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Basic, source: basic, id: 'basic' }],

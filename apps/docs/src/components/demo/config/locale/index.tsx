@@ -19,7 +19,6 @@ export default function (): Info {
 		kind: 'config',
 		title: '_d.demo.localeConfig',
 		icon: IconLocaleConfig,
-		path: 'config/locale',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [

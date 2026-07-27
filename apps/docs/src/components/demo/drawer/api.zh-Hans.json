@@ -12,7 +12,7 @@
 				"name": "floating",
 				"summary": "侧边栏是以浮动的形式出现\n\n",
 				"remarks": "如果是 true 或是 false 表示始终保持一种状态，\n其它的值表示在整个页面小于此值时才变为浮动状态。\n除 boolean 以外的取值与窗口查询的值相对应，比如 2xl 对应的是\n`@2xl`\n。\n\n",
-				"type": "boolean | \"md\" | \"3xs\" | \"xs\" | \"sm\" | \"lg\" | \"2xl\" | \"4xl\" | \"6xl\" | \"8xl\" | undefined",
+				"type": "boolean | \"3xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"2xl\" | \"4xl\" | \"6xl\" | \"8xl\" | undefined",
 				"def": "false\n\n",
 				"reactive": true
 			},

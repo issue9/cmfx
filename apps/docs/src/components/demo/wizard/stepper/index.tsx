@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'navigation',
 		title: '_d.demo.stepper',
 		icon: IconStepper,
-		path: 'wizard/stepper',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Stepper, source: stepper, id: 'stepper' }],

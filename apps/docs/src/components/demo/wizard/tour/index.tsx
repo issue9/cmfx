@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'navigation',
 		title: '_d.demo.tour',
 		icon: IconTour,
-		path: 'wizard/tour',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Tour, source: tour, id: 'tour' }],

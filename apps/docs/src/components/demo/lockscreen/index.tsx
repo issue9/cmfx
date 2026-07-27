@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'general',
 		title: '_d.demo.lockScreen',
 		icon: IconLock,
-		path: 'lockscreen',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: LockScreen, source: lockScreen, id: 'lockscreen' }],

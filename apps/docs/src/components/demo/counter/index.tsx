@@ -15,7 +15,6 @@ export default function (): Info {
 		kind: 'data-display',
 		title: '_d.demo.counter',
 		icon: IconCounter,
-		path: 'counter',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [

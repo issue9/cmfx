@@ -15,7 +15,6 @@ export default function (): Info {
 		kind: 'function',
 		title: '_d.demo.formatter',
 		icon: IconFormatter,
-		path: 'formatter',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [

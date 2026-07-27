@@ -13,7 +13,6 @@ export default function (): Info {
 		kind: 'general',
 		title: '_d.demo.transition',
 		icon: IconTransition,
-		path: 'transition',
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [{ component: Transition, source: transition, id: 'transition' }],
 	};

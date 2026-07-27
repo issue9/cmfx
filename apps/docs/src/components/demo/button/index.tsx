@@ -27,7 +27,6 @@ export default function (): Info {
 		kind: 'general',
 		title: '_d.demo.button',
 		icon: IconButton,
-		path: 'button',
 		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
 		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
 		stages: [

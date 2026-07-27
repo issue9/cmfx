@@ -30,23 +30,40 @@
 			},
 			{
 				"name": "brand",
-				"type": "JSX.Element"
+				"summary": "产品名称区域内容\n\n",
+				"type": "JSX.Element",
+				"reactive": true
 			},
 			{
 				"name": "toolbar",
-				"type": "JSX.Element"
+				"summary": "顶部工具栏区域\n\n",
+				"type": "JSX.Element",
+				"reactive": true
 			},
 			{
 				"name": "actions",
-				"type": "JSX.Element"
+				"summary": "顶部右侧的操作按钮区域\n\n",
+				"type": "JSX.Element",
+				"reactive": true
 			},
 			{
 				"name": "aside",
-				"type": "JSX.Element"
+				"summary": "侧边栏区域\n\n",
+				"type": "JSX.Element",
+				"reactive": true
 			},
 			{
 				"name": "extra",
-				"type": "JSX.Element"
+				"summary": "侧边栏底部区域\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "mainPalette",
+				"summary": "内容区域的色盘\n\n",
+				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+				"def": "'surface'\n\n",
+				"reactive": true
 			},
 			{
 				"name": "children",
