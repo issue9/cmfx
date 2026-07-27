@@ -126,7 +126,8 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 	let toolbar: Appbar.Ref;
 	onMount(() => {
 		const ro = new ResizeObserver(entries => {
-			asideBar.root().style.height = `${entries[0]!.borderBoxSize[0].blockSize.toString()}px`;
+			// 设置 height，可能因为 aside 的内部元素太小而导致元素的高度无法达到。只能设置 min-height 值达到效果。
+			asideBar.root().style.setProperty('min-height', `${entries[0]!.borderBoxSize[0].blockSize.toString()}px`);
 		});
 		ro.observe(toolbar.root());
 		onCleanup(() => ro.disconnect());
@@ -145,7 +146,7 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 
 	const cls = createMemo(() => {
 		const f = props.float;
-		return joinClass(props.mainPalette, styles.layout, styles.horizontal, f ? styles.float : undefined);
+		return joinClass(props.mainPalette, styles.layout, props.class, styles.horizontal, f ? styles.float : undefined);
 	});
 
 	return (
@@ -157,7 +158,7 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 				props.ref?.({ root: el.root });
 			}}
 			style={style()}
-			asideClass={joinClass(props.palette, styles.aside)}
+			asideClass={joinClass(props.palette, styles.drawer)}
 			mainClass={joinClass(props.float ? props.mainPalette : props.palette, styles.main)}
 			main={
 				<div class="contents">
@@ -170,8 +171,8 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 			}
 		>
 			<Appbar ref={el => (asideBar = el)} brand={props.brand} class={styles.toolbar} />
-			{props.aside}
-			{props.extra}
+			<div class={styles.aside}>{props.aside}</div>
+			<div class={styles.extra}>{props.extra}</div>
 		</Drawer>
 	);
 }
@@ -211,12 +212,12 @@ function Vertical(props: AppLayoutProps): JSX.Element {
 				<Drawer
 					floating={props.floatingMinWidth}
 					ref={setDrawerRef}
-					asideClass={joinClass(props.palette, styles.aside)}
+					asideClass={joinClass(props.palette, styles.drawer)}
 					mainClass={joinClass(props.mainPalette, styles.content)}
 					main={props.children}
 				>
-					{props.aside}
-					{props.extra}
+					<div class={styles.aside}>{props.aside}</div>
+					<div class={styles.extra}>{props.extra}</div>
 				</Drawer>
 			</main>
 		</div>

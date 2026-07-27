@@ -8,22 +8,26 @@
 
 @layer components {
 	.layout {
-		.aside {
-			@apply min-w-60;
+		.drawer {
+			@apply min-w-60 flex flex-col;
+
+			.aside {
+				@apply h-full overflow-y-auto shrink-1 grow-1;
+			}
+
+			.extra {
+				@apply flex-0;
+			}
 		}
 
 		.toolbar {
-			@apply px-4;
+			@apply px-4 flex-0 items-center;
 		}
 	}
 
 	.layout.horizontal {
-		.aside {
-			@apply overflow-y-auto h-full overflow-clip flex flex-col;
-
-			.menu {
-				@apply overflow-y-auto;
-			}
+		.drawer {
+			@apply h-full overflow-clip;
 		}
 
 		.main {
@@ -55,7 +59,7 @@
 			@apply rounded-md shadow-md;
 		}
 
-		.aside {
+		.drawer {
 			@apply rounded-md shadow-md;
 		}
 	}

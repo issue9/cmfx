@@ -30,7 +30,26 @@ export default function (props: MountProps) {
 				mainPalette={mainPalette()}
 				layout={layout()}
 				brand={<Appbar.Brand logo={opt.logo} title={opt.title} />}
-				aside={<div class="min-h-20 min-w-5 border border-red-500">aside</div>}
+				aside={<div class="min-h-20 min-w-5 border border-red-500">
+					<p>aaa</p>
+					<p>aaa</p>
+					<p>aaa</p>
+					<p>aaa</p>
+					<p>aaa</p>
+					<p>aaa</p>
+					<p>bbb</p>
+					<p>bbb</p>
+					<p>bbb</p>
+					<p>bbb</p>
+					<p>ccc</p>
+					<p>ccc</p>
+					<p>ccc</p>
+					<p>ccc</p>
+					<p>ddd</p>
+					<p>ddd</p>
+					<p>ddd</p>
+					<p>ddd</p>
+				</div>}
 				extra={
 					<Button square kind="flat" class="w-4">
 						<IconPerson />
