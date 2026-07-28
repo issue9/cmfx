@@ -60,7 +60,7 @@ export interface Info {
 }
 
 const checkerSrc = path.join(import.meta.dirname, 'version', 'checker.ts');
-const initSrc = path.join(import.meta.dirname, 'version', 'init.ts');
+const indexSrc = path.join(import.meta.dirname, 'version', 'index.ts');
 
 /**
  * 为项目生成版本信息
@@ -69,8 +69,8 @@ const initSrc = path.join(import.meta.dirname, 'version', 'init.ts');
  * 该插件会在 public 下生成一个版本信息文件，同时在源码目录下添加一个 version_checker 目录，
  * 目录下包含两个文件：
  * - checker.ts 用于轮询版本更新；
- * - init.ts 用于初始化版本信息；
- * 用户只需要调用 init 中的 initVersionCheckWorker 函数就可以了。
+ * - index.ts 用于初始化版本信息；
+ * 用户只需要调用 index.ts 中的 initVersionCheckWorker 函数就可以了。
  */
 export function version(options?: Options): Plugin<Options> {
 	const opt = Object.assign(
@@ -111,7 +111,7 @@ export function version(options?: Options): Plugin<Options> {
 				const checkerDest = path.join(srcDir, 'checker.ts');
 				await fs.promises.writeFile(checkerDest, txt);
 
-				await fs.promises.copyFile(initSrc, path.join(srcDir, 'init.ts'));
+				await fs.promises.copyFile(indexSrc, path.join(srcDir, 'index.ts'));
 			} catch (err) {
 				throw new Error(`写入版本文件失败：${err}`);
 			}
