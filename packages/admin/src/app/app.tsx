@@ -57,6 +57,7 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 		pageSize: opt.api.pageSize,
 		stays: opt.stays,
 		problemHandler: opt.problemHandler,
+		onInitialized: opt.onInitialized,
 	} satisfies XOptions;
 
 	const api = await API.build(

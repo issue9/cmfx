@@ -158,6 +158,11 @@ export interface Options extends ConfigurableOptions {
 	 * @defaultValue {@link handleProblem}
 	 */
 	problemHandler?: ProblemHandler;
+
+	/**
+	 * 初始化完成时执行的方法
+	 */
+	onInitialized?: () => void;
 }
 
 /**

@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { HashRouter, type RouteDefinition, type Router, type RouteSectionProps } from '@solidjs/router';
-import { type Component, Match, Switch } from 'solid-js';
+import { type Component, type JSX, Match, onMount, type ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { OptionsProvider } from '@components/context/options/context';
+import { OptionsProvider, useOptions } from '@components/context/options/context';
 import { initEnv, type Options } from '@components/context/options/options';
 import { DialogProvider } from '@components/dialog/system';
 import { NotifyProvider } from '@components/notify/notify/notify';
@@ -45,7 +45,9 @@ export function run(
 				<Match when={complete()}>
 					<OptionsProvider {...opt}>
 						<DialogProvider mount={mountedElement} palette="primary">
-							<NotifyProvider mount={mountedElement}>{app(props)}</NotifyProvider>
+							<NotifyProvider mount={mountedElement}>
+								<Initialized>{app(props)}</Initialized>
+							</NotifyProvider>
 						</DialogProvider>
 					</OptionsProvider>
 				</Match>
@@ -54,4 +56,10 @@ export function run(
 	};
 
 	render(() => router({ root: Root, children: routes }), mountedElement);
+}
+
+function Initialized(props: ParentProps): JSX.Element {
+	const [, opt] = useOptions();
+	onMount(() => opt.onInitialized?.());
+	return props.children;
 }

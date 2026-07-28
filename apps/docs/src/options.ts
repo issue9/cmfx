@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createChartLocaleLoader, type Options } from '@cmfx/components';
+import { createChartLocaleLoader, Notify, type Options } from '@cmfx/components';
 import { Config, createZodLocaleLoader } from '@cmfx/core';
 import { type Scheme, schemes } from '@cmfx/themes';
 
@@ -43,4 +43,7 @@ export const options: Options = {
 	pageSizes: [10, 20, 50, 100, 200, 500],
 	pageSize: 20,
 	stays: 2000,
+	onInitialized: () => {
+		Notify.error('Environment inited');
+	},
 };

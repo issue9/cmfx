@@ -151,7 +151,7 @@ export interface Options {
 	/**
 	 * 默认的本地化语言。当在配置项中存在时，当前值将被忽略。
 	 *
-	 * @defaultValue `document.documentElement.lang || navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en')`
+	 * @defaultValue document.documentElement.lang || I18n.system
 	 */
 	locale?: string;
 
@@ -165,7 +165,7 @@ export interface Options {
 	/**
 	 * 指定时区。当在配置项中存在时，当前值将被忽略。
 	 *
-	 * @defaultValue `Intl.DateTimeFormat().resolvedOptions().timeZone`
+	 * @defaultValue Intl.DateTimeFormat().resolvedOptions().timeZone
 	 */
 	timezone?: string;
 
@@ -186,9 +186,14 @@ export interface Options {
 	/**
 	 * 使用的插图集
 	 *
-	 * @defaultValue `@cmfx/themes.bro`
+	 * @defaultValue @cmfx/themes.bro
 	 */
 	illustrations?: Gallery;
+
+	/**
+	 * 初始化完成时执行的方法
+	 */
+	onInitialized?: () => void;
 }
 
 // 大部分的默认值在 @cmfx/components 中是已经定义过的。
