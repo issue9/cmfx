@@ -25,94 +25,51 @@ export interface DrawerRef extends BaseRef<HTMLDivElement> {
 	main(): HTMLElement;
 
 	/**
+	 * 侧边栏是否处于浮动状态
+	 *
+	 * @remarks
+	 * 只有此值为 true，对侧边栏的显示隐藏等操作才会有效果。
+	 */
+	isFloating(): boolean;
+
+	/**
 	 * 显示侧边栏
+	 *
+	 * @remarks
+	 * 需要 {@link isFloating} 为 true 时才会有效果。
 	 */
 	show(): void;
 
 	/**
 	 * 隐藏侧边栏
+	 *
+	 * @remarks
+	 * 需要 {@link isFloating} 为 true 时才会有效果。
 	 */
 	hide(): void;
 
 	/**
 	 * 切换侧边栏的状态
+	 *
+	 * @remarks
+	 * 需要 {@link isFloating} 为 true 时才会有效果。
 	 */
 	toggle(): void;
 
 	/**
 	 * 获取侧边栏的显示状态
 	 *
-	 * @returns true 表示显示状态；
+	 * @remarks
+	 * 需要 {@link isFloating} 为 true 时才会有效果。
 	 */
 	visible(): boolean;
-}
-
-export type DrawerToggleButtonProps = Omit<TB.Props, 'onToggle' | 'value' | 'on' | 'off'> & {
-	/**
-	 * 侧边栏在显示状态下的按钮图标
-	 *
-	 * @reactive
-	 * @defaultValue <IconMenuOpen />
-	 */
-	on?: JSX.Element;
-
-	/**
-	 * 侧边栏在隐藏状态下的按钮图标
-	 *
-	 * @reactive
-	 * @defaultValue <IconMenu />
-	 */
-	off?: JSX.Element;
-
-	drawer?: DrawerRef;
-};
-
-/**
- * 生成一个用于显示和隐藏侧边栏的按钮组件
- */
-export function ToggleButton(p: DrawerToggleButtonProps): JSX.Element {
-	const [hidden, setHidden] = createSignal(!p.drawer); // 按钮的显示状态
-
-	const ob = new ResizeObserver(e => {
-		setHidden(getComputedStyle(e[0].target).getPropertyValue('position') !== 'absolute');
-	});
-	onCleanup(() => ob.disconnect());
-
-	createEffect(() => {
-		const ref = p.drawer;
-
-		if (ref) {
-			ob.observe(ref.aside());
-		} else {
-			ob.disconnect();
-		}
-	});
-
-	p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu /> }, p);
-	const [_, btnProps] = splitProps(p, ['class', 'palette', 'drawer']);
-
-	return (
-		<TB
-			{...(btnProps as TB.Props)}
-			value={p.drawer?.visible()}
-			class={joinClass(p.palette, hidden() ? 'hidden' : undefined, p.class)}
-			onToggle={async (): Promise<boolean | undefined> => {
-				if (!p.drawer) {
-					return;
-				}
-
-				p.drawer.toggle();
-				return p.drawer.visible();
-			}}
-		/>
-	);
 }
 
 export interface DrawerProps extends ThemeProps, ParentProps, RefProps<DrawerRef> {
 	/**
 	 * 侧边栏的初始状态
 	 */
-	initValue?: boolean;
+	readonly initValue?: boolean;
 
 	/**
 	 * 侧边栏是以浮动的形式出现
@@ -158,30 +115,44 @@ export interface DrawerProps extends ThemeProps, ParentProps, RefProps<DrawerRef
 const presetProps: Readonly<Partial<DrawerProps>> = {
 	pos: 'start',
 	floating: false,
-};
+} as const;
 
 export function Drawer(props: DrawerProps): JSX.Element {
 	props = mergeProps(presetProps, props);
 	let rootRef: HTMLDivElement;
 	let asideRef: HTMLElement;
+	let mainRef: HTMLElement;
 
-	const [visible, setVisible] = createSignal(!!props.initValue);
-
+	// 侧边栏是否为浮动状态，只有浮动状态下，才会有显示和隐藏功能
+	const [isFloating, setIsFloating] = createSignal(false);
+	const mainRO = new ResizeObserver(() => {
+		setIsFloating(getComputedStyle(asideRef).getPropertyValue('position') === 'absolute');
+	});
+	onCleanup(() => mainRO.disconnect());
 	onMount(() => {
-		const handleClick = (e: MouseEvent) => {
-			if (props.floating === undefined || !visible()) {
-				return;
-			}
+		mainRO.observe(mainRef); // 监听 mainRef 的变化比监视 aside 更合理
+		setIsFloating(getComputedStyle(asideRef).getPropertyValue('position') === 'absolute');
+	});
 
-			const node = e.target as HTMLElement;
-			if (rootRef.contains(node) && !asideRef.contains(node)) {
-				setVisible(false);
+	// 侧边栏状态
+	const [visible, setVisible] = createSignal(!!props.initValue);
+	const setV = (v: boolean) => {
+		if (isFloating()) {
+			setVisible(v);
+		}
+	};
+
+	// 注册鼠标事件
+	onMount(() => {
+		const handleEsc = (e: KeyboardEvent) => {
+			if (props.floating && e.key === 'Escape') {
+				setV(false);
 			}
 		};
 
-		document.addEventListener('click', handleClick);
+		document.addEventListener('keydown', handleEsc);
 		onCleanup(() => {
-			document.removeEventListener('click', handleClick);
+			document.removeEventListener('keydown', handleEsc);
 		});
 	});
 
@@ -222,22 +193,73 @@ export function Drawer(props: DrawerProps): JSX.Element {
 			</aside>
 			<main
 				class={props.mainClass}
+				onclick={() => setV(false)}
 				ref={el => {
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef,
-							main: () => el,
-							aside: () => asideRef,
-							show: () => setVisible(true),
-							hide: () => setVisible(false),
-							toggle: () => setVisible(!visible()),
-							visible: () => visible(),
-						});
-					}
+					mainRef = el;
+					props.ref?.({
+						root: () => rootRef,
+						main: () => el,
+						aside: () => asideRef,
+						isFloating: () => isFloating(),
+						show: () => setV(true),
+						hide: () => setV(false),
+						toggle: () => setV(!visible()),
+						visible: () => visible(),
+					});
 				}}
 			>
 				<Transition>{props.main}</Transition>
 			</main>
 		</div>
+	);
+}
+
+export type DrawerToggleButtonProps = Omit<TB.Props, 'onToggle' | 'value' | 'on' | 'off'> & {
+	/**
+	 * 侧边栏在显示状态下的按钮图标
+	 *
+	 * @reactive
+	 * @defaultValue <IconMenuOpen />
+	 */
+	on?: JSX.Element;
+
+	/**
+	 * 侧边栏在隐藏状态下的按钮图标
+	 *
+	 * @reactive
+	 * @defaultValue <IconMenu />
+	 */
+	off?: JSX.Element;
+
+	/**
+	 * 根据此对象处理按钮状态
+	 *
+	 * @reactive
+	 */
+	drawer?: DrawerRef;
+};
+
+/**
+ * 生成一个用于显示和隐藏侧边栏的按钮组件
+ */
+export function ToggleButton(props: DrawerToggleButtonProps): JSX.Element {
+	props = mergeProps({ on: <IconMenuOpen />, off: <IconMenu /> }, props);
+
+	const [_, btnProps] = splitProps(props, ['class', 'palette', 'drawer']);
+
+	return (
+		<TB
+			{...(btnProps as TB.Props)}
+			value={props.drawer?.visible()}
+			class={joinClass(props.palette, !props.drawer?.isFloating() ? 'hidden' : '', props.class)}
+			onToggle={async (): Promise<boolean | undefined> => {
+				if (!props.drawer) {
+					return;
+				}
+
+				props.drawer.toggle();
+				return props.drawer.visible();
+			}}
+		/>
 	);
 }

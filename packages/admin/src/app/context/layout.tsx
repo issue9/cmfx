@@ -93,8 +93,9 @@ export function AdminLayout(props: ParentProps): JSX.Element {
 		<ErrorBoundary fallback={errorHandler}>
 			<layoutContext.Provider value={ctx}>
 				<AppLayout
-					palette="secondary"
-					mainPalette="surface"
+					palette="surface"
+					asidePalette="secondary"
+					toolbarPalette='secondary'
 					layout={layout[0]()}
 					float={float[0]()}
 					width={width[0]()}

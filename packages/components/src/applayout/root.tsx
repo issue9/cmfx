@@ -8,6 +8,7 @@ import { createMemo, createSignal, Match, mergeProps, onCleanup, onMount, Switch
 
 import { Appbar } from '@components/appbar';
 import type { BaseRef, Layout, RefProps } from '@components/base';
+import { useOptions } from '@components/context/options';
 import { Drawer } from '@components/drawer';
 import styles from './style.module.css';
 
@@ -47,6 +48,7 @@ export interface AppLayoutProps extends ParentProps, ThemeProps, RefProps<AppLay
 	 * 产品名称区域内容
 	 *
 	 * @reactive
+	 * @defaultValue 根据 options 中的 logo 和 title 生成
 	 */
 	brand?: JSX.Element;
 
@@ -109,11 +111,13 @@ export interface AppLayoutProps extends ParentProps, ThemeProps, RefProps<AppLay
  *  |----------------------------|
  */
 export function AppLayout(props: AppLayoutProps): JSX.Element {
+	const [, opt] = useOptions();
 	props = mergeProps(
 		{
 			layout: 'horizontal',
 			asidePalette: props.palette ? nextPalette(props.palette, 2) : 'tertiary',
 			toolbarPalette: props.palette ? nextPalette(props.palette, 1) : 'secondary',
+			brand: <Appbar.Brand logo={opt.logo} title={opt.title} />,
 		} satisfies AppLayoutProps,
 		props,
 	);
@@ -150,7 +154,7 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 		return {
 			width: `${w}px`,
 			margin: '0 auto',
-		} as JSX.CSSProperties;
+		} satisfies JSX.CSSProperties;
 	});
 
 	const cls = createMemo(() => {
@@ -202,7 +206,7 @@ function Vertical(props: AppLayoutProps): JSX.Element {
 		return {
 			width: `${w}px`,
 			margin: '0 auto',
-		} as JSX.CSSProperties;
+		} satisfies JSX.CSSProperties;
 	});
 
 	const cls = createMemo(() => {

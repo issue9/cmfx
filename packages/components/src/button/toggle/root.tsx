@@ -93,7 +93,10 @@ export function ToggleButton(props: ToggleButtonProps): JSX.Element {
 		<Button
 			{...btnProps}
 			square
-			onclick={toggle}
+			onclick={async e => {
+				toggle();
+				e.stopPropagation(); // 已经处理了，就不需要冒泡和捕获了
+			}}
 			ref={el => {
 				if (props.ref) {
 					props.ref({
