@@ -4,7 +4,7 @@
 
 import { type Breakpoint, joinClass, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
-import { createEffect, createSignal, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { createSignal, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
