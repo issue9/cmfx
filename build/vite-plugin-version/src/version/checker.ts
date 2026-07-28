@@ -9,12 +9,11 @@
 // 所有 __XX__ 的内容会被插件替换为实际的值。
 //
 // 包含了以下几个事件：
-// - 发送 INIT: 主线程发送初始化消息，包含当前版本号。
 // - 发送 CHECK: 主线程发送刷新消息，请求立即检测版本信息。
 // - 发送 PAUSE: 主线程发送暂停消息，暂停版本检测。
 // - 接收 UPDATE: 检测到新版本时发送的通知消息。
 
-export interface VersionInfo {
+interface VersionInfo {
 	version: string;
 	buildTime: Date;
 }
@@ -53,14 +52,20 @@ async function fetchVersionInfo(): Promise<VersionInfo | undefined> {
  * 循环检测逻辑
  */
 async function check() {
+	// 初始化时从 version.json 读取当前版本信息
+	if (!currentInfo) {
+		const resp = await fetch(new URL(`/__VERSION_FILE__`, import.meta.url));
+		if (!resp.ok) {
+			console.error('未初始化！');
+			return;
+		}
+
+		currentInfo = await resp.json();
+	}
+
 	if (timeoutID) {
 		clearTimeout(timeoutID);
 		timeoutID = undefined;
-	}
-
-	if (!currentInfo) {
-		console.error('未初始化！');
-		return;
 	}
 
 	const info = await fetchVersionInfo();
@@ -84,13 +89,6 @@ async function check() {
 // 只有主线程触了消息，才会开始检测版本信息。
 self.addEventListener('message', e => {
 	switch (e.data.type) {
-		case 'INIT':
-			currentInfo = {
-				version: e.data.version,
-				buildTime: e.data.buildTime,
-			};
-			check();
-			break;
 		case 'CHECK':
 			check();
 			break;
