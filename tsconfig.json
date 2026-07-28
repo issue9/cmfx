@@ -20,6 +20,9 @@
 			"path": "./build/vite-plugin-api/tsconfig.json"
 		},
 		{
+			"path": "./build/vite-plugin-version/tsconfig.json"
+		},
+		{
 			"path": "./apps/docs/tsconfig.json"
 		},
 		{

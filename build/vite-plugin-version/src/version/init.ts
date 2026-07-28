@@ -21,12 +21,13 @@ export interface VersionInfo {
  *  - INIT 初始化事件，携带旧的版本号信息；
  *  - CHECK 新求立即检测版本信息；
  *  - PAUSE 暂停版本检测；
+ * NOTE: 不需要手动调用 Worker.terminate，会在 pagehide 时自动终止。
  */
 export function initVersionCheckWorker(
 	update: (info: VersionInfo) => Promise<void>,
 	old: VersionInfo,
 	save: (info: VersionInfo) => Promise<void>,
-): Worker {
+): Omit<Worker, 'terminate'> {
 	const w = new Worker(new URL('./checker.ts', import.meta.url));
 
 	w.addEventListener('message', async e => {
@@ -48,6 +49,8 @@ export function initVersionCheckWorker(
 			w.postMessage({ type: 'CHECK' });
 		}
 	});
+
+	document.addEventListener('pagehide', () => w.terminate());
 
 	return w;
 }
