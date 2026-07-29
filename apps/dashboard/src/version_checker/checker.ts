@@ -24,7 +24,7 @@ interface VersionInfo {
  */
 async function fetchVersionInfo(): Promise<VersionInfo | undefined> {
 	try {
-		const url = `__VERSION_FILE__?t=${Date.now()}`;
+		const url = `/version.json?t=${Date.now()}`;
 		const resp = await fetch(url, {
 			signal: AbortSignal.timeout(5000), // 5 秒超时
 		});
@@ -38,7 +38,7 @@ async function fetchVersionInfo(): Promise<VersionInfo | undefined> {
 		if (typeof info.version === 'string') {
 			return info;
 		}
-		console.error('文件 __VERSION_FILE__ 格式无效');
+		console.error('文件 /version.json 格式无效');
 	} catch (error) {
 		console.warn(`检查版本失败：${error}`);
 	}
@@ -84,7 +84,7 @@ async function check() {
 		}
 
 		// 轮询间隔，单位毫秒，会被实际值替换。
-		timeoutID = self.setTimeout(check, __INTERVAL__);
+		timeoutID = self.setTimeout(check, 60000);
 	} finally {
 		isChecking = false;
 	}

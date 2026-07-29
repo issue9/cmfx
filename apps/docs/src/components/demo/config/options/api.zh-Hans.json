@@ -64,6 +64,11 @@
 				"def": "`handleProblem`\n\n"
 			},
 			{
+				"name": "onInitialized",
+				"summary": "初始化完成时执行的方法\n\n",
+				"type": "(() => void) | undefined"
+			},
+			{
 				"name": "fontSize",
 				"summary": "字体大小，当在\n`config`\n中存在时，当前值将被忽略。\n\n",
 				"type": "string | undefined"

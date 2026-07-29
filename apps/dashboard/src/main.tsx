@@ -17,7 +17,7 @@ import {
 	roles,
 	system,
 } from '@cmfx/admin';
-import { Card, createChartLocaleLoader, Label } from '@cmfx/components';
+import { Card, createChartLocaleLoader, Dialog, Label, useLocale } from '@cmfx/components';
 import { createZodLocaleLoader, Hotkey } from '@cmfx/core';
 import { type Scheme, schemes } from '@cmfx/themes';
 import YAML from 'yaml';
@@ -29,6 +29,7 @@ import IconAccount from '~icons/material-symbols/supervisor-account';
 import pkg from '../../../package.json' with { type: 'json' };
 import { default as webYaml } from '../../server/web.yaml?raw';
 import { default as Test } from './pages/test';
+import { initVersionCheckWorker } from './version_checker';
 
 const y = YAML.parse(webYaml);
 const urlBase = y.http.url + y.user.admin.user.urlPrefix;
@@ -182,6 +183,16 @@ const o: Options = {
 	floatingMinWidth: '4xl',
 	userMenus: currentPage.menus(),
 	toolbar: [createSearch(new Hotkey('k', 'control')), createClear(), createFullscreen(), createLockScreen()],
+
+	onInitialized: () => {
+		const l = useLocale();
+		initVersionCheckWorker(async info => {
+			if (await Dialog.confirm(l.t('updateVersion', { version: info.version }))) {
+				window.location.reload();
+			}
+			return false;
+		});
+	},
 };
 
 await create('app', o);
