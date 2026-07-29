@@ -32,6 +32,7 @@
 				"name": "brand",
 				"summary": "产品名称区域内容\n\n",
 				"type": "JSX.Element",
+				"def": "根据 options 中的 logo 和 title 生成\n\n",
 				"reactive": true
 			},
 			{

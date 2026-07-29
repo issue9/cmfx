@@ -16,7 +16,7 @@ test('plugin', async () => {
 	expect(p.name, 'vite-plugin-cmfx-about');
 	expect(typeof p.config).toEqual('function');
 	if (typeof p.config === 'function') {
-		const conf = (await p.config()!).define!;
+		const conf = (await p.config.call(null, null)).define!;
 		const obj = conf[aboutName];
 		expect(obj.dependencies.length).toEqual(0); // 根目录的 package.json 没有 dependencies。
 		expect(obj.devDependencies.length).toBeGreaterThan(5);

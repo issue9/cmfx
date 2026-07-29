@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createChartLocaleLoader, Notify, type Options } from '@cmfx/components';
+import { createChartLocaleLoader, Dialog, type Options, useLocale } from '@cmfx/components';
 import { Config, createZodLocaleLoader } from '@cmfx/core';
 import { type Scheme, schemes } from '@cmfx/themes';
+
+import { initVersionCheckWorker } from './version_checker';
 
 export const options: Options = {
 	config: new Config('docs', 'default', localStorage),
@@ -19,16 +21,16 @@ export const options: Options = {
 			async () => (await import('@cmfx/components/en.lang')).default,
 			async () => (await import('@cmfx/illustrations/en.lang')).default,
 			async () => (await import('./messages/en.lang.js')).default,
-			createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langEN.js')).default),
-			createZodLocaleLoader((await import('../node_modules/zod/v4/locales/en.js')).default),
+			createChartLocaleLoader((await import('echarts/lib/i18n/langEN.js')).default),
+			createZodLocaleLoader((await import('zod/v4/locales/en.js')).default),
 		],
 		'zh-Hans': [
 			async () => (await import('@cmfx/admin/zh-Hans.lang')).default,
 			async () => (await import('@cmfx/components/zh-Hans.lang')).default,
 			async () => (await import('@cmfx/illustrations/zh-Hans.lang')).default,
 			async () => (await import('./messages/zh-Hans.lang.js')).default,
-			createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langZH.js')).default),
-			createZodLocaleLoader((await import('../node_modules/zod/v4/locales/zh-CN.js')).default),
+			createChartLocaleLoader((await import('echarts/lib/i18n/langZH.js')).default),
+			createZodLocaleLoader((await import('zod/v4/locales/zh-CN.js')).default),
 		],
 	},
 
@@ -44,6 +46,12 @@ export const options: Options = {
 	pageSize: 20,
 	stays: 2000,
 	onInitialized: () => {
-		Notify.error('Environment inited');
+		const l = useLocale();
+		initVersionCheckWorker(async info => {
+			if (await Dialog.confirm(l.t('_d.main.updateVersion', { version: info.version }))) {
+				window.location.reload();
+			}
+			return false;
+		});
 	},
 };

@@ -25,10 +25,12 @@
 		"apps/docs",
 		"build/vite-plugin-about",
 		"build/vite-plugin-api",
+		"build/vite-plugin-version",
 		"packages/core",
 		"packages/components",
 		"packages/illustrations",
-		"packages/admin"
+		"packages/admin",
+		"packages/themes"
 	],
 	"scripts": {
 		"lint": "pnpm exec biome lint",

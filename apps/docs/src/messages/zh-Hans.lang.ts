@@ -37,6 +37,7 @@ const messages: typeof m = {
 			ltr: 'LTR',
 			rtl: 'RTL',
 			auto: '跟随系统',
+			updateVersion: '有新版本 {version}，是否更新？',
 		},
 		home: {
 			desc: '一款基于 {go} 和 {solidjs} 的快速后台管理开发框架',

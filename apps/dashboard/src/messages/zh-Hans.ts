@@ -5,6 +5,7 @@
 import type { Message } from './en';
 
 const m: Message = {
+	updateVersion: '有新版本 {version}，是否更新？',
 	home: '首页',
 	system: '系统',
 	administrator: '管理员',

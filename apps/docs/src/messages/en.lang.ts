@@ -35,6 +35,7 @@ const messages = {
 			ltr: 'LTR',
 			rtl: 'RTL',
 			auto: 'Auto',
+			updateVersion: 'A new version {version} is available. Do you want to update?',
 		},
 		home: {
 			desc: 'A framework based on {go} and {solidjs}',

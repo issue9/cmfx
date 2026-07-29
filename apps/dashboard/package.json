@@ -44,6 +44,7 @@
 		"@vitejs/plugin-basic-ssl": "catalog:",
 		"autoprefixer": "catalog:",
 		"@cmfx/vite-plugin-about": "workspace:*",
+		"@cmfx/vite-plugin-version": "workspace:*",
 		"@tailwindcss/vite": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
