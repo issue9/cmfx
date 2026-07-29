@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Breakpoint, joinClass, nextPalette, type Palette, type ThemeProps } from '@cmfx/themes';
+import { type Breakpoint, joinClass, nextPalette, type Palette, style2String, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 import { createMemo, createSignal, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 
@@ -146,17 +146,6 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 		onCleanup(() => ro.disconnect());
 	});
 
-	const style = createMemo(() => {
-		const w = props.width;
-		if (!w || w === window.screen.width) {
-			return;
-		}
-		return {
-			width: `${w}px`,
-			margin: '0 auto',
-		} satisfies JSX.CSSProperties;
-	});
-
 	const cls = createMemo(() => {
 		const f = props.float;
 		return joinClass(props.palette, styles.layout, props.class, styles.horizontal, f ? styles.float : undefined);
@@ -170,7 +159,7 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 				setDrawerRef(el);
 				props.ref?.({ root: el.root });
 			}}
-			style={style()}
+			style={calcStyle(props.width, props.style)}
 			asideClass={joinClass(props.asidePalette, styles.drawer)}
 			mainClass={joinClass(props.palette, styles.main)}
 			main={
@@ -198,24 +187,13 @@ function Horizontal(props: AppLayoutProps): JSX.Element {
 function Vertical(props: AppLayoutProps): JSX.Element {
 	const [drawerRef, setDrawerRef] = createSignal<Drawer.Ref>();
 
-	const style = createMemo(() => {
-		const w = props.width;
-		if (!w || w === window.screen.width) {
-			return;
-		}
-		return {
-			width: `${w}px`,
-			margin: '0 auto',
-		} satisfies JSX.CSSProperties;
-	});
-
 	const cls = createMemo(() => {
 		const f = props.float;
 		return joinClass(props.palette, styles.layout, styles.vertical, props.class, f ? styles.float : undefined);
 	});
 
 	return (
-		<div class={cls()} style={style()} ref={el => props.ref?.({ root: () => el })}>
+		<div class={cls()} style={calcStyle(props.width, props.style)} ref={el => props.ref?.({ root: () => el })}>
 			<Appbar brand={props.brand} class={styles.toolbar} palette={props.toolbarPalette} actions={props.actions}>
 				<Drawer.ToggleButton drawer={drawerRef()} />
 			</Appbar>
@@ -233,5 +211,19 @@ function Vertical(props: AppLayoutProps): JSX.Element {
 				</Drawer>
 			</main>
 		</div>
+	);
+}
+
+function calcStyle(w?: number, style?: JSX.CSSProperties | string) {
+	if (!w || w === window.screen.width) {
+		return style;
+	}
+
+	return style2String(
+		{
+			width: `${w}px`,
+			margin: '0 auto',
+		} satisfies JSX.CSSProperties,
+		style,
 	);
 }
