@@ -104,3 +104,7 @@ self.addEventListener('message', e => {
 			break;
 	}
 });
+
+self.addEventListener('error', e => {
+	console.error(e);
+});
