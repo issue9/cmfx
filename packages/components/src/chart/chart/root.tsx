@@ -123,13 +123,11 @@ export function Chart(props: ChartProps): JSX.Element {
 					...props.initValue,
 				});
 
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						echarts: () => inst,
-						update: o => inst?.setOption(o),
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					echarts: () => inst,
+					update: o => inst?.setOption(o),
+				});
 			}}
 		/>
 	);

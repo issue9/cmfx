@@ -64,16 +64,17 @@ export function ChartPie(props: ChartPieProps): JSX.Element {
 	const [_, charsProps] = splitProps(props, ['initValue', 'tooltip', 'legend', 'padding', 'radius']);
 
 	const o = createMemo(() => {
-		const o: Chart.Option = {
-			tooltip: {
-				show: props.tooltip,
-				textStyle: { color: 'var(--palette-fg)' },
-				backgroundColor: 'var(--palette-bg)',
-				trigger: 'item',
-			},
+		return {
+			tooltip: props.tooltip
+				? {
+						textStyle: { color: 'var(--palette-fg)' },
+						backgroundColor: 'var(--palette-bg)',
+						appendTo: 'body',
+					}
+				: undefined,
 			legend: props.legend
 				? {
-						show: !!props.legend,
+						show: true,
 						textStyle: { color: 'var(--palette-fg)' },
 						orient: props.legend === 'center' ? 'horizontal' : 'vertical',
 						left: props.legend,
@@ -97,8 +98,7 @@ export function ChartPie(props: ChartPieProps): JSX.Element {
 			dataset: {
 				source: props.initValue,
 			},
-		};
-		return o;
+		} satisfies Chart.Option;
 	});
 
 	return <Chart initValue={o()} {...charsProps} />;

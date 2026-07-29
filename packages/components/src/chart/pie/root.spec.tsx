@@ -13,6 +13,7 @@ describe('ChartPie', async () => {
 		<ChartPie
 			ref={el => (ref = el)}
 			{...props}
+			tooltip
 			legend="left"
 			radius={['30%', '50%']}
 			padding={5}

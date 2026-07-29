@@ -145,11 +145,13 @@ export function ChartAxisRoot<T extends object>(props: ChartAxisProps<T>): JSX.E
 		yAxis.push({ type: 'value', axisLine: axisLine, splitLine: splitLine, show: true });
 	}
 
-	const tooltip = {
-		show: props.tooltip,
-		textStyle: { color: 'var(--palette-fg)' },
-		backgroundColor: 'var(--palette-bg)',
-	};
+	const tooltip = props.tooltip
+		? {
+				textStyle: { color: 'var(--palette-fg)' },
+				backgroundColor: 'var(--palette-bg)',
+				appendTo: 'body',
+			}
+		: undefined;
 
 	const legend = props.legend
 		? {
@@ -207,23 +209,21 @@ export function ChartAxisRoot<T extends object>(props: ChartAxisProps<T>): JSX.E
 			ref={el => {
 				ref = el;
 
-				if (props.ref) {
-					props.ref({
-						append(...data: Array<T>) {
-							setData(prev => {
-								const d = [...prev, ...data];
-								if (props.size && d.length > props.size) {
-									d.splice(0, d.length - props.size);
-								}
-								return d;
-							});
-						},
+				props.ref?.({
+					append(...data: Array<T>) {
+						setData(prev => {
+							const d = [...prev, ...data];
+							if (props.size && d.length > props.size) {
+								d.splice(0, d.length - props.size);
+							}
+							return d;
+						});
+					},
 
-						clear: () => setData([]),
+					clear: () => setData([]),
 
-						root: el.root,
-					});
-				}
+					root: el.root,
+				});
 			}}
 		/>
 	);

@@ -4,14 +4,14 @@
 
 export { createChartLocaleLoader } from './locale';
 
-import { Chart as C, presetProps } from './root';
+import { Chart as C, type ChartOption, type ChartProps, type ChartRef, presetProps } from './root';
 
 export const Chart = Object.assign(C, {
 	presetProps,
 });
 
 export namespace Chart {
-	export type Props = import('./root').ChartProps;
-	export type Ref = import('./root').ChartRef;
-	export type Option = import('./root').ChartOption;
+	export type Props = ChartProps;
+	export type Ref = ChartRef;
+	export type Option = ChartOption;
 }

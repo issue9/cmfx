@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ChartPie as C } from './root';
+import { ChartPie as C, type ChartPieProps, type ChartPieRef } from './root';
 
 export const ChartPie = C;
 
 export namespace ChartPie {
-	export type Props = import('./root').ChartPieProps;
-	export type Ref = import('./root').ChartPieRef;
+	export type Props = ChartPieProps;
+	export type Ref = ChartPieRef;
 }
