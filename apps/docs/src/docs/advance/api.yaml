@@ -19,10 +19,16 @@
             - Validator
             - ValidResult
             - APIError
+            - LogicError
+            - RuntimeError
 
 - pkg: "@cmfx/components"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
             - handleProblem
+            - notifyProblem
+            - throwProblem
+            - useAPI
+            - useREST
             - createChartLocaleLoader

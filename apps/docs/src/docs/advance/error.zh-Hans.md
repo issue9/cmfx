@@ -3,13 +3,18 @@
 ## 前端
 
 在 [@cmfx/admin](https://www.npmjs.com/package/@cmfx/admin) 默认会拦截所有用户抛出的错误对象，
-如果抛出的是 `APIError` 类型的错误，那么还会有专门的结果页。
-@```@cmfx/core%APIError```@
+如果抛出的是 `LogicError` 和 `RuntimeError` 类型的错误，那么还会有专门的结果页。
+@```@cmfx/core%LogicError```@
+@```@cmfx/core%RuntimeError```@
 
 由后端返回的错误类型为 `Problem`，这是一个符合 [RFC7807](https://datatracker.ietf.org/doc/html/rfc7807) 的错误描述对象，
-可以由 `APIError` 的 fromProblem 方法转换为 `APIError` 类型。
-用户可以根据自身的需求处理部分错误，比如 403 等。无须处理的可以交给专门的处理函数 `handleProblem`。
+`useAPI` 和 `useREST` 返回的第二参数可以根据配置提供一个默认处理 `Problem` 类型的函数。
+如果不想使用默认处理方法，还可以使用由 `@cmfx/components` 提供的 `handleProblem`、`throwProblem` 和 `notifyProblem` 函数。
+@```@cmfx/components%useAPI```@
+@```@cmfx/components%useREST```@
 @```@cmfx/components%handleProblem```@
+@```@cmfx/components%notifyProblem```@
+@```@cmfx/components%throwProblem```@
 
 ### ErrorBoundary
 
