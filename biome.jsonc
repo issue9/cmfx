@@ -16,7 +16,10 @@
 			"packages/**/*.{ts,tsx,css,json}",
 			"build/**/*.{ts,tsx,css,json}",
 			"apps/**/*.{ts,tsx,css,json}",
-			"./*.{ts,tsx,css,json}"
+			"./*.{ts,tsx,css,json}",
+
+			"!apps/{docs,dashboard}/public/version.json", // 由构建工具生成的文件，不需要格式化。
+			"!apps/docs/src/{components,docs}/**/*.json" // 自动生成的文档，不需要格式化。
 		]
 	},
 	"formatter": {

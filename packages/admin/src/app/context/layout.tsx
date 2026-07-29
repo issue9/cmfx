@@ -95,7 +95,7 @@ export function AdminLayout(props: ParentProps): JSX.Element {
 				<AppLayout
 					palette="surface"
 					asidePalette="secondary"
-					toolbarPalette='secondary'
+					toolbarPalette="secondary"
 					layout={layout[0]()}
 					float={float[0]()}
 					width={width[0]()}

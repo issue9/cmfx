@@ -33,7 +33,7 @@
 		"packages/themes"
 	],
 	"scripts": {
-		"lint": "pnpm exec biome lint",
+		"lint": "pnpm exec biome check",
 		"test": "vitest",
 		"test-nowatch": "vitest run"
 	},
