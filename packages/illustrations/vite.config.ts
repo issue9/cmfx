@@ -10,6 +10,9 @@ import solidPlugin from 'vite-plugin-solid';
 
 import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
 import pkg from './package.json' with { type: 'json' };
+import cfg from './tsconfig.json' with { type: 'json' };
+
+const outDir = cfg.compilerOptions.outDir;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,7 +22,7 @@ export default defineConfig({
 			entryRoot: './src',
 			insertTypesEntry: true,
 			bundleTypes: true,
-			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts'],
+			exclude: ['node_modules/**', `**/${outDir}/**`, './src/**/*.spec.ts'],
 		}),
 		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),
 		tailwindcss(),
@@ -32,7 +35,7 @@ export default defineConfig({
 	build: {
 		target: browserslistToEsbuild(),
 		minify: true,
-		outDir: './lib',
+		outDir: outDir,
 		lib: {
 			entry: {
 				index: './src/index.ts',

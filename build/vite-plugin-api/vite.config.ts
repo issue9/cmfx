@@ -7,6 +7,9 @@ import { defineConfig } from 'vite';
 
 import { buildPluginTarget, buildPostBanner, vitePluginCopyFile } from '../vite.config.common';
 import pkg from './package.json' with { type: 'json' };
+import cfg from './tsconfig.json' with { type: 'json' };
+
+const outDir = cfg.compilerOptions.outDir;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,14 +17,14 @@ export default defineConfig({
 		dts({
 			entryRoot: './src',
 			bundleTypes: true,
-			exclude: ['node_modules/**', '**/lib/**', './src/**/*.spec.ts'],
+			exclude: ['node_modules/**', `**/${outDir}/**`, './src/**/*.spec.ts'],
 		}),
 		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),
 	],
 
 	build: {
 		minify: true,
-		outDir: './lib',
+		outDir: outDir,
 		target: buildPluginTarget(),
 		lib: {
 			entry: {
