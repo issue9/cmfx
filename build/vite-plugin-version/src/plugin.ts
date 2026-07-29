@@ -56,7 +56,7 @@ export interface Info {
 	/**
 	 * 构建时间
 	 */
-	buildTime?: Date;
+	buildTime?: string;
 }
 
 const checkerSrc = path.join(import.meta.dirname, 'version', 'checker.ts');
@@ -78,16 +78,17 @@ export function version(options?: Options): Plugin<Options> {
 		options,
 	) as Required<Options>;
 
-	// vite.config 中的 publicDir 配置项
-	let pubDir: string;
-	let srcDir: string; // 输出源码的位置
+	let pubDir: string; // public 目录
+	let srcDir: string; // src 目录
+	let baseURL: string; // config.base
 
 	return {
 		name: 'vite-plugin-cmfx-version',
 
 		configResolved(config) {
-			pubDir = config.publicDir;
+			pubDir = config.publicDir ?? 'public';
 			srcDir = path.resolve(config.root, opt.src);
+			baseURL = `${config.base ?? ''}/${opt.filename}`.replace('//', '/');
 		},
 
 		async buildStart() {
@@ -98,7 +99,7 @@ export function version(options?: Options): Plugin<Options> {
 				// 从 package.json 中读取版本信息
 				const src = await fs.promises.readFile(opt.pkg, 'utf-8');
 				const obj = JSON.parse(src);
-				const info = { version: obj.version, buildTime: new Date() } satisfies Info;
+				const info = { version: obj.version, buildTime: new Date().toISOString() } satisfies Info;
 
 				// 写入版本文件到 publicDir
 				const output = path.join(pubDir, opt.filename);
@@ -107,7 +108,7 @@ export function version(options?: Options): Plugin<Options> {
 
 				// 替换 checker.ts 中的占位符
 				let txt = await fs.promises.readFile(checkerSrc, 'utf-8');
-				txt = txt.replace(/__VERSION_FILE__/g, opt.filename).replace(/__INTERVAL__/g, opt.interval.toString());
+				txt = txt.replace(/__VERSION_FILE__/g, baseURL).replace(/__INTERVAL__/g, opt.interval.toString());
 				const checkerDest = path.join(srcDir, 'checker.ts');
 				await fs.promises.writeFile(checkerDest, txt);
 

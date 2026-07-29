@@ -15,12 +15,8 @@
 
 interface VersionInfo {
 	version: string;
-	buildTime: Date;
+	buildTime: string;
 }
-
-let currentInfo: VersionInfo;
-
-let timeoutID: number | undefined;
 
 /**
  * 请求 version.json 并返回版本信息
@@ -28,7 +24,7 @@ let timeoutID: number | undefined;
  */
 async function fetchVersionInfo(): Promise<VersionInfo | undefined> {
 	try {
-		const url = `/__VERSION_FILE__?t=${Date.now()}`;
+		const url = `__VERSION_FILE__?t=${Date.now()}`;
 		const resp = await fetch(url, {
 			signal: AbortSignal.timeout(5000), // 5 秒超时
 		});
@@ -48,41 +44,46 @@ async function fetchVersionInfo(): Promise<VersionInfo | undefined> {
 	}
 }
 
+let timeoutID: number | undefined;
+
+let currentInfo: VersionInfo | undefined;
+
+let isChecking = false;
+
 /**
  * 循环检测逻辑
  */
 async function check() {
-	// 初始化时从 version.json 读取当前版本信息
-	if (!currentInfo) {
-		const resp = await fetch(new URL(`/__VERSION_FILE__`, import.meta.url));
-		if (!resp.ok) {
-			console.error('未初始化！');
-			return;
+	if (isChecking) {
+		return;
+	}
+	isChecking = true;
+
+	try {
+		if (timeoutID) {
+			clearTimeout(timeoutID);
+			timeoutID = undefined;
 		}
 
-		currentInfo = await resp.json();
+		const info = await fetchVersionInfo();
+
+		// 如果 currentInfo 为空，表示第一次获取版本信息，作为初始信息，不触发 UPDATE 事件。
+		if (currentInfo && info && (currentInfo.version !== info.version || currentInfo.buildTime !== info.buildTime)) {
+			self.postMessage({
+				type: 'UPDATE',
+				version: info.version,
+				buildTime: info.buildTime,
+			});
+		}
+		if (info) {
+			currentInfo = info; // 更新缓存的版本号
+		}
+
+		// 轮询间隔，单位毫秒，会被实际值替换。
+		timeoutID = self.setTimeout(check, __INTERVAL__);
+	} finally {
+		isChecking = false;
 	}
-
-	if (timeoutID) {
-		clearTimeout(timeoutID);
-		timeoutID = undefined;
-	}
-
-	const info = await fetchVersionInfo();
-
-	if (info && (currentInfo.version !== info.version || currentInfo.buildTime !== info.buildTime)) {
-		// 检测到版本变化，并向主线程发送更新通知
-		self.postMessage({
-			type: 'UPDATE',
-			version: info.version,
-			buildTime: info.buildTime,
-		});
-
-		currentInfo = info; // 更新缓存的版本号
-	}
-
-	// 轮询间隔，单位毫秒，会被实际值替换。
-	timeoutID = self.setTimeout(check, __INTERVAL__);
 }
 
 // 监听主线程的消息，用于初始化当前版本。

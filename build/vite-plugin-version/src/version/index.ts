@@ -6,7 +6,7 @@
 
 interface VersionInfo {
 	version: string;
-	buildTime: Date;
+	buildTime: string;
 }
 
 /**
@@ -25,12 +25,10 @@ export function initVersionCheckWorker(update: (info: VersionInfo) => Promise<vo
 
 	w.addEventListener('message', async e => {
 		if (e.data.type === 'UPDATE') {
-			const info: VersionInfo = { version: e.data.info.version, buildTime: e.data.info.buildTime };
+			const info: VersionInfo = { version: e.data.version, buildTime: e.data.buildTime };
 			await update(info);
 		}
 	});
-
-	w.postMessage({ type: 'CHECK' });
 
 	// 根据页面状态决定是否需要后台持续进行版本检测
 	document.addEventListener('visibilitychange', () => {
@@ -42,6 +40,8 @@ export function initVersionCheckWorker(update: (info: VersionInfo) => Promise<vo
 	});
 
 	document.addEventListener('pagehide', () => w.terminate());
+
+	w.postMessage({ type: 'CHECK' });
 
 	return w;
 }
