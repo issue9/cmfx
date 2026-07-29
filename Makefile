@@ -127,13 +127,10 @@ preview-docs:
 
 ########################### test ###################################
 
-.PHONY: test test-go test-ts lint-ts
+.PHONY: test test-go test-ts
 .PHONY: test-ts-core test-ts-components test-ts-admin test-ts-themes
 .PHONY: test-ts-docs
 .PHONY: test-ts-plugin-about test-ts-plugin-api
-
-lint-ts:
-	pnpm run lint
 
 # 执行 Go 测试
 test-go: mk-coverage
@@ -170,6 +167,17 @@ test-ts: build-ts mk-coverage
 
 # 执行测试内容
 test: test-go test-ts
+
+############################# lint ###############################
+.PHONY: lint lint-ts lint-go
+
+lint-ts:
+	pnpm run lint
+
+lint-go:
+	go vet ./cmfx
+
+lint: lint-ts lint-go
 
 ############################# changelog ###############################
 
