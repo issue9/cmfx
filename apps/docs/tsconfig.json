@@ -9,7 +9,15 @@
 		},
 		"outDir": "./dist"
 	},
-	"include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.mjs", "src/**/*.js", "src/**/*.tsx", "./package.json"],
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.mts",
+		"src/**/*.mjs",
+		"src/**/*.js",
+		"src/**/*.tsx",
+		"src/**/*.mdx",
+		"./package.json"
+	],
 	"exclude": ["dist"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

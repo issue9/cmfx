@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type ChangeFunc, Dropdown, Markdown, Table, useLocale } from '@cmfx/components';
+import { PropsError } from '@cmfx/core';
 import type {
 	Class,
 	ClassMethod,
@@ -22,40 +23,48 @@ import IconDown from '~icons/material-symbols/arrow-drop-down';
 
 import styles from './style.module.css';
 
+interface Props {
+	api?: Type;
+
+	types?: Array<Type>;
+	pkg?: string;
+	name?: string;
+}
+
 /**
  * 根据 {@link Type} 生成文档内容
  */
-export function APIDoc(props: { api: Type }): JSX.Element {
+export function APIDoc(props: Props): JSX.Element {
+	let api: Type | undefined = props.api;
+	if (!api) {
+		api = props.types?.find(t => t.pkg === props.pkg && t.name === props.name);
+	}
+	if (!api) {
+		throw new PropsError('api', 'api not found');
+	}
+
 	return (
 		<details class={styles.api}>
 			<summary class={styles.title}>
-				<h4>{props.api.name}</h4>
-				<span class={styles.pkg}>{props.api.pkg}</span>
+				<h4>{api.name}</h4>
+				<span class={styles.pkg}>{api.pkg}</span>
 			</summary>
 			<div class={styles.body}>
-				<Show when={props.api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
-				<Show when={props.api.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
+				<Show when={api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
+				<Show when={api.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
 
 				<Switch>
-					<Match when={props.api.kind === 'literal' ? props.api : undefined}>
+					<Match when={api.kind === 'literal' ? api : undefined}>
 						{literal => <LiteralBody literal={literal()} />}
 					</Match>
-					<Match when={props.api.kind === 'class' ? props.api : undefined}>{cls => <ClassBody cls={cls()} />}</Match>
-					<Match when={props.api.kind === 'interface' ? props.api : undefined}>
-						{intf => <InterfaceBody intf={intf()} />}
-					</Match>
-					<Match when={props.api.kind === 'function' ? props.api : undefined}>
-						{func => <FunctionBody func={func()} />}
-					</Match>
-					<Match when={props.api.kind === 'union' ? props.api : undefined}>
-						{union => <UnionBody union={union()} />}
-					</Match>
-					<Match when={props.api.kind === 'intersection' ? props.api : undefined}>
+					<Match when={api.kind === 'class' ? api : undefined}>{cls => <ClassBody cls={cls()} />}</Match>
+					<Match when={api.kind === 'interface' ? api : undefined}>{intf => <InterfaceBody intf={intf()} />}</Match>
+					<Match when={api.kind === 'function' ? api : undefined}>{func => <FunctionBody func={func()} />}</Match>
+					<Match when={api.kind === 'union' ? api : undefined}>{union => <UnionBody union={union()} />}</Match>
+					<Match when={api.kind === 'intersection' ? api : undefined}>
 						{intersection => <IntersectionBody intersection={intersection()} />}
 					</Match>
-					<Match when={props.api.kind === 'tuple' ? props.api : undefined}>
-						{tuple => <TupleBody tuple={tuple()} />}
-					</Match>
+					<Match when={api.kind === 'tuple' ? api : undefined}>{tuple => <TupleBody tuple={tuple()} />}</Match>
 				</Switch>
 			</div>
 		</details>

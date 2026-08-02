@@ -18,6 +18,7 @@ catalog:
   '@biomejs/biome': ^2.5.6
   '@iconify/json': ^2.2.507
   '@iconsets/svg-morpheus-ts': ^1.4.14
+  '@mdx-js/rollup': ^3.1.1
   '@microsoft/api-extractor': ^7.58.12
   '@microsoft/tsdoc': ^0.16.0
   '@scure/base': ^2.2.0

@@ -5,6 +5,7 @@
 import path from 'node:path';
 import { api } from '@cmfx/vite-plugin-api';
 import { version } from '@cmfx/vite-plugin-version';
+import mdx from '@mdx-js/rollup';
 import tailwindcss from '@tailwindcss/vite';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 import Icons from 'unplugin-icons/vite';
@@ -80,34 +81,44 @@ export default defineConfig(({ mode }) => {
 					},
 
 		plugins: [
-			api({
-				dts: [
-					[path.resolve(__dirname, '../../packages/core'), 'index.d.ts'],
-					[path.resolve(__dirname, '../../packages/components'), 'index.d.ts'],
-					[path.resolve(__dirname, '../../packages/themes'), 'index.d.ts'],
-					[path.resolve(__dirname, '../../packages/illustrations'), 'index.d.ts'],
-					[path.resolve(__dirname, '../../packages/admin'), 'index.d.ts'],
-				],
-				root: './src',
-			}),
+			{
+				enforce: 'pre',
+				...vitePluginCopyFile([
+					{
+						before: true, // 需要在打包之前完成复制
+						src: '../../assets/brand-static.svg',
+						dest: './public',
+						transform: content => {
+							return content.replace(/currentColor/g, '#00a1f1');
+						},
+					},
+					{ src: '../../LICENSE', before: true, dest: './public' },
+					{ src: '../../CONTRIBUTING.md', before: true, dest: './src/contribute' },
+					{ src: '../../README.md', before: true, dest: './src/docs/intro' },
+					{ src: '../../CHANGELOG.md', before: true, dest: './src/docs/intro' },
+				]),
+			},
+			{
+				enforce: 'pre',
+				...api({
+					dts: [
+						[path.resolve(__dirname, '../../packages/core'), 'index.d.ts'],
+						[path.resolve(__dirname, '../../packages/components'), 'index.d.ts'],
+						[path.resolve(__dirname, '../../packages/themes'), 'index.d.ts'],
+						[path.resolve(__dirname, '../../packages/illustrations'), 'index.d.ts'],
+						[path.resolve(__dirname, '../../packages/admin'), 'index.d.ts'],
+					],
+					root: './src',
+				}),
+			},
+			{ enforce: 'pre', ...mdx({ jsxImportSource: 'solid-js/h' }) },
 			Icons({
 				compiler: 'solid',
 				scale: 1,
 				customCollections: customIcons,
 			}),
 			tailwindcss(),
-			vitePluginCopyFile([
-				{
-					before: true, // 需要在打包之前完成复制
-					src: '../../assets/brand-static.svg',
-					dest: './public',
-					transform: content => {
-						return content.replace(/currentColor/g, '#00a1f1');
-					},
-				},
-				{ src: '../../LICENSE', dest: outDir },
-			]),
-			solidPlugin(),
+			solidPlugin({ extensions: ['.mdx'] }),
 			version(),
 		],
 	};

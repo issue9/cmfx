@@ -1,3 +1,6 @@
+import { APIDoc } from '@docs/apidoc';
+import types from './api.zh-Hans.json';
+
 # 主题
 
 对于主题，可以在项目的配置对象 `Options` 中使用 `Options.themes` 指定所有的可用主题，`Options.theme` 指定默认主题。
@@ -34,9 +37,9 @@
 
 还可以通过 `palette` 和 `nextPalette` 函数来获取当前元素的后面第 n 个色盘。
 
-@```@cmfx/themes%palette```@
+<APIDoc types={types} pkg="@cmfx/themes" name="palette" />
 
-@```@cmfx/themes%nextPalette```@
+<APIDoc types={types} pkg="@cmfx/themes" name="nextPalette" />
 
 ## z-index
 
@@ -53,4 +56,4 @@
 ### `.no-print`
 
 通过 `@cmfx/core` 下的 `printElement` 打印内容的，可通过为子元素添加此类名以达到不打印的目的。
-@```@cmfx/core%printElement```@
+<APIDoc types={types} pkg="@cmfx/core" name="printElement" />
