@@ -1,4 +1,5 @@
 node_modules/
 dist/
+public/
 src/docs/intro/
 src/contribute/CONTRIBUTING.md

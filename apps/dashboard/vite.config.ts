@@ -78,6 +78,20 @@ export default defineConfig(({ mode }) => {
 					},
 
 		plugins: [
+			{
+				enforce: 'pre',
+				...vitePluginCopyFile([
+					{ src: '../../LICENSE', dest: '', before: true },
+					{
+						before: true, // 需要在打包之前完成复制
+						src: '../../assets/brand-static.svg',
+						dest: 'public',
+						transform: content => {
+							return content.replace(/currentColor/g, '#00a1f1');
+						},
+					},
+				]),
+			},
 			Icons({
 				compiler: 'solid',
 				scale: 1,
@@ -89,17 +103,7 @@ export default defineConfig(({ mode }) => {
 				gomods: ['../../go.mod'],
 			}),
 			version(),
-			vitePluginCopyFile([
-				{ src: '../../LICENSE', dest: '' },
-				{
-					before: true, // 需要在打包之前完成复制
-					src: '../../assets/brand-static.svg',
-					dest: 'public',
-					transform: content => {
-						return content.replace(/currentColor/g, '#00a1f1');
-					},
-				},
-			]),
+
 			solidPlugin(),
 			basicSsl({
 				name: 'test',
