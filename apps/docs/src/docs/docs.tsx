@@ -24,17 +24,13 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		kind: 'intro',
 		path: ['', 'intro/readme'],
 		info: { title: '_d.docs.intro' },
-		component: () => (
-			<MDXDoc articles={import.meta.glob('./intro/README.md', { eager: true, import: 'default' })} />
-		),
+		component: () => <MDXDoc articles={import.meta.glob('./intro/README.md', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'intro',
 		path: 'intro/changelog',
 		info: { title: '_d.docs.changelog' },
-		component: () => (
-			<MDXDoc articles={import.meta.glob('./intro/CHANGELOG.md', { eager: true, import: 'default' })} />
-		),
+		component: () => <MDXDoc articles={import.meta.glob('./intro/CHANGELOG.md', { eager: true, import: 'default' })} />,
 	},
 
 	//////////////////// usage
