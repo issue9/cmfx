@@ -1,0 +1,21 @@
+import Calendar from './calendar';
+import calendar from './calendar.tsx?raw';
+import Lunar from './lunar';
+import lunar from './lunar.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### calendar
+
+<Stage component={Calendar} source={calendar} layout='vertical' />
+
+### 农历
+
+<Stage component={Lunar} source={lunar} layout='vertical' />
+
+## API
+
+<APIs types={types} />

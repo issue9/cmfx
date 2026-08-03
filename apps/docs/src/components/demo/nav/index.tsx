@@ -5,16 +5,12 @@
 import IconNav from '~icons/material-symbols/list-alt-rounded';
 
 import type { Info } from '@docs/components/base';
-import { default as Nav } from './nav';
-import { default as nav } from './nav.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'navigation',
 		title: '_d.demo.nav',
 		icon: IconNav,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Nav, source: nav, layout: 'vertical', id: 'nav' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

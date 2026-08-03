@@ -1,0 +1,22 @@
+
+import Anchor from './anchor';
+import anchor from './anchor.tsx?raw';
+import Appbar from './appbar';
+import appbar from './appbar.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## Demo
+
+### basic
+
+<Stage source={appbar} component={Appbar} />
+
+### anchor
+
+<Stage source={anchor} component={Anchor} />
+
+## API
+
+<APIs types={types} />

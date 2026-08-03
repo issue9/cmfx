@@ -5,24 +5,12 @@
 import IconSpin from '~icons/pepicons-pop/arrow-spin-circle';
 
 import type { Info } from '@docs/components/base';
-import { default as Indicator } from './indicator';
-import { default as indicator } from './indicator.tsx?raw';
-import { default as Overlay } from './overlay';
-import { default as overlay } from './overlay.tsx?raw';
-import { default as Spin } from './spin';
-import { default as spin } from './spin.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'feedback',
 		title: '_d.demo.spin',
 		icon: IconSpin,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: Spin, source: spin, id: 'spin' },
-			{ component: Indicator, source: indicator, id: 'indicator' },
-			{ component: Overlay, source: overlay, id: 'overlay' },
-		],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

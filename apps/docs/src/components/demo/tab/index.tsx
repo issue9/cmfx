@@ -5,30 +5,12 @@
 import IconTab from '~icons/material-symbols/tab-outline';
 
 import type { Info } from '@docs/components/base';
-import { default as H } from './h';
-import { default as h } from './h.tsx?raw';
-import { default as Panel } from './panel';
-import { default as panel } from './panel.tsx?raw';
-import { default as ScrollH } from './scroll-h';
-import { default as scrollH } from './scroll-h.tsx?raw';
-import { default as ScrollV } from './scroll-v';
-import { default as scrollV } from './scroll-v.tsx?raw';
-import { default as V } from './v';
-import { default as v } from './v.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'navigation',
 		title: '_d.demo.tab',
 		icon: IconTab,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: H, source: h, layout: 'horizontal', id: 'horizontal' },
-			{ component: V, source: v, layout: 'horizontal', id: 'vertical' },
-			{ component: Panel, source: panel, layout: 'horizontal', id: 'panel' },
-			{ component: ScrollV, source: scrollV, layout: 'horizontal', id: 'scrollv' },
-			{ component: ScrollH, source: scrollH, layout: 'horizontal', id: 'scrollh' },
-		],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

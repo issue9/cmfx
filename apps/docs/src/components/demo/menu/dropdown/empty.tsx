@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown } from '@cmfx/components';
+import { Dropdown, type MountProps } from '@cmfx/components';
+import type { JSX } from 'solid-js';
 
-export default function () {
+export default function (_: MountProps): JSX.Element {
 	return (
 		<div>
 			<Dropdown items={[]}>

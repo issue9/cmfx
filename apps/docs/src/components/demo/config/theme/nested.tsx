@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button } from '@cmfx/components';
+import { Button, type MountProps } from '@cmfx/components';
 import { type Scheme, ThemeProvider, useTheme } from '@cmfx/themes';
 import { createSignal, type JSX } from 'solid-js';
 
-export default function (): JSX.Element {
+export default function (_: MountProps): JSX.Element {
 	const s1 = { primary: 'yellow', secondary: 'green', tertiary: 'blue', error: 'red', surface: 'white' } as Scheme;
 	const s2 = { primary: 'green', secondary: 'blue', tertiary: 'red', error: 'white', surface: 'yellow' } as Scheme;
 	const [s, setS] = createSignal<Scheme>(s1);

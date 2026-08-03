@@ -1,0 +1,21 @@
+import Custom from './custom';
+import custom from './custom.tsx?raw';
+import Preset from './preset';
+import preset from './preset.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### 默认功能
+
+<Stage source={preset} component={Preset} />
+
+### 自定义图标
+
+<Stage source={custom} component={Custom} />
+
+## API
+
+<APIs types={types} />

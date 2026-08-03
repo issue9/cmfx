@@ -5,24 +5,12 @@
 import IconMenu from '~icons/bi/menu-down';
 
 import type { Info } from '@docs/components/base';
-import { default as Anchor } from './anchor';
-import { default as anchor } from './anchor.tsx?raw';
-import { default as Layout } from './layout';
-import { default as layout } from './layout.tsx?raw';
-import { default as Multiple } from './multiple';
-import { default as multiple } from './multiple.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'navigation',
 		title: '_d.demo.menu',
 		icon: IconMenu,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: Layout, source: layout, id: 'layout' },
-			{ component: Multiple, source: multiple, id: 'multiple' },
-			{ component: Anchor, source: anchor, id: 'anchor' },
-		],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

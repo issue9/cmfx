@@ -5,16 +5,12 @@
 import IconDivider from '~icons/pixel/divider-solid';
 
 import type { Info } from '@docs/components/base';
-import { default as Divider } from './divider';
-import { default as divider } from './divider.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'layout',
 		title: '_d.demo.divider',
 		icon: IconDivider,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Divider, source: divider, id: 'basic' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

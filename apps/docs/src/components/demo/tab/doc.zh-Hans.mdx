@@ -1,0 +1,39 @@
+import H from './h';
+import h from './h.tsx?raw';
+import Panel from './panel';
+import panel from './panel.tsx?raw';
+import ScrollH from './scroll-h';
+import scrollH from './scroll-h.tsx?raw';
+import ScrollV from './scroll-v';
+import scrollV from './scroll-v.tsx?raw';
+import V from './v';
+import v from './v.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### 横向
+
+<Stage component={H} source={h} />
+
+### 纵向
+
+<Stage component={V} source={v} />
+
+### 带面板
+
+<Stage component={Panel} source={panel} />
+
+### 纵向滚动
+
+<Stage component={ScrollV} source={scrollV} />
+
+### 横向滚动
+
+<Stage component={ScrollH} source={scrollH} />
+
+## API
+
+<APIs types={types} />

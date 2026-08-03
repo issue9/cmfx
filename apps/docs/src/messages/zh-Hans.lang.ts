@@ -10,7 +10,6 @@ const messages: typeof m = {
 			codeDemo: '代码演示',
 
 			parameter: '参数',
-			api: 'API',
 			type: '类型',
 			typeParam: '类型参数',
 			methods: '方法',

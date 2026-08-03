@@ -5,16 +5,12 @@
 import IconTour from '~icons/entypo/popup';
 
 import type { Info } from '@docs/components/base';
-import { default as Tour } from './tour';
-import { default as tour } from './tour.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'navigation',
 		title: '_d.demo.tour',
 		icon: IconTour,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Tour, source: tour, id: 'tour' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

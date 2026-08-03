@@ -1,0 +1,21 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Download from './download';
+import download from './download.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### basic
+
+<Stage component={Basic} source={basic} />
+
+### 下载
+
+<Stage component={Download} source={download} />
+
+## API
+
+<APIs types={types} />

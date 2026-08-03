@@ -1,0 +1,21 @@
+import Footer from './footer';
+import footer from './footer.tsx?raw';
+import Header from './header';
+import header from './header.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### header
+
+<Stage component={Header} source={header} />
+
+### footer
+
+<Stage component={Footer} source={footer} />
+
+## API
+
+<APIs types={types} />

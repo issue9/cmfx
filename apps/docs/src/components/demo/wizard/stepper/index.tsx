@@ -5,16 +5,12 @@
 import IconStepper from '~icons/streamline-flex/steps-2-remix';
 
 import type { Info } from '@docs/components/base';
-import { default as Stepper } from './stepper';
-import { default as stepper } from './stepper.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'navigation',
 		title: '_d.demo.stepper',
 		icon: IconStepper,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Stepper, source: stepper, id: 'stepper' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

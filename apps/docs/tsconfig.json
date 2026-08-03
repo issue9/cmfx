@@ -16,6 +16,7 @@
 		"src/**/*.js",
 		"src/**/*.tsx",
 		"src/**/*.mdx",
+		"src/**/api.*.json",
 		"./package.json"
 	],
 	"exclude": ["dist"],

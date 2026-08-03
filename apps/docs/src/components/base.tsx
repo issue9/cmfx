@@ -8,7 +8,7 @@ import { type Palette, palettes } from '@cmfx/themes';
 import { type Accessor, type Component, createSignal, type JSX, type Setter } from 'solid-js';
 
 import type messages from '@docs/messages/en.lang';
-import type { StageProps, StagesProps } from './stages';
+import type { StagesProps } from './stages';
 
 export function posSelector(preset?: PopoverPosition) {
 	return arraySelector('_d.demo.tooltipPos', ['left', 'right', 'top', 'bottom'], preset ?? 'left');
@@ -38,9 +38,6 @@ export type Info = {
 	kind: Kind; // 组件分类
 	title: DictKeys<typeof messages>; // 演示组件的标题，同时也是页面的标题。
 	icon?: Component; // 演示组件的图标，需要多处使用，所以使用函数。如果为空会有默认图标。
-
-	stages?: Array<StageProps>; // 演示内容
-	api?: StagesProps['api']; // 关联的接口文档
 	doc: StagesProps['doc'];
 };
 

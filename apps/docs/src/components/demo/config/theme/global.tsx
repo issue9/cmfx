@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, useOptions } from '@cmfx/components';
+import { Button, type MountProps, useOptions } from '@cmfx/components';
 import { ThemeProvider, useTheme } from '@cmfx/themes';
 import type { JSX } from 'solid-js';
 
-export default function (): JSX.Element {
+export default function (_: MountProps): JSX.Element {
 	const [act, opt] = useOptions();
 	const t = useTheme();
 

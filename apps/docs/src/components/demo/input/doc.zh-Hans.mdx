@@ -1,0 +1,33 @@
+import Base from './base';
+import base from './base.tsx?raw';
+import Num from './number';
+import number from './number.tsx?raw';
+import Password from './password';
+import password from './password.tsx?raw';
+import Text from './text';
+import text from './text.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### input-base
+
+<Stage component={Base} source={base} />
+
+### input-number
+
+<Stage component={Num} source={number} />
+
+### input-text
+
+<Stage component={Text} source={text} />
+
+### input-password
+
+<Stage component={Password} source={password} />
+
+## API
+
+<APIs types={types} />

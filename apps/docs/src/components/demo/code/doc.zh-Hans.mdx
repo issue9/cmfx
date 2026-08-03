@@ -1,0 +1,35 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Change from './change';
+import change from './change.tsx?raw';
+import Decorate from './decorate';
+import decorate from './decorate.tsx?raw';
+import Scrollable from './scrollable';
+import scrollable from './scrollable.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+提供了代码高亮功能，但是未引入 `shiki` 包，如果需要使用代码高亮功能，需要引入 `shiki` 包。
+
+## 演示
+
+### 代码高亮
+
+<Stage component={Basic} source={basic} />
+
+### 可滚动
+
+<Stage component={Scrollable} source={scrollable} />
+
+### onChange
+
+<Stage component={Change} source={change} />
+
+### decorate
+
+<Stage component={Decorate} source={decorate} />
+
+## API
+
+<APIs types={types} />

@@ -5,22 +5,12 @@
 import IconAppbar from '~icons/material-symbols/toolbar';
 
 import type { Info } from '@docs/components/base';
-import { default as Anchor } from './anchor';
-import { default as anchor } from './anchor.tsx?raw';
-import { default as Appbar } from './appbar';
-import { default as appbar } from './appbar.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'general',
 		title: '_d.demo.appbar',
 		icon: IconAppbar,
-
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: Appbar, source: appbar, id: 'appbar' },
-			{ component: Anchor, source: anchor, id: 'anchor' },
-		],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

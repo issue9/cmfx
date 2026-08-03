@@ -1,0 +1,21 @@
+import Bar from './bar';
+import bar from './bar.tsx?raw';
+import Pagination from './pagination';
+import pagination from './pagination.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### pagination
+
+<Stage component={Pagination} source={pagination} />
+
+### bar
+
+<Stage component={Bar} source={bar} />
+
+## API
+
+<APIs types={types} />

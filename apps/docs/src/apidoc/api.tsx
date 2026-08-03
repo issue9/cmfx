@@ -46,7 +46,7 @@ export function APIDoc(props: Props): JSX.Element {
 	return (
 		<details class={styles.api}>
 			<summary class={styles.title}>
-				<h4>{api.name}</h4>
+				<p>{api.name}</p>
 				<span class={styles.pkg}>{api.pkg}</span>
 			</summary>
 			<div class={styles.body}>
@@ -202,7 +202,7 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 
 	return (
 		<Show when={props.typeParams && props.typeParams.length > 0}>
-			<h5>{l.t('_d.stages.typeParam')}</h5>
+			<p>{l.t('_d.stages.typeParam')}</p>
 			<Table hoverable>
 				<thead>
 					<tr>
@@ -236,7 +236,7 @@ function Methods(props: { methods: Interface['methods'] | Class['methods'] }): J
 
 	return (
 		<Show when={props.methods && props.methods.length > 0}>
-			<h5>{l.t('_d.stages.methods')}</h5>
+			<p>{l.t('_d.stages.methods')}</p>
 			<For each={props.methods}>{f => <Fun func={f} isMethod />}</For>
 		</Show>
 	);
@@ -260,7 +260,7 @@ function Properties(props: PropertiesProps): JSX.Element {
 
 	return (
 		<Show when={props.props && props.props.length > 0}>
-			<h5>{l.t('_d.stages.properties')}</h5>
+			<p>{l.t('_d.stages.properties')}</p>
 			<Table hoverable>
 				<thead>
 					<tr>
@@ -321,7 +321,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 
 			<TypeParams typeParams={props.func.typeParams} />
 
-			<h5>{l.t('_d.stages.parameter')}</h5>
+			<p>{l.t('_d.stages.parameter')}</p>
 			<Table hoverable>
 				<thead>
 					<tr>

@@ -103,7 +103,7 @@ export function Result(props: ResultProps) {
 
 			<Show when={props.children || props.title || props.description}>
 				<div class={styles.content}>
-					<Show when={props.title}>{c => <h2 class={styles.title}>{c()}</h2>}</Show>
+					<Show when={props.title}>{c => <p class={styles.title}>{c()}</p>}</Show>
 
 					<Show when={props.description}>{c => <p class={styles.description}>{c()}</p>}</Show>
 

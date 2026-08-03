@@ -1,5 +1,0 @@
-
-#### label
-@```demo-label```@
-
-@```api```@

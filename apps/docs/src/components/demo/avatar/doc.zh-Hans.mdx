@@ -1,0 +1,27 @@
+import Avatar from './avatar';
+import avatar from './avatar.tsx?raw';
+import Fallback from './fallback';
+import fallback from './fallback.tsx?raw';
+import Hover from './hover';
+import hover from './hover.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### 基本功能
+
+<Stage source={avatar} component={Avatar} />
+
+### 默认
+
+<Stage source={fallback} component={Fallback} />
+
+### 响应鼠标
+
+<Stage source={hover} component={Hover} />
+
+## API
+
+<APIs types={types} />

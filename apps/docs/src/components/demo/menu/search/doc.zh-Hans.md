@@ -1,5 +1,0 @@
-
-#### search
-@```demo-search```@
-
-@```api```@

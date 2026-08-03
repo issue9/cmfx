@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Tour } from '@cmfx/components';
+import { Button, type MountProps, Tour } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import IconPerson from '~icons/material-symbols/person';
 
-export default function (): JSX.Element {
+export default function (_: MountProps): JSX.Element {
 	let ref: Tour.Ref;
 	return (
 		<div>

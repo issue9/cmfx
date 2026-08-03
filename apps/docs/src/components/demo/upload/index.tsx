@@ -5,16 +5,12 @@
 import IconUpload from '~icons/flowbite/upload-solid';
 
 import type { Info } from '@docs/components/base';
-import { default as Upload } from './upload';
-import { default as upload } from './upload.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'data-input',
 		title: '_d.demo.upload',
 		icon: IconUpload,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Upload, source: upload, id: 'upload' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }
