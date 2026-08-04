@@ -8,7 +8,7 @@
 
 @layer components {
 	.api {
-		@apply flex flex-col gap-1 bg-palette-bg-low/50;
+		@apply flex flex-col gap-1;
 		@apply rounded-sm box-border mb-4;
 		@apply border border-palette-border-actived;
 

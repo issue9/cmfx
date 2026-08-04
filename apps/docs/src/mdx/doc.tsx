@@ -62,7 +62,7 @@ export function LocalizedMDXDoc(props: LocalizedMDXDocProps): JSX.Element {
 function preCode(props: { children: HTMLElement }): JSX.Element {
 	return (
 		<Code
-			decorates={[Code.createToolbarDecorate()]}
+			decorates={[Code.createToolbarDecorate('copy', 'fit', 'print', 'expand', 'title'), Code.borderDecorate]}
 			ln={0}
 			lang={props.children.className.slice('language-'.length) as Code.Language}
 		>

@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type JSX, Show } from 'solid-js';
+import { LogicError } from '@cmfx/core';
+import { type JSX, onMount, Show } from 'solid-js';
 import { render } from 'solid-js/web';
 import IconDown from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import IconUp from '~icons/material-symbols/keyboard-arrow-up-rounded';
@@ -81,7 +82,7 @@ export function copyButtonDecorate(pre: HTMLPreElement): [JSX.Element, Dispose] 
 	];
 }
 
-const toolbarItems = ['copy', 'fit', 'print', 'expand', 'title'] as const;
+const toolbarItems = ['copy', 'fit', 'print', 'title', 'collapse', 'expand'] as const;
 
 type ToolbarItem = (typeof toolbarItems)[number];
 
@@ -92,12 +93,16 @@ type ToolbarItem = (typeof toolbarItems)[number];
  *  - copy 复制按钮；
  *  - fit 显示填充整个窗口窗口的按钮；
  *  - print 显示打印按钮；
- *  - expand 显示收缩展开按钮；
+ *  - expand/collapse 显示收缩/展开展开按钮，只能指定一个，否则会抛异常；
  *  - title 显示标题；
  */
 export function createToolbarDecorate(...buttons: Array<ToolbarItem>): CodeDecorate {
 	if (buttons.length === 0) {
-		buttons = [...toolbarItems];
+		buttons = [...toolbarItems.slice(0, -1)]; // expand 和 collapse 只需要显示一个
+	}
+
+	if (buttons.includes('expand') && buttons.includes('collapse')) {
+		throw new LogicError('只能指定一个展开/收缩按钮');
 	}
 
 	return (pre: HTMLPreElement): [JSX.Element, Dispose] => {
@@ -108,6 +113,14 @@ export function createToolbarDecorate(...buttons: Array<ToolbarItem>): CodeDecor
 
 		const h = pre.offsetHeight;
 		let toolbarRef: HTMLElement;
+
+		// 只要不包含展开按钮，默认都是展开状态
+		const isExpand = !buttons.includes('expand');
+		onMount(() => {
+			if (!isExpand) {
+				queueMicrotask(() => (pre.style.height = `${toolbarRef.offsetHeight}px`));
+			}
+		});
 
 		const elem = (
 			<header class={styles.toolbar} ref={el => (toolbarRef = el)}>
@@ -135,13 +148,14 @@ export function createToolbarDecorate(...buttons: Array<ToolbarItem>): CodeDecor
 						<PrintButton kind="flat" class={styles.btn} element={() => pre} />
 					</Show>
 
-					<Show when={buttons.includes('expand')}>
+					<Show when={buttons.includes('expand') || buttons.includes('collapse')}>
 						<ToggleButton
 							off={<IconUp />}
 							on={<IconDown />}
 							kind="flat"
+							value={!isExpand}
 							class={styles.btn}
-							onToggle={async v => {
+							onToggle={async (v: boolean) => {
 								pre.style.height = `${v ? toolbarRef.offsetHeight : h + toolbarRef.offsetHeight}px`;
 								return v;
 							}}
