@@ -51,7 +51,7 @@ const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
 ]);
 
 const docsRoute = '/docs';
-const componentsRoute = '/components/demo';
+const componentsRoute = '/components';
 const contributeRoute = '/contribute';
 const themeRoute = '/theme-builder';
 

@@ -11,7 +11,7 @@
 
 为 [cmfx](https://github.com/issue9/cmfx) 提供的插图组件
 
-可在此[预览](https://issue9.github.io/cmfx/#/components/demo/illustrations)
+可在此[预览](https://issue9.github.io/cmfx/#/components/illustrations)
 
 ## 开发
 

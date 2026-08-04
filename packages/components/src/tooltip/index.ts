@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Tooltip as C } from './root';
+import { Tooltip as C, type TooltipProps, type TooltipRef } from './root';
 
 export const Tooltip = C;
 
 export namespace Tooltip {
-	export type Props = import('./root').TooltipProps;
-	export type Ref = import('./root').TooltipRef;
+	export type Props = TooltipProps;
+	export type Ref = TooltipRef;
 }
