@@ -11,9 +11,9 @@ import { type Info, version } from './plugin';
 
 describe('version', async () => {
 	const opt = {
-		pkg: path.resolve(__dirname, '../package.json'),
+		pkg: path.resolve(import.meta.dirname, '../package.json'),
 		filename: 'version.json',
-		src: path.resolve(__dirname, '../testdata/version_checker'),
+		src: path.resolve(import.meta.dirname, '../testdata/version_checker'),
 	};
 
 	// biome-ignore lint/suspicious/noExplicitAny: any
@@ -26,7 +26,7 @@ describe('version', async () => {
 	test('configResolved', () => {
 		expect(typeof plugin.configResolved).toEqual('function');
 		if (typeof plugin.configResolved === 'function') {
-			plugin.configResolved({ publicDir: path.resolve(__dirname, '../testdata') });
+			plugin.configResolved({ publicDir: path.resolve(import.meta.dirname, '../testdata') });
 		}
 	});
 
@@ -35,7 +35,7 @@ describe('version', async () => {
 		if (typeof plugin.buildStart === 'function') {
 			await plugin.buildStart(null, null);
 
-			const content = await fs.promises.readFile(path.resolve(__dirname, `../testdata/${opt.filename}`), 'utf8');
+			const content = await fs.promises.readFile(path.resolve(import.meta.dirname, `../testdata/${opt.filename}`), 'utf8');
 			const info = JSON.parse(content) satisfies Info;
 			expect(info.version).toMatch(pkg.version);
 		}

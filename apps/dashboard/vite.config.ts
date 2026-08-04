@@ -13,7 +13,7 @@ import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
 import customIcons from '../../build/unplugin-icons.ts';
-import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
+import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common.ts';
 import pkg from './package.json' with { type: 'json' };
 
 // https://vitejs.dev/config/
@@ -39,36 +39,36 @@ export default defineConfig(({ mode }) => {
 			mode === 'development'
 				? {
 						alias: [
-							{ find: '@cmfx/core', replacement: path.resolve(__dirname, '../../packages/core/src') },
-							{ find: '@core', replacement: path.resolve(__dirname, '../../packages/core/src') },
+							{ find: '@cmfx/core', replacement: path.resolve(import.meta.dirname, '../../packages/core/src') },
+							{ find: '@core', replacement: path.resolve(import.meta.dirname, '../../packages/core/src') },
 
 							{
 								find: /^@cmfx\/admin\/(.*).lang/,
-								replacement: path.resolve(__dirname, `../../packages/admin/src/messages/$1.lang.ts`),
+								replacement: path.resolve(import.meta.dirname, `../../packages/admin/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/admin', replacement: path.resolve(__dirname, '../../packages/admin/src') },
-							{ find: '@admin', replacement: path.resolve(__dirname, '../../packages/admin/src') }, // 解决 admin 中的 @admin 引用
+							{ find: '@cmfx/admin', replacement: path.resolve(import.meta.dirname, '../../packages/admin/src') },
+							{ find: '@admin', replacement: path.resolve(import.meta.dirname, '../../packages/admin/src') }, // 解决 admin 中的 @admin 引用
 
 							{
 								find: /^@cmfx\/components\/(.*).lang/,
-								replacement: path.resolve(__dirname, `../../packages/components/src/messages/$1.lang.ts`),
+								replacement: path.resolve(import.meta.dirname, `../../packages/components/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
-							{ find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') }, // 解决 admin 中的 @admin 引用
+							{ find: '@cmfx/components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') },
+							{ find: '@components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') }, // 解决 admin 中的 @admin 引用
 
 							{
 								find: /^@cmfx\/themes\/(.*).lang/,
-								replacement: path.resolve(__dirname, `../../packages/themes/src/messages/$1.lang.ts`),
+								replacement: path.resolve(import.meta.dirname, `../../packages/themes/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/themes', replacement: path.resolve(__dirname, '../../packages/themes/src') },
-							{ find: '@themes', replacement: path.resolve(__dirname, '../../packages/themes/src') },
+							{ find: '@cmfx/themes', replacement: path.resolve(import.meta.dirname, '../../packages/themes/src') },
+							{ find: '@themes', replacement: path.resolve(import.meta.dirname, '../../packages/themes/src') },
 
 							{
 								find: /^@cmfx\/illustrations\/(.*).lang/,
-								replacement: path.resolve(__dirname, `../../packages/illustrations/src/messages/$1.lang.ts`),
+								replacement: path.resolve(import.meta.dirname, `../../packages/illustrations/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
-							{ find: '@illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
+							{ find: '@cmfx/illustrations', replacement: path.resolve(import.meta.dirname, '../../packages/illustrations/src') },
+							{ find: '@illustrations', replacement: path.resolve(import.meta.dirname, '../../packages/illustrations/src') },
 						],
 
 						tsconfigPaths: true,

@@ -12,9 +12,9 @@ describe('Extractor', { timeout: 20000 }, () => {
 	const extractor = new Extractor();
 
 	test('load', () => {
-		extractor.load(path.resolve(__dirname, '../../../packages/components'));
-		extractor.load(path.resolve(__dirname, '../../../packages/core'));
-		extractor.load(path.resolve(__dirname, '../../../packages/themes'));
+		extractor.load(path.resolve(import.meta.dirname, '../../../packages/components'));
+		extractor.load(path.resolve(import.meta.dirname, '../../../packages/core'));
+		extractor.load(path.resolve(import.meta.dirname, '../../../packages/themes'));
 	});
 
 	test('class', () => {

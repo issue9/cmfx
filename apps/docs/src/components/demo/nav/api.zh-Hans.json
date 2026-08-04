@@ -6,7 +6,7 @@
 			{
 				"name": "target",
 				"summary": "用于生成目录的元素\n\n",
-				"remarks": "只从当前元素以及子元素中提取 h 系列元素。\n\n",
+				"remarks": "`query`\n查询只应用在此元素之上。\n\n",
 				"type": "HTMLElement"
 			},
 			{
@@ -18,8 +18,8 @@
 			{
 				"name": "minHeaderCount",
 				"summary": "最小的标题数量\n\n",
-				"remarks": "表示只有大于等于此数量的标题才会显示，默认为 1。\n\n",
-				"type": "number | undefined"
+				"type": "number | undefined",
+				"def": "1\n\n"
 			},
 			{
 				"name": "palette",

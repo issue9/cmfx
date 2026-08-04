@@ -18,6 +18,6 @@ import path from 'node:path';
  */
 export default {
 	cmfx: {
-		loading: () => fs.readFile(path.resolve(__dirname, '../assets/brand-animate.svg'), 'utf-8'),
+		loading: () => fs.readFile(path.resolve(import.meta.dirname, '../assets/brand-animate.svg'), 'utf-8'),
 	},
 };

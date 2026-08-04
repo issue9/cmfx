@@ -321,6 +321,12 @@
 		"pkg": "@cmfx/components"
 	},
 	{
+		"kind": "tuple",
+		"name": "Code.Decorate",
+		"type": "(pre: HTMLPreElement) => [elem: JSX.Element, dispose: Dispose]",
+		"pkg": "@cmfx/components"
+	},
+	{
 		"kind": "function",
 		"name": "Code.createToolbarDecorate",
 		"summary": "创建一个用于创建工具栏的装饰器\n\n",
@@ -328,8 +334,8 @@
 		"params": [
 			{
 				"name": "buttons",
-				"summary": "指定了工具栏上可以显示的按钮，如果为空则表示显示所有，支持以下类型：\n- copy 复制按钮；\n- fit 显示填充整个窗口窗口的按钮；\n- print 显示打印按钮；\n- expand 显示收缩展开按钮；\n- title 显示标题；\n\n",
-				"type": "(\"title\" | \"copy\" | \"fit\" | \"print\" | \"expand\")[]"
+				"summary": "指定了工具栏上可以显示的按钮，如果为空则表示显示所有，支持以下类型：\n- copy 复制按钮；\n- fit 显示填充整个窗口窗口的按钮；\n- print 显示打印按钮；\n- expand/collapse 显示收缩/展开展开按钮，只能指定一个，否则会抛异常；\n- title 显示标题；\n\n",
+				"type": "(\"title\" | \"copy\" | \"fit\" | \"print\" | \"collapse\" | \"expand\")[]"
 			}
 		],
 		"return": {

@@ -19,7 +19,8 @@ export interface NavProps extends ThemeProps, RefProps<NavRef> {
 	/**
 	 * 用于生成目录的元素
 	 *
-	 * @remarks 只从当前元素以及子元素中提取 h 系列元素。
+	 * @remarks
+	 * {@link query} 查询只应用在此元素之上。
 	 */
 	target: HTMLElement;
 
@@ -33,8 +34,7 @@ export interface NavProps extends ThemeProps, RefProps<NavRef> {
 	/**
 	 * 最小的标题数量
 	 *
-	 * @remarks
-	 * 表示只有大于等于此数量的标题才会显示，默认为 1。
+	 * @defaultValue 1
 	 */
 	minHeaderCount?: number;
 }

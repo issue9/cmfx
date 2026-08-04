@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { SchemeSelector as C } from './root';
+import { SchemeSelector as C, type SchemeSelectorProps, type SchemeSelectorRef } from './root';
 
 export const SchemeSelector = C;
 
 export namespace SchemeSelector {
-	export type Props = import('./root').SchemeSelectorProps;
-	export type Ref = import('./root').SchemeSelectorRef;
+	export type Props = SchemeSelectorProps;
+	export type Ref = SchemeSelectorRef;
 }

@@ -43,36 +43,45 @@ export default defineConfig(({ mode }) => {
 			mode === 'development'
 				? {
 						alias: [
-							{ find: '@cmfx/core', replacement: path.resolve(__dirname, '../../packages/core/src') },
-							{ find: '@core', replacement: path.resolve(__dirname, '../../packages/core/src') },
+							{ find: '@cmfx/core', replacement: path.resolve(import.meta.dirname, '../../packages/core/src') },
+							{ find: '@core', replacement: path.resolve(import.meta.dirname, '../../packages/core/src') },
 
 							{
 								find: /^@cmfx\/admin\/(.*).lang/,
-								replacement: path.resolve(__dirname, `../../packages/admin/src/messages/$1.lang.ts`),
+								replacement: path.resolve(import.meta.dirname, `../../packages/admin/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/admin', replacement: path.resolve(__dirname, '../../packages/admin/src') },
-							{ find: '@admin', replacement: path.resolve(__dirname, '../../packages/admin/src') },
+							{ find: '@cmfx/admin', replacement: path.resolve(import.meta.dirname, '../../packages/admin/src') },
+							{ find: '@admin', replacement: path.resolve(import.meta.dirname, '../../packages/admin/src') },
 
 							{
 								find: /^@cmfx\/components\/(.*).lang/,
-								replacement: path.resolve(__dirname, `../../packages/components/src/messages/$1.lang.ts`),
+								replacement: path.resolve(import.meta.dirname, `../../packages/components/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
-							{ find: '@components', replacement: path.resolve(__dirname, '../../packages/components/src') },
+							{
+								find: '@cmfx/components',
+								replacement: path.resolve(import.meta.dirname, '../../packages/components/src'),
+							},
+							{ find: '@components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') },
 
 							{
 								find: /^@cmfx\/themes\/(.*).lang/,
-								replacement: path.resolve(__dirname, `../../packages/themes/src/messages/$1.lang.ts`),
+								replacement: path.resolve(import.meta.dirname, `../../packages/themes/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/themes', replacement: path.resolve(__dirname, '../../packages/themes/src') },
-							{ find: '@themes', replacement: path.resolve(__dirname, '../../packages/themes/src') },
+							{ find: '@cmfx/themes', replacement: path.resolve(import.meta.dirname, '../../packages/themes/src') },
+							{ find: '@themes', replacement: path.resolve(import.meta.dirname, '../../packages/themes/src') },
 
 							{
 								find: /^@cmfx\/illustrations\/(.*).lang/,
-								replacement: path.resolve(__dirname, `../../packages/illustrations/src/messages/$1.lang.ts`),
+								replacement: path.resolve(import.meta.dirname, `../../packages/illustrations/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
-							{ find: '@illustrations', replacement: path.resolve(__dirname, '../../packages/illustrations/src') },
+							{
+								find: '@cmfx/illustrations',
+								replacement: path.resolve(import.meta.dirname, '../../packages/illustrations/src'),
+							},
+							{
+								find: '@illustrations',
+								replacement: path.resolve(import.meta.dirname, '../../packages/illustrations/src'),
+							},
 						],
 						tsconfigPaths: true,
 					}
@@ -102,11 +111,11 @@ export default defineConfig(({ mode }) => {
 				enforce: 'pre',
 				...api({
 					dts: [
-						[path.resolve(__dirname, '../../packages/core'), 'index.d.ts'],
-						[path.resolve(__dirname, '../../packages/components'), 'index.d.ts'],
-						[path.resolve(__dirname, '../../packages/themes'), 'index.d.ts'],
-						[path.resolve(__dirname, '../../packages/illustrations'), 'index.d.ts'],
-						[path.resolve(__dirname, '../../packages/admin'), 'index.d.ts'],
+						[path.resolve(import.meta.dirname, '../../packages/core'), 'index.d.ts'],
+						[path.resolve(import.meta.dirname, '../../packages/components'), 'index.d.ts'],
+						[path.resolve(import.meta.dirname, '../../packages/themes'), 'index.d.ts'],
+						[path.resolve(import.meta.dirname, '../../packages/illustrations'), 'index.d.ts'],
+						[path.resolve(import.meta.dirname, '../../packages/admin'), 'index.d.ts'],
 					],
 					root: './src',
 				}),
