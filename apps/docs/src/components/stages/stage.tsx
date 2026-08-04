@@ -22,7 +22,7 @@ export interface Props {
 	 * 源代码对应的组件
 	 *
 	 * @remarks
-	 * 该组件可以接受一个 {@link MountProps} 类型作为组件的属性列表。
+	 * 该组件*必须*要有一个 {@link MountProps} 类型作为组件的属性列表，否则在 MDX 文件内使用可能出错。
 	 * 组件内可以通过 {@link MountProps.mount} 将设置项添加到工具栏上。
 	 */
 	component: Component<MountProps>;

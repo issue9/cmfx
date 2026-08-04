@@ -187,6 +187,23 @@ close #1
   <Show when={props.xx}><div>{props.xx}</div></Show>
   ```
 
+- 导入的 MDX 组件在使用时需要使用组件包裹，不能有兄弟组件，否则可能出错，比如：
+
+  ```tsx
+  import MDX from './components.mdx';
+
+  // 正确
+  <div>
+    <MDX />
+  </div>
+
+  // 错误
+  <div>
+    <p>有兄弟节点</p>
+    <MDX />
+  </div>
+  ```
+
 ### 后端
 
 数据库模型的命名，为了好区分，分别有以下作为后缀的命名：
