@@ -7,14 +7,13 @@ import Icons from 'unplugin-icons/vite';
 import solidPlugin from 'vite-plugin-solid';
 import { defineProject, mergeConfig } from 'vitest/config';
 
-import customIcons from '../../build/unplugin-icons';
-import { sharedWebConfig } from '../../vitest.config';
+import customIcons from '../../build/unplugin-icons.ts';
+import { sharedWebConfig } from '../../vitest.config.ts';
 
 export default mergeConfig(
 	sharedWebConfig,
 	defineProject({
 		// vite.config.ts 中包含了大量的不必要设置，这里只取了其中的必要插件。
-
 		plugins: [
 			Icons({
 				compiler: 'solid',
@@ -24,5 +23,8 @@ export default mergeConfig(
 			tailwindcss(),
 			solidPlugin(),
 		],
+		test: {
+			setupFiles: ['./src/vitest_setup.ts'],
+		},
 	}),
 );

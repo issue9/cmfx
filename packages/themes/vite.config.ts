@@ -7,7 +7,7 @@ import dts from 'unplugin-dts/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
-import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
+import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common.ts';
 import pkg from './package.json' with { type: 'json' };
 import cfg from './tsconfig.json' with { type: 'json' };
 

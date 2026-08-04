@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sharedNodeConfig } from '../../vitest.config';
+import { sharedNodeConfig } from '../../vitest.config.ts';
 
 export default sharedNodeConfig;

@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import solidPlugin from 'vite-plugin-solid';
 import { defineProject, mergeConfig } from 'vitest/config';
 
-import { sharedWebConfig } from '../../vitest.config';
+import { sharedWebConfig } from '../../vitest.config.ts';
 
 export default mergeConfig(
 	sharedWebConfig,

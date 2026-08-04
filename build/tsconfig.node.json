@@ -6,6 +6,8 @@
 		"target": "ESNext",
 		"moduleResolution": "bundler",
 		"allowSyntheticDefaultImports": true,
+		"allowImportingTsExtensions": true,
+		"emitDeclarationOnly": true,
 		"forceConsistentCasingInFileNames": true // 区分文件名大小写
 	}
 }

@@ -7,8 +7,8 @@ import Icons from 'unplugin-icons/vite';
 import solidPlugin from 'vite-plugin-solid';
 import { defineProject, mergeConfig } from 'vitest/config';
 
-import customIcons from '../../build/unplugin-icons';
-import { sharedWebConfig } from '../../vitest.config';
+import customIcons from '../../build/unplugin-icons.ts';
+import { sharedWebConfig } from '../../vitest.config.ts';
 
 export default mergeConfig(
 	sharedWebConfig,

@@ -12,8 +12,8 @@ import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
-import customIcons from '../../build/unplugin-icons';
-import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common';
+import customIcons from '../../build/unplugin-icons.ts';
+import { buildPostBanner, vitePluginCopyFile } from '../../build/vite.config.common.ts';
 import pkg from './package.json' with { type: 'json' };
 import cfg from './tsconfig.json' with { type: 'json' };
 
