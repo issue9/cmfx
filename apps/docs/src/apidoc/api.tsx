@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type ChangeFunc, Dropdown, Markdown, Table, useLocale } from '@cmfx/components';
+import { PropsError } from '@cmfx/core';
 import type {
 	Class,
 	ClassMethod,
@@ -22,40 +23,48 @@ import IconDown from '~icons/material-symbols/arrow-drop-down';
 
 import styles from './style.module.css';
 
+interface Props {
+	api?: Type;
+
+	types?: Array<Type>;
+	pkg?: string;
+	name?: string;
+}
+
 /**
  * 根据 {@link Type} 生成文档内容
  */
-export function APIDoc(props: { api: Type }): JSX.Element {
+export function APIDoc(props: Props): JSX.Element {
+	let api: Type | undefined = props.api;
+	if (!api) {
+		api = props.types?.find(t => t.pkg === props.pkg && t.name === props.name);
+	}
+	if (!api) {
+		throw new PropsError('api', 'api not found');
+	}
+
 	return (
 		<details class={styles.api}>
 			<summary class={styles.title}>
-				<h4>{props.api.name}</h4>
-				<span class={styles.pkg}>{props.api.pkg}</span>
+				<p>{api.name}</p>
+				<span class={styles.pkg}>{api.pkg}</span>
 			</summary>
 			<div class={styles.body}>
-				<Show when={props.api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
-				<Show when={props.api.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
+				<Show when={api.summary}>{summary => <Markdown tag="p" text={summary()} />}</Show>
+				<Show when={api.remarks}>{remarks => <Markdown tag="p" class={styles.remarks} text={remarks()} />}</Show>
 
 				<Switch>
-					<Match when={props.api.kind === 'literal' ? props.api : undefined}>
+					<Match when={api.kind === 'literal' ? api : undefined}>
 						{literal => <LiteralBody literal={literal()} />}
 					</Match>
-					<Match when={props.api.kind === 'class' ? props.api : undefined}>{cls => <ClassBody cls={cls()} />}</Match>
-					<Match when={props.api.kind === 'interface' ? props.api : undefined}>
-						{intf => <InterfaceBody intf={intf()} />}
-					</Match>
-					<Match when={props.api.kind === 'function' ? props.api : undefined}>
-						{func => <FunctionBody func={func()} />}
-					</Match>
-					<Match when={props.api.kind === 'union' ? props.api : undefined}>
-						{union => <UnionBody union={union()} />}
-					</Match>
-					<Match when={props.api.kind === 'intersection' ? props.api : undefined}>
+					<Match when={api.kind === 'class' ? api : undefined}>{cls => <ClassBody cls={cls()} />}</Match>
+					<Match when={api.kind === 'interface' ? api : undefined}>{intf => <InterfaceBody intf={intf()} />}</Match>
+					<Match when={api.kind === 'function' ? api : undefined}>{func => <FunctionBody func={func()} />}</Match>
+					<Match when={api.kind === 'union' ? api : undefined}>{union => <UnionBody union={union()} />}</Match>
+					<Match when={api.kind === 'intersection' ? api : undefined}>
 						{intersection => <IntersectionBody intersection={intersection()} />}
 					</Match>
-					<Match when={props.api.kind === 'tuple' ? props.api : undefined}>
-						{tuple => <TupleBody tuple={tuple()} />}
-					</Match>
+					<Match when={api.kind === 'tuple' ? api : undefined}>{tuple => <TupleBody tuple={tuple()} />}</Match>
 				</Switch>
 			</div>
 		</details>
@@ -193,7 +202,7 @@ function TypeParams(props: { typeParams: Interface['typeParams'] }): JSX.Element
 
 	return (
 		<Show when={props.typeParams && props.typeParams.length > 0}>
-			<h5>{l.t('_d.stages.typeParam')}</h5>
+			<p>{l.t('_d.stages.typeParam')}</p>
 			<Table hoverable>
 				<thead>
 					<tr>
@@ -227,7 +236,7 @@ function Methods(props: { methods: Interface['methods'] | Class['methods'] }): J
 
 	return (
 		<Show when={props.methods && props.methods.length > 0}>
-			<h5>{l.t('_d.stages.methods')}</h5>
+			<p>{l.t('_d.stages.methods')}</p>
 			<For each={props.methods}>{f => <Fun func={f} isMethod />}</For>
 		</Show>
 	);
@@ -251,7 +260,7 @@ function Properties(props: PropertiesProps): JSX.Element {
 
 	return (
 		<Show when={props.props && props.props.length > 0}>
-			<h5>{l.t('_d.stages.properties')}</h5>
+			<p>{l.t('_d.stages.properties')}</p>
 			<Table hoverable>
 				<thead>
 					<tr>
@@ -312,7 +321,7 @@ function Fun(props: { func: InterfaceMethod; isMethod?: boolean }): JSX.Element 
 
 			<TypeParams typeParams={props.func.typeParams} />
 
-			<h5>{l.t('_d.stages.parameter')}</h5>
+			<p>{l.t('_d.stages.parameter')}</p>
 			<Table hoverable>
 				<thead>
 					<tr>

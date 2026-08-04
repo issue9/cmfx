@@ -15,19 +15,10 @@
 			@apply max-w-50 @max-3xl/stages:hidden;
 		}
 
-		.apis {
-			@apply mt-2 flex flex-col;
-
-			code {
-				/* 文档中的类型名称等 codespan 类型的简要代码 */
-				@apply px-1 font-mono;
-			}
-		}
-
 		article.root {
 			@apply w-full;
 
-			h2 {
+			h1 {
 				@apply text-3xl flex gap-2 items-center font-bold mb-5;
 
 				.edit {
@@ -37,7 +28,7 @@
 				}
 			}
 
-			h3 {
+			h2 {
 				@apply text-2xl my-4 font-semibold;
 			}
 

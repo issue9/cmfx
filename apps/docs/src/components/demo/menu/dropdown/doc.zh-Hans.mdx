@@ -1,0 +1,47 @@
+import Context from './context';
+import context from './context.tsx?raw';
+import Custom from './custom';
+import custom from './custom.tsx?raw';
+import Dropdown from './dropdown';
+import dropdown from './dropdown.tsx?raw';
+import Empty from './empty';
+import empty from './empty.tsx?raw';
+import Multip from './multip';
+import multip from './multip.tsx?raw';
+import OnPopover from './onpopover';
+import onpopover from './onpopover.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### dropdown
+
+<Stage component={Dropdown} source={dropdown} />
+
+### 多选
+
+<Stage component={Multip} source={multip} />
+
+### 右键菜单
+
+<Stage component={Context} source={context} />
+
+### 内容为空
+
+<Stage component={Empty} source={empty} />
+
+### 自定义触发条件
+
+<Stage component={Custom} source={custom} />
+
+### onpopover
+
+由 onPopover 阻止弹出菜单
+
+<Stage component={OnPopover} source={onpopover} />
+
+## API
+
+<APIs types={types} />

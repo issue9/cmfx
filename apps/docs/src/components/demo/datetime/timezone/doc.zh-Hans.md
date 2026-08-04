@@ -1,5 +1,0 @@
-
-#### timezone
-@```demo-timezone```@
-
-@```api```@

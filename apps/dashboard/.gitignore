@@ -1,5 +1,6 @@
 node_modules/
 dist/
+public/
 
 # 以下文件是从根目录复制的
 LICENSE

@@ -1,0 +1,33 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Icon from './icon';
+import icon from './icon.tsx?raw';
+import Long from './long';
+import long from './long.tsx?raw';
+import Text from './text';
+import text from './text.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### 基本功能
+
+<Stage source={basic} component={Basic} />
+
+### 文本
+
+<Stage source={text} component={Text} />
+
+### 长文本
+
+<Stage source={long} component={Long} />
+
+### 图标
+
+<Stage source={icon} component={Icon} />
+
+## API
+
+<APIs types={types} />

@@ -1,0 +1,37 @@
+import Global from './global';
+import global from './global.tsx?raw';
+import Locale from './locale';
+import locale from './locale.tsx?raw';
+import Nested from './nested';
+import nested from './nested.tsx?raw';
+import Other from './other';
+import other from './other.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### locale
+
+可通过 `LocaleProvider` 的属性修改所包含内容的语言。
+
+<Stage component={Locale} source={locale} />
+
+### global
+
+可通过 `setLocale` 修改全局的本地化内容。
+
+<Stage component={Global} source={global} />
+
+### 其它属性
+
+<Stage component={Other} source={other} />
+
+### 嵌套使用
+
+<Stage component={Nested} source={nested} />
+
+## API
+
+<APIs types={types} />

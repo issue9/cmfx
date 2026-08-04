@@ -1,0 +1,31 @@
+import Cols from './col';
+import cols from './col.tsx?raw';
+import Form from './form';
+import form from './form.tsx?raw';
+import Label from './label';
+import label from './label.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### form
+
+<Stage component={Form} source={form} />
+
+### label
+
+可以为所有的标签指定统一的宽度和对齐方式
+
+<Stage component={Label} source={label} />
+
+### 多列
+
+通过 grid 可以很方式的指定表单的多列对齐方式
+
+<Stage component={Cols} source={cols} />
+
+## API
+
+<APIs types={types} />

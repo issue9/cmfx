@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Choice, InputNumber, InputText, Notify } from '@cmfx/components';
+import { Alert, Button, Choice, InputNumber, InputText, type MountProps, Notify } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import { createSignal, type JSX } from 'solid-js';
 
-export default function (): JSX.Element {
+export default function (_: MountProps): JSX.Element {
 	const [typ, setTyp] = createSignal<Alert.Type>('success');
 	const [pos, setPos] = createSignal<Notify.Position>('top');
 	const [timeout, setTimeout] = createSignal(5000);

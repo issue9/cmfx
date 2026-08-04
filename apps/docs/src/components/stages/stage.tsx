@@ -28,11 +28,6 @@ export interface Props {
 	component: Component<MountProps>;
 
 	/**
-	 * 该组件的 ID，在 markdown 中通过此值引用此组件
-	 */
-	id: string;
-
-	/**
 	 * 组件内的演示内容高度
 	 */
 	height?: JSX.CSSProperties['height'];
@@ -76,7 +71,7 @@ export default function Stage(props: Props): JSX.Element {
 	let settingRef: HTMLElement;
 
 	return (
-		<div class={stageCls()} id={`demo-${props.id}`}>
+		<div class={stageCls()}>
 			<div class={styles.demo} ref={setDemoRef} style={{ height: props.height }}>
 				<div class={styles.toolbar}>
 					<div class={styles.left}>

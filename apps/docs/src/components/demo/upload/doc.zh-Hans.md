@@ -1,5 +1,0 @@
-
-#### upload
-@```demo-upload```@
-
-@```api```@

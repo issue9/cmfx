@@ -2,9 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { BundledLanguage } from 'shiki';
+
 import { borderDecorate, type CodeDecorate, copyButtonDecorate, createToolbarDecorate, withDecorate } from './decorate';
 import { Code as C, type CodeEditableProps, type CodeNormalProps, type CodeProps, type CodeRef } from './root';
 import { buildHighlighter, type CodeHighlighter, highlight } from './shiki';
+import { shikiTheme } from './theme';
 
 export const Code = Object.assign(C, {
 	withDecorate,
@@ -13,6 +16,7 @@ export const Code = Object.assign(C, {
 	borderDecorate,
 	copyButtonDecorate,
 	createToolbarDecorate,
+	theme: shikiTheme,
 });
 
 export namespace Code {
@@ -23,4 +27,5 @@ export namespace Code {
 
 	export type Highlighter = CodeHighlighter;
 	export type Decorate = CodeDecorate;
+	export type Language = BundledLanguage;
 }

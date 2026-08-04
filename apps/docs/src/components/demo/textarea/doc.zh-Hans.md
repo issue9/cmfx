@@ -1,5 +1,0 @@
-
-#### textarea
-@```demo-textarea```@
-
-@```api```@

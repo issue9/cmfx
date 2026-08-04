@@ -1,0 +1,33 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Dialog from './dialog';
+import dialog from './dialog.tsx?raw';
+import Scroller from './scroller';
+import scroller from './scroller.tsx?raw';
+import System from './system';
+import system from './system.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### basic
+
+<Stage component={Basic} source={basic} />
+
+### 替换系统对话框
+
+<Stage component={System} source={system} />
+
+### 对话框
+
+<Stage component={Dialog} source={dialog} />
+
+### 可滚动
+
+<Stage component={Scroller} source={scroller} />
+
+## API
+
+<APIs types={types} />

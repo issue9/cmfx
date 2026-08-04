@@ -5,21 +5,12 @@
 import IconBacktop from '~icons/tabler/transition-top-filled';
 
 import type { Info } from '@docs/components/base';
-import { default as Custom } from './custom';
-import { default as custom } from './custom.tsx?raw';
-import { default as Preset } from './preset';
-import { default as preset } from './preset.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'navigation',
 		title: '_d.demo.backtop',
 		icon: IconBacktop,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: Preset, source: preset, id: 'preset' },
-			{ component: Custom, source: custom, id: 'custom' },
-		],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

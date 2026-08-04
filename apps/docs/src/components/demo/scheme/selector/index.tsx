@@ -5,16 +5,12 @@
 import IconTheme from '~icons/mdi/theme';
 
 import type { Info } from '@docs/components/base';
-import { default as Selector } from './selector';
-import { default as selector } from './selector.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'general',
 		title: '_d.demo.schemeSelector',
 		icon: IconTheme,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Selector, source: selector, id: 'basic' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

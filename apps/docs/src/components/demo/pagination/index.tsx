@@ -5,21 +5,12 @@
 import IconPagination from '~icons/stash/pagination-duotone';
 
 import type { Info } from '@docs/components/base';
-import { default as Bar } from './bar';
-import { default as bar } from './bar.tsx?raw';
-import { default as Pagination } from './pagination';
-import { default as pagination } from './pagination.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'navigation',
 		title: '_d.demo.pagination',
 		icon: IconPagination,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: Pagination, source: pagination, id: 'pagination' },
-			{ component: Bar, source: bar, id: 'bar' },
-		],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

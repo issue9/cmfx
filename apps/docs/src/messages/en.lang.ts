@@ -8,7 +8,6 @@ const messages = {
 			codeDemo: 'Code Demo',
 
 			parameter: 'Parameter',
-			api: 'API',
 			type: 'Type',
 			typeParam: 'Type parameter',
 			methods: 'Methods',

@@ -1,0 +1,41 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Paging from './paging';
+import paging from './paging.tsx?raw';
+import Search from './search';
+import search from './search.tsx?raw';
+import Table from './table';
+import table from './table.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### 数据表格
+
+用于展示数据，但是不支持分页。
+
+<Stage component={Basic} source={basic} />
+
+### 表格
+
+基本的表格功能，与 HTML 的 table 相同，加上了部分控制功能。
+
+<Stage component={Table} source={table} />
+
+### 分页
+
+用于展示数据，可通过方法加载数据内容，支持分页。
+
+<Stage component={Paging} source={paging} />
+
+### search
+
+查询参数同时映射到了地址栏中
+
+<Stage component={Search} source={search} />
+
+## API
+
+<APIs types={types} />

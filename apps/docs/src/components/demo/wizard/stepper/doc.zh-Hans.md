@@ -1,5 +1,0 @@
-
-#### stepper
-@```demo-stepper```@
-
-@```api```@

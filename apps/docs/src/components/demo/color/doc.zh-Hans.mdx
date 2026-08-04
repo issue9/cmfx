@@ -1,0 +1,39 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Disabled from './disabled';
+import disabled from './disabled.tsx?raw';
+import Icon from './icon';
+import icon from './icon.tsx?raw';
+import Picker from './picker';
+import picker from './picker.tsx?raw';
+import WCAG from './wcag';
+import wcag from './wcag.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### basic
+
+<Stage component={Basic} source={basic} />
+
+### wcag
+
+<Stage component={WCAG} source={wcag} />
+
+### disabled
+
+<Stage component={Disabled} source={disabled} />
+
+### picker
+
+<Stage component={Picker} source={picker} />
+
+### 自定义显示内容
+
+<Stage component={Icon} source={icon} />
+
+## API
+
+<APIs types={types} />

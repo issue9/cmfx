@@ -275,6 +275,20 @@
 		"pkg": "@cmfx/core"
 	},
 	{
+		"kind": "class",
+		"name": "LogicError",
+		"summary": "逻辑错误\n\n",
+		"remarks": "业务逻辑错误，比如参数错误、数据错误等。\n\n",
+		"pkg": "@cmfx/core"
+	},
+	{
+		"kind": "class",
+		"name": "RuntimeError",
+		"summary": "运行期错误\n\n",
+		"remarks": "运行时发生的错误，比如类型错误、空指针等。\n\n",
+		"pkg": "@cmfx/core"
+	},
+	{
 		"kind": "function",
 		"name": "handleProblem",
 		"summary": "框架默认对\n`Problem`\n的处理方式\n\n",
@@ -294,6 +308,72 @@
 		],
 		"return": {
 			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "notifyProblem",
+		"summary": "将所有类型的 Problem 都以通知的形式通知用户\n\n",
+		"type": "function notifyProblem<P = never>(p?: Problem<P>): Promise<void>",
+		"typeParams": [
+			{
+				"name": "P",
+				"type": "any",
+				"init": "never"
+			}
+		],
+		"params": [
+			{
+				"name": "p",
+				"type": "Problem<P> | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "throwProblem",
+		"type": "function throwProblem<P = never>(p?: Problem<P>): Promise<void>",
+		"typeParams": [
+			{
+				"name": "P",
+				"type": "any",
+				"init": "never"
+			}
+		],
+		"params": [
+			{
+				"name": "p",
+				"type": "Problem<P> | undefined"
+			}
+		],
+		"return": {
+			"type": "Promise<void>"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "useAPI",
+		"summary": "返回\n`API`\n对象\n\n",
+		"type": "function useAPI(): [API_2, ProblemHandler]",
+		"return": {
+			"type": "[API_2, ProblemHandler<never>]"
+		},
+		"pkg": "@cmfx/components"
+	},
+	{
+		"kind": "function",
+		"name": "useREST",
+		"summary": "返回与后端通讯的基本接口集合\n\n",
+		"remarks": "与\n`useAPI`\n的不同点在于只提供了基本的功能，但是会添加一个基于当前环境的 Accept-Language 报头信息。\n\n",
+		"type": "function useREST(): [REST, ProblemHandler]",
+		"return": {
+			"type": "[REST, ProblemHandler<never>]"
 		},
 		"pkg": "@cmfx/components"
 	},

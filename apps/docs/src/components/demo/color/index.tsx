@@ -5,30 +5,12 @@
 import IconColorPanel from '~icons/material-symbols/format-color-fill-rounded';
 
 import type { Info } from '@docs/components/base';
-import { default as Basic } from './basic';
-import { default as basic } from './basic.tsx?raw';
-import { default as Disabled } from './disabled';
-import { default as disabled } from './disabled.tsx?raw';
-import { default as Icon } from './icon';
-import { default as icon } from './icon.tsx?raw';
-import { default as Picker } from './picker';
-import { default as picker } from './picker.tsx?raw';
-import { default as WCAG } from './wcag';
-import { default as wcag } from './wcag.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'data-input',
 		title: '_d.demo.color',
 		icon: IconColorPanel,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: Basic, source: basic, layout: 'auto', id: 'basic' },
-			{ component: WCAG, source: wcag, layout: 'auto', id: 'wcag' },
-			{ component: Disabled, source: disabled, layout: 'auto', id: 'disabled' },
-			{ component: Picker, source: picker, id: 'picker' },
-			{ component: Icon, source: icon, id: 'icon' },
-		],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

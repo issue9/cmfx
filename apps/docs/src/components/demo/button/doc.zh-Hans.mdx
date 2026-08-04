@@ -1,0 +1,57 @@
+import Anchor from './anchor';
+import anchor from './anchor.tsx?raw';
+import Block from './block';
+import block from './block.tsx?raw';
+import Button from './button';
+import button from './button.tsx?raw';
+import Confirm from './confirm';
+import confirm from './confirm.tsx?raw';
+import Group from './group';
+import group from './group.tsx?raw';
+import Print from './print';
+import print from './print.tsx?raw';
+import Split from './split';
+import split from './split.tsx?raw';
+import Toggle from './toggle';
+import toggle from './toggle.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### 普通按钮
+
+<Stage source={button} component={Button} />
+
+### 确认按钮
+
+<Stage source={confirm} component={Confirm} />
+
+### 链接
+
+<Stage source={anchor} component={Anchor} />
+
+### 切换按钮
+
+<Stage source={toggle} component={Toggle} />
+
+### block
+
+<Stage source={block} component={Block} />
+
+### group
+
+<Stage source={group} component={Group} />
+
+### split
+
+<Stage source={split} component={Split} />
+
+### print
+
+<Stage source={print} component={Print} />
+
+## API
+
+<APIs types={types} />

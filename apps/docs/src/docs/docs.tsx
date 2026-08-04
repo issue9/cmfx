@@ -2,23 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Code, Drawer, Markdown, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Drawer, Menu, Nav, Page, useLocale } from '@cmfx/components';
 import type { ArrayElement, Locale } from '@cmfx/core';
 import { joinClass } from '@cmfx/themes';
-import type { Type } from '@cmfx/vite-plugin-api';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import { createMemo, type JSX, onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
+import { type JSX, onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
 
-import { APIDoc } from '@docs/apidoc';
-import { type APIFileObject, fileObject2Map, floatingWidth, type TextFileObject } from '@docs/utils';
+import { LocalizedMDXDoc, type LocalizedMDXDocProps } from '@docs/mdx';
 import styles from './style.module.css';
 
 const kinds = ['intro', 'usage', 'advance'] as const;
 
 type Kind = (typeof kinds)[number];
-
-const usageAPI = import.meta.glob('./usage/api.*.json', { eager: true, import: 'default' }) as APIFileObject;
-const advanceAPI = import.meta.glob('./advance/api.*.json', { eager: true, import: 'default' }) as APIFileObject;
 
 // 定义了所有文章的路由
 //
@@ -29,17 +24,13 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		kind: 'intro',
 		path: ['', 'intro/readme'],
 		info: { title: '_d.docs.intro' },
-		component: () => (
-			<Doc articles={import.meta.glob('../../../../README.md', { eager: true, query: '?raw', import: 'default' })} />
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./intro/README.md', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'intro',
 		path: 'intro/changelog',
 		info: { title: '_d.docs.changelog' },
-		component: () => (
-			<Doc articles={import.meta.glob('../../../../CHANGELOG.md', { eager: true, query: '?raw', import: 'default' })} />
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./intro/CHANGELOG.md', { eager: true, import: 'default' })} />,
 	},
 
 	//////////////////// usage
@@ -48,56 +39,31 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		kind: 'usage',
 		path: 'usage/install',
 		info: { title: '_d.docs.install' },
-		component: () => (
-			<Doc
-				types={usageAPI}
-				articles={import.meta.glob('./usage/install.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./usage/install.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'usage',
 		path: 'usage/platform',
 		info: { title: '_d.docs.platform' },
-		component: () => (
-			<Doc
-				types={usageAPI}
-				articles={import.meta.glob('./usage/platform.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./usage/platform.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'usage',
 		path: 'usage/svg',
 		info: { title: '_d.docs.svg' },
-		component: () => (
-			<Doc
-				types={usageAPI}
-				articles={import.meta.glob('./usage/svg.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./usage/svg.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'usage',
 		path: 'usage/theme',
 		info: { title: '_d.docs.theme' },
-		component: () => (
-			<Doc
-				types={usageAPI}
-				articles={import.meta.glob('./usage/theme.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./usage/theme.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'usage',
 		path: 'usage/faq',
 		info: { title: '_d.docs.faq' },
-		component: () => (
-			<Doc
-				types={usageAPI}
-				articles={import.meta.glob('./usage/faq.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./usage/faq.*.mdx', { eager: true, import: 'default' })} />,
 	},
 
 	//////////////////// advance
@@ -106,56 +72,35 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		kind: 'advance',
 		path: 'advance/locale',
 		info: { title: '_d.docs.locale' },
-		component: () => (
-			<Doc
-				types={advanceAPI}
-				articles={import.meta.glob('./advance/locale.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./advance/locale.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'advance',
 		path: 'advance/validator',
 		info: { title: '_d.docs.validator' },
 		component: () => (
-			<Doc
-				types={advanceAPI}
-				articles={import.meta.glob('./advance/validator.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
+			<MDXDoc docs={import.meta.glob('./advance/validator.*.mdx', { eager: true, import: 'default' })} />
 		),
 	},
 	{
 		kind: 'advance',
 		path: 'advance/error',
 		info: { title: '_d.docs.error' },
-		component: () => (
-			<Doc
-				types={advanceAPI}
-				articles={import.meta.glob('./advance/error.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./advance/error.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'advance',
 		path: 'advance/custom-theme',
 		info: { title: '_d.docs.customTheme' },
 		component: () => (
-			<Doc
-				types={advanceAPI}
-				articles={import.meta.glob('./advance/custom-theme.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
+			<MDXDoc docs={import.meta.glob('./advance/custom-theme.*.mdx', { eager: true, import: 'default' })} />
 		),
 	},
 	{
 		kind: 'advance',
 		path: 'advance/plugins',
 		info: { title: '_d.docs.plugins' },
-		component: () => (
-			<Doc
-				types={advanceAPI}
-				articles={import.meta.glob('./advance/plugins.*.md', { eager: true, query: '?raw', import: 'default' })}
-			/>
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./advance/plugins.*.mdx', { eager: true, import: 'default' })} />,
 	},
 ] as const;
 
@@ -193,78 +138,31 @@ export function buildMenus(l: Locale, prefix: string): Array<Menu.Item> {
 	return menus;
 }
 
-interface DocProps {
-	/**
-	 * 通过 import.meta.glob 加载的单一内容的多语言对象
-	 */
-	articles: TextFileObject;
-
-	/**
-	 * 通过 import.meta.glob 加载的单一类型的多语言对象
-	 */
-	types?: APIFileObject;
+interface MDXDocProps {
+	docs: LocalizedMDXDocProps['docs'];
 }
 
-// 加载 Markdown 文档
-function Doc(props: DocProps): JSX.Element {
-	const l = useLocale();
-	const [, origin] = useOptions();
-
+function MDXDoc(props: MDXDocProps): JSX.Element {
 	const route = useCurrentMatches()();
 	const title = route[route.length - 1].route.info?.title;
 
-	let articleRef!: Markdown.Ref;
+	let articleRef!: HTMLElement;
 	let navRef: Nav.Ref;
-
-	const text = createMemo(() => {
-		const articles = fileObject2Map(props.articles);
-		const locales = Array.from(articles.keys());
-
-		return articles.size > 1 // >1 表示有多种语言
-			? articles.get(l.match(locales, origin.locale))
-			: articles.values().next().value;
-	});
-
-	const components = createMemo(() => {
-		if (!props.types || Object.keys(props.types).length === 0) {
-			return;
-		}
-
-		const typeObj = fileObject2Map(props.types);
-		const locales = Array.from(typeObj.keys());
-
-		const ret: Array<Type> | undefined =
-			typeObj.size > 1 // >1 表示有多种语言
-				? typeObj.get(l.match(locales, origin.locale))
-				: typeObj.values().next().value;
-
-		if (!ret) {
-			return;
-		}
-
-		const obj: Markdown.Props['components'] = {};
-		ret.forEach(t => {
-			obj[`${t.pkg}%${t.name}`] = () => <APIDoc api={t} />;
-		});
-		return obj;
-	});
 
 	return (
 		<Page title={title} class={styles.docs}>
-			<Markdown
+			<LocalizedMDXDoc
 				class={styles.doc}
+				onSwitch={() => navRef?.refresh()}
 				ref={el => (articleRef = el)}
-				text={text()}
-				components={components()}
-				onComplete={() => navRef.refresh()}
-				decorates={[Code.borderDecorate, Code.createToolbarDecorate()]}
+				docs={props.docs}
 			/>
 			<Nav
 				minHeaderCount={5}
 				class={styles.nav}
 				ref={el => (navRef = el)}
-				target={articleRef.root()}
-				query="h2,h3,h4"
+				target={articleRef}
+				query=":is(h2,h3,h4):not(table *)"
 			/>
 		</Page>
 	);
@@ -273,7 +171,11 @@ function Doc(props: DocProps): JSX.Element {
 /**
  * 提供了文档浏览的路由定义
  */
-export function buildRoute(prefix: string, setDrawer: Setter<Drawer.Ref | undefined>): RouteDefinition {
+export function buildRoute(
+	prefix: string,
+	setDrawer: Setter<Drawer.Ref | undefined>,
+	floating: Drawer.Props['floating'],
+): RouteDefinition {
 	if (!prefix.endsWith('/')) {
 		prefix += '/';
 	}
@@ -294,7 +196,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.Ref | undefi
 			return (
 				<Drawer
 					initValue
-					floating={floatingWidth}
+					floating={floating}
 					ref={el => (ref = el)}
 					palette="secondary"
 					mainClass={joinClass('surface')}

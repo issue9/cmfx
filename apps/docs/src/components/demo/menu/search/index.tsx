@@ -5,16 +5,12 @@
 import IconSearch from '~icons/material-symbols/search-rounded';
 
 import type { Info } from '@docs/components/base';
-import { default as Search } from './search';
-import { default as search } from './search.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'feedback',
 		title: '_d.demo.search',
 		icon: IconSearch,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Search, source: search, id: 'search' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

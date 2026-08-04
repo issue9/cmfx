@@ -5,21 +5,12 @@
 import IconCalendar from '~icons/solar/calendar-bold';
 
 import type { Info } from '@docs/components/base';
-import { default as Calendar } from './calendar';
-import { default as calendar } from './calendar.tsx?raw';
-import { default as Lunar } from './lunar';
-import { default as lunar } from './lunar.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'data-display',
 		title: '_d.demo.calendar',
 		icon: IconCalendar,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [
-			{ component: Calendar, source: calendar, layout: 'vertical', id: 'calendar' },
-			{ component: Lunar, source: lunar, layout: 'vertical', id: 'lunar' },
-		],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

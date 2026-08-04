@@ -1,0 +1,27 @@
+import Global from './global';
+import global from './global.tsx?raw';
+import Nested from './nested';
+import nested from './nested.tsx?raw';
+import Theme from './theme';
+import theme from './theme.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### theme
+
+<Stage component={Theme} source={theme} />
+
+### 修改全局主题
+
+<Stage component={Global} source={global} />
+
+### nested
+
+<Stage component={Nested} source={nested} />
+
+## API
+
+<APIs types={types} />

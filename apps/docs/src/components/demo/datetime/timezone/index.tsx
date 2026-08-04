@@ -5,16 +5,12 @@
 import IconTimezone from '~icons/mdi/timezone';
 
 import type { Info } from '@docs/components/base';
-import { default as Timezone } from './timezone';
-import { default as timezone } from './timezone.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'data-display',
 		title: '_d.demo.timezone',
 		icon: IconTimezone,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Timezone, source: timezone, layout: 'vertical', id: 'timezone' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

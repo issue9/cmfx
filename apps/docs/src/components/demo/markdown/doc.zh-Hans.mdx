@@ -1,0 +1,27 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Block from './block';
+import block from './block.tsx?raw';
+import Inline from './inline';
+import inline from './inline.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### basic
+
+<Stage component={Basic} source={basic} />
+
+### 内联图标
+
+<Stage component={Inline} source={inline} />
+
+### 组件
+
+<Stage component={Block} source={block} />
+
+## API
+
+<APIs types={types} />

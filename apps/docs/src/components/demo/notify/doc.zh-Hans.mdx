@@ -1,0 +1,33 @@
+import Alert from './alert';
+import alert from './alert.tsx?raw';
+import Body from './body';
+import body from './body.tsx?raw';
+import Duration from './duration';
+import duration from './duration.tsx?raw';
+import Notify from './notify';
+import notify from './notify.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### notify
+
+<Stage component={Notify} source={notify} />
+
+### alert
+
+<Stage component={Alert} source={alert} />
+
+### body
+
+<Stage component={Body} source={body} />
+
+### duration
+
+<Stage component={Duration} source={duration} />
+
+## API
+
+<APIs types={types} />

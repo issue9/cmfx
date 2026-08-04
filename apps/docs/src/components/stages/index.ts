@@ -5,4 +5,4 @@
 export type { Props as StageProps } from './stage';
 export { default as Stage } from './stage';
 export type { Props as StagesProps } from './stages';
-export { default as Stages } from './stages';
+export { APIs, default as Stages } from './stages';

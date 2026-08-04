@@ -188,7 +188,7 @@
 			{
 				"name": "html",
 				"summary": "高亮代码\n\n",
-				"type": "html(code: string, lang: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: ThemeProps['style'], theme?: BundledTheme, decorate?: string): string",
+				"type": "html(code: string, lang: BundledLanguage_2, ln?: number, wrap?: boolean, cls?: string, style?: ThemeProps['style'], theme?: BundledTheme_2, decorate?: string): string",
 				"params": [
 					{
 						"name": "code",
@@ -252,7 +252,7 @@
 		"name": "Code.buildHighlighter",
 		"summary": "构造可以高亮指定语言的对象\n\n",
 		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
-		"type": "declare function buildHighlighter(langs: Array<BundledLanguage>, themes?: (ThemeInput | StringLiteralUnion<BundledTheme> | SpecialTheme)[]): Promise<CodeHighlighter>",
+		"type": "declare function buildHighlighter(langs: Array<BundledLanguage_2>, themes?: (ThemeInput | StringLiteralUnion<BundledTheme_2> | SpecialTheme)[]): Promise<CodeHighlighter>",
 		"params": [
 			{
 				"name": "langs",
@@ -276,7 +276,7 @@
 		"name": "Code.highlight",
 		"summary": "高亮代码\n\n",
 		"remarks": "用户需要自己在 package.json 的 dependencies 中导入\n[shiki](https://shiki.tmrs.site/) 该包才有高亮功能。\n\n",
-		"type": "declare function highlight(code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: ThemeProps['style'], theme?: BundledTheme): Promise<string>",
+		"type": "declare function highlight(code: string, lang?: BundledLanguage_2, ln?: number, wrap?: boolean, cls?: string, style?: ThemeProps['style'], theme?: BundledTheme_2): Promise<string>",
 		"params": [
 			{
 				"name": "code",

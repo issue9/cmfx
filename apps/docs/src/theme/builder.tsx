@@ -7,13 +7,15 @@ import { joinClass, readScheme } from '@cmfx/themes';
 import { createEffect, type JSX, onCleanup, onMount, type Setter } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
-import { floatingWidth } from '@docs/utils';
 import { Demo } from './demo';
 import { Params } from './params';
 import styles from './style.module.css';
 import { convertSchemeVar2Color } from './utils';
 
-export function Builder(props: { setDrawer: Setter<Drawer.Ref | undefined> }): JSX.Element {
+export function Builder(props: {
+	setDrawer: Setter<Drawer.Ref | undefined>;
+	floating: Drawer.Props['floating'];
+}): JSX.Element {
 	let drawerRef: Drawer.Ref;
 	onMount(() => props.setDrawer(drawerRef));
 	onCleanup(() => props.setDrawer());
@@ -26,7 +28,7 @@ export function Builder(props: { setDrawer: Setter<Drawer.Ref | undefined> }): J
 	return (
 		<Drawer
 			class={styles.builder}
-			floating={floatingWidth}
+			floating={props.floating}
 			ref={el => {
 				drawerRef = el;
 				el.main().style.overflow = 'unset';

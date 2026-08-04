@@ -1,0 +1,27 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Mark from './mark';
+import mark from './mark.tsx?raw';
+import Step from './step';
+import step from './step.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### basic
+
+<Stage component={Basic} source={basic} />
+
+### step
+
+<Stage component={Step} source={step} />
+
+### mark
+
+<Stage component={Mark} source={mark} />
+
+## API
+
+<APIs types={types} />

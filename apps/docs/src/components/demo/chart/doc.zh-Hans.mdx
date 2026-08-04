@@ -1,0 +1,28 @@
+import Axis from './axis';
+import axis from './axis.tsx?raw';
+import Chart from './chart';
+import chart from './chart.tsx?raw';
+import Pie from './pie';
+import pie from './pie.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### 普通图表
+
+<Stage component={Chart} source={chart} />
+
+### 饼图
+
+<Stage component={Pie} source={pie} />
+
+### 坐标
+
+<Stage component={Axis} source={axis} />
+
+
+## API
+
+<APIs types={types} />

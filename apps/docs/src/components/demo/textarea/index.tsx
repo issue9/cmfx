@@ -5,16 +5,12 @@
 import IconTextarea from '~icons/bi/textarea-resize';
 
 import type { Info } from '@docs/components/base';
-import { default as Textarea } from './textarea';
-import { default as textarea } from './textarea.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'data-input',
 		title: '_d.demo.textarea',
 		icon: IconTextarea,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Textarea, source: textarea, id: 'textarea' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

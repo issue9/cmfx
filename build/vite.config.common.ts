@@ -54,7 +54,7 @@ export function buildPostBanner(pkg: { name: string; version: string; homepage: 
  * @param targets.src - 源文件路径，如果是相对路径，则是相对于项目的 root；
  * @param targets.dest - 目标`目录`的路径，如果是相对路径，则是相对于项目的 root；
  * @param targets.transform - 可选的内容转换函数；
- * @param targets.before - 是否在打包前执行，默认是在打包之后才执行复制；
+ * @param targets.before - 是否在打包前执行，默认是在打包之后才执行复制，如果是放在 enforce==`pre` 插件中，必须将 before 设定为 true；
  */
 export function vitePluginCopyFile(
 	targets: Array<{ src: string; dest: string; transform?: (content: string) => string; before?: boolean }>,

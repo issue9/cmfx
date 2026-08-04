@@ -5,16 +5,12 @@
 import IconLabel from '~icons/material-symbols/label-rounded';
 
 import type { Info } from '@docs/components/base';
-import { default as Label } from './label';
-import { default as label } from './label.tsx?raw';
 
 export default function (): Info {
 	return {
 		kind: 'general',
 		title: '_d.demo.label',
 		icon: IconLabel,
-		api: import.meta.glob('./api.*.json', { eager: true, import: 'default' }),
-		doc: import.meta.glob('./doc.*.md', { eager: true, query: '?raw', import: 'default' }),
-		stages: [{ component: Label, source: label, id: 'label' }],
+		doc: import.meta.glob('./doc.*.mdx', { eager: true, import: 'default' }),
 	};
 }

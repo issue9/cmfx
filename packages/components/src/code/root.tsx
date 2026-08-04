@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { joinClass, type ThemeProps } from '@cmfx/themes';
-import type { BundledLanguage, BundledTheme } from 'shiki/bundle/full';
+import type { BundledLanguage, BundledTheme } from 'shiki';
 import { createEffect, createSignal, getOwner, type JSX, onCleanup, runWithOwner } from 'solid-js';
 import { template } from 'solid-js/web';
 
@@ -120,11 +120,9 @@ export function Code(props: CodeProps): JSX.Element {
 		const preHTML = await highlight(html(), props.lang, props.ln, props.wrap, cls, props.style, props.theme);
 		const preElem = template(preHTML)() as HTMLPreElement;
 
-		if (props.ref) {
-			props.ref({
-				root: () => preElem,
-			});
-		}
+		props.ref?.({
+			root: () => preElem,
+		});
 
 		setPreElement(preElem);
 	});

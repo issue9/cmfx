@@ -20,7 +20,7 @@
 		.content {
 			@apply flex justify-start flex-col gap-5 h-1/2 w-1/2;
 
-			h2.title {
+			p.title {
 				@apply text-4xl font-bold;
 			}
 

@@ -1,5 +1,0 @@
-
-#### basic
-@```demo-basic```@
-
-@```api```@

@@ -1,0 +1,21 @@
+import Basic from './basic';
+import basic from './basic.tsx?raw';
+import Float from './float';
+import float from './float.tsx?raw';
+
+import types from './api.zh-Hans.json';
+import { APIs, Stage } from '@docs/components/stages';
+
+## 演示
+
+### basic
+
+<Stage component={Basic} source={basic} />
+
+### float
+
+<Stage component={Float} source={float} />
+
+## API
+
+<APIs types={types} />
