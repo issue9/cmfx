@@ -215,12 +215,14 @@ function NotFound(): JSX.Element {
 	);
 }
 
+const drawerFloating: Drawer.Props['floating'] = 'lg';
+
 const routes: Array<RouteDefinition> = [
 	{ path: '/', component: lazy(() => import('./home')) },
 
-	buildThemeRoute(themeRoute, setDrawerRef),
-	buildComponentsRoute(componentsRoute, setDrawerRef),
-	buildDocsRoute(docsRoute, setDrawerRef),
+	buildThemeRoute(themeRoute, setDrawerRef, drawerFloating),
+	buildComponentsRoute(componentsRoute, setDrawerRef, drawerFloating),
+	buildDocsRoute(docsRoute, setDrawerRef, drawerFloating),
 	buildContributeRoute(contributeRoute),
 	{ path: '*', component: NotFound },
 ];

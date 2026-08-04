@@ -2,17 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Drawer } from '@cmfx/components';
 import type { Type } from '@cmfx/vite-plugin-api';
-
-export const floatingWidth: Drawer.Props['floating'] = 'lg';
+import type { Component } from 'solid-js';
 
 export type FileObject<T> = Record<string, T>;
 
 /**
- * 表示通过 import.meta.glob 加载的文本文件对象
+ * 表示通过 import.meta.glob 加载的 MDX 组件对象
  */
-export type TextFileObject = FileObject<string>;
+export type MDXFileObject = FileObject<Component>;
 
 /**
  * 表示通过 import.meta.glob 加载的 api 文档对象
@@ -20,7 +18,7 @@ export type TextFileObject = FileObject<string>;
 export type APIFileObject = FileObject<Array<Type>>;
 
 /**
- * 将 obj 转换为 Map 对象，其中键名只保留了语言 ID。
+ * 将 {@link FileObject} 转换为 Map 对象，其中键名只保留了语言 ID。
  *
  * @remarks
  * 文件名必须是 abc.lang.ext 格式，

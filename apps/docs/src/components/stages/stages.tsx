@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Nav, Page, useLocale } from '@cmfx/components';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
-import { type Component, createMemo, For, type JSX } from 'solid-js';
+import { For, type JSX } from 'solid-js';
 import IconGithub from '~icons/lineicons/github';
 
 import { APIDoc } from '@docs/apidoc';
-import { type FileObject, fileObject2Map } from '@docs/utils';
+import { LocalizedMDXDoc, type LocalizedMDXDocProps } from '@docs/mdx';
 import pkg from '../../../package.json' with { type: 'json' };
 import styles from './style.module.css';
 
@@ -22,7 +22,7 @@ export interface Props {
 	 */
 	dir: string;
 
-	doc: FileObject<Component>;
+	docs: LocalizedMDXDocProps['docs'];
 }
 
 /**
@@ -38,19 +38,6 @@ export default function Stages(props: Props): JSX.Element {
 	let navRef!: Nav.Ref;
 	const url = baseURL + props.dir;
 
-	const [, origin] = useOptions();
-
-	const comp = createMemo(() => {
-		const articles = fileObject2Map(props.doc);
-		const locales = Array.from(articles.keys());
-
-		requestAnimationFrame(() => navRef.refresh());
-
-		return articles.size > 1 // >1 表示有多种语言
-			? articles.get(l.match(locales, origin.locale))
-			: articles.values().next().value;
-	});
-
 	return (
 		<Page class={styles['stages-page']} title={title}>
 			<article class={styles.root} ref={el => (articleRef = el)}>
@@ -60,11 +47,16 @@ export default function Stages(props: Props): JSX.Element {
 						<IconGithub />
 					</A>
 				</h1>
-
-				{comp()}
+				<LocalizedMDXDoc onSwitch={() => navRef?.refresh()} docs={props.docs} />
 			</article>
 
-			<Nav minHeaderCount={5} ref={el => (navRef = el)} class={styles.nav} target={articleRef} query="h2,h3,h4" />
+			<Nav
+				minHeaderCount={5}
+				ref={el => (navRef = el)}
+				class={styles.nav}
+				target={articleRef}
+				query=":is(h2,h3,h4):not(table *)"
+			/>
 		</Page>
 	);
 }

@@ -16,6 +16,7 @@
 		"src/**/*.js",
 		"src/**/*.tsx",
 		"src/**/*.mdx",
+		"src/**/*.md",
 		"src/**/api.*.json",
 		"./package.json"
 	],

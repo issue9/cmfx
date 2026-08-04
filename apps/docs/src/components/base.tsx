@@ -38,7 +38,7 @@ export type Info = {
 	kind: Kind; // 组件分类
 	title: DictKeys<typeof messages>; // 演示组件的标题，同时也是页面的标题。
 	icon?: Component; // 演示组件的图标，需要多处使用，所以使用函数。如果为空会有默认图标。
-	doc: StagesProps['doc'];
+	doc: StagesProps['docs'];
 };
 
 export function numeric<T extends number = number>(

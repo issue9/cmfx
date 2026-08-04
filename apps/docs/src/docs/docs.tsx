@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Menu, Nav, Page, useLocale, useOptions } from '@cmfx/components';
+import { Drawer, Menu, Nav, Page, useLocale } from '@cmfx/components';
 import type { ArrayElement, Locale } from '@cmfx/core';
 import { joinClass } from '@cmfx/themes';
 import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import { type Component, createMemo, type JSX, onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
+import { type JSX, onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
 
-import { type FileObject, fileObject2Map, floatingWidth } from '@docs/utils';
+import { LocalizedMDXDoc, type LocalizedMDXDocProps } from '@docs/mdx';
 import styles from './style.module.css';
 
 const kinds = ['intro', 'usage', 'advance'] as const;
@@ -24,13 +24,13 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		kind: 'intro',
 		path: ['', 'intro/readme'],
 		info: { title: '_d.docs.intro' },
-		component: () => <MDXDoc articles={import.meta.glob('./intro/README.md', { eager: true, import: 'default' })} />,
+		component: () => <MDXDoc docs={import.meta.glob('./intro/README.md', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'intro',
 		path: 'intro/changelog',
 		info: { title: '_d.docs.changelog' },
-		component: () => <MDXDoc articles={import.meta.glob('./intro/CHANGELOG.md', { eager: true, import: 'default' })} />,
+		component: () => <MDXDoc docs={import.meta.glob('./intro/CHANGELOG.md', { eager: true, import: 'default' })} />,
 	},
 
 	//////////////////// usage
@@ -39,35 +39,31 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		kind: 'usage',
 		path: 'usage/install',
 		info: { title: '_d.docs.install' },
-		component: () => (
-			<MDXDoc articles={import.meta.glob('./usage/install.*.mdx', { eager: true, import: 'default' })} />
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./usage/install.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'usage',
 		path: 'usage/platform',
 		info: { title: '_d.docs.platform' },
-		component: () => (
-			<MDXDoc articles={import.meta.glob('./usage/platform.*.mdx', { eager: true, import: 'default' })} />
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./usage/platform.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'usage',
 		path: 'usage/svg',
 		info: { title: '_d.docs.svg' },
-		component: () => <MDXDoc articles={import.meta.glob('./usage/svg.*.mdx', { eager: true, import: 'default' })} />,
+		component: () => <MDXDoc docs={import.meta.glob('./usage/svg.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'usage',
 		path: 'usage/theme',
 		info: { title: '_d.docs.theme' },
-		component: () => <MDXDoc articles={import.meta.glob('./usage/theme.*.mdx', { eager: true, import: 'default' })} />,
+		component: () => <MDXDoc docs={import.meta.glob('./usage/theme.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'usage',
 		path: 'usage/faq',
 		info: { title: '_d.docs.faq' },
-		component: () => <MDXDoc articles={import.meta.glob('./usage/faq.*.mdx', { eager: true, import: 'default' })} />,
+		component: () => <MDXDoc docs={import.meta.glob('./usage/faq.*.mdx', { eager: true, import: 'default' })} />,
 	},
 
 	//////////////////// advance
@@ -76,41 +72,35 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 		kind: 'advance',
 		path: 'advance/locale',
 		info: { title: '_d.docs.locale' },
-		component: () => (
-			<MDXDoc articles={import.meta.glob('./advance/locale.*.mdx', { eager: true, import: 'default' })} />
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./advance/locale.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'advance',
 		path: 'advance/validator',
 		info: { title: '_d.docs.validator' },
 		component: () => (
-			<MDXDoc articles={import.meta.glob('./advance/validator.*.mdx', { eager: true, import: 'default' })} />
+			<MDXDoc docs={import.meta.glob('./advance/validator.*.mdx', { eager: true, import: 'default' })} />
 		),
 	},
 	{
 		kind: 'advance',
 		path: 'advance/error',
 		info: { title: '_d.docs.error' },
-		component: () => (
-			<MDXDoc articles={import.meta.glob('./advance/error.*.mdx', { eager: true, import: 'default' })} />
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./advance/error.*.mdx', { eager: true, import: 'default' })} />,
 	},
 	{
 		kind: 'advance',
 		path: 'advance/custom-theme',
 		info: { title: '_d.docs.customTheme' },
 		component: () => (
-			<MDXDoc articles={import.meta.glob('./advance/custom-theme.*.mdx', { eager: true, import: 'default' })} />
+			<MDXDoc docs={import.meta.glob('./advance/custom-theme.*.mdx', { eager: true, import: 'default' })} />
 		),
 	},
 	{
 		kind: 'advance',
 		path: 'advance/plugins',
 		info: { title: '_d.docs.plugins' },
-		component: () => (
-			<MDXDoc articles={import.meta.glob('./advance/plugins.*.mdx', { eager: true, import: 'default' })} />
-		),
+		component: () => <MDXDoc docs={import.meta.glob('./advance/plugins.*.mdx', { eager: true, import: 'default' })} />,
 	},
 ] as const;
 
@@ -149,37 +139,26 @@ export function buildMenus(l: Locale, prefix: string): Array<Menu.Item> {
 }
 
 interface MDXDocProps {
-	/**
-	 * 通过 import.meta.glob 加载的单一内容的多语言对象
-	 */
-	articles: FileObject<Component>;
+	docs: LocalizedMDXDocProps['docs'];
 }
 
 function MDXDoc(props: MDXDocProps): JSX.Element {
-	const l = useLocale();
-	const [, origin] = useOptions();
-
 	const route = useCurrentMatches()();
 	const title = route[route.length - 1].route.info?.title;
 
 	let articleRef!: HTMLElement;
 	let navRef: Nav.Ref;
 
-	const comp = createMemo(() => {
-		const articles = fileObject2Map(props.articles);
-		const locales = Array.from(articles.keys());
-
-		requestAnimationFrame(() => navRef.refresh());
-
-		return articles.size > 1 // >1 表示有多种语言
-			? articles.get(l.match(locales, origin.locale))
-			: articles.values().next().value;
-	});
-
 	return (
 		<Page title={title} class={styles.docs}>
-			<div ref={el => (articleRef = el)}>{comp()()}</div>
-			<Nav minHeaderCount={5} class={styles.nav} ref={el => (navRef = el)} target={articleRef} query="h2,h3,h4" />
+			<LocalizedMDXDoc onSwitch={() => navRef?.refresh()} ref={el => (articleRef = el)} docs={props.docs} />
+			<Nav
+				minHeaderCount={5}
+				class={styles.nav}
+				ref={el => (navRef = el)}
+				target={articleRef}
+				query=":is(h2,h3,h4):not(table *)"
+			/>
 		</Page>
 	);
 }
@@ -187,7 +166,11 @@ function MDXDoc(props: MDXDocProps): JSX.Element {
 /**
  * 提供了文档浏览的路由定义
  */
-export function buildRoute(prefix: string, setDrawer: Setter<Drawer.Ref | undefined>): RouteDefinition {
+export function buildRoute(
+	prefix: string,
+	setDrawer: Setter<Drawer.Ref | undefined>,
+	floating: Drawer.Props['floating'],
+): RouteDefinition {
 	if (!prefix.endsWith('/')) {
 		prefix += '/';
 	}
@@ -208,7 +191,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.Ref | undefi
 			return (
 				<Drawer
 					initValue
-					floating={floatingWidth}
+					floating={floating}
 					ref={el => (ref = el)}
 					palette="secondary"
 					mainClass={joinClass('surface')}

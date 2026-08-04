@@ -11,9 +11,13 @@ import { Builder } from './builder';
 /**
  * 生成路由项
  */
-export function buildRoute(path: string, setDrawer: Setter<Drawer.Ref | undefined>): RouteDefinition {
+export function buildRoute(
+	path: string,
+	setDrawer: Setter<Drawer.Ref | undefined>,
+	floating: Drawer.Props['floating'],
+): RouteDefinition {
 	return {
 		path: path,
-		component: () => <Builder setDrawer={setDrawer} />,
+		component: () => <Builder setDrawer={setDrawer} floating={floating} />,
 	};
 }

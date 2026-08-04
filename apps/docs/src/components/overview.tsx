@@ -25,7 +25,7 @@ export const routes: Array<RouteDefinition> = Object.entries(demos).map(d => {
 			kind: r.kind,
 			icon: r.icon,
 		},
-		component: () => <Stages dir={path} doc={r.doc} />,
+		component: () => <Stages dir={path} docs={r.doc} />,
 	};
 	return route;
 });

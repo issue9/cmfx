@@ -7,7 +7,6 @@ import { joinClass } from '@cmfx/themes';
 import type { RouteDefinition } from '@solidjs/router';
 import { onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
 
-import { floatingWidth } from '@docs/utils';
 import { buildMenus, default as overview, routes } from './overview';
 import styles from './style.module.css';
 
@@ -16,7 +15,11 @@ export { buildMenus } from './overview';
 /**
  * 组件预览的路由定义
  */
-export function buildRoute(prefix: string, setDrawer: Setter<Drawer.Ref | undefined>): RouteDefinition {
+export function buildRoute(
+	prefix: string,
+	setDrawer: Setter<Drawer.Ref | undefined>,
+	floating: Drawer.Props['floating'],
+): RouteDefinition {
 	if (!prefix.endsWith('/')) {
 		prefix += '/';
 	}
@@ -38,7 +41,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<Drawer.Ref | undefi
 			return (
 				<Drawer
 					initValue
-					floating={floatingWidth}
+					floating={floating}
 					ref={el => (ref = el)}
 					palette="secondary"
 					mainClass={joinClass('surface', styles.main)}
