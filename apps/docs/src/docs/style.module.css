@@ -15,7 +15,7 @@
 			@apply max-w-50 @max-3xl/docs:hidden;
 		}
 
-		article.doc {
+		.doc {
 			@apply p-2 pb-8;
 
 			p:first-of-type {

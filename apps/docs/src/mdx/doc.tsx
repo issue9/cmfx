@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { type ChangeFunc, Code, type RefProps, useLocale, useOptions } from '@cmfx/components';
+import type { StyleProps } from '@cmfx/themes';
 import { createMemo, type JSX } from 'solid-js';
 
 import { fileObject2Map, type MDXFileObject } from './file';
 
-export interface LocalizedMDXDocProps extends RefProps<HTMLElement> {
+export interface LocalizedMDXDocProps extends RefProps<HTMLElement>, StyleProps {
 	/**
 	 * 通过 import.meta.glob 加载的单一内容的多语言对象
 	 *
@@ -51,7 +52,11 @@ export function LocalizedMDXDoc(props: LocalizedMDXDocProps): JSX.Element {
 		return articles.get(curr) ?? articles.values().next().value;
 	});
 
-	return <article ref={props.ref}>{comp()({ components: { pre: preCode } })}</article>;
+	return (
+		<article class={props.class} style={props.style} ref={props.ref}>
+			{comp()({ components: { pre: preCode } })}
+		</article>
+	);
 }
 
 function preCode(props: { children: HTMLElement }): JSX.Element {

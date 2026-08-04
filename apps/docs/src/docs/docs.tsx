@@ -151,7 +151,12 @@ function MDXDoc(props: MDXDocProps): JSX.Element {
 
 	return (
 		<Page title={title} class={styles.docs}>
-			<LocalizedMDXDoc onSwitch={() => navRef?.refresh()} ref={el => (articleRef = el)} docs={props.docs} />
+			<LocalizedMDXDoc
+				class={styles.doc}
+				onSwitch={() => navRef?.refresh()}
+				ref={el => (articleRef = el)}
+				docs={props.docs}
+			/>
 			<Nav
 				minHeaderCount={5}
 				class={styles.nav}
