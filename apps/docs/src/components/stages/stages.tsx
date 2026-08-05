@@ -51,7 +51,7 @@ export default function Stages(props: Props): JSX.Element {
 			</article>
 
 			<Nav
-				minHeaderCount={5}
+				min={5}
 				ref={el => (navRef = el)}
 				class={styles.nav}
 				target={articleRef}

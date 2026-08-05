@@ -10,7 +10,6 @@ import styles from './style.module.css';
 
 export function Contribute(): JSX.Element {
 	const l = useLocale();
-
 	let articleRef!: HTMLElement;
 
 	return (
@@ -19,7 +18,7 @@ export function Contribute(): JSX.Element {
 				ref={el => (articleRef = el)}
 				docs={import.meta.glob('./CONTRIBUTING.md', { eager: true, import: 'default' })}
 			/>
-			<Nav minHeaderCount={5} class={styles.nav} target={articleRef} query="h2,h3,h4,h5,h6" />
+			<Nav min={5} class={styles.nav} target={articleRef} query="h2,h3,h4,h5,h6" />
 		</Page>
 	);
 }

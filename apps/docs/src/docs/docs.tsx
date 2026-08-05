@@ -158,7 +158,7 @@ function MDXDoc(props: MDXDocProps): JSX.Element {
 				docs={props.docs}
 			/>
 			<Nav
-				minHeaderCount={5}
+				min={5}
 				class={styles.nav}
 				ref={el => (navRef = el)}
 				target={articleRef}

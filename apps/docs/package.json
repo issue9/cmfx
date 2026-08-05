@@ -46,6 +46,7 @@
 		"autoprefixer": "catalog:",
 		"browserslist": "catalog:",
 		"browserslist-to-esbuild": "catalog:",
+		"remark-gfm": "catalog:",
 		"typescript": "catalog:",
 		"unplugin-icons": "catalog:",
 		"vite": "catalog:",

@@ -7,19 +7,22 @@
 				"name": "target",
 				"summary": "用于生成目录的元素\n\n",
 				"remarks": "`query`\n查询只应用在此元素之上。\n\n",
-				"type": "HTMLElement"
+				"type": "HTMLElement",
+				"readonly": true
 			},
 			{
 				"name": "query",
 				"summary": "用于查询目录项的 css selector 表达式\n\n",
 				"type": "string | undefined",
-				"def": "`h1,h2,h3,h4,h5,h6`\n\n"
+				"def": "`h1,h2,h3,h4,h5,h6`\n\n",
+				"reactive": true
 			},
 			{
-				"name": "minHeaderCount",
+				"name": "min",
 				"summary": "最小的标题数量\n\n",
 				"type": "number | undefined",
-				"def": "1\n\n"
+				"def": "1\n\n",
+				"reactive": true
 			},
 			{
 				"name": "palette",

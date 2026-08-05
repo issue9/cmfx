@@ -8,6 +8,7 @@ import { version } from '@cmfx/vite-plugin-version';
 import mdx from '@mdx-js/rollup';
 import tailwindcss from '@tailwindcss/vite';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
+import remarkGfm from 'remark-gfm';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
@@ -120,7 +121,7 @@ export default defineConfig(({ mode }) => {
 					root: './src',
 				}),
 			},
-			{ enforce: 'pre', ...mdx({ jsxImportSource: 'solid-js/h' }) },
+			{ enforce: 'pre', ...mdx({ jsxImportSource: 'solid-js/h', remarkPlugins: [remarkGfm] }) },
 			Icons({
 				compiler: 'solid',
 				scale: 1,

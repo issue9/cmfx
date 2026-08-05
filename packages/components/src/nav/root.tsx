@@ -22,12 +22,13 @@ export interface NavProps extends ThemeProps, RefProps<NavRef> {
 	 * @remarks
 	 * {@link query} 查询只应用在此元素之上。
 	 */
-	target: HTMLElement;
+	readonly target: HTMLElement;
 
 	/**
 	 * 用于查询目录项的 css selector 表达式
 	 *
 	 * @defaultValue `h1,h2,h3,h4,h5,h6`
+	 * @reactive
 	 */
 	query?: string;
 
@@ -35,8 +36,9 @@ export interface NavProps extends ThemeProps, RefProps<NavRef> {
 	 * 最小的标题数量
 	 *
 	 * @defaultValue 1
+	 * @reactive
 	 */
-	minHeaderCount?: number;
+	min?: number;
 }
 
 const queryString = 'h1,h2,h3,h4,h5,h6';
@@ -45,14 +47,14 @@ const queryString = 'h1,h2,h3,h4,h5,h6';
  * 根据 h1-h6 元素生成导航内容
  */
 export function Nav(props: NavProps): JSX.Element {
-	props = mergeProps({ query: queryString, minHeaderCount: 1 }, props);
+	props = mergeProps({ query: queryString, min: 1 }, props);
 
 	const list = props.target.querySelectorAll(props.query!);
-	const [headings, setHeadings] = createSignal(list.length >= props.minHeaderCount! ? list : []);
+	const [headings, setHeadings] = createSignal(list.length >= props.min! ? list : []);
 
 	const refresh = (): void => {
 		const list = props.target.querySelectorAll(props.query!);
-		setHeadings(list.length >= props.minHeaderCount! ? list : []);
+		setHeadings(list.length >= props.min! ? list : []);
 	};
 
 	return (
@@ -60,10 +62,7 @@ export function Nav(props: NavProps): JSX.Element {
 			class={joinClass(props.palette, styles.nav, props.class)}
 			style={props.style}
 			ref={el => {
-				if (!props.ref) {
-					return;
-				}
-				props.ref({
+				props.ref?.({
 					root: () => el,
 					refresh: () => refresh(),
 				});

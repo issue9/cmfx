@@ -165,44 +165,40 @@ close #1
 - 组件目录中导出的名称都应该以组件名作为开头，再由 index.ts 归纳在组件名的命名空间之下，防止与其它组件中的名称重名；
 - 项目内引用组件，应该指向组件所在的目录，而不是其父目录，防止 `Object.assign` 因循环引用导致测试用例中判断其第一个参数为 `null`，比如用
 
-  ```tsx
-  import {Button} from '@components/button/button'
-  ```
+```tsx
+// 正确
+import {Button} from '@components/button/button'
 
-  代替
-
-  ```tsx
-  import {Button} from '@components/button'
-  ```
+// 不建议
+import {Button} from '@components/button'
+```
 
 - solid 的条件组件内尽量使用参数初始化，比如
 
-  ```tsx
-  <Show when={props.xx}>{c=><div>c()</div>}</Show>
-  ```
+```tsx
+// 正确
+<Show when={props.xx}>{c=><div>c()</div>}</Show>
 
-  而不是
-
-  ```tsx
-  <Show when={props.xx}><div>{props.xx}</div></Show>
-  ```
+// 不建议
+<Show when={props.xx}><div>{props.xx}</div></Show>
+```
 
 - 导入的 MDX 组件在使用时需要使用组件包裹，不能有兄弟组件，否则可能出错，比如：
 
-  ```tsx
-  import MDX from './components.mdx';
+```tsx
+import MDX from './components.mdx';
 
-  // 正确
-  <div>
-    <MDX />
-  </div>
+// 正确
+<div>
+<MDX />
+</div>
 
-  // 错误
-  <div>
-    <p>有兄弟节点</p>
-    <MDX />
-  </div>
-  ```
+// 错误
+<div>
+<p>有兄弟节点</p>
+<MDX />
+</div>
+```
 
 ### 后端
 
