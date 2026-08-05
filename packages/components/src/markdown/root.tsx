@@ -46,10 +46,6 @@ export interface MarkdownProps<T extends keyof HTMLElementTagNameMap = 'article'
  *
  * @remarks
  * 需要需要支持代码高亮，可参考 {@link Code} 的实现。
- *
- * 还支持将组件渲染到最终的输出结果中，和代码块一样，分为 inline 和 block。
- *  - inline 为 @`id`@，最终会生成一个 `<span></span>` 元素，并从 {@link MarkdownProps#components} 中获取对应的组件渲染到元素之内。
- *  - block 为 `@```id```@`，最终会生成一个 `<div></div>` 元素，并从 {@link MarkdownProps#components} 中获取对应的组件渲染到元素之内。
  */
 export function Markdown<T extends keyof HTMLElementTagNameMap = 'article'>(props: MarkdownProps<T>): JSX.Element {
 	const tag = props.tag ?? 'article';
