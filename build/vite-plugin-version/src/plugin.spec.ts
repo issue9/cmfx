@@ -35,7 +35,10 @@ describe('version', async () => {
 		if (typeof plugin.buildStart === 'function') {
 			await plugin.buildStart(null, null);
 
-			const content = await fs.promises.readFile(path.resolve(import.meta.dirname, `../testdata/${opt.filename}`), 'utf8');
+			const content = await fs.promises.readFile(
+				path.resolve(import.meta.dirname, `../testdata/${opt.filename}`),
+				'utf8',
+			);
 			const info = JSON.parse(content) satisfies Info;
 			expect(info.version).toMatch(pkg.version);
 		}

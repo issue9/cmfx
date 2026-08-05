@@ -9,7 +9,7 @@ import { type RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { type JSX, onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
 
 import { LocalizedMDXDoc, type LocalizedMDXDocProps } from '@docs/mdx';
-import styles from './style.module.css';
+import styles from '@docs/mdx/style.module.css';
 
 const kinds = ['intro', 'usage', 'advance'] as const;
 

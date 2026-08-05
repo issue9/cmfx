@@ -8,7 +8,7 @@
 
 @layer components {
 	.docs {
-		@apply flex flex-row gap-1 justify-between;
+		@apply p-4 pb-10 flex flex-row gap-1 justify-between overflow-y-auto h-full;
 		@apply @container/docs;
 
 		.nav {
@@ -16,7 +16,7 @@
 		}
 
 		.doc {
-			@apply p-2 pb-8;
+			@apply h-fit;
 
 			p:first-of-type {
 				/* 应用在 README.md 中的 badge 图标上 */

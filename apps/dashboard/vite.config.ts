@@ -53,7 +53,10 @@ export default defineConfig(({ mode }) => {
 								find: /^@cmfx\/components\/(.*).lang/,
 								replacement: path.resolve(import.meta.dirname, `../../packages/components/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') },
+							{
+								find: '@cmfx/components',
+								replacement: path.resolve(import.meta.dirname, '../../packages/components/src'),
+							},
 							{ find: '@components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') }, // 解决 admin 中的 @admin 引用
 
 							{
@@ -67,8 +70,14 @@ export default defineConfig(({ mode }) => {
 								find: /^@cmfx\/illustrations\/(.*).lang/,
 								replacement: path.resolve(import.meta.dirname, `../../packages/illustrations/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/illustrations', replacement: path.resolve(import.meta.dirname, '../../packages/illustrations/src') },
-							{ find: '@illustrations', replacement: path.resolve(import.meta.dirname, '../../packages/illustrations/src') },
+							{
+								find: '@cmfx/illustrations',
+								replacement: path.resolve(import.meta.dirname, '../../packages/illustrations/src'),
+							},
+							{
+								find: '@illustrations',
+								replacement: path.resolve(import.meta.dirname, '../../packages/illustrations/src'),
+							},
 						],
 
 						tsconfigPaths: true,
