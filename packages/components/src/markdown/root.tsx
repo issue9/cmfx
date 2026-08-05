@@ -6,7 +6,7 @@ import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { Marked, type Token, type TokenizerAndRendererExtension } from 'marked';
 import type { JSX, ValidComponent } from 'solid-js';
 import { createEffect, createSignal, getOwner, onCleanup, runWithOwner } from 'solid-js';
-import { Dynamic, render } from 'solid-js/web';
+import { Dynamic } from 'solid-js/web';
 
 import type { BaseRef, RefProps } from '@components/base';
 import { Code } from '@components/code';
@@ -25,11 +25,6 @@ export interface MarkdownProps<T extends keyof HTMLElementTagNameMap = 'article'
 	 * @reactive
 	 */
 	text?: string;
-
-	/**
-	 * 指定渲染的组件
-	 */
-	readonly components?: Record<string, () => JSX.Element>;
 
 	/**
 	 * 自定义标签
@@ -86,22 +81,7 @@ export function Markdown<T extends keyof HTMLElementTagNameMap = 'article'>(prop
 
 		// 需要等待文本内容在 dom 已经渲染完了，再将组件挂载在对应在的位置
 		requestAnimationFrame(() => {
-			if (!props.components) {
-				if (props.onComplete) {
-					props.onComplete();
-				}
-				return;
-			}
-
-			Object.entries(props.components).forEach(([id, fn]) => {
-				ref.querySelectorAll(`[data-markdown-component="${id}"]`)?.forEach(el => {
-					disposes.push(runWithOwner(owner, () => render(fn, el)));
-				});
-			});
-
-			if (props.onComplete) {
-				props.onComplete();
-			}
+			props.onComplete?.();
 
 			if (ref && props.decorates) {
 				disposes.push(runWithOwner(owner, () => Code.withDecorate(ref, ...props.decorates!)));
