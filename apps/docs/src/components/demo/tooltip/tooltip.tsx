@@ -2,47 +2,63 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type MountProps, Tooltip } from '@cmfx/components';
-import type { PopoverPosition } from '@cmfx/core';
+import { Button, InputNumber, type MountProps, Tooltip } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { posSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	let ref1: Tooltip.Ref;
-	let btn1: Button.Ref;
-	const [timeout, setTimeout] = createSignal<number>();
+	const [timeout, setTimeout] = createSignal<number>(-1);
 	const [Pos, pos] = posSelector();
 
 	return (
 		<>
 			<Portal mount={props.mount}>
 				<Pos />
-				<input type="number" min={-1} max={5000} step={100} onChange={e => setTimeout(parseInt(e.target.value, 10))} />
+				<InputNumber
+					class="w-20"
+					min={-1}
+					max={5000}
+					step={100}
+					onChange={e => setTimeout(e ?? -1)}
+					value={timeout()}
+				/>
 			</Portal>
 
-			<Button
-				palette="primary"
-				ref={el => {
-					btn1 = el;
-				}}
-				onclick={() => ref1.show(btn1.root(), pos() as PopoverPosition)}
-			>
-				show
-			</Button>
 			<Tooltip
-				ref={el => {
-					ref1 = el;
-				}}
-				stays={timeout()}
+				trigger="click"
+				pos={pos()}
+				duration={timeout()}
+				tip={
+					<>
+						<p>tooltip</p>
+						<p>
+							line1
+							<br />
+							line2
+						</p>
+					</>
+				}
 			>
-				<p>tooltip</p>
-				<p>
-					line1
-					<br />
-					line2
-				</p>
+				<Button palette="primary">click</Button>
+			</Tooltip>
+
+			<Tooltip
+				pos={pos()}
+				duration={timeout()}
+				tip={
+					<>
+						<p>tooltip</p>
+						<p>
+							line1
+							<br />
+							line2
+						</p>
+					</>
+				}
+			>
+				<Button palette="secondary">hover</Button>
 			</Tooltip>
 		</>
 	);

@@ -5,15 +5,31 @@
 		"summary": "Tooltip 组件的属性\n\n",
 		"properties": [
 			{
-				"name": "stays",
+				"name": "duration",
 				"summary": "停留时间\n\n",
 				"type": "number | undefined",
-				"def": "采用\n`Options\nstays`\n\n",
+				"def": "`Options\nstays`\n\n",
 				"reactive": true
 			},
 			{
-				"name": "ref",
-				"type": "(ref: TooltipRef) => void"
+				"name": "pos",
+				"summary": "显示位置\n\n",
+				"type": "PopoverPosition | undefined",
+				"def": "'top'\n\n",
+				"reactive": true
+			},
+			{
+				"name": "tip",
+				"summary": "提示内容\n\n",
+				"type": "JSX.Element",
+				"reactive": true
+			},
+			{
+				"name": "trigger",
+				"summary": "触发方式\n\n",
+				"type": "\"click\" | \"hover\" | \"custom\" | undefined",
+				"def": "'popover'\n\n",
+				"reactive": true
 			},
 			{
 				"name": "palette",
@@ -37,6 +53,12 @@
 				"reactive": true
 			},
 			{
+				"name": "ref",
+				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+				"type": "((m: REF) => void) | undefined",
+				"readonly": true
+			},
+			{
 				"name": "children",
 				"type": "JSX.Element"
 			}
@@ -50,19 +72,7 @@
 			{
 				"name": "show",
 				"summary": "显示提示框\n\n",
-				"type": "show(anchor: HTMLElement, pos: PopoverPosition): void",
-				"params": [
-					{
-						"name": "anchor",
-						"summary": "用于定位提示框的元素；\n\n",
-						"type": "HTMLElement"
-					},
-					{
-						"name": "pos",
-						"summary": "相对 anchor 的位置；\n\n",
-						"type": "PopoverPosition"
-					}
-				],
+				"type": "show(): void",
 				"return": {
 					"type": "void"
 				}
@@ -73,6 +83,22 @@
 				"type": "hide(): void",
 				"return": {
 					"type": "void"
+				}
+			},
+			{
+				"name": "toggle",
+				"summary": "切换提示内容的显示状态\n\n",
+				"type": "toggle(): void",
+				"return": {
+					"type": "void"
+				}
+			},
+			{
+				"name": "popover",
+				"summary": "弹出对象的实例\n\n",
+				"type": "popover(): HTMLDivElement",
+				"return": {
+					"type": "HTMLDivElement"
 				}
 			},
 			{

@@ -2,41 +2,65 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition, type PopoverPosition } from '@cmfx/core';
+import { adjustPopoverPosition, type PopoverPosition, pointInElement } from '@cmfx/core';
 import { joinClass, type ThemeProps } from '@cmfx/themes';
-import type { JSX, ParentProps } from 'solid-js';
+import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 
-import type { BaseRef } from '@components/base';
+import type { BaseRef, RefProps } from '@components/base';
 import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export interface TooltipRef extends BaseRef<HTMLDivElement> {
 	/**
 	 * 显示提示框
-	 * @param anchor - 用于定位提示框的元素；
-	 * @param pos - 相对 anchor 的位置；
 	 */
-	show(anchor: HTMLElement, pos: PopoverPosition): void;
+	show(): void;
 
 	/**
 	 * 隐藏提示内容
 	 */
 	hide(): void;
+
+	/**
+	 * 切换提示内容的显示状态
+	 */
+	toggle(): void;
 }
 
 /**
  * Tooltip 组件的属性
  */
-export interface TooltipProps extends ThemeProps, ParentProps {
+export interface TooltipProps extends ThemeProps, RefProps<TooltipRef>, ParentProps {
 	/**
 	 * 停留时间
 	 *
-	 * @defaultValue 采用 {@link ../context#Options.stays}
+	 * @defaultValue {@link ../context#Options.stays}
 	 * @reactive
 	 */
-	stays?: number;
+	duration?: number;
 
-	ref: (ref: TooltipRef) => void;
+	/**
+	 * 显示位置
+	 *
+	 * @defaultValue 'top'
+	 * @reactive
+	 */
+	pos?: PopoverPosition;
+
+	/**
+	 * 提示内容
+	 *
+	 * @reactive
+	 */
+	tip: JSX.Element;
+
+	/**
+	 * 触发方式
+	 *
+	 * @defaultValue 'hover'
+	 * @reactive
+	 */
+	trigger?: 'click' | 'hover';
 }
 
 /**
@@ -44,35 +68,77 @@ export interface TooltipProps extends ThemeProps, ParentProps {
  */
 export function Tooltip(props: TooltipProps): JSX.Element {
 	const [opt] = useOptions();
-	const duration = props.stays ?? opt.getStays();
+	props = mergeProps(
+		{
+			duration: opt.getStays(),
+			pos: 'top',
+			trigger: 'hover',
+		} satisfies Partial<TooltipProps>,
+		props,
+	);
+
+	let rootRef: HTMLDivElement;
+	let triggerRef: HTMLDivElement;
+
+	const hide = () => rootRef.hidePopover();
+	const toggle = () => rootRef.togglePopover();
+	const show = () => {
+		rootRef.showPopover();
+		adjustPopoverPosition(rootRef, triggerRef.getBoundingClientRect(), 4, props.pos, 'center');
+
+		if (props.duration! > 0) {
+			setTimeout(hide, props.duration);
+		}
+	};
 
 	return (
-		<div
-			popover="auto"
-			class={joinClass(props.palette, styles.tooltip, props.class)}
-			style={props.style}
-			ref={el => {
-				props.ref({
-					show(anchor: HTMLElement, pos: PopoverPosition) {
-						el.showPopover();
-						adjustPopoverPosition(el, anchor.getBoundingClientRect(), 4, pos, 'center');
+		<>
+			<div
+				class={joinClass(props.palette, styles.tooltip, props.class)}
+				style={props.style}
+				popover="auto"
+				ref={el => {
+					rootRef = el;
+					props.ref?.({
+						show,
+						hide,
+						toggle,
+						root: () => el,
+					});
+				}}
+			>
+				{props.tip}
+			</div>
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: 触发器的容器 */}
+			<div
+				ref={el => (triggerRef = el)}
+				onmouseenter={() => {
+					if (props.trigger !== 'hover' || !rootRef) {
+						return;
+					}
+					show();
+				}}
+				onmouseleave={e => {
+					if (props.trigger !== 'hover' || !rootRef) {
+						return;
+					}
 
-						if (duration >= 0) {
-							setTimeout(() => el.hidePopover(), duration);
-						}
-					},
+					if (!pointInElement(e.clientX, e.clientY, rootRef)) {
+						hide();
+					}
+				}}
+				onclick={e => {
+					if (props.trigger !== 'click' || !rootRef) {
+						return;
+					}
 
-					hide() {
-						el.hidePopover();
-					},
-
-					root() {
-						return el;
-					},
-				});
-			}}
-		>
-			{props.children}
-		</div>
+					e.preventDefault();
+					e.stopPropagation();
+					show();
+				}}
+			>
+				{props.children}
+			</div>
+		</>
 	);
 }
