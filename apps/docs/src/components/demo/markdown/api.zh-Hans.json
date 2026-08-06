@@ -17,12 +17,6 @@
 				"reactive": true
 			},
 			{
-				"name": "components",
-				"summary": "指定渲染的组件\n\n",
-				"type": "Record<string, () => JSX.Element> | undefined",
-				"readonly": true
-			},
-			{
 				"name": "tag",
 				"summary": "自定义标签\n\n",
 				"type": "T | undefined",

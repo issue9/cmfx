@@ -87,6 +87,8 @@ const messages: Messages = {
 			alignRight: '右对齐',
 			alignJustify: '两端对齐',
 			addImage: '添加图片',
+			numberedList: '编号列表',
+			bulletedList: '项目列表',
 		},
 		lockScreen: {
 			unlock: '解锁',

@@ -6,31 +6,39 @@ import type { JSX, ParentProps } from 'solid-js';
 import { mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
-import type { AvailableEnumType, Layout, RefProps } from '@components/base';
+import type { AvailableEnumType, BaseRef, Layout, RefProps } from '@components/base';
 import { Button } from '@components/button/button';
 import styles from '@components/button/common/style.module.css';
 import { type Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';
 import { ButtonGroup } from '@components/button/group';
 import { Dropdown } from '@components/menu';
 
-export interface SplitButtonRef extends Dropdown.Ref {
+export interface SplitButtonRef extends BaseRef<Dropdown.Ref> {
 	/**
 	 * 返回按按钮组的组件实例
 	 */
 	group(): ButtonGroup.Ref;
+
+	/**
+	 * 真正的触发下拉菜单的元素
+	 *
+	 * @remarks
+	 * {@link root} 中的 trigger 是被 Dropdown 包裹的触发元素。
+	 */
+	trigger(): Button.Ref;
 }
 
 /**
  * 单选下拉菜单的属性
  */
 export interface SplitButtonSingleProps<T extends AvailableEnumType = string>
-	extends Omit<Extract<Dropdown.Props<T>, { multiple?: false }>, 'trigger' | 'ref'> {}
+	extends Omit<Dropdown.SingleProps<T>, 'trigger' | 'ref'> {}
 
 /**
  * 多选下拉菜单的属性
  */
 export interface SplitButtonMultipleProps<T extends AvailableEnumType = string>
-	extends Omit<Extract<Dropdown.Props<T>, { multiple: true }>, 'trigger' | 'ref'> {}
+	extends Omit<Dropdown.MultipleProps<T>, 'trigger' | 'ref'> {}
 
 interface Base extends ParentProps, Omit<BaseProps, 'hotkey'>, RefProps<SplitButtonRef> {
 	/**
@@ -78,9 +86,7 @@ export function SplitButton<T extends AvailableEnumType = string>(props: SplitBu
 		<Dropdown
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
 			{...(dropProps as any)}
-			ref={el => {
-				dropdownRef = el;
-			}}
+			ref={el => (dropdownRef = el)}
 			trigger="custom"
 		>
 			<ButtonGroup
@@ -88,23 +94,22 @@ export function SplitButton<T extends AvailableEnumType = string>(props: SplitBu
 				rounded={props.rounded}
 				layout={props.layout}
 				disabled={props.disabled}
-				ref={el => {
-					groupRef = el;
-					if (props.ref) {
-						props.ref({
-							show: () => dropdownRef.show(),
-							hide: () => dropdownRef.hide(),
-							toggle: () => dropdownRef.toggle(),
-							root: () => dropdownRef.root(),
-							menu: () => dropdownRef.menu(),
-							trigger: () => dropdownRef.trigger(),
-							group: () => el,
-						});
-					}
-				}}
+				ref={el => (groupRef = el)}
 			>
 				{props.children}
-				<Button class={styles.split} square ref={el => (arrowRef = el)} onclick={() => dropdownRef.toggle()}>
+				<Button
+					class={styles.split}
+					square
+					ref={el => {
+						arrowRef = el;
+						props.ref?.({
+							root: () => dropdownRef,
+							trigger: () => el,
+							group: () => groupRef,
+						});
+					}}
+					onclick={() => dropdownRef.toggle()}
+				>
 					<IconArrowDown />
 				</Button>
 			</ButtonGroup>

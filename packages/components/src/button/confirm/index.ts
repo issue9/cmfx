@@ -2,13 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ConfirmButton as C } from './root';
+import {
+	ConfirmButton as C,
+	type ConfirmButtonAnchorProps,
+	type ConfirmButtonNormalProps,
+	type ConfirmButtonProps,
+	type ConfirmButtonRef,
+} from './root';
 
 export const ConfirmButton = C;
 
 export namespace ConfirmButton {
-	export type Props = import('./root').ConfirmButtonProps;
-	export type Ref = import('./root').ConfirmButtonRef;
-	export type AnchorProps = import('./root').ConfirmButtonAnchorProps;
-	export type NormalProps = import('./root').ConfirmButtonNormalProps;
+	export type Props = ConfirmButtonProps;
+	export type Ref = ConfirmButtonRef;
+	export type AnchorProps = ConfirmButtonAnchorProps;
+	export type NormalProps = ConfirmButtonNormalProps;
 }

@@ -263,16 +263,14 @@ export function Dropdown<T extends AvailableEnumType = string>(props: DropdownPr
 						}
 					};
 
-					if (props.ref) {
-						props.ref({
-							show: show,
-							hide: hide,
-							toggle: toggle,
-							root: () => rootRef,
-							trigger: () => triggerRef()!,
-							menu: () => el,
-						});
-					}
+					props.ref?.({
+						show: show,
+						hide: hide,
+						toggle: toggle,
+						root: () => rootRef,
+						trigger: () => triggerRef()!,
+						menu: () => el,
+					});
 				}}
 			/>
 		</div>

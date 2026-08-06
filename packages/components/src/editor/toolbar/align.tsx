@@ -63,7 +63,6 @@ export function Align(props: Props): JSX.Element {
 					props.editor.chain().focus().unsetTextAlign().run();
 				}
 			}}
-			ref={el => el.trigger().classList.add(styles.item)}
 			items={[
 				{ type: 'item', value: 'left', prefix: icons.get('left')!(), label: l.t('_c.editor.alignLeft') },
 				{ type: 'item', value: 'right', prefix: icons.get('right')!(), label: l.t('_c.editor.alignRight') },

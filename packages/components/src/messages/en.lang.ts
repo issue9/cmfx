@@ -85,6 +85,8 @@ const messages = {
 			alignRight: 'Align right',
 			alignJustify: 'Align justify',
 			addImage: 'Add image',
+			numberedList: 'Numbered list',
+			bulletedList: 'Bulleted list',
 		},
 		lockScreen: {
 			unlock: 'Unlock',

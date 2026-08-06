@@ -708,43 +708,12 @@
 				}
 			},
 			{
-				"name": "show",
-				"summary": "显示下拉的菜单\n\n",
-				"type": "show(): void",
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "hide",
-				"summary": "隐藏下拉的菜单\n\n",
-				"type": "hide(): void",
-				"return": {
-					"type": "void"
-				}
-			},
-			{
-				"name": "toggle",
-				"summary": "切换菜单的显示和关闭\n\n",
-				"type": "toggle(): void",
-				"return": {
-					"type": "void"
-				}
-			},
-			{
 				"name": "trigger",
-				"summary": "触发元素\n\n",
-				"type": "trigger(): HTMLDivElement",
+				"summary": "真正的触发下拉菜单的元素\n\n",
+				"remarks": "`root`\n中的 trigger 是被 Dropdown 包裹的触发元素。\n\n",
+				"type": "trigger(): Button.Ref",
 				"return": {
-					"type": "HTMLDivElement"
-				}
-			},
-			{
-				"name": "menu",
-				"summary": "下拉菜单的元素\n\n",
-				"type": "menu(): Menu.Ref<'menu'>",
-				"return": {
-					"type": "Menu.Ref<\"menu\">"
+					"type": "Button.Ref<false, HTMLButtonElement>"
 				}
 			},
 			{

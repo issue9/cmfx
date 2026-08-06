@@ -16,9 +16,7 @@ describe('SplitButton', async () => {
 		</SplitButton>
 	));
 
-	test('props', () => {
-		ct.testProps();
-	});
+	test('props', () => ct.testProps());
 
 	test('ref', () => {
 		expect(ref).toBeDefined();
