@@ -29,11 +29,16 @@ export interface Base extends ThemeProps, RefProps<CodeRef> {
 	wrap?: boolean;
 
 	/**
-	 * 高亮的语言名称，如果为空则为 text。
+	 * 文件名
+	 *
+	 * @remarks
+	 * 如果是文件名，会自动根据扩展名高亮代码，且会记录在 dataset.filename 中，
+	 * toolbar 装饰器会显示文件名。
 	 *
 	 * @reactive
+	 * @defaultValue 'text'
 	 */
-	lang?: BundledLanguage;
+	filename?: `*.${BundledLanguage}` | BundledLanguage;
 
 	/**
 	 * 是否显示行号如果为 number 类型则表示起始行号。
@@ -117,7 +122,7 @@ export function Code(props: CodeProps): JSX.Element {
 		cancel();
 
 		const cls = joinClass(props.palette, props.class);
-		const preHTML = await highlight(html(), props.lang, props.ln, props.wrap, cls, props.style, props.theme);
+		const preHTML = await highlight(html(), props.filename, props.ln, props.wrap, cls, props.style, props.theme);
 		const preElem = template(preHTML)() as HTMLPreElement;
 
 		props.ref?.({

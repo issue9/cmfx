@@ -35,7 +35,7 @@ export default function (props: MountProps): JSX.Element {
 				<Editable />
 				<Decorate />
 			</Portal>
-			<Code editable={editable()} ln={0} wrap palette={palette()} class="h-50" lang="css" decorates={decorates()}>
+			<Code editable={editable()} ln={0} wrap palette={palette()} class="h-50" filename="style.module.css" decorates={decorates()}>
 				{`/*
  * SPDX-FileCopyrightText: 2025 caixw
  *

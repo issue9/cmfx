@@ -27,8 +27,8 @@
 			{
 				"name": "trigger",
 				"summary": "触发方式\n\n",
-				"type": "\"click\" | \"hover\" | \"custom\" | undefined",
-				"def": "'popover'\n\n",
+				"type": "\"click\" | \"hover\" | undefined",
+				"def": "'hover'\n\n",
 				"reactive": true
 			},
 			{
@@ -91,14 +91,6 @@
 				"type": "toggle(): void",
 				"return": {
 					"type": "void"
-				}
-			},
-			{
-				"name": "popover",
-				"summary": "弹出对象的实例\n\n",
-				"type": "popover(): HTMLDivElement",
-				"return": {
-					"type": "HTMLDivElement"
 				}
 			},
 			{

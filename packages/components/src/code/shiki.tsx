@@ -20,7 +20,7 @@ export interface CodeHighlighter {
 	/**
 	 * 高亮代码
 	 * @param code - 代码；
-	 * @param lang - 语言 ID；
+	 * @param filename - 文件名，可以是包含扩展名的文件名或是仅扩展名都可以，默认为 text；
 	 * @param ln - 起始行号，undefined 表示不显示行号；
 	 * @param wrap - 是否换行；
 	 * @param cls - 传递给 pre 标签的 CSS 类名；
@@ -31,7 +31,7 @@ export interface CodeHighlighter {
 	 */
 	html(
 		code: string,
-		lang: BundledLanguage,
+		filename: `*.${BundledLanguage}` | BundledLanguage,
 		ln?: number,
 		wrap?: boolean,
 		cls?: string,
@@ -73,7 +73,7 @@ export async function buildHighlighter(
 	return {
 		html(
 			code: string,
-			lang: BundledLanguage,
+			lang: `*.${BundledLanguage}` | BundledLanguage,
 			ln?: number,
 			wrap?: boolean,
 			cls?: string,
@@ -91,7 +91,7 @@ export async function buildHighlighter(
  * 高亮代码
  *
  * @param code - 代码文本；
- * @param lang - 语言名称，默认为 text；
+ * @param filename - 文件名，可以是包含扩展名的文件名或是仅扩展名都可以，默认为 text；
  * @param ln - 起始行号，不需要则为 undefined；
  * @param wrap - 是否自动换行；
  * @param cls - 传递给 pre 标签的 CSS 类名；
@@ -105,19 +105,19 @@ export async function buildHighlighter(
  */
 export async function highlight(
 	code: string,
-	lang?: BundledLanguage,
+	filename?: `*.${BundledLanguage}` | BundledLanguage,
 	ln?: number,
 	wrap?: boolean,
 	cls?: string,
 	style?: ThemeProps['style'],
 	theme?: BundledTheme,
 ): Promise<string> {
-	return await codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, theme));
+	return await codeToHtml(code, buildOptions(code, filename, ln, wrap, cls, style, theme));
 }
 
 function buildOptions(
 	code: string,
-	lang?: BundledLanguage,
+	filename?: `*.${BundledLanguage}` | BundledLanguage,
 	ln?: number,
 	wrap?: boolean,
 	cls?: string,
@@ -128,8 +128,10 @@ function buildOptions(
 	const w = ln === undefined ? '0ch' : `${(code.split('\n').length + ln).toString().length}ch`;
 	const s = style2String(`;--line-number-start: ${ln ?? 0};--line-number-width: ${w}`, style);
 
+	const dotIndex = filename?.lastIndexOf('.') ?? -1;
+	const lang = dotIndex > 0 ? filename!.slice(dotIndex + 1) : 'text'; // dotIndex 如果存在，filename 必然不是 undefined
 	return {
-		lang: lang || 'text',
+		lang,
 		theme: theme ?? shikiTheme,
 		transformers: [
 			{
@@ -143,7 +145,7 @@ function buildOptions(
 					);
 					node.properties.style += s;
 					node.properties['data-code'] = code;
-					node.properties['data-lang'] = lang;
+					node.properties['data-filename'] = filename;
 				},
 			},
 		],

@@ -64,7 +64,7 @@ function preCode(props: { children: HTMLElement }): JSX.Element {
 		<Code
 			decorates={[Code.createToolbarDecorate('copy', 'fit', 'print', 'expand', 'title'), Code.borderDecorate]}
 			ln={0}
-			lang={props.children.className.slice('language-'.length) as Code.Language}
+			filename={props.children.className.slice('language-'.length) as Code.Language}
 		>
 			{props.children.innerText}
 		</Code>

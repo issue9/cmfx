@@ -8,5 +8,5 @@ import type { JSX } from 'solid-js';
 export default function (): JSX.Element {
 	const [, options] = useOptions();
 
-	return <Code lang="ts">{JSON.stringify(options, null, 4)}</Code>;
+	return <Code filename="ts">{JSON.stringify(options, null, 4)}</Code>;
 }

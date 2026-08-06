@@ -125,7 +125,7 @@ export function createToolbarDecorate(...buttons: Array<ToolbarItem>): CodeDecor
 		const elem = (
 			<header class={styles.toolbar} ref={el => (toolbarRef = el)}>
 				<Show when={buttons.includes('title')}>
-					<span>{pre.dataset.lang}</span>
+					<span>{pre.dataset.filename}</span>
 				</Show>
 
 				<div class={styles.actions}>

@@ -29,7 +29,7 @@ export default function (props: MountProps): JSX.Element {
 				ln={21}
 				class="w-100"
 				palette={palette()}
-				lang="tsx"
+				filename="tsx"
 				editable={editable()}
 				onChange={v => console.log(v)}
 			>
@@ -49,7 +49,7 @@ export default function(props: Props): JSX.Element {
     const [editableS, editable] = boolSelector('可编辑');
     const [breakS, breakk] = boolSelector('自动换行');
 
-    return <Code lang="tsx" editable={editable()} break={breakk()} palette={palette()}>
+    return <Code filename="tsx" editable={editable()} break={breakk()} palette={palette()}>
         // TODO
     </Code>;
 }

@@ -19,7 +19,7 @@ export default function (props: MountProps): JSX.Element {
 				<Editable />
 			</Portal>
 
-			<Code lang="tsx" palette={palette()} ln={11} editable={editable()} oninput={v => console.log(v)}>
+			<Code filename="button.tsx" palette={palette()} ln={11} editable={editable()} onChange={v => console.log(v)}>
 				{'<Button>Button</Button>'}
 			</Code>
 		</div>
