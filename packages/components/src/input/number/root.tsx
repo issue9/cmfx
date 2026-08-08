@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, style2String } from '@cmfx/cdk';
 import { PropsError } from '@cmfx/core';
-import { joinClass, style2String } from '@cmfx/themes';
 import { type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';

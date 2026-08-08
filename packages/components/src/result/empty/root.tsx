@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ThemeProps } from '@cmfx/themes';
+import type { ThemeProps } from '@cmfx/cdk';
 import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 import IconNoData from '~icons/oui/index-close';
 

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type Palette, type ThemeProps } from '@cmfx/cdk';
 import { calcPopoverPosition, type PopoverPosition } from '@cmfx/core';
-import { joinClass, type Palette, type ThemeProps } from '@cmfx/themes';
 import { createEffect, createMemo, createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 
 import type { BaseRef } from '@components/base';

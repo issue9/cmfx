@@ -60,11 +60,11 @@ export default defineConfig(({ mode }) => {
 							{ find: '@components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') }, // 解决 admin 中的 @admin 引用
 
 							{
-								find: /^@cmfx\/themes\/(.*).lang/,
-								replacement: path.resolve(import.meta.dirname, `../../packages/themes/src/messages/$1.lang.ts`),
+								find: /^@cmfx\/cdk\/(.*).lang/,
+								replacement: path.resolve(import.meta.dirname, `../../packages/cdk/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/themes', replacement: path.resolve(import.meta.dirname, '../../packages/themes/src') },
-							{ find: '@themes', replacement: path.resolve(import.meta.dirname, '../../packages/themes/src') },
+							{ find: '@cmfx/cdk', replacement: path.resolve(import.meta.dirname, '../../packages/cdk/src') },
+							{ find: '@cdk', replacement: path.resolve(import.meta.dirname, '../../packages/cdk/src') },
 
 							{
 								find: /^@cmfx\/illustrations\/(.*).lang/,

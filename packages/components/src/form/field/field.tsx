@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/cdk';
 import type { Converter, Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
 import { ContextNotFoundError } from '@cmfx/core';
-import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
 import type { ChangeFunc, RefProps } from '@components/base';

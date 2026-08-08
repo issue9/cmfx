@@ -5,7 +5,7 @@
 		"jsxImportSource": "solid-js",
 		"types": ["vite/client"],
 		"paths": {
-			"@themes/*": ["./src/*"]
+			"@cdk/*": ["./src/*"]
 		},
 		"outDir": "./lib"
 	},

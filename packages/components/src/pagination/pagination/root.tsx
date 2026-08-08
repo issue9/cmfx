@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ThemeProps } from '@cmfx/cdk';
 import { PropsError } from '@cmfx/core';
-import type { ThemeProps } from '@cmfx/themes';
 import { createEffect, createSignal, For, type JSX, mergeProps } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type Palette, type StyleProps } from '@cmfx/cdk';
 import { createTimer, sleep } from '@cmfx/core';
-import { joinClass, type Palette, type StyleProps } from '@cmfx/themes';
 import { createMemo, createUniqueId, type JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
 import IconError from '~icons/flowbite/close-circle-solid';
 import IconSuccess from '~icons/material-symbols/check-circle-rounded';

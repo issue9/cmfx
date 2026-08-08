@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
+import { joinClass, style2String, type ThemeProps } from '@cmfx/cdk';
 import { Editor } from '@tiptap/core';
 import { Image } from '@tiptap/extension-image';
 import { Subscript } from '@tiptap/extension-subscript';

@@ -7,8 +7,8 @@ import { createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { afterAll, describe, expect, test } from 'vitest';
 
-import { schemes } from '@themes/schemes';
-import type { Mode, Scheme } from '@themes/theme';
+import { schemes } from '@cdk/schemes';
+import type { Mode, Scheme } from '@cdk/theme';
 import { applyTheme, hasTheme, type Theme, ThemeProvider, useTheme } from './theme';
 
 test('theme', () => {

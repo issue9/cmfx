@@ -2,14 +2,14 @@
 为了链接的正确性，所有的链接都应该是绝对链接。
 -->
 
-# cmfx/themes
+# cmfx/cdk
 
 [![test](https://github.com/issue9/cmfx/actions/workflows/vitest.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
-[![npmx](https://img.shields.io/npm/v/%40cmfx%2Fthemes?label=npmx)](https://npmx.dev/@cmfx/themes)
+[![npmx](https://img.shields.io/npm/v/%40cmfx%2Fcdk?label=npmx)](https://npmx.dev/@cmfx/cdk)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 [![License](https://img.shields.io/github/license/issue9/cmfx)](https://opensource.org/licenses/MIT)
 
-提供了 [cmfx](https://github.com/issue9/cmfx) 前端主题相关的功能
+提供了 [cmfx](https://github.com/issue9/cmfx) 前端主题开发工具
 
 ## 开发
 

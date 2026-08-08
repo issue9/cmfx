@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, style2String } from '@cmfx/themes';
+import { joinClass, style2String } from '@cmfx/cdk';
 import { createMemo, For, type JSX, mergeProps, onMount, Show } from 'solid-js';
 import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';

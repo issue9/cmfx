@@ -14,7 +14,7 @@
 			{
 				"name": "pos",
 				"summary": "显示位置\n\n",
-				"type": "PopoverPosition | undefined",
+				"type": "\"left\" | \"right\" | \"top\" | \"bottom\" | undefined",
 				"def": "'top'\n\n",
 				"reactive": true
 			},

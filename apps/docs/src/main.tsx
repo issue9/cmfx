@@ -4,6 +4,7 @@
 
 import './style.css';
 
+import { type Mode, modes, useTheme } from '@cmfx/cdk';
 import {
 	Appbar,
 	Button,
@@ -20,7 +21,6 @@ import {
 } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { bro } from '@cmfx/illustrations';
-import { type Mode, modes, useTheme } from '@cmfx/themes';
 import { type RouteDefinition, type RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, type JSX, lazy } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';

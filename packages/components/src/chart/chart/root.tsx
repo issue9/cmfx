@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { isReducedMotion, joinClass, type ThemeProps } from '@cmfx/themes';
+import { isReducedMotion, joinClass, type ThemeProps } from '@cmfx/cdk';
 import * as echarts from 'echarts';
 import { createEffect, type JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 

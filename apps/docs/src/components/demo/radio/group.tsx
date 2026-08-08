@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Palette } from '@cmfx/cdk';
 import { Form, type MountProps, RadioGroup } from '@cmfx/components';
-import type { Palette } from '@cmfx/themes';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

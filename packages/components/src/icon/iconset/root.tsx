@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { isReducedMotion, joinClass, style2String, type ThemeProps } from '@cmfx/themes';
+import { isReducedMotion, joinClass, style2String, type ThemeProps } from '@cmfx/cdk';
 import { bundleSvgsStringSync, easings, type Rotation, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
 import { createEffect, createMemo, type JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';

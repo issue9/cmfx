@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { palettes, type Scheme } from '@cmfx/themes';
+import { palettes, type Scheme } from '@cmfx/cdk';
 import type { createStore } from 'solid-js/store';
 
 /**

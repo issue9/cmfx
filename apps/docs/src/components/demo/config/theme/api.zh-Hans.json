@@ -25,7 +25,7 @@
 				"type": "\"system\" | \"dark\" | \"light\""
 			}
 		],
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "function",
@@ -35,7 +35,7 @@
 		"return": {
 			"type": "Theme"
 		},
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "interface",
@@ -53,7 +53,7 @@
 				"type": "\"system\" | \"dark\" | \"light\""
 			}
 		],
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "interface",
@@ -92,6 +92,6 @@
 			}
 		],
 		"name": "Scheme",
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	}
 ]

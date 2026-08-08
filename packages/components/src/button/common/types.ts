@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ThemeProps } from '@cmfx/cdk';
 import type { Hotkey } from '@cmfx/core';
-import type { ThemeProps } from '@cmfx/themes';
 
 export const buttonKinds = ['flat', 'border', 'fill'] as const;
 

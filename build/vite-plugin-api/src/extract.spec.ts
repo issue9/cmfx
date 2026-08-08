@@ -14,7 +14,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 	test('load', () => {
 		extractor.load(path.resolve(import.meta.dirname, '../../../packages/components'));
 		extractor.load(path.resolve(import.meta.dirname, '../../../packages/core'));
-		extractor.load(path.resolve(import.meta.dirname, '../../../packages/themes'));
+		extractor.load(path.resolve(import.meta.dirname, '../../../packages/cdk'));
 	});
 
 	test('class', () => {
@@ -66,7 +66,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('interface', () => {
-		const items = extractor.extract('@cmfx/themes', 'index.d.ts', 'ThemeProps');
+		const items = extractor.extract('@cmfx/cdk', 'index.d.ts', 'ThemeProps');
 		expect(items).length(1);
 
 		const intf = items![0];
@@ -254,7 +254,7 @@ describe('Extractor', { timeout: 20000 }, () => {
 	});
 
 	test('function', () => {
-		const items = extractor.extract('@cmfx/themes', 'index.d.ts', 'joinClass');
+		const items = extractor.extract('@cmfx/cdk', 'index.d.ts', 'joinClass');
 		expect(items).length(1);
 
 		const f = items![0];

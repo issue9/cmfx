@@ -6,9 +6,9 @@ import { ContextNotFoundError } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { children, createContext, createEffect, For, mergeProps, splitProps, useContext } from 'solid-js';
 
-import type { Scheme } from '@themes/theme';
-import { changeMode, type Mode } from '@themes/theme/mode';
-import { writeScheme } from '@themes/theme/scheme';
+import type { Scheme } from '@cdk/theme';
+import { changeMode, type Mode } from '@cdk/theme/mode';
+import { writeScheme } from '@cdk/theme/scheme';
 
 /**
  * 提供与主题相关的接口

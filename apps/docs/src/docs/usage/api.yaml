@@ -8,7 +8,7 @@
         types:
             - printElement
 
-- pkg: "@cmfx/themes"
+- pkg: "@cmfx/cdk"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:

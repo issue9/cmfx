@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type ThemeProps } from '@cmfx/cdk';
 import { PropsError } from '@cmfx/core';
-import { joinClass, type ThemeProps } from '@cmfx/themes';
 import Color from 'colorjs.io';
 import { createSignal, type JSX, mergeProps, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';

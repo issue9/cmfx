@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type ThemeProps } from '@cmfx/themes';
+import { joinClass, type ThemeProps } from '@cmfx/cdk';
 import { createMemo, createSignal, For, type JSX, Match, mergeProps, Switch } from 'solid-js';
 
 import type { BaseRef, Layout, RefProps } from '@components/base';

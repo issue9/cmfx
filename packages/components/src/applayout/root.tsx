@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Breakpoint, joinClass, nextPalette, type Palette, style2String, type ThemeProps } from '@cmfx/themes';
+import { type Breakpoint, joinClass, nextPalette, type Palette, style2String, type ThemeProps } from '@cmfx/cdk';
 import type { JSX, ParentProps } from 'solid-js';
 import { createMemo, createSignal, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 

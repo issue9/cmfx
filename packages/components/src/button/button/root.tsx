@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { classList } from '@cmfx/cdk';
 import { Hotkey, PropsError } from '@cmfx/core';
-import { classList } from '@cmfx/themes';
 import { A, type AnchorProps as XAnchorProps } from '@solidjs/router';
 import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 

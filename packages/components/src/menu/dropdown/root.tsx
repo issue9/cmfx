@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass } from '@cmfx/cdk';
 import { adjustPopoverPosition, Hotkey, type PopoverAlign, pointInElement } from '@cmfx/core';
-import { joinClass } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 import { createSignal, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 

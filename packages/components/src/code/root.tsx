@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type ThemeProps } from '@cmfx/themes';
+import { joinClass, type ThemeProps } from '@cmfx/cdk';
 import type { BundledLanguage, BundledTheme } from 'shiki';
 import { createEffect, createSignal, getOwner, type JSX, onCleanup, runWithOwner } from 'solid-js';
 import { template } from 'solid-js/web';

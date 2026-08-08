@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { classList, joinClass, type ThemeProps } from '@cmfx/themes';
+import { classList, joinClass, type ThemeProps } from '@cmfx/cdk';
 import type { JSX, ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

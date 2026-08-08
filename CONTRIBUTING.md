@@ -47,7 +47,7 @@ scope 表示修改的范围，可以为空，不作强制要求，但应该尽�
 - core: 对 `/packages/core` 下的内容进行了修改；
 - components: 对 `/packages/components` 下的内容进行了修改；
 - illustrations: 对 `/packages/illustrations` 下的内容进行了修改；
-- themes: 对 `/packages/themes` 下的内容进行了修改；
+- cdk: 对 `/packages/cdk` 下的内容进行了修改；
 - admin: 对 `/packages/admin` 下的内容进行了修改；
 - docs: 对 `/apps/docs` 下的内容进行了修改；
 - dashboard: 对 `/apps/dashboard` 下的内容进行了修改；
@@ -145,7 +145,7 @@ close #1
 - packages/components 前端组件库；
 - packages/illustrations 为前端组件库提供的插图；
 - packages/admin 前端的后台管理界面；
-- packages/themes 前端的主题库；
+- packages/cdk 前端组件库开发工具；
 
 ### 本地化
 

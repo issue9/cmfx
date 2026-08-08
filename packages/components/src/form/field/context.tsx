@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { StyleProps } from '@cmfx/themes';
+import type { StyleProps } from '@cmfx/cdk';
 import equal from 'fast-deep-equal';
 import type { Context, JSX, ParentProps } from 'solid-js';
 import { createContext, createEffect, createSignal, createUniqueId, splitProps, untrack, useContext } from 'solid-js';

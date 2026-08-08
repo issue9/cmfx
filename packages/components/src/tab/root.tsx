@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass } from '@cmfx/themes';
+import { joinClass } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
 import { createEffect, createMemo, createSignal, For, mergeProps, onCleanup, onMount, Show, untrack } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';

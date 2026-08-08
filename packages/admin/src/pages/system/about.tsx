@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type Palette } from '@cmfx/cdk';
 import { Label, Page, useLocale } from '@cmfx/components';
-import { joinClass, type Palette } from '@cmfx/themes';
 import { For, type JSX, Show, type VoidComponent } from 'solid-js';
 import IconEmail from '~icons/clarity/email-solid';
 import IconAutomation from '~icons/material-symbols/automation';

@@ -1,8 +1,8 @@
 {
-	"name": "@cmfx/themes",
+	"name": "@cmfx/cdk",
 	"version": "0.15.0",
 	"type": "module",
-	"description": "提供 cmfx 前端主题相关的功能",
+	"description": "提供 cmfx 前端组件的开发底层工具",
 	"author": {
 		"name": "caixw",
 		"url": "https://caixw.io"
@@ -14,11 +14,12 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/issue9/cmfx",
-		"directory": "packages/themes"
+		"directory": "packages/cdk"
 	},
 	"keywords": [
 		"cmfx",
-		"themes"
+		"cdk",
+		"component develop kit"
 	],
 	"license": "MIT",
 	"files": [

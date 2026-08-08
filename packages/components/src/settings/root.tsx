@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { isReducedMotion, joinClass, type ThemeProps } from '@cmfx/cdk';
 import { formatDuration } from '@cmfx/core';
-import { isReducedMotion, joinClass, type ThemeProps } from '@cmfx/themes';
 import type { JSX, ParentProps } from 'solid-js';
 import { Show } from 'solid-js';
 import IconTransitionDuration from '~icons/material-symbols/animated-images-rounded';
