@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type Scheme, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, joinClass, type RefProps, type Scheme, type ThemeProps } from '@cmfx/cdk';
 import equal from 'fast-deep-equal';
 import { createEffect, createSignal, For, type JSX } from 'solid-js';
 
-import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export type SchemeSelectorRef = BaseRef<HTMLDivElement>;

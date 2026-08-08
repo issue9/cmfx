@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { AvailableEnumType, BaseRef, RefProps } from '@cmfx/cdk';
 import { joinClass, type ThemeProps } from '@cmfx/cdk';
 import { createMemo, type JSX, mergeProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface RadioRef extends BaseRef<HTMLLabelElement> {

@@ -2,10 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError } from '@cmfx/core';
+import { type BaseRef, ContextNotFoundError } from '@cmfx/cdk';
 import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
-
-import type { BaseRef } from '@components/base';
 
 export interface DialogRef extends BaseRef<HTMLDialogElement> {
 	/**

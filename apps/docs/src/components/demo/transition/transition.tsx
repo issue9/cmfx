@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type MountProps, Transition } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Button, Transition } from '@cmfx/components';
 import { createSignal, type JSX, Show } from 'solid-js';
 
 export default function (_: MountProps): JSX.Element {

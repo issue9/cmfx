@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass } from '@cmfx/cdk';
+import { joinClass, type Layout } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
 import { createEffect, createMemo, createSignal, For, mergeProps, onCleanup, onMount, Show, untrack } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
 
-import type { Layout } from '@components/base';
 import { Button } from '@components/button';
 import styles from './style.module.css';
 import type { TabItem, TabProps } from './types';

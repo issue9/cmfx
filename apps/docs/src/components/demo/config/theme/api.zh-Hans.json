@@ -25,7 +25,7 @@
 				"type": "\"system\" | \"dark\" | \"light\""
 			}
 		],
-		"pkg": "@cmfx/cdk"
+		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "function",
@@ -35,7 +35,7 @@
 		"return": {
 			"type": "Theme"
 		},
-		"pkg": "@cmfx/cdk"
+		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",
@@ -53,7 +53,7 @@
 				"type": "\"system\" | \"dark\" | \"light\""
 			}
 		],
-		"pkg": "@cmfx/cdk"
+		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "interface",

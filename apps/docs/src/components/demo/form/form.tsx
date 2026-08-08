@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
 import { Button, DatePicker, Form, InputNumber, InputText, Notify, TextArea } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';

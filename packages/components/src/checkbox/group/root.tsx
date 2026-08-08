@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type ThemeProps } from '@cmfx/cdk';
+import type { AvailableEnumType, BaseRef, Layout, RefProps, ThemeProps, ValueProps } from '@cmfx/cdk';
+import { joinClass } from '@cmfx/cdk';
 import { createEffect, createMemo, For, type JSX, mergeProps, splitProps } from 'solid-js';
 
-import type { AvailableEnumType, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
 import { Checkbox } from '@components/checkbox/checkbox';
 import { Form } from '@components/form';
 import type { CheckboxGroupOptions } from './options';

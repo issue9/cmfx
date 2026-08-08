@@ -2,12 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type ThemeProps } from '@cmfx/cdk';
+import { type ChangeFunc, ContextNotFoundError, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
 import type { Converter, Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
-import { ContextNotFoundError } from '@cmfx/core';
 import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
-import type { ChangeFunc, RefProps } from '@components/base';
 import type { FormFieldAccessor } from '@components/form/api';
 import { type CommonProps, useForm } from '@components/form/form';
 import { area2Style, calcAreas } from './area';

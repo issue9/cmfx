@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
 import type {
 	CornerDotType,
 	CornerSquareType,
@@ -14,7 +14,6 @@ import type {
 import QRCodeStyling from 'qr-code-styling';
 import { createEffect, createSignal, type JSX, mergeProps, onMount } from 'solid-js';
 
-import type { BaseRef, RefProps } from '@components/base';
 import styles from './style.module.css';
 
 export interface QRCodeRef extends BaseRef<HTMLSpanElement> {

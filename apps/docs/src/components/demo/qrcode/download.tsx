@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type MountProps, QRCode } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Button, QRCode } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

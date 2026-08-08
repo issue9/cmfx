@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BackTop, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { BackTop } from '@cmfx/components';
 import { For, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconNav from '~icons/material-symbols/navigation';

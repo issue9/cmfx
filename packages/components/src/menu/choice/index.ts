@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { AvailableEnumType } from '@components/base';
+import type { AvailableEnumType } from '@cmfx/cdk';
+
 import { Choice as C } from './root';
 
 export const Choice = C;

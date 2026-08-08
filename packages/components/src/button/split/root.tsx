@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { JSX, ParentProps } from 'solid-js';
-import { mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import type { AvailableEnumType, BaseRef, Layout, RefProps } from '@cmfx/cdk';
+import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
-import type { AvailableEnumType, BaseRef, Layout, RefProps } from '@components/base';
 import { Button } from '@components/button/button';
 import styles from '@components/button/common/style.module.css';
 import { type Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';

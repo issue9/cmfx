@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { isReducedMotion, joinClass, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, isReducedMotion, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
 import * as echarts from 'echarts';
 import { createEffect, type JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
-import type { BaseRef, RefProps } from '@components/base';
 import { useLocale, useOptions } from '@components/context';
 import { matchLocale } from './locale.ts';
 

@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ConfirmButton, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { ConfirmButton } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconTask from '~icons/material-symbols/task-alt';

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type ChangeFunc, Dropdown, Markdown, Table, useLocale } from '@cmfx/components';
-import { PropsError } from '@cmfx/core';
+import { type ChangeFunc, PropsError } from '@cmfx/cdk';
+import { Dropdown, Markdown, Table, useLocale } from '@cmfx/components';
 import type {
 	Class,
 	ClassMethod,

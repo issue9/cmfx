@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass } from '@cmfx/cdk';
+import { joinClass, type MountProps } from '@cmfx/cdk';
 import { sleep } from '@cmfx/core';
 import { getOwner, type JSX, type ParentProps, runWithOwner } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
-import type { MountProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { type NotifyPosition, notifyPositions } from '@components/context/options/options';
 import { Message, type MessageProps, type MessageType } from '@components/notify/message';

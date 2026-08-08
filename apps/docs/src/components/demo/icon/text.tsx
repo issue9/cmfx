@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass } from '@cmfx/cdk';
-import type { MountProps } from '@cmfx/components';
+import { joinClass, type MountProps } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';

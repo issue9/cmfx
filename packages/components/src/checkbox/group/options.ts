@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { AvailableEnumType } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
-
-import type { AvailableEnumType } from '@components/base';
 
 /**
  * 定义了 radio、choice 等选项类型中每个选择项的类型。

@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, type MonthView, type MountProps, WeekPicker } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Button, type MonthView, WeekPicker } from '@cmfx/components';
 import { getISOWeek } from '@cmfx/core';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';

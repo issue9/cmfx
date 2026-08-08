@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * from './context';
-export * from './schemes';
+export * from './base';
+export * from './errors';
 export * from './theme';

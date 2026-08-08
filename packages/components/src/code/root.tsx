@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, type ChangeFunc, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
 import type { BundledLanguage, BundledTheme } from 'shiki';
 import { createEffect, createSignal, getOwner, type JSX, onCleanup, runWithOwner } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import type { BaseRef, ChangeFunc, RefProps } from '@components/base';
 import { type CodeDecorate, withDecorate } from './decorate';
 import { highlight } from './shiki';
 

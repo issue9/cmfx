@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ChangeFunc } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
-
-import type { ChangeFunc } from '@components/base';
 
 /**
  * 定义了访问表单中某个字段的接口

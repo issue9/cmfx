@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Mode, type Scheme, ThemeProvider } from '@cmfx/cdk';
-import { ContextNotFoundError, type DisplayStyle, LogicError } from '@cmfx/core';
+import { ContextNotFoundError, type Mode, type Scheme } from '@cmfx/cdk';
+import { type DisplayStyle, LogicError } from '@cmfx/core';
 import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { LocaleProvider } from '@components/context/locale';
+import { ThemeProvider } from '@components/context/theme';
 import type { ConfigurableOptions, NotifyPosition, ReqOptions } from './options';
 
 const keys: Record<keyof ConfigurableOptions, string> = {

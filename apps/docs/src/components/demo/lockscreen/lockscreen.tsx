@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LockScreen, type MountProps, Notify, useOptions } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Button, LockScreen, Notify, useOptions } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

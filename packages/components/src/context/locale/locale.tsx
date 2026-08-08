@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Dict, DictKeys, DisplayStyle, Locale, TranslateArgs } from '@cmfx/core';
-import { ContextNotFoundError, I18n } from '@cmfx/core';
+import { ContextNotFoundError } from '@cmfx/cdk';
+import { type Dict, type DictKeys, type DisplayStyle, I18n, type Locale, type TranslateArgs } from '@cmfx/core';
 import type { Accessor, JSX, ParentProps } from 'solid-js';
 import { createContext, createEffect, createSignal, useContext } from 'solid-js';
 

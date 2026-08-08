@@ -4,7 +4,7 @@
 
 import './style.css';
 
-import { type Mode, modes, useTheme } from '@cmfx/cdk';
+import { type Mode, modes } from '@cmfx/cdk';
 import {
 	Appbar,
 	Button,
@@ -18,6 +18,7 @@ import {
 	Transition,
 	useLocale,
 	useOptions,
+	useTheme,
 } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { bro } from '@cmfx/illustrations';

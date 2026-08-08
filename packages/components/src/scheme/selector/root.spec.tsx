@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Scheme } from '@cmfx/cdk';
 import { describe, expect, test } from 'vitest';
 
-import type { Scheme } from '@components/base';
 import { ComponentTester } from '@components/context/options/context.spec';
 import { SchemeSelector, type SchemeSelectorRef } from './root';
 

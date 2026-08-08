@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-/**
- * 定义了可用于使用的枚举值类型，要求唯一且可比较。
- */
-export type AvailableEnumType = string | number;
-
 export const layouts = ['horizontal', 'vertical'] as const;
 
 /**
  * 组件布局方向
  */
 export type Layout = (typeof layouts)[number];
+
+/**
+ * 定义了可用于使用的枚举值类型，要求唯一且可比较。
+ */
+export type AvailableEnumType = string | number;
 
 /**
  * 修改数据时触发的事件
@@ -48,7 +48,7 @@ export interface MountProps {
 /**
  * 所有组件的 ref 属性传递的参数类型
  */
-export interface Ref<T> {
+export interface BaseRef<T> {
 	/**
 	 * 返回组件的根元素
 	 */

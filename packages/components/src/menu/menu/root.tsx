@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { classList, joinClass, type ThemeProps } from '@cmfx/cdk';
+import type { AvailableEnumType, BaseRef, Layout, RefProps, ThemeProps, ValueProps } from '@cmfx/cdk';
+import { classList, joinClass } from '@cmfx/cdk';
 import { calcPopoverPosition, Hotkey, sleep } from '@cmfx/core';
 import { A, useMatch } from '@solidjs/router';
 import type { JSX } from 'solid-js';
@@ -23,7 +24,6 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import type { AvailableEnumType, BaseRef, Layout, RefProps, ValueProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
 import { IconSet } from '@components/icon';

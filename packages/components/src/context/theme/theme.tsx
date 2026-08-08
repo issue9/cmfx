@@ -2,13 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError } from '@cmfx/core';
+import { ContextNotFoundError, changeMode, type Mode, type Scheme, writeScheme } from '@cmfx/cdk';
 import type { JSX, ParentProps } from 'solid-js';
 import { children, createContext, createEffect, For, mergeProps, splitProps, useContext } from 'solid-js';
-
-import type { Scheme } from '@cdk/theme';
-import { changeMode, type Mode } from '@cdk/theme/mode';
-import { writeScheme } from '@cdk/theme/scheme';
 
 /**
  * 提供与主题相关的接口

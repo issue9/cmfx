@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type ThemeProps } from '@cmfx/cdk';
+import { joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
 import { createSignal, type JSX, mergeProps } from 'solid-js';
 
-import type { RefProps } from '@components/base';
 import type { Week } from '@components/datetime/utils';
 import { MonthView } from '@components/datetime/view/month';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';

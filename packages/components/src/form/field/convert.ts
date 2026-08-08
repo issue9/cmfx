@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ValueProps } from '@cmfx/cdk';
 import type { Converter } from '@cmfx/core';
 import { createEffect, createSignal } from 'solid-js';
-
-import type { ValueProps } from '@components/base';
 
 /**
  * 将 {@link ValueProps} 从一个类型转换为另一个类型

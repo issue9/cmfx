@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Editor, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Editor } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -23,7 +24,7 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<Editor
-				class="h-[500px] w-full"
+				class="h-125 w-full"
 				palette={palette()}
 				readonly={readonly()}
 				disabled={disabled()}

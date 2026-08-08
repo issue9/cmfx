@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { RefProps } from '@cmfx/cdk';
 import { type JSX, splitProps } from 'solid-js';
 import IconOK from '~icons/material-symbols/check';
 import IconCopy from '~icons/material-symbols/content-copy';
 import IconError from '~icons/material-symbols/error';
 
-import type { RefProps } from '@components/base';
 import { useOptions } from '@components/context';
 import { IconSet } from '@components/icon';
 import { buildRef, type ClipboardAPIRef } from './clipboard';

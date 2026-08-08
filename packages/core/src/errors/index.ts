@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { ContextNotFoundError, LogicError, PropsError } from './logic';
+export { LogicError } from './logic';
 export { NetworkError, PermissionError, RuntimeError } from './runtime';

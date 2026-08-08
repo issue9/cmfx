@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { BaseRef } from '@cmfx/cdk';
 import { sleep } from '@cmfx/core';
 
-import type { BaseRef } from '@components/base';
 import type { OptionsAccessor } from '@components/context';
 import type { IconSet } from '@components/icon';
 

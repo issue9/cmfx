@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Alert, Button, Choice, InputNumber, InputText, type MountProps, Notify } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Alert, Button, Choice, InputNumber, InputText, Notify } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import { createSignal, type JSX } from 'solid-js';
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, style2String } from '@cmfx/cdk';
+import { type BaseRef, joinClass, type RefProps, style2String, type ValueProps } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
 import {
 	batch,
@@ -17,7 +17,6 @@ import {
 	splitProps,
 } from 'solid-js';
 
-import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { Button } from '@components/button';
 import { useLocale } from '@components/context';
 import type { CommonProps, CommonRef } from '@components/datetime/picker/internal';

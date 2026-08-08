@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError, type FetchFunc, type Query } from '@cmfx/core';
+import { ContextNotFoundError } from '@cmfx/cdk';
+import type { FetchFunc, Query } from '@cmfx/core';
 import type { Component, JSX, ParentProps, Signal } from 'solid-js';
 import { createContext, splitProps, useContext } from 'solid-js';
 

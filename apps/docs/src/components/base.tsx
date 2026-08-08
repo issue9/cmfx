@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Palette, palettes } from '@cmfx/cdk';
-import { Button, Checkbox, Choice, Form, InputNumber, type Layout, layouts, useLocale } from '@cmfx/components';
+import { type Layout, layouts, type Palette, palettes } from '@cmfx/cdk';
+import { Button, Checkbox, Choice, Form, InputNumber, useLocale } from '@cmfx/components';
 import type { DictKeys, PopoverPosition } from '@cmfx/core';
 import { type Accessor, type Component, createSignal, type JSX, type Setter } from 'solid-js';
 

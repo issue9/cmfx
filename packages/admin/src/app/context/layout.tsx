@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Layout } from '@cmfx/components';
+import { ContextNotFoundError, type Layout } from '@cmfx/cdk';
 import { Appbar, AppLayout, Button, Dropdown, Menu, useLocale, useOptions as useXOptions } from '@cmfx/components';
-import { ContextNotFoundError } from '@cmfx/core';
 import type { JSX, ParentProps, Signal } from 'solid-js';
 import { createContext, createEffect, createSignal, ErrorBoundary, For, onMount, useContext } from 'solid-js';
 

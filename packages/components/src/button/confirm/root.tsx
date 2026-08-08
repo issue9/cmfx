@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass } from '@cmfx/cdk';
+import { handleEvent, joinClass, type RefProps } from '@cmfx/cdk';
 import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { handleEvent, type RefProps } from '@components/base';
 import { Button } from '@components/button/button';
 import { useLocale } from '@components/context';
 import styles from './style.module.css';
