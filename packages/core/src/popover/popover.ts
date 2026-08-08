@@ -9,17 +9,22 @@ interface Point {
 	y: number;
 }
 
-export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right';
+export const popoverPositions = ['top', 'bottom', 'left', 'right'] as const;
+
+export type PopoverPosition = (typeof popoverPositions)[number];
+
+export const popoverAligns = ['start', 'center', 'end', 'stretch'] as const;
 
 /**
  * 弹出框与锚点对象的对齐方式
  *
  * @remarks
- * - `start`：弹出框的起始位置对齐锚点的起始位置；
- * - `center`：弹出框的中心位置对齐锚点的中心位置；
- * - `end`：弹出框的结束位置对齐锚点的结束位置；
+ * - start：弹出框的起始位置对齐锚点的起始位置；
+ * - center：弹出框的中心位置对齐锚点的中心位置；
+ * - end：弹出框的结束位置对齐锚点的结束位置；
+ * - stretch 展开与锚点元素同宽或是同高；
  */
-export type PopoverAlign = 'start' | 'center' | 'end' | 'stretch';
+export type PopoverAlign = (typeof popoverAligns)[number];
 
 /**
  * 调整弹出元素 popRef 的位置

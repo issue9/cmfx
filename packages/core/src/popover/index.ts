@@ -3,4 +3,4 @@
 // SPDX-License-Identifier: MIT
 
 export type { PopoverAlign, PopoverPosition } from './popover';
-export { adjustPopoverPosition, calcPopoverPosition, pointInElement } from './popover';
+export { adjustPopoverPosition, calcPopoverPosition, pointInElement, popoverAligns, popoverPositions } from './popover';
