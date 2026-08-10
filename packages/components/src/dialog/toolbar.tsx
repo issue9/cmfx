@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { movable, type ThemeProps, useLocale } from '@cmfx/cdk';
-import { createSignal, onCleanup, onMount, Show, type JSX, type ParentProps } from 'solid-js';
+import { createSignal, type JSX, onCleanup, onMount, type ParentProps, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconMinimize from '~icons/material-symbols/minimize-rounded';
 
