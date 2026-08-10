@@ -9,7 +9,7 @@ import IconDown from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import IconUp from '~icons/material-symbols/keyboard-arrow-up-rounded';
 
 import { Button, PrintButton, ToggleButton } from '@components/button';
-import { ClipboardAPI } from '@components/clipboard';
+import { ClipboardWriter } from '@components/clipboard';
 import styles from './style.module.css';
 
 type Dispose = () => void;
@@ -65,7 +65,7 @@ export function withDecorate(elem: HTMLElement, ...decorates: Array<CodeDecorate
  * 在右上角显示一个复制按钮的装饰器
  */
 export function copyButtonDecorate(pre: HTMLPreElement): [JSX.Element, Dispose] {
-	let clipboardRef: ClipboardAPI.Ref;
+	let clipboardRef: ClipboardWriter.Ref;
 	let rootRef: Button.Ref;
 
 	return [
@@ -76,7 +76,7 @@ export function copyButtonDecorate(pre: HTMLPreElement): [JSX.Element, Dispose] 
 			kind="flat"
 			onclick={() => clipboardRef.writeText(pre.dataset.code ?? '')}
 		>
-			<ClipboardAPI ref={el => (clipboardRef = el)} />
+			<ClipboardWriter ref={el => (clipboardRef = el)} />
 		</Button>,
 		() => rootRef.root().remove(),
 	];
@@ -106,7 +106,7 @@ export function createToolbarDecorate(...buttons: Array<ToolbarItem>): CodeDecor
 	}
 
 	return (pre: HTMLPreElement): [JSX.Element, Dispose] => {
-		let clipboardRef: ClipboardAPI.Ref;
+		let clipboardRef: ClipboardWriter.Ref;
 
 		const oldFlexDir = pre.style.flexDirection;
 		pre.style.flexDirection = 'column-reverse';
@@ -136,7 +136,7 @@ export function createToolbarDecorate(...buttons: Array<ToolbarItem>): CodeDecor
 							kind="flat"
 							onclick={() => clipboardRef.writeText(pre.dataset.code ?? '')}
 						>
-							<ClipboardAPI ref={el => (clipboardRef = el)} />
+							<ClipboardWriter ref={el => (clipboardRef = el)} />
 						</Button>
 					</Show>
 

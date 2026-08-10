@@ -6,5 +6,7 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - ClipboardAPI.Props
-            - ClipboardAPI.Ref
+            - ClipboardWriter.Props
+            - ClipboardWriter.Ref
+            - ClipboardReader.Props
+            - ClipboardReader.Ref

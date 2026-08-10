@@ -47,7 +47,7 @@ export interface IconSetProps extends ThemeProps, RefProps<IconSetRef> {
 	 * @remarks
 	 * 键名为图标的 ID，键值为图标实例；
 	 */
-	icons: Record<string, JSX.Element>;
+	readonly icons: Record<string, JSX.Element>;
 
 	/**
 	 * 显示的图标，如果未指定，则采用 {@link IconSetProps.icons} 中的最后一个。
@@ -62,12 +62,12 @@ export interface IconSetProps extends ThemeProps, RefProps<IconSetRef> {
 	 * @remarks
 	 * 如果需要自定义缓动函数，可以通过使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
 	 */
-	easing?: string;
+	readonly easing?: string;
 
 	/**
 	 * 旋转方式
 	 */
-	rotation?: Rotation;
+	readonly rotation?: Rotation;
 }
 
 /**

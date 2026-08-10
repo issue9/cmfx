@@ -3,5 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 export * from './base';
+export * from './clipboard';
 export * from './errors';
 export * from './theme';

@@ -9,7 +9,7 @@ import IconPicker from '~icons/circum/picker-half';
 import IconClose from '~icons/material-symbols/cancel';
 
 import { Button } from '@components/button';
-import { ClipboardAPI } from '@components/clipboard';
+import { ClipboardWriter } from '@components/clipboard';
 import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Choice } from '@components/menu/choice';
@@ -97,7 +97,7 @@ export function Panel(props: PanelProps): JSX.Element {
 
 	let contentRef: HTMLDivElement;
 	let mainRef!: HTMLElement;
-	let clipboardRef: ClipboardAPI.Ref;
+	let clipboardRef: ClipboardWriter.Ref;
 
 	return (
 		<div
@@ -124,7 +124,7 @@ export function Panel(props: PanelProps): JSX.Element {
 							color: props.wcag ?? 'var(--palette-fg)',
 						}}
 					>
-						<ClipboardAPI class="self-center" ref={el => (clipboardRef = el)} />
+						<ClipboardWriter class="self-center" ref={el => (clipboardRef = el)} />
 						{field.getValue()}
 					</div>
 					<Show when={props.wcag}>
