@@ -10,6 +10,7 @@ export {
 	type Layout,
 	layouts,
 	type MountProps,
+	type ProblemHandler,
 	type RefProps,
 	type ValueProps,
 } from './types';

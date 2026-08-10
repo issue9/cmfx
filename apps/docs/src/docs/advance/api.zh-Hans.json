@@ -337,6 +337,7 @@
 	{
 		"kind": "function",
 		"name": "throwProblem",
+		"summary": "将所有类型的 Problem 以异常抛出\n\n",
 		"type": "function throwProblem<P = never>(p?: Problem<P>): Promise<void>",
 		"typeParams": [
 			{
@@ -362,7 +363,7 @@
 		"summary": "返回\n`API`\n对象\n\n",
 		"type": "function useAPI(): [API_2, ProblemHandler]",
 		"return": {
-			"type": "[API_2, ProblemHandler<never>]"
+			"type": "[API_2, ProblemHandler]"
 		},
 		"pkg": "@cmfx/components"
 	},
@@ -373,7 +374,7 @@
 		"remarks": "与\n`useAPI`\n的不同点在于只提供了基本的功能，但是会添加一个基于当前环境的 Accept-Language 报头信息。\n\n",
 		"type": "function useREST(): [REST, ProblemHandler]",
 		"return": {
-			"type": "[REST, ProblemHandler<never>]"
+			"type": "[REST, ProblemHandler]"
 		},
 		"pkg": "@cmfx/components"
 	},

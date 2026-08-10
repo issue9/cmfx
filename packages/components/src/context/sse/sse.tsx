@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError } from '@cmfx/cdk';
+import { ContextNotFoundError, type ProblemHandler } from '@cmfx/cdk';
 import type { REST } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { createContext, createResource, Match, onCleanup, Switch, useContext } from 'solid-js';
 
-import { type ProblemHandler, useOptions } from '@components/context/options';
+import { useOptions } from '@components/context/options';
 import { useAPI } from '@components/context/rest';
 
 export interface Props {

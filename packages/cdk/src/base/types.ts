@@ -2,6 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Problem } from '@cmfx/core';
+
+/**
+ * 定义了对 {@link Problem} 的处理函数类型
+ */
+export type ProblemHandler<E = never> = (p?: Problem<E>) => Promise<void>;
+
 export const layouts = ['horizontal', 'vertical'] as const;
 
 /**

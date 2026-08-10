@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale } from '@cmfx/cdk';
+import { type ProblemHandler, useLocale } from '@cmfx/cdk';
 import { type Query, query2Search, type REST } from '@cmfx/core';
 import { type Component, mergeProps, splitProps } from 'solid-js';
 import IconDelete from '~icons/material-symbols/delete';
 
 import { ConfirmButton } from '@components/button';
-import type { ProblemHandler } from '@components/context';
 import { useTableContext } from './context';
 import type { NoPagingProps, PagingProps } from './table';
 
