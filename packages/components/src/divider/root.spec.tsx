@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass } from '@cmfx/themes';
+import { joinClass } from '@cmfx/cdk';
 import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 

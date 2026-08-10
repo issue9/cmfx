@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ChangeFunc } from '@cmfx/cdk';
 import type { Flatten, Flattenable, FlattenKeys, Params, Problem, Validator } from '@cmfx/core';
 import { flatten, LogicError } from '@cmfx/core';
 import equal from 'fast-deep-equal';
 import { createSignal, createUniqueId, type JSX, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
-import type { ChangeFunc } from '@components/base';
 import type { FormFieldAccessor } from './accessor';
 import type { Options } from './options';
 

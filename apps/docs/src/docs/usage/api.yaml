@@ -2,13 +2,13 @@
 #
 # SPDX-License-Identifier: MIT
 
-- pkg: "@cmfx/core"
+- pkg: "@cmfx/cdk"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
             - printElement
 
-- pkg: "@cmfx/themes"
+- pkg: "@cmfx/cdk"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:

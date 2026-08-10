@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Layout } from '@components/base';
+import type { Layout } from '@cmfx/cdk';
 
 export const labelAlignments = ['start', 'center', 'end'] as const;
 

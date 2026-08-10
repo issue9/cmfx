@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Markdown, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Markdown } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

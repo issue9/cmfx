@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BackTop, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { BackTop } from '@cmfx/components';
 import { For, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -22,7 +23,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<div class="mt-10 h-[200px] w-1/3 overflow-y-scroll border border-palette-fg">
+			<div class="mt-10 h-50 w-1/3 overflow-y-scroll border border-palette-fg">
 				<For each={len}>
 					{i => (
 						<>
@@ -30,7 +31,7 @@ export default function (props: MountProps): JSX.Element {
 						</>
 					)}
 				</For>
-				<BackTop palette={palette()} class="inset-e-[unset] inset-s-[300px] bottom-4! mb-10" />
+				<BackTop palette={palette()} class="inset-e-[unset] inset-s-75 bottom-4! mb-10" />
 			</div>
 		</>
 	);

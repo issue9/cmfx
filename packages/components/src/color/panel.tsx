@@ -2,17 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { PropsError } from '@cmfx/core';
-import { joinClass, type ThemeProps } from '@cmfx/themes';
+import type { BaseRef, RefProps, ThemeProps, ValueProps } from '@cmfx/cdk';
+import { joinClass, PropsError, useLocale } from '@cmfx/cdk';
 import Color from 'colorjs.io';
 import { createSignal, type JSX, mergeProps, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
 import IconClose from '~icons/material-symbols/cancel';
 
-import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { Button } from '@components/button';
-import { ClipboardAPI } from '@components/clipboard';
-import { useLocale } from '@components/context';
+import { ClipboardWriter } from '@components/clipboard';
 import { Form } from '@components/form';
 import { Choice } from '@components/menu/choice';
 import type { ColorSpace } from './space';
@@ -99,7 +97,7 @@ export function Panel(props: PanelProps): JSX.Element {
 
 	let contentRef: HTMLDivElement;
 	let mainRef!: HTMLElement;
-	let clipboardRef: ClipboardAPI.Ref;
+	let clipboardRef: ClipboardWriter.Ref;
 
 	return (
 		<div
@@ -126,7 +124,7 @@ export function Panel(props: PanelProps): JSX.Element {
 							color: props.wcag ?? 'var(--palette-fg)',
 						}}
 					>
-						<ClipboardAPI class="self-center" ref={el => (clipboardRef = el)} />
+						<ClipboardWriter class="self-center" ref={el => (clipboardRef = el)} />
 						{field.getValue()}
 					</div>
 					<Show when={props.wcag}>

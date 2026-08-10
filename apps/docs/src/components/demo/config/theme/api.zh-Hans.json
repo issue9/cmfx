@@ -25,21 +25,21 @@
 				"type": "\"system\" | \"dark\" | \"light\""
 			}
 		],
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "function",
 		"name": "useTheme",
 		"summary": "返回主题设置的参数\n\n",
-		"type": "function useTheme(): Theme",
+		"type": "function useTheme(): ThemeContext",
 		"return": {
-			"type": "Theme"
+			"type": "ThemeContext"
 		},
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "interface",
-		"name": "Theme",
+		"name": "ThemeContext",
 		"summary": "提供与主题相关的接口\n\n",
 		"properties": [
 			{
@@ -53,7 +53,7 @@
 				"type": "\"system\" | \"dark\" | \"light\""
 			}
 		],
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "interface",
@@ -92,6 +92,6 @@
 			}
 		],
 		"name": "Scheme",
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	}
 ]

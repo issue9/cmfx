@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { schemes, type ThemeProps } from '@cmfx/cdk';
 import { Config, sleep } from '@cmfx/core';
-import { schemes, type ThemeProps } from '@cmfx/themes';
 import { MemoryRouter } from '@solidjs/router';
 import { render, renderHook, testEffect } from '@solidjs/testing-library';
 import { createEffect, type JSX, type ParentProps, splitProps } from 'solid-js';

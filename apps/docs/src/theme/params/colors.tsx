@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Palette } from '@cmfx/cdk';
 import { Divider, Form, Slider } from '@cmfx/components';
 import type { Locale } from '@cmfx/core';
-import type { Palette } from '@cmfx/themes';
 import Color from 'colorjs.io';
 import { createEffect, createSignal, type JSX } from 'solid-js';
 import IconColors from '~icons/material-symbols/colors';

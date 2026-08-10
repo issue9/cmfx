@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { joinClass, type Palette, palettes } from '@cmfx/cdk';
 import { Color } from '@cmfx/components';
-import { joinClass, type Palette, palettes } from '@cmfx/themes';
 import { createEffect, createSignal, For, type JSX } from 'solid-js';
 
 import type { SchemeStore } from '@docs/theme/utils';

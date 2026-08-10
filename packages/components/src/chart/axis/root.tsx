@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { BaseRef, RefProps } from '@cmfx/cdk';
 import { createEffect, createSignal, type JSX, mergeProps, onMount, splitProps } from 'solid-js';
 
-import type { BaseRef, RefProps } from '@components/base';
 import { Chart } from '@components/chart/chart';
 
 export interface ChartAxisRef<T extends object> extends BaseRef<HTMLDivElement> {

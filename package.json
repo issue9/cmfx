@@ -30,7 +30,7 @@
 		"packages/components",
 		"packages/illustrations",
 		"packages/admin",
-		"packages/themes"
+		"packages/cdk"
 	],
 	"scripts": {
 		"lint": "pnpm exec biome check",

@@ -2,10 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ThemeProps } from '@cmfx/themes';
+import type { BaseRef, ChangeFunc, Layout, RefProps, ThemeProps } from '@cmfx/cdk';
 import type { JSX, ParentProps } from 'solid-js';
-
-import type { BaseRef, ChangeFunc, Layout, RefProps } from '@components/base';
 
 export interface TabRef extends BaseRef<HTMLDivElement> {
 	/**

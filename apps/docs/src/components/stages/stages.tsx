@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Nav, Page, useLocale } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Nav, Page } from '@cmfx/components';
 import type { Type } from '@cmfx/vite-plugin-api';
 import { A, useCurrentMatches } from '@solidjs/router';
 import { For, type JSX } from 'solid-js';

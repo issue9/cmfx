@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DataTable, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Button, DataTable } from '@cmfx/components';
 import { sleep } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Drawer, type MountProps } from '@cmfx/components';
-import { breakpoints as bps } from '@cmfx/themes';
+import { breakpoints as bps, type MountProps } from '@cmfx/cdk';
+import { Button, Drawer } from '@cmfx/components';
 import { createMemo, createSignal, type JSX, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

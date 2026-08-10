@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Layout } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
-
-import type { Layout } from '@components/base';
 
 /**
  * 表单元素的各个插槽的位置信息

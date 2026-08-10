@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DataTable, InputText, Page, useLocale, useREST } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Button, DataTable, InputText, Page, useREST } from '@cmfx/components';
 import type { Query } from '@cmfx/core';
 import { createMemo, type JSX, Show } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';

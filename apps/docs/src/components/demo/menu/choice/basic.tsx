@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, InputText, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Choice, InputText } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

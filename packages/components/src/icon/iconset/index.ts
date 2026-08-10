@@ -4,7 +4,7 @@
 
 import * as morpheus from '@iconsets/svg-morpheus-ts';
 
-import { IconSet as C, iconSetEasings } from './root';
+import { IconSet as C, type IconSetProps, type IconSetRef, iconSetEasings } from './root';
 
 export const IconSet = Object.assign(C, {
 	easings: iconSetEasings,
@@ -13,6 +13,6 @@ export const IconSet = Object.assign(C, {
 
 export namespace IconSet {
 	export type Rotation = morpheus.Rotation;
-	export type Props = import('./root').IconSetProps;
-	export type Ref = import('./root').IconSetRef;
+	export type Props = IconSetProps;
+	export type Ref = IconSetRef;
 }

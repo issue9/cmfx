@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type MountProps, Slider } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Slider } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

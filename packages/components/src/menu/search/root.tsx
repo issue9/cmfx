@@ -2,14 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { type BaseRef, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import { Hotkey } from '@cmfx/core';
-import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { createSignal, type JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import IconClear from '~icons/material-symbols/close';
 import IconSearch from '~icons/material-symbols/search';
 
-import type { BaseRef, RefProps } from '@components/base';
-import { useLocale } from '@components/context';
 import { InputBase } from '@components/input/base';
 import { Dropdown, type Menu } from '@components/menu';
 import styles from './style.module.css';

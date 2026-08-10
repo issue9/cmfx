@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type ThemeProps } from '@cmfx/themes';
+import { type BaseRef, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import { createEffect, type JSX, Match, type ParentProps, Switch } from 'solid-js';
 
 import { BackTop } from '@components/backtop';
-import type { BaseRef, RefProps } from '@components/base';
-import { useLocale, useOptions } from '@components/context';
+import { useOptions } from '@components/context';
 import styles from './style.module.css';
 
 export interface PageRef extends BaseRef<HTMLDivElement> {

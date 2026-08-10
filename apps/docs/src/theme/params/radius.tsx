@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Radius } from '@cmfx/cdk';
 import { Divider, Form, RadioGroup } from '@cmfx/components';
 import type { Locale } from '@cmfx/core';
-import type { Radius } from '@cmfx/themes';
 import type { JSX } from 'solid-js';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 

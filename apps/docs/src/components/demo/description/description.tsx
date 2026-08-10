@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Description, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Description } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconEye from '~icons/material-symbols/table-eye';

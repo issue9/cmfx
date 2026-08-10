@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ThemeProps } from '@cmfx/themes';
+import { type MountProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import { createSignal, type JSX, type ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import type { MountProps } from '@components/base';
-import { useLocale, useOptions } from '@components/context';
+import { useOptions } from '@components/context';
 import { Form } from '@components/form';
 import { InputText } from '@components/input';
 import { AcceptButton, Actions } from './buttons';

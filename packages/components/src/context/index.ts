@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * from './locale';
 export * from './options';
 export * from './rest';
 export * from './sse';

@@ -2,19 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-	ChartAxis,
-	ConfirmButton,
-	Divider,
-	Formatter,
-	Label,
-	Page,
-	Tab,
-	useLocale,
-	useREST,
-	useSSE,
-} from '@cmfx/components';
-import { joinClass } from '@cmfx/themes';
+import { joinClass, useLocale } from '@cmfx/cdk';
+import { ChartAxis, ConfirmButton, Divider, Formatter, Label, Page, Tab, useREST, useSSE } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, type JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
 import IconDatabase from '~icons/material-symbols/database';

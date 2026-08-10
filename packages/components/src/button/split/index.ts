@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { AvailableEnumType } from '@components/base';
+import type { AvailableEnumType } from '@cmfx/cdk';
+
 import {
 	SplitButton as C,
 	presetProps,

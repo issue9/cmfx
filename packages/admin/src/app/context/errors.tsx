@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Result, useLocale } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Button, Result } from '@cmfx/components';
 import { APIError, NetworkError, PermissionError, RuntimeError } from '@cmfx/core';
 import type * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';

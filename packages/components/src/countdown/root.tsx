@@ -2,12 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { type BaseRef, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import { createTimer, type Duration, ms, nano2IntlDuration, parseDuration } from '@cmfx/core';
-import { joinClass, type ThemeProps } from '@cmfx/themes';
 import { type Accessor, createMemo, createSignal, type JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import type { BaseRef, RefProps } from '@components/base';
-import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
 export const fields = ['seconds', 'minutes', 'hours', 'days'] as const;

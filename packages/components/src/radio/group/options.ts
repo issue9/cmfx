@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { AvailableEnumType } from '@components/base';
+import type { AvailableEnumType } from '@cmfx/cdk';
+
 import type { CheckboxGroup } from '@components/checkbox';
 
 export type RadioGroupOption<T extends AvailableEnumType = string> = CheckboxGroup.Option<T>;

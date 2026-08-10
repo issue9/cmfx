@@ -20,7 +20,7 @@
 		"return": {
 			"type": "void"
 		},
-		"pkg": "@cmfx/core"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "function",
@@ -42,7 +42,7 @@
 		"return": {
 			"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined"
 		},
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "function",
@@ -62,6 +62,6 @@
 		"return": {
 			"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\""
 		},
-		"pkg": "@cmfx/themes"
+		"pkg": "@cmfx/cdk"
 	}
 ]

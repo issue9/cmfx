@@ -65,11 +65,11 @@ export default defineConfig(({ mode }) => {
 							{ find: '@components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') },
 
 							{
-								find: /^@cmfx\/themes\/(.*).lang/,
-								replacement: path.resolve(import.meta.dirname, `../../packages/themes/src/messages/$1.lang.ts`),
+								find: /^@cmfx\/cdk\/(.*).lang/,
+								replacement: path.resolve(import.meta.dirname, `../../packages/cdk/src/messages/$1.lang.ts`),
 							},
-							{ find: '@cmfx/themes', replacement: path.resolve(import.meta.dirname, '../../packages/themes/src') },
-							{ find: '@themes', replacement: path.resolve(import.meta.dirname, '../../packages/themes/src') },
+							{ find: '@cmfx/cdk', replacement: path.resolve(import.meta.dirname, '../../packages/cdk/src') },
+							{ find: '@cdk', replacement: path.resolve(import.meta.dirname, '../../packages/cdk/src') },
 
 							{
 								find: /^@cmfx\/illustrations\/(.*).lang/,
@@ -114,7 +114,7 @@ export default defineConfig(({ mode }) => {
 					dts: [
 						[path.resolve(import.meta.dirname, '../../packages/core'), 'index.d.ts'],
 						[path.resolve(import.meta.dirname, '../../packages/components'), 'index.d.ts'],
-						[path.resolve(import.meta.dirname, '../../packages/themes'), 'index.d.ts'],
+						[path.resolve(import.meta.dirname, '../../packages/cdk'), 'index.d.ts'],
 						[path.resolve(import.meta.dirname, '../../packages/illustrations'), 'index.d.ts'],
 						[path.resolve(import.meta.dirname, '../../packages/admin'), 'index.d.ts'],
 					],

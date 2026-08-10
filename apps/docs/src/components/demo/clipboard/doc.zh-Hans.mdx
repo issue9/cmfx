@@ -1,14 +1,20 @@
-import Basic from './basic';
-import basic from './basic.tsx?raw';
+import Write from './write';
+import write from './write.tsx?raw';
+import Read from './read';
+import read from './read.tsx?raw';
 
 import types from './api.zh-Hans.json';
 import { APIs, Stage } from '@docs/components/stages';
 
 ## 演示
 
-### clipboard
+### writer
 
-<Stage component={Basic} source={basic} />
+<Stage component={Write} source={write} />
+
+### reader
+
+<Stage component={Read} source={read} />
 
 ## API
 

@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Checkbox, Page, useLocale, useREST } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Button, Checkbox, Page, useREST } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, type JSX } from 'solid-js';
 

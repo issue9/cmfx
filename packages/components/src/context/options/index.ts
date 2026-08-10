@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { OptionsAccessor } from './context';
-export { useOptions } from './context';
-export type { Options } from './options';
-export { presetOptions } from './options';
-export { handleProblem, notifyProblem, type ProblemHandler, throwProblem } from './problem';
+export { type OptionsAccessor, useOptions } from './context';
+export { type Options, presetOptions } from './options';
+export { handleProblem, notifyProblem, throwProblem } from './problem';

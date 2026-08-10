@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, IconSet, type MountProps, useOptions } from '@cmfx/components';
-import { type Scheme, ThemeProvider, useTheme } from '@cmfx/themes';
+import { type MountProps, type Scheme, ThemeProvider, useTheme } from '@cmfx/cdk';
+import { Button, Divider, IconSet, useOptions } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';

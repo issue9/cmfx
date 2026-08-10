@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type API, ContextNotFoundError, type REST } from '@cmfx/core';
+import { ContextNotFoundError, type ProblemHandler, useLocale } from '@cmfx/cdk';
+import type { API, REST } from '@cmfx/core';
 import { createContext, type JSX, type ParentProps, useContext } from 'solid-js';
 
-import { useLocale } from '@components/context/locale';
-import { type ProblemHandler, useOptions } from '@components/context/options';
+import { useOptions } from '@components/context/options';
 
 const apiContext = createContext<API>();
 

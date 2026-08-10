@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import { createSignal, type JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClear from '~icons/material-symbols/cancel-rounded';
 import IconOK from '~icons/material-symbols/check-circle-unread-outline-rounded';
@@ -9,7 +10,6 @@ import IconLink from '~icons/material-symbols/link-2-rounded';
 import IconVisit from '~icons/material-symbols/pip-exit-outline-rounded';
 
 import { Button } from '@components/button';
-import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { InputBase } from '@components/input';
 import styles from './style.module.css';

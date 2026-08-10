@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Menu, useLocale } from '@cmfx/components';
-import { joinClass } from '@cmfx/themes';
+import { joinClass, useLocale } from '@cmfx/cdk';
+import { Drawer, Menu } from '@cmfx/components';
 import type { RouteDefinition } from '@solidjs/router';
 import { onCleanup, onMount, type ParentProps, type Setter } from 'solid-js';
 

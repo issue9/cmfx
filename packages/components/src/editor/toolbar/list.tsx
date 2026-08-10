@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import { createSignal, type JSX, onCleanup, onMount, type ParentProps } from 'solid-js';
 import IconBulleted from '~icons/material-symbols/format-list-bulleted-rounded';
 import IconNumbered from '~icons/material-symbols/format-list-numbered-rounded';
@@ -9,7 +10,6 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down-rounded';
 import IconList from '~icons/material-symbols/lists-rounded';
 
 import { Button } from '@components/button';
-import { useLocale } from '@components/context';
 import { Dropdown } from '@components/menu';
 import styles from './style.module.css';
 import type { Props as ItemProps } from './types';

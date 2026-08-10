@@ -37,7 +37,7 @@
 				]
 			}
 		],
-		"pkg": "@cmfx/components"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "function",
@@ -47,6 +47,6 @@
 		"return": {
 			"type": "Locale"
 		},
-		"pkg": "@cmfx/components"
+		"pkg": "@cmfx/cdk"
 	}
 ]

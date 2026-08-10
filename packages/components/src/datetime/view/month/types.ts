@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { BaseRef, RefProps, ThemeProps } from '@cmfx/cdk';
 import type { getISOWeek } from '@cmfx/core';
-import type { ThemeProps } from '@cmfx/themes';
 
-import type { BaseRef, RefProps } from '@components/base';
 import type { Week } from '@components/datetime/utils';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
 

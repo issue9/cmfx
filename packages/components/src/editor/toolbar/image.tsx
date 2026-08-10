@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
 import IconClose from '~icons/material-symbols/cancel-rounded';
 import IconOK from '~icons/material-symbols/check-circle-unread-outline';
 import IconImage from '~icons/material-symbols/image-inset-outline-rounded';
 
 import { Button } from '@components/button';
-import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Form } from '@components/form';
 import { InputText } from '@components/input';

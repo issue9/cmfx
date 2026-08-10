@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
+import { type BaseRef, joinClass, type RefProps, style2String, type ThemeProps, type ValueProps } from '@cmfx/cdk';
 import { Editor } from '@tiptap/core';
 import { Image } from '@tiptap/extension-image';
 import { Subscript } from '@tiptap/extension-subscript';
@@ -13,7 +13,6 @@ import { Placeholder } from '@tiptap/extensions';
 import { StarterKit } from '@tiptap/starter-kit';
 import { createEffect, type JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import styles from './style.module.css';
 import { Toolbar } from './toolbar';

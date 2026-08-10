@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, style2String, type ThemeProps } from '@cmfx/themes';
+import { type BaseRef, joinClass, type RefProps, style2String, type ThemeProps, type ValueProps } from '@cmfx/cdk';
 import { createEffect, createSignal, type JSX, mergeProps } from 'solid-js';
 
-import type { BaseRef, RefProps, ValueProps } from '@components/base';
 import { Form } from '@components/form';
 import type { InputBase } from '@components/input';
 import styles from './style.module.css';

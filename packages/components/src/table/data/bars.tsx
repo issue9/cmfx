@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import { Exporter, type FlattenKeys, type Query } from '@cmfx/core';
 import { type JSX, type ParentProps, Show } from 'solid-js';
 import IconExcel from '~icons/icon-park-twotone/excel';
@@ -14,7 +15,6 @@ import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Button, PrintButton, SplitButton, ToggleButton } from '@components/button';
 import { Checkbox } from '@components/checkbox';
-import { useLocale } from '@components/context';
 import { Dialog } from '@components/dialog';
 import { Label } from '@components/label';
 import { Dropdown } from '@components/menu';

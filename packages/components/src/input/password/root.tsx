@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { RefProps } from '@cmfx/cdk';
 import { type JSX, mergeProps, onMount } from 'solid-js';
 import IconVisibility from '~icons/material-symbols/visibility';
 import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
-import type { RefProps } from '@components/base';
 import { ToggleButton } from '@components/button';
 import { Form } from '@components/form';
 import { InputText } from '@components/input/text';

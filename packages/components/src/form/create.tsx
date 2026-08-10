@@ -7,8 +7,7 @@ import { type Component, type JSX, mergeProps } from 'solid-js';
 
 import { API, type Options } from './api';
 import { Field, type FormFieldProps } from './field';
-import type { FormProps } from './form';
-import { Form } from './form';
+import { Form, type FormProps } from './form';
 
 type FormCreatorProps<T extends Flattenable, R = unknown, P = never> = Omit<FormProps<T, R, P>, 'api'>;
 

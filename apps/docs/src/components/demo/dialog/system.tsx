@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Button, Dialog } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 
 export default function (_: MountProps): JSX.Element {

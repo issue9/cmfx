@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ConfirmButton, Dialog, Form, InputText, QRCode, useLocale, useREST } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Button, ConfirmButton, Dialog, Form, InputText, QRCode, useREST } from '@cmfx/components';
 import { type Token, zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';

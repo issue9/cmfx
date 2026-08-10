@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type ChangeFunc, Code, type RefProps, useLocale, useOptions } from '@cmfx/components';
-import type { StyleProps } from '@cmfx/themes';
+import { type ChangeFunc, type RefProps, type StyleProps, useLocale } from '@cmfx/cdk';
+import { Code, useOptions } from '@cmfx/components';
 import { createMemo, type JSX } from 'solid-js';
 
 import { fileObject2Map, type MDXFileObject } from './file';

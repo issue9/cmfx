@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DataTable, Label, Page, useLocale, useREST } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { DataTable, Label, Page, useREST } from '@cmfx/components';
 import { createMemo, type JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
 import IconTask from '~icons/material-symbols/task';

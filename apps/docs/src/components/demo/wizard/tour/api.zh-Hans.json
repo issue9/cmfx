@@ -121,7 +121,7 @@
 			{
 				"name": "pos",
 				"summary": "弹出框相对于关联元素的位置\n\n",
-				"type": "PopoverPosition",
+				"type": "\"left\" | \"right\" | \"top\" | \"bottom\"",
 				"reactive": true
 			},
 			{

@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { AvailableEnumType } from '@components/base';
+import type { AvailableEnumType } from '@cmfx/cdk';
+
 import type { MenuItem, MenuItemDivider, MenuItemGroup, MenuItemItem, MenuItemItems } from './item';
 import type { MenuMultipleProps, MenuProps, MenuRef, MenuSingleProps } from './root';
 import { Menu as C, type MenuTag } from './root';

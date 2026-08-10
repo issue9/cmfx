@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { StyleProps } from '@cmfx/themes';
+import type { BaseRef, ChangeFunc, StyleProps, ValueProps } from '@cmfx/cdk';
 import equal from 'fast-deep-equal';
 import type { Context, JSX, ParentProps } from 'solid-js';
 import { createContext, createEffect, createSignal, createUniqueId, splitProps, untrack, useContext } from 'solid-js';
 
-import type { BaseRef, ChangeFunc, ValueProps } from '@components/base';
 import type { FormFieldAccessor } from '@components/form/api';
 
 export type FormFieldRef = BaseRef<HTMLDivElement>;

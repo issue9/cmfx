@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextNotFoundError } from '@cmfx/core';
+import { ContextNotFoundError } from '@cmfx/cdk';
 import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 
 import type { build } from '@admin/app/options';

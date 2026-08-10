@@ -8,10 +8,10 @@ import { APIError, type Problem } from '@cmfx/core';
 import { error } from '@components/notify/notify/notify';
 
 /**
- * 定义了对 {@link Problem} 的处理函数类型
+ * 将所有类型的 Problem 以异常抛出
+ *
+ * @typeParam E - {@link Problem} 的泛型参数 E；
  */
-export type ProblemHandler<E = never> = (p?: Problem<E>) => Promise<void>;
-
 export async function throwProblem<P = never>(p?: Problem<P>): Promise<void> {
 	if (p) {
 		throw APIError.fromProblem(p);
@@ -20,6 +20,8 @@ export async function throwProblem<P = never>(p?: Problem<P>): Promise<void> {
 
 /**
  * 将所有类型的 Problem 都以通知的形式通知用户
+ *
+ * @typeParam E - {@link Problem} 的泛型参数 E；
  */
 export async function notifyProblem<P = never>(p?: Problem<P>): Promise<void> {
 	if (p) {

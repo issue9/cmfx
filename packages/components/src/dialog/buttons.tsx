@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import { type JSX, splitProps } from 'solid-js';
 
 import { Button } from '@components/button';
-import { useLocale } from '@components/context';
 import { useDialog } from './context';
 import styles from './style.module.css';
 

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Appbar, Button, ButtonGroup, Checkbox, useLocale } from '@cmfx/components';
-import { type Mode, ThemeProvider, useTheme } from '@cmfx/themes';
+import { type Mode, ThemeProvider, useLocale, useTheme } from '@cmfx/cdk';
+import { Appbar, Button, ButtonGroup, Checkbox } from '@cmfx/components';
 import { createSignal, type JSX, Match, Show, Switch } from 'solid-js';
 import IconNone from '~icons/ic/round-contrast';
 import IconDark from '~icons/material-symbols/dark-mode';

@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Appbar, Button, type MountProps, useOptions } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Appbar, Button, useOptions } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconEye from '~icons/material-symbols/eyeglasses';
 

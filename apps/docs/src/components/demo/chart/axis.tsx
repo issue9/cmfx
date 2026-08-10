@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ChartAxis, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { ChartAxis } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 

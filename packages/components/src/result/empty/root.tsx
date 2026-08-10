@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ThemeProps } from '@cmfx/themes';
+import type { BaseRef, RefProps, ThemeProps } from '@cmfx/cdk';
 import { type JSX, mergeProps, type ParentProps } from 'solid-js';
 import IconNoData from '~icons/oui/index-close';
 
-import type { BaseRef, RefProps } from '@components/base';
 import { Result } from '@components/result/result';
 
 export type EmptyRef = BaseRef<Result.Ref>;

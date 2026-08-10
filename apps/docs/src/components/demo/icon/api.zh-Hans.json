@@ -7,7 +7,8 @@
 				"name": "icons",
 				"summary": "图标集\n\n",
 				"remarks": "键名为图标的 ID，键值为图标实例；\n\n",
-				"type": "Record<string, JSX.Element>"
+				"type": "Record<string, JSX.Element>",
+				"readonly": true
 			},
 			{
 				"name": "value",
@@ -19,12 +20,14 @@
 				"name": "easing",
 				"summary": "缓动函数\n\n",
 				"remarks": "如果需要自定义缓动函数，可以通过使用\n`registerEasing`\n方法进行注册。\n\n",
-				"type": "string | undefined"
+				"type": "string | undefined",
+				"readonly": true
 			},
 			{
 				"name": "rotation",
 				"summary": "旋转方式\n\n",
-				"type": "\"clock\" | \"counterclock\" | \"none\" | \"random\" | undefined"
+				"type": "\"clock\" | \"counterclock\" | \"none\" | \"random\" | undefined",
+				"readonly": true
 			},
 			{
 				"name": "palette",

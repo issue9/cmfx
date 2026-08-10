@@ -60,7 +60,7 @@
 			{
 				"name": "problemHandler",
 				"summary": "对\n`Problem`\n的处理函数\n\n",
-				"type": "ProblemHandler<never> | undefined",
+				"type": "ProblemHandler | undefined",
 				"def": "`handleProblem`\n\n"
 			},
 			{

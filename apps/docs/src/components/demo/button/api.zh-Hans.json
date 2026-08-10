@@ -520,7 +520,7 @@
 							{
 								"name": "align",
 								"summary": "菜单展开的对齐方式\n\n",
-								"type": "PopoverAlign | undefined",
+								"type": "\"start\" | \"center\" | \"end\" | \"stretch\" | undefined",
 								"def": "'end'\n\n",
 								"reactive": true
 							}
@@ -684,7 +684,7 @@
 							{
 								"name": "align",
 								"summary": "菜单展开的对齐方式\n\n",
-								"type": "PopoverAlign | undefined",
+								"type": "\"start\" | \"center\" | \"end\" | \"stretch\" | undefined",
 								"def": "'end'\n\n",
 								"reactive": true
 							}

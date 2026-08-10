@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, IconSet, type MountProps, Notify } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Button, IconSet, Notify } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';

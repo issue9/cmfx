@@ -2,12 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition } from '@cmfx/core';
+import { adjustPopoverPosition, type BaseRef, type RefProps, useLocale } from '@cmfx/cdk';
 import { createEffect, createMemo, createSignal, For, type JSX, untrack } from 'solid-js';
 
-import type { BaseRef, RefProps } from '@components/base';
 import { Button } from '@components/button';
-import { useLocale } from '@components/context';
 import { months } from '@components/datetime/utils';
 import { YearPanel } from '@components/datetime/view/internal/yearpanel';
 import styles from './style.module.css';

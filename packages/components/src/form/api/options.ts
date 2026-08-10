@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { ProblemHandler } from '@cmfx/cdk';
 import type { Flattenable, Problem, Return, Validator } from '@cmfx/core';
-
-import type { ProblemHandler } from '@components/context';
 
 /**
  * 初始化 API 的参数

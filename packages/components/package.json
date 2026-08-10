@@ -35,7 +35,6 @@
 			"import": "./lib/index.js"
 		},
 		"./style.css": "./lib/style.css",
-		"./tailwind.css": "./lib/tailwind.css",
 		"./*.lang": {
 			"types": "./lib/*.lang.d.ts",
 			"import": "./lib/*.lang.js"
@@ -46,7 +45,7 @@
 	},
 	"peerDependencies": {
 		"@cmfx/core": "workspace:*",
-		"@cmfx/themes": "workspace:*",
+		"@cmfx/cdk": "workspace:*",
 		"@solidjs/router": "catalog:",
 		"solid-js": "catalog:"
 	},

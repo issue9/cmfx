@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Appbar, AppLayout, Button, type MountProps, ToggleButton, useOptions } from '@cmfx/components';
-import { breakpoints } from '@cmfx/themes';
+import { breakpoints, type MountProps } from '@cmfx/cdk';
+import { Appbar, AppLayout, Button, ToggleButton, useOptions } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconPerson from '~icons/material-symbols/person';
 

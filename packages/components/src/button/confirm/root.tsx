@@ -2,14 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
-import { joinClass } from '@cmfx/themes';
+import { adjustPopoverPosition, handleEvent, joinClass, type RefProps, useLocale } from '@cmfx/cdk';
+import { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { handleEvent, type RefProps } from '@components/base';
 import { Button } from '@components/button/button';
-import { useLocale } from '@components/context';
 import styles from './style.module.css';
 
 export interface ConfirmButtonRef<A extends boolean = false> {

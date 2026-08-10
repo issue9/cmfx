@@ -1,0 +1,60 @@
+{
+	"name": "@cmfx/cdk",
+	"version": "0.15.0",
+	"type": "module",
+	"description": "提供 cmfx 前端组件的开发底层工具",
+	"author": {
+		"name": "caixw",
+		"url": "https://caixw.io"
+	},
+	"homepage": "https://github.com/issue9/cmfx",
+	"bugs": {
+		"url": "https://github.com/issue9/cmfx/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/issue9/cmfx",
+		"directory": "packages/cdk"
+	},
+	"keywords": [
+		"cmfx",
+		"cdk",
+		"component develop kit"
+	],
+	"license": "MIT",
+	"files": [
+		"lib/",
+		"README.md",
+		"LICENSE"
+	],
+	"types": "./lib/index.d.ts",
+	"module": "./lib/index.js",
+	"exports": {
+		".": {
+			"types": "./lib/index.d.ts",
+			"import": "./lib/index.js"
+		},
+		"./style.css": "./lib/style.css",
+		"./tailwind.css": "./lib/tailwind.css"
+	},
+	"scripts": {
+		"build": "vite build"
+	},
+	"peerDependencies": {
+		"@cmfx/core": "workspace:*",
+		"solid-js": "catalog:",
+		"tailwindcss": "catalog:"
+	},
+	"devDependencies": {
+		"@microsoft/api-extractor": "catalog:",
+		"@tailwindcss/vite": "catalog:",
+		"@types/node": "catalog:",
+		"browserslist": "catalog:",
+		"browserslist-to-esbuild": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"unplugin-dts": "catalog:",
+		"vite-plugin-solid": "catalog:",
+		"vitest": "catalog:"
+	}
+}

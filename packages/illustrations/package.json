@@ -46,8 +46,7 @@
 	},
 	"peerDependencies": {
 		"@cmfx/core": "workspace:*",
-		"@cmfx/components": "workspace:*",
-		"@cmfx/themes": "workspace:*",
+		"@cmfx/cdk": "workspace:*",
 		"solid-js": "catalog:"
 	},
 	"dependencies": {

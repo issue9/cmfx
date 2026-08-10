@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import { createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 import IconRedo from '~icons/material-symbols/redo-rounded';
 import IconUndo from '~icons/material-symbols/undo-rounded';
 
 import { Button } from '@components/button';
-import { useLocale } from '@components/context';
 import styles from './style.module.css';
 import type { Props } from './types';
 
