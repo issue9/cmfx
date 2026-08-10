@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, ContextNotFoundError, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, ContextNotFoundError, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import type { Flattenable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show } from 'solid-js';
 
 import { Button as Btn } from '@components/button/button';
-import { useLocale } from '@components/context';
 import { Alert } from '@components/notify';
 import { Spin } from '@components/spin';
 import { type FormContext, FormProvider, useForm } from './context';

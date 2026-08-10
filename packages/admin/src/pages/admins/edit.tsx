@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, InputText, Page, Table, useLocale, useREST } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Button, Divider, Form, InputText, Page, Table, useREST } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, type JSX, onMount } from 'solid-js';
 import * as z from 'zod';

@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import {
 	Album,
 	Avatar,
@@ -12,7 +13,6 @@ import {
 	Page,
 	Table,
 	Upload,
-	useLocale,
 	useREST,
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show } from 'solid-js';

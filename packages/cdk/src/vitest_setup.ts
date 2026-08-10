@@ -3,3 +3,19 @@
 // SPDX-License-Identifier: MIT
 
 import './style.css';
+
+// https://github.com/jsdom/jsdom/issues/3522
+window.matchMedia =
+	window.matchMedia ||
+	vi.fn(() => {
+		return {
+			matches: false,
+			media: '',
+			onchange: null,
+			addListener: vi.fn(),
+			removeListener: vi.fn(),
+			addEventListener: vi.fn(),
+			removeEventListener: vi.fn(),
+			dispatchEvent: vi.fn(),
+		};
+	});

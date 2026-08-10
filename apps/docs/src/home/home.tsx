@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, SplitButton, useLocale, useOptions } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Button, SplitButton, useOptions } from '@cmfx/components';
 import { createEffect } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 import IconStart from '~icons/mdi/read-more';

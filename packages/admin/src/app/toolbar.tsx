@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import type { Menu } from '@cmfx/components';
-import { Button, Dropdown, Search, ToggleButton, useAPI, useLocale, useOptions } from '@cmfx/components';
+import { Button, Dropdown, Search, ToggleButton, useAPI, useOptions } from '@cmfx/components';
 import type { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import type { Component } from 'solid-js';

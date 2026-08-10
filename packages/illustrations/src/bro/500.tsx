@@ -1,6 +1,6 @@
 // 图片源码来源于 https://storyset.com/bro 遵循其自身的软件许可
 
-import { useLocale } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
 
 import { buildStorySetProps, type Props } from '@illustrations/common';

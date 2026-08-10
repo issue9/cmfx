@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Scheme, schemes } from '@cmfx/cdk';
-import { createChartLocaleLoader, Dialog, type Options, useLocale } from '@cmfx/components';
+import { type Scheme, schemes, useLocale } from '@cmfx/cdk';
+import { createChartLocaleLoader, Dialog, type Options } from '@cmfx/components';
 import { Config, createZodLocaleLoader } from '@cmfx/core';
 
 import { initVersionCheckWorker } from './version_checker';

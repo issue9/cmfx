@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { changeMode, type Mode, modes } from './mode';
+export type { Props as ThemeProviderProps, ThemeContext } from './context';
+export { ThemeProvider, useTheme } from './context';
+export { type Mode, modes } from './mode';
 export { isReducedMotion } from './motion';
 export { nextPalette, type Palette, palette, palettes } from './palette';
 export type { StyleProps, ThemeProps } from './props';
 export { classList, joinClass, style2String } from './props';
-export { type Breakpoint, breakpoints, type Radius, readScheme, type Scheme, writeScheme } from './scheme';
+export { type Breakpoint, breakpoints, type Radius, readScheme, type Scheme } from './scheme';
 export * from './schemes';

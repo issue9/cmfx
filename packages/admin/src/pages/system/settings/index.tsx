@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, Tab, useLocale } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Page, Tab } from '@cmfx/components';
 import { createSignal, type JSX, Match, Switch } from 'solid-js';
 
 import { Audit } from './audit';

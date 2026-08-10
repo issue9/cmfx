@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
 import { useParams } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 

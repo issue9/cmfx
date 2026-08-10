@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import { createSignal, type JSX, onCleanup, onMount } from 'solid-js';
 import IconAlign from '~icons/material-symbols/align-space-even-rounded';
 import IconAlignCenter from '~icons/material-symbols/format-align-center-rounded';
@@ -11,7 +12,6 @@ import IconAlignRight from '~icons/material-symbols/format-align-right-rounded';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down-rounded';
 
 import { Button } from '@components/button';
-import { useLocale } from '@components/context';
 import { Dropdown } from '@components/menu';
 import styles from './style.module.css';
 import type { Props } from './types';

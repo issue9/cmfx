@@ -8,10 +8,10 @@ import { createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { afterAll, describe, expect, test } from 'vitest';
 
-import { applyTheme, hasTheme, type Theme, ThemeProvider, useTheme } from './theme';
+import { applyTheme, hasTheme, type ThemeContext, ThemeProvider, useTheme } from './context';
 
 test('theme', () => {
-	let t: Theme = { scheme: schemes.green, mode: 'light' };
+	let t: ThemeContext = { scheme: schemes.green, mode: 'light' };
 
 	let div = document.createElement('div');
 	applyTheme(div, t);

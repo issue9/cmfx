@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, type ChangeFunc, joinClass, PropsError, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import type { BaseRef, ChangeFunc, RefProps, ThemeProps } from '@cmfx/cdk';
+import { joinClass, PropsError, useLocale } from '@cmfx/cdk';
 import { createMemo, createSignal, type JSX, mergeProps } from 'solid-js';
 
-import { useLocale, useOptions } from '@components/context';
+import { useOptions } from '@components/context';
 import { Choice } from '@components/menu';
 import { Pagination } from '@components/pagination/pagination';
 import styles from './style.module.css';

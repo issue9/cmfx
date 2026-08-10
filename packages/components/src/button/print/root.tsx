@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, printElement, type RefProps } from '@cmfx/cdk';
+import { type BaseRef, printElement, type RefProps, useLocale } from '@cmfx/cdk';
 import { type JSX, mergeProps, splitProps } from 'solid-js';
 import IconPrint from '~icons/material-symbols/print';
 
 import { Button } from '@components/button/button';
-import { useLocale } from '@components/context';
 
 export interface PrintButtonRef extends BaseRef<Button.Ref<false>> {
 	/**

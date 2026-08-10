@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Card, type Menu, Page, useLocale } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Card, type Menu, Page } from '@cmfx/components';
 import type { ArrayElement, Locale } from '@cmfx/core';
 import { A, type RouteDefinition } from '@solidjs/router';
 import { For, type JSX } from 'solid-js';

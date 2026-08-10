@@ -2,14 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { movable, type ThemeProps } from '@cmfx/cdk';
-import type { JSX, ParentProps } from 'solid-js';
-import { createSignal, onCleanup, onMount, Show } from 'solid-js';
+import { movable, type ThemeProps, useLocale } from '@cmfx/cdk';
+import { createSignal, onCleanup, onMount, Show, type JSX, type ParentProps } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconMinimize from '~icons/material-symbols/minimize-rounded';
 
 import { Button, ToggleButton } from '@components/button';
-import { useLocale } from '@components/context';
 import { CancelButton } from './buttons';
 import { useDialog } from './context';
 import styles from './style.module.css';

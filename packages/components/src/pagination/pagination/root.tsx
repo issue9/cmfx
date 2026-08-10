@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, type ChangeFunc, PropsError, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, type ChangeFunc, PropsError, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import { createEffect, createSignal, For, type JSX, mergeProps } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
@@ -10,7 +10,6 @@ import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
 import { Button, ButtonGroup } from '@components/button';
-import { useLocale } from '@components/context';
 
 export interface PaginationRef extends BaseRef<ButtonGroup.Ref> {
 	/**

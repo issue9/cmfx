@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { RefProps } from '@cmfx/cdk';
+import { type RefProps, useLocale } from '@cmfx/cdk';
 import { createEffect, createSignal, type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconCollapse from '~icons/material-symbols/collapse-content';
 import IconExpand from '~icons/material-symbols/expand-content';
@@ -11,7 +11,6 @@ import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
 import { Button } from '@components/button/button';
 import { presetProps } from '@components/button/common/types';
-import { useLocale } from '@components/context';
 import { IconSet } from '@components/icon';
 import styles from './style.module.css';
 

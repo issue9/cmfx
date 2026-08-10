@@ -1,6 +1,6 @@
 // 图片源码来源于 https://undraw.co/illustrations 遵循其自身的软件许可
 
-import { useLocale } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
 
 import { buildUndrawProps, type Props } from '@illustrations/common';

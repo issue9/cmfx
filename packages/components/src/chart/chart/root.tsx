@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, isReducedMotion, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, isReducedMotion, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import * as echarts from 'echarts';
 import { createEffect, type JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
-import { useLocale, useOptions } from '@components/context';
+import { useOptions } from '@components/context';
 import { matchLocale } from './locale.ts';
 
 export type ChartOption = echarts.EChartsOption;

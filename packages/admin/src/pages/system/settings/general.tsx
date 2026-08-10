@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Form, InputText, useLocale, useREST } from '@cmfx/components';
+import { useLocale } from '@cmfx/cdk';
+import { Form, InputText, useREST } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { z } from 'zod';
 

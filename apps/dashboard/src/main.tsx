@@ -17,8 +17,8 @@ import {
 	roles,
 	system,
 } from '@cmfx/admin';
-import { type Scheme, schemes } from '@cmfx/cdk';
-import { Card, createChartLocaleLoader, Dialog, Label, useLocale } from '@cmfx/components';
+import { type Scheme, schemes, useLocale } from '@cmfx/cdk';
+import { Card, createChartLocaleLoader, Dialog, Label } from '@cmfx/components';
 import { createZodLocaleLoader, Hotkey } from '@cmfx/core';
 import YAML from 'yaml';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';

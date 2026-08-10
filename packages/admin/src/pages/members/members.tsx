@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { noPrint } from '@cmfx/cdk';
-import { Button, DataTable, InputText, Page, useLocale, useREST } from '@cmfx/components';
+import { noPrint, useLocale } from '@cmfx/cdk';
+import { Button, DataTable, InputText, Page, useREST } from '@cmfx/components';
 import type { Query } from '@cmfx/core';
 import { type Component, createMemo, type JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';

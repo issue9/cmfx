@@ -727,9 +727,6 @@ importers:
       '@cmfx/cdk':
         specifier: workspace:*
         version: link:../cdk
-      '@cmfx/components':
-        specifier: workspace:*
-        version: link:../components
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core

@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, isReducedMotion, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, isReducedMotion, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import { formatDuration } from '@cmfx/core';
-import type { JSX, ParentProps } from 'solid-js';
-import { Show } from 'solid-js';
+import { type JSX, type ParentProps, Show } from 'solid-js';
 import IconTransitionDuration from '~icons/material-symbols/animated-images-rounded';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconNotify from '~icons/material-symbols/notifications-active-rounded';
@@ -18,7 +17,7 @@ import IconTimezone from '~icons/mdi/timezone';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
 import { Button } from '@components/button';
-import { useLocale, useOptions } from '@components/context';
+import { useOptions } from '@components/context';
 import { Timezone } from '@components/datetime';
 import { Description } from '@components/description';
 import { Divider } from '@components/divider';

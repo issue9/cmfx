@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass } from '@cmfx/cdk';
+import { joinClass, useLocale } from '@cmfx/cdk';
 import type { Menu } from '@cmfx/components';
-import { Button, ButtonGroup, Code, Dialog, Dropdown, Label, Notify, useLocale, useOptions } from '@cmfx/components';
+import { Button, ButtonGroup, Code, Dialog, Dropdown, Label, Notify, useOptions } from '@cmfx/components';
 import { rand } from '@cmfx/core';
 import { createMemo, type JSX } from 'solid-js';
 import { unwrap } from 'solid-js/store';

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/cdk';
 import Color from 'colorjs.io';
 import { createEffect, type JSX, untrack } from 'solid-js';
 
-import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Slider } from '@components/slider';
 import { type Accessor, alphaConverter, type ColorSpace } from './space';

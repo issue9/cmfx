@@ -8,8 +8,6 @@ const reducedMotionWatcher = window.matchMedia('(prefers-reduced-motion: reduce)
 
 const [isReducedMotion, setIsReducedMotion] = createSignal<boolean>(reducedMotionWatcher.matches);
 
-reducedMotionWatcher.addEventListener('change', e => {
-	setIsReducedMotion(e.matches);
-});
+reducedMotionWatcher.addEventListener('change', e => setIsReducedMotion(e.matches));
 
 export { isReducedMotion };

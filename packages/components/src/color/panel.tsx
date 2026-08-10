@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, joinClass, PropsError, type RefProps, type ThemeProps, type ValueProps } from '@cmfx/cdk';
+import type { BaseRef, RefProps, ThemeProps, ValueProps } from '@cmfx/cdk';
+import { joinClass, PropsError, useLocale } from '@cmfx/cdk';
 import Color from 'colorjs.io';
 import { createSignal, type JSX, mergeProps, Show } from 'solid-js';
 import IconPicker from '~icons/circum/picker-half';
@@ -10,7 +11,6 @@ import IconClose from '~icons/material-symbols/cancel';
 
 import { Button } from '@components/button';
 import { ClipboardWriter } from '@components/clipboard';
-import { useLocale } from '@components/context';
 import { Form } from '@components/form';
 import { Choice } from '@components/menu/choice';
 import type { ColorSpace } from './space';

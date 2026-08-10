@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import { type Converter, isPage, type Page, type Query } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, For, type JSX, mergeProps, Show } from 'solid-js';
 
-import { useLocale, useOptions } from '@components/context';
+import { useOptions } from '@components/context';
 import { Divider } from '@components/divider';
 import { Form } from '@components/form';
 import { Empty } from '@components/result';
