@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseRef, RefProps } from '@cmfx/cdk';
-import { printElement } from '@cmfx/core';
+import { type BaseRef, printElement, type RefProps } from '@cmfx/cdk';
 import { type JSX, mergeProps, splitProps } from 'solid-js';
 import IconPrint from '~icons/material-symbols/print';
 

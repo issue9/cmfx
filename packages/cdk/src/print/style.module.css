@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
+ @reference "@cdk/style.css";
+
 @media print {
 	body * {
 		visibility: hidden; /* 隐藏所有内容 */

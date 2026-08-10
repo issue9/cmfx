@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Layout, layouts, type Palette, palettes } from '@cmfx/cdk';
+import { type Layout, layouts, type Palette, type PopoverPosition, palettes, popoverPositions } from '@cmfx/cdk';
 import { Button, Checkbox, Choice, Form, InputNumber, useLocale } from '@cmfx/components';
-import type { DictKeys, PopoverPosition } from '@cmfx/core';
+import type { DictKeys } from '@cmfx/core';
 import { type Accessor, type Component, createSignal, type JSX, type Setter } from 'solid-js';
 
 import type messages from '@docs/messages/en.lang';
 import type { StagesProps } from './stages';
 
 export function posSelector(preset?: PopoverPosition) {
-	return arraySelector('_d.demo.tooltipPos', ['left', 'right', 'top', 'bottom'], preset ?? 'left');
+	return arraySelector('_d.demo.tooltipPos', popoverPositions, preset ?? 'left');
 }
 
 export function labelAlignSelector(preset: Form.LabelAlignment) {

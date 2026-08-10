@@ -45,6 +45,7 @@ export function movable(toolbar: HTMLElement, container: HTMLElement): Cancel {
 	toolbar.addEventListener('mousemove', mouseMove);
 	toolbar.addEventListener('mouseup', mouseFree);
 	toolbar.addEventListener('mouseout', mouseFree);
+	const mouseStyle = toolbar.style.cursor;
 	toolbar.style.cursor = 'move';
 
 	return () => {
@@ -52,6 +53,6 @@ export function movable(toolbar: HTMLElement, container: HTMLElement): Cancel {
 		toolbar.removeEventListener('mousemove', mouseMove);
 		toolbar.removeEventListener('mouseup', mouseFree);
 		toolbar.removeEventListener('mouseout', mouseFree);
-		toolbar.style.cursor = 'pointer';
+		toolbar.style.cursor = mouseStyle;
 	};
 }

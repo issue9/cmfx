@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import tailwindcss from '@tailwindcss/vite';
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 import dts from 'unplugin-dts/vite';
 import { defineConfig } from 'vite';
@@ -26,6 +27,7 @@ export default defineConfig({
 			{ src: '../../LICENSE', dest: '' },
 			{ src: './src/tailwind.css', dest: outDir },
 		]),
+		tailwindcss(),
 	],
 
 	resolve: {

@@ -20,7 +20,7 @@
 		"return": {
 			"type": "void"
 		},
-		"pkg": "@cmfx/core"
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "function",

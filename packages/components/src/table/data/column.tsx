@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Column as ExportColumn, noPrint, presetCellRenderFunc } from '@cmfx/core';
+import { noPrint } from '@cmfx/cdk';
+import { type Column as ExportColumn, presetCellRenderFunc } from '@cmfx/core';
 import { createMemo, type JSX } from 'solid-js';
 import { createStore, type Store } from 'solid-js/store';
 

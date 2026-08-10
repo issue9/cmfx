@@ -62,10 +62,10 @@ build-ts-plugin-version:
 build-ts-core:
 	pnpm --filter=./packages/core run build
 
-build-ts-components: build-ts-core build-ts-cdk
+build-ts-components: build-ts-cdk
 	pnpm --filter=./packages/components run build
 
-build-ts-cdk:
+build-ts-cdk: build-ts-core
 	pnpm --filter=./packages/cdk run build
 
 build-ts-illustrations: build-ts-components

@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseRef, RefProps } from '@cmfx/cdk';
-import { adjustPopoverPosition } from '@cmfx/core';
+import { adjustPopoverPosition, type BaseRef, type RefProps } from '@cmfx/cdk';
 import { createEffect, createMemo, createSignal, For, type JSX, untrack } from 'solid-js';
 
 import { Button } from '@components/button';

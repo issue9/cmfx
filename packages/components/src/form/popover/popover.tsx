@@ -3,8 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { BaseRef, RefProps, ThemeProps, ValueProps } from '@cmfx/cdk';
-import { classList, joinClass, style2String } from '@cmfx/cdk';
-import { adjustPopoverPosition } from '@cmfx/core';
+import { adjustPopoverPosition, classList, joinClass, style2String } from '@cmfx/cdk';
 import { createEffect, createSignal, type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 
 import { type FormDataProps, type FormFieldContext, useField } from '@components/form/field';

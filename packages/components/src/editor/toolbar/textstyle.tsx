@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition } from '@cmfx/core';
+import { adjustPopoverPosition } from '@cmfx/cdk';
 import { createEffect, createSignal, type JSX, on, onCleanup, onMount } from 'solid-js';
 import IconClose from '~icons/material-symbols/cancel-rounded';
 import IconColor from '~icons/material-symbols/colors-rounded';

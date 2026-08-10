@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
-import { getScrollableParent } from '@cmfx/core';
+import { type BaseRef, getScrollableParent, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
 import { type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 

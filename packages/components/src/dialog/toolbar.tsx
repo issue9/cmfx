@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ThemeProps } from '@cmfx/cdk';
-import { movable } from '@cmfx/core';
+import { movable, type ThemeProps } from '@cmfx/cdk';
 import type { JSX, ParentProps } from 'solid-js';
 import { createSignal, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';

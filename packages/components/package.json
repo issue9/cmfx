@@ -35,7 +35,6 @@
 			"import": "./lib/index.js"
 		},
 		"./style.css": "./lib/style.css",
-		"./tailwind.css": "./lib/tailwind.css",
 		"./*.lang": {
 			"types": "./lib/*.lang.d.ts",
 			"import": "./lib/*.lang.js"

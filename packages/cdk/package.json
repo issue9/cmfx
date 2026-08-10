@@ -34,6 +34,7 @@
 			"types": "./lib/index.d.ts",
 			"import": "./lib/index.js"
 		},
+		"./style.css": "./lib/style.css",
 		"./tailwind.css": "./lib/tailwind.css"
 	},
 	"scripts": {
@@ -41,7 +42,8 @@
 	},
 	"peerDependencies": {
 		"@cmfx/core": "workspace:*",
-		"solid-js": "catalog:"
+		"solid-js": "catalog:",
+		"tailwindcss": "catalog:"
 	},
 	"devDependencies": {
 		"@microsoft/api-extractor": "catalog:",

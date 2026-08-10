@@ -523,6 +523,9 @@ importers:
       solid-js:
         specifier: 'catalog:'
         version: 1.9.14
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.3.3
     devDependencies:
       '@microsoft/api-extractor':
         specifier: 'catalog:'
