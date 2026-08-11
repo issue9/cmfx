@@ -5,8 +5,9 @@
 import type { Options as XOptions } from '@cmfx/components';
 import { APIProvider, LockScreen, run, SSEProvider, useOptions as useXOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
-import { Navigate, type RouteDefinition, type Router, useNavigate } from '@solidjs/router';
-import { createContext, ErrorBoundary, type JSX, Match, type ParentProps, Switch, useContext } from 'solid-js';
+import { Navigate, type RouteDefinition, type Router, type RouteSectionProps, useNavigate } from '@solidjs/router';
+import type { Component, JSX, ParentProps } from 'solid-js';
+import { createContext, ErrorBoundary, Match, Switch, useContext } from 'solid-js';
 
 import { AdminLayout, AdminProvider, errorHandler, NotFound, OptionsProvider, useAdmin, useOptions } from './context';
 import { build as buildOptions, type Options, presetConfigName } from './options';
@@ -18,7 +19,12 @@ import { build as buildOptions, type Options, presetConfigName } from './options
  * @param o - 项目的初始化选项；
  * @param router - 指定路由对象，默认值同 {@link run} 中对应的参数；
  */
-export async function create(elementID: string, o: Options, router?: typeof Router): Promise<void> {
+export async function create(
+	elementID: string,
+	o: Options,
+	app?: Component<RouteSectionProps>,
+	router?: typeof Router,
+): Promise<void> {
 	const opt = buildOptions(o);
 
 	const routes: Array<RouteDefinition> = [
@@ -72,19 +78,19 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
 
 	await api.clearCache(); // 缓存不应该长期保存，防止上次退出时没有清除缓存。
 
-	const root = (p: ParentProps) => {
+	const root = (p: RouteSectionProps) => {
 		return (
 			<OptionsProvider {...opt}>
 				<APIProvider api={api}>
 					<ErrorBoundary fallback={errorHandler}>
-						<AdminProvider>{p.children}</AdminProvider>
+						<AdminProvider>{app ? app(p) : p.children}</AdminProvider>
 					</ErrorBoundary>
 				</APIProvider>
 			</OptionsProvider>
 		);
 	};
 
-	run(root, document.getElementById(elementID)!, xo, routes, router);
+	run(document.getElementById(elementID)!, xo, routes, root, router);
 }
 
 const lockScreenContext = createContext<{ lock(): void }>();

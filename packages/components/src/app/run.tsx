@@ -3,61 +3,33 @@
 // SPDX-License-Identifier: MIT
 
 import { HashRouter, type RouteDefinition, type Router, type RouteSectionProps } from '@solidjs/router';
-import { type Component, type JSX, Match, onMount, type ParentProps, Switch } from 'solid-js';
+import type { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { OptionsProvider, useOptions } from '@components/context/options/context';
-import { initEnv, type Options } from '@components/context/options/options';
-import { DialogProvider } from '@components/dialog/system';
-import { NotifyProvider } from '@components/notify/notify/notify';
-import styles from './style.module.css';
+import type { Options } from '@components/context/options/options';
+import { App } from './app';
 
 /**
  * 运行项目
  *
- * @remarks
- * 此方法提供了当前组件库一些必不可少的条件，比如 {@link useOptions} 等的数据，
- * 所以组件库必须要以此方法作为入口，否则部分组件可能无法正常运行。
- *
- * 此方法会将 'root' 作为 mountedElement 上的 `container-name` 值，
- * 子组件的 css 样式可以使用此作为容器查询，比如 {@link NotifyProvider} 就使用 `@sm/root:` 作为样式变体。
- *
- * @param app - 实际的内容组件；
- * @param mountedElement - 组件挂载的元素；
+ * @param mountedElement - 组件挂载的元素，参考 {@link AppProps#mountedElement}；
  * @param o - 初始化参数；
  * @param routes - 路由数据；
+ * @param app - 介绍根组件和路由组件之间的内容，如果为空则路由切换时直接显示路由中的内容；
  * @param router - 指定路由类型，默认为 {@link HashRouter}；
  */
 export function run(
-	app: Component<RouteSectionProps>,
 	mountedElement: HTMLElement,
 	o: Options,
 	routes: Array<RouteDefinition>,
+	app?: Component<RouteSectionProps>,
 	router: typeof Router = HashRouter,
 ): void {
-	mountedElement.classList.add(styles.root);
-
-	const [opt, complete] = initEnv(o);
-
 	const Root = (props: RouteSectionProps) => (
-		<Switch fallback={opt.loading({})}>
-			<Match when={complete()}>
-				<OptionsProvider {...opt}>
-					<DialogProvider mount={mountedElement} palette="primary">
-						<NotifyProvider mount={mountedElement}>
-							<Initialized>{app(props)}</Initialized>
-						</NotifyProvider>
-					</DialogProvider>
-				</OptionsProvider>
-			</Match>
-		</Switch>
+		<App {...o} mountedElement={mountedElement}>
+			{app ? app(props) : props.children}
+		</App>
 	);
 
 	render(() => router({ root: Root, children: routes }), mountedElement);
-}
-
-function Initialized(props: ParentProps): JSX.Element {
-	const [, opt] = useOptions();
-	onMount(() => opt.onInitialized?.());
-	return props.children;
 }
