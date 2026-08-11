@@ -4,13 +4,13 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Tab } from './root';
 import type { TabRef } from './types';
 
 describe('Tab', async () => {
 	let ref: TabRef;
-	const ct = await ComponentTester.build('Tab', props => (
+	const ct = await createTester('Tab', props => (
 		<Tab ref={el => (ref = el)} items={[{ id: 'id' }]} {...props} />
 	));
 

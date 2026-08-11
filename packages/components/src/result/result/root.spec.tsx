@@ -4,13 +4,13 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Result, type ResultRef } from './root';
 import styles from './style.module.css';
 
 describe('Result', async () => {
 	let ref: ResultRef;
-	const ct = await ComponentTester.build('Result', props => (
+	const ct = await createTester('Result', props => (
 		<Result ref={el => (ref = el)} title="title" {...props}>
 			abc
 		</Result>

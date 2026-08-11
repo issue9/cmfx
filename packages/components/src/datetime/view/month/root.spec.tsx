@@ -5,7 +5,7 @@
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { inRange, isCovered, MonthView } from './root';
 import styles from './style.module.css';
 import type { MonthViewRef } from './types';
@@ -55,7 +55,7 @@ describe('MonthView', async () => {
 	let curr: Date | undefined;
 	let ref: MonthViewRef;
 
-	const ct = await ComponentTester.build('MonthView', props => (
+	const ct = await createTester('MonthView', props => (
 		<MonthView
 			{...props}
 			ref={el => (ref = el)}

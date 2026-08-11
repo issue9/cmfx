@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { ClipboardR, type ClipboardReaderRef } from './root';
 
 describe('ClipboardReader', async () => {
 	let ref: ClipboardReaderRef;
-	const ct = await ComponentTester.build('ClipboardReader', props => <ClipboardR ref={el => (ref = el)} {...props} />);
+	const ct = await createTester('ClipboardReader', props => <ClipboardR ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

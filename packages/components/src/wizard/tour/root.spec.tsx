@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Tour, type TourRef, type TourStep } from './root';
 
 const steps: Array<TourStep> = [
@@ -15,7 +15,7 @@ const steps: Array<TourStep> = [
 
 describe('Tour', async () => {
 	let ref: TourRef;
-	const ct = await ComponentTester.build('Tour', props => <Tour ref={el => (ref = el)} steps={steps} {...props} />);
+	const ct = await createTester('Tour', props => <Tour ref={el => (ref = el)} steps={steps} {...props} />);
 
 	test('props', () => ct.testProps());
 	test('ref', () => {

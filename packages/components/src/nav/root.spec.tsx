@@ -4,14 +4,14 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Nav, type NavRef } from './root';
 
 describe('Nav', async () => {
 	let ref: NavRef;
 	let articleRef: HTMLElement;
 
-	const ct = await ComponentTester.build('Nav', props => (
+	const ct = await createTester('Nav', props => (
 		<div>
 			<article ref={el => (articleRef = el)}>
 				<h1>head1</h1>

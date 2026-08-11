@@ -34,6 +34,10 @@
 			"types": "./lib/index.d.ts",
 			"import": "./lib/index.js"
 		},
+		"./testenv": {
+			"types": "./lib/testenv.d.ts",
+			"import": "./lib/testenv.js"
+		},
 		"./style.css": "./lib/style.css",
 		"./tailwind.css": "./lib/tailwind.css"
 	},

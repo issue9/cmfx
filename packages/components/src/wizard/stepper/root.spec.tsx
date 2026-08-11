@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Stepper, type StepperRef, type StepperStep } from './root';
 
 const steps: Array<StepperStep> = [
@@ -15,7 +15,7 @@ const steps: Array<StepperStep> = [
 
 describe('Stepper', async () => {
 	let ref: StepperRef;
-	const ct = await ComponentTester.build('Stepper', props => (
+	const ct = await createTester('Stepper', props => (
 		<Stepper ref={el => (ref = el)} steps={steps} {...props} />
 	));
 

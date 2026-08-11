@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { type FormPopoverRef, Popover } from './popover';
 
 describe('Popover', async () => {
 	let ref: FormPopoverRef;
-	const ct = await ComponentTester.build('Popover', props => (
+	const ct = await createTester('Popover', props => (
 		<Popover
 			popover={() => document.querySelector('p')!}
 			activator={() => <div>formatter</div>}

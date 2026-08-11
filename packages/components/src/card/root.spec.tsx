@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Card, type CardRef } from './root';
 
 describe('Card', async () => {
 	let ref: CardRef;
-	const ct = await ComponentTester.build('Card', props => (
+	const ct = await createTester('Card', props => (
 		<Card ref={el => (ref = el)} {...props}>
 			abc
 		</Card>

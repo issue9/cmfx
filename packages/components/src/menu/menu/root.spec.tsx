@@ -5,7 +5,7 @@
 import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import type { MenuItem } from './item';
 import { Menu, type MenuRef, selectedElements } from './root';
 
@@ -41,7 +41,7 @@ const items: Array<MenuItem> = [
 
 describe('Menu', async () => {
 	let ref: MenuRef;
-	const ct = await ComponentTester.build('Menu', props => (
+	const ct = await createTester('Menu', props => (
 		<Menu {...props} multiple items={items} value={['v1', 'v233']} ref={el => (ref = el)} />
 	));
 

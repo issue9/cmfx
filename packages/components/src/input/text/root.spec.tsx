@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { InputText, type InputTextRef } from './root';
 
 describe('InputText', async () => {
 	let ref: InputTextRef;
-	const ct = await ComponentTester.build('InputText', props => <InputText {...props} ref={el => (ref = el)} />);
+	const ct = await createTester('InputText', props => <InputText {...props} ref={el => (ref = el)} />);
 
 	test('ref', async () => {
 		expect(ref.root()).toBeInstanceOf(HTMLDivElement);

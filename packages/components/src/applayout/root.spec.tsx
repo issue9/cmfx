@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { AppLayout, type AppLayoutRef } from './root';
 
 describe('AppLayout.horizontal', async () => {
 	let ref: AppLayoutRef;
-	const ct = await ComponentTester.build('AppLayout.horizontal', props => (
+	const ct = await createTester('AppLayout.horizontal', props => (
 		<AppLayout {...props} layout="horizontal" ref={el => (ref = el)}>
 			abc
 		</AppLayout>
@@ -25,7 +25,7 @@ describe('AppLayout.horizontal', async () => {
 
 describe('AppLayout.vertical', async () => {
 	let ref: AppLayoutRef;
-	const ct = await ComponentTester.build('AppLayout.vertical', props => (
+	const ct = await createTester('AppLayout.vertical', props => (
 		<AppLayout {...props} layout="vertical" ref={el => (ref = el)}>
 			abc
 		</AppLayout>

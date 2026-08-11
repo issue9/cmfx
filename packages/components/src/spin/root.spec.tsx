@@ -5,14 +5,14 @@
 import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Spin, type SpinRef } from './root';
 import styles from './style.module.css';
 
 describe('Spin', async () => {
 	let ref: SpinRef;
 	const [spin, setSpin] = createSignal(false);
-	const ct = await ComponentTester.build('Spin', props => (
+	const ct = await createTester('Spin', props => (
 		<Spin {...props} indicator="def" spinning={spin()} ref={el => (ref = el)}>
 			abc
 		</Spin>

@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Tooltip, type TooltipRef } from './root';
 
 describe('Tooltip', async () => {
 	let ref: TooltipRef;
-	const ct = await ComponentTester.build('Tooltip', props => <Tooltip ref={el => (ref = el)} {...props} />);
+	const ct = await createTester('Tooltip', props => <Tooltip ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { Button } from '@components/button/button';
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { GroupButton, type GroupButtonRef } from './root';
 
 describe('ButtonGroup', async () => {
 	let ref: GroupButtonRef;
-	const ct = await ComponentTester.build('ButtonGroup', props => (
+	const ct = await createTester('ButtonGroup', props => (
 		<GroupButton ref={el => (ref = el)} {...props}>
 			<Button>btn1</Button>
 		</GroupButton>

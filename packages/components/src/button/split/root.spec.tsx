@@ -5,12 +5,12 @@
 import { describe, expect, test } from 'vitest';
 
 import { Button } from '@components/button/button';
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { SplitButton, type SplitButtonRef } from './root';
 
 describe('SplitButton', async () => {
 	let ref: SplitButtonRef;
-	const ct = await ComponentTester.build('SplitButton', props => (
+	const ct = await createTester('SplitButton', props => (
 		<SplitButton ref={el => (ref = el)} {...props} items={[]}>
 			<Button>btn1</Button>
 		</SplitButton>

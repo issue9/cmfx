@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { ChartPie, type ChartPieRef } from './root';
 
 describe('ChartPie', async () => {
 	let ref: ChartPieRef;
-	const ct = await ComponentTester.build('ChartAxis', props => (
+	const ct = await createTester('ChartAxis', props => (
 		<ChartPie
 			ref={el => (ref = el)}
 			{...props}

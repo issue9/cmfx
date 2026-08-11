@@ -5,7 +5,7 @@
 import { renderHook } from '@solidjs/testing-library';
 import { afterAll, describe, expect, test } from 'vitest';
 
-import { ComponentTester, initTestEnv, Provider } from '@components/context/options/context.spec';
+import { createTester, initTestEnv, Provider } from '@components/context/options/context.spec';
 import { API } from '@components/form/api';
 import { Form } from '@components/form/form';
 import { type FormFieldRef, useField } from './context';
@@ -14,7 +14,7 @@ import { Field } from './field';
 
 describe('Field', async () => {
 	let ref: FormFieldRef;
-	const ct = await ComponentTester.build('Color.Panel', props => <Field ref={el => (ref = el)} {...props} />);
+	const ct = await createTester('Color.Panel', props => <Field ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

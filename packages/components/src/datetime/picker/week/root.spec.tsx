@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { WeekPicker, type WeekPickerRef } from './root';
 
 describe('WeekPicker.Panel', async () => {
 	let ref: WeekPickerRef<false>;
-	const ct = await ComponentTester.build('WeekPicker.Panel', props => <WeekPicker ref={el => (ref = el)} {...props} />);
+	const ct = await createTester('WeekPicker.Panel', props => <WeekPicker ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 
@@ -21,7 +21,7 @@ describe('WeekPicker.Panel', async () => {
 
 describe('WeekPicker.Popover', async () => {
 	let ref: WeekPickerRef<true>;
-	const ct = await ComponentTester.build('WeekPicker.Popover', props => (
+	const ct = await createTester('WeekPicker.Popover', props => (
 		<WeekPicker popover="click" ref={el => (ref = el)} {...props} />
 	));
 

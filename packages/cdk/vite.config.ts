@@ -41,6 +41,7 @@ export default defineConfig({
 		lib: {
 			entry: {
 				index: './src/index.ts',
+				testenv: './src/testenv/index.ts',
 			},
 			formats: ['es'],
 			fileName: (_, name) => `${name}.js`,
@@ -51,7 +52,8 @@ export default defineConfig({
 				postBanner: buildPostBanner(pkg),
 			},
 			// 不需要打包的内容
-			external: pkg.peerDependencies ? Object.keys(pkg.peerDependencies) : undefined,
+			// 打包的 testenv 中不能包含 vitest。
+			external: pkg.peerDependencies ? [...Object.keys(pkg.peerDependencies), 'vitest'] : ['vitest'],
 		},
 	},
 });

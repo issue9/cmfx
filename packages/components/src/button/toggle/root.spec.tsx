@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { FitScreen, FullScreen, type ToggleButtonRef } from './root';
 
 describe('FullScreen', async () => {
 	let ref: ToggleButtonRef;
-	const ct = await ComponentTester.build('FullScreen', props => <FullScreen ref={el => (ref = el)} {...props} />);
+	const ct = await createTester('FullScreen', props => <FullScreen ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 	test('ref', () => {
@@ -20,7 +20,7 @@ describe('FullScreen', async () => {
 
 describe('FitScreen', async () => {
 	let container: HTMLDivElement;
-	const ct = await ComponentTester.build('FitScreen', props => (
+	const ct = await createTester('FitScreen', props => (
 		<div ref={el => (container = el)}>
 			<FitScreen container={container} {...props} />
 		</div>

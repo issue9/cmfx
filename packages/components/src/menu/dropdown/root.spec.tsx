@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import type { MenuItem } from '@components/menu/menu/item';
 import { Dropdown, type DropdownRef } from './root';
 
@@ -40,7 +40,7 @@ const items: Array<MenuItem> = [
 
 describe('Dropdown', async () => {
 	let ref: DropdownRef;
-	const ct = await ComponentTester.build('Dropdown', props => (
+	const ct = await createTester('Dropdown', props => (
 		<Dropdown {...props} items={items} onChange={() => {}} ref={el => (ref = el)} />
 	));
 

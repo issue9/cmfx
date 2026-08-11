@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Appbar, type AppbarRef } from './root';
 
 describe('Appbar', async () => {
 	let ref: AppbarRef;
-	const ct = await ComponentTester.build('Appbar', props => (
+	const ct = await createTester('Appbar', props => (
 		<Appbar {...props} ref={el => (ref = el)}>
 			abc
 		</Appbar>

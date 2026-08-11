@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Chart, type ChartOption, type ChartRef } from './root';
 
 describe('Chart', async () => {
@@ -34,7 +34,7 @@ describe('Chart', async () => {
 	};
 
 	let ref: ChartRef;
-	const ct = await ComponentTester.build('Chart', props => <Chart ref={el => (ref = el)} initValue={opt} {...props} />);
+	const ct = await createTester('Chart', props => <Chart ref={el => (ref = el)} initValue={opt} {...props} />);
 
 	test('props', async () => ct.testProps());
 

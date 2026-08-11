@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Empty, type EmptyRef } from './root';
 
 describe('Empty', async () => {
 	let ref: EmptyRef;
-	const ct = await ComponentTester.build('Empty', props => <Empty {...props} ref={el => (ref = el)} />);
+	const ct = await createTester('Empty', props => <Empty {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

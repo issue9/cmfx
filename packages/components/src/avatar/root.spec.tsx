@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Avatar, type AvatarRef } from './root';
 
 describe('Avatar', async () => {
 	let ref: AvatarRef;
-	const ct = await ComponentTester.build('Avatar', props => (
+	const ct = await createTester('Avatar', props => (
 		<Avatar value="../../../assets/brand-static.svg" {...props} ref={el => (ref = el)} />
 	));
 

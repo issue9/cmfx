@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { buildLocaleRegion, buildRegion, Timezone, type TimezoneRef } from './root';
 
 describe('region', () => {
@@ -28,7 +28,7 @@ describe('region', () => {
 
 describe('Timezone', async () => {
 	let ref: TimezoneRef;
-	const ct = await ComponentTester.build('Timezone', props => <Timezone {...props} ref={el => (ref = el)} />);
+	const ct = await createTester('Timezone', props => <Timezone {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

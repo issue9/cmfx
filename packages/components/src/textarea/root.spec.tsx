@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { TextArea, type TextAreaRef } from './root';
 
 describe('TextArea', async () => {
 	let ref: TextAreaRef;
-	const ct = await ComponentTester.build('TextArea', props => <TextArea {...props} ref={el => (ref = el)} />);
+	const ct = await createTester('TextArea', props => <TextArea {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

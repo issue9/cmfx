@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { schemes, type ThemeProps } from '@cmfx/cdk';
-import { Config, sleep } from '@cmfx/core';
+import { Tester } from '@cmfx/cdk/testenv';
+import { Config } from '@cmfx/core';
 import { MemoryRouter } from '@solidjs/router';
-import { render, renderHook, testEffect } from '@solidjs/testing-library';
+import { renderHook, testEffect } from '@solidjs/testing-library';
 import { createEffect, type JSX, type ParentProps, splitProps } from 'solid-js';
 import { afterAll, describe, expect, test } from 'vitest';
 
@@ -55,74 +56,23 @@ export function Provider(props: ParentProps<ReqOptions>): JSX.Element {
 	return <MemoryRouter root={Root}>{[]}</MemoryRouter>;
 }
 
-type Result = ReturnType<typeof render>;
-
 /**
- * 提供了组件测试的基本功能
+ * 生成基本的组件测试环境
+ * @param name - 组件名称，方便定位错误位置；
+ * @param r - 生成组件的方法，需要将 props 传递给组件；
+ * @param dur - 用于等待组件加载完成，默认为 500 毫秒。
  *
  * @remarks
  * 该类提供了组件测试的基本功能，包括组件的渲染、卸载、以及一些常用的测试方法。
  * NOTE: 实例需要放在 describe 方法中。
  */
-export class ComponentTester {
-	readonly #component: string;
-	readonly #result: Result;
-
-	private constructor(component: string, result: Result) {
-		this.#component = component;
-		this.#result = result;
-	}
-
-	/**
-	 * 生成基本的组件测试环境
-	 * @param name - 组件名称，方便定位错误位置；
-	 * @param r - 生成组件的方法，需要将 props 传递给组件；
-	 * @param dur - 用于等待组件加载完成，默认为 500 毫秒。
-	 */
-	static async build(name: string, r: (props: ThemeProps) => JSX.Element, dur: number = 500): Promise<ComponentTester> {
-		const props = { palette: 'primary', class: 'custom-cls', style: { '--custom-style': 'red' } } as const;
-		const o = await initTestEnv();
-		const result = render(() => r(props), { wrapper: props => <Provider {...o}>{props.children}</Provider> });
-
-		await sleep(dur); // Provider 是异步的，需要等待其完成加载。
-		afterAll(result.unmount);
-
-		return new ComponentTester(name, result);
-	}
-
-	/**
-	 * 获取由 {@link build} 方法生成的渲染结果
-	 */
-	get result(): Result {
-		return this.#result;
-	}
-
-	/**
-	 * 测试 {@link ThemeProps} 是否正确附加在组件上
-	 *
-	 * @param root - 组件的根元素，如果未提供，则默认为第一个子元素。
-	 */
-	testProps(root?: Element) {
-		if (!root) {
-			root = this.#result.container.firstElementChild!;
-		}
-
-		expect(
-			root.classList.contains('palette--primary'),
-			`组件 ${this.#component} 未通过基础属性测试：缺少 palette 'primary'`,
-		).toBe(true);
-
-		expect(
-			root.classList.contains('custom-cls'),
-			`组件 ${this.#component} 未通过基础属性测试：缺少 css 类 'custom-cls'`,
-		).toBe(true);
-
-		const style = window.getComputedStyle(root);
-		expect(
-			style.getPropertyValue('--custom-style'),
-			`组件 ${this.#component} 未通过基础属性测试：缺少属性 --custom-style=red`,
-		).toEqual('red');
-	}
+export async function createTester(
+	name: string,
+	r: (props: ThemeProps) => JSX.Element,
+	dur: number = 500,
+): Promise<Tester> {
+	const o = await initTestEnv();
+	return await Tester.build(name, r, props => <Provider {...o}>{props.children}</Provider>, dur);
 }
 
 test('buildAccessor', async () => {

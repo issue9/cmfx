@@ -5,7 +5,7 @@
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Pagination, type PaginationRef } from './root';
 
 describe('pagination', async () => {
@@ -13,7 +13,7 @@ describe('pagination', async () => {
 	const user = userEvent.setup();
 	let curr: number;
 
-	const ct = await ComponentTester.build('Pagination', props => (
+	const ct = await createTester('Pagination', props => (
 		<Pagination ref={el => (ref = el)} count={5} value={3} onChange={val => (curr = val)} {...props} />
 	));
 

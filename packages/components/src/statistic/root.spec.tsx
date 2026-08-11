@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Statistic, type StatisticRef } from './root';
 
 describe('Statistic', async () => {
 	let ref: StatisticRef;
-	const ct = await ComponentTester.build('Statistic', props => (
+	const ct = await createTester('Statistic', props => (
 		<Statistic label="Label" value={5} {...props} ref={el => (ref = el)} />
 	));
 

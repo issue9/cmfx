@@ -6,14 +6,14 @@ import { joinClass } from '@cmfx/cdk';
 import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Divider, type DividerProps, type DividerRef } from './root';
 import styles from './style.module.css';
 
 describe('Divider', async () => {
 	let ref: DividerRef;
 	const [pos, setPos] = createSignal<DividerProps['pos']>();
-	const ct = await ComponentTester.build('Divider', props => (
+	const ct = await createTester('Divider', props => (
 		<Divider pos={pos()} {...props} ref={el => (ref = el)}>
 			abc
 		</Divider>

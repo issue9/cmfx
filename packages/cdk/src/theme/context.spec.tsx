@@ -2,13 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Mode, type Scheme, schemes } from '@cmfx/cdk';
 import { renderHook } from '@solidjs/testing-library';
 import { createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { afterAll, describe, expect, test } from 'vitest';
 
 import { applyTheme, hasTheme, type ThemeContext, ThemeProvider, useTheme } from './context';
+import type { Mode } from './mode';
+import type { Scheme } from './scheme';
+import { schemes } from './schemes';
 
 test('theme', () => {
 	let t: ThemeContext = { scheme: schemes.green, mode: 'light' };

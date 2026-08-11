@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { API } from '@components/form/api';
 import { Form, type FormRef } from './form';
 
@@ -15,7 +15,7 @@ describe('Form', async () => {
 		submit: async (v: object) => ({ ok: true, status: 200, body: v }),
 	});
 
-	const ct = await ComponentTester.build('Form', props => (
+	const ct = await createTester('Form', props => (
 		<Form {...props} api={api} ref={el => (ref = el)}>
 			abc
 		</Form>

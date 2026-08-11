@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Checkbox, type CheckboxRef } from './root';
 
 describe('Checkbox', async () => {
 	let ref: CheckboxRef;
-	const ct = await ComponentTester.build('Checkbox', props => <Checkbox ref={el => (ref = el)} {...props} />);
+	const ct = await createTester('Checkbox', props => <Checkbox ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

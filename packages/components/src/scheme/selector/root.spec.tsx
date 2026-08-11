@@ -5,12 +5,12 @@
 import type { Scheme } from '@cmfx/cdk';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { SchemeSelector, type SchemeSelectorRef } from './root';
 
 describe('SchemeSelector', async () => {
 	let ref: SchemeSelectorRef;
-	const ct = await ComponentTester.build('SchemeSelector', props => (
+	const ct = await createTester('SchemeSelector', props => (
 		<SchemeSelector ref={el => (ref = el)} schemes={new Map<string, Scheme>()} value="def" {...props} />
 	));
 

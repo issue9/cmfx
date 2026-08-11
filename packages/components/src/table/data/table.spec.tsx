@@ -5,12 +5,12 @@
 import type { Query } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { DataTable, type DataTableRef } from './table';
 
 describe('DataTable', async () => {
 	let ref: DataTableRef<object>;
-	const ct = await ComponentTester.build('DataTable', props => (
+	const ct = await createTester('DataTable', props => (
 		<DataTable<object, Query>
 			{...props}
 			load={async (_: Query): Promise<object[]> => {

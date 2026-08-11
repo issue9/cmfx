@@ -4,14 +4,14 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import type { DialogRef } from './context';
 import { Dialog } from './root';
 import styles from './style.module.css';
 
 describe('Dialog', async () => {
 	let ref!: DialogRef;
-	const ct = await ComponentTester.build('Dialog', props => (
+	const ct = await createTester('Dialog', props => (
 		<Dialog {...props} ref={el => (ref = el)}>
 			abc
 		</Dialog>

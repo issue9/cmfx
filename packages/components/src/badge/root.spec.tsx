@@ -5,14 +5,14 @@
 import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Badge, type BadgeCorner, type BadgeRef } from './root';
 import styles from './style.module.css';
 
 describe('Badge', async () => {
 	let ref: BadgeRef;
 	const [pos, setPos] = createSignal<BadgeCorner>();
-	const ct = await ComponentTester.build('Badge', props => (
+	const ct = await createTester('Badge', props => (
 		<Badge ref={el => (ref = el)} pos={pos()} content="text" {...props}>
 			abc
 		</Badge>

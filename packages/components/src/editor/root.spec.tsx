@@ -6,13 +6,13 @@ import userEvent from '@testing-library/user-event';
 import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { EditorComponent, type EditorRef } from './root';
 
 describe('Editor', async () => {
 	let ref!: EditorRef;
 	const [value, setValue] = createSignal('string');
-	const ct = await ComponentTester.build('Editor', props => (
+	const ct = await createTester('Editor', props => (
 		<EditorComponent ref={el => (ref = el)} value={value()} onChange={setValue} {...props} />
 	));
 

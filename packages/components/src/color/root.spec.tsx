@@ -4,13 +4,13 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { ComponentTester } from '@components/context/options/context.spec';
+import { createTester } from '@components/context/options/context.spec';
 import { Color, type ColorRef } from './root';
 import { HSLSpace } from './space_hsl';
 
 describe('Color.Panel', async () => {
 	let ref: ColorRef<false>;
-	const ct = await ComponentTester.build('Color.Panel', props => (
+	const ct = await createTester('Color.Panel', props => (
 		<Color ref={el => (ref = el)} {...props} spaces={[new HSLSpace()]} />
 	));
 
@@ -24,7 +24,7 @@ describe('Color.Panel', async () => {
 
 describe('Color.Popover', async () => {
 	let ref: ColorRef<true>;
-	const ct = await ComponentTester.build('Color.Popover', props => (
+	const ct = await createTester('Color.Popover', props => (
 		<Color popover="click" ref={el => (ref = el)} {...props} spaces={[new HSLSpace()]} />
 	));
 
