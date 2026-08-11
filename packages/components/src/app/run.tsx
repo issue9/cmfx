@@ -39,21 +39,19 @@ export function run(
 
 	const [opt, complete] = initEnv(o);
 
-	const Root = (props: RouteSectionProps) => {
-		return (
-			<Switch fallback={opt.loading({})}>
-				<Match when={complete()}>
-					<OptionsProvider {...opt}>
-						<DialogProvider mount={mountedElement} palette="primary">
-							<NotifyProvider mount={mountedElement}>
-								<Initialized>{app(props)}</Initialized>
-							</NotifyProvider>
-						</DialogProvider>
-					</OptionsProvider>
-				</Match>
-			</Switch>
-		);
-	};
+	const Root = (props: RouteSectionProps) => (
+		<Switch fallback={opt.loading({})}>
+			<Match when={complete()}>
+				<OptionsProvider {...opt}>
+					<DialogProvider mount={mountedElement} palette="primary">
+						<NotifyProvider mount={mountedElement}>
+							<Initialized>{app(props)}</Initialized>
+						</NotifyProvider>
+					</DialogProvider>
+				</OptionsProvider>
+			</Match>
+		</Switch>
+	);
 
 	render(() => router({ root: Root, children: routes }), mountedElement);
 }
