@@ -7,7 +7,6 @@ import './style.css';
 import type { Options } from '@cmfx/admin';
 import {
 	admins,
-	create,
 	createClear,
 	createFullscreen,
 	createLockScreen,
@@ -15,6 +14,7 @@ import {
 	current,
 	members,
 	roles,
+	run,
 	system,
 } from '@cmfx/admin';
 import { type Scheme, schemes, useLocale } from '@cmfx/cdk';
@@ -195,4 +195,4 @@ const o: Options = {
 	},
 };
 
-await create('app', o);
+await run(document.getElementById('app')!, o);

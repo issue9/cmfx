@@ -6,7 +6,7 @@ import type { JSX } from 'solid-js';
 
 import { Message, type MessageProps, type MessageRef } from '@components/notify/message';
 
-export type AlertProps = Omit<MessageProps, 'transitionDuration' | 'closeAriaLabel'>;
+export type AlertProps = MessageProps;
 
 export type AlertRef = MessageRef;
 

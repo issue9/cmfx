@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { create } from './app';
+export { runAdmin as run } from './app';
 export type { Admin } from './context';
 export { adminSchema, useAdmin, useLayout, useOptions } from './context';
 export type { Options } from './options';

@@ -5,7 +5,8 @@
 import type { Options as XOptions } from '@cmfx/components';
 import { APIProvider, LockScreen, run, SSEProvider, useOptions as useXOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
-import { Navigate, type RouteDefinition, type Router, type RouteSectionProps, useNavigate } from '@solidjs/router';
+import type { RouteDefinition, Router, RouteSectionProps } from '@solidjs/router';
+import { HashRouter, Navigate, useNavigate } from '@solidjs/router';
 import type { Component, JSX, ParentProps } from 'solid-js';
 import { createContext, ErrorBoundary, Match, Switch, useContext } from 'solid-js';
 
@@ -15,15 +16,15 @@ import { build as buildOptions, type Options, presetConfigName } from './options
 /**
  * 创建项目
  *
- * @param elementID - 挂载的元素 ID；
+ * @param mountedElement - 挂载的元素；
  * @param o - 项目的初始化选项；
- * @param router - 指定路由对象，默认值同 {@link run} 中对应的参数；
+ * @param router - 指定路由对象，默认值为 {@link HashRouter}；
  */
-export async function create(
-	elementID: string,
+export async function runAdmin(
+	mountedElement: HTMLElement,
 	o: Options,
 	app?: Component<RouteSectionProps>,
-	router?: typeof Router,
+	router: typeof Router = HashRouter,
 ): Promise<void> {
 	const opt = buildOptions(o);
 
@@ -90,7 +91,7 @@ export async function create(
 		);
 	};
 
-	run(document.getElementById(elementID)!, xo, routes, root, router);
+	run(mountedElement, xo, routes, root, router);
 }
 
 const lockScreenContext = createContext<{ lock(): void }>();
