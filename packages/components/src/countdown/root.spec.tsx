@@ -9,9 +9,7 @@ import { Countdown, type CountdownRef } from './root';
 
 describe('Countdown', async () => {
 	let ref: CountdownRef;
-	const ct = await createTester('Countdown', props => (
-		<Countdown ref={el => (ref = el)} duration="10s" {...props} />
-	));
+	const ct = await createTester('Countdown', props => <Countdown ref={el => (ref = el)} duration="10s" {...props} />);
 
 	test('props', () => ct.testProps());
 

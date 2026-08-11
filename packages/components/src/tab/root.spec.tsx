@@ -10,9 +10,7 @@ import type { TabRef } from './types';
 
 describe('Tab', async () => {
 	let ref: TabRef;
-	const ct = await createTester('Tab', props => (
-		<Tab ref={el => (ref = el)} items={[{ id: 'id' }]} {...props} />
-	));
+	const ct = await createTester('Tab', props => <Tab ref={el => (ref = el)} items={[{ id: 'id' }]} {...props} />);
 
 	test('props', () => {
 		ct.testProps();

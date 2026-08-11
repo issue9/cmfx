@@ -9,9 +9,7 @@ import { RadioGroup, type RadioGroupRef } from './root';
 
 describe('RadioGroup', async () => {
 	let ref: RadioGroupRef;
-	const ct = await createTester('RadioGroup', props => (
-		<RadioGroup options={[]} {...props} ref={el => (ref = el)} />
-	));
+	const ct = await createTester('RadioGroup', props => <RadioGroup options={[]} {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

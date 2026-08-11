@@ -11,9 +11,7 @@ import { Root, type SearchRef } from './root';
 describe('Search', async () => {
 	const search = async (_: string): Promise<Array<Menu.Item>> => [{ type: 'item', value: 'v', label: 'label' }];
 	let ref: SearchRef;
-	const ct = await createTester('Search', props => (
-		<Root onSearch={search} {...props} ref={el => (ref = el)} />
-	));
+	const ct = await createTester('Search', props => <Root onSearch={search} {...props} ref={el => (ref = el)} />);
 
 	test('props', () => ct.testProps());
 

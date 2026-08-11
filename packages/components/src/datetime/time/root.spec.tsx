@@ -21,9 +21,7 @@ describe('Time.Panel', async () => {
 
 describe('Time.Popover', async () => {
 	let ref: TimeRef<true>;
-	const ct = await createTester('Time.Popover', props => (
-		<Time popover="click" ref={el => (ref = el)} {...props} />
-	));
+	const ct = await createTester('Time.Popover', props => <Time popover="click" ref={el => (ref = el)} {...props} />);
 
 	test('props', () => ct.testProps());
 

@@ -15,9 +15,7 @@ const steps: Array<StepperStep> = [
 
 describe('Stepper', async () => {
 	let ref: StepperRef;
-	const ct = await createTester('Stepper', props => (
-		<Stepper ref={el => (ref = el)} steps={steps} {...props} />
-	));
+	const ct = await createTester('Stepper', props => <Stepper ref={el => (ref = el)} steps={steps} {...props} />);
 
 	test('props', () => ct.testProps());
 	test('ref', () => {
