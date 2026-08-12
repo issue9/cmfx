@@ -12,4 +12,4 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - create
+            - run
