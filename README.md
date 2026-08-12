@@ -11,7 +11,9 @@ cmfx 是基于 [Go](https://go.dev) + [Solid](https://www.solidjs.com) 的快速
 
 ## 开发
 
-若要参与此项目的开发，可参考[贡献指南](https://github.com/issue9/cmfx/blob/master/CONTRIBUTING.md)。
+若要参与此项目的开发，可参考[贡献指南](https://issue9.github.io/cmfx/#/contribute)。
+
+如果是基于此项目作二次开发，可参考[文档](https://issue9.github.io/cmfx/#/docs)。
 
 ## 版权
 

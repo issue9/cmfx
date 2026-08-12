@@ -8,10 +8,10 @@
 - Git
 - [web](https://github.com/issue9/web/releases)
 
-如果只是作一个简单的项目，可以跳过以下安装步骤，直接在 `apps` 下作开发：
+如果只是作一个简单的项目，可以跳过安装步骤，直接在 `apps` 下作开发：
 
 - server 后端代码；
-- admin 前端代码；
+- dashboard 前端代码；
 
 ## 前端
 
@@ -37,7 +37,8 @@ cmfx 对 tailwind 的进行了部分自定义，**必须**在项目的样式文�
 /* style.css */
 
 @import 'tailwindcss';                    /* 导入 tailwind */
-@import '@cmfx/components/tailwind.css';  /* 导入组件库中对 tailwind 样式的修改 */
+@import '@cmfx/cdk/tailwind.css';         /* 导入 tailwind 样式的修改 */
+@import '@cmfx/cdk/style.css';            /* 导入 cdk 中的样式 */
 @import '@cmfx/components/style.css';     /* 导入组件样式 */
 @import "@cmfx/illustrations/style.css";  /* 导入插图的相关样式 */
 @import '@cmfx/admin/style.css';          /* 如果使用有了 @cmfx/admin，还需要引用其使用的样式表 */
