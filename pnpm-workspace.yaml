@@ -15,8 +15,8 @@ ignoredBuiltDependencies:
 minimumReleaseAge: 0
 
 catalog:
-  '@biomejs/biome': ^2.5.7
-  '@iconify/json': ^2.2.513
+  '@biomejs/biome': ^2.5.8
+  '@iconify/json': ^2.2.514
   '@iconsets/svg-morpheus-ts': ^1.4.14
   '@mdx-js/rollup': ^3.1.1
   '@microsoft/api-extractor': ^7.58.12
@@ -26,18 +26,18 @@ catalog:
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.3.3
   '@testing-library/jest-dom': ^7.0.1
-  '@testing-library/user-event': ^14.6.3
+  '@testing-library/user-event': ^14.6.4
   '@types/node': ^26.2.0
-  '@tiptap/core': ^3.29.2
-  '@tiptap/extension-bubble-menu': ^3.29.2
-  '@tiptap/extension-image': ^3.29.2
-  '@tiptap/extension-subscript': ^3.29.2
-  '@tiptap/extension-superscript': ^3.29.2
-  '@tiptap/extension-text-align': ^3.29.2
-  '@tiptap/extension-text-style': ^3.29.2
-  '@tiptap/extensions': ^3.29.2
-  '@tiptap/pm': ^3.29.2
-  '@tiptap/starter-kit': ^3.29.2
+  '@tiptap/core': ^3.30.0
+  '@tiptap/extension-bubble-menu': ^3.30.0
+  '@tiptap/extension-image': ^3.30.0
+  '@tiptap/extension-subscript': ^3.30.0
+  '@tiptap/extension-superscript': ^3.30.0
+  '@tiptap/extension-text-align': ^3.30.0
+  '@tiptap/extension-text-style': ^3.30.0
+  '@tiptap/extensions': ^3.30.0
+  '@tiptap/pm': ^3.30.0
+  '@tiptap/starter-kit': ^3.30.0
   '@vitejs/plugin-basic-ssl': ^2.3.0
   '@vitest/coverage-v8': ^4.1.10
   autoprefixer: ^10.5.4
