@@ -21,7 +21,11 @@ export default defineConfig({
 		dts({
 			entryRoot: './src',
 			insertTypesEntry: true,
-			bundleTypes: true,
+			bundleTypes: {
+				extractorConfig: {
+					newlineKind: 'lf', // 换行符统一为 LF
+				},
+			},
 			exclude: ['node_modules/**', `**/${outDir}/**`, './src/**/*.spec.ts'],
 		}),
 		vitePluginCopyFile([{ src: '../../LICENSE', dest: '' }]),

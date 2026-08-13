@@ -30,7 +30,11 @@ export default defineConfig({
 		}),
 		dts({
 			entryRoot: './src',
-			bundleTypes: true,
+			bundleTypes: {
+				extractorConfig: {
+					newlineKind: 'lf', // 换行符统一为 LF
+				},
+			},
 			exclude: ['node_modules/**', `**/${outDir}/**`, './src/**/*.spec.ts', './src/**/*.spec.tsx'],
 		}),
 		tailwindcss(),
