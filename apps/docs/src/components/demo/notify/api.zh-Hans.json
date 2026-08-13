@@ -3,11 +3,29 @@
 		"kind": "interface",
 		"properties": [
 			{
-				"name": "style",
-				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
-				"type": "string | JSX.CSSProperties | undefined",
+				"name": "icon",
+				"summary": "显示的图标\n\n",
+				"remarks": "如果未指定，则根据 type 自动选择图标。若不想显示图标，可以将此值指定为 false。\n\n",
+				"type": "JSX.Element"
+			},
+			{
+				"name": "title",
+				"summary": "标题\n\n",
+				"type": "string",
 				"reactive": true
+			},
+			{
+				"name": "body",
+				"summary": "内容\n\n",
+				"remarks": "换行符会被替换的为\n`<br />`\n。\n\n\nNOTE: 如果直接使用字符串属性，那么其内容中的 '\nn' 不会被转义，\n只有字符串变量中的 '\nn' 会被转义为\n`<br />`\n。\n\n",
+				"type": "string | undefined",
+				"reactive": true
+			},
+			{
+				"name": "duration",
+				"summary": "持续时间，单位毫秒。\n\n",
+				"type": "number | undefined",
+				"readonly": true
 			},
 			{
 				"name": "type",
@@ -17,9 +35,15 @@
 				"reactive": true
 			},
 			{
-				"name": "title",
-				"summary": "标题\n\n",
-				"type": "string",
+				"name": "onClose",
+				"summary": "关闭组件之前触发的事件\n\n",
+				"type": "(() => Promise<boolean | undefined>) | undefined",
+				"readonly": true
+			},
+			{
+				"name": "closeable",
+				"summary": "是否显示关闭按钮\n\n",
+				"type": "boolean | undefined",
 				"reactive": true
 			},
 			{
@@ -30,41 +54,17 @@
 				"reactive": true
 			},
 			{
+				"name": "style",
+				"summary": "组件根元素的样式\n\n",
+				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+				"type": "string | JSX.CSSProperties | undefined",
+				"reactive": true
+			},
+			{
 				"name": "ref",
 				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
 				"type": "((m: REF) => void) | undefined",
 				"readonly": true
-			},
-			{
-				"name": "onClose",
-				"summary": "关闭组件之前触发的事件\n\n",
-				"type": "(() => Promise<boolean | undefined>) | undefined",
-				"readonly": true
-			},
-			{
-				"name": "body",
-				"summary": "内容\n\n",
-				"remarks": "换行符会被替换的为\n`<br />`\n。\n\n\nNOTE: 如果直接使用字符串属性，那么其内容中的 '\nn' 不会被转义，\n只有字符串变量中的 '\nn' 会被转义为\n`<br />`\n。\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "icon",
-				"summary": "显示的图标\n\n",
-				"remarks": "如果未指定，则根据 type 自动选择图标。若不想显示图标，可以将此值指定为 false。\n\n",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "duration",
-				"summary": "持续时间，单位毫秒。\n\n",
-				"type": "number | undefined",
-				"readonly": true
-			},
-			{
-				"name": "closeable",
-				"summary": "是否显示关闭按钮\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
 			}
 		],
 		"name": "Alert.Props",

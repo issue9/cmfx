@@ -3,6 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 /**
+ * ts 中的原始类型
+ */
+export type Primitive = string | number | bigint | boolean | symbol | null | undefined;
+
+/**
  * 展开类型
  *
  * 支持以下几种方式：
@@ -37,7 +42,6 @@
  *
  * NOTE: 该行为可能让编译时长变长，甚至可能因内在不足导致编译失败。
  */
-
 export type Expand<T> = T extends object ? (T extends CallableFunction ? T : { [K in keyof T]: Expand<T[K]> }) : T;
 
 // 以下代码无法对子元素进行展开

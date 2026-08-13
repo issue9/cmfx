@@ -109,7 +109,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 		}
 
 		const rslt = await this.#validator.valid(v);
-		this.setError(rslt[1]);
+		this.setError(rslt[1] as Params<FlattenKeys<T>>); // rslt[1] 必然是 Params<FlattenKeys<T>
 		if (!rslt[1]) {
 			return rslt[0];
 		}
@@ -142,7 +142,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 		// 验证
 		if (this.#validator) {
 			this.#validator.valid(copy).then(rslt => {
-				this.setError(rslt[1]);
+				this.setError(rslt[1] as Params<FlattenKeys<T>>);
 			});
 		}
 
@@ -241,7 +241,8 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 
 				// 验证数据
 				if (parent.#validOnChange && parent.#validator) {
-					parent.#validator.valid(unwrap(parent.getValue()), name).then(rslt => {
+					// biome-ignore lint/suspicious/noExplicitAny: any
+					parent.#validator.valid(unwrap(parent.getValue()), name as any).then(rslt => {
 						setError(rslt[1] ? rslt[1][0].reason : undefined);
 					});
 				}

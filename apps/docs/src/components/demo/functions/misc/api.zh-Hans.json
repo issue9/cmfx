@@ -38,14 +38,14 @@
 	},
 	{
 		"kind": "function",
-		"name": "create",
+		"name": "run",
 		"summary": "创建项目\n\n",
-		"type": "function create(elementID: string, o: Options, app?: Component<RouteSectionProps>, router?: typeof Router): Promise<void>",
+		"type": "function run(mountedElement: HTMLElement, o: Options, app?: Component<RouteSectionProps>, router?: typeof Router): Promise<void>",
 		"params": [
 			{
-				"name": "elementID",
-				"summary": "挂载的元素 ID；\n\n",
-				"type": "string"
+				"name": "mountedElement",
+				"summary": "挂载的元素；\n\n",
+				"type": "HTMLElement"
 			},
 			{
 				"name": "o",
@@ -58,7 +58,7 @@
 			},
 			{
 				"name": "router",
-				"summary": "指定路由对象，默认值同\n`run`\n中对应的参数；\n\n",
+				"summary": "指定路由对象，默认值为\n`HashRouter`\n；\n\n",
 				"type": "typeof Router | undefined"
 			}
 		],

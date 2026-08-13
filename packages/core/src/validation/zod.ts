@@ -7,7 +7,7 @@ import type * as z from 'zod';
 import type { Params } from '@core/api';
 import type { Dict, DictLoader, Locale } from '@core/locale';
 import { I18n } from '@core/locale';
-import type { Flattenable, FlattenKeys } from '@core/types';
+import type { Flattenable, FlattenKeys, Primitive } from '@core/types';
 import type { Validator, ValidResult } from './validation';
 
 const objects = I18n.createObject<z.core.$ZodConfig>();
@@ -32,7 +32,10 @@ export function createZodLocaleLoader(f: () => z.core.$ZodConfig): DictLoader {
  * @param l - Locale 对象；
  * @typeParam T - 被验证对象的类型；
  */
-export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Validator<T> {
+export function validator<T extends Flattenable | Primitive>(
+	s: T extends Flattenable ? z.ZodObject : z.ZodType,
+	l?: Locale,
+): Validator<T> {
 	let params: z.core.ParseContext<z.core.$ZodIssue>;
 	if (l) {
 		const obj = objects.get(l.locale.toString());
@@ -46,12 +49,12 @@ export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Va
 			params = { error: objects.get(id.locale.toString())!.localeError };
 		},
 
-		async valid(obj: unknown, path?: FlattenKeys<T>): Promise<ValidResult<T>> {
+		async valid(obj: unknown, path?: T extends Flattenable ? FlattenKeys<T> : undefined): Promise<ValidResult<T>> {
 			if (path) {
 				let schema = s; // 参数 s 会重复使用，所以需要一个新的变量来保存 path 对应的值。
-				const items = path.split('.');
+				const items = (path as string).split('.');
 				for (const item of items) {
-					schema = schema.shape[item];
+					schema = (schema as z.ZodObject).shape[item];
 				}
 
 				const result = await schema.safeParseAsync(obj, params);
@@ -60,7 +63,15 @@ export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Va
 				}
 
 				const err = result.error.issues[0];
-				return [undefined, [{ name: joinPropertyKey(path, err.path) as FlattenKeys<T>, reason: err.message }]];
+				return [
+					undefined,
+					[
+						{
+							name: joinPropertyKey(path, err.path) as T extends Flattenable ? FlattenKeys<T> : '',
+							reason: err.message,
+						},
+					],
+				];
 			}
 
 			const result = await s.safeParseAsync(obj, params);
@@ -68,9 +79,9 @@ export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Va
 				return [result.data as T, undefined];
 			}
 
-			const errors: Params<FlattenKeys<T>> = [];
+			const errors: Params<T extends Flattenable ? FlattenKeys<T> : ''> = [];
 			result.error.issues.forEach(i => {
-				const p = joinPropertyKey('', i.path) as FlattenKeys<T>;
+				const p = joinPropertyKey('', i.path) as T extends Flattenable ? FlattenKeys<T> : '';
 				errors.push({ name: p, reason: i.message });
 			});
 			return [undefined, errors];

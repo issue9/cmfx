@@ -17,9 +17,9 @@ type Requiredify<T> = {
 /**
  * 可转换为扁平对象的类型
  *
- * @typeParam T - 对象字段的类型；
+ * @typeParam T - 对象字段的类型，如果对象的所有字段类型都是统一的，可以指定该类型，否则采用默认值；
  */
-export type Object<T = unknown> = { [k: string]: T | Object<T> };
+export type Flattenable<T = unknown> = { [k: string]: T | Flattenable<T> };
 
 type JoinPath<P, B> = P extends string ? (B extends string ? `${P}.${B}` : P) : B extends string ? B : '';
 
@@ -32,20 +32,20 @@ type JoinPath<P, B> = P extends string ? (B extends string ? `${P}.${B}` : P) : 
  * @typeParam T - 对象类型；
  * @typeParam F - 对象字段的类型；
  */
-export type Flatten<T extends Object<F>, F = unknown> = FlattenT<T, F>;
+export type Flatten<T extends Flattenable<F>, F = unknown> = FlattenT<T, F>;
 
 type FlattenT<
-	T extends Object<F>,
+	T extends Flattenable<F>,
 	F = unknown,
 	P extends string | null = null,
 	TT = RemoveIndexSignature<Requiredify<T>>,
 > = UnionToIntersection<
 	{
-		[K in keyof TT]: TT[K] extends Object<F> ? FlattenT<TT[K], F, JoinPath<P, K>> : never;
+		[K in keyof TT]: TT[K] extends Flattenable<F> ? FlattenT<TT[K], F, JoinPath<P, K>> : never;
 	}[keyof TT]
 > & {
 	// Exclude 表示去除对象类型 Object<F>，Object<F> 类型已经在上面处理了。
-	readonly [K in keyof TT as TT[K] extends Object<F> ? never : JoinPath<P, K>]: Exclude<TT[K], Object<F>>;
+	readonly [K in keyof TT as TT[K] extends Flattenable<F> ? never : JoinPath<P, K>]: Exclude<TT[K], Flattenable<F>>;
 };
 
 /**
@@ -56,13 +56,13 @@ type FlattenT<
  *
  * NOTE: 该类型不等价于 keyof Flatten，只包含字符串类型的字段名。
  */
-export type Keys<T extends Object<FT>, FT = unknown> = keyof Flatten<T, FT> & string;
+export type Keys<T extends Flattenable<FT>, FT = unknown> = keyof Flatten<T, FT> & string;
 
-function isObj<T = unknown>(value: unknown): value is Object<T> {
+function isObj<T = unknown>(value: unknown): value is Flattenable<T> {
 	return value != null && typeof value === 'object' && !Array.isArray(value);
 }
 
-function visitObj<T extends Object<F>, F = unknown>(flat: Record<string, F>, obj: T, path: string): void {
+function visitObj<T extends Flattenable<F>, F = unknown>(flat: Record<string, F>, obj: T, path: string): void {
 	for (const [key, value] of Object.entries(obj)) {
 		const key_path = path ? `${path}.${key}` : key;
 
@@ -102,7 +102,7 @@ function visitObj<T extends Object<F>, F = unknown>(flat: Record<string, F>, obj
  *
  * NOTE: 不支持数组形式的字段。
  */
-export function flatten<T extends Object<F>, F = unknown>(obj: T): Flatten<T, F> {
+export function flatten<T extends Flattenable<F>, F = unknown>(obj: T): Flatten<T, F> {
 	const flat: Record<string, F> = {};
 	visitObj(flat, obj, '');
 	return flat as Flatten<T, F>;

@@ -73,7 +73,7 @@
 			{
 				"name": "move",
 				"summary": "移动对话框的位置\n\n",
-				"type": "move(p?: {\r\n        x: number | string;\r\n        y: number | string;\r\n    }): void",
+				"type": "move(p?: {\n        x: number | string;\n        y: number | string;\n    }): void",
 				"params": [
 					{
 						"name": "p",

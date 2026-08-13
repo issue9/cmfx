@@ -99,4 +99,16 @@ describe('zod', async () => {
 		expect(result[0]).toBeUndefined();
 		expect(result[1]![0].name).toEqual('age');
 	});
+
+	test('primitive', async () => {
+		const v = 5
+
+		let result = await validator<number>(z.number().min(1), new I18n('zh', 'full')).valid(v);
+		expect(result[0]).toEqual(5);
+		expect(result[1]).toBeUndefined();
+
+		result = await validator<number>(usr.shape.age, new I18n('zh', 'full')).valid(v);
+		expect(result[0]).toBeUndefined();
+		expect(result[1]![0].name).toEqual('');
+	})
 });

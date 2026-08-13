@@ -4,7 +4,7 @@
 
 export type { ArrayElement } from './array';
 export type { Converter } from './convert';
-export type { Flatten, Keys as FlattenKeys, Object as Flattenable } from './flatten';
+export type { Flatten, Flattenable, Keys as FlattenKeys } from './flatten';
 export { flatten } from './flatten';
 export type {
 	DeepRequired,
@@ -12,5 +12,6 @@ export type {
 	OmitOptional,
 	OptionalKeys,
 	PickOptional,
+	Primitive,
 	RemoveIndexSignature,
 } from './types';

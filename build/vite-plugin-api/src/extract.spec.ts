@@ -357,8 +357,11 @@ describe('Extractor', { timeout: 20000 }, () => {
 		expect(intf.kind).toEqual('tuple');
 		if (intf.kind === 'tuple') {
 			expect(intf.name).toEqual('ValidResult');
-			expect(intf.type).toEqual('[data: T | undefined, errors: Params<FlattenKeys<T>> | undefined]');
-			expect(intf.typeParams.length).toEqual(1);
+			expect(intf.type).toEqual(`[
+data: T | undefined,
+errors: Params<T extends Flattenable ? FlattenKeys<T> : ''> | undefined
+]`);
+			expect(intf.typeParams?.length).toEqual(1);
 		}
 	});
 });

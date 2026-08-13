@@ -276,7 +276,7 @@
 			{
 				"name": "panel",
 				"summary": "实现实例的面板\n\n",
-				"type": "panel(props: {\r\n        s: Accessor;\r\n        parent: HTMLElement;\r\n    }): JSX.Element",
+				"type": "panel(props: {\n        s: Accessor;\n        parent: HTMLElement;\n    }): JSX.Element",
 				"params": [
 					{
 						"name": "props",
