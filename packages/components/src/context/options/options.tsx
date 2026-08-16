@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, type Mode, type ProblemHandler, readScheme, type Scheme, type ThemeProps } from '@cmfx/cdk';
-import type { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
-import { Hotkey, I18n, LogicError } from '@cmfx/core';
+import type { DictLoader, DisplayStyle, Mode, ProblemHandler, Scheme, ThemeProps } from '@cmfx/cdk';
+import { I18n, joinClass, readScheme } from '@cmfx/cdk';
+import { type Config, Hotkey, LogicError, type PickOptional } from '@cmfx/core';
 import { type Accessor, type Component, createSignal } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 

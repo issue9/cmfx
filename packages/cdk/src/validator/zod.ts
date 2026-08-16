@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Dict, DictLoader, Flattenable, FlattenKeys, Locale, Primitive, Validator, ValidResult } from '@cmfx/core';
-import { I18n } from '@cmfx/core';
+import type { Flattenable, FlattenKeys, Primitive, Validator, ValidResult } from '@cmfx/core';
 import type * as z from 'zod';
+
+import { type Dict, type DictLoader, I18n, type Locale } from '@cdk/locale';
 
 const objects = I18n.createObject<z.core.$ZodConfig>();
 

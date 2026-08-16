@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { flatten, LogicError } from '@cmfx/core';
 import IntlMessageFormat from 'intl-messageformat';
 
-import { LogicError } from '@core/errors';
-import { flatten } from '@core/types';
 import type { Dict, DictKeys, Loader } from './dict';
 import type { DisplayStyle, Locale, TranslateArgs } from './locale';
 import { match } from './match';

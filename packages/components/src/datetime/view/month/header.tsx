@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition } from '@cmfx/cdk';
-import type { Locale } from '@cmfx/core';
+import { adjustPopoverPosition, type Locale } from '@cmfx/cdk';
 import { type Accessor, createMemo, type JSX, untrack } from 'solid-js';
 import IconPrevMonth from '~icons/material-symbols/chevron-left';
 import IconNextMonth from '~icons/material-symbols/chevron-right';

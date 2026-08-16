@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Locale, sleep, type Validator, type ValidResult } from '@cmfx/core';
+import { sleep, type Validator, type ValidResult } from '@cmfx/core';
 import { createStore } from 'solid-js/store';
 import { describe, expect, test } from 'vitest';
 

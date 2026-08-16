@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { I18n } from '@cmfx/core';
+import { I18n } from '@cmfx/cdk';
 import { expect, test } from 'vitest';
 
 import { createBits } from './bits';

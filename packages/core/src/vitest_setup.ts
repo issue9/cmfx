@@ -10,11 +10,12 @@ fetchMocker.enableMocks();
 
 window.EventSource =
 	window.EventSource ||
-	vi.fn().mockImplementation(() => ({
+	(vi.fn().mockImplementation(() => ({
 		close: vi.fn(() => {}),
 		addEventListener: vi.fn((event: string, callback: (_message?: MessageEvent) => object) => {
 			if (event === 'connect') {
 				callback();
 			}
 		}),
-	}));
+		// biome-ignore lint/suspicious/noExplicitAny: any
+	})) as any);

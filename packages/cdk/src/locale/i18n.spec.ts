@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { nano2IntlDuration } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
-import { nano2IntlDuration } from '@core/time';
 import { I18n } from './i18n';
 
 describe('i18n', async () => {

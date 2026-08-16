@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { I18n } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 import * as z from 'zod';
 
+import { I18n } from '@cdk/locale';
 import { createZodLocaleLoader, createZodValidator } from './zod';
 
 const usr = z.object({

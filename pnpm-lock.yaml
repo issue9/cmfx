@@ -520,6 +520,9 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core
+      intl-messageformat:
+        specifier: 'catalog:'
+        version: 11.2.13
       solid-js:
         specifier: 'catalog:'
         version: 1.9.14
@@ -687,9 +690,6 @@ importers:
       hucre:
         specifier: 'catalog:'
         version: 1.1.0
-      intl-messageformat:
-        specifier: 'catalog:'
-        version: 11.2.13
       yaml:
         specifier: 'catalog:'
         version: 2.9.0

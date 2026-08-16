@@ -42,7 +42,6 @@
 		"bowser": "catalog:",
 		"cbor2": "catalog:",
 		"hucre": "catalog:",
-		"intl-messageformat": "catalog:",
 		"yaml": "catalog:"
 	},
 	"devDependencies": {

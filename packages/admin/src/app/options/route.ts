@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ChangeFunc } from '@cmfx/cdk';
+import type { ChangeFunc, Locale } from '@cmfx/cdk';
 import type { Menu } from '@cmfx/components';
-import type { Hotkey, Locale } from '@cmfx/core';
+import type { Hotkey } from '@cmfx/core';
 import type { RouteDefinition } from '@solidjs/router';
 import { createUniqueId, type JSX } from 'solid-js';
 

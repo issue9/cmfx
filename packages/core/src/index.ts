@@ -6,7 +6,6 @@ export * from './api';
 export * from './config';
 export * from './errors';
 export * from './hotkey';
-export * from './locale';
 export * from './math';
 export * from './time';
 export * from './types';

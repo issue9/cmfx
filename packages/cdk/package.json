@@ -50,6 +50,9 @@
 		"tailwindcss": "catalog:",
 		"zod": "catalog:"
 	},
+	"dependencies": {
+		"intl-messageformat": "catalog:"
+	},
 	"devDependencies": {
 		"@microsoft/api-extractor": "catalog:",
 		"@tailwindcss/vite": "catalog:",

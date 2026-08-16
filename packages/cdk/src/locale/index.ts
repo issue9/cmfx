@@ -4,3 +4,8 @@
 
 export type { Props as LocaleProviderProps } from './context';
 export { LocaleProvider, useLocale } from './context';
+export type { Dict, DictKeys, Loader as DictLoader } from './dict';
+export { I18n } from './i18n';
+export type { DisplayStyle, Locale, TranslateArgs } from './locale';
+export { displayStyles } from './locale';
+export { match as matchLocales } from './match';

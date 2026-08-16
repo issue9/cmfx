@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { LocaleProvider, type MountProps, useLocale } from '@cmfx/cdk';
+import { type DisplayStyle, LocaleProvider, type MountProps, useLocale } from '@cmfx/cdk';
 import { Button, useOptions } from '@cmfx/components';
-import type { DisplayStyle } from '@cmfx/core';
 import { createSignal, type JSX } from 'solid-js';
 
 export default function (_: MountProps): JSX.Element {

@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2024-2026 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import type { DictKeys } from '@cmfx/core';
+import type { DictKeys } from '@cmfx/cdk';
 
 import type { Messages } from './en.lang';
 

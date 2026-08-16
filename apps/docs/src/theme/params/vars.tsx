@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Locale } from '@cmfx/cdk';
 import { Button, ConfirmButton, Dialog, Divider, Form, InputText, Table } from '@cmfx/components';
-import type { Locale } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { produce } from 'solid-js/store';
 import IconAdd from '~icons/material-symbols/add-circle-rounded';

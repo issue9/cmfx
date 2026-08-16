@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Dict, type DictLoader, matchLocales } from '@cmfx/core';
+import { type Dict, type DictLoader, matchLocales } from '@cmfx/cdk';
 import * as echarts from 'echarts';
 
 /**

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, type ChangeFunc, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
-import type { DisplayStyle } from '@cmfx/core';
+import type { BaseRef, ChangeFunc, DisplayStyle, RefProps, ThemeProps } from '@cmfx/cdk';
+import { joinClass, useLocale } from '@cmfx/cdk';
 import { createEffect, createMemo, createSignal, For, type JSX, onMount, Show, untrack } from 'solid-js';
 
 import { Button } from '@components/button';

@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale } from '@cmfx/cdk';
+import { I18n, type Locale, useLocale } from '@cmfx/cdk';
 import { Choice } from '@cmfx/components';
-import { I18n, type Locale } from '@cmfx/core';
 import { createMemo, type JSX } from 'solid-js';
 
 import type { Sex } from '@admin/schemas';

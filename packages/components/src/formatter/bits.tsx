@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale } from '@cmfx/cdk';
-import type { Locale } from '@cmfx/core';
+import { type Locale, useLocale } from '@cmfx/cdk';
 import { createEffect, createMemo, createSignal, type JSX } from 'solid-js';
 
 import { buildPerUnit } from './utils';
