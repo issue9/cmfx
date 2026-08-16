@@ -47,7 +47,7 @@ export function Form<T extends Flattenable, R = unknown, P = never>(props: FormP
 		const loc = l;
 		const v = api.validator();
 		if (v) {
-			v.changeLocale(loc);
+			v.changeLocale(loc.locale.toString());
 		}
 	});
 

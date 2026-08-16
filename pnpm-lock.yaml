@@ -10,8 +10,8 @@ catalogs:
       specifier: ^2.5.8
       version: 2.5.8
     '@iconify/json':
-      specifier: ^2.2.516
-      version: 2.2.516
+      specifier: ^2.2.517
+      version: 2.2.517
     '@iconsets/svg-morpheus-ts':
       specifier: ^1.4.14
       version: 1.4.14
@@ -175,7 +175,7 @@ importers:
         version: 2.5.8
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.516
+        version: 2.2.517
       '@solidjs/testing-library':
         specifier: 'catalog:'
         version: 0.8.10(@solidjs/router@1.0.0(solid-js@1.9.14))(solid-js@1.9.14)
@@ -223,7 +223,7 @@ importers:
         version: link:../../packages/illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.516
+        version: 2.2.517
       '@solidjs/router':
         specifier: 'catalog:'
         version: 1.0.0(solid-js@1.9.14)
@@ -302,7 +302,7 @@ importers:
         version: link:../../build/vite-plugin-api
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.516
+        version: 2.2.517
       '@solidjs/router':
         specifier: 'catalog:'
         version: 1.0.0(solid-js@1.9.14)
@@ -458,7 +458,7 @@ importers:
         version: link:../illustrations
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.516
+        version: 2.2.517
       '@scure/base':
         specifier: 'catalog:'
         version: 2.3.0
@@ -526,6 +526,9 @@ importers:
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.3
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
     devDependencies:
       '@microsoft/api-extractor':
         specifier: 'catalog:'
@@ -568,7 +571,7 @@ importers:
         version: link:../core
       '@iconify/json':
         specifier: 'catalog:'
-        version: 2.2.516
+        version: 2.2.517
       '@iconsets/svg-morpheus-ts':
         specifier: 'catalog:'
         version: 1.4.14
@@ -690,9 +693,6 @@ importers:
       yaml:
         specifier: 'catalog:'
         version: 2.9.0
-      zod:
-        specifier: 'catalog:'
-        version: 4.4.3
     devDependencies:
       '@microsoft/api-extractor':
         specifier: 'catalog:'
@@ -998,8 +998,8 @@ packages:
   '@formatjs/icu-skeleton-parser@2.1.11':
     resolution: {integrity: sha512-j8cUmOJzVgkHuS0QiQ6ga76UIoLOFSAMWhs7aZJztH3aAdCOAE6vpC8KVvFB4cU10ON0y2/5oOVmPJ43s2lTwA==}
 
-  '@iconify/json@2.2.516':
-    resolution: {integrity: sha512-mtYele8PmlAO/Vpeu984VemT5GsdtMNqJsnlFKUG/63kOuDmKaD6WKpu4KWiP953qooiG2P9U7j23Q8uOmQOnw==}
+  '@iconify/json@2.2.517':
+    resolution: {integrity: sha512-lLw2kuor7knAHlrvl4XSPLOFTOY6HG7S/kGJEzh0oZfBz7+mxEeHS9V4BhyjllANHCTHDWluLEXKud+2/dBohg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -3481,7 +3481,7 @@ snapshots:
 
   '@formatjs/icu-skeleton-parser@2.1.11': {}
 
-  '@iconify/json@2.2.516':
+  '@iconify/json@2.2.517':
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 2.0.3

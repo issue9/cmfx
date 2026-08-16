@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale } from '@cmfx/cdk';
+import { createZodValidator, useLocale } from '@cmfx/cdk';
 import { Button, ConfirmButton, DataTable, Dialog, Form, InputText, Label, useREST } from '@cmfx/components';
-import { type Query, type Token, zodValidator } from '@cmfx/core';
+import type { Query, Token } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, type JSX, Show } from 'solid-js';
 import { z } from 'zod';
@@ -54,7 +54,7 @@ export class Webauthn implements PassportComponents {
 
 		const [F, , api] = Form.create({
 			initValue: { account: '' },
-			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
+			validator: createZodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
 			submit: async obj => {
 				const cro = await rest.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${obj}`);

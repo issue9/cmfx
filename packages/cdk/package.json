@@ -47,7 +47,8 @@
 	"peerDependencies": {
 		"@cmfx/core": "workspace:*",
 		"solid-js": "catalog:",
-		"tailwindcss": "catalog:"
+		"tailwindcss": "catalog:",
+		"zod": "catalog:"
 	},
 	"devDependencies": {
 		"@microsoft/api-extractor": "catalog:",

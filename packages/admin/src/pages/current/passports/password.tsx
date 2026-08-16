@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale } from '@cmfx/cdk';
+import { createZodValidator, useLocale } from '@cmfx/cdk';
 import { Button, Dialog, Form, InputPassword, InputText, useREST } from '@cmfx/components';
-import { type Token, zodValidator } from '@cmfx/core';
+import type { Token } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import { z } from 'zod';
@@ -48,7 +48,7 @@ export class Pwd implements PassportComponents {
 
 		const [F, Field, api] = Form.create<z.infer<typeof accountSchema>, Token>({
 			initValue: { username: '', password: '' },
-			validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
+			validator: createZodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
 			validOnChange: true,
 			submit: async obj => {
 				const ret = await rest.post<Token>(`/passports/${this.#id}/login`, obj);
@@ -114,7 +114,7 @@ export class Pwd implements PassportComponents {
 
 		const [F, Field] = Form.create<z.infer<typeof valueSchema>>({
 			initValue: { old: '', new: '' },
-			validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
+			validator: createZodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
 			validOnChange: true,
 			submit: async obj => {
 				const r = await rest.put(`/passports/${this.#id}`, obj);

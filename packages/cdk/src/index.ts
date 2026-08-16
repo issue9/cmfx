@@ -11,3 +11,4 @@ export * from './popover';
 export * from './print';
 export * from './scroll';
 export * from './theme';
+export * from './validator';

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { I18n } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 import * as z from 'zod';
 
-import { I18n } from '@core/locale';
-import { createZodLocaleLoader, validator } from './zod';
+import { createZodLocaleLoader, createZodValidator } from './zod';
 
 const usr = z.object({
 	name: z.string().min(2).max(100),
@@ -31,7 +31,7 @@ describe('zod', async () => {
 			address: ['123 Main St', '456 Elm St'],
 		};
 
-		const result = await validator(usr).valid(user);
+		const result = await createZodValidator(usr).valid(user);
 		expect(result[0]).toEqual(user);
 		expect(result[1]).toBeUndefined();
 	});
@@ -43,7 +43,7 @@ describe('zod', async () => {
 			address: ['123 Main St', ''],
 		};
 
-		const v = validator(usr);
+		const v = createZodValidator(usr);
 
 		let result = await v.valid(user);
 		expect(result[0]).toBeUndefined();
@@ -53,7 +53,7 @@ describe('zod', async () => {
 
 		// 切换语言-相似名称
 
-		v.changeLocale(new I18n('zh-CN', 'full'));
+		v.changeLocale('zh-CN');
 		result = await v.valid(user);
 		expect(result[0]).toBeUndefined();
 		expect(result[1]![0].name).toEqual('age');
@@ -62,7 +62,7 @@ describe('zod', async () => {
 
 		// 切换语言-同名
 
-		v.changeLocale(new I18n('zh', 'full'));
+		v.changeLocale('zh');
 		result = await v.valid(user);
 		expect(result[0]).toBeUndefined();
 		expect(result[1]![0].name).toEqual('age');
@@ -77,7 +77,7 @@ describe('zod', async () => {
 			address: ['123 Main St', ''],
 		};
 
-		const result = await validator(usr, new I18n('zh-CN', 'full')).valid(user);
+		const result = await createZodValidator(usr, new I18n('zh-CN', 'full')).valid(user);
 		expect(result[0]).toBeUndefined();
 		expect(result[1]![0].name).toEqual('age');
 		expect(result[1]![0].reason).toEqual('数值过小：期望 number >=18');
@@ -91,11 +91,11 @@ describe('zod', async () => {
 			address: ['123 Main St', ''],
 		};
 
-		let result = await validator<User>(usr, new I18n('zh', 'full')).valid(user.name, 'name');
+		let result = await createZodValidator<User>(usr, new I18n('zh', 'full')).valid(user.name, 'name');
 		expect(result[0]).toEqual('John Doe');
 		expect(result[1]).toBeUndefined();
 
-		result = await validator<User>(usr, new I18n('zh', 'full')).valid(user.age, 'age');
+		result = await createZodValidator<User>(usr, new I18n('zh', 'full')).valid(user.age, 'age');
 		expect(result[0]).toBeUndefined();
 		expect(result[1]![0].name).toEqual('age');
 	});
@@ -103,11 +103,11 @@ describe('zod', async () => {
 	test('primitive', async () => {
 		const v = 5;
 
-		let result = await validator<number>(z.number().min(1), new I18n('zh', 'full')).valid(v);
+		let result = await createZodValidator<number>(z.number().min(1), new I18n('zh', 'full')).valid(v);
 		expect(result[0]).toEqual(5);
 		expect(result[1]).toBeUndefined();
 
-		result = await validator<number>(usr.shape.age, new I18n('zh', 'full')).valid(v);
+		result = await createZodValidator<number>(usr.shape.age, new I18n('zh', 'full')).valid(v);
 		expect(result[0]).toBeUndefined();
 		expect(result[1]![0].name).toEqual('');
 	});

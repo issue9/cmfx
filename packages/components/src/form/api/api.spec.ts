@@ -22,7 +22,7 @@ type Object = {
 };
 
 class ObjectValidator implements Validator<Object> {
-	changeLocale(_: Locale): void {}
+	changeLocale(_: string): void {}
 	async valid(v: Object): Promise<ValidResult<Object>> {
 		if (v.age < 18) {
 			return Promise.resolve([undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]]);

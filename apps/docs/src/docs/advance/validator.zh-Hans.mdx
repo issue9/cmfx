@@ -8,8 +8,8 @@ import types from './api.zh-Hans.json';
 <APIDoc types={types} pkg="@cmfx/core" name="ValidResult" />
 
 [@cmfx/admin](https://npmjs.com/package/@cmfx/admin) 内部是基于 [zod](https://zod.dev/) 作数据验证的，
-并且提供了一部分公用的数据验证器。如果你想采用 zod 作为验证器，可以使用 `zodValidator` 创建验证器：
-<APIDoc types={types} pkg="@cmfx/core" name="zodValidator" />
+并且提供了一部分公用的数据验证器。如果你想采用 zod 作为验证器，可以使用 `createZodValidator` 创建验证器：
+<APIDoc types={types} pkg="@cmfx/cdk" name="createZodValidator" />
 
-`zodValidator` 还附加了一些本地化的数据，可以使用 `createZodLocaleLoader` 加载本地化数据。
-<APIDoc types={types} pkg="@cmfx/core" name="createZodLocaleLoader" />
+`createZodValidator` 还附加了一些本地化的数据，可以使用 `createZodLocaleLoader` 加载本地化数据。
+<APIDoc types={types} pkg="@cmfx/cdk" name="createZodLocaleLoader" />

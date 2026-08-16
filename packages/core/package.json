@@ -38,9 +38,6 @@
 	"scripts": {
 		"build": "vite build"
 	},
-	"peerDependencies": {
-		"zod": "catalog:"
-	},
 	"dependencies": {
 		"bowser": "catalog:",
 		"cbor2": "catalog:",

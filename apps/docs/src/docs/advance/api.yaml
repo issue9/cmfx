@@ -8,14 +8,14 @@
         types:
             - Scheme
             - Radius
+            - createZodLocaleLoader
+            - createZodValidator
 
 - pkg: "@cmfx/core"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - createZodLocaleLoader
             - Problem
-            - zodValidator
             - Validator
             - ValidResult
             - APIError

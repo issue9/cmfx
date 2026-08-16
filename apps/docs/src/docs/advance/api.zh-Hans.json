@@ -81,7 +81,37 @@
 			"summary": "返回的是一个\n`DictLoader`\n函数，可在\n`Locale\naddDict`\n中使用；\n\n",
 			"type": "DictLoader"
 		},
-		"pkg": "@cmfx/core"
+		"pkg": "@cmfx/cdk"
+	},
+	{
+		"kind": "function",
+		"name": "createZodValidator",
+		"summary": "将\n[Zod](Zod)\n对象包装为\n`Validator`\n方法\n\n",
+		"remarks": "此方法使用之前需要使用\n`createZodLocaleLoader`\n加载本地化语言文件。\n\n",
+		"type": "function createZodValidator<T extends Flattenable | Primitive>(s: T extends Flattenable ? z.ZodObject : z.ZodType, l?: Locale): Validator<T>",
+		"typeParams": [
+			{
+				"name": "T",
+				"summary": "被验证对象的类型；\n\n",
+				"type": "Flattenable | Primitive"
+			}
+		],
+		"params": [
+			{
+				"name": "s",
+				"summary": "zod schema；\n\n",
+				"type": "T extends Flattenable ? z.ZodObject<z.core.$ZodLooseShape, z.core.$strip> : z.ZodType<unknown, unknown, z.core.$ZodTypeInternals<unknown, unknown>>"
+			},
+			{
+				"name": "l",
+				"summary": "Locale 对象；\n\n",
+				"type": "Locale | undefined"
+			}
+		],
+		"return": {
+			"type": "Validator<T>"
+		},
+		"pkg": "@cmfx/cdk"
 	},
 	{
 		"kind": "interface",
@@ -133,35 +163,6 @@
 		"pkg": "@cmfx/core"
 	},
 	{
-		"kind": "function",
-		"name": "zodValidator",
-		"summary": "将\n[Zod](Zod)\n对象包装为\n`Validator`\n方法\n\n",
-		"type": "function zodValidator<T extends Flattenable | Primitive>(s: T extends Flattenable ? z.ZodObject : z.ZodType, l?: Locale): Validator<T>",
-		"typeParams": [
-			{
-				"name": "T",
-				"summary": "被验证对象的类型；\n\n",
-				"type": "Flattenable<unknown> | Primitive"
-			}
-		],
-		"params": [
-			{
-				"name": "s",
-				"summary": "zod schema；\n\n",
-				"type": "T extends Flattenable<unknown> ? z.ZodObject<z.core.$ZodLooseShape, z.core.$strip> : z.ZodType<unknown, unknown, z.core.$ZodTypeInternals<unknown, unknown>>"
-			},
-			{
-				"name": "l",
-				"summary": "Locale 对象；\n\n",
-				"type": "Locale | undefined"
-			}
-		],
-		"return": {
-			"type": "Validator<T>"
-		},
-		"pkg": "@cmfx/core"
-	},
-	{
 		"kind": "interface",
 		"name": "Validator",
 		"summary": "验证器\n\n",
@@ -177,11 +178,11 @@
 				"name": "changeLocale",
 				"summary": "改变当前语言\n\n",
 				"remarks": "该操作会改变之后对数据验证时的错误信息\n\n",
-				"type": "changeLocale(locale: Locale): void",
+				"type": "changeLocale(locale: string): void",
 				"params": [
 					{
 						"name": "locale",
-						"type": "Locale"
+						"type": "string"
 					}
 				],
 				"return": {
@@ -218,7 +219,7 @@
 		"typeParams": [
 			{
 				"name": "T",
-				"summary": "需要验证的数据类型；\n\n",
+				"summary": "需要验证的数据类型，可以是 Object，也可以是底层类型，如果是底层类型，那么 errors 中的字段名为空字符串；\n\n",
 				"type": "Flattenable<unknown> | Primitive"
 			}
 		],

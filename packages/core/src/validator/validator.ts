@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import type { Params } from '@core/api';
-import type { Locale } from '@core/locale';
 import type { Flattenable, FlattenKeys, Primitive } from '@core/types';
 
 /**
@@ -28,7 +27,7 @@ export interface Validator<T extends Flattenable | Primitive> {
 	 * @remarks
 	 * 该操作会改变之后对数据验证时的错误信息
 	 */
-	changeLocale(locale: Locale): void;
+	changeLocale(locale: string): void;
 
 	/**
 	 * 验证数据

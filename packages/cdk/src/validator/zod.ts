@@ -2,13 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Dict, DictLoader, Flattenable, FlattenKeys, Locale, Primitive, Validator, ValidResult } from '@cmfx/core';
+import { I18n } from '@cmfx/core';
 import type * as z from 'zod';
-
-import type { Params } from '@core/api';
-import type { Dict, DictLoader, Locale } from '@core/locale';
-import { I18n } from '@core/locale';
-import type { Flattenable, FlattenKeys, Primitive } from '@core/types';
-import type { Validator, ValidResult } from './validation';
 
 const objects = I18n.createObject<z.core.$ZodConfig>();
 
@@ -31,8 +27,10 @@ export function createZodLocaleLoader(f: () => z.core.$ZodConfig): DictLoader {
  * @param s - zod schema；
  * @param l - Locale 对象；
  * @typeParam T - 被验证对象的类型；
+ * @remarks
+ * 此方法使用之前需要使用 {@link createZodLocaleLoader} 加载本地化语言文件。
  */
-export function validator<T extends Flattenable | Primitive>(
+export function createZodValidator<T extends Flattenable | Primitive>(
 	s: T extends Flattenable ? z.ZodObject : z.ZodType,
 	l?: Locale,
 ): Validator<T> {
@@ -45,8 +43,8 @@ export function validator<T extends Flattenable | Primitive>(
 	}
 
 	return {
-		changeLocale(id: Locale): void {
-			params = { error: objects.get(id.locale.toString())!.localeError };
+		changeLocale(id: string): void {
+			params = { error: objects.get(id)!.localeError };
 		},
 
 		async valid(obj: unknown, path?: T extends Flattenable ? FlattenKeys<T> : undefined): Promise<ValidResult<T>> {
@@ -67,7 +65,7 @@ export function validator<T extends Flattenable | Primitive>(
 					undefined,
 					[
 						{
-							name: joinPropertyKey(path, err.path) as T extends Flattenable ? FlattenKeys<T> : '',
+							name: joinPropertyKey<T>(path, err.path),
 							reason: err.message,
 						},
 					],
@@ -79,17 +77,16 @@ export function validator<T extends Flattenable | Primitive>(
 				return [result.data as T, undefined];
 			}
 
-			const errors: Params<T extends Flattenable ? FlattenKeys<T> : ''> = [];
+			const errors: ValidResult<T>[1] = [];
 			result.error.issues.forEach(i => {
-				const p = joinPropertyKey('', i.path) as T extends Flattenable ? FlattenKeys<T> : '';
-				errors.push({ name: p, reason: i.message });
+				errors.push({ name: joinPropertyKey<T>('', i.path), reason: i.message });
 			});
 			return [undefined, errors];
 		},
 	};
 }
 
-function joinPropertyKey(p: string, keys: Array<PropertyKey>): string {
+function joinPropertyKey<T extends Flattenable | Primitive>(p: string, keys: Array<PropertyKey>) {
 	for (const pp of keys) {
 		switch (typeof pp) {
 			case 'number':
@@ -103,5 +100,6 @@ function joinPropertyKey(p: string, keys: Array<PropertyKey>): string {
 				}
 		}
 	}
-	return p;
+
+	return p as T extends Flattenable<unknown> ? FlattenKeys<T, unknown> : '';
 }
