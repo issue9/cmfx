@@ -40,9 +40,25 @@
 		p {
 			@apply text-xl;
 
+			a {
+				@apply relative;
+			}
 			a:link,
 			a:visited {
 				@apply text-palette-fg-focused;
+			}
+			a::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				width: 0;
+				height: 1px;
+				background: currentColor;
+				transition: width var(--default-transition-duration) ease;
+			}
+			a:hover::after {
+				width: 100%;
 			}
 		}
 

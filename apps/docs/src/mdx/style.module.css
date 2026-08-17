@@ -73,6 +73,10 @@
 			a:hover::after {
 				width: 100%;
 			}
+
+			.code {
+				@apply bg-palette-bg-low!;
+			}
 		}
 	}
 }

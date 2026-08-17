@@ -7,6 +7,7 @@ import { Code, useOptions } from '@cmfx/components';
 import { createMemo, type JSX } from 'solid-js';
 
 import { fileObject2Map, type MDXFileObject } from './file';
+import styles from './style.module.css';
 
 export interface LocalizedMDXDocProps extends RefProps<HTMLElement>, StyleProps {
 	/**
@@ -54,7 +55,7 @@ export function LocalizedMDXDoc(props: LocalizedMDXDocProps): JSX.Element {
 
 	return (
 		<article class={props.class} style={props.style} ref={props.ref}>
-			{comp()({ components: { pre: preCode } })}
+			{comp()?.({ components: { pre: preCode } })}
 		</article>
 	);
 }
@@ -62,6 +63,7 @@ export function LocalizedMDXDoc(props: LocalizedMDXDocProps): JSX.Element {
 function preCode(props: { children: HTMLElement }): JSX.Element {
 	return (
 		<Code
+			class={styles.code}
 			decorates={[Code.createToolbarDecorate('copy', 'fit', 'print', 'expand', 'title'), Code.borderDecorate]}
 			ln={0}
 			filename={props.children.className.slice('language-'.length) as Code.Language}
