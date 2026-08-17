@@ -47,7 +47,7 @@ const layoutContext = createContext<LayoutContext>();
 export function useLayout(): LayoutContext {
 	const l = useContext(layoutContext);
 	if (!l) {
-		throw new ContextNotFoundError('layoutContext');
+		throw new ContextNotFoundError('@cmfx/admin.layoutContext');
 	}
 	return l;
 }

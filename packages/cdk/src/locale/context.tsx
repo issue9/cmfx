@@ -44,7 +44,7 @@ const localeContext = createContext<Accessor<Locale>>();
 export function useLocale(): Locale {
 	const ctx = useContext(localeContext);
 	if (!ctx) {
-		throw new ContextNotFoundError('localeContext');
+		throw new ContextNotFoundError('@cmfx/cdk.localeContext');
 	}
 
 	return {

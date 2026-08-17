@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2026 caixw
+#
+# SPDX-License-Identifier: MIT
+
+- pkg: "@cmfx/cdk"
+  entrypoints:
+      - entrypoint: "index.d.ts"
+        types:
+            - HotkeyProviderProps
+            - useHotkey

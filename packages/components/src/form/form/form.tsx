@@ -132,7 +132,7 @@ export interface FormMessageProps extends ThemeProps {
 export function Message(props: FormMessageProps): JSX.Element {
 	const f = useForm();
 	if (!f) {
-		throw new ContextNotFoundError('formContext');
+		throw new ContextNotFoundError('@cmfx/components.formContext');
 	}
 
 	return (

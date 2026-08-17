@@ -45,7 +45,7 @@ const themeContext = createContext<PartialThemeContext>();
 export function useTheme(): ThemeContext {
 	const ctx = useContext(themeContext);
 	if (!ctx) {
-		throw new ContextNotFoundError('themeContext');
+		throw new ContextNotFoundError('@cmfx/cdk.themeContext');
 	}
 
 	// 顶层的 ThemeProvider 会返回完整的 Theme 对象

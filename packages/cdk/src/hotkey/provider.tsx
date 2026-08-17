@@ -41,7 +41,7 @@ export function HotkeyProvider(props: HotkeyProviderProps): JSX.Element {
 export function useHotkey(): HotkeyContext {
 	const ctx = useContext(hotkeyContext);
 	if (!ctx) {
-		throw new ContextNotFoundError('hotkeyContext');
+		throw new ContextNotFoundError('@cmfx/cdk.hotkeyContext');
 	}
 	return ctx;
 }

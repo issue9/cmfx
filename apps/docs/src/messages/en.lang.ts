@@ -116,6 +116,7 @@ const messages = {
 			empty: 'Empty',
 			form: 'Form',
 			formatter: 'Formatter',
+			hotkey: 'Hotkey',
 			icon: 'Icon',
 			illustrations: 'Illustrations',
 			input: 'Input',

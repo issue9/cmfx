@@ -6,6 +6,9 @@ import { LogicError } from '@cmfx/core';
 
 import { Hotkey, type Modifiers } from './hotkey';
 
+/**
+ * 快捷键的处理方法
+ */
 export type Handler = (e: KeyboardEvent) => void;
 
 export type EventType = 'keyup' | 'keydown';
@@ -58,6 +61,8 @@ export class Manager implements HotkeyContext {
 		for (const [hk, h] of this.#handlers) {
 			if (hk.match(e)) {
 				h(e);
+				e.stopPropagation();
+				e.preventDefault();
 			}
 		}
 	};

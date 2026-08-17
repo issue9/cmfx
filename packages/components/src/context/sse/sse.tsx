@@ -69,7 +69,7 @@ export function useSSE(
 ): [mount: () => Promise<void>, unmount: () => Promise<void>] {
 	const es = useContext(sseContext);
 	if (!es) {
-		throw new ContextNotFoundError('sseContext');
+		throw new ContextNotFoundError('@cmfx/components.sseContext');
 	}
 
 	const mount = async (): Promise<void> => {

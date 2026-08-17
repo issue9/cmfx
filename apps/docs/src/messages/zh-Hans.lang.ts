@@ -118,6 +118,7 @@ const messages: typeof m = {
 			empty: 'Empty 空状态',
 			form: 'Form 表单',
 			formatter: 'Formatter 格式化',
+			hotkey: 'Hotkey 快捷键',
 			icon: 'Icon 图标',
 			illustrations: 'Illustrations 插画',
 			input: 'Input 输入框',

@@ -1,0 +1,37 @@
+[
+	{
+		"kind": "interface",
+		"name": "HotkeyProviderProps",
+		"properties": [
+			{
+				"name": "root",
+				"summary": "绑定的对象\n\n",
+				"type": "HTMLElement | undefined",
+				"def": "document\n\n",
+				"readonly": true
+			},
+			{
+				"name": "eventType",
+				"summary": "注册的的事件类型\n\n",
+				"type": "EventType | undefined",
+				"def": "'keyup'\n\n",
+				"readonly": true
+			},
+			{
+				"name": "children",
+				"type": "JSX.Element"
+			}
+		],
+		"pkg": "@cmfx/cdk"
+	},
+	{
+		"kind": "function",
+		"name": "useHotkey",
+		"summary": "获取快捷键的管理接口\n\n",
+		"type": "function useHotkey(): HotkeyContext",
+		"return": {
+			"type": "HotkeyContext"
+		},
+		"pkg": "@cmfx/cdk"
+	}
+]

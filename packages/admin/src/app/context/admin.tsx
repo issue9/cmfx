@@ -75,7 +75,7 @@ export function AdminProvider(props: ParentProps) {
 export function useAdmin() {
 	const admin = useContext(adminContext);
 	if (!admin) {
-		throw new ContextNotFoundError('adminContext');
+		throw new ContextNotFoundError('@cmfx/admin.adminContext');
 	}
 	const [info, actions] = admin;
 

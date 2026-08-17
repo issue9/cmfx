@@ -100,8 +100,8 @@ export const presetProps: Readonly<Partial<ButtonNormalProps>> = {
 export function Button(props: ButtonProps) {
 	let ref: HTMLElement;
 
-	const hotkey = useHotkey();
 	if (props.hotkey && props.onclick) {
+		const hotkey = useHotkey();
 		onMount(() => hotkey.bind(props.hotkey!, () => ref!.click()));
 		onCleanup(() => hotkey.unbind(props.hotkey!));
 	}

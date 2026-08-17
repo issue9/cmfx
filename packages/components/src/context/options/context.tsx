@@ -71,7 +71,7 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
 export function useOptions(): [accessor: OptionsAccessor, origin: ReqOptions] {
 	const ctx = useContext(optionsContext);
 	if (!ctx) {
-		throw new ContextNotFoundError('optionsContext');
+		throw new ContextNotFoundError('@cmfx/components.optionsContext');
 	}
 	return [ctx.accessor, ctx.origin];
 }

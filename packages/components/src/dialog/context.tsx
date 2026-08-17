@@ -31,7 +31,7 @@ export function DialogProvider(props: ParentProps & Context): JSX.Element {
 export function useDialog(): Context {
 	const ctx = useContext(dialogContext);
 	if (!ctx) {
-		throw new ContextNotFoundError('dialogContext');
+		throw new ContextNotFoundError('@cmfx/components.dialogContext');
 	}
 	return ctx;
 }

@@ -43,7 +43,7 @@ const tableContext = createContext<Context<object>>();
 export function useTableContext<T extends object, Q extends Query = Query>(): Context<T, Q> {
 	const context = useContext(tableContext);
 	if (!context) {
-		throw new ContextNotFoundError('tableContext');
+		throw new ContextNotFoundError('@cmfx/components.tableContext');
 	}
 	return context as unknown as Context<T, Q>;
 }

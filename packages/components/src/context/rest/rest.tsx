@@ -25,7 +25,7 @@ export function useAPI(): [API, ProblemHandler] {
 
 	const ctx = useContext(apiContext);
 	if (!ctx) {
-		throw new ContextNotFoundError('apiContext');
+		throw new ContextNotFoundError('@cmfx/components.apiContext');
 	}
 
 	return [ctx, opt.problemHandler];

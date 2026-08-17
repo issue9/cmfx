@@ -22,7 +22,7 @@ export function OptionsProvider(props: ParentProps<OptionsContext>): JSX.Element
 export function useOptions(): OptionsContext {
 	const ctx = useContext(optionsContext);
 	if (!ctx) {
-		throw new ContextNotFoundError('optionsContext');
+		throw new ContextNotFoundError('@cmfx/admin.optionsContext');
 	}
 	return ctx;
 }
