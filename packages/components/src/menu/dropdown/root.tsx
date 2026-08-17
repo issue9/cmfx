@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { AvailableEnumType, BaseRef, PopoverAlign, RefProps } from '@cmfx/cdk';
-import { adjustPopoverPosition, joinClass, pointInElement } from '@cmfx/cdk';
-import { Hotkey } from '@cmfx/core';
+import type { AvailableEnumType, BaseRef, Hotkey, PopoverAlign, RefProps } from '@cmfx/cdk';
+import { adjustPopoverPosition, joinClass, pointInElement, useHotkey } from '@cmfx/cdk';
 import { createSignal, type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 
 import { Menu } from '@components/menu/menu';
@@ -175,12 +174,9 @@ export function Dropdown<T extends AvailableEnumType = string>(props: DropdownPr
 	}
 
 	if (props.hotkey) {
-		onMount(() => {
-			Hotkey.bind(props.hotkey!, toggle);
-		});
-		onCleanup(() => {
-			Hotkey.unbind(props.hotkey!);
-		});
+		const hk = useHotkey();
+		onMount(() => hk.bind(props.hotkey!, toggle));
+		onCleanup(() => hk.unbind(props.hotkey!));
 	}
 
 	const onChange = props.multiple

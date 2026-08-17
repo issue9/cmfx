@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { MountProps } from '@cmfx/cdk';
+import { Hotkey, type MountProps } from '@cmfx/cdk';
 import { Dropdown, type Menu } from '@cmfx/components';
-import { Hotkey } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';

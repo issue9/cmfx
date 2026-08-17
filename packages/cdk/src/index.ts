@@ -5,6 +5,7 @@
 export * from './base';
 export * from './clipboard';
 export * from './errors';
+export * from './hotkey';
 export * from './locale';
 export * from './move';
 export * from './popover';

@@ -520,6 +520,9 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core
+      bowser:
+        specifier: 'catalog:'
+        version: 2.14.1
       intl-messageformat:
         specifier: 'catalog:'
         version: 11.2.13

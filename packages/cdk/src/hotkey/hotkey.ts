@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { LogicError } from '@cmfx/core';
 import Browser from 'bowser';
-
-import { LogicError } from '@core/errors';
 
 export const modifiers = ['meta', 'alt', 'control', 'shift'] as const;
 
@@ -50,113 +49,10 @@ const modifierSymbols: ReadonlyMap<string, ReadonlyMap<Modifier, string>> = new 
 
 const modifierSymbolsByOS = osName ? modifierSymbols.get(osName) : undefined;
 
-export type Handler = (e: KeyboardEvent) => void;
-
-// 触发的事件名称
-const eventName = 'keyup';
-
 /**
  * 定义快捷键
  */
 export class Hotkey {
-	static #handlers: Map<Hotkey, Handler> = new Map();
-	static #inited = false;
-
-	static #onkeyup = (e: KeyboardEvent) => {
-		for (const [hk, h] of Hotkey.#handlers) {
-			if (hk.match(e)) {
-				h(e);
-			}
-		}
-	};
-
-	/**
-	 * 初始化环境
-	 */
-	static init(): void {
-		if (Hotkey.#inited) {
-			return;
-		}
-
-		document.addEventListener(eventName, Hotkey.#onkeyup);
-		Hotkey.#inited = true;
-	}
-
-	/**
-	 * 注销环境
-	 */
-	static destroy(): void {
-		if (!Hotkey.#inited) {
-			return;
-		}
-
-		document.removeEventListener(eventName, Hotkey.#onkeyup);
-		Hotkey.#handlers.clear();
-		Hotkey.#inited = false;
-	}
-
-	/**
-	 * 是否存在指定的快捷键
-	 */
-	static hasKeys(key: string, ...modifiers: Modifiers): boolean {
-		return Hotkey.has(new Hotkey(key, ...modifiers));
-	}
-
-	/**
-	 * 是否存在指定的快捷键
-	 */
-	static has(hotkey: Hotkey): boolean {
-		for (const [hk] of Hotkey.#handlers) {
-			if (hk.equal(hotkey)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * 绑定快捷键
-	 *
-	 * @param handler - 处理函数；
-	 * @param key - 快捷键；
-	 * @param modifiers - 修饰符；
-	 */
-	static bindKeys(handler: Handler, key: string, ...modifiers: Modifiers): void {
-		Hotkey.bind(new Hotkey(key, ...modifiers), handler);
-	}
-
-	/**
-	 * 绑定快捷键
-	 *
-	 * @param hotkey - 快捷键；
-	 * @param handler - 快捷键处理函数；
-	 */
-	static bind(hotkey: Hotkey, handler: Handler): void {
-		for (const [hk] of Hotkey.#handlers) {
-			if (hk.equal(hotkey)) {
-				throw new LogicError(`快捷键 ${hotkey.toString()} 已经存在`);
-			}
-		}
-
-		Hotkey.#handlers.set(hotkey, handler);
-	}
-
-	/**
-	 * 解绑快捷键
-	 *
-	 * @param hotkey - 快捷键；
-	 */
-	static unbind(hotkey: Hotkey): void {
-		for (const [hk] of Hotkey.#handlers) {
-			if (hk.equal(hotkey)) {
-				Hotkey.#handlers.delete(hk);
-				break;
-			}
-		}
-	}
-
-	/********************* 以下为实例方法 ***********************/
-
 	readonly key: string;
 	readonly #keyCode: string;
 	readonly modifiers: number;
@@ -166,7 +62,7 @@ export class Hotkey {
 		modifiers = modifiers.sort();
 		for (let i = 0; i < modifiers.length; i++) {
 			if (modifiers[i] === modifiers[i + 1]) {
-				throw `重复的修饰符 ${modifiers[i]}`;
+				throw new LogicError(`重复的修饰符 ${modifiers[i]}`);
 			}
 		}
 

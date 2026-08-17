@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { DisplayStyle, Mode, Scheme } from '@cmfx/cdk';
-import { ContextNotFoundError, LocaleProvider, ThemeProvider } from '@cmfx/cdk';
+import { ContextNotFoundError, HotkeyProvider, LocaleProvider, ThemeProvider } from '@cmfx/cdk';
 import { LogicError } from '@cmfx/core';
 import { createContext, type JSX, type ParentProps, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
@@ -46,15 +46,17 @@ export function OptionsProvider(props: ParentProps<ReqOptions>): JSX.Element {
 
 	return (
 		<optionsContext.Provider value={{ origin: opt, accessor: accessor }}>
-			<ThemeProvider mode={accessor.getMode()} styleElement={document.documentElement} scheme={accessor.getScheme()}>
-				<LocaleProvider
-					id={accessor.getLocale()}
-					displayStyle={accessor.getDisplayStyle()}
-					timezone={accessor.getTimezone()}
-				>
-					{props.children}
-				</LocaleProvider>
-			</ThemeProvider>
+			<HotkeyProvider>
+				<ThemeProvider mode={accessor.getMode()} styleElement={document.documentElement} scheme={accessor.getScheme()}>
+					<LocaleProvider
+						id={accessor.getLocale()}
+						displayStyle={accessor.getDisplayStyle()}
+						timezone={accessor.getTimezone()}
+					>
+						{props.children}
+					</LocaleProvider>
+				</ThemeProvider>
+			</HotkeyProvider>
 		</optionsContext.Provider>
 	);
 }

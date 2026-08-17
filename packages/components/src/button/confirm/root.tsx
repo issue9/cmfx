@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition, handleEvent, joinClass, type RefProps, useLocale } from '@cmfx/cdk';
-import { Hotkey } from '@cmfx/core';
+import { adjustPopoverPosition, handleEvent, joinClass, type RefProps, useHotkey, useLocale } from '@cmfx/cdk';
 import { useNavigate } from '@solidjs/router';
 import { type JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
@@ -63,9 +62,10 @@ export function ConfirmButton(props: ConfirmButtonProps) {
 
 	const [_, btnProps] = splitProps(props, ['children', 'onclick', 'prompt', 'palette', 'ok', 'cancel', 'ref']);
 
+	const hotkey = useHotkey();
 	onMount(() => {
 		if (props.hotkey) {
-			Hotkey.bind(props.hotkey, () => {
+			hotkey.bind(props.hotkey, () => {
 				btnRef!.root().click();
 			});
 		}
@@ -73,7 +73,7 @@ export function ConfirmButton(props: ConfirmButtonProps) {
 
 	onCleanup(() => {
 		if (props.hotkey) {
-			Hotkey.unbind(props.hotkey);
+			hotkey.unbind(props.hotkey);
 		}
 	});
 

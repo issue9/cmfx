@@ -27,7 +27,7 @@ test('theme', () => {
 	expect(hasTheme(div)).toBeTruthy();
 });
 
-describe('context', () => {
+describe('ThemeProvider', () => {
 	const [mode, setMode] = createSignal<Mode>('light');
 	const [scheme, setScheme] = createStore<Scheme>(schemes.green);
 

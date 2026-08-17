@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { AvailableEnumType } from '@cmfx/cdk';
-import type { Hotkey } from '@cmfx/core';
+import type { AvailableEnumType, Hotkey } from '@cmfx/cdk';
 import type { JSX } from 'solid-js';
 
 interface ItemBase {

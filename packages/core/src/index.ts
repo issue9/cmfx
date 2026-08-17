@@ -5,7 +5,6 @@
 export * from './api';
 export * from './config';
 export * from './errors';
-export * from './hotkey';
 export * from './math';
 export * from './time';
 export * from './types';

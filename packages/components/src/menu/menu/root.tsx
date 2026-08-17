@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import type { AvailableEnumType, BaseRef, Layout, RefProps, ThemeProps, ValueProps } from '@cmfx/cdk';
-import { calcPopoverPosition, classList, joinClass } from '@cmfx/cdk';
-import { Hotkey, sleep } from '@cmfx/core';
+import { calcPopoverPosition, classList, joinClass, useHotkey } from '@cmfx/cdk';
+import { sleep } from '@cmfx/core';
 import { A, useMatch } from '@solidjs/router';
 import type { JSX } from 'solid-js';
 import {
@@ -382,14 +382,9 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 						const hk = i().hotkey;
 						let liRef: HTMLLIElement | undefined;
 						if (hk) {
-							onMount(() => {
-								Hotkey.bind(hk, () => {
-									liRef!.click();
-								});
-							});
-							onCleanup(() => {
-								Hotkey.unbind(hk);
-							});
+							const hotkey = useHotkey();
+							onMount(() => hotkey.bind(hk, () => liRef!.click()));
+							onCleanup(() => hotkey.unbind(hk));
 						}
 
 						const val = i().value;

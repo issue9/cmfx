@@ -4,7 +4,7 @@
 
 import type { DictLoader, DisplayStyle, Mode, ProblemHandler, Scheme, ThemeProps } from '@cmfx/cdk';
 import { I18n, joinClass, readScheme } from '@cmfx/cdk';
-import { type Config, Hotkey, LogicError, type PickOptional } from '@cmfx/core';
+import { type Config, LogicError, type PickOptional } from '@cmfx/core';
 import { type Accessor, type Component, createSignal } from 'solid-js';
 import { default as IconLoading } from '~icons/cmfx/loading';
 
@@ -224,7 +224,6 @@ export function initEnv(opt: Options): [ReqOptions, Accessor<boolean>] {
 
 	// 一些全局内容的初始化
 
-	Hotkey.init(); // 初始化快捷键
 	I18n.init(o.locale);
 
 	const promises = Object.entries(o.messages).map(async ([key, loaders]) => {

@@ -7,21 +7,6 @@ import { describe, expect, test } from 'vitest';
 import { Hotkey, modifierCodes } from './hotkey';
 
 describe('HotKey', () => {
-	Hotkey.init();
-	Hotkey.init(); // 多次调用
-
-	test('static', async () => {
-		expect(Hotkey.hasKeys('f', 'control')).toBe(false);
-
-		Hotkey.bindKeys(() => {}, 'f', 'control');
-		expect(Hotkey.hasKeys('f', 'control')).toBe(true);
-
-		expect(() => Hotkey.bindKeys(() => {}, 'f', 'control')).toThrow('快捷键 control+f 已经存在');
-
-		Hotkey.unbind(new Hotkey('F', 'control'));
-		expect(Hotkey.hasKeys('f', 'control')).toBe(false);
-	});
-
 	test('construct', () => {
 		expect(() => new Hotkey('F', 'shift', 'shift')).toThrow('重复的修饰符 shift');
 
@@ -57,7 +42,4 @@ describe('HotKey', () => {
 		const hk = new Hotkey('F', 'shift', 'meta');
 		expect(hk.toString()).toEqual('meta+shift+F');
 	});
-
-	Hotkey.destroy();
-	Hotkey.destroy(); // 多次调用
 });

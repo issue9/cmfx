@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
-import { Hotkey } from '@cmfx/core';
+import { type BaseRef, type Hotkey, joinClass, type RefProps, type ThemeProps, useHotkey, useLocale } from '@cmfx/cdk';
 import { createSignal, type JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import IconClear from '~icons/material-symbols/close';
 import IconSearch from '~icons/material-symbols/search';
@@ -83,16 +82,18 @@ export function Root(props: SearchProps): JSX.Element {
 		}
 	};
 
+	const hk = useHotkey();
+
 	onMount(() => {
 		// 绑定快捷键
 		if (props.hotkey) {
-			Hotkey.bind(props.hotkey, () => inputRef.input().focus());
+			hk.bind(props.hotkey, () => inputRef.input().focus());
 		}
 		document.addEventListener('click', click);
 	});
 	onCleanup(() => {
 		if (props.hotkey) {
-			Hotkey.unbind(props.hotkey);
+			hk.unbind(props.hotkey);
 		}
 		document.removeEventListener('click', click);
 	});

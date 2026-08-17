@@ -4,7 +4,7 @@
 
 import './style.css';
 
-import { type Mode, modes, useLocale, useTheme } from '@cmfx/cdk';
+import { Hotkey, type Mode, modes, useLocale, useTheme } from '@cmfx/cdk';
 import {
 	Appbar,
 	Button,
@@ -18,7 +18,6 @@ import {
 	Transition,
 	useOptions,
 } from '@cmfx/components';
-import { Hotkey } from '@cmfx/core';
 import { bro } from '@cmfx/illustrations';
 import { type RouteDefinition, type RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, type JSX, lazy } from 'solid-js';

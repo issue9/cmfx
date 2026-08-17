@@ -7,6 +7,7 @@ import { render } from '@solidjs/testing-library';
 import type { JSX, ParentComponent, ParentProps } from 'solid-js';
 import { afterAll, expect } from 'vitest';
 
+import { HotkeyProvider } from '@cdk/hotkey';
 import { LocaleProvider } from '@cdk/locale';
 import { schemes, type ThemeProps, ThemeProvider } from '@cdk/theme';
 
@@ -17,11 +18,13 @@ type Result = ReturnType<typeof render>;
  */
 export function Provider(props: ParentProps): JSX.Element {
 	return (
-		<ThemeProvider mode="system" styleElement={document.documentElement} scheme={schemes.green}>
-			<LocaleProvider id="zh-Hans" displayStyle="full" timezone="UTC-8">
-				{props.children}
-			</LocaleProvider>
-		</ThemeProvider>
+		<HotkeyProvider>
+			<ThemeProvider mode="system" styleElement={document.documentElement} scheme={schemes.green}>
+				<LocaleProvider id="zh-Hans" displayStyle="full" timezone="UTC-8">
+					{props.children}
+				</LocaleProvider>
+			</ThemeProvider>
+		</HotkeyProvider>
 	);
 }
 

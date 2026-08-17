@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, classList, PropsError, type RefProps } from '@cmfx/cdk';
-import { Hotkey } from '@cmfx/core';
+import { type BaseRef, classList, PropsError, type RefProps, useHotkey } from '@cmfx/cdk';
 import { A, type AnchorProps as XAnchorProps } from '@solidjs/router';
 import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps } from 'solid-js';
 
@@ -101,9 +100,10 @@ export const presetProps: Readonly<Partial<ButtonNormalProps>> = {
 export function Button(props: ButtonProps) {
 	let ref: HTMLElement;
 
+	const hotkey = useHotkey();
 	if (props.hotkey && props.onclick) {
-		onMount(() => Hotkey.bind(props.hotkey!, () => ref!.click()));
-		onCleanup(() => Hotkey.unbind(props.hotkey!));
+		onMount(() => hotkey.bind(props.hotkey!, () => ref!.click()));
+		onCleanup(() => hotkey.unbind(props.hotkey!));
 	}
 
 	// anchor

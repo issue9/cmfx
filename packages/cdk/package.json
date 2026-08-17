@@ -51,6 +51,7 @@
 		"zod": "catalog:"
 	},
 	"dependencies": {
+		"bowser": "catalog:",
 		"intl-messageformat": "catalog:"
 	},
 	"devDependencies": {
