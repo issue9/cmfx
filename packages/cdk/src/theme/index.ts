@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as ThemeProviderProps, ThemeContext } from './context';
+export type { ThemeContext, ThemeProviderProps } from './context';
 export { ThemeProvider, useTheme } from './context';
 export { type Mode, modes } from './mode';
 export { isReducedMotion } from './motion';

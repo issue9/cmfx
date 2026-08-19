@@ -12,21 +12,25 @@ import { type Scheme, writeScheme } from './scheme';
 /**
  * 提供与主题相关的接口
  */
-export interface ThemeContext {
+interface ThemeContext {
 	/**
 	 * 当前主题的样式
+	 *
+	 * @reactive
 	 */
 	scheme: Scheme;
 
 	/**
 	 * 主题的模式
+	 *
+	 * @reactive
 	 */
 	mode: Mode;
 }
 
 type PartialThemeContext = Partial<ThemeContext>;
 
-export interface Props extends ParentProps, PartialThemeContext {
+export interface ThemeProviderProps extends ParentProps, Partial<Omit<ThemeContext, 'actualMode'>> {
 	/**
 	 * 指定用于保存当前主题样式的元素 ID
 	 *
@@ -58,10 +62,10 @@ export function useTheme(): ThemeContext {
  * @remarks
  * 除去 children 之外的可选属性，如果未指定，会尝试向上一层的 `<ThemeProvider>` 组件查找对应的值。
  *
- * 如果 {@link Props#children} 不是 HTMLElement 类型，将不启作用。
+ * 如果 {@link ThemeProviderProps#children} 不是 HTMLElement 类型，将不启作用。
  * 只对被包含的元素起作用，如果是通过 Portal 将元素放到外层的，不会启作用，比如 notify 的通知框。
  */
-export function ThemeProvider(props: Props): JSX.Element {
+export function ThemeProvider(props: ThemeProviderProps): JSX.Element {
 	// 顶层的 ThemeProvider 由 OptionsProvider 调用，必须提供完整的参数，
 	// 所以后续所有属性都可以从顶层对象获取当前实例不存在的参数并合并入当前实例。
 

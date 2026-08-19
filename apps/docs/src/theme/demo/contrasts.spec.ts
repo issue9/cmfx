@@ -9,6 +9,7 @@ import { getContrasts } from './contrasts';
 describe('getContrasts', () => {
 	const c = getContrasts();
 
+	// NOTE: 测试数据对应 tailwind.css 中的值。
 	test('none', () => {
 		expect(c.get('none')).toEqual({
 			'--opacity': '50%',
