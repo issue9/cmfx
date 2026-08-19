@@ -22,7 +22,7 @@ export default function (props: MountProps): JSX.Element {
 
 			<div class={joinClass(palette())}>
 				<IconFace class="rounded-full bg-palette-bg-low hover:text-palette-fg-high" />
-				<IconPerson class="border border-palette-fg-high" />
+				<IconPerson class="border border-palette-border-high" />
 
 				<span class="flex w-full items-center border border-red-500 bg-palette-fg-high">
 					<IconFace />

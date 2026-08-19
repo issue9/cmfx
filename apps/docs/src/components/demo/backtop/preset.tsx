@@ -23,7 +23,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 			</Portal>
 
-			<div class="mt-10 h-50 w-1/3 overflow-y-scroll border border-palette-fg">
+			<div class="mt-10 h-50 w-1/3 overflow-y-scroll border border-palette-border">
 				<For each={len}>
 					{i => (
 						<>

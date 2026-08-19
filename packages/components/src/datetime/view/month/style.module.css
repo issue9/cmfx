@@ -25,7 +25,7 @@
 				}
 
 				> span:hover {
-					@apply text-palette-fg-high;
+					@apply text-palette-bg-high;
 				}
 			}
 

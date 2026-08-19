@@ -10,7 +10,7 @@
 	fieldset.panel:enabled {
 		table tbody tr {
 			td:not(.disabled):hover {
-				@apply bg-palette-fg-low cursor-pointer;
+				@apply bg-palette-bg-low cursor-pointer;
 			}
 		}
 	}
@@ -53,7 +53,7 @@
 
 					td.today {
 						time {
-							@apply text-palette-bg-low;
+							@apply text-palette-fg-low;
 						}
 					}
 
