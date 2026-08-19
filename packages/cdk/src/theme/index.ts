@@ -4,7 +4,7 @@
 
 export type { ThemeContext, ThemeProviderProps } from './context';
 export { ThemeProvider, useTheme } from './context';
-export { type Mode, modes } from './mode';
+export { actualMode, type Mode, modes, systemMode } from './mode';
 export { isReducedMotion } from './motion';
 export { nextPalette, type Palette, palette, palettes } from './palette';
 export type { StyleProps, ThemeProps } from './props';

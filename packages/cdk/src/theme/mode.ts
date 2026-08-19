@@ -47,4 +47,4 @@ const [systemMode, setSystemMode] = createSignal<Omit<Mode, 'system'>>(modeWatch
 
 modeWatcher.addEventListener('change', e => setSystemMode(e.matches ? 'dark' : 'light'));
 
-export type { systemMode };
+export { systemMode };

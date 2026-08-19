@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type Mode, ThemeProvider, useLocale, useTheme } from '@cmfx/cdk';
+import { actualMode, type Mode, ThemeProvider, useLocale, useTheme } from '@cmfx/cdk';
 import { Appbar, Button, ButtonGroup, Checkbox } from '@cmfx/components';
 import { createSignal, type JSX, Match, Show, Switch } from 'solid-js';
 import IconNone from '~icons/ic/round-contrast';
@@ -72,7 +72,7 @@ export function Demo(props: { s: SchemeStore }): JSX.Element {
 									<Button
 										square
 										title={l.t('_d.theme.light')}
-										checked={mode() === 'light'}
+										checked={actualMode(mode()) === 'light'}
 										onclick={() => setMode('light')}
 									>
 										<IconLight />
@@ -80,7 +80,7 @@ export function Demo(props: { s: SchemeStore }): JSX.Element {
 									<Button
 										square
 										title={l.t('_d.theme.dark')}
-										checked={mode() === 'dark'}
+										checked={actualMode(mode()) === 'dark'}
 										onclick={() => setMode('dark')}
 									>
 										<IconDark />

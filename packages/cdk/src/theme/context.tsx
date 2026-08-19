@@ -12,7 +12,7 @@ import { type Scheme, writeScheme } from './scheme';
 /**
  * 提供与主题相关的接口
  */
-interface ThemeContext {
+export interface ThemeContext {
 	/**
 	 * 当前主题的样式
 	 *
