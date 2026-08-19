@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { vi } from 'vitest';
+import './style.css';
 
 // https://github.com/jsdom/jsdom/issues/3522
 window.matchMedia =

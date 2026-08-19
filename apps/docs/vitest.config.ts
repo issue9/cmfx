@@ -24,6 +24,7 @@ export default mergeConfig(
 			solidPlugin(),
 		],
 		test: {
+			css: true,
 			setupFiles: ['./src/vitest_setup.ts'],
 		},
 	}),

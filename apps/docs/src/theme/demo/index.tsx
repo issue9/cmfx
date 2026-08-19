@@ -15,15 +15,9 @@ import IconLess from '~icons/zondicons/minus-outline';
 
 import type { SchemeStore } from '@docs/theme/utils';
 import { Components } from './components';
-import { type Contrast, Palettes } from './palettes';
+import { type Contrast, contrasts } from './contrasts';
+import { Palettes } from './palettes';
 import styles from './style.module.css';
-
-// 参考 tailwind.css 中的设置
-const contrasts: ReadonlyMap<Contrast, Record<string, string>> = new Map([
-	['more', { '--contrast': '100%', '--opacity': '.7' }],
-	['less', { '--contrast': '80%', '--opacity': '.3' }],
-	['none', { '--contrast': '90%', '--opacity': '.5' }],
-]);
 
 /**
  * 组件演示

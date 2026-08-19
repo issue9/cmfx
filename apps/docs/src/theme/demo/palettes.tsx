@@ -7,9 +7,8 @@ import { Color } from '@cmfx/components';
 import { createEffect, createSignal, For, type JSX } from 'solid-js';
 
 import type { SchemeStore } from '@docs/theme/utils';
+import type { Contrast } from './contrasts';
 import styles from './style.module.css';
-
-export type Contrast = 'more' | 'less' | 'none';
 
 export function Palettes(props: { s: SchemeStore; c: Contrast; apca?: boolean }): JSX.Element {
 	return (
