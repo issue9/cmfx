@@ -1,68 +1,34 @@
 [
 	{
-		"kind": "interface",
-		"properties": [
+		"name": "Scheme",
+		"summary": "定义主题相关的各类变量\n\n",
+		"kind": "intersection",
+		"types": [
 			{
-				"name": "primary",
-				"type": "string"
+				"kind": "interface"
 			},
 			{
-				"name": "secondary",
-				"type": "string"
-			},
-			{
-				"name": "tertiary",
-				"type": "string"
-			},
-			{
-				"name": "error",
-				"summary": "表示错误信息\n\n",
-				"type": "string"
-			},
-			{
-				"name": "surface",
-				"summary": "一般用于大面积的背景色\n\n",
-				"type": "string"
-			},
-			{
-				"name": "radius",
-				"summary": "各种不同大小的组件的圆角设置\n\n",
-				"type": "Radius"
-			},
-			{
-				"name": "vars",
-				"summary": "其它的 CSS 变量\n\n",
-				"type": "Record<`--${string}`, string> | undefined"
+				"kind": "interface",
+				"properties": [
+					{
+						"name": "radius",
+						"summary": "各种不同大小的组件的圆角设置\n\n",
+						"type": "Radius"
+					},
+					{
+						"name": "vars",
+						"summary": "其它的 CSS 变量\n\n",
+						"type": "Record<`--${string}`, string> | undefined"
+					}
+				]
 			}
 		],
-		"name": "Scheme",
 		"pkg": "@cmfx/cdk"
 	},
 	{
-		"kind": "interface",
-		"properties": [
-			{
-				"name": "xs",
-				"type": "number"
-			},
-			{
-				"name": "sm",
-				"type": "number"
-			},
-			{
-				"name": "md",
-				"type": "number"
-			},
-			{
-				"name": "lg",
-				"type": "number"
-			},
-			{
-				"name": "xl",
-				"type": "number"
-			}
-		],
+		"kind": "tuple",
 		"name": "Radius",
+		"type": "Record<(typeof radius)[number], number>",
 		"pkg": "@cmfx/cdk"
 	},
 	{

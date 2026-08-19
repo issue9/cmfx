@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { type Palette, palettes } from './palette';
+
 export const breakpoints = ['3xs', 'xs', 'sm', 'md', 'lg', '2xl', '4xl', '6xl', '8xl'] as const;
 
 /**
@@ -16,23 +18,9 @@ export type Breakpoint = (typeof breakpoints)[number];
 /**
  * 定义主题相关的各类变量
  */
-export type Scheme = {
+export type Scheme = Record<Palette, string> & {
 	// NOTE: 主题颜色值是必须要全部定义，不能从父元素继承。
 	// 否则可能出现当前的 primary 与父类的 secondary 相同的情况。
-
-	primary: string;
-	secondary: string;
-	tertiary: string;
-
-	/**
-	 * 表示错误信息
-	 */
-	error: string;
-
-	/**
-	 * 一般用于大面积的背景色
-	 */
-	surface: string;
 
 	/**
 	 * 各种不同大小的组件的圆角设置
@@ -45,33 +33,20 @@ export type Scheme = {
 	vars?: Record<`--${string}`, string>;
 };
 
+const radius = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
+
 /**
  * 圆角参数的设置
  *
  * @remarks
  * 属性名表示的是组件的大小。单位为 rem。
  */
-export type Radius = {
-	xs: number;
-	sm: number;
-	md: number;
-	lg: number;
-	xl: number;
-};
+export type Radius = Record<(typeof radius)[number], number>;
 
 // 非自定义变量的名称前缀
 const noVarPrefix = [
-	'--radius-xs',
-	'--radius-sm',
-	'--radius-md',
-	'--radius-lg',
-	'--radius-xl',
-
-	'--primary',
-	'--secondary',
-	'--tertiary',
-	'--error',
-	'--surface',
+	...radius.map(v => `--radius-${v}`), // --radius-xs 等
+	...palettes.map(v => `--${v}`), // --primary 等
 
 	'--palette-',
 	'--default-transition-duration',
@@ -149,18 +124,31 @@ export function writeScheme(elem: HTMLElement, s?: Scheme) {
 	// 需要复制这些变量到当前元素，让元素重新计算 --palette-bg 等变量的值。
 	for (const sheet of document.styleSheets) {
 		for (const rule of sheet.cssRules) {
-			if (rule instanceof CSSStyleRule) {
-				if (rule.selectorText === ':root') {
-					Object.entries(rule.style).forEach(([_, key]) => {
-						if (!key.startsWith('--') || noVarPrefix.every(p => !key.startsWith(p))) {
-							return;
+			if (rule instanceof CSSStyleRule && rule.selectorText === ':root') {
+				for (const r of rule.cssRules) {
+					// 如果当前浏览器支持 @supports，则采用 @supports 的内容作为值。
+					// https://github.com/issue9/cmfx/issues/17
+					if (r instanceof CSSSupportsRule && CSS.supports(r.conditionText)) {
+						for (const cr of Array.from(r.cssRules)) {
+							const styles = cr.cssText.split(';').filter(v => v.length > 0);
+							for (const s of styles) {
+								const [key, val] = s.split(':');
+								elem.style.setProperty(key, val);
+							}
 						}
+					}
+				}
 
-						// 如果已经存在，说明当前主题中有定义，不需要复制。
-						if (!elem.style.getPropertyValue(key)) {
-							elem.style.setProperty(key, rule.style.getPropertyValue(key));
-						}
-					});
+				for (let i = 0; i < rule.style.length; i++) {
+					const key = rule.style.item(i);
+					if (!key.startsWith('--') || noVarPrefix.every(p => !key.startsWith(p))) {
+						continue;
+					}
+
+					// 如果已经存在，说明当前主题中有定义，不需要复制。
+					if (!elem.style.getPropertyValue(key)) {
+						elem.style.setProperty(key, rule.style.getPropertyValue(key));
+					}
 				}
 			}
 		}

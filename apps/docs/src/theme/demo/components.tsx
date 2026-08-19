@@ -59,7 +59,7 @@ export function Components(): JSX.Element {
 				footerClass="flex justify-between"
 				footer={
 					<>
-						<Button palette="primary">重置</Button>
+						<Button palette="secondary">重置</Button>
 						<Button palette="primary">注册</Button>
 					</>
 				}
@@ -75,7 +75,7 @@ export function Components(): JSX.Element {
 			</Card>
 
 			<Menu
-				class="min-w-50 rounded-md border border-palette-fg-low transition-all"
+				class="min-w-50 rounded-md border border-palette-border transition-all"
 				layout="inline"
 				items={[
 					{ type: 'item', label: 'Item 1', value: '1' },
