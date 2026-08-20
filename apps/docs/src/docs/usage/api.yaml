@@ -7,10 +7,11 @@
       - entrypoint: "index.d.ts"
         types:
             - printElement
+            - palette
+            - nextPalette
 
-- pkg: "@cmfx/cdk"
+- pkg: "@cmfx/illustrations"
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - palette
-            - nextPalette
+            - createGallery

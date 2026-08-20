@@ -18,7 +18,7 @@ describe('getContrasts', () => {
 	});
 
 	test('less', () => {
-		expect(c.get('none')).toEqual({
+		expect(c.get('less')).toEqual({
 			'--opacity': '30%',
 			'--contrast': '80%',
 		});
