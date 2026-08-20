@@ -1,5 +1,8 @@
-# SPDX-FileCopyrightText: 2024-2025 caixw
+# SPDX-FileCopyrightText: 2024-2026 caixw
 #
 # SPDX-License-Identifier: MIT
 
->5%, last 2 versions, not dead
+# tsconfig 中的 target 只是 typescript 的配置，与编译结果无关。
+# 编译结果 (js,css) 由此文件决定。
+
+baseline 2025

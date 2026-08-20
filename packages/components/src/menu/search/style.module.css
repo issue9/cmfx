@@ -17,7 +17,7 @@
 
 	kbd {
 		@apply border border-palette-border rounded-sm bg-palette-bg-low text-palette-fg m-[3px] px-1 py-[1px] text-sm;
-		@apply flex items-center justify-center flex-0 cursor-default;
+		@apply flex items-center justify-center flex-0 cursor-default rounded-none!;
 	}
 
 	.dropdown:focus-within {

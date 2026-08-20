@@ -114,47 +114,6 @@
 	);
 }
 
-/*
- * 需要包含在一个代码块中，否则会导致 writeScheme 无法正确获取所有的变量值。
- * https://github.com/issue9/cmfx/issues/17
- */
-:root {
-	--primary-fg: color-mix(in oklch, contrast-color(var(--primary-bg)) var(--opacity), gray);
-	--primary-fg-low: color-mix(in oklch, contrast-color(var(--primary-bg-low)) var(--opacity), gray);
-	--primary-fg-high: color-mix(in oklch, contrast-color(var(--primary-bg-high)) var(--opacity), gray);
-	--primary-border: color-mix(in oklch, var(--primary-fg) var(--opacity), transparent);
-	--primary-border-low: color-mix(in oklch, var(--primary-fg-low) var(--opacity), transparent);
-	--primary-border-high: color-mix(in oklch, var(--primary-fg-high) var(--opacity), transparent);
-
-	--secondary-fg: color-mix(in oklch, contrast-color(var(--secondary-bg)) var(--opacity), gray);
-	--secondary-fg-low: color-mix(in oklch, contrast-color(var(--secondary-bg-low)) var(--opacity), gray);
-	--secondary-fg-high: color-mix(in oklch, contrast-color(var(--secondary-bg-high)) var(--opacity), gray);
-	--secondary-border: color-mix(in oklch, var(--secondary-fg) var(--opacity), transparent);
-	--secondary-border-low: color-mix(in oklch, var(--secondary-fg-low) var(--opacity), transparent);
-	--secondary-border-high: color-mix(in oklch, var(--secondary-fg-high) var(--opacity), transparent);
-
-	--tertiary-fg: color-mix(in oklch, contrast-color(var(--tertiary-bg)) var(--opacity), gray);
-	--tertiary-fg-low: color-mix(in oklch, contrast-color(var(--tertiary-bg-low)) var(--opacity), gray);
-	--tertiary-fg-high: color-mix(in oklch, contrast-color(var(--tertiary-bg-high)) var(--opacity), gray);
-	--tertiary-border: color-mix(in oklch, var(--tertiary-fg) var(--opacity), transparent);
-	--tertiary-border-low: color-mix(in oklch, var(--tertiary-fg-low) var(--opacity), transparent);
-	--tertiary-border-high: color-mix(in oklch, var(--tertiary-fg-high) var(--opacity), transparent);
-
-	--error-fg: color-mix(in oklch, contrast-color(var(--error-bg)) var(--opacity), gray);
-	--error-fg-low: color-mix(in oklch, contrast-color(var(--error-bg-low)) var(--opacity), gray);
-	--error-fg-high: color-mix(in oklch, contrast-color(var(--error-bg-high)) var(--opacity), gray);
-	--error-border: color-mix(in oklch, var(--error-fg) var(--opacity), transparent);
-	--error-border-low: color-mix(in oklch, var(--error-fg-low) var(--opacity), transparent);
-	--error-border-high: color-mix(in oklch, var(--error-fg-high) var(--opacity), transparent);
-
-	--surface-fg: color-mix(in oklch, contrast-color(var(--surface-bg)) var(--opacity), gray);
-	--surface-fg-low: color-mix(in oklch, contrast-color(var(--surface-bg-low)) var(--opacity), gray);
-	--surface-fg-high: color-mix(in oklch, contrast-color(var(--surface-bg-high)) var(--opacity), gray);
-	--surface-border: color-mix(in oklch, var(--surface-fg) var(--opacity), transparent);
-	--surface-border-low: color-mix(in oklch, var(--surface-fg-low) var(--opacity), transparent);
-	--surface-border-high: color-mix(in oklch, var(--surface-fg-high) var(--opacity), transparent);
-}
-
 :root {
 	/**
 	 * 当前色盘的颜色变量
@@ -761,4 +720,45 @@
 	visibility: visible;
 	opacity: 1;
 	transition: opacity var(--default-transition-duration) ease-in;
+}
+
+/*
+ * 需要放在文件的最后，否则会导致 writeScheme 无法正确获取所有的变量值。
+ * https://github.com/issue9/cmfx/issues/17
+ */
+:root {
+	--primary-fg: color-mix(in oklch, contrast-color(var(--primary-bg)) var(--opacity), gray);
+	--primary-fg-low: color-mix(in oklch, contrast-color(var(--primary-bg-low)) var(--opacity), gray);
+	--primary-fg-high: color-mix(in oklch, contrast-color(var(--primary-bg-high)) var(--opacity), gray);
+	--primary-border: color-mix(in oklch, var(--primary-fg) var(--opacity), transparent);
+	--primary-border-low: color-mix(in oklch, var(--primary-fg-low) var(--opacity), transparent);
+	--primary-border-high: color-mix(in oklch, var(--primary-fg-high) var(--opacity), transparent);
+
+	--secondary-fg: color-mix(in oklch, contrast-color(var(--secondary-bg)) var(--opacity), gray);
+	--secondary-fg-low: color-mix(in oklch, contrast-color(var(--secondary-bg-low)) var(--opacity), gray);
+	--secondary-fg-high: color-mix(in oklch, contrast-color(var(--secondary-bg-high)) var(--opacity), gray);
+	--secondary-border: color-mix(in oklch, var(--secondary-fg) var(--opacity), transparent);
+	--secondary-border-low: color-mix(in oklch, var(--secondary-fg-low) var(--opacity), transparent);
+	--secondary-border-high: color-mix(in oklch, var(--secondary-fg-high) var(--opacity), transparent);
+
+	--tertiary-fg: color-mix(in oklch, contrast-color(var(--tertiary-bg)) var(--opacity), gray);
+	--tertiary-fg-low: color-mix(in oklch, contrast-color(var(--tertiary-bg-low)) var(--opacity), gray);
+	--tertiary-fg-high: color-mix(in oklch, contrast-color(var(--tertiary-bg-high)) var(--opacity), gray);
+	--tertiary-border: color-mix(in oklch, var(--tertiary-fg) var(--opacity), transparent);
+	--tertiary-border-low: color-mix(in oklch, var(--tertiary-fg-low) var(--opacity), transparent);
+	--tertiary-border-high: color-mix(in oklch, var(--tertiary-fg-high) var(--opacity), transparent);
+
+	--error-fg: color-mix(in oklch, contrast-color(var(--error-bg)) var(--opacity), gray);
+	--error-fg-low: color-mix(in oklch, contrast-color(var(--error-bg-low)) var(--opacity), gray);
+	--error-fg-high: color-mix(in oklch, contrast-color(var(--error-bg-high)) var(--opacity), gray);
+	--error-border: color-mix(in oklch, var(--error-fg) var(--opacity), transparent);
+	--error-border-low: color-mix(in oklch, var(--error-fg-low) var(--opacity), transparent);
+	--error-border-high: color-mix(in oklch, var(--error-fg-high) var(--opacity), transparent);
+
+	--surface-fg: color-mix(in oklch, contrast-color(var(--surface-bg)) var(--opacity), gray);
+	--surface-fg-low: color-mix(in oklch, contrast-color(var(--surface-bg-low)) var(--opacity), gray);
+	--surface-fg-high: color-mix(in oklch, contrast-color(var(--surface-bg-high)) var(--opacity), gray);
+	--surface-border: color-mix(in oklch, var(--surface-fg) var(--opacity), transparent);
+	--surface-border-low: color-mix(in oklch, var(--surface-fg-low) var(--opacity), transparent);
+	--surface-border-high: color-mix(in oklch, var(--surface-fg-high) var(--opacity), transparent);
 }

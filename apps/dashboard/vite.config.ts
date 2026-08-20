@@ -57,7 +57,7 @@ export default defineConfig(({ mode }) => {
 								find: '@cmfx/components',
 								replacement: path.resolve(import.meta.dirname, '../../packages/components/src'),
 							},
-							{ find: '@components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') }, // 解决 admin 中的 @admin 引用
+							{ find: '@components', replacement: path.resolve(import.meta.dirname, '../../packages/components/src') },
 
 							{
 								find: /^@cmfx\/cdk\/(.*).lang/,

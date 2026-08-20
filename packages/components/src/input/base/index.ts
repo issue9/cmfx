@@ -2,14 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type {
+	InputBaseAutoComplete,
+	InputBaseNumberProps,
+	InputBaseProps,
+	InputBaseRef,
+	InputBaseTextProps,
+} from './root';
 import { InputBase as C } from './root';
 
 export const InputBase = C;
 
 export namespace InputBase {
-	export type AutoComplete = import('./root').InputBaseAutoComplete;
-	export type NumberProps = import('./root').InputBaseNumberProps;
-	export type TextProps = import('./root').InputBaseTextProps;
-	export type Props = import('./root').InputBaseProps;
-	export type Ref = import('./root').InputBaseRef;
+	export type AutoComplete = InputBaseAutoComplete;
+	export type NumberProps = InputBaseNumberProps;
+	export type TextProps = InputBaseTextProps;
+	export type Props = InputBaseProps;
+	export type Ref = InputBaseRef;
 }

@@ -17,12 +17,14 @@
 			{
 				"name": "scheme",
 				"summary": "当前主题的样式\n\n",
-				"type": "Scheme"
+				"type": "Scheme",
+				"reactive": true
 			},
 			{
 				"name": "mode",
 				"summary": "主题的模式\n\n",
-				"type": "\"system\" | \"dark\" | \"light\""
+				"type": "\"system\" | \"dark\" | \"light\"",
+				"reactive": true
 			}
 		],
 		"pkg": "@cmfx/cdk"
@@ -45,12 +47,14 @@
 			{
 				"name": "scheme",
 				"summary": "当前主题的样式\n\n",
-				"type": "Scheme"
+				"type": "Scheme",
+				"reactive": true
 			},
 			{
 				"name": "mode",
 				"summary": "主题的模式\n\n",
-				"type": "\"system\" | \"dark\" | \"light\""
+				"type": "\"system\" | \"dark\" | \"light\"",
+				"reactive": true
 			}
 		],
 		"pkg": "@cmfx/cdk"

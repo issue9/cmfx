@@ -30,7 +30,7 @@ export interface ThemeContext {
 
 type PartialThemeContext = Partial<ThemeContext>;
 
-export interface ThemeProviderProps extends ParentProps, Partial<Omit<ThemeContext, 'actualMode'>> {
+export interface ThemeProviderProps extends ParentProps, Partial<ThemeContext> {
 	/**
 	 * 指定用于保存当前主题样式的元素 ID
 	 *

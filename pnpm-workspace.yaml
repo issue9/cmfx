@@ -19,7 +19,7 @@ catalog:
   '@iconify/json': ^2.2.518
   '@iconsets/svg-morpheus-ts': ^1.4.14
   '@mdx-js/rollup': ^3.1.1
-  '@microsoft/api-extractor': ^7.58.12
+  '@microsoft/api-extractor': ^7.58.13
   '@microsoft/tsdoc': ^0.16.0
   '@scure/base': ^2.3.0
   '@solidjs/router': ^1.0.0
