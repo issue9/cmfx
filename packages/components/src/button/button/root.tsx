@@ -9,10 +9,7 @@ import { type JSX, mergeProps, onCleanup, onMount, type ParentProps, splitProps 
 import styles from '@components/button/common/style.module.css';
 import { type Props as BaseProps, presetProps as presetBaseProps } from '@components/button/common/types';
 
-export type ButtonRef<
-	A extends boolean = false,
-	E = A extends false ? HTMLButtonElement : HTMLAnchorElement,
-> = BaseRef<E>;
+export type ButtonRef<A extends boolean = false> = BaseRef<A extends false ? HTMLButtonElement : HTMLAnchorElement>;
 
 interface Base extends BaseProps, ParentProps {
 	/**
@@ -36,7 +33,7 @@ interface Base extends BaseProps, ParentProps {
 	/**
 	 * 按钮的点击操作，type 为 'a'，也会触发此事件。
 	 */
-	onclick?: JSX.CustomEventHandlersLowerCase<HTMLElement>['onclick'];
+	readonly onclick?: JSX.CustomEventHandlersLowerCase<HTMLElement>['onclick'];
 }
 
 /**

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { type BaseRef, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
-import { createMemo, type JSX, mergeProps, type ParentProps } from 'solid-js';
+import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
 
 import styles from './style.module.css';
 
@@ -38,10 +38,19 @@ export interface BadgeProps extends ThemeProps, ParentProps, RefProps<BadgeRef> 
 	 * @reactive
 	 */
 	content?: JSX.Element;
+
+	/**
+	 * 是否可见
+	 *
+	 * @reactive
+	 * @defaultValue true
+	 */
+	visible?: boolean;
 }
 
 const presetProps: Readonly<Partial<BadgeProps>> = {
 	pos: 'top-right',
+	visible: true,
 };
 
 /**
@@ -57,17 +66,17 @@ export function Badge(props: BadgeProps) {
 		<div
 			class={styles.badge}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+				});
 			}}
 		>
 			{props.children}
-			<span class={cls()} style={props.style}>
-				{props.content}
-			</span>
+			<Show when={props.visible}>
+				<span class={cls()} style={props.style} aria-hidden={true}>
+					{props.content}
+				</span>
+			</Show>
 		</div>
 	);
 }

@@ -76,6 +76,7 @@ const messages: typeof m = {
 			itemLayout: '子项布局',
 			block: '方块',
 			charCount: '字符统计',
+			visible: '可见',
 
 			// 分类名称
 
@@ -135,11 +136,12 @@ const messages: typeof m = {
 			pagination: 'Pagination 分页',
 			qrcode: 'QR Code 二维码',
 			radio: 'Radio 单选框',
-			slider: 'Slider 范围选择器',
 			result: 'Result 结果页',
-			spin: 'Spin 加载',
+			schemeSelector: 'Scheme Selector 主题选择器',
 			search: 'Search 搜索框',
 			settings: 'Settings 设置',
+			slider: 'Slider 范围选择器',
+			spin: 'Spin 加载',
 			statistic: 'Statistic 统计',
 			stepper: 'Stepper 步骤',
 			tab: 'Tab 标签页',
@@ -148,7 +150,6 @@ const messages: typeof m = {
 			textarea: 'Textarea 文本域',
 			tooltip: 'Tooltip 提示',
 			themeConfig: 'Theme Config 主题配置',
-			schemeSelector: 'Scheme Selector 主题选择器',
 			time: 'Time 时间',
 			timezone: 'Timezone 时区',
 			tour: 'Tour 新手导航',

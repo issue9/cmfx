@@ -96,12 +96,10 @@ export function ToggleButton(props: ToggleButtonProps): JSX.Element {
 				e.stopPropagation(); // 已经处理了，就不需要冒泡和捕获了
 			}}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el.root(),
-						toggle: async () => toggle(),
-					});
-				}
+				props.ref?.({
+					root: () => el.root(),
+					toggle: async () => toggle(),
+				});
 			}}
 		>
 			<IconSet icons={{ on: props.on, off: props.off }} value={val() ? 'on' : 'off'} />

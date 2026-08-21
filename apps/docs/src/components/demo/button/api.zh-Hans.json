@@ -41,7 +41,8 @@
 					{
 						"name": "onclick",
 						"summary": "按钮的点击操作，type 为 'a'，也会触发此事件。\n\n",
-						"type": "JSX.EventHandlerUnion<HTMLElement, MouseEvent, JSX.EventHandler<HTMLElement, MouseEvent>> | undefined"
+						"type": "JSX.EventHandlerUnion<HTMLElement, MouseEvent, JSX.EventHandler<HTMLElement, MouseEvent>> | undefined",
+						"readonly": true
 					},
 					{
 						"name": "disabled",
@@ -138,7 +139,8 @@
 					{
 						"name": "onclick",
 						"summary": "按钮的点击操作，type 为 'a'，也会触发此事件。\n\n",
-						"type": "JSX.EventHandlerUnion<HTMLElement, MouseEvent, JSX.EventHandler<HTMLElement, MouseEvent>> | undefined"
+						"type": "JSX.EventHandlerUnion<HTMLElement, MouseEvent, JSX.EventHandler<HTMLElement, MouseEvent>> | undefined",
+						"readonly": true
 					},
 					{
 						"name": "disabled",
@@ -347,7 +349,7 @@
 				"summary": "按钮元素\n\n",
 				"type": "button(): Button.Ref<A>",
 				"return": {
-					"type": "Button.Ref<A, A extends false ? HTMLButtonElement : HTMLAnchorElement>"
+					"type": "Button.Ref<A>"
 				}
 			},
 			{
@@ -713,7 +715,7 @@
 				"remarks": "`root`\n中的 trigger 是被 Dropdown 包裹的触发元素。\n\n",
 				"type": "trigger(): Button.Ref",
 				"return": {
-					"type": "Button.Ref<false, HTMLButtonElement>"
+					"type": "Button.Ref<false>"
 				}
 			},
 			{

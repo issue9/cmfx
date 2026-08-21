@@ -74,6 +74,7 @@ const messages = {
 			itemLayout: 'Item layout',
 			block: 'Block',
 			charCount: 'Character count',
+			visible: 'Visible',
 
 			// 分类名称
 
@@ -133,11 +134,12 @@ const messages = {
 			pagination: 'Pagination',
 			qrcode: 'QR Code',
 			radio: 'Radio',
-			slider: 'Slider',
 			result: 'Result',
-			spin: 'Spin',
+			schemeSelector: 'Scheme Selector',
 			search: 'Search',
 			settings: 'Settings',
+			slider: 'Slider',
+			spin: 'Spin',
 			statistic: 'Statistic',
 			stepper: 'Stepper',
 			tab: 'Tab',
@@ -146,7 +148,6 @@ const messages = {
 			textarea: 'Textarea',
 			tooltip: 'Tooltip',
 			themeConfig: 'Theme Config',
-			schemeSelector: 'Scheme Selector',
 			time: 'Time',
 			timezone: 'Timezone',
 			tour: 'Tour',

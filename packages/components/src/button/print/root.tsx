@@ -50,12 +50,10 @@ export function PrintButton(props: PrintButtonProps): JSX.Element {
 			ref={el => {
 				el.root().ariaLabel = l.t('_c.print');
 
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						print: print,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					print: print,
+				});
 			}}
 		>
 			<IconPrint />

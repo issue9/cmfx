@@ -43,11 +43,9 @@ export function GroupButton(props: GroupButtonProps): JSX.Element {
 			)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+				});
 			}}
 		>
 			{props.children}

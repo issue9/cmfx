@@ -7,21 +7,23 @@ import { Badge, Button } from '@cmfx/components';
 import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { paletteSelector } from '@docs/components/base';
+import { boolSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps) {
 	const [Palette, palette] = paletteSelector();
+	const [Visible, visible] = boolSelector('_d.demo.visible', true);
 
 	return (
 		<div>
 			<Portal mount={props.mount}>
 				<Palette />
+				<Visible />
 			</Portal>
 
 			<div class="flex flex-wrap justify-start gap-3">
 				<For each={Badge.corners}>
 					{pos => (
-						<Badge pos={pos} palette={palette()} content="这是一段很长的文字内容">
+						<Badge visible={visible()} pos={pos} palette={palette()} content="这是一段很长的文字内容">
 							<Button palette="primary">{pos}</Button>
 						</Badge>
 					)}
