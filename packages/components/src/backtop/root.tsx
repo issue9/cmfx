@@ -84,12 +84,10 @@ export function BackTop(props: BackTopProps): JSX.Element {
 				ref = el;
 				ref.root().ariaLabel = l.t('_c.backtop');
 
-				if (props.ref) {
-					props.ref({
-						root: () => ref,
-						backTop: backTop,
-					});
-				}
+				props.ref?.({
+					root: () => ref,
+					backTop: backTop,
+				});
 			}}
 			class={joinClass(undefined, styles.backtop, props.class)}
 			style={props.style}

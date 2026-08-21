@@ -158,9 +158,7 @@ export function FullScreen(props: ToggleButtonFullScreenProps): JSX.Element {
 			on={<IconFullScreen />}
 			off={<IconFullScreenExit />}
 			ref={el => {
-				if (props.ref) {
-					props.ref(el);
-				}
+				props.ref?.(el);
 				el.root().ariaLabel = l.t('_c.fullscreen');
 			}}
 		/>
@@ -204,10 +202,7 @@ export function FitScreen(props: ToggleButtonFitScreenProps): JSX.Element {
 			on={<IconCollapse />}
 			off={<IconExpand />}
 			ref={el => {
-				if (props.ref) {
-					props.ref(el);
-				}
-
+				props.ref?.(el);
 				el.root().ariaLabel = l.t('_c.fitscreen');
 			}}
 		/>

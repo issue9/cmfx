@@ -150,9 +150,7 @@ export function Drawer(props: DrawerProps): JSX.Element {
 		};
 
 		document.addEventListener('keydown', handleEsc);
-		onCleanup(() => {
-			document.removeEventListener('keydown', handleEsc);
-		});
+		onCleanup(() => document.removeEventListener('keydown', handleEsc));
 	});
 
 	return (

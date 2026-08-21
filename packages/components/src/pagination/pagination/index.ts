@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Pagination as C } from './root';
+import { Pagination as C, type PaginationProps, type PaginationRef } from './root';
 
 export const Pagination = C;
 
 export namespace Pagination {
-	export type Props = import('./root').PaginationProps;
-	export type Ref = import('./root').PaginationRef;
+	export type Props = PaginationProps;
+	export type Ref = PaginationRef;
 }

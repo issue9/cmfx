@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DateRangePicker as C } from './root';
+import { DateRangePicker as C, type DateRangePickerProps, type DateRangePickerRef } from './root';
+import type { DateRangeValueType } from './shortcuts';
 
 export const DateRangePicker = C;
 
 export namespace DateRangePicker {
-	export type Props = import('./root').DateRangePickerProps;
-	export type Ref = import('./root').DateRangePickerRef;
-	export type ValueType = import('./shortcuts').DateRangeValueType;
+	export type Props = DateRangePickerProps;
+	export type Ref = DateRangePickerRef;
+	export type ValueType = DateRangeValueType;
 }

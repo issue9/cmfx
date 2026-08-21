@@ -37,11 +37,7 @@ export function Label(props: LabelProps): JSX.Element {
 			component={props.tag}
 			class={joinClass(props.palette, styles.label, props.class)}
 			style={props.style}
-			ref={(el: HTMLElement) => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={(el: HTMLElement) => props.ref?.({ root: () => el })}
 		>
 			<Show when={props.icon}>{c => c()}</Show>
 			{props.children}

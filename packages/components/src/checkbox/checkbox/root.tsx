@@ -104,12 +104,10 @@ export function Checkbox(props: CheckboxProps): JSX.Element {
 				checked={props.checked}
 				ref={el => {
 					inputRef = el;
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef,
-							input: () => el,
-						});
-					}
+					props.ref?.({
+						root: () => rootRef,
+						input: () => el,
+					});
 				}}
 				class={joinClass(undefined, props.rounded ? styles.rounded : '')}
 				onClick={e => {

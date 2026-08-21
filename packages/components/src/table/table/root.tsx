@@ -42,11 +42,7 @@ export interface TableProps extends ThemeProps, ParentProps, RefProps<TableRef> 
 export function Root(props: TableProps): JSX.Element {
 	return (
 		<table
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 			class={classList(
 				props.palette,
 				{

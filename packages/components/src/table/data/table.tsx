@@ -198,16 +198,14 @@ export function DataTable<T extends object, Q extends Query>(props: DataTablePro
 			class={joinClass(undefined, styles.table, props.class)}
 			ref={el => {
 				rootRef = el.root();
-				if (props.ref) {
-					props.ref({
-						root: () => el.root(),
-						table: () => tableRef,
-						refresh: async () => {
-							await refetch();
-						},
-						items: () => items() ?? [],
-					});
-				}
+				props.ref?.({
+					root: () => el.root(),
+					table: () => tableRef,
+					refresh: async () => {
+						await refetch();
+					},
+					items: () => items() ?? [],
+				});
 			}}
 		>
 			<Provider

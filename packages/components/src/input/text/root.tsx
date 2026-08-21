@@ -127,12 +127,10 @@ export function InputText(props: InputTextProps): JSX.Element {
 				value={field.getValue()}
 				onChange={v => field.setValue(v)}
 				ref={el => {
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef ?? el.root(),
-							input: () => el.input(),
-						});
-					}
+					props.ref?.({
+						root: () => rootRef ?? el.root(),
+						input: () => el.input(),
+					});
 				}}
 			/>
 		);

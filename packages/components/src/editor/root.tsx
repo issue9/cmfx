@@ -89,12 +89,10 @@ export function EditorComponent(props: EditorProps): JSX.Element {
 			ref={el => {
 				rootRef = el;
 
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						editor: () => editor,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					editor: () => editor,
+				});
 			}}
 		>
 			<Toolbar editor={editor} />

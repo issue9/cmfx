@@ -119,13 +119,11 @@ export function Tab(props: TabProps): JSX.Element {
 			style={props.style}
 			ref={el => {
 				rootRef = el;
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						switch: (id: TabItem['id']) => click(id),
-						scroll: (delta: number) => scroll(new MouseEvent('click'), delta),
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					switch: (id: TabItem['id']) => click(id),
+					scroll: (delta: number) => scroll(new MouseEvent('click'), delta),
+				});
 			}}
 		>
 			<div ref={el => (tabsRef = el)} class={joinClass(undefined, styles.tabs, props.tabsClass)}>

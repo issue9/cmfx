@@ -34,11 +34,7 @@ export function Description(props: DescriptionProps): JSX.Element {
 		<div
 			class={joinClass(props.palette, styles.description, props.class)}
 			style={props.style}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<Show when={props.icon || props.title}>
 				<Label icon={props.icon}>{props.title}</Label>

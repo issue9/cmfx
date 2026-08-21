@@ -94,12 +94,10 @@ export function Counter(props: CounterProps): JSX.Element {
 			class={joinClass(props.palette, styles.counter, props.class)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						play: play,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					play: play,
+				});
 			}}
 		>
 			{value()}

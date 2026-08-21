@@ -4,13 +4,14 @@
 
 import type { AvailableEnumType } from '@cmfx/cdk';
 
-import { RadioGroup as C } from './root';
+import type { RadioGroupOption, RadioGroupOptions } from './options';
+import { RadioGroup as C, type RadioGroupProps, type RadioGroupRef } from './root';
 
 export const RadioGroup = C;
 
 export namespace RadioGroup {
-	export type Props<T extends AvailableEnumType = string> = import('./root').RadioGroupProps<T>;
-	export type Ref = import('./root').RadioGroupRef;
-	export type Option<T extends AvailableEnumType = string> = import('./options').RadioGroupOption<T>;
-	export type Options<T extends AvailableEnumType = string> = import('./options').RadioGroupOptions<T>;
+	export type Props<T extends AvailableEnumType = string> = RadioGroupProps<T>;
+	export type Ref = RadioGroupRef;
+	export type Option<T extends AvailableEnumType = string> = RadioGroupOption<T>;
+	export type Options<T extends AvailableEnumType = string> = RadioGroupOptions<T>;
 }

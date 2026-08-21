@@ -44,9 +44,7 @@ export function InputPassword(props: InputPasswordProps): JSX.Element {
 			type="password"
 			ref={el => {
 				ref = el;
-				if (props.ref) {
-					props.ref(el);
-				}
+				props.ref?.(el);
 			}}
 			suffix={
 				<ToggleButton

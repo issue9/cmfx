@@ -150,22 +150,20 @@ export function Countdown(props: CountdownProps): JSX.Element {
 			class={joinClass(props.palette, styles.timer, props.class)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						toggle() {
-							timer().toggle();
-						},
-						start() {
-							timer().start();
-						},
-						pause() {
-							timer().pause();
-						},
-						root() {
-							return el;
-						},
-					});
-				}
+				props.ref?.({
+					toggle() {
+						timer().toggle();
+					},
+					start() {
+						timer().start();
+					},
+					pause() {
+						timer().pause();
+					},
+					root() {
+						return el;
+					},
+				});
 			}}
 		>
 			<Show when={startField() >= getFieldIndex('days')!}>

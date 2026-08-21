@@ -137,12 +137,10 @@ export function InputBase(props: InputBaseProps): JSX.Element {
 				readOnly={props.readonly}
 				placeholder={props.placeholder}
 				ref={el => {
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef,
-							input: () => el,
-						});
-					}
+					props.ref?.({
+						root: () => rootRef,
+						input: () => el,
+					});
 				}}
 				onInput={e => {
 					const curr = e.currentTarget.value;

@@ -159,12 +159,10 @@ export function MonthView(props: MonthViewProps): JSX.Element {
 			class={joinClass(props.palette, styles.dateview, props.class)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						...api,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					...api,
+				});
 			}}
 		>
 			{buildHeader(l, value, api, props)}

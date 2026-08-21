@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Card as C } from './root';
+import { Card as C, type CardProps, type CardRef } from './root';
 
 export const Card = C;
 
 export namespace Card {
-	export type Props = import('./root').CardProps;
-	export type Ref = import('./root').CardRef;
+	export type Props = CardProps;
+	export type Ref = CardRef;
 }

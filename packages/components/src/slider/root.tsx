@@ -149,12 +149,10 @@ export function Slider(props: SliderProps): JSX.Element {
 				}}
 				ref={el => {
 					inputRef = el;
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef,
-							input: () => el,
-						});
-					}
+					props.ref?.({
+						root: () => rootRef,
+						input: () => el,
+					});
 				}}
 				onwheel={wheel}
 				name={field.name}

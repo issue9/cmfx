@@ -107,11 +107,9 @@ export function Settings(props: SettingsProps) {
 			class={joinClass(props.palette, styles.settings, props.class)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+				});
 			}}
 		>
 			{props.children}

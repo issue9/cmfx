@@ -60,11 +60,9 @@ export function Panel(props: PanelProps): JSX.Element {
 			style={props.style}
 			ref={el => {
 				ref = el;
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+				});
 			}}
 		>
 			<ul class={styles.item}>

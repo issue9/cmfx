@@ -46,25 +46,23 @@ export function Stepper(props: StepperProps): JSX.Element {
 			class={joinClass(props.palette, props.layout === 'vertical' ? styles.vertical : '', styles.stepper, props.class)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						next: () => {
-							const i = index() + 1;
-							if (i > props.steps.length - 1) {
-								return;
-							}
-							setIndex(i);
-						},
-						prev: () => {
-							const i = index() - 1;
-							if (i < 0) {
-								return;
-							}
-							setIndex(i);
-						},
-						root: () => el,
-					});
-				}
+				props.ref?.({
+					next: () => {
+						const i = index() + 1;
+						if (i > props.steps.length - 1) {
+							return;
+						}
+						setIndex(i);
+					},
+					prev: () => {
+						const i = index() - 1;
+						if (i < 0) {
+							return;
+						}
+						setIndex(i);
+					},
+					root: () => el,
+				});
 			}}
 		>
 			<header class={props.layout === 'vertical' ? styles.vertical : undefined}>

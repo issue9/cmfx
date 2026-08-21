@@ -9,6 +9,7 @@ import {
 	presetProps,
 	type SplitButtonMultipleProps,
 	type SplitButtonProps,
+	type SplitButtonRef,
 	type SplitButtonSingleProps,
 } from './root';
 
@@ -18,5 +19,5 @@ export namespace SplitButton {
 	export type SingleProps<T extends AvailableEnumType = string> = SplitButtonSingleProps<T>;
 	export type MultipleProps<T extends AvailableEnumType = string> = SplitButtonMultipleProps<T>;
 	export type Props<T extends AvailableEnumType = string> = SplitButtonProps<T>;
-	export type Ref = import('./root').SplitButtonRef;
+	export type Ref = SplitButtonRef;
 }

@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Tour as C } from './root';
+import { Tour as C, type TourProps, type TourRef, type TourStep } from './root';
 
 export const Tour = C;
 
 export namespace Tour {
-	export type Props = import('./root').TourProps;
-	export type Ref = import('./root').TourRef;
-	export type Step = import('./root').TourStep;
+	export type Props = TourProps;
+	export type Ref = TourRef;
+	export type Step = TourStep;
 }

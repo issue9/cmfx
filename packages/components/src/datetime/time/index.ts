@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Time as C } from './root';
+import { Time as C, type TimeProps, type TimeRef } from './root';
 
 export const Time = C;
 
 export namespace Time {
-	export type Props = import('./root').TimeProps;
-	export type Ref = import('./root').TimeRef;
+	export type Props = TimeProps;
+	export type Ref = TimeRef;
 }

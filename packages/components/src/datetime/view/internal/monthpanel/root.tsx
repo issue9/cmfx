@@ -81,15 +81,7 @@ export function MonthPanel(props: MonthPanelProps): JSX.Element {
 	let yearRef: YearPanel.Ref | undefined;
 
 	return (
-		<fieldset
-			popover={props.popover}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
-			class={styles.panel}
-		>
+		<fieldset popover={props.popover} ref={el => props.ref?.({ root: () => el })} class={styles.panel}>
 			<header class={styles.month}>
 				{/** biome-ignore lint/a11y/noStaticElementInteractions: 只需要 onclick */}
 				<span

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Root as C } from './root';
+import { Root as C, type SearchProps, type SearchRef } from './root';
 
 export const Search = C;
 
 export namespace Search {
-	export type Props = import('./root').SearchProps;
-	export type Ref = import('./root').SearchRef;
+	export type Props = SearchProps;
+	export type Ref = SearchRef;
 }

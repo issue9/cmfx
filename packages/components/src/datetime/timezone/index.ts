@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Timezone as C } from './root';
+import { Timezone as C, type TimezoneProps, type TimezoneRef } from './root';
 
 export const Timezone = C;
 
 export namespace Timezone {
-	export type Ref = import('./root').TimezoneRef;
-	export type Props = import('./root').TimezoneProps;
+	export type Ref = TimezoneRef;
+	export type Props = TimezoneProps;
 }

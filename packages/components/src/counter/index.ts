@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Counter as C } from './root';
+import { Counter as C, type CounterProps, type CounterRef } from './root';
 
 export const Counter = C;
 
 export namespace Counter {
-	export type Props = import('./root').CounterProps;
-	export type Ref = import('./root').CounterRef;
+	export type Props = CounterProps;
+	export type Ref = CounterRef;
 }

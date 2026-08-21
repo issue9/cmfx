@@ -102,13 +102,7 @@ export function Panel(props: PanelProps): JSX.Element {
 
 				field.setValue(d);
 			}}
-			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: el.root,
-					});
-				}
-			}}
+			ref={el => props.ref?.({ root: el.root })}
 		/>
 	);
 }

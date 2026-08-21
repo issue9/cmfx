@@ -65,15 +65,7 @@ export function CheckboxGroup<T extends string | number>(props: CheckboxGroupPro
 	const vals = createMemo(() => field.getValue() ?? []);
 
 	return (
-		<div
-			class={cls()}
-			style={props.style}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
-		>
+		<div class={cls()} style={props.style} ref={el => props.ref?.({ root: () => el })}>
 			<For each={props.options}>
 				{item => (
 					<Checkbox

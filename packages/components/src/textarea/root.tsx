@@ -99,12 +99,10 @@ export function TextArea(props: TextAreaProps): JSX.Element {
 				ref={el => {
 					textareaRef = el;
 
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef,
-							textarea: () => textareaRef,
-						});
-					}
+					props.ref?.({
+						root: () => rootRef,
+						textarea: () => textareaRef,
+					});
 				}}
 				onInput={e => {
 					field.setValue(e.target.value);

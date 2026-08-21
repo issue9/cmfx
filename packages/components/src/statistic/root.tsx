@@ -46,11 +46,7 @@ export function Statistic(props: StatisticProps): JSX.Element {
 		<div
 			class={joinClass(props.palette, styles.statistic, props.class)}
 			style={props.style}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<div class={styles.label}>{props.label}</div>
 			<div class={styles.content}>

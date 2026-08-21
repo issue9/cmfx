@@ -56,11 +56,9 @@ export function Appbar(props: AppbarProps): JSX.Element {
 			class={joinClass(props.palette, styles.appbar, props.class)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+				});
 			}}
 		>
 			<Show when={props.brand}>{c => <div class={joinClass(undefined, props.brandClass)}>{c()}</div>}</Show>

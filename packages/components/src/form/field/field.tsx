@@ -118,9 +118,7 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 			style={props.style}
 			ref={el => {
 				ref = { root: () => el };
-				if (props.ref) {
-					props.ref(ref);
-				}
+				props.ref?.(ref);
 			}}
 		>
 			<Show when={areas().label}>

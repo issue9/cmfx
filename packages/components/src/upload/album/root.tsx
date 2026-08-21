@@ -93,12 +93,10 @@ export function Album(props: AlbumProps): JSX.Element {
 			<Upload
 				ref={el => {
 					uploadRef = el;
-					if (props.ref) {
-						props.ref({
-							root: () => dropRef,
-							uploader: () => uploadRef,
-						});
-					}
+					props.ref?.({
+						root: () => dropRef,
+						uploader: () => uploadRef,
+					});
 				}}
 				upload={props.upload}
 				fieldName={props.fieldName}

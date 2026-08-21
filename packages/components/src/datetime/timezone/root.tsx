@@ -142,11 +142,7 @@ export function Timezone(props: TimezoneProps): JSX.Element {
 			items={tabs}
 			onChange={v => setTab(v)}
 			panelClass={styles.panel}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<For each={regions}>
 				{region => (

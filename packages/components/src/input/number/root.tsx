@@ -123,12 +123,10 @@ export function InputNumber(props: InputNumberProps): JSX.Element {
 			placeholder={props.placeholder}
 			ref={el => {
 				inputRef = el;
-				if (props.ref) {
-					props.ref({
-						root: () => el.root(),
-						input: () => el.input(),
-					});
-				}
+				props.ref?.({
+					root: () => el.root(),
+					input: () => el.input(),
+				});
 			}}
 		/>
 	);

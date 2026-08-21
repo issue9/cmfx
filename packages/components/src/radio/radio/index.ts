@@ -4,11 +4,11 @@
 
 import type { AvailableEnumType } from '@cmfx/cdk';
 
-import { Radio as C } from './root';
+import { Radio as C, type RadioProps, type RadioRef } from './root';
 
 export const Radio = C;
 
 export namespace Radio {
-	export type Props<T extends AvailableEnumType = string> = import('./root').RadioProps<T>;
-	export type Ref = import('./root').RadioRef;
+	export type Props<T extends AvailableEnumType = string> = RadioProps<T>;
+	export type Ref = RadioRef;
 }

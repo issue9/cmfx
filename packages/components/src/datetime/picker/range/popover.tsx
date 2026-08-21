@@ -104,9 +104,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 			style={props.style}
 			ref={el => {
 				rootRef = el;
-				if (props.ref) {
-					props.ref(el);
-				}
+				props.ref?.(el);
 			}}
 			activator={f => {
 				return (

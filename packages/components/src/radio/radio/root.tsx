@@ -113,12 +113,10 @@ export function Radio<T extends AvailableEnumType = string>(props: RadioProps<T>
 					}
 				}}
 				ref={el => {
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef,
-							input: () => el,
-						});
-					}
+					props.ref?.({
+						root: () => rootRef,
+						input: () => el,
+					});
 				}}
 			/>
 			{props.label}

@@ -61,7 +61,7 @@ catalog:
   ts-morph: ^28.0.0
   typescript: ^6.0.3
   unplugin-icons: ^23.0.1
-  vite: ^8.2.1
+  vite: ^8.2.2
   unplugin-dts: ^1.0.3
   vite-plugin-solid: ^2.11.14
   vitest: ^4.1.11

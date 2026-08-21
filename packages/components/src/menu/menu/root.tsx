@@ -485,19 +485,17 @@ export function Menu<T extends AvailableEnumType = string, TAG extends MenuTag =
 			component={props.tag as MenuTag}
 			ref={(el: HTMLElement) => {
 				rootRef = el as TAG extends 'menu' ? HTMLMenuElement : HTMLElement;
-				if (props.ref) {
-					props.ref({
-						root: () => rootRef,
-						scrollSelectedIntoView: () => {
-							sleep(opt.getTransitionDuration()).then(() => {
-								const els = selectedElements(el, true);
-								if (els.length > 0) {
-									els[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-								}
-							});
-						},
-					});
-				}
+				props.ref?.({
+					root: () => rootRef,
+					scrollSelectedIntoView: () => {
+						sleep(opt.getTransitionDuration()).then(() => {
+							const els = selectedElements(el, true);
+							if (els.length > 0) {
+								els[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+							}
+						});
+					},
+				});
 			}}
 			class={classList(
 				props.palette,

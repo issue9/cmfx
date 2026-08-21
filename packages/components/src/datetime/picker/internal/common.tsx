@@ -133,12 +133,10 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 				readonly={props.readonly}
 				class={styles.dateview}
 				ref={el => {
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef,
-							monthView: () => el,
-						});
-					}
+					props.ref?.({
+						root: () => rootRef,
+						monthView: () => el,
+					});
 				}}
 			/>
 

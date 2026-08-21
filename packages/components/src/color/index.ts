@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Color as C } from './root';
+import { Color as C, type ColorProps, type ColorRef } from './root';
 import { HSLSpace } from './space_hsl';
 import { OKLCHSpace } from './space_oklch';
 import { PresetSpace } from './space_preset';
@@ -22,7 +22,7 @@ export const Color = Object.assign(C, {
 });
 
 export namespace Color {
-	export type Props = import('./root').ColorProps;
-	export type Ref<P extends boolean = false> = import('./root').ColorRef<P>;
+	export type Props = ColorProps;
+	export type Ref<P extends boolean = false> = ColorRef<P>;
 	export type Space = import('./space').ColorSpace;
 }

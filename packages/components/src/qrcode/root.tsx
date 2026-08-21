@@ -153,19 +153,17 @@ export function QRCode(props: QRCodeProps): JSX.Element {
 			ref={el => {
 				setRef(el);
 
-				if (props.ref) {
-					props.ref({
-						async download(name, ext): Promise<void> {
-							return await download(name, ext);
-						},
-						root() {
-							return el;
-						},
-						qrCodeStyling() {
-							return qr;
-						},
-					});
-				}
+				props.ref?.({
+					async download(name, ext): Promise<void> {
+						return await download(name, ext);
+					},
+					root() {
+						return el;
+					},
+					qrCodeStyling() {
+						return qr;
+					},
+				});
 			}}
 		/>
 	);

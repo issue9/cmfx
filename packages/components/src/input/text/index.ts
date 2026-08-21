@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { InputText as C } from './root';
+import { InputText as C, type InputTextProps, type InputTextRef } from './root';
 
 export const InputText = C;
 
 export namespace InputText {
-	export type Props = import('./root').InputTextProps;
-	export type Ref = import('./root').InputTextRef;
+	export type Props = InputTextProps;
+	export type Ref = InputTextRef;
 }

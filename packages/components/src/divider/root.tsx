@@ -59,9 +59,7 @@ export function Divider(props: DividerProps): JSX.Element {
 
 	return (
 		<div
-			ref={el => {
-				if (props.ref) props.ref({ root: () => el });
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 			style={style()}
 			class={classList(
 				props.palette,

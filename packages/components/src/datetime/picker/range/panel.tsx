@@ -185,11 +185,7 @@ export function Panel(props: PanelProps): JSX.Element {
 			popover={props.popover}
 			class={joinClass(props.palette, styles.range, field.class, props.class)}
 			style={style2String(field.style, props.style)}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<main>
 				<div class={styles.panels}>

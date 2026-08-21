@@ -84,13 +84,7 @@ export function Result(props: ResultProps) {
 		<div
 			class={cls()}
 			style={style2String({ '--result-gap': props.gap }, props.style)}
-			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<Show when={props.illustration}>
 				{c => (

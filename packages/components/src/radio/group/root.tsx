@@ -71,13 +71,7 @@ export function RadioGroup<T extends AvailableEnumType = string>(props: RadioGro
 			style={style2String(props.style, field.style)}
 			class={cls()}
 			role="radiogroup"
-			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 			onKeyDown={e => {
 				if (!props.block || props.disabled || props.readonly) {
 					return;

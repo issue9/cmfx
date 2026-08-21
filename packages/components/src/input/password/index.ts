@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { InputPassword as C } from './root';
+import { InputPassword as C, type InputPasswordProps, type InputPasswordRef } from './root';
 
 export const InputPassword = C;
 
 export namespace InputPassword {
-	export type Props = import('./root').InputPasswordProps;
-	export type Ref = import('./root').InputPasswordRef;
+	export type Props = InputPasswordProps;
+	export type Ref = InputPasswordRef;
 }

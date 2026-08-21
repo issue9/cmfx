@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { WeekPicker as C } from './root';
+import { WeekPicker as C, type WeekPickerProps, type WeekPickerRef } from './root';
 
 export const WeekPicker = C;
 
 export namespace WeekPicker {
-	export type Props = import('./root').WeekPickerProps;
-	export type Ref = import('./root').WeekPickerRef;
+	export type Props = WeekPickerProps;
+	export type Ref = WeekPickerRef;
 }

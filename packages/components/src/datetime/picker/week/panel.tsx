@@ -83,12 +83,7 @@ export function Panel(props: PanelProps): JSX.Element {
 		<MonthView
 			ref={el => {
 				ref = el;
-
-				if (props.ref) {
-					props.ref({
-						root: el.root,
-					});
-				}
+				props.ref?.({ root: el.root });
 			}}
 			{...panelProps}
 			class={joinClass(undefined, styles.week, field.class, props.class)}

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Bits, units as bitUnits, createBits } from './bits';
-import { Bytes, units as byteUnits, createBytes } from './bytes';
+import { Bits, units as bitUnits, createBits, type FormatterBitsProps, type FormatterBitUnit } from './bits';
+import { Bytes, units as byteUnits, createBytes, type FormatterBytesProps, type FormatterByteUnit } from './bytes';
 
 export const Formatter = {
 	Bits,
@@ -15,9 +15,9 @@ export const Formatter = {
 };
 
 export namespace Formatter {
-	export type BitsProps = import('./bits').FormatterBitsProps;
-	export type BitUnit = import('./bits').FormatterBitUnit;
+	export type BitsProps = FormatterBitsProps;
+	export type BitUnit = FormatterBitUnit;
 
-	export type BytesProps = import('./bytes').FormatterBytesProps;
-	export type ByteUnit = import('./bytes').FormatterByteUnit;
+	export type BytesProps = FormatterBytesProps;
+	export type ByteUnit = FormatterByteUnit;
 }

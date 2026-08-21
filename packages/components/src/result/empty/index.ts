@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Empty as C } from './root';
+import { Empty as C, type EmptyProps, type EmptyRef } from './root';
 
 export const Empty = C;
 
 export namespace Empty {
-	export type Props = import('./root').EmptyProps;
-	export type Ref = import('./root').EmptyRef;
+	export type Props = EmptyProps;
+	export type Ref = EmptyRef;
 }

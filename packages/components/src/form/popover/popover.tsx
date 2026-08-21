@@ -154,16 +154,14 @@ export function Popover<T>(props: FormPopoverProps<T>): JSX.Element {
 			class={joinClass(props.palette, field.class, props.class)}
 			style={style2String(field.style, props.style)}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						showPopover: show,
-						hidePopover: hide,
-						togglePopover: toggle,
-						activator: () => activatorRef,
-						popover: () => props.popover(),
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					showPopover: show,
+					hidePopover: hide,
+					togglePopover: toggle,
+					activator: () => activatorRef,
+					popover: () => props.popover(),
+				});
 			}}
 		>
 			{/** biome-ignore lint/a11y/noStaticElementInteractions: static */}

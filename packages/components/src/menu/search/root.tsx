@@ -109,9 +109,7 @@ export function Root(props: SearchProps): JSX.Element {
 				dropdownRef = el;
 				dropdownRef.menu().root().style.height = '240px';
 				dropdownRef.menu().root().style.overflowY = 'auto';
-				if (props.ref) {
-					props.ref({ root: () => dropdownRef });
-				}
+				props.ref?.({ root: () => dropdownRef });
 			}}
 			onPopover={visible => {
 				if (visible) {

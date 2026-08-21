@@ -174,12 +174,10 @@ export function Message(props: MessageProps): JSX.Element {
 			aria-describedby={props.body ? contentID : undefined}
 			ref={el => {
 				rootRef = el;
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						close: close,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					close: close,
+				});
 			}}
 		>
 			<Show when={props.icon !== false}>

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Label as C } from './root';
+import { Label as C, type LabelProps, type LabelRef } from './root';
 
 export const Label = C;
 
 export namespace Label {
-	export type Props = import('./root').LabelProps;
-	export type Ref = import('./root').LabelRef;
+	export type Props = LabelProps;
+	export type Ref = LabelRef;
 }

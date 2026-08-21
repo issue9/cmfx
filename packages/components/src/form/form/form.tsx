@@ -86,11 +86,9 @@ export function Form<T extends Flattenable, R = unknown, P = never>(props: FormP
 					el.root().method = 'dialog';
 				}
 
-				if (props.ref) {
-					props.ref({
-						root: el.root,
-					});
-				}
+				props.ref?.({
+					root: el.root,
+				});
 			}}
 		>
 			<FormProvider<T, R, P>

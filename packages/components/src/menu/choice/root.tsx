@@ -163,11 +163,9 @@ export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<
 
 				dropdownRef = el;
 
-				if (props.ref) {
-					props.ref({
-						root: () => el.root(),
-					});
-				}
+				props.ref?.({
+					root: () => el.root(),
+				});
 			}}
 			onPopover={e => {
 				if (props.disabled) {

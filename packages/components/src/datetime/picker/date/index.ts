@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker as C } from './root';
+import { DatePicker as C, type DatePickerProps, type DatePickerRef } from './root';
 
 export const DatePicker = C;
 
 export namespace DatePicker {
-	export type Props = import('./root').DatePickerProps;
-	export type Ref = import('./root').DatePickerRef;
+	export type Props = DatePickerProps;
+	export type Ref = DatePickerRef;
 }

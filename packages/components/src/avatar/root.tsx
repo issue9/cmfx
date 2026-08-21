@@ -69,11 +69,7 @@ export function Avatar(props: AvatarProps): JSX.Element {
 			class={joinClass(props.palette, styles.avatar, props.rounded ? styles.rounded : '', props.class)}
 			style={props.style}
 			onclick={props.onclick}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<Switch
 				fallback={

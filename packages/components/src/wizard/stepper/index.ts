@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Stepper as C } from './root';
+import { Stepper as C, type StepperProps, type StepperRef, type StepperStep } from './root';
 
 export const Stepper = C;
 
 export namespace Stepper {
-	export type Props = import('./root').StepperProps;
-	export type Ref = import('./root').StepperRef;
-	export type Step = import('./root').StepperStep;
+	export type Props = StepperProps;
+	export type Ref = StepperRef;
+	export type Step = StepperStep;
 }

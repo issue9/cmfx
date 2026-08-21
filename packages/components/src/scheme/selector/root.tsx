@@ -55,11 +55,7 @@ export function SchemeSelector(props: SchemeSelectorProps): JSX.Element {
 		<div
 			class={joinClass(props.palette, styles.selector, props.class)}
 			style={props.style}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			<For each={Array.from(props.schemes.entries())}>
 				{scheme => {

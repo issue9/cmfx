@@ -125,12 +125,10 @@ export function Pagination(props: PaginationProps): JSX.Element {
 			ref={el => {
 				el.root().role = 'navigation';
 
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						jump: (p: number) => change(p),
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					jump: (p: number) => change(p),
+				});
 			}}
 		>
 			<Button square onclick={() => change(1)} aria-label={l.t('_c.pagination.firstPage')} disabled={current() === 1}>

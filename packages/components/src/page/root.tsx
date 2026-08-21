@@ -25,7 +25,7 @@ export interface PageProps extends ThemeProps, ParentProps, RefProps<PageRef> {
 	 * - false 不显示 BackTop 组件；
 	 * - {@link BackTop#RootProps} 自定义的 BackTop 组件属性；
 	 */
-	backTop?: false | Omit<BackTop.Props, 'ref'>;
+	readonly backTop?: false | Omit<BackTop.Props, 'ref'>;
 
 	/**
 	 * 页面标题的翻译 ID
@@ -70,12 +70,10 @@ export function Root(props: PageProps): JSX.Element {
 				<Match when={props.backTop === undefined}>
 					<BackTop
 						ref={el => {
-							if (props.ref) {
-								props.ref({
-									root: () => rootRef,
-									backTop: () => el,
-								});
-							}
+							props.ref?.({
+								root: () => rootRef,
+								backTop: () => el,
+							});
 						}}
 					/>
 				</Match>
@@ -84,12 +82,10 @@ export function Root(props: PageProps): JSX.Element {
 						<BackTop
 							{...p}
 							ref={el => {
-								if (props.ref) {
-									props.ref({
-										root: () => rootRef,
-										backTop: () => el,
-									});
-								}
+								props.ref?.({
+									root: () => rootRef,
+									backTop: () => el,
+								});
 							}}
 						/>
 					)}

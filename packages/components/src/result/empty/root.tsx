@@ -38,11 +38,7 @@ export function Empty(props: EmptyProps): JSX.Element {
 			gap="2px"
 			palette={props.palette}
 			illustration={props.icon}
-			ref={el => {
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
-			}}
+			ref={el => props.ref?.({ root: () => el })}
 		>
 			{props.children}
 		</Result>

@@ -141,12 +141,10 @@ export function PaginationBar(props: PaginationBarProps): JSX.Element {
 				value={page()}
 				count={pages()}
 				ref={el => {
-					if (props.ref) {
-						props.ref({
-							root: () => rootRef,
-							jump: el.jump,
-						});
-					}
+					props.ref?.({
+						root: () => rootRef,
+						jump: el.jump,
+					});
 				}}
 			/>
 		</div>

@@ -55,11 +55,9 @@ export function Card(props: CardProps): JSX.Element {
 			class={joinClass(props.palette, styles.card, props.class)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+				});
 			}}
 		>
 			<Show when={props.header}>

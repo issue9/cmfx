@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Calender as C } from './root';
+import { Calender as C, type CalenderProps, type CalenderRef } from './root';
 
 export const Calendar = C;
 
 export namespace Calendar {
-	export type Props = import('./root').CalenderProps;
-	export type Ref = import('./root').CalenderRef;
+	export type Props = CalenderProps;
+	export type Ref = CalenderRef;
 }

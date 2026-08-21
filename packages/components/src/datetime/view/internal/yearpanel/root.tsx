@@ -61,17 +61,7 @@ export function YearPanel(props: YearPanelProps): JSX.Element {
 	});
 
 	return (
-		<fieldset
-			popover={props.popover}
-			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-					});
-				}
-			}}
-			class={styles.panel}
-		>
+		<fieldset popover={props.popover} ref={el => props.ref?.({ root: () => el })} class={styles.panel}>
 			<header class={styles.year}>
 				{years()[0]}-{years()[years().length - 1]}
 				<ButtonGroup kind="flat" class={styles.actions}>

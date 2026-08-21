@@ -104,12 +104,10 @@ export function Panel(props: PanelProps): JSX.Element {
 			class={joinClass(props.palette, styles['color-panel'], props.class, props.disabled ? styles.disabled : undefined)}
 			style={props.style}
 			ref={el => {
-				if (props.ref) {
-					props.ref({
-						root: () => el,
-						switchSpace: setSpace,
-					});
-				}
+				props.ref?.({
+					root: () => el,
+					switchSpace: setSpace,
+				});
 			}}
 		>
 			<header>

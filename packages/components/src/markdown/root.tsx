@@ -92,9 +92,7 @@ export function Markdown<T extends keyof HTMLElementTagNameMap = 'article'>(prop
 			innerHTML={html()}
 			ref={(el: ReturnType<MarkdownRef<T>['root']>) => {
 				ref = el;
-				if (props.ref) {
-					props.ref({ root: () => el });
-				}
+				props.ref?.({ root: () => el });
 			}}
 		/>
 	);

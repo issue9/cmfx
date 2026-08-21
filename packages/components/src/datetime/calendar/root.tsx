@@ -88,9 +88,7 @@ export function Calender(props: CalenderProps): JSX.Element {
 		<MonthView
 			ref={el => {
 				ref = el;
-				if (props.ref) {
-					props.ref(el);
-				}
+				props.ref?.(el);
 			}}
 			initValue={props.current ?? new Date()}
 			min={props.min}
