@@ -1,0 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "@cdk/style.css";
+
+@layer components {
+	.enabled {
+		@apply text-palette-fg bg-palette-bg;
+	}
+
+	.disabled {
+		@apply text-palette-fg-disabled bg-palette-bg-disabled;
+	}
+
+	.loading {
+		@apply cursor-wait;
+	}
+}
