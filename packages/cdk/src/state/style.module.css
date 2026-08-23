@@ -14,8 +14,4 @@
 	.disabled {
 		@apply text-palette-fg-disabled bg-palette-bg-disabled;
 	}
-
-	.loading {
-		@apply cursor-wait;
-	}
 }
