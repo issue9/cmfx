@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+export const states = ['enabled', 'disabled'] as const;
+
 /**
- * 组件的通用状态
+ * 组件的状态类型
  */
-export type State = 'enabled' | 'disabled';
+export type State = (typeof states)[number];

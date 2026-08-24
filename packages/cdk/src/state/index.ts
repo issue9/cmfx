@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { type StateContext, StateProvider, useState } from './context';
+export { type StateContext, StateProvider, type StateProviderProps, useState } from './context';
 export type { State } from './state';
