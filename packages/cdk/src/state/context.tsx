@@ -24,11 +24,12 @@ export interface StateContext<S extends string = State> extends StateBase<S> {
 	 *
 	 * @reactive
 	 *
+	 * @see {@link StateProviderProps#getClass}
 	 * @remarks
 	 * 该值由 {@link StateProviderProps#getClass} 生成，
-	 * 若函数返回 undefined，则由框架提供的默认样式。
+	 * 若函数返回 undefined，框架会为 {@link State} 类型提供默认类型，其它的值则为 undefined。
 	 */
-	class: string;
+	class: string | undefined;
 }
 
 const stateContext = createContext<StateContext<string>>();

@@ -11,5 +11,6 @@ export * from './move';
 export * from './popover';
 export * from './print';
 export * from './scroll';
+export * from './state';
 export * from './theme';
 export * from './validator';
