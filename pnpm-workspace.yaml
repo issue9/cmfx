@@ -16,7 +16,7 @@ minimumReleaseAge: 0
 
 catalog:
   '@biomejs/biome': ^2.5.10
-  '@iconify/json': ^2.2.519
+  '@iconify/json': ^2.2.520
   '@iconsets/svg-morpheus-ts': ^1.4.14
   '@mdx-js/rollup': ^3.1.1
   '@microsoft/api-extractor': ^7.59.0
@@ -27,7 +27,7 @@ catalog:
   '@tailwindcss/vite': ^4.3.3
   '@testing-library/jest-dom': ^7.0.1
   '@testing-library/user-event': ^14.6.6
-  '@types/node': ^26.2.0
+  '@types/node': ^26.3.0
   '@tiptap/core': ^3.30.3
   '@tiptap/extension-bubble-menu': ^3.30.3
   '@tiptap/extension-image': ^3.30.3
@@ -52,7 +52,7 @@ catalog:
   hucre: ^1.1.0
   intl-messageformat: ^11.2.14
   jsdom: ^30.0.1
-  marked: ^18.0.10
+  marked: ^18.0.11
   qr-code-styling: ^1.9.2
   shiki: ^4.4.3
   solid-js: ^1.9.15

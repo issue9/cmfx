@@ -120,11 +120,7 @@ export function IconSet(props: IconSetProps): JSX.Element {
 				rotation: props.rotation,
 			},
 			() => {
-				if (!props.ref) {
-					return;
-				}
-
-				props.ref({
+				props.ref?.({
 					to: gid => {
 						morpheus.to(gid, { duration: getDuration() });
 						index = keys.indexOf(gid);

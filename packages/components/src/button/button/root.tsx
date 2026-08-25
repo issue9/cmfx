@@ -194,10 +194,7 @@ export function Button(props: ButtonProps) {
 					el.ariaChecked = 'true';
 				}
 
-				if (!props.ref) {
-					return;
-				}
-				props.ref({ root: () => el });
+				props.ref?.({ root: () => el });
 			}}
 		>
 			{props.children}
