@@ -103,4 +103,36 @@ describe('FieldProvider', async () => {
 
 		afterAll(cleanup);
 	});
+
+	test('useFormField.conv', () => {
+		const { result, cleanup } = renderHook(
+			() =>
+				useFormField<FormAttrs, Obj, string>({
+					from(t) {
+						return t?.toString();
+					},
+					to(t) {
+						return t;
+					},
+				}),
+			{
+				wrapper: (props: ParentProps) => {
+					return (
+						<Provider>
+							<FormProvider<FormAttrs, Obj> initValue={{ name: 'f1', age: 20 }}>
+								<FormFieldProvider<FormAttrs, Obj> name="age">{props.children}</FormFieldProvider>
+							</FormProvider>
+						</Provider>
+					);
+				},
+			},
+		);
+
+		expect(result).toBeDefined();
+		expect(result?.getValue(), '20');
+		result?.setValue('21');
+		expect(result?.getValue(), '21');
+
+		afterAll(cleanup);
+	});
 });
