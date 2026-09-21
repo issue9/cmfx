@@ -5,11 +5,11 @@
 import type { Flatten, Flattenable, FlattenKeys, Params, Problem, Validator } from '@cmfx/core';
 import { flatten, LogicError } from '@cmfx/core';
 import equal from 'fast-deep-equal';
-import { createSignal, createUniqueId, type JSX, untrack } from 'solid-js';
+import { createSignal, type JSX, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
 import type { ChangeFunc } from '@cdk/base';
-import type { FormAttrs, FormContextOptions, FormField, FormState } from '@cdk/form/types';
+import type { FormContextOptions, FormField, FormState } from '@cdk/form/types';
 
 // 用于在 FormContext 中保存错误数据的类型
 type Err<T extends Flattenable> = Record<FlattenKeys<T>, string | undefined>;
@@ -19,12 +19,11 @@ type StoreX<T extends Flattenable> = [get: Store<T>, set: SetStoreFunction<T>];
 /**
  * 用于操作表单的 API
  *
- * @typeParam A - 附带的额外属性对象；
  * @typeParam T - 表示需要提交的对象类型；
  * @typeParam R - 表示服务端返回的类型；
  * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export class FormContext<A extends FormAttrs = FormAttrs, T extends Flattenable = Flattenable, R = unknown, P = never> {
+export class FormContext<T extends Flattenable = Flattenable, R = unknown, P = never> {
 	readonly #onProblem?: FormContextOptions<T, R, P>['onProblem'];
 	readonly #load?: FormContextOptions<T, R, P>['load'];
 	readonly #submit?: FormContextOptions<T, R, P>['submit'];
@@ -45,8 +44,6 @@ export class FormContext<A extends FormAttrs = FormAttrs, T extends Flattenable 
 	readonly #validator?: Validator<T>;
 	readonly #validOnChange?: boolean;
 
-	readonly #attrs = createStore<A>({} as A);
-
 	/**
 	 * 构造函数
 	 */
@@ -63,19 +60,6 @@ export class FormContext<A extends FormAttrs = FormAttrs, T extends Flattenable 
 
 		this.#validator = options.validator;
 		this.#validOnChange = options.validOnChange;
-	}
-
-	setAttr(name: keyof A, val: A[keyof A]): void {
-		// biome-ignore lint/suspicious/noExplicitAny: any
-		this.#attrs[1](name as any, val as any);
-	}
-
-	setAttrs(v: A): void {
-		this.#attrs[1](v);
-	}
-
-	getAttrs() {
-		return this.#attrs[0];
 	}
 
 	/**
@@ -237,10 +221,10 @@ export class FormContext<A extends FormAttrs = FormAttrs, T extends Flattenable 
 	/**
 	 * 创建对当前对象中某个字段的存取接口
 	 *
-	 * @param name - 字段名；
-	 * @param id - 如果指定了该参数，则使用该值作为 {@link FormField#id} 的值，否则会自动生成一个唯一的 id 值；
+	 * @param name - 字段名，同名调用将会保存实例；
+	 * @param id - 表单元素的 id，在参数 name 相同的情况下，使用不同的 id，仅在第一次调用时起作用；
 	 */
-	createField<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>, id?: string): FormField<FT> {
+	createField<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>, id: string): FormField<FT> {
 		const parent = this;
 
 		if (parent.#fields.has(name)) {
@@ -298,7 +282,7 @@ export class FormContext<A extends FormAttrs = FormAttrs, T extends Flattenable 
 		};
 
 		const field = {
-			id: id ?? createUniqueId(),
+			id: id,
 			name: name,
 			inForm: true,
 

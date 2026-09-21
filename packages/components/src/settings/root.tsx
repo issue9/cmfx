@@ -169,7 +169,7 @@ export function Settings(props: SettingsProps) {
 				desc={l.t('_c.settings.transitionDurationDesc')}
 			>
 				<Slider
-					disabled={isReducedMotion()}
+					state={isReducedMotion() ? 'disabled' : 'enabled'}
 					class={styles.range}
 					format={v => `${v}ms`}
 					min={100}

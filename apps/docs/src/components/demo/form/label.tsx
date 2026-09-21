@@ -7,15 +7,20 @@ import { Button, DatePicker, Form, InputNumber, InputText, TextArea } from '@cmf
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, labelAlignSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import {
+	boolSelector,
+	formStateSelector,
+	labelAlignSelector,
+	layoutSelector,
+	paletteSelector,
+} from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('secondary');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 	const [LabelAlign, labelAlign] = labelAlignSelector('start');
+	const [State, state] = formStateSelector();
 
 	const [F, Field] = Form.create({
 		initValue: {
@@ -33,8 +38,7 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Rounded />
 				<Layout />
-				<Disabled />
-				<Readonly />
+				<State />
 				<LabelAlign />
 			</Portal>
 
@@ -42,8 +46,7 @@ export default function (props: MountProps): JSX.Element {
 				palette={palette()}
 				rounded={rounded()}
 				layout={layout()}
-				disabled={disabled()}
-				readonly={readonly()}
+				state={state()}
 				labelWidth="100px"
 				labelAlign={labelAlign()}
 			>

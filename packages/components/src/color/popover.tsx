@@ -48,15 +48,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
-	const [panelProps, _] = splitProps(props, [
-		'wcag',
-		'spaces',
-		'value',
-		'onChange',
-		'disabled',
-		'readonly',
-		'tabindex',
-	]);
+	const [panelProps, _] = splitProps(props, ['wcag', 'spaces', 'value', 'onChange', 'state', 'tabindex']);
 
 	const [hover, setHover] = createSignal(false);
 	const setHoverTrue = () => setHover(true);
@@ -78,8 +70,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 			activatorClass={joinClass(undefined, props.activatorClass, styles.activator)}
 			type={props.popover}
 			rounded={props.rounded}
-			readonly={props.readonly}
-			disabled={props.disabled}
+			state={props.state}
 			palette={props.palette}
 			class={props.class}
 			style={props.style}
@@ -91,20 +82,20 @@ export function Popover(props: PopoverProps): JSX.Element {
 				return (
 					<>
 						<input
-							id={f.id}
+							id={f.api.id}
 							class={styles.input}
 							tabIndex={props.tabindex}
-							disabled={props.disabled}
+							disabled={props.state === 'disabled'}
 							readOnly
 							placeholder={props.placeholder}
-							value={f.getValue() ?? ''}
-							style={props.coloring ? { color: f.getValue() } : undefined}
+							value={f.api.getValue() ?? ''}
+							style={props.coloring ? { color: f.api.getValue() } : undefined}
 						/>
-						<Show when={hover() && f.getValue()} fallback={<IconExpandAll />}>
+						<Show when={hover() && f.api.getValue()} fallback={<IconExpandAll />}>
 							<IconClose
 								onClick={(e: MouseEvent) => {
 									e.stopPropagation();
-									f.setValue(undefined);
+									f.api.setValue(undefined);
 								}}
 							/>
 						</Show>

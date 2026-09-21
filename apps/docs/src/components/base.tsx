@@ -61,6 +61,12 @@ export function numeric<T extends number = number>(
 	return [num, get, set];
 }
 
+export function formStateSelector(
+	preset: Form.State = 'enabled',
+): [Component, Accessor<Form.State | undefined>, Setter<Form.State | undefined>] {
+	return arraySelector('_d.demo.form_state', Form.states, preset);
+}
+
 /**
  * 创建一个 bool 选择项
  *

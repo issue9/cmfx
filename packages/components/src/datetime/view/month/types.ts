@@ -7,6 +7,7 @@ import type { getISOWeek } from '@cmfx/core';
 
 import type { Week } from '@components/datetime/utils';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
+import type { Form } from '@components/form';
 
 /**
  * 用于表示周数，第一个元素为年份，第二个元素为在该年份中的周数。
@@ -70,18 +71,11 @@ export type MonthViewRef = API & BaseRef<HTMLFieldSetElement>;
 
 export interface MonthViewProps extends ThemeProps, RefProps<MonthViewRef> {
 	/**
-	 * 禁用
+	 * 状态
 	 *
 	 * @reactive
 	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
+	state?: Form.State;
 
 	/**
 	 * 允许的最小日期

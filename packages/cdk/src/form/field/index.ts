@@ -3,5 +3,5 @@
 // SPDX-License-Identifier: MIT
 
 export { createFormField } from './field';
-export type { FormFieldContext, FormFieldProvider, FormFieldProviderProps } from './provider';
-export { useFormField } from './provider';
+export type { FormFieldContext, FormFieldProviderProps } from './provider';
+export { FormFieldProvider, useFormField } from './provider';

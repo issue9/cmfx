@@ -6,8 +6,8 @@ import { describe, expect, test } from 'vitest';
 
 import { createFormField } from './field';
 
-describe('createFakeField', () => {
-	const ctx = createFormField(20);
+describe('createField', () => {
+	const ctx = createFormField('id', 20);
 
 	let changeValue: number | undefined = 0;
 	let changeCount = 0;

@@ -41,7 +41,7 @@ const presetProps: Partial<InputNumberProps> = {
  * 数字输入组件
  */
 export function InputNumber(props: InputNumberProps): JSX.Element {
-	const field = Form.useField<number>(props, true);
+	const field = Form.useField<number>(true);
 	const form = Form.useForm();
 	props = mergeProps(presetProps, form, props);
 
@@ -50,11 +50,11 @@ export function InputNumber(props: InputNumberProps): JSX.Element {
 	}
 
 	const step = (v: number) => {
-		if (props.readonly || props.disabled) {
+		if (props.state !== 'enabled' && props.state !== 'loading') {
 			return;
 		}
 
-		const n = (field.getValue() ?? 0) + v;
+		const n = (field.api.getValue() ?? 0) + v;
 		if (props.min !== undefined && v < 0 && n < props.min) {
 			return;
 		}
@@ -62,12 +62,12 @@ export function InputNumber(props: InputNumberProps): JSX.Element {
 			return;
 		}
 
-		field.setValue((field.getValue() ?? 0) + v);
-		field.setError();
+		field.api.setValue((field.api.getValue() ?? 0) + v);
+		field.api.setError();
 	};
 
 	const wheel = (e: WheelEvent) => {
-		if (props.readonly || props.disabled) {
+		if (props.state !== 'enabled' && props.state !== 'loading') {
 			return;
 		}
 
@@ -81,7 +81,7 @@ export function InputNumber(props: InputNumberProps): JSX.Element {
 			<Button
 				kind="flat"
 				class={styles['number-spin']}
-				disabled={props.disabled || props.readonly}
+				disabled={props.state !== 'enabled'}
 				onclick={() => step(props.step!)}
 				ref={el => (el.root().tabIndex = -1)}
 			>
@@ -90,7 +90,7 @@ export function InputNumber(props: InputNumberProps): JSX.Element {
 			<Button
 				kind="flat"
 				class={styles['number-spin']}
-				disabled={props.disabled || props.readonly}
+				disabled={props.state !== 'enabled'}
 				onclick={() => step(-props.step!)}
 				ref={el => (el.root().tabIndex = -1)}
 			>
@@ -106,20 +106,19 @@ export function InputNumber(props: InputNumberProps): JSX.Element {
 
 	return (
 		<InputBase
-			value={field.getValue()}
-			onChange={v => field.setValue(v)}
+			value={field.api.getValue()}
+			onChange={v => field.api.setValue(v)}
 			class={joinClass(undefined, field.class, props.class)}
 			style={style2String(field.style, props.style)}
 			palette={props.palette}
 			type="number"
-			id={field.id}
+			id={field.api.id}
 			prefix={props.prefix}
 			suffix={suffix}
 			rounded={props.rounded}
 			inputMode={props.inputMode}
 			tabindex={props.tabindex}
-			disabled={props.disabled}
-			readonly={props.readonly}
+			state={props.state}
 			placeholder={props.placeholder}
 			ref={el => {
 				inputRef = el;

@@ -6,7 +6,6 @@
   entrypoints:
       - entrypoint: "index.d.ts"
         types:
-            - Form.API
             - Form.LabelAlignment
             - Form.Ref
             - Form.Props

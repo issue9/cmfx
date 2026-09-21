@@ -18,15 +18,9 @@
 				"reactive": true
 			},
 			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "readonly",
-				"summary": "只读属性\n\n",
-				"type": "boolean | undefined",
+				"name": "state",
+				"summary": "表单状态\n\n",
+				"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
 				"reactive": true
 			},
 			{
@@ -157,15 +151,10 @@
 				"reactive": true
 			},
 			{
-				"name": "disabled",
-				"summary": "禁用组件\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "readonly",
-				"summary": "只读属性\n\n",
-				"type": "boolean | undefined",
+				"name": "state",
+				"summary": "表单组件的状态\n\n",
+				"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
+				"def": "'enabled'\n\n",
 				"reactive": true
 			},
 			{

@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
+import { type BaseRef, createFormField, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
 import { createSignal, type JSX, Match, type ParentProps, Show, Switch, untrack } from 'solid-js';
 
 import { Avatar } from '@components/avatar';
 import { Button } from '@components/button';
 import { Checkbox } from '@components/checkbox';
 import { useOptions } from '@components/context';
-import { Form } from '@components/form';
 import { InputPassword } from '@components/input';
 import { Spin } from '@components/spin';
 import styles from './style.module.css';
@@ -65,7 +64,7 @@ export function LockScreen(props: LockScreenProps): JSX.Element {
 	};
 
 	const [pass, setPass] = createSignal<string>();
-	const vertify = Form.createFakeField<string>('');
+	const vertify = createFormField<string>('');
 
 	let wakeRequest: WakeLockSentinel | undefined;
 	const wakeRequestChange = async (v?: boolean) => {

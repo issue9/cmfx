@@ -8,14 +8,13 @@ import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, formStateSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [num, setNum] = createSignal(5);
 
 	const [Palette, palette] = paletteSelector();
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+	const [State, state] = formStateSelector();
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 
@@ -23,9 +22,8 @@ export default function (props: MountProps): JSX.Element {
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Readonly />
 				<Rounded />
-				<Disabled />
+				<State />
 				<Layout />
 			</Portal>
 
@@ -33,9 +31,8 @@ export default function (props: MountProps): JSX.Element {
 				<InputNumber
 					placeholder="placeholder"
 					palette={palette()}
-					disabled={disabled()}
 					rounded={rounded()}
-					readonly={readonly()}
+					state={state()}
 					value={num()}
 					onChange={setNum}
 				/>
@@ -45,9 +42,8 @@ export default function (props: MountProps): JSX.Element {
 						placeholder="placeholder"
 						prefix={<IconFace class="self-center" />}
 						palette={palette()}
-						disabled={disabled()}
+						state={state()}
 						rounded={rounded()}
-						readonly={readonly()}
 						value={num()}
 						onChange={setNum}
 					/>
@@ -60,9 +56,8 @@ export default function (props: MountProps): JSX.Element {
 						min={1}
 						max={10}
 						palette={palette()}
-						disabled={disabled()}
+						state={state()}
 						rounded={rounded()}
-						readonly={readonly()}
 						value={num()}
 						onChange={setNum}
 					/>

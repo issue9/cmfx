@@ -17,7 +17,7 @@ export interface CommonRef extends BaseRef<HTMLFieldSetElement> {
 	monthView(): MonthView.Ref;
 }
 
-export interface CommonProps extends ThemeProps, Omit<Form.DataProps, 'rounded'>, RefProps<CommonRef> {
+export interface CommonProps extends ThemeProps, Omit<Form.InputProps, 'rounded'>, RefProps<CommonRef> {
 	/**
 	 * 是否符带时间选择器
 	 *
@@ -105,7 +105,7 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 
 	return (
 		<fieldset
-			disabled={props.disabled}
+			disabled={props.state === 'disabled'}
 			popover={props.popover}
 			class={joinClass(props.palette, styles.panel, props.class)}
 			style={props.style}
@@ -129,8 +129,7 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 				onLeave={props.onLeave}
 				onClick={props.onClick}
 				onPaging={props.onPaging}
-				disabled={props.disabled}
-				readonly={props.readonly}
+				state={props.state}
 				class={styles.dateview}
 				ref={el => {
 					props.ref?.({
@@ -141,16 +140,15 @@ export function CommonPanel(props: CommonProps): JSX.Element {
 			/>
 
 			<Show when={props.time}>
-				<Form.FieldProvider isolation>
+				<Form.IsolationField>
 					<Time
-						disabled={props.disabled}
-						readonly={props.readonly}
+						state={props.state}
 						value={props.initTime}
 						class={styles.timer}
 						ref={el => setTimeRef(el)}
 						onChange={props.onTimeChange}
 					/>
-				</Form.FieldProvider>
+				</Form.IsolationField>
 			</Show>
 		</fieldset>
 	);

@@ -15,11 +15,13 @@ export default function (props: MountProps): JSX.Element {
 	let dlg2: Dialog.Ref;
 	let dlg3: Dialog.Ref;
 
-	const api = new Form.API({
+	// biome-ignore lint/complexity/noBannedTypes: {}
+	const obj: Form.Props<{}> = {
+		inDialog: true,
 		initValue: {},
 		submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
 		onProblem: async p => (p ? await Notify.notify(p.title) : console.error('未知的错误')),
-	});
+	};
 
 	return (
 		<div>
@@ -40,7 +42,7 @@ export default function (props: MountProps): JSX.Element {
 					</Dialog.Toolbar>
 				}
 			>
-				<Form inDialog api={api}>
+				<Form {...obj}>
 					<div class="flex flex-col">
 						<div class="py-3">form</div>
 						<div class="flex">

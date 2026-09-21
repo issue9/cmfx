@@ -7,7 +7,6 @@ import type { ParentProps } from 'solid-js';
 import { afterAll, describe, expect, test } from 'vitest';
 
 import { FormProvider } from '@cdk/form/form';
-import type { FormAttrs } from '@cdk/form/types';
 import { Provider } from '@cdk/testenv/testenv';
 import { FormFieldProvider, useFormField } from './provider';
 
@@ -18,12 +17,12 @@ type Obj = {
 
 describe('FieldProvider', async () => {
 	test('useFormField.age', () => {
-		const { result, cleanup } = renderHook(() => useFormField<FormAttrs, Obj>(), {
+		const { result, cleanup } = renderHook(() => useFormField<Obj>(), {
 			wrapper: (props: ParentProps) => {
 				return (
 					<Provider>
-						<FormProvider<FormAttrs, Obj> initValue={{ age: 20 }}>
-							<FormFieldProvider<FormAttrs, Obj> name="age">{props.children}</FormFieldProvider>
+						<FormProvider<Obj> initValue={{ age: 20 }}>
+							<FormFieldProvider<Obj> name="age">{props.children}</FormFieldProvider>
 						</FormProvider>
 					</Provider>
 				);
@@ -56,12 +55,12 @@ describe('FieldProvider', async () => {
 	});
 
 	test('useFormField.name', () => {
-		const { result, cleanup } = renderHook(() => useFormField<FormAttrs, Obj>(), {
+		const { result, cleanup } = renderHook(() => useFormField<Obj>(), {
 			wrapper: (props: ParentProps) => {
 				return (
 					<Provider>
-						<FormProvider<FormAttrs, Obj> initValue={{ age: 20 }}>
-							<FormFieldProvider<FormAttrs, Obj> name="name">{props.children}</FormFieldProvider>
+						<FormProvider<Obj> initValue={{ age: 20 }}>
+							<FormFieldProvider<Obj> name="name">{props.children}</FormFieldProvider>
 							<FormFieldProvider isolation>isolation</FormFieldProvider>
 						</FormProvider>
 					</Provider>
@@ -85,12 +84,12 @@ describe('FieldProvider', async () => {
 	});
 
 	test('isolation', () => {
-		const { result, cleanup } = renderHook(() => useFormField<FormAttrs, Obj>(), {
+		const { result, cleanup } = renderHook(() => useFormField<Obj>(), {
 			wrapper: (props: ParentProps) => {
 				return (
 					<Provider>
-						<FormProvider<FormAttrs, Obj> initValue={{ name: 'f1', age: 20 }}>
-							<FormFieldProvider<FormAttrs, Obj> name="age">
+						<FormProvider<Obj> initValue={{ name: 'f1', age: 20 }}>
+							<FormFieldProvider<Obj> name="age">
 								<FormFieldProvider isolation>{props.children}</FormFieldProvider>
 							</FormFieldProvider>
 						</FormProvider>
@@ -107,7 +106,7 @@ describe('FieldProvider', async () => {
 	test('useFormField.conv', () => {
 		const { result, cleanup } = renderHook(
 			() =>
-				useFormField<FormAttrs, Obj, string>({
+				useFormField<Obj, string>({
 					from(t) {
 						return t?.toString();
 					},
@@ -119,8 +118,8 @@ describe('FieldProvider', async () => {
 				wrapper: (props: ParentProps) => {
 					return (
 						<Provider>
-							<FormProvider<FormAttrs, Obj> initValue={{ name: 'f1', age: 20 }}>
-								<FormFieldProvider<FormAttrs, Obj> name="age">{props.children}</FormFieldProvider>
+							<FormProvider<Obj> initValue={{ name: 'f1', age: 20 }}>
+								<FormFieldProvider<Obj> name="age">{props.children}</FormFieldProvider>
 							</FormProvider>
 						</Provider>
 					);

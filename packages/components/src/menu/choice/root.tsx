@@ -24,7 +24,7 @@ export type ChoiceOption<T extends AvailableEnumType = string> = Menu.Item<T>;
 
 export type ChoiceOptions<T extends AvailableEnumType = string> = Array<ChoiceOption<T>>;
 
-interface Base<T extends AvailableEnumType = string> extends ThemeProps, Form.DataProps, RefProps<ChoiceRef> {
+interface Base<T extends AvailableEnumType = string> extends ThemeProps, Form.InputProps, RefProps<ChoiceRef> {
 	placeholder?: string;
 
 	/**
@@ -66,8 +66,7 @@ export type ChoiceProps<T extends AvailableEnumType = string> = ChoiceMultiplePr
  * 用以替代 select 组件
  */
 export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<T>): JSX.Element {
-	// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
-	const field = Form.useField(props as any, true);
+	const field = Form.useField<Array<T>>(true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -93,18 +92,18 @@ export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<
 
 	// 生成下拉菜单的选中项
 	const value = createMemo(() => {
-		const v = field.getValue();
+		const v = field.api.getValue();
 		return v !== undefined ? (Array.isArray(v) ? v : [v]) : undefined;
 	});
 
 	const trigger = (
 		<div class={joinClass(undefined, styles.activator, props.rounded ? styles.rounded : '')}>
 			<input
-				id={field.id}
+				id={field.api.id}
 				tabIndex={props.tabindex}
 				class="peer hidden"
-				disabled={props.disabled}
-				readOnly={props.readonly}
+				disabled={props.state === 'disabled'}
+				readOnly={props.state === 'readonly'}
 			/>
 			<div class={styles.input}>
 				<Switch fallback={<span class={styles.placeholder} innerHTML={props.placeholder ?? '&#160;'} />}>
@@ -118,16 +117,16 @@ export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<
 											<IconClose
 												class={styles.close}
 												onclick={(e: MouseEvent) => {
-													if (props.readonly) {
+													if (props.state === 'readonly') {
 														return;
 													}
 
 													if (props.multiple) {
-														const v = field.getValue() as Array<T>;
+														const v = field.api.getValue() as Array<T>;
 														const vals = v.filter(vv => vv !== item.value);
-														field.setValue(vals);
+														field.api.setValue(vals);
 													} else {
-														field.setValue(undefined);
+														field.api.setValue(undefined);
 													}
 													e.stopPropagation();
 													e.preventDefault();
@@ -151,10 +150,9 @@ export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<
 			class={joinClass(props.palette, props.class, field.class)}
 			style={style2String(field.style, props.style)}
 			multiple={props.multiple}
+			value={field.api.getValue()}
 			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
-			value={field.getValue() as any}
-			// biome-ignore lint/suspicious/noExplicitAny: 应该是安全的
-			onChange={(v: any) => field.setValue(v as any)}
+			onChange={(v: any) => field.api.setValue(v as any)}
 			items={props.options}
 			ref={el => {
 				const s = el.menu().root().style;
@@ -168,7 +166,7 @@ export function Choice<T extends AvailableEnumType = string>(props: ChoiceProps<
 				});
 			}}
 			onPopover={e => {
-				if (props.disabled) {
+				if (props.state === 'disabled') {
 					return true;
 				} // disabled 模式下不弹出菜单
 

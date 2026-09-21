@@ -56,7 +56,7 @@ const presetProps: Readonly<Partial<AlbumProps>> = {
 } as const;
 
 export function Album(props: AlbumProps): JSX.Element {
-	const field = Form.useField(props, true);
+	const field = Form.useField<Array<string>>(true);
 	const form = Form.useForm();
 	props = mergeProps(presetProps, form, props);
 
@@ -78,7 +78,7 @@ export function Album(props: AlbumProps): JSX.Element {
 	});
 
 	const listSize = createMemo(() => {
-		const urls = field.getValue() || [];
+		const urls = field.api.getValue() || [];
 		const files = uploadRef ? uploadRef.files() : [];
 		return urls.length + files.length;
 	});
@@ -88,7 +88,7 @@ export function Album(props: AlbumProps): JSX.Element {
 			ref={el => (dropRef = el)}
 			class={joinClass(props.palette, props.class, field.class, styles['upload-content'])}
 			style={style2String(field.style, props.style)}
-			disabled={props.disabled}
+			disabled={props.state === 'disabled'}
 		>
 			<Upload
 				ref={el => {
@@ -105,15 +105,15 @@ export function Album(props: AlbumProps): JSX.Element {
 				dropzone={dropRef!}
 			/>
 
-			<For each={field.getValue()}>
+			<For each={field.api.getValue()}>
 				{item => (
 					<PreviewURL
 						size={props.itemSize!}
 						url={item}
 						del={() => {
-							const old = field.getValue();
+							const old = field.api.getValue();
 							const n = old ? old.filter(v => v !== item) : [];
-							field.setValue(n);
+							field.api.setValue(n);
 							if (props.onChange) {
 								props.onChange(n, old);
 							}
@@ -130,7 +130,7 @@ export function Album(props: AlbumProps): JSX.Element {
 			<Show when={props.auto && (props.multiple || listSize() === 0)}>
 				<button
 					type="button"
-					disabled={props.disabled}
+					disabled={props.state === 'disabled'}
 					style={size()}
 					class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
 					onclick={async () => {
@@ -145,7 +145,7 @@ export function Album(props: AlbumProps): JSX.Element {
 				<Show when={props.multiple || listSize() === 0}>
 					<button
 						type="button"
-						disabled={props.disabled}
+						disabled={props.state === 'disabled'}
 						style={size()}
 						class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
 						onclick={() => uploadRef.pick()}
@@ -156,7 +156,7 @@ export function Album(props: AlbumProps): JSX.Element {
 				<Show when={uploadRef!.files().length > 0}>
 					<button
 						type="button"
-						disabled={props.disabled}
+						disabled={props.state === 'disabled'}
 						style={size()}
 						class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
 						onclick={() => uploadRef!.upload()}

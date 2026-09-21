@@ -2,24 +2,24 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ChangeFunc, FormState } from '@cmfx/cdk';
 import equal from 'fast-deep-equal';
-import { createSignal, createUniqueId, type JSX, untrack } from 'solid-js';
+import { createSignal, type JSX, untrack } from 'solid-js';
 
-import type { FormField } from '@cdk/form/types';
+import type { ChangeFunc } from '@cdk/base';
+import type { FormField, FormState } from '@cdk/form/types';
 
 /**
  * 手动创建一个 FormField 对象
  *
+ * @param id - 元素的 id；
  * @param initValue - 初始值；
  * @param onChange - 值变化时的回调函数，也可在之后通过返回对象的 onChange 方法添加；
  */
-export function createFormField<T>(initValue?: T, onChange?: ChangeFunc<T | undefined>): FormField<T> {
+export function createFormField<T>(id: string, initValue?: T, onChange?: ChangeFunc<T | undefined>): FormField<T> {
 	const preset = structuredClone(initValue);
 	const [v, sv] = createSignal<T | undefined>(initValue);
 	const [extra, setExtra] = createSignal<JSX.Element | undefined>();
 	const [err, setErr] = createSignal<string | undefined>();
-	const id = createUniqueId();
 	const [state, setState] = createSignal<FormState>('enabled');
 
 	const changes: Array<ChangeFunc<T | undefined>> = [];

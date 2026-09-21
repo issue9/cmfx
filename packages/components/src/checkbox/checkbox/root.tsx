@@ -5,6 +5,7 @@
 import { type BaseRef, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
 import { createEffect, createMemo, type JSX, mergeProps } from 'solid-js';
 
+import type { Form } from '@components/form';
 import styles from './style.module.css';
 
 export interface CheckboxRef extends BaseRef<HTMLLabelElement> {
@@ -27,18 +28,11 @@ export interface CheckboxProps extends ThemeProps, RefProps<CheckboxRef> {
 	rounded?: boolean;
 
 	/**
-	 * 禁用组件
+	 * 表单状态
 	 *
 	 * @reactive
 	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读属性
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
+	state?: Form.State;
 
 	/**
 	 * 设置为不确定状态，只负责样式控制。
@@ -84,7 +78,7 @@ export function Checkbox(props: CheckboxProps): JSX.Element {
 			props.palette,
 			props.block ? styles.block : '',
 			props.rounded ? styles.rounded : '',
-			props.readonly ? styles.readonly : '',
+			props.state === 'readonly' ? styles.readonly : '',
 			styles.checkbox,
 			props.class,
 		);
@@ -99,7 +93,7 @@ export function Checkbox(props: CheckboxProps): JSX.Element {
 		<label class={cls()} style={props.style} tabindex={props.block ? props.tabindex : -1} ref={el => (rootRef = el)}>
 			<input
 				type="checkbox"
-				disabled={props.disabled}
+				disabled={props.state === 'disabled'}
 				aria-hidden={props.block}
 				checked={props.checked}
 				ref={el => {
@@ -115,14 +109,14 @@ export function Checkbox(props: CheckboxProps): JSX.Element {
 						return;
 					}
 
-					if (props.readonly) {
+					if (props.state === 'readonly') {
 						e.preventDefault();
 					}
 					e.stopPropagation();
 				}}
 				onChange={e => {
-					if (!props.readonly && !props.disabled && props.onChange) {
-						props.onChange(e.currentTarget.checked);
+					if (props.state === 'enabled' || props.state === 'loading') {
+						props.onChange?.(e.currentTarget.checked);
 					}
 				}}
 			/>

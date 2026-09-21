@@ -60,9 +60,10 @@ export class RGBSpace implements ColorSpace {
 		let gRef: Slider.Ref;
 		let bRef: Slider.Ref;
 		let aRef: Slider.Ref;
+		let ref: Form.Ref<RGB>;
 
 		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'rgb(1 1 1)').to('srgb');
-		const [F, Field, api] = Form.create<RGB>({
+		const [F, Field] = Form.create<RGB>({
 			initValue: { r: this.#r ?? c.r, g: this.#g ?? c.g, b: this.#b ?? c.b, a: this.#a ?? c.a },
 		});
 
@@ -84,29 +85,29 @@ export class RGBSpace implements ColorSpace {
                 ${fmtRGB(0, 0, 0.5, 1)},${fmtRGB(0, 0, 0.6, 1)},${fmtRGB(0, 0, 0.7, 1)},${fmtRGB(0, 0, 0.8, 1)},
                 ${fmtRGB(0, 0, 0.9, 1)},${fmtRGB(0, 0, 1, 1)})`;
 			bRef.input().style.backgroundClip = 'padding-box';
-		});
 
-		api.onChange(store => {
-			const rr = store.r;
-			const gg = store.g;
-			const bb = store.b;
-			const aa = store.a;
-			props.s.setValue(fmtRGB(rr, gg, bb, aa));
+			ref.api().onChange(store => {
+				const rr = store.r;
+				const gg = store.g;
+				const bb = store.b;
+				const aa = store.a;
+				props.s.setValue(fmtRGB(rr, gg, bb, aa));
 
-			aRef.input().style.background = `linear-gradient(to right, ${fmtRGB(rr, gg, bb, 0)},
+				aRef.input().style.background = `linear-gradient(to right, ${fmtRGB(rr, gg, bb, 0)},
                 ${fmtRGB(rr, gg, bb, 0.1)},${fmtRGB(rr, gg, bb, 0.2)},${fmtRGB(rr, gg, bb, 0.3)},${fmtRGB(rr, gg, bb, 0.4)},
                 ${fmtRGB(rr, gg, bb, 0.5)},${fmtRGB(rr, gg, bb, 0.6)},${fmtRGB(rr, gg, bb, 0.7)},${fmtRGB(rr, gg, bb, 0.8)},
                 ${fmtRGB(rr, gg, bb, 0.9)}, ${fmtRGB(rr, gg, bb, 1)})`;
-			aRef.input().style.backgroundClip = 'padding-box';
+				aRef.input().style.backgroundClip = 'padding-box';
+			});
 		});
 
 		const l = useLocale();
 		return (
-			<F class={styles.rgb} layout="vertical">
+			<F class={styles.rgb} layout="vertical" ref={el => (ref = el)}>
 				<Field label={l.t('_c.color.red')} name="r">
 					<Slider
 						fitHeight
-						disabled={!!this.#r}
+						state={this.#r !== undefined ? 'disabled' : 'enabled'}
 						ref={el => (rRef = el)}
 						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
@@ -118,7 +119,7 @@ export class RGBSpace implements ColorSpace {
 				<Field label={l.t('_c.color.green')} name="g">
 					<Slider
 						fitHeight
-						disabled={!!this.#g}
+						state={this.#g !== undefined ? 'disabled' : 'enabled'}
 						ref={el => (gRef = el)}
 						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
@@ -130,7 +131,7 @@ export class RGBSpace implements ColorSpace {
 				<Field label={l.t('_c.color.blue')} name="b">
 					<Slider
 						fitHeight
-						disabled={!!this.#b}
+						state={this.#b !== undefined ? 'disabled' : 'enabled'}
 						ref={el => (bRef = el)}
 						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
@@ -142,7 +143,7 @@ export class RGBSpace implements ColorSpace {
 				<Field label={l.t('_c.color.alpha')} name="a" conv={alphaConverter}>
 					<Slider
 						fitHeight
-						disabled={!!this.#a}
+						state={this.#a !== undefined ? 'disabled' : 'enabled'}
 						ref={el => (aRef = el)}
 						format={v => `${v === undefined ? 1 : v.toFixed(2)}`}
 						min={0}

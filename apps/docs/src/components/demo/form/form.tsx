@@ -7,17 +7,26 @@ import { Button, DatePicker, Form, InputNumber, InputText, Notify, TextArea } fr
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, formStateSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+
+interface Obj {
+	[k: string]: unknown;
+
+	f1: string;
+	f2: number;
+	date: Date;
+	textarea: string;
+}
 
 export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector('secondary');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Feedback, feedback] = boolSelector('_d.demo.feedback', true);
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
+	const [State, state] = formStateSelector();
 
-	const [F, Field, api] = Form.create({
+	let ref: Form.Ref<Obj>;
+	const [F, Field] = Form.create<Obj>({
 		initValue: {
 			f1: 'f1',
 			f2: 5,
@@ -34,12 +43,11 @@ export default function (props: MountProps): JSX.Element {
 				<Palette />
 				<Rounded />
 				<Layout />
-				<Disabled />
-				<Readonly />
+				<State />
 				<Feedback />
 				<Button
 					onclick={() => {
-						api.setError(api.getError() ? undefined : 'error');
+						ref.api().setError(ref.api().getError() ? undefined : 'error');
 					}}
 				>
 					Set Error
@@ -47,11 +55,11 @@ export default function (props: MountProps): JSX.Element {
 			</Portal>
 
 			<F
+				ref={el => (ref = el)}
 				palette={palette()}
 				rounded={rounded()}
 				layout={layout()}
-				disabled={disabled()}
-				readonly={readonly()}
+				state={state()}
 				feedback={feedback()}
 				class="flex flex-col gap-4"
 			>

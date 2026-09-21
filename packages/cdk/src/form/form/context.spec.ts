@@ -21,11 +21,6 @@ type Object = {
 	};
 };
 
-type Attrs = {
-	s: string;
-	n: number;
-};
-
 class ObjectValidator implements Validator<Object> {
 	changeLocale(_: string): void {}
 	async valid(v: Object): Promise<ValidResult<Object>> {
@@ -37,7 +32,7 @@ class ObjectValidator implements Validator<Object> {
 }
 
 describe('FormContext', () => {
-	const ctx = new FormContext<Attrs, Object>({
+	const ctx = new FormContext<Object>({
 		initValue: { age: 20, name: 'f2' },
 		validator: new ObjectValidator(),
 		validOnChange: true,
@@ -50,29 +45,21 @@ describe('FormContext', () => {
 		expect(ctx.validator()).toBeDefined();
 	});
 
-	test('attrs', () => {
-		ctx.setAttr('s', 'str1');
-		expect(ctx.getAttrs().s, 'str1');
-
-		ctx.setAttrs({ s: 's1', n: 1 });
-		expect(ctx.getAttrs().s, 's1');
-	});
-
 	test('setPreset', () => {
 		ctx.setPreset({ age: 20, name: '2' });
 		expect(ctx.isPreset()).toBeFalsy();
 		ctx.reset();
 		expect(ctx.isPreset()).toBeTruthy();
-		expect(ctx.createField('age').getValue()).toEqual(20);
+		expect(ctx.createField('age', 'ageid').getValue()).toEqual(20);
 
-		ctx.createField('age').setValue(22);
+		ctx.createField('age', 'ageid-2').setValue(22);
 		expect(ctx.isPreset()).toBeFalsy();
 	});
 
 	test('setValue', () => {
 		ctx.setValue({ age: 21, name: '22' });
-		expect(ctx.createField('age').getValue()).toEqual(21);
-		expect(ctx.createField('name').getValue()).toEqual('22');
+		expect(ctx.createField('age', 'ageid').getValue()).toEqual(21);
+		expect(ctx.createField('name', 'nameid').getValue()).toEqual('22');
 	});
 
 	test('setError', () => {
@@ -104,12 +91,20 @@ describe('FormContext.createField', async () => {
 		validator: new ObjectValidator(),
 		validOnChange: true,
 	});
-	const age = ctx.createField('age');
+	const age = ctx.createField('age', 'ageid');
 
 	test('id/name/inForm', () => {
 		expect(age.id).toBeDefined();
 		expect(age.name).toEqual('age');
-		expect(ctx.createField('obj1.obj-2.age').name).toEqual('obj1.obj-2.age');
+
+		const age2 = ctx.createField('obj1.obj-2.age', 'obj1.obj-2.ageid');
+		expect(age2.name).toEqual('obj1.obj-2.age');
+		expect(age2.id).toEqual('obj1.obj-2.ageid');
+
+		// 多次调用 createField，id 不会变化。
+		const age3 = ctx.createField('obj1.obj-2.age', 'obj1.obj-2.ageid-2');
+		expect(age3.name).toEqual('obj1.obj-2.age');
+		expect(age3.id).toEqual('obj1.obj-2.ageid');
 	});
 
 	test('error', () => {
@@ -134,7 +129,7 @@ describe('FormContext.createField', async () => {
 
 	test('not-exists', () => {
 		// biome-ignore lint/suspicious/noExplicitAny: 不符合参数要求
-		const notExists = ctx.createField<number>('not.exists' as any);
+		const notExists = ctx.createField<number>('not.exists' as any, 'id');
 		expect(notExists.getValue()).toBeUndefined();
 
 		notExists.setValue(25);
@@ -148,7 +143,7 @@ describe('FormContext.onchange', () => {
 		validator: new ObjectValidator(),
 		validOnChange: true,
 	});
-	const age = ctx.createField<number>('age');
+	const age = ctx.createField<number>('age', 'ageid');
 
 	let fieldChangeValue: number | undefined = 0;
 	let fieldChangeCount = 0;

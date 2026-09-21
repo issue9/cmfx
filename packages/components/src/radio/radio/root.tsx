@@ -6,6 +6,7 @@ import type { AvailableEnumType, BaseRef, RefProps } from '@cmfx/cdk';
 import { joinClass, type ThemeProps } from '@cmfx/cdk';
 import { createMemo, type JSX, mergeProps } from 'solid-js';
 
+import type { Form } from '@components/form';
 import styles from './style.module.css';
 
 export interface RadioRef extends BaseRef<HTMLLabelElement> {
@@ -28,18 +29,9 @@ export interface RadioProps<T extends AvailableEnumType = string> extends ThemeP
 	rounded?: boolean;
 
 	/**
-	 * 禁用组件
-	 *
-	 * @reactive
+	 * 组件的状态
 	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读属性
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
+	state?: Form.State;
 
 	/**
 	 * 是否显示为块
@@ -81,7 +73,7 @@ export function Radio<T extends AvailableEnumType = string>(props: RadioProps<T>
 			props.palette,
 			props.block ? styles.block : '',
 			props.rounded ? styles.rounded : '',
-			props.readonly ? styles.readonly : '',
+			props.state === 'readonly' ? styles.readonly : '',
 			styles.radio,
 			props.class,
 		);
@@ -94,7 +86,7 @@ export function Radio<T extends AvailableEnumType = string>(props: RadioProps<T>
 				type="radio"
 				checked={props.checked}
 				class={joinClass(undefined, props.rounded ? styles.rounded : '')}
-				disabled={props.disabled}
+				disabled={props.state === 'disabled'}
 				name={props.name}
 				aria-hidden={props.block}
 				onclick={e => {
@@ -102,14 +94,14 @@ export function Radio<T extends AvailableEnumType = string>(props: RadioProps<T>
 						return;
 					}
 
-					if (props.readonly) {
+					if (props.state === 'readonly') {
 						e.preventDefault();
 					}
 					e.stopPropagation();
 				}}
 				onChange={e => {
-					if (!props.readonly && !props.disabled && props.onChange) {
-						props.onChange(e.currentTarget.checked);
+					if (props.state === 'enabled' || props.state === 'loading') {
+						props.onChange?.(e.currentTarget.checked);
 					}
 				}}
 				ref={el => {

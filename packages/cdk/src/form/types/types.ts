@@ -7,8 +7,6 @@ import type { JSX } from 'solid-js';
 
 import type { ChangeFunc, ProblemHandler } from '@cdk/base';
 
-export type FormAttrs = Record<string, unknown>;
-
 /**
  * 表单数据的几种状态
  */

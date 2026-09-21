@@ -2,15 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type ChangeFunc, ContextNotFoundError, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import type { BaseRef, FormField, RefProps, StyleProps, ThemeProps } from '@cmfx/cdk';
+import { createFormField, FormFieldProvider, joinClass, useFormField as useXFormField } from '@cmfx/cdk';
 import type { Converter, Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
-import { createMemo, type JSX, mergeProps, type ParentProps, Show } from 'solid-js';
+import type { JSX, ParentProps } from 'solid-js';
+import { createContext, createMemo, createUniqueId, mergeProps, Show, splitProps, useContext } from 'solid-js';
 
-import type { FormFieldAccessor } from '@components/form/api';
 import { type CommonProps, useForm } from '@components/form/form';
 import { area2Style, calcAreas } from './area';
-import { createFakeField, FieldProvider, type FormFieldRef } from './context';
 import styles from './style.module.css';
+
+export type FormFieldRef = BaseRef<HTMLDivElement>;
 
 export interface FormFieldProps<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>
 	extends CommonProps,
@@ -33,84 +35,34 @@ export interface FormFieldProps<T extends Flattenable, F = Flatten<T>[FlattenKey
 	 * @reactive
 	 */
 	help?: JSX.Element;
-
 	/**
 	 * 字段名
 	 *
 	 * @remarks
-	 * 如果指定了该值，则必须要套在 Form 之内，会从 Form 中获取对应名称的字段值。
-	 * 否则表示一个类似 label 的组件，用于包含一个带有数据的字段。
+	 * 如果指定了该值，表示的值为表单中的数据，否则表示创建一个非表单中的数据。
 	 */
 	readonly name?: FlattenKeys<T>;
 
-	/**
-	 * 对 name 指定的字段作个类型转换
-	 *
-	 * @remarks
-	 * Field 的子元素接受的数据类型是固定的，如果碰到不同类型的数据，可以使用此转换，
-	 * 比如 DatePicker 组件只接受 Date 类型的数据，但是某此接口可能使用了时间戳或是字符串表示时间，
-	 * 可以在此字段指定一个将时间戳或是字符转换为 Date 的方法传递给子组件。
-	 */
+	readonly id?: string;
+
 	readonly conv?: Converter<Flatten<T>[FlattenKeys<T>] | undefined, F | undefined>;
 }
 
-export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(props: FormFieldProps<T, F>): JSX.Element {
-	// NOTE: 采用 grid 主要是方便对齐方式的实现。
-	// 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
-	// help 应该与 input 左对齐，而不是与 label 左对齐。
+export interface FormFieldContext<T> extends StyleProps {
+	api: FormField<T>;
 
-	const form = useForm<T>();
+	fieldRef?: FormFieldRef;
+}
 
-	// 有 name 的情况下，必须要有 form
-	if (!form && props.name) {
-		throw new ContextNotFoundError('formContext');
-	}
+const formFieldContext = createContext<FormFieldContext<unknown> | undefined>(undefined);
 
-	props = mergeProps(
-		{
-			layout: 'horizontal',
-			labelAlign: (form?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
-		} satisfies FormFieldProps<T, F>,
-		form,
-		props,
-	);
-
+function Internal<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(props: FormFieldProps<T, F>): JSX.Element {
 	const areas = createMemo(() => calcAreas(props.layout!, props.feedback, !!props.label));
 
 	// 如果未指定 name 属性，无法定位判断哪个字段，直接创建一个假的对象
-	const field = props.name ? form!.api.createFieldAccessor(props.name) : createFakeField();
+	const field = props.name ? useXFormField<T, F>(props.conv) : createFormField<F>(props.id ?? createUniqueId());
 
-	const getValue = (
-		props.conv
-			? () => {
-					const v = field.getValue();
-					return props.conv!.from(v as Flatten<T>[FlattenKeys<T>] | undefined);
-				}
-			: field.getValue
-	) as FormFieldAccessor<F>['getValue'];
-
-	const setValue = (
-		props.conv
-			? (v, silent) => {
-					field.setValue(props.conv!.to(v), silent);
-				}
-			: field.setValue
-	) as FormFieldAccessor<F>['setValue'];
-
-	const onChange = (
-		props.conv && field.onChange
-			? (f: ChangeFunc<F | undefined>) => {
-					field.onChange((val, old) => {
-						f(
-							props.conv!.from(val as Flatten<T>[FlattenKeys<T>] | undefined),
-							props.conv!.from(old as Flatten<T>[FlattenKeys<T>] | undefined),
-						);
-					});
-				}
-			: field.onChange
-	) as FormFieldAccessor<F>['onChange'];
-
-	let ref: FormFieldRef | undefined;
+	let ref: FormFieldRef;
 
 	return (
 		<div
@@ -118,7 +70,7 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 			style={props.style}
 			ref={el => {
 				ref = { root: () => el };
-				props.ref?.(ref);
+				props.ref?.({ root: () => el });
 			}}
 		>
 			<Show when={areas().label}>
@@ -148,28 +100,50 @@ export function Field<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(pro
 					</p>
 				)}
 			</Show>
-
-			<FieldProvider<F>
-				class={styles.data}
-				style={area2Style(areas().data)}
-				id={field.id}
-				name={field.name}
-				reset={field.reset}
-				getError={field.getError}
-				setError={field.setError}
-				getValue={getValue}
-				setValue={setValue}
-				onChange={onChange}
-				getExtra={field.getExtra}
-				setExtra={field.setExtra}
-				inForm={field.inForm}
-				isolation={('isolation' in props ? props.isolation : undefined) as boolean}
-				fieldRef={ref}
+			<formFieldContext.Provider
+				value={{ class: styles.data, style: area2Style(areas().data), api: field, fieldRef: ref! }}
 			>
 				{props.children}
-			</FieldProvider>
-
+			</formFieldContext.Provider>
 			<Show when={areas().extra}>{e => <div style={area2Style(e())}>{field.getExtra()}</div>}</Show>
 		</div>
+	);
+}
+
+export function useField<F>(fake: true): FormFieldContext<F>;
+export function useField<F>(): FormFieldContext<F> | undefined;
+export function useField<F>(fake?: true): FormFieldContext<F> | undefined {
+	const ctx = useContext(formFieldContext);
+	return fake
+		? ((ctx ?? { api: createFormField<F>(createUniqueId()) }) as FormFieldContext<F>)
+		: (ctx as FormFieldContext<F> | undefined);
+}
+
+export function IsolationField(props: ParentProps): JSX.Element {
+	return <FormFieldProvider isolation>{props.children}</FormFieldProvider>;
+}
+
+export function Field<T extends Flattenable>(props: FormFieldProps<T>): JSX.Element {
+	// NOTE: 采用 grid 主要是方便对齐方式的实现。
+	// 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
+	// help 应该与 input 左对齐，而不是与 label 左对齐。
+
+	const form = props.name ? useForm<T>() : undefined;
+
+	props = mergeProps(
+		{
+			layout: 'horizontal',
+			labelAlign: (form?.layout ?? props.layout ?? 'horizontal') === 'horizontal' ? 'end' : 'start',
+		} satisfies FormFieldProps<T>,
+		form,
+		props,
+	);
+
+	const [, ips] = splitProps(props, ['children']);
+
+	return (
+		<FormFieldProvider<T> name={props.name} id={props.id}>
+			<Internal {...ips}>{props.children}</Internal>
+		</FormFieldProvider>
 	);
 }

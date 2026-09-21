@@ -72,10 +72,10 @@ function countFormatter(val: number, max?: number): string {
 export function InputText(props: InputTextProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
-	const field = Form.useField<string>(props, true);
+	const field = Form.useField<string>(true);
 
 	if (props.onSearch) {
-		field.onChange(v => {
+		field.api.onChange(v => {
 			setCandidate(props.onSearch!(v).map(item => ({ type: 'item', value: item, label: item })));
 			dropdownRef.show();
 		});
@@ -86,9 +86,9 @@ export function InputText(props: InputTextProps): JSX.Element {
 	createEffect(() => {
 		if (props.count) {
 			const formatter = props.count === true ? countFormatter : props.count;
-			field.setExtra(formatter(field.getValue()?.toString().length ?? 0, props.maxLength));
+			field.api.setExtra(formatter(field.api.getValue()?.toString().length ?? 0, props.maxLength));
 		} else {
-			field.setExtra('');
+			field.api.setExtra('');
 		}
 	});
 
@@ -114,18 +114,17 @@ export function InputText(props: InputTextProps): JSX.Element {
 		return (
 			<InputBase
 				{...p}
-				id={field.id}
+				id={field.api.id}
 				prefix={props.prefix}
 				suffix={props.suffix}
 				rounded={props.rounded}
 				inputMode={props.inputMode}
 				autocomplete={props.autocomplete}
 				tabindex={props.tabindex}
-				disabled={props.disabled}
-				readonly={props.readonly}
+				state={props.state}
 				placeholder={props.placeholder}
-				value={field.getValue()}
-				onChange={v => field.setValue(v)}
+				value={field.api.getValue()}
+				onChange={v => field.api.setValue(v)}
 				ref={el => {
 					props.ref?.({
 						root: () => rootRef ?? el.root(),
@@ -166,7 +165,7 @@ export function InputText(props: InputTextProps): JSX.Element {
 						}
 						return false;
 					}}
-					onChange={e => field.setValue(e)}
+					onChange={e => field.api.setValue(e)}
 				>
 					<Trigger />
 				</Dropdown>

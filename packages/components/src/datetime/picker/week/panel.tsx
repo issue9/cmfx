@@ -14,7 +14,7 @@ import styles from './style.module.css';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Base extends ThemeProps, ValueProps<MonthView.WeekValueType>, Omit<Form.DataProps, 'rounded'> {
+export interface Base extends ThemeProps, ValueProps<MonthView.WeekValueType>, Omit<Form.InputProps, 'rounded'> {
 	/**
 	 * 允许的最小日期
 	 */
@@ -54,7 +54,7 @@ export interface PanelProps extends Base, RefProps<PanelRef> {
 export function Panel(props: PanelProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
-	const field = Form.useField(props, true);
+	const field = Form.useField<MonthView.WeekValueType>(true);
 
 	const [, panelProps] = splitProps(props, ['value', 'onChange', 'ref', 'popover', 'class', 'style']);
 	let oldRange: Array<Date> = [];
@@ -62,7 +62,7 @@ export function Panel(props: PanelProps): JSX.Element {
 	let ref: MonthView.Ref;
 
 	const change = (week: MonthView.WeekValueType, range: [Date, Date]) => {
-		field.setValue(week);
+		field.api.setValue(week);
 
 		oldRange.forEach(item => {
 			ref.unselect(item);
@@ -78,7 +78,7 @@ export function Panel(props: PanelProps): JSX.Element {
 		}
 	};
 
-	const initValue = field.getValue();
+	const initValue = field.api.getValue();
 	return (
 		<MonthView
 			ref={el => {

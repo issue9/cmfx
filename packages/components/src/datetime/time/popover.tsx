@@ -82,8 +82,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 			activatorClass={joinClass(undefined, styles.activator, props.activatorClass)}
 			type={props.popover}
 			rounded={props.rounded}
-			readonly={props.readonly}
-			disabled={props.disabled}
+			state={props.state}
 			palette={props.palette}
 			class={joinClass(undefined, styles.popover, props.class)}
 			style={props.style}
@@ -97,16 +96,16 @@ export function Popover(props: PopoverProps): JSX.Element {
 						<input
 							class={styles.input}
 							tabIndex={props.tabindex}
-							disabled={props.disabled}
+							disabled={props.state === 'disabled'}
 							readOnly
 							placeholder={props.placeholder}
-							value={f.getValue() ? formatter().format(f.getValue()) : ''}
+							value={f.api.getValue() ? formatter().format(f.api.getValue()) : ''}
 						/>
-						<Show when={hover() && f.getValue()} fallback={<IconExpandAll />}>
+						<Show when={hover() && f.api.getValue()} fallback={<IconExpandAll />}>
 							<IconClose
 								onClick={(e: MouseEvent) => {
 									e.stopPropagation();
-									f.setValue(undefined);
+									f.api.setValue(undefined);
 								}}
 							/>
 						</Show>

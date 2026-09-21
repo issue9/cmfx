@@ -155,7 +155,7 @@ export function MonthView(props: MonthViewProps): JSX.Element {
 
 	return (
 		<fieldset
-			disabled={props.disabled}
+			disabled={props.state === 'disabled'}
 			class={joinClass(props.palette, styles.dateview, props.class)}
 			style={props.style}
 			ref={el => {
@@ -207,8 +207,8 @@ export function MonthView(props: MonthViewProps): JSX.Element {
 											onMouseEnter={() => setCovered(weekRange)}
 											onMouseLeave={() => setCovered()}
 											onClick={() => {
-												if (props.onWeekClick && !props.disabled && !props.readonly) {
-													props.onWeekClick(isoWeek, weekRange);
+												if (props.state === 'enabled' || props.state === 'loading') {
+													props.onWeekClick?.(isoWeek, weekRange);
 												}
 											}}
 										>
@@ -233,8 +233,8 @@ export function MonthView(props: MonthViewProps): JSX.Element {
 													});
 												}}
 												onclick={() => {
-													if (props.onClick && !props.disabled && !props.readonly) {
-														props.onClick(day[1], !day[0]);
+													if (props.state === 'enabled' || props.state === 'loading') {
+														props.onClick?.(day[1], !day[0]);
 													}
 												}}
 												onMouseEnter={() => {

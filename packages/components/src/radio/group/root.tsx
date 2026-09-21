@@ -15,7 +15,7 @@ export type RadioGroupRef = BaseRef<HTMLDivElement>;
 
 export interface RadioGroupProps<T extends AvailableEnumType = string>
 	extends ThemeProps,
-		Form.DataProps,
+		Form.InputProps,
 		ValueProps<T>,
 		RefProps<RadioGroupRef> {
 	/**
@@ -46,7 +46,7 @@ export interface RadioGroupProps<T extends AvailableEnumType = string>
  * 单选框组
  */
 export function RadioGroup<T extends AvailableEnumType = string>(props: RadioGroupProps<T>): JSX.Element {
-	const field = Form.useField<T>(props, true);
+	const field = Form.useField<T>(true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -62,7 +62,7 @@ export function RadioGroup<T extends AvailableEnumType = string>(props: RadioGro
 
 	createEffect(() => {
 		if (props.value !== undefined) {
-			field.setValue(props.value);
+			field.api.setValue(props.value);
 		}
 	});
 
@@ -73,11 +73,11 @@ export function RadioGroup<T extends AvailableEnumType = string>(props: RadioGro
 			role="radiogroup"
 			ref={el => props.ref?.({ root: () => el })}
 			onKeyDown={e => {
-				if (!props.block || props.disabled || props.readonly) {
+				if (!props.block || props.state !== 'enabled') {
 					return;
 				}
 
-				const index = props.options.findIndex(v => v.value === field.getValue());
+				const index = props.options.findIndex(v => v.value === field.api.getValue());
 
 				let newIndex = index;
 				if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
@@ -92,27 +92,25 @@ export function RadioGroup<T extends AvailableEnumType = string>(props: RadioGro
 					}
 				}
 
-				field.setValue(props.options[newIndex].value);
-				field.setError();
+				field.api.setValue(props.options[newIndex].value);
+				field.api.setError();
 				e.preventDefault();
 			}}
 		>
 			<For each={props.options}>
 				{item => (
 					<Radio
-						readonly={props.readonly}
+						state={props.state}
 						label={item.label}
 						block={props.block}
-						tabindex={field.getValue() === item.value ? props.tabindex : -1}
-						disabled={props.disabled}
-						checked={item.value === field.getValue()}
+						tabindex={field.api.getValue() === item.value ? props.tabindex : -1}
+						checked={item.value === field.api.getValue()}
 						rounded={props.rounded}
-						value={field.getValue()}
-						name={field.name}
+						value={field.api.getValue()}
+						name={field.api.name}
 						onChange={() => {
-							if (!props.readonly && !props.disabled && field.getValue() !== item.value) {
-								field.setValue(item.value);
-								field.setError();
+							if (props.state === 'enabled' || props.state === 'loading') {
+								field.api.setValue(item.value);
 							}
 						}}
 					/>

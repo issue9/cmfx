@@ -8,15 +8,14 @@ import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, formStateSelector, layoutSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [txt, setTxt] = createSignal('text');
 
 	const [Palette, palette] = paletteSelector();
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
+	const [State, state] = formStateSelector();
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 	const [Count, count] = boolSelector('_d.demo.charCount', false);
 
@@ -27,11 +26,10 @@ export default function (props: MountProps): JSX.Element {
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Readonly />
 				<Rounded />
-				<Disabled />
 				<Layout />
 				<Count />
+				<State />
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
@@ -39,10 +37,9 @@ export default function (props: MountProps): JSX.Element {
 					count={count() ? (v, m) => `${v}-${m}` : undefined}
 					placeholder="placeholder"
 					palette={palette()}
-					disabled={disabled()}
 					rounded={rounded()}
-					readonly={readonly()}
 					value={txt()}
+					state={state()}
 					onChange={setTxt}
 				/>
 
@@ -57,10 +54,9 @@ export default function (props: MountProps): JSX.Element {
 						count={count()}
 						placeholder="placeholder"
 						palette={palette()}
-						disabled={disabled()}
 						rounded={rounded()}
-						readonly={readonly()}
 						value={txt()}
+						state={state()}
 						onChange={setTxt}
 					/>
 				</Form.Field>
@@ -75,9 +71,8 @@ export default function (props: MountProps): JSX.Element {
 							</Button>
 						}
 						palette={palette()}
-						disabled={disabled()}
+						state={state()}
 						rounded={rounded()}
-						readonly={readonly()}
 						value={txt()}
 						onChange={setTxt}
 					/>
@@ -90,9 +85,8 @@ export default function (props: MountProps): JSX.Element {
 						prefix={prefix()}
 						suffix={suffix()}
 						palette={palette()}
-						disabled={disabled()}
+						state={state()}
 						rounded={rounded()}
-						readonly={readonly()}
 						value={txt()}
 						onChange={setTxt}
 					/>
@@ -107,9 +101,8 @@ export default function (props: MountProps): JSX.Element {
 						prefix={prefix()}
 						suffix={suffix()}
 						palette={palette()}
-						disabled={disabled()}
+						state={state()}
 						rounded={rounded()}
-						readonly={readonly()}
 						value={txt()}
 						onChange={setTxt}
 						onSearch={v => {

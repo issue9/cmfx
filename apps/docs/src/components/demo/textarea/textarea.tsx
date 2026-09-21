@@ -33,7 +33,7 @@ export default function (props: MountProps): JSX.Element {
 				onChange={setTxt}
 			/>
 
-			<Form api={new Form.API({ initValue: {} })}>
+			<Form initValue={{ initValue: {} }}>
 				<Form.Field layout={layout()} label="error" help="help">
 					<TextArea
 						count={count()}

@@ -48,22 +48,17 @@
 						"readonly": true
 					},
 					{
+						"name": "state",
+						"summary": "表单组件的状态\n\n",
+						"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
+						"def": "'enabled'\n\n",
+						"reactive": true
+					},
+					{
 						"name": "tabindex",
 						"summary": "tabindex 属性\n\n",
 						"type": "number | undefined",
 						"def": "0\n\n",
-						"reactive": true
-					},
-					{
-						"name": "disabled",
-						"summary": "禁用组件\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
-						"name": "readonly",
-						"summary": "只读属性\n\n",
-						"type": "boolean | undefined",
 						"reactive": true
 					},
 					{
@@ -135,22 +130,17 @@
 						"readonly": true
 					},
 					{
+						"name": "state",
+						"summary": "表单组件的状态\n\n",
+						"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
+						"def": "'enabled'\n\n",
+						"reactive": true
+					},
+					{
 						"name": "tabindex",
 						"summary": "tabindex 属性\n\n",
 						"type": "number | undefined",
 						"def": "0\n\n",
-						"reactive": true
-					},
-					{
-						"name": "disabled",
-						"summary": "禁用组件\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
-						"name": "readonly",
-						"summary": "只读属性\n\n",
-						"type": "boolean | undefined",
 						"reactive": true
 					},
 					{

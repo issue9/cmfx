@@ -6,8 +6,8 @@ import type { BaseRef, RefProps, ThemeProps, ValueProps } from '@cmfx/cdk';
 import { adjustPopoverPosition, classList, joinClass, style2String } from '@cmfx/cdk';
 import { createEffect, createSignal, type JSX, mergeProps, onCleanup, onMount, type ParentProps } from 'solid-js';
 
-import { type FormDataProps, type FormFieldContext, useField } from '@components/form/field';
-import { useForm } from '@components/form/form';
+import { type FormFieldContext, useField } from '@components/form/field';
+import { type FormInputProps, useForm } from '@components/form/form';
 import styles from './style.module.css';
 
 export interface FormPopoverRef extends BaseRef<HTMLDivElement> {
@@ -45,7 +45,7 @@ export interface FormPopoverProps<T>
 	extends ThemeProps,
 		ParentProps,
 		ValueProps<T>,
-		FormDataProps,
+		FormInputProps,
 		RefProps<FormPopoverRef> {
 	/**
 	 * 指定弹出对话框的方式
@@ -84,8 +84,6 @@ export interface FormPopoverProps<T>
 export function Popover<T>(props: FormPopoverProps<T>): JSX.Element {
 	let activatorRef: HTMLDivElement;
 
-	const field = useField(props, true);
-
 	const form = useForm();
 	props = mergeProps({ tabindex: 0, type: 'click' } as FormPopoverProps<T>, form, props);
 
@@ -103,12 +101,13 @@ export function Popover<T>(props: FormPopoverProps<T>): JSX.Element {
 	const setHoverFalse = () => setHover(false);
 
 	let label: HTMLLabelElement | undefined | null;
+	const field = useField<T>(true);
 
 	onMount(() => {
 		props.popover().popover = 'auto';
 		props.popover().classList.add(styles.popover);
 
-		label = field.fieldRef?.root().querySelector(`label[for="${field.id}"]`);
+		label = field.fieldRef?.root().querySelector(`label[for="${field.api.id}"]`);
 
 		if (label) {
 			if (props.type === 'click') {
@@ -173,8 +172,8 @@ export function Popover<T>(props: FormPopoverProps<T>): JSX.Element {
 					{
 						[styles.activator]: true,
 						[styles.rounded]: props.rounded,
-						[styles.readonly]: props.readonly,
-						[styles.disabled]: props.disabled,
+						[styles.readonly]: props.state === 'readonly',
+						[styles.disabled]: props.state === 'disabled',
 					},
 					props.activatorClass,
 				)}

@@ -16,7 +16,7 @@ export interface TextAreaRef extends BaseRef<HTMLDivElement> {
 	textarea(): HTMLTextAreaElement;
 }
 
-export interface TextAreaProps extends ThemeProps, Form.DataProps, ValueProps<string>, RefProps<TextAreaRef> {
+export interface TextAreaProps extends ThemeProps, Form.InputProps, ValueProps<string>, RefProps<TextAreaRef> {
 	/**
 	 * 最小的字符数量
 	 *
@@ -54,7 +54,7 @@ export interface TextAreaProps extends ThemeProps, Form.DataProps, ValueProps<st
 	count?: boolean | ((val: number, max?: number) => string);
 }
 
-function countFormater(val: number, max?: number): string {
+function countFormatter(val: number, max?: number): string {
 	return max !== undefined ? `${val}/${max}` : val.toString();
 }
 
@@ -64,15 +64,15 @@ function countFormater(val: number, max?: number): string {
  * @typeParam T - 文本框内容的类型
  */
 export function TextArea(props: TextAreaProps): JSX.Element {
-	const field = Form.useField(props, true);
+	const field = Form.useField<string>(true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
 	const [count, setCount] = createSignal('');
 	createEffect(() => {
 		if (props.count) {
-			const formatter = props.count === true ? countFormater : props.count;
-			setCount(formatter(field.getValue()?.toString().length ?? 0, props.maxLength));
+			const formatter = props.count === true ? countFormatter : props.count;
+			setCount(formatter(field.api.getValue()?.toString().length ?? 0, props.maxLength));
 		} else {
 			setCount('');
 		}
@@ -88,14 +88,14 @@ export function TextArea(props: TextAreaProps): JSX.Element {
 			ref={el => (rootRef = el)}
 		>
 			<textarea
-				id={field.id}
+				id={field.api.id}
 				inputMode={props.inputMode}
 				class={joinClass(undefined, styles.textarea, props.rounded ? styles.rounded : '')}
 				tabIndex={props.tabindex}
-				disabled={props.disabled}
-				readOnly={props.readonly}
+				disabled={props.state === 'disabled'}
+				readOnly={props.state === 'readonly'}
 				placeholder={props.placeholder}
-				value={field.getValue()}
+				value={field.api.getValue()}
 				ref={el => {
 					textareaRef = el;
 
@@ -105,8 +105,8 @@ export function TextArea(props: TextAreaProps): JSX.Element {
 					});
 				}}
 				onInput={e => {
-					field.setValue(e.target.value);
-					field.setError();
+					field.api.setValue(e.target.value);
+					field.api.setError();
 				}}
 			/>
 

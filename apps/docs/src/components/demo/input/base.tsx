@@ -7,13 +7,12 @@ import { InputBase } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, formStateSelector, paletteSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Palette, palette] = paletteSelector();
+	const [State, state] = formStateSelector();
 
 	const prefix = <div class="flex items-center bg-red-500">prefix</div>;
 	const suffix = <div class="flex items-center bg-red-500">suffix</div>;
@@ -24,9 +23,8 @@ export default function (props: MountProps): JSX.Element {
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Readonly />
 				<Rounded />
-				<Disabled />
+				<State />
 			</Portal>
 
 			<div class="flex w-80 flex-col gap-2">
@@ -35,9 +33,8 @@ export default function (props: MountProps): JSX.Element {
 					palette={palette()}
 					value={val()}
 					onChange={v => setVal(v as string)}
-					disabled={disabled()}
 					rounded={rounded()}
-					readonly={readonly()}
+					state={state()}
 				/>
 
 				<InputBase
@@ -45,9 +42,8 @@ export default function (props: MountProps): JSX.Element {
 					palette={palette()}
 					prefix={prefix}
 					suffix={suffix}
-					disabled={disabled()}
+					state={state()}
 					rounded={rounded()}
-					readonly={readonly()}
 					value={val()}
 					onChange={v => setVal(v as string)}
 				/>

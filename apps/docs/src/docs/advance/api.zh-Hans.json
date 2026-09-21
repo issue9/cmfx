@@ -328,9 +328,9 @@
 		"kind": "function",
 		"name": "useAPI",
 		"summary": "返回\n`API`\n对象\n\n",
-		"type": "function useAPI(): [API_2, ProblemHandler]",
+		"type": "function useAPI(): [API, ProblemHandler]",
 		"return": {
-			"type": "[API_2, ProblemHandler]"
+			"type": "[API, ProblemHandler]"
 		},
 		"pkg": "@cmfx/components"
 	},

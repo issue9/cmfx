@@ -60,15 +60,16 @@ export class OKLCHSpace implements ColorSpace {
 		let rc: Slider.Ref;
 		let rh: Slider.Ref;
 		let ra: Slider.Ref;
+		let ref: Form.Ref<OKLCH>;
 
 		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'oklch(1 .4 1)').to('oklch');
-		const [F, Field, api] = Form.create<OKLCH>({
+		const [F, Field] = Form.create<OKLCH>({
 			initValue: { l: this.#l ?? c.l, c: this.#c ?? c.c, h: this.#h ?? c.h, a: this.#a ?? c.a },
 		});
 
 		createEffect(() => {
 			// 根据值改变背景颜色
-			const store = api.getValue();
+			const store = ref.api().getValue();
 			const ll = store.l;
 			const cc = store.c;
 			const hh = store.h;
@@ -109,12 +110,12 @@ export class OKLCHSpace implements ColorSpace {
 		const l = useLocale();
 
 		return (
-			<F class={styles.oklch} layout="vertical">
+			<F class={styles.oklch} layout="vertical" ref={el=>ref=el}>
 				<Field label={l.t('_c.color.lightness')} name="l">
 					<Slider
 						fitHeight
 						ref={el => (rl = el)}
-						disabled={!!this.#l}
+						state={this.#l !== undefined ? 'disabled' : 'enabled'}
 						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
 						max={1}
@@ -126,7 +127,7 @@ export class OKLCHSpace implements ColorSpace {
 					<Slider
 						fitHeight
 						ref={el => (rc = el)}
-						disabled={!!this.#c}
+						state={this.#c !== undefined ? 'disabled' : 'enabled'}
 						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={0.4}
@@ -138,7 +139,7 @@ export class OKLCHSpace implements ColorSpace {
 					<Slider
 						fitHeight
 						ref={el => (rh = el)}
-						disabled={!!this.#h}
+						state={this.#h !== undefined ? 'disabled' : 'enabled'}
 						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={360}
@@ -150,7 +151,7 @@ export class OKLCHSpace implements ColorSpace {
 					<Slider
 						fitHeight
 						ref={el => (ra = el)}
-						disabled={!!this.#a}
+						state={this.#a !== undefined ? 'disabled' : 'enabled'}
 						format={v => `${v === undefined ? 1 : v.toFixed(2)}`}
 						min={0}
 						max={1}

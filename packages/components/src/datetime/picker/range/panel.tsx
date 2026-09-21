@@ -47,15 +47,15 @@ export function Panel(props: PanelProps): JSX.Element {
 	const [_, panelProps] = splitProps(props, ['popover', 'ref', 'class', 'palette', 'style', 'ref']);
 
 	const l = useLocale();
-	const field = Form.useField(props, true);
+	const field = Form.useField<DateRangeValueType>(true);
 
 	let index = 0; // 当前设置的值属于 field.getValue() 的哪个索引值
 
-	const initValue = field.getValue();
+	const initValue = field.api.getValue();
 	const [date1, sd1] = createSignal<Date | undefined>(initValue?.[0]);
 	const setDate1 = (v?: Date) => {
 		sd1(v);
-		field.setValue([v, field.getValue()?.[1]]);
+		field.api.setValue([v, field.api.getValue()?.[1]]);
 		index = 1;
 	};
 
@@ -64,7 +64,7 @@ export function Panel(props: PanelProps): JSX.Element {
 	const [date2, sd2] = createSignal<Date | undefined>(initValue?.[1] ?? nextMonth);
 	const setDate2 = (v?: Date) => {
 		sd2(v);
-		field.setValue([field.getValue()?.[0], v]);
+		field.api.setValue([field.api.getValue()?.[0], v]);
 		index = 0;
 	};
 
@@ -82,7 +82,7 @@ export function Panel(props: PanelProps): JSX.Element {
 	const [panel1, setPanel1] = createSignal<CommonRef>();
 	let panel2: CommonRef;
 
-	field.onChange((val, old) => {
+	field.api.onChange((val, old) => {
 		const view1 = panel1()?.monthView();
 		const view2 = panel2.monthView();
 
@@ -181,7 +181,7 @@ export function Panel(props: PanelProps): JSX.Element {
 
 	return (
 		<fieldset
-			disabled={props.disabled}
+			disabled={props.state === 'disabled'}
 			popover={props.popover}
 			class={joinClass(props.palette, styles.range, field.class, props.class)}
 			style={style2String(field.style, props.style)}

@@ -60,14 +60,15 @@ export class HSLSpace implements ColorSpace {
 		let sRef: Slider.Ref;
 		let lRef: Slider.Ref;
 		let aRef: Slider.Ref;
+		let ref: Form.Ref<HSL>;
 
 		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'hsl(180 50 50)').to('hsl');
-		const [F, Field, api] = Form.create<HSL>({
+		const [F, Field] = Form.create<HSL>({
 			initValue: { h: this.#h ?? c.h, s: this.#s ?? c.s, l: this.#l ?? c.l, a: this.#a ?? c.a },
 		});
 
 		createEffect(() => {
-			const store = api.getValue();
+			const store = ref.api().getValue();
 			const hh = store.h;
 			const ss = store.s;
 			const ll = store.l;
@@ -105,10 +106,10 @@ export class HSLSpace implements ColorSpace {
 		const l = useLocale();
 
 		return (
-			<F class={styles.hsl} layout="vertical">
+			<F class={styles.hsl} layout="vertical" ref={el => (ref = el)}>
 				<Field label={l.t('_c.color.hue')} name="h">
 					<Slider
-						disabled={!!this.#h}
+						state={this.#h !== undefined ? 'disabled' : 'enabled'}
 						fitHeight
 						ref={el => (hRef = el)}
 						format={v => `${v ? v.toFixed(2) : 0}`}
@@ -120,7 +121,7 @@ export class HSLSpace implements ColorSpace {
 
 				<Field label={l.t('_c.color.saturation')} name="s">
 					<Slider
-						disabled={!!this.#s}
+						state={this.#s !== undefined ? 'disabled' : 'enabled'}
 						fitHeight
 						ref={el => (sRef = el)}
 						format={v => `${v ? v.toFixed(2) : 0}%`}
@@ -132,7 +133,7 @@ export class HSLSpace implements ColorSpace {
 
 				<Field label={l.t('_c.color.lightness')} name="l">
 					<Slider
-						disabled={!!this.#l}
+						state={this.#l !== undefined ? 'disabled' : 'enabled'}
 						fitHeight
 						ref={el => (lRef = el)}
 						format={v => `${v ? v.toFixed(2) : 0}%`}
@@ -144,7 +145,7 @@ export class HSLSpace implements ColorSpace {
 
 				<Field label={l.t('_c.color.alpha')} name="a" conv={alphaConverter}>
 					<Slider
-						disabled={!!this.#a}
+						state={this.#a !== undefined ? 'disabled' : 'enabled'}
 						fitHeight
 						ref={el => (aRef = el)}
 						format={v => `${v === undefined ? 1 : v.toFixed(2)}`}

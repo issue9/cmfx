@@ -36,7 +36,7 @@ export interface PopoverProps extends Base, RefProps<PopoverRef> {
 }
 
 export function Popover(props: PopoverProps): JSX.Element {
-	const field = Form.useField<Date>(props, true);
+	const field = Form.useField<Date>(true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week }, form, props);
 
@@ -46,8 +46,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 		'time',
 		'weekBase',
 		'weekend',
-		'disabled',
-		'readonly',
+		'state',
 		'palette',
 		'min',
 		'max',
@@ -70,7 +69,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 		rootRef.activator().removeEventListener('mouseleave', setHoverFalse);
 	});
 
-	const formater = createMemo(() => {
+	const formatter = createMemo(() => {
 		return props.time ? l.datetimeFormat().format : l.dateFormat().format;
 	});
 
@@ -82,8 +81,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 			activatorClass={joinClass(undefined, styles.activator, props.activatorClass)}
 			type={props.popover}
 			rounded={props.rounded}
-			readonly={props.readonly}
-			disabled={props.disabled}
+			state={props.state}
 			palette={props.palette}
 			class={props.class}
 			style={props.style}
@@ -95,19 +93,19 @@ export function Popover(props: PopoverProps): JSX.Element {
 				return (
 					<>
 						<input
-							id={f.id}
+							id={f.api.id}
 							class={styles.input}
 							tabIndex={props.tabindex}
-							disabled={props.disabled}
+							disabled={props.state === 'disabled'}
 							readOnly
 							placeholder={props.placeholder}
-							value={formater()(f.getValue())}
+							value={formatter()(f.api.getValue())}
 						/>
-						<Show when={hover() && f.getValue()} fallback={<IconExpandAll />}>
+						<Show when={hover() && f.api.getValue()} fallback={<IconExpandAll />}>
 							<IconClose
 								onClick={(e: MouseEvent) => {
 									e.stopPropagation();
-									f.setValue(undefined);
+									f.api.setValue(undefined);
 								}}
 							/>
 						</Show>
@@ -115,12 +113,18 @@ export function Popover(props: PopoverProps): JSX.Element {
 				);
 			}}
 		>
-			<fieldset popover="auto" disabled={props.disabled} ref={el => (panelRef = el)} class={styles.panel} aria-haspopup>
+			<fieldset
+				popover="auto"
+				disabled={props.state === 'disabled'}
+				ref={el => (panelRef = el)}
+				class={styles.panel}
+				aria-haspopup
+			>
 				<Panel
 					class={styles['dt-panel']}
 					{...panelProps}
-					value={field.getValue()}
-					onChange={val => field.setValue(val)}
+					value={field.api.getValue()}
+					onChange={val => field.api.setValue(val)}
 				/>
 
 				<div class={styles.actions}>
@@ -133,7 +137,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 								if ((props.min && props.min > now) || (props.max && props.max < now)) {
 									return;
 								}
-								field.setValue(now);
+								field.api.setValue(now);
 								panelRef.hidePopover();
 							}}
 						>
@@ -146,7 +150,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
-								field.setValue(undefined);
+								field.api.setValue(undefined);
 								panelRef.hidePopover();
 							}}
 						>
@@ -157,7 +161,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 							kind="flat"
 							class="px-1 py-0"
 							onclick={() => {
-								field.reset();
+								field.api.reset();
 								panelRef.hidePopover();
 							}}
 						>

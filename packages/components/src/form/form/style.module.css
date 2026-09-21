@@ -1,0 +1,27 @@
+/*
+ * SPDX-FileCopyrightText: 2026 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference "@components/style.css";
+
+@layer components {
+	.form.enabled {
+	}
+
+	.form.disabled {
+		@apply border-palette-border-disabled text-palette-fg-disabled bg-palette-fg-disabled;
+	}
+
+	.form.readonly {
+	}
+
+	.form.loading {
+		@apply cursor-wait;
+	}
+
+	.form.submitting {
+		@apply cursor-progress;
+	}
+}

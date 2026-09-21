@@ -25,7 +25,7 @@ export interface EditorRef extends BaseRef<HTMLDivElement> {
 }
 
 export interface EditorProps
-	extends Omit<Form.DataProps, 'rounded'>,
+	extends Omit<Form.InputProps, 'rounded'>,
 		ValueProps<string>,
 		ThemeProps,
 		RefProps<EditorRef> {
@@ -36,14 +36,14 @@ export interface EditorProps
  * WYSIWYG 编辑器
  */
 export function EditorComponent(props: EditorProps): JSX.Element {
-	const field = Form.useField<string>(props, true);
+	const field = Form.useField<string>(true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
 	let containerRef: HTMLDivElement;
 
 	let rootRef: HTMLDivElement;
-	createEffect(() => (rootRef.ariaDisabled = props.disabled ? 'true' : 'false'));
+	createEffect(() => (rootRef.ariaDisabled = props.state === 'disabled' ? 'true' : 'false'));
 
 	const editor = new Editor({
 		extensions: [
@@ -61,7 +61,7 @@ export function EditorComponent(props: EditorProps): JSX.Element {
 				placeholder: props.placeholder,
 			}),
 		],
-		content: field.getValue(),
+		content: field.api.getValue(),
 		autofocus: true,
 		editable: true,
 		injectCSS: false,
@@ -70,7 +70,7 @@ export function EditorComponent(props: EditorProps): JSX.Element {
 	onMount(() => {
 		editor.mount({ mount: containerRef });
 
-		const update = () => field.setValue(editor.getHTML());
+		const update = () => field.api.setValue(editor.getHTML());
 		editor.on('update', update);
 		onCleanup(() => editor.off('update', update));
 	});
@@ -78,7 +78,7 @@ export function EditorComponent(props: EditorProps): JSX.Element {
 	onCleanup(() => editor.destroy());
 
 	createEffect(() => {
-		const v = field.getValue();
+		const v = field.api.getValue();
 		editor.chain().setContent(v ?? '');
 	});
 

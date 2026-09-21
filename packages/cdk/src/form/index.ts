@@ -4,5 +4,5 @@
 
 export * from './field';
 export * from './form';
-export type { FormAttrs, FormContextOptions, FormField, FormState } from './types';
+export type { FormContextOptions, FormField, FormState } from './types';
 export { formStates } from './types';
