@@ -7,12 +7,12 @@ import { InputBase } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, formStateSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, paletteSelector, stateSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Palette, palette] = paletteSelector();
-	const [State, state] = formStateSelector();
+	const [State, state] = stateSelector();
 
 	const prefix = <div class="flex items-center bg-red-500">prefix</div>;
 	const suffix = <div class="flex items-center bg-red-500">suffix</div>;

@@ -6,9 +6,9 @@ import type { Flattenable } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
 import { createContext, createEffect, mergeProps, onMount, splitProps, useContext } from 'solid-js';
 
-import type { FormContextOptions, FormState } from '@cdk/form/types';
+import type { FormContextOptions } from '@cdk/form/types';
 import { useLocale } from '@cdk/locale';
-import { StateProvider } from '@cdk/state';
+import { type State, StateProvider } from '@cdk/state';
 import { FormContext } from './context';
 
 // useForm 有可能在 FormProvider 之外使用，允许返回 undefined
@@ -22,7 +22,7 @@ export interface FormProviderProps<T extends Flattenable, R = unknown, PE = neve
 	 * @reactive
 	 * @defaultValue 'enabled'
 	 */
-	state?: FormState;
+	state?: State;
 }
 
 /**
@@ -31,7 +31,7 @@ export interface FormProviderProps<T extends Flattenable, R = unknown, PE = neve
 export function FormProvider<T extends Flattenable = Flattenable, R = unknown, PE = never>(
 	props: ParentProps<FormProviderProps<T, R, PE>>,
 ): JSX.Element {
-	props = mergeProps({ state: 'enabled' as FormState }, props);
+	props = mergeProps({ state: 'enabled' as State }, props);
 	const [, opt] = splitProps(props, ['children', 'state']);
 	const l = useLocale();
 

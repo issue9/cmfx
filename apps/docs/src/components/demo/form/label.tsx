@@ -9,10 +9,10 @@ import { Portal } from 'solid-js/web';
 
 import {
 	boolSelector,
-	formStateSelector,
 	labelAlignSelector,
 	layoutSelector,
 	paletteSelector,
+	stateSelector,
 } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
@@ -20,7 +20,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
 	const [LabelAlign, labelAlign] = labelAlignSelector('start');
-	const [State, state] = formStateSelector();
+	const [State, state] = stateSelector();
 
 	const [F, Field] = Form.create({
 		initValue: {

@@ -6,7 +6,8 @@ import equal from 'fast-deep-equal';
 import { createSignal, type JSX, untrack } from 'solid-js';
 
 import type { ChangeFunc } from '@cdk/base';
-import type { FormField, FormState } from '@cdk/form/types';
+import type { FormField } from '@cdk/form/types';
+import type { State } from '@cdk/state';
 
 /**
  * 手动创建一个 FormField 对象
@@ -20,7 +21,7 @@ export function createFormField<T>(id: string, initValue?: T, onChange?: ChangeF
 	const [v, sv] = createSignal<T | undefined>(initValue);
 	const [extra, setExtra] = createSignal<JSX.Element | undefined>();
 	const [err, setErr] = createSignal<string | undefined>();
-	const [state, setState] = createSignal<FormState>('enabled');
+	const [state, setState] = createSignal<State>('enabled');
 
 	const changes: Array<ChangeFunc<T | undefined>> = [];
 	if (onChange) {

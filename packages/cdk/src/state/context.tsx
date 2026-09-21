@@ -8,17 +8,17 @@ import { ContextNotFoundError } from '@cdk/errors';
 import type { State } from './state';
 import styles from './style.module.css';
 
-interface StateBase<S extends string = State> {
+interface StateBase {
 	/**
 	 * 组件状态
 	 *
 	 * @reactive
 	 * @defaultValue 'enabled'
 	 */
-	state: S;
+	state: State;
 }
 
-export interface StateContext<S extends string = State> extends StateBase<S> {
+export interface StateContext extends StateBase {
 	/**
 	 * 当前状态的 CSS 类型名
 	 *
@@ -32,9 +32,9 @@ export interface StateContext<S extends string = State> extends StateBase<S> {
 	class: string | undefined;
 }
 
-const stateContext = createContext<StateContext<string>>();
+const stateContext = createContext<StateContext>();
 
-export interface StateProviderProps<S extends string = State> extends StateBase<S>, ParentProps {
+export interface StateProviderProps extends StateBase, ParentProps {
 	/**
 	 * 根据状态返回对应的 CSS 类名
 	 *
@@ -42,7 +42,7 @@ export interface StateProviderProps<S extends string = State> extends StateBase<
 	 * @remarks
 	 * 如果未指定此属性，那么只能处理 {@link State} 表示的各种状态。
 	 */
-	readonly getClass?: (s: S) => string | undefined;
+	readonly getClass?: (s: State) => string | undefined;
 }
 
 /**
@@ -50,8 +50,8 @@ export interface StateProviderProps<S extends string = State> extends StateBase<
  *
  * @typeParam S - 可用的状态类型
  */
-export function StateProvider<S extends string = State>(props: StateProviderProps<S>): JSX.Element {
-	const getClass = (s: S): string => props.getClass?.(s) ?? styles[s];
+export function StateProvider(props: StateProviderProps): JSX.Element {
+	const getClass = (s: State): string => props.getClass?.(s) ?? styles[s];
 
 	return (
 		<stateContext.Provider
@@ -72,10 +72,10 @@ export function StateProvider<S extends string = State>(props: StateProviderProp
 /**
  * 获取父组件的状态
  */
-export function useState<S extends string = State>(): StateContext<S> {
+export function useState(): StateContext {
 	const ctx = useContext(stateContext);
 	if (!ctx) {
 		throw new ContextNotFoundError('@cmfx/core.stateContext');
 	}
-	return ctx as StateContext<S>;
+	return ctx;
 }

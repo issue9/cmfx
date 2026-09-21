@@ -14,4 +14,16 @@
 	.disabled {
 		@apply text-palette-fg-disabled bg-palette-bg-disabled;
 	}
+
+	.readonly {
+		@apply text-palette-fg-low/50 bg-palette-bg-low/50;
+	}
+
+	.loading {
+		@apply cursor-wait;
+	}
+
+	.submitting {
+		@apply cursor-progress;
+	}
 }

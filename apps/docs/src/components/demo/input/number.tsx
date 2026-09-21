@@ -8,13 +8,13 @@ import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { boolSelector, formStateSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, layoutSelector, paletteSelector, stateSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [num, setNum] = createSignal(5);
 
 	const [Palette, palette] = paletteSelector();
-	const [State, state] = formStateSelector();
+	const [State, state] = stateSelector();
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 

@@ -6,13 +6,7 @@ import type { Flattenable, Problem, Return, Validator } from '@cmfx/core';
 import type { JSX } from 'solid-js';
 
 import type { ChangeFunc, ProblemHandler } from '@cdk/base';
-
-/**
- * 表单数据的几种状态
- */
-export const formStates = ['enabled', 'disabled', 'readonly', 'loading', 'submitting'] as const;
-
-export type FormState = (typeof formStates)[number];
+import type { State } from '@cdk/state';
 
 /**
  * 定义了访问表单中某个字段的接口
@@ -41,12 +35,12 @@ export interface FormField<T> {
 	/**
 	 * 当前字段的状态
 	 */
-	getState(): FormState;
+	getState(): State;
 
 	/**
 	 * 设置当前字段的状态
 	 */
-	setState(v: FormState): void;
+	setState(v: State): void;
 
 	/**
 	 * 获取当前元素的错误信息，如果没有错误则返回 undefined

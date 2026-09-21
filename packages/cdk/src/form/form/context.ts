@@ -9,7 +9,8 @@ import { createSignal, type JSX, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
 import type { ChangeFunc } from '@cdk/base';
-import type { FormContextOptions, FormField, FormState } from '@cdk/form/types';
+import type { FormContextOptions, FormField } from '@cdk/form/types';
+import type { State } from '@cdk/state';
 
 // 用于在 FormContext 中保存错误数据的类型
 type Err<T extends Flattenable> = Record<FlattenKeys<T>, string | undefined>;
@@ -28,7 +29,7 @@ export class FormContext<T extends Flattenable = Flattenable, R = unknown, P = n
 	readonly #load?: FormContextOptions<T, R, P>['load'];
 	readonly #submit?: FormContextOptions<T, R, P>['submit'];
 	readonly #onSuccess?: FormContextOptions<T, R, P>['onSuccess'];
-	readonly #state = createSignal<FormState>('enabled');
+	readonly #state = createSignal<State>('enabled');
 
 	#preset: T; // 保存当前数据的默认值，用于在表单重置时恢复默认值
 	#flattenedPreset: Flatten<T>;
@@ -239,7 +240,7 @@ export class FormContext<T extends Flattenable = Flattenable, R = unknown, P = n
 
 		const [extra, setExtra] = createSignal<JSX.Element | undefined>(undefined);
 
-		const state = createSignal<FormState>(parent.getState());
+		const state = createSignal<State>(parent.getState());
 
 		const getValue = (): FT | undefined => getFieldValue(parent.#value[0], path);
 
@@ -286,11 +287,11 @@ export class FormContext<T extends Flattenable = Flattenable, R = unknown, P = n
 			name: name,
 			inForm: true,
 
-			getState(): FormState {
+			getState(): State {
 				return state[0]();
 			},
 
-			setState(s: FormState): void {
+			setState(s: State): void {
 				state[1](s);
 			},
 
@@ -344,7 +345,7 @@ export class FormContext<T extends Flattenable = Flattenable, R = unknown, P = n
 	/**
 	 * 设置表单状态
 	 */
-	setState(v: FormState): void {
+	setState(v: State): void {
 		this.#state[1](v);
 	}
 

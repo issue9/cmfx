@@ -7,7 +7,7 @@ import { Button, DatePicker, Form, InputNumber, InputText, Notify, TextArea } fr
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, formStateSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, layoutSelector, paletteSelector, stateSelector } from '@docs/components/base';
 
 interface Obj {
 	[k: string]: unknown;
@@ -23,7 +23,7 @@ export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 	const [Feedback, feedback] = boolSelector('_d.demo.feedback', true);
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
-	const [State, state] = formStateSelector();
+	const [State, state] = stateSelector();
 
 	let ref: Form.Ref<Obj>;
 	const [F, Field] = Form.create<Obj>({

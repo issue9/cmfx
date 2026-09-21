@@ -8,14 +8,14 @@ import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { boolSelector, formStateSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, paletteSelector, stateSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [pwd] = createSignal('pwd');
 
 	const [Palette, palette] = paletteSelector();
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
-	const [State, state] = formStateSelector();
+	const [State, state] = stateSelector();
 	const [Count, count] = boolSelector('_d.demo.charCount', false);
 
 	return (

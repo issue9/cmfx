@@ -7,10 +7,10 @@ import { Choice, InputText } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, paletteSelector, stateSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const [val, setVal] = createSignal('1');
+	const [val, setVal] = createSignal<string | undefined>('1');
 	const options: Array<Choice.Option> = [
 		{ type: 'item', value: '1', label: <div>abc</div> },
 		{ type: 'item', value: '2', label: <div style="color:green">green</div> },
@@ -31,16 +31,14 @@ export default function (props: MountProps): JSX.Element {
 
 	const [Palette, palette] = paletteSelector();
 	const [Closable, closable] = boolSelector('closable');
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+	const [State, state] = stateSelector();
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
 	return (
 		<div>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Disabled />
-				<Readonly />
+				<State />
 				<Closable />
 				<Rounded />
 			</Portal>
@@ -50,9 +48,8 @@ export default function (props: MountProps): JSX.Element {
 					closable={closable()}
 					tabindex={0}
 					placeholder="placeholder"
-					disabled={disabled()}
 					rounded={rounded()}
-					readonly={readonly()}
+					state={state()}
 					palette={palette()}
 					value={val()}
 					onChange={v => setVal(v)}
@@ -60,9 +57,8 @@ export default function (props: MountProps): JSX.Element {
 				/>
 				<InputText
 					placeholder="placeholder"
-					disabled={disabled()}
+					state={state()}
 					rounded={rounded()}
-					readonly={readonly()}
 					palette={palette()}
 					value={txt()}
 					onChange={setTxt}

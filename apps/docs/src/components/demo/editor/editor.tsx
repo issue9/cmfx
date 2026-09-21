@@ -7,12 +7,12 @@ import { Editor } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { formStateSelector, paletteSelector } from '@docs/components/base';
+import { paletteSelector, stateSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [txt, setTxt] = createSignal<string>();
 	const [Palette, palette] = paletteSelector();
-	const [State, state] = formStateSelector();
+	const [State, state] = stateSelector();
 
 	return (
 		<>

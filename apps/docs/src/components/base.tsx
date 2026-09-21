@@ -61,10 +61,10 @@ export function numeric<T extends number = number>(
 	return [num, get, set];
 }
 
-export function formStateSelector(
+export function stateSelector(
 	preset: Form.State = 'enabled',
 ): [Component, Accessor<Form.State | undefined>, Setter<Form.State | undefined>] {
-	return arraySelector('_d.demo.form_state', Form.states, preset);
+	return arraySelector('_d.demo.state', Form.states, preset);
 }
 
 /**

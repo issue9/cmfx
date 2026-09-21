@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { FormState, Layout } from '@cmfx/cdk';
+import type { Layout, State } from '@cmfx/cdk';
 
 export const labelAlignments = ['start', 'center', 'end'] as const;
 
@@ -65,7 +65,7 @@ export interface FormInputProps {
 	 * @reactive
 	 * @defaultValue 'enabled'
 	 */
-	state?: FormState;
+	state?: State;
 
 	/**
 	 * 表单组件的 rounded 属性的默认值

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type FormContext, type FormField, type FormState, formStates } from '@cmfx/cdk';
+import type { FormContext, FormField } from '@cmfx/cdk';
 import type { Flattenable } from '@cmfx/core';
 
 import { create } from './create';
@@ -21,8 +21,6 @@ import { Button, Form as C, labelAlignments, Message, Reset, Submit, useForm } f
 import { type FormPopoverProps, type FormPopoverRef, type FormPopoverType, formPopoverTypes, Popover } from './popover';
 
 export const Form = Object.assign(C, {
-	states: formStates,
-
 	Button,
 	Field,
 	labelAlignments,
@@ -42,7 +40,6 @@ export const Form = Object.assign(C, {
 });
 
 export namespace Form {
-	export type State = FormState;
 	export type FieldAPI<T> = FormField<T>;
 	export type Context<T extends Flattenable = Flattenable, R = unknown, P = never> = FormContext<T, R, P>;
 
