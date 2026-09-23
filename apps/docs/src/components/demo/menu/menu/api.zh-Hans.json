@@ -1,7 +1,6 @@
 [
 	{
 		"name": "Menu.Props",
-		"summary": "菜单组件的属性\n\n",
 		"kind": "union",
 		"types": [
 			{
@@ -203,6 +202,7 @@
 			}
 		],
 		"discriminant": "multiple",
+		"summary": "菜单组件的属性\n\n",
 		"pkg": "@cmfx/components"
 	},
 	{
@@ -238,7 +238,6 @@
 	},
 	{
 		"name": "Menu.Item",
-		"summary": "菜单项\n\n",
 		"kind": "union",
 		"types": [
 			{
@@ -370,6 +369,7 @@
 			}
 		],
 		"discriminant": "type",
+		"summary": "菜单项\n\n",
 		"pkg": "@cmfx/components"
 	}
 ]

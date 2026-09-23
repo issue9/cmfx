@@ -45,13 +45,13 @@ export function convert<T, F>(
 }
 
 export class Array2StringConverter implements Converter<Array<string> | undefined, string | undefined> {
-	from(s?: string[]): string | undefined {
+	from(s: string[] | undefined): string | undefined {
 		if (s) {
 			return s.join('\n');
 		}
 	}
 
-	to(s?: string): Array<string> | undefined {
+	to(s: string | undefined): Array<string> | undefined {
 		if (s) {
 			return s.split('\n');
 		}
@@ -59,13 +59,13 @@ export class Array2StringConverter implements Converter<Array<string> | undefine
 }
 
 export class String2DateConverter implements Converter<string | undefined, Date | undefined> {
-	from(f?: string): Date | undefined {
+	from(f: string | undefined): Date | undefined {
 		if (f) {
 			return new Date(f);
 		}
 	}
 
-	to(t?: Date): string | undefined {
+	to(t: Date | undefined): string | undefined {
 		if (t) {
 			return t.toISOString();
 		}
@@ -84,13 +84,13 @@ export class Number2DateConverter implements Converter<number | undefined, Date 
 		this.#milliseconds = milliseconds;
 	}
 
-	from(f?: number): Date | undefined {
+	from(f: number | undefined): Date | undefined {
 		if (f) {
 			return new Date(this.#milliseconds ? f : f * 1000);
 		}
 	}
 
-	to(t?: Date): number | undefined {
+	to(t: Date | undefined): number | undefined {
 		if (t) {
 			const tt = t.getTime();
 			return this.#milliseconds ? tt : tt / 1000;

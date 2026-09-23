@@ -11,7 +11,8 @@
 		"typeParams": [
 			{
 				"name": "T",
-				"type": "Flattenable"
+				"type": "Flattenable",
+				"init": "Flattenable"
 			},
 			{
 				"name": "R",
@@ -27,6 +28,7 @@
 		"methods": [
 			{
 				"name": "api",
+				"summary": "提供操作表单的接口\n\n",
 				"type": "api(): FormContext<T, R, P>",
 				"return": {
 					"type": "FormContext<T, R, P>"
@@ -44,155 +46,322 @@
 		"pkg": "@cmfx/components"
 	},
 	{
-		"kind": "interface",
 		"name": "Form.Props",
-		"typeParams": [
+		"kind": "union",
+		"types": [
 			{
-				"name": "T",
-				"type": "Flattenable"
+				"name": "",
+				"kind": "intersection",
+				"types": [
+					{
+						"kind": "interface",
+						"name": "FormPropsBase",
+						"typeParams": [
+							{
+								"name": "T",
+								"type": "Flattenable",
+								"init": "Flattenable"
+							},
+							{
+								"name": "R",
+								"type": "any",
+								"init": "unknown"
+							},
+							{
+								"name": "P",
+								"type": "any",
+								"init": "never"
+							}
+						],
+						"properties": [
+							{
+								"name": "inDialog",
+								"summary": "表单位于对话框中\n\n",
+								"remarks": "如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，\n且 submit 按钮的 value 属性会传递给 dialog.returnValue。\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "palette",
+								"summary": "指定当前组件采用的色盘\n\n",
+								"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+								"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+								"reactive": true
+							},
+							{
+								"name": "class",
+								"summary": "为组件的根元素指定 CSS 类名\n\n",
+								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+								"type": "string | undefined",
+								"reactive": true
+							},
+							{
+								"name": "style",
+								"summary": "组件根元素的样式\n\n",
+								"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+								"type": "string | JSX.CSSProperties | undefined",
+								"reactive": true
+							},
+							{
+								"name": "id",
+								"summary": "表单的 id 属性\n\n",
+								"type": "string | undefined"
+							},
+							{
+								"name": "layout",
+								"summary": "表单组件的 layout 属性的默认值\n\n",
+								"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+								"type": "\"horizontal\" | \"vertical\" | undefined",
+								"def": "'horizontal'\n\n",
+								"reactive": true
+							},
+							{
+								"name": "rounded",
+								"summary": "表单组件的 rounded 属性的默认值\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "labelWidth",
+								"summary": "表单组件中 label 宽度的默认值\n\n",
+								"type": "string | undefined",
+								"reactive": true
+							},
+							{
+								"name": "labelAlign",
+								"summary": "表单组件中 label 的对齐方式\n\n",
+								"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+								"type": "\"start\" | \"center\" | \"end\" | undefined",
+								"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+								"reactive": true
+							},
+							{
+								"name": "feedback",
+								"summary": "是否显示表单项组件中帮助信息和错误信息\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "children",
+								"type": "JSX.Element"
+							},
+							{
+								"name": "ref",
+								"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+								"type": "((m: REF) => void) | undefined",
+								"readonly": true
+							}
+						]
+					},
+					{
+						"kind": "interface",
+						"name": "StateProps",
+						"properties": [
+							{
+								"name": "state",
+								"summary": "表单状态\n\n",
+								"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
+								"def": "'enabled'\n\n",
+								"reactive": true
+							}
+						]
+					},
+					{
+						"kind": "interface"
+					}
+				]
 			},
 			{
-				"name": "R",
-				"type": "any",
-				"init": "unknown"
-			},
-			{
-				"name": "P",
-				"type": "any",
-				"init": "never"
-			}
-		],
-		"properties": [
-			{
-				"name": "inDialog",
-				"summary": "表单位于对话框中\n\n",
-				"remarks": "如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，\n且 submit 按钮的 value 属性会传递给 dialog.returnValue。\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "palette",
-				"summary": "指定当前组件采用的色盘\n\n",
-				"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
-				"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
-				"reactive": true
-			},
-			{
-				"name": "class",
-				"summary": "为组件的根元素指定 CSS 类名\n\n",
-				"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "style",
-				"summary": "组件根元素的样式\n\n",
-				"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
-				"type": "string | JSX.CSSProperties | undefined",
-				"reactive": true
-			},
-			{
-				"name": "id",
-				"summary": "表单的 id 属性\n\n",
-				"type": "string | undefined"
-			},
-			{
-				"name": "layout",
-				"summary": "表单组件的 layout 属性的默认值\n\n",
-				"remarks": "同时也影响整个 Form 组件的布局。\n\n",
-				"type": "\"horizontal\" | \"vertical\" | undefined",
-				"def": "'horizontal'\n\n",
-				"reactive": true
-			},
-			{
-				"name": "rounded",
-				"summary": "表单组件的 rounded 属性的默认值\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "labelWidth",
-				"summary": "表单组件中 label 宽度的默认值\n\n",
-				"type": "string | undefined",
-				"reactive": true
-			},
-			{
-				"name": "labelAlign",
-				"summary": "表单组件中 label 的对齐方式\n\n",
-				"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
-				"type": "\"start\" | \"center\" | \"end\" | undefined",
-				"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
-				"reactive": true
-			},
-			{
-				"name": "feedback",
-				"summary": "是否显示表单项组件中帮助信息和错误信息\n\n",
-				"type": "boolean | undefined",
-				"reactive": true
-			},
-			{
-				"name": "state",
-				"summary": "表单状态\n\n",
-				"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
-				"def": "'enabled'\n\n",
-				"reactive": true
-			},
-			{
-				"name": "initValue",
-				"summary": "初始值\n\n",
-				"remarks": "该值仅作为数据表的初始默认值使用，一般情况下直接给定一个所有字段均为零值的对象即可。\n如果\n`load`\n不为空，可能还需要调用该方法对数据表进行真正的初始化，比如从远程拉取数据。\n\n",
-				"type": "T",
-				"readonly": true
-			},
-			{
-				"name": "onProblem",
-				"summary": "在服务端返回未处理的\n`Problem`\n对象时的处理方法\n\n",
-				"remarks": "该方法仅在\n`load`\n和\n`submit`\n的调用过程中会调用。\n`submit`\n会自动处理状态码为 400 的错误。onProblem 只需要处理其它情况即可。\n\n",
-				"type": "ProblemHandler<PE> | undefined",
-				"readonly": true
-			},
-			{
-				"name": "onSuccess",
-				"summary": "在接口正常返回时调用的方法\n\n",
-				"type": "((r?: Return<R, never>) => void) | undefined",
-				"readonly": true
-			},
-			{
-				"name": "validator",
-				"summary": "提交前对数据的验证方法；\n\n",
-				"remarks": "如果需要验证器输出的错误信息保持与当前环境相同的本地化语言，\n在\n`FormContext`\n中使用需要手动使用\n`changeLocale`\n更改语言，\n\n",
-				"type": "Validator<T> | undefined",
-				"readonly": true
-			},
-			{
-				"name": "validOnChange",
-				"summary": "是否在单个数据变更时即验证该条数据\n\n",
-				"type": "boolean | undefined",
-				"readonly": true
-			},
-			{
-				"name": "submit",
-				"summary": "提交数据的方法\n\n",
-				"remarks": "如果为空那么\n`submit`\n将无实际作用\n\n",
-				"type": "((obj: T) => Promise<Return<R, PE>>) | undefined",
-				"readonly": true
-			},
-			{
-				"name": "load",
-				"summary": "加载表单数据\n\n",
-				"remarks": "如果为空，\n`load`\n将无实际用处。\n加载的数据将作为\n`FormContext`\n的默认数据；\n\n",
-				"type": "(() => Promise<Return<T, PE>>) | undefined",
-				"readonly": true
-			},
-			{
-				"name": "children",
-				"type": "JSX.Element"
-			},
-			{
-				"name": "ref",
-				"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
-				"type": "((m: REF) => void) | undefined",
-				"readonly": true
+				"name": "",
+				"kind": "intersection",
+				"types": [
+					{
+						"kind": "interface",
+						"name": "FormPropsBase",
+						"typeParams": [
+							{
+								"name": "T",
+								"type": "Flattenable",
+								"init": "Flattenable"
+							},
+							{
+								"name": "R",
+								"type": "any",
+								"init": "unknown"
+							},
+							{
+								"name": "P",
+								"type": "any",
+								"init": "never"
+							}
+						],
+						"properties": [
+							{
+								"name": "inDialog",
+								"summary": "表单位于对话框中\n\n",
+								"remarks": "如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，\n且 submit 按钮的 value 属性会传递给 dialog.returnValue。\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "palette",
+								"summary": "指定当前组件采用的色盘\n\n",
+								"remarks": "如果指定了此值，那么在组件内部的 CSS 引用的诸如\n`--palette-bg`\n等 CSS 变量都将使用此色盘对应的颜色。\n如果是 undefined，则表示从父元素继承。\n\n",
+								"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\" | undefined",
+								"reactive": true
+							},
+							{
+								"name": "class",
+								"summary": "为组件的根元素指定 CSS 类名\n\n",
+								"remarks": "为当前组件的根元素指定 CSS 类名。该值始终是最后添加到元素的 class 属性上的，\n以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。\n\n",
+								"type": "string | undefined",
+								"reactive": true
+							},
+							{
+								"name": "style",
+								"summary": "组件根元素的样式\n\n",
+								"remarks": "相对于\n，一些简短的样式设置，直接使用此属性更方便，\n还有一些自定义的样式变量也可以使用此属性设置。\n\n",
+								"type": "string | JSX.CSSProperties | undefined",
+								"reactive": true
+							},
+							{
+								"name": "id",
+								"summary": "表单的 id 属性\n\n",
+								"type": "string | undefined"
+							},
+							{
+								"name": "layout",
+								"summary": "表单组件的 layout 属性的默认值\n\n",
+								"remarks": "同时也影响整个 Form 组件的布局。\n\n",
+								"type": "\"horizontal\" | \"vertical\" | undefined",
+								"def": "'horizontal'\n\n",
+								"reactive": true
+							},
+							{
+								"name": "rounded",
+								"summary": "表单组件的 rounded 属性的默认值\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "labelWidth",
+								"summary": "表单组件中 label 宽度的默认值\n\n",
+								"type": "string | undefined",
+								"reactive": true
+							},
+							{
+								"name": "labelAlign",
+								"summary": "表单组件中 label 的对齐方式\n\n",
+								"remarks": "只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的\n`labelWidth`\n。\n\n",
+								"type": "\"start\" | \"center\" | \"end\" | undefined",
+								"def": "layout === 'horizontal' ? 'end' : 'start'\n\n",
+								"reactive": true
+							},
+							{
+								"name": "feedback",
+								"summary": "是否显示表单项组件中帮助信息和错误信息\n\n",
+								"type": "boolean | undefined",
+								"reactive": true
+							},
+							{
+								"name": "children",
+								"type": "JSX.Element"
+							},
+							{
+								"name": "ref",
+								"summary": "对当前组件的一些次要操作可能会通过此方法给出\n\n",
+								"type": "((m: REF) => void) | undefined",
+								"readonly": true
+							}
+						]
+					},
+					{
+						"kind": "interface",
+						"name": "StateProps",
+						"properties": [
+							{
+								"name": "state",
+								"summary": "表单状态\n\n",
+								"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
+								"def": "'enabled'\n\n",
+								"reactive": true
+							}
+						]
+					},
+					{
+						"kind": "interface",
+						"name": "FormContextOptions",
+						"summary": "初始化 FormContext 的参数\n\n",
+						"typeParams": [
+							{
+								"name": "T",
+								"summary": "表示需要提交的对象类型；\n\n",
+								"type": "Flattenable"
+							},
+							{
+								"name": "R",
+								"summary": "表示服务端返回的类型；\n\n",
+								"type": "any",
+								"init": "unknown"
+							},
+							{
+								"name": "PE",
+								"summary": "表示服务端出错是返回的\n`extension`\n类型；\n\n",
+								"type": "any",
+								"init": "never"
+							}
+						],
+						"properties": [
+							{
+								"name": "initValue",
+								"summary": "初始值\n\n",
+								"remarks": "该值仅作为数据表的初始默认值使用，一般情况下直接给定一个所有字段均为零值的对象即可。\n如果\n`load`\n不为空，可能还需要调用该方法对数据表进行真正的初始化，比如从远程拉取数据。\n\n",
+								"type": "T",
+								"readonly": true
+							},
+							{
+								"name": "onProblem",
+								"summary": "在服务端返回未处理的\n`Problem`\n对象时的处理方法\n\n",
+								"remarks": "该方法仅在\n`load`\n和\n`submit`\n的调用过程中会调用。\n`submit`\n会自动处理状态码为 400 的错误。onProblem 只需要处理其它情况即可。\n\n",
+								"type": "ProblemHandler<PE> | undefined",
+								"readonly": true
+							},
+							{
+								"name": "onSuccess",
+								"summary": "在接口正常返回时调用的方法\n\n",
+								"type": "((r?: Return<R, never>) => void) | undefined",
+								"readonly": true
+							},
+							{
+								"name": "validator",
+								"summary": "提交前对数据的验证方法；\n\n",
+								"remarks": "如果需要验证器输出的错误信息保持与当前环境相同的本地化语言，\n在\n`FormContext`\n中使用需要手动使用\n`changeLocale`\n更改语言，\n\n",
+								"type": "Validator<T> | undefined",
+								"readonly": true
+							},
+							{
+								"name": "validOnChange",
+								"summary": "是否在单个数据变更时即验证该条数据\n\n",
+								"type": "boolean | undefined",
+								"readonly": true
+							},
+							{
+								"name": "submit",
+								"summary": "提交数据的方法\n\n",
+								"remarks": "如果为空那么\n`submit`\n将无实际作用\n\n",
+								"type": "((obj: T) => Promise<Return<R, PE>>) | undefined",
+								"readonly": true
+							},
+							{
+								"name": "load",
+								"summary": "加载表单数据\n\n",
+								"remarks": "如果为空，\n`load`\n将无实际用处。\n加载的数据将作为\n`FormContext`\n的默认数据；\n\n",
+								"type": "(() => Promise<Return<T, PE>>) | undefined",
+								"readonly": true
+							}
+						]
+					}
+				]
 			}
 		],
 		"pkg": "@cmfx/components"
@@ -200,7 +369,8 @@
 	{
 		"kind": "function",
 		"name": "Form.useForm",
-		"type": "declare function useForm<T extends Flattenable = Flattenable, R = unknown, P = never>(): FormContext_2<T, R, P>",
+		"summary": "获取上下文中的表单对象\n\n",
+		"type": "declare function useForm<T extends Flattenable = Flattenable, R = unknown, P = never>(): FormContext_2<T, R, P> | undefined",
 		"typeParams": [
 			{
 				"name": "T",
@@ -219,18 +389,25 @@
 			}
 		],
 		"return": {
-			"type": "FormContext_2<T, R, P>"
+			"summary": "若是在\n`Form`\n之外调用将返回 undefined\n\n",
+			"type": "FormContext_2<T, R, P> | undefined"
 		},
 		"pkg": "@cmfx/components"
 	},
 	{
 		"kind": "function",
 		"name": "Form.useField",
-		"type": "declare function useField<F>(): FormFieldContext<F>",
+		"type": "declare function useField<F>(fake: true): FormFieldContext<F>",
 		"typeParams": [
 			{
 				"name": "F",
 				"type": "any"
+			}
+		],
+		"params": [
+			{
+				"name": "fake",
+				"type": "true"
 			}
 		],
 		"return": {
@@ -244,7 +421,8 @@
 		"typeParams": [
 			{
 				"name": "T",
-				"type": "Flattenable"
+				"type": "Flattenable",
+				"init": "Flattenable"
 			},
 			{
 				"name": "F",
@@ -275,11 +453,13 @@
 			},
 			{
 				"name": "id",
-				"type": "string | undefined"
+				"type": "string | undefined",
+				"readonly": true
 			},
 			{
 				"name": "conv",
-				"type": "Converter<Flatten<T>[FlattenKeys<T>], F> | undefined"
+				"type": "Converter<Flatten<T>[FlattenKeys<T>] | undefined, F | undefined> | undefined",
+				"readonly": true
 			},
 			{
 				"name": "layout",

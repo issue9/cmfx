@@ -6,7 +6,6 @@ import type { Converter, Flatten, Flattenable, FlattenKeys } from '@cmfx/core';
 import { createContext, createUniqueId, type JSX, type ParentProps, useContext } from 'solid-js';
 
 import type { ChangeFunc } from '@cdk/base';
-import { ContextNotFoundError } from '@cdk/errors';
 import { useForm } from '@cdk/form/form';
 import type { FormField } from '@cdk/form/types';
 import { createFormField } from './field';
@@ -51,7 +50,7 @@ export type FormFieldProviderProps<T extends Flattenable = Flattenable> =
 			readonly isolation: true;
 	  };
 
-const formFieldContext = createContext<FormFieldContext>({} as FormFieldContext);
+const formFieldContext = createContext<FormFieldContext | undefined>(undefined);
 
 /**
  * 向子组件提供操作表单对象 A 中指定字段的方法
@@ -79,9 +78,9 @@ export function FormFieldProvider<T extends Flattenable = Flattenable>(
 }
 
 /**
- * 获取表单中指定名字的字段操作接口
+ * 获取表单上下文环境中的字段操作接口
  *
- * @param conv 将对象中的字段类型转换为 F；
+ * @param conv - 将对象中的字段类型转换为 F；
  * @typeParam T - 表单对象的类型；
  * @typeParam F - 表单字段的值类型；
  * @remarks
@@ -90,13 +89,10 @@ export function FormFieldProvider<T extends Flattenable = Flattenable>(
  */
 export function useFormField<T extends Flattenable = Flattenable, F = Flatten<T>[FlattenKeys<T>]>(
 	conv?: Converter<Flatten<T>[FlattenKeys<T>] | undefined, F | undefined>,
-): FormFieldContext<T, F> {
+): FormFieldContext<T, F> | undefined {
 	const fieldCtx = useContext(formFieldContext);
-	if (!fieldCtx) {
-		throw new ContextNotFoundError('@cmfx/cdk.formFieldContext');
-	}
 
-	if (!conv) {
+	if (!conv || !fieldCtx) {
 		return fieldCtx;
 	}
 

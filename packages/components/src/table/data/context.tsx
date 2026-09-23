@@ -15,13 +15,13 @@ import type { PreProcessColumn } from './column';
 //
 // @param api - 操作表单元素的方法；
 // @param Field - 表单中单个元素的父元素；
-export type FormBuilder<Q extends Query> = (api: FormContext, Field: Component<Form.FieldProps<Q>>) => JSX.Element;
+export type FormBuilder<Q extends Query> = (api: FormContext<Q>, Field: Component<Form.FieldProps<Q>>) => JSX.Element;
 
 // NOTE: 接口比较乱，仅供组件内部使用。
 export type Context<T extends object, Q extends Query = Query> = {
 	root(): HTMLDivElement;
 	table(): HTMLTableElement;
-	current: Array<T> | undefined;
+	current: Array<T> | undefined; // 当前页的数据
 	refresh: () => Promise<void>;
 	hoverable: Signal<boolean>;
 	sticky: Signal<boolean>;

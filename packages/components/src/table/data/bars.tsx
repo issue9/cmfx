@@ -4,7 +4,7 @@
 
 import { useLocale } from '@cmfx/cdk';
 import { Exporter, type FlattenKeys, type Query } from '@cmfx/core';
-import { type JSX, type ParentProps, Show } from 'solid-js';
+import { createUniqueId, type JSX, type ParentProps, Show } from 'solid-js';
 import IconExcel from '~icons/icon-park-twotone/excel';
 import IconCSV from '~icons/material-symbols/csv';
 import IconMarkdown from '~icons/material-symbols/markdown';
@@ -112,8 +112,8 @@ export function QueryBar<T extends object, Q extends Query>(): JSX.Element {
 export function PageBar<T extends object, Q extends Query>(): JSX.Element {
 	const ctx = useTableContext() as Context<T, Q>;
 	const [, , api] = ctx.form;
-	const page = api.createFieldAccessor<number>('page' as FlattenKeys<Q>);
-	const size = api.createFieldAccessor<number>('size' as FlattenKeys<Q>);
+	const page = api.createField<number>('page' as FlattenKeys<Q>, createUniqueId());
+	const size = api.createField<number>('size' as FlattenKeys<Q>, createUniqueId());
 
 	return (
 		<PaginationBar
@@ -152,13 +152,13 @@ export function Toolbar(props: ParentProps): JSX.Element {
 							{
 								type: 'item',
 								value: 'hoverable',
-								label: <Checkbox readonly label={l.t('_c.table.hoverable')} checked={ctx.hoverable[0]()} />,
+								label: <Checkbox state="readonly" label={l.t('_c.table.hoverable')} checked={ctx.hoverable[0]()} />,
 							},
 							{ type: 'divider' },
 							{
 								type: 'item',
 								value: 'sticky-header',
-								label: <Checkbox readonly label={l.t('_c.table.stickyHeader')} checked={ctx.sticky[0]()} />,
+								label: <Checkbox state="readonly" label={l.t('_c.table.stickyHeader')} checked={ctx.sticky[0]()} />,
 							},
 							{ type: 'divider' },
 							{
@@ -167,7 +167,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								label: (
 									<Radio
 										name="striped"
-										readonly
+										state="readonly"
 										value={0}
 										checked={!ctx.striped[0]()}
 										label={l.t('_c.table.noStriped')}
@@ -180,7 +180,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								label: (
 									<Radio
 										name="striped"
-										readonly
+										state="readonly"
 										value={2}
 										checked={ctx.striped[0]() === 2}
 										label={l.t('_c.table.striped', { num: 2 })}
@@ -193,7 +193,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								label: (
 									<Radio
 										name="striped"
-										readonly
+										state="readonly"
 										value={3}
 										checked={ctx.striped[0]() === 3}
 										label={l.t('_c.table.striped', { num: 3 })}
@@ -206,7 +206,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								label: (
 									<Radio
 										name="striped"
-										readonly
+										state="readonly"
 										value={4}
 										checked={ctx.striped[0]() === 4}
 										label={l.t('_c.table.striped', { num: 4 })}
@@ -219,7 +219,7 @@ export function Toolbar(props: ParentProps): JSX.Element {
 								label: (
 									<Radio
 										name="striped"
-										readonly
+										state="readonly"
 										value={5}
 										checked={ctx.striped[0]() === 5}
 										label={l.t('_c.table.striped', { num: 5 })}

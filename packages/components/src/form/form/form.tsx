@@ -19,10 +19,9 @@ import {
 
 import { Button as Btn } from '@components/button/button';
 import { Alert } from '@components/notify';
-import styles from './style.module.css';
 import type { CommonProps } from './types';
 
-export interface FormRef<T extends Flattenable, R = unknown, P = never> extends BaseRef<HTMLFormElement> {
+export interface FormRef<T extends Flattenable = Flattenable, R = unknown, P = never> extends BaseRef<HTMLFormElement> {
 	/**
 	 * 提供操作表单的接口
 	 */
@@ -36,10 +35,9 @@ interface FormAttrs extends CommonProps {
 	id?: string;
 }
 
-export interface FormProps<T extends Flattenable, R = unknown, P = never>
+interface FormPropsBase<T extends Flattenable = Flattenable, R = unknown, P = never>
 	extends ThemeProps,
 		FormAttrs,
-		FormProviderProps<T, R, P>,
 		ParentProps,
 		RefProps<FormRef<T, R, P>> {
 	/**
@@ -52,6 +50,16 @@ export interface FormProps<T extends Flattenable, R = unknown, P = never>
 	 */
 	inDialog?: boolean;
 }
+
+type FormPropsWithAPI<T extends Flattenable = Flattenable, R = unknown, P = never> = FormPropsBase<T, R, P> &
+	Extract<FormProviderProps<T, R, P>, { api: unknown }>;
+
+type FormPropsWithOptions<T extends Flattenable = Flattenable, R = unknown, P = never> = FormPropsBase<T, R, P> &
+	Exclude<FormProviderProps<T, R, P>, { api: unknown }>;
+
+export type FormProps<T extends Flattenable = Flattenable, R = unknown, P = never> =
+	| FormPropsWithAPI<T, R, P>
+	| FormPropsWithOptions<T, R, P>;
 
 export type FormContext<T extends Flattenable = Flattenable, R = unknown, P = never> = FormAttrs & {
 	/**
@@ -80,7 +88,7 @@ function InternalForm<T extends Flattenable = Flattenable, R = unknown, P = neve
 
 	return (
 		<form
-			class={joinClass(props.palette, props.class, styles.form, props.state ? styles[props.state] : undefined)}
+			class={joinClass(props.palette, props.class)}
 			style={props.style}
 			id={props.id}
 			ref={el => {

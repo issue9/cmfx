@@ -60,10 +60,9 @@ export class RGBSpace implements ColorSpace {
 		let gRef: Slider.Ref;
 		let bRef: Slider.Ref;
 		let aRef: Slider.Ref;
-		let ref: Form.Ref<RGB>;
 
 		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'rgb(1 1 1)').to('srgb');
-		const [F, Field] = Form.create<RGB>({
+		const [F, Field, api] = Form.create<RGB>({
 			initValue: { r: this.#r ?? c.r, g: this.#g ?? c.g, b: this.#b ?? c.b, a: this.#a ?? c.a },
 		});
 
@@ -86,7 +85,7 @@ export class RGBSpace implements ColorSpace {
                 ${fmtRGB(0, 0, 0.9, 1)},${fmtRGB(0, 0, 1, 1)})`;
 			bRef.input().style.backgroundClip = 'padding-box';
 
-			ref.api().onChange(store => {
+			api.onChange(store => {
 				const rr = store.r;
 				const gg = store.g;
 				const bb = store.b;
@@ -103,7 +102,7 @@ export class RGBSpace implements ColorSpace {
 
 		const l = useLocale();
 		return (
-			<F class={styles.rgb} layout="vertical" ref={el => (ref = el)}>
+			<F class={styles.rgb} layout="vertical">
 				<Field label={l.t('_c.color.red')} name="r">
 					<Slider
 						fitHeight

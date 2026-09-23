@@ -60,15 +60,14 @@ export class HSLSpace implements ColorSpace {
 		let sRef: Slider.Ref;
 		let lRef: Slider.Ref;
 		let aRef: Slider.Ref;
-		let ref: Form.Ref<HSL>;
 
 		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'hsl(180 50 50)').to('hsl');
-		const [F, Field] = Form.create<HSL>({
+		const [F, Field, api] = Form.create<HSL>({
 			initValue: { h: this.#h ?? c.h, s: this.#s ?? c.s, l: this.#l ?? c.l, a: this.#a ?? c.a },
 		});
 
 		createEffect(() => {
-			const store = ref.api().getValue();
+			const store = api.getValue();
 			const hh = store.h;
 			const ss = store.s;
 			const ll = store.l;
@@ -106,7 +105,7 @@ export class HSLSpace implements ColorSpace {
 		const l = useLocale();
 
 		return (
-			<F class={styles.hsl} layout="vertical" ref={el => (ref = el)}>
+			<F class={styles.hsl} layout="vertical">
 				<Field label={l.t('_c.color.hue')} name="h">
 					<Slider
 						state={this.#h !== undefined ? 'disabled' : 'enabled'}

@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { renderHook } from '@solidjs/testing-library';
 import { createSignal } from 'solid-js';
-import { afterAll, describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
-import { useField } from './context';
 import { Array2StringConverter, convert, Number2DateConverter, String2DateConverter } from './convert';
 
 describe('convert', () => {
@@ -31,23 +29,10 @@ describe('convert', () => {
 			},
 		});
 
-		const { result, cleanup } = renderHook(() => useField(p, true), {
-			wrapper: props => props.children,
-		});
-
-		expect(result).toBeDefined();
-
-		result.setValue(undefined);
-		expect(result.getValue()).toBeUndefined();
-		expect(val()).toBeUndefined();
-		expect(v).toBeUndefined();
-
-		result.setValue(now);
-		expect(result.getValue()).toBe(now);
-		expect(val()).toBe(nowT);
-		expect(v).toBe(nowT);
-
-		afterAll(cleanup);
+		expect(p).toBeDefined();
+		expect(p.value).toEqual(new Date(5));
+		p.onChange?.(now);
+		expect(v).toEqual(nowT);
 	});
 });
 

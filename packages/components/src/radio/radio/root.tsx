@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { AvailableEnumType, BaseRef, RefProps } from '@cmfx/cdk';
+import type { AvailableEnumType, BaseRef, RefProps, State } from '@cmfx/cdk';
 import { joinClass, type ThemeProps } from '@cmfx/cdk';
 import { createMemo, type JSX, mergeProps } from 'solid-js';
 
-import type { Form } from '@components/form';
 import styles from './style.module.css';
 
 export interface RadioRef extends BaseRef<HTMLLabelElement> {
@@ -31,7 +30,7 @@ export interface RadioProps<T extends AvailableEnumType = string> extends ThemeP
 	/**
 	 * 组件的状态
 	 */
-	state?: Form.State;
+	state?: State;
 
 	/**
 	 * 是否显示为块

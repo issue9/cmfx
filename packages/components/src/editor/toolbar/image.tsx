@@ -25,9 +25,8 @@ type Image = {
  */
 export function Image(props: Props): JSX.Element {
 	const l = useLocale();
-	let ref: Form.Ref<Image>;
 
-	const [F, Field] = Form.create<Image>({
+	const [F, Field, api] = Form.create<Image>({
 		initValue: { src: '', alt: '' },
 	});
 
@@ -39,7 +38,7 @@ export function Image(props: Props): JSX.Element {
 				kind="flat"
 				square
 				onclick={() => {
-					ref.api().setValue({ src: '', alt: '' });
+					api.setValue({ src: '', alt: '' });
 					dlg.root().showModal();
 				}}
 			>
@@ -66,7 +65,7 @@ export function Image(props: Props): JSX.Element {
 							kind="flat"
 							title={l.t('_c.ok')}
 							onclick={() => {
-								props.editor.chain().focus().setImage(ref.api().getValue()).run();
+								props.editor.chain().focus().setImage(api.getValue()).run();
 								dlg.root().close('ok');
 							}}
 						>
@@ -75,7 +74,7 @@ export function Image(props: Props): JSX.Element {
 					</footer>
 				}
 			>
-				<F inDialog ref={el => (ref = el)}>
+				<F inDialog>
 					<Field label="src" name="src">
 						<InputText />
 					</Field>

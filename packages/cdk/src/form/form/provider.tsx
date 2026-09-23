@@ -14,8 +14,7 @@ import { FormContext } from './context';
 // useForm 有可能在 FormProvider 之外使用，允许返回 undefined
 const formContext = createContext<FormContext | undefined>(undefined);
 
-export interface FormProviderProps<T extends Flattenable, R = unknown, PE = never>
-	extends FormContextOptions<T, R, PE> {
+interface StateProps {
 	/**
 	 * 表单状态
 	 *
@@ -24,6 +23,17 @@ export interface FormProviderProps<T extends Flattenable, R = unknown, PE = neve
 	 */
 	state?: State;
 }
+
+type FormProviderPropsWithOptions<T extends Flattenable, R = unknown, PE = never> = StateProps &
+	FormContextOptions<T, R, PE>;
+
+type FormProviderPropsWithContext<T extends Flattenable, R = unknown, PE = never> = StateProps & {
+	api: FormContext<T, R, PE>;
+};
+
+export type FormProviderProps<T extends Flattenable, R = unknown, PE = never> =
+	| FormProviderPropsWithOptions<T, R, PE>
+	| FormProviderPropsWithContext<T, R, PE>;
 
 /**
  * 提供表单的基本接口
@@ -35,7 +45,7 @@ export function FormProvider<T extends Flattenable = Flattenable, R = unknown, P
 	const [, opt] = splitProps(props, ['children', 'state']);
 	const l = useLocale();
 
-	const ctx = new FormContext<T, R, PE>(opt);
+	const ctx = 'api' in opt ? opt.api : new FormContext<T, R, PE>(opt);
 
 	onMount(async () => await ctx.load());
 

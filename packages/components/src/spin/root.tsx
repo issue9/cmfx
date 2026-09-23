@@ -81,7 +81,7 @@ export function Spin<T extends keyof HTMLElementTagNameMap = 'div'>(props: SpinP
 				props.ref?.({ root: () => el });
 			}}
 		>
-			<StateProvider state={props.spinning ? 'spinning' : 'enabled'}>
+			<StateProvider state={props.spinning ? 'loading' : 'enabled'}>
 				{props.children}
 				<Show when={props.spinning}>
 					<div class={joinClass(undefined, styles.overlay, props.overlayClass)} role="status" aria-live="polite">

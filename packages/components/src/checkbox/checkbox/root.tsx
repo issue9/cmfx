@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import { type BaseRef, joinClass, type RefProps, type State, type ThemeProps } from '@cmfx/cdk';
 import { createEffect, createMemo, type JSX, mergeProps } from 'solid-js';
 
-import type { Form } from '@components/form';
 import styles from './style.module.css';
 
 export interface CheckboxRef extends BaseRef<HTMLLabelElement> {
@@ -32,7 +31,7 @@ export interface CheckboxProps extends ThemeProps, RefProps<CheckboxRef> {
 	 *
 	 * @reactive
 	 */
-	state?: Form.State;
+	state?: State;
 
 	/**
 	 * 设置为不确定状态，只负责样式控制。

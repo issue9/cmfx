@@ -14,6 +14,7 @@ import type { API, MonthViewProps } from './types';
 
 const presetProps: Partial<MonthViewProps> = {
 	weekBase: 0,
+	state: 'enabled',
 } as const;
 
 function isSelected(d: Date, selected: Array<Date>) {

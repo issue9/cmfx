@@ -79,7 +79,7 @@ export function Permission(): JSX.Element {
 									{item => (
 										<Checkbox
 											label={item.title}
-											disabled={!parent().includes(item.id)}
+											state={parent().includes(item.id) ? 'enabled' : 'disabled'}
 											checked={current().includes(item.id)}
 											onChange={chk => {
 												if (chk) {

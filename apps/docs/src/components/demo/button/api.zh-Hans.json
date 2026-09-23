@@ -220,10 +220,10 @@
 	},
 	{
 		"name": "Button.Kind",
-		"summary": "组件的风格\n\n",
-		"remarks": "组件的展示风格，包含以下几种取值：\n- flat 无背景，无边框；\n- border 无背景，有边框；\n- fill 有背景，有边框；\n\n",
 		"kind": "literal",
 		"type": "\"flat\" | \"border\" | \"fill\"",
+		"remarks": "组件的展示风格，包含以下几种取值：\n- flat 无背景，无边框；\n- border 无背景，有边框；\n- fill 有背景，有边框；\n\n",
+		"summary": "组件的风格\n\n",
 		"pkg": "@cmfx/components"
 	},
 	{

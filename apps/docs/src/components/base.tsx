@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { DictKeys, Layout, Palette, PopoverPosition } from '@cmfx/cdk';
-import { layouts, palettes, popoverPositions, useLocale } from '@cmfx/cdk';
+import type { DictKeys, Layout, Palette, PopoverPosition, State } from '@cmfx/cdk';
+import { layouts, palettes, popoverPositions, states, useLocale } from '@cmfx/cdk';
 import { Button, Checkbox, Choice, Form, InputNumber } from '@cmfx/components';
 import { type Accessor, type Component, createSignal, type JSX, type Setter } from 'solid-js';
 
@@ -62,9 +62,9 @@ export function numeric<T extends number = number>(
 }
 
 export function stateSelector(
-	preset: Form.State = 'enabled',
-): [Component, Accessor<Form.State | undefined>, Setter<Form.State | undefined>] {
-	return arraySelector('_d.demo.state', Form.states, preset);
+	preset: State = 'enabled',
+): [Component, Accessor<State | undefined>, Setter<State | undefined>] {
+	return arraySelector('_d.demo.state', states, preset);
 }
 
 /**

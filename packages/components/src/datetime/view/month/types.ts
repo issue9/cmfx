@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseRef, RefProps, ThemeProps } from '@cmfx/cdk';
+import type { BaseRef, RefProps, State, ThemeProps } from '@cmfx/cdk';
 import type { getISOWeek } from '@cmfx/core';
 
 import type { Week } from '@components/datetime/utils';
 import type { DatetimePlugin } from '@components/datetime/view/plugin';
-import type { Form } from '@components/form';
 
 /**
  * 用于表示周数，第一个元素为年份，第二个元素为在该年份中的周数。
@@ -74,8 +73,9 @@ export interface MonthViewProps extends ThemeProps, RefProps<MonthViewRef> {
 	 * 状态
 	 *
 	 * @reactive
+	 * @defaultValue 'enabled'
 	 */
-	state?: Form.State;
+	state?: State;
 
 	/**
 	 * 允许的最小日期

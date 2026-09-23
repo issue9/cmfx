@@ -60,16 +60,15 @@ export class OKLCHSpace implements ColorSpace {
 		let rc: Slider.Ref;
 		let rh: Slider.Ref;
 		let ra: Slider.Ref;
-		let ref: Form.Ref<OKLCH>;
 
 		const c = new Color(var2Color(props.parent, untrack(props.s.getValue)) ?? 'oklch(1 .4 1)').to('oklch');
-		const [F, Field] = Form.create<OKLCH>({
+		const [F, Field, api] = Form.create<OKLCH>({
 			initValue: { l: this.#l ?? c.l, c: this.#c ?? c.c, h: this.#h ?? c.h, a: this.#a ?? c.a },
 		});
 
 		createEffect(() => {
 			// 根据值改变背景颜色
-			const store = ref.api().getValue();
+			const store = api.getValue();
 			const ll = store.l;
 			const cc = store.c;
 			const hh = store.h;
@@ -110,7 +109,7 @@ export class OKLCHSpace implements ColorSpace {
 		const l = useLocale();
 
 		return (
-			<F class={styles.oklch} layout="vertical" ref={el=>ref=el}>
+			<F class={styles.oklch} layout="vertical">
 				<Field label={l.t('_c.color.lightness')} name="l">
 					<Slider
 						fitHeight

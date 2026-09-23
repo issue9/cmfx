@@ -14,7 +14,7 @@ import styles from './style.module.css';
 
 export type FormFieldRef = BaseRef<HTMLDivElement>;
 
-export interface FormFieldProps<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>
+export interface FormFieldProps<T extends Flattenable = Flattenable, F = Flatten<T>[FlattenKeys<T>]>
 	extends CommonProps,
 		ThemeProps,
 		ParentProps,
@@ -60,7 +60,9 @@ function Internal<T extends Flattenable, F = Flatten<T>[FlattenKeys<T>]>(props: 
 	const areas = createMemo(() => calcAreas(props.layout!, props.feedback, !!props.label));
 
 	// 如果未指定 name 属性，无法定位判断哪个字段，直接创建一个假的对象
-	const field = props.name ? useXFormField<T, F>(props.conv) : createFormField<F>(props.id ?? createUniqueId());
+	const field = props.name
+		? (useXFormField<T, F>(props.conv) ?? createFormField<F>(props.id ?? createUniqueId()))
+		: createFormField<F>(props.id ?? createUniqueId());
 
 	let ref: FormFieldRef;
 
@@ -123,7 +125,9 @@ export function IsolationField(props: ParentProps): JSX.Element {
 	return <FormFieldProvider isolation>{props.children}</FormFieldProvider>;
 }
 
-export function Field<T extends Flattenable>(props: FormFieldProps<T>): JSX.Element {
+export function Field<T extends Flattenable = Flattenable, F = Flatten<T>[FlattenKeys<T>]>(
+	props: FormFieldProps<T, F>,
+): JSX.Element {
 	// NOTE: 采用 grid 主要是方便对齐方式的实现。
 	// 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
 	// help 应该与 input 左对齐，而不是与 label 左对齐。
