@@ -2,30 +2,43 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type MountProps, Radio } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Radio } from '@cmfx/components';
 import type { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector } from '@docs/components/base';
+import { boolSelector, stateSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Block, block] = boolSelector('_d.demo.block');
+	const [State, state] = stateSelector();
 
 	return (
 		<>
 			<Portal mount={props.mount}>
-				<Readonly />
-				<Disabled />
+				<State />
 				<Rounded />
 				<Block />
 			</Portal>
 
 			<div>
-				<input type="radio" name="radio1" value="option1" tabindex={0} readonly={readonly()} disabled={disabled()} />
-				<input type="radio" name="radio1" value="option2" tabindex={0} readonly={readonly()} disabled={disabled()} />
+				<input
+					type="radio"
+					name="radio1"
+					value="option1"
+					tabindex={0}
+					readonly={state() === 'readonly'}
+					disabled={state() === 'disabled'}
+				/>
+				<input
+					type="radio"
+					name="radio1"
+					value="option2"
+					tabindex={0}
+					readonly={state() === 'readonly'}
+					disabled={state() === 'disabled'}
+				/>
 				<Radio
 					name="radio1"
 					label="Radio"
@@ -33,8 +46,7 @@ export default function (props: MountProps): JSX.Element {
 					tabindex={0}
 					rounded={rounded()}
 					value="option3"
-					readonly={readonly()}
-					disabled={disabled()}
+					state={state()}
 				/>
 			</div>
 		</>

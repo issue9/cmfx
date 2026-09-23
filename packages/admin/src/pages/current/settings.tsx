@@ -63,7 +63,7 @@ export function Settings(): JSX.Element {
 
 						<Form.Field label={chk} layout="horizontal">
 							<Slider
-								disabled={rangDisabled()}
+								state={rangDisabled() ? 'disabled' : 'enabled'}
 								step={10}
 								max={window.screen.width}
 								value={lay.width()[0]()}

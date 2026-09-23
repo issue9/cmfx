@@ -71,15 +71,10 @@
 						"reactive": true
 					},
 					{
-						"name": "disabled",
-						"summary": "禁用组件\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
-						"name": "readonly",
-						"summary": "只读属性\n\n",
-						"type": "boolean | undefined",
+						"name": "state",
+						"summary": "表单组件的状态\n\n",
+						"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
+						"def": "'enabled'\n\n",
 						"reactive": true
 					},
 					{
@@ -171,15 +166,10 @@
 						"reactive": true
 					},
 					{
-						"name": "disabled",
-						"summary": "禁用组件\n\n",
-						"type": "boolean | undefined",
-						"reactive": true
-					},
-					{
-						"name": "readonly",
-						"summary": "只读属性\n\n",
-						"type": "boolean | undefined",
+						"name": "state",
+						"summary": "表单组件的状态\n\n",
+						"type": "\"disabled\" | \"enabled\" | \"readonly\" | \"loading\" | \"submitting\" | undefined",
+						"def": "'enabled'\n\n",
 						"reactive": true
 					},
 					{
@@ -224,8 +214,6 @@
 	},
 	{
 		"name": "Choice.Option",
-		"summary": "单个选择项的类型\n\n",
-		"remarks": "直接采用了与\n`MenuItem`\n相同的类型，但是对为 type 为 a 的项是忽略处理的。\n\n",
 		"kind": "union",
 		"types": [
 			{
@@ -357,6 +345,8 @@
 			}
 		],
 		"discriminant": "type",
+		"remarks": "直接采用了与\n`MenuItem`\n相同的类型，但是对为 type 为 a 的项是忽略处理的。\n\n",
+		"summary": "单个选择项的类型\n\n",
 		"pkg": "@cmfx/components"
 	}
 ]

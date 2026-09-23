@@ -16,7 +16,7 @@ export interface SliderRef extends BaseRef<HTMLDivElement> {
 	input(): HTMLInputElement;
 }
 
-export interface SliderProps extends Form.DataProps, ValueProps<number>, ThemeProps, RefProps<SliderRef> {
+export interface SliderProps extends Form.InputProps, ValueProps<number>, ThemeProps, RefProps<SliderRef> {
 	/**
 	 * 最小值
 	 *
@@ -64,7 +64,7 @@ export interface SliderProps extends Form.DataProps, ValueProps<number>, ThemePr
  * 相当于 <input type="range" />
  */
 export function Slider(props: SliderProps): JSX.Element {
-	const field = Form.useField<number>(props, true);
+	const field = Form.useField<number>(true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
 
@@ -74,19 +74,19 @@ export function Slider(props: SliderProps): JSX.Element {
 
 	createEffect(() => {
 		if (props.format) {
-			field.setExtra(props.format(field.getValue()));
+			field.api.setExtra(props.format(field.api.getValue()));
 		}
 	});
 
 	const wheel = (e: WheelEvent) => {
-		if (props.readonly || props.disabled) {
+		if (props.state !== 'enabled') {
 			return;
 		}
 
 		e.preventDefault();
 		const step = props.step ?? 1;
 
-		let v = (field.getValue() ?? 0) + (e.deltaY > 0 ? step : -step);
+		let v = (field.api.getValue() ?? 0) + (e.deltaY > 0 ? step : -step);
 		if (props.max !== undefined && v > props.max) {
 			v = props.max;
 		}
@@ -94,8 +94,8 @@ export function Slider(props: SliderProps): JSX.Element {
 			v = props.min;
 		}
 
-		field.setValue(v);
-		field.setError();
+		field.api.setValue(v);
+		field.api.setError();
 	};
 
 	onMount(() => {
@@ -140,9 +140,9 @@ export function Slider(props: SliderProps): JSX.Element {
 				max={props.max}
 				tabIndex={props.tabindex}
 				step={props.step}
-				value={field.getValue()}
-				readOnly={props.readonly}
-				disabled={props.disabled}
+				value={field.api.getValue()}
+				readOnly={props.state === 'readonly'}
+				disabled={props.state === 'disabled'}
 				classList={{
 					[styles['fit-height']]: props.fitHeight,
 					[styles.rounded]: props.rounded,
@@ -155,17 +155,17 @@ export function Slider(props: SliderProps): JSX.Element {
 					});
 				}}
 				onwheel={wheel}
-				name={field.name}
+				name={field.api.name}
 				onChange={e => {
-					if (!props.readonly && !props.disabled) {
+					if (props.state === 'enabled') {
 						const v = parseFloat(e.target.value);
-						field.setValue(v);
-						field.setError();
+						field.api.setValue(v);
+						field.api.setError();
 					}
 				}}
 				onInput={e => {
 					const v = parseFloat(e.target.value);
-					field.setValue(v);
+					field.api.setValue(v);
 				}}
 			/>
 

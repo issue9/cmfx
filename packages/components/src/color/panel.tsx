@@ -33,7 +33,7 @@ export interface PanelRef extends BaseRef<HTMLDivElement> {
 	switchSpace(id: string): void;
 }
 
-export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<string>, ThemeProps {
+export interface Base extends Omit<Form.InputProps, 'rounded'>, ValueProps<string>, ThemeProps {
 	/**
 	 * 指定一个用于计算 WCAG 值的颜色
 	 *
@@ -74,8 +74,8 @@ export function Panel(props: PanelProps): JSX.Element {
 
 	const [space, setSpace] = createSignal<string | undefined>(props.spaces[0].id);
 
-	const field = Form.useField<string>(props, true);
-	field.onChange(v => {
+	const field = Form.useField<string>(true);
+	field.api.onChange(v => {
 		if (!v) {
 			return;
 		}
@@ -101,7 +101,12 @@ export function Panel(props: PanelProps): JSX.Element {
 
 	return (
 		<div
-			class={joinClass(props.palette, styles['color-panel'], props.class, props.disabled ? styles.disabled : undefined)}
+			class={joinClass(
+				props.palette,
+				styles['color-panel'],
+				props.class,
+				props.state === 'disabled' ? styles.disabled : undefined,
+			)}
 			style={props.style}
 			ref={el => {
 				props.ref?.({
@@ -114,16 +119,16 @@ export function Panel(props: PanelProps): JSX.Element {
 				<div class={styles.start}>
 					{/** biome-ignore lint/a11y/noStaticElementInteractions: static */}
 					<div
-						onclick={() => clipboardRef.writeText(field.getValue() ?? '')}
+						onclick={() => clipboardRef.writeText(field.api.getValue() ?? '')}
 						class={styles.value}
 						ref={el => (contentRef = el)}
 						style={{
-							'background-color': field.getValue(),
+							'background-color': field.api.getValue(),
 							color: props.wcag ?? 'var(--palette-fg)',
 						}}
 					>
 						<ClipboardWriter class="self-center" ref={el => (clipboardRef = el)} />
-						{field.getValue()}
+						{field.api.getValue()}
 					</div>
 					<Show when={props.wcag}>
 						{val => (
@@ -134,9 +139,9 @@ export function Panel(props: PanelProps): JSX.Element {
 								title={apca() ? 'WCAG 3.X(APCA)' : 'WCAG 2.X'}
 							>
 								{wcag(
-									field.getValue()?.startsWith('var(--')
+									field.api.getValue()?.startsWith('var(--')
 										? getComputedStyle(contentRef).getPropertyValue('background-color')
-										: (field.getValue() ?? 'transparent'),
+										: (field.api.getValue() ?? 'transparent'),
 									val(),
 									apca(),
 								)}
@@ -153,7 +158,7 @@ export function Panel(props: PanelProps): JSX.Element {
 							onclick={async () => {
 								const eye = new window.EyeDropper();
 								const color = new Color((await eye.open()).sRGBHex).toString();
-								field.setValue(color);
+								field.api.setValue(color);
 
 								// 切换到符合当前颜色的拾取色板
 								const picker = props.spaces.find(v => v.include(color));
@@ -165,10 +170,10 @@ export function Panel(props: PanelProps): JSX.Element {
 							<IconPicker />
 						</Button>
 					</Show>
-					<Button kind="border" square onclick={() => field.setValue(undefined)}>
+					<Button kind="border" square onclick={() => field.api.setValue(undefined)}>
 						<IconClose />
 					</Button>
-					<Form.FieldProvider isolation>
+					<Form.IsolationField>
 						<Choice
 							options={props.spaces.map(s => ({
 								type: 'item',
@@ -178,12 +183,12 @@ export function Panel(props: PanelProps): JSX.Element {
 							value={space()}
 							onChange={setSpace}
 						/>
-					</Form.FieldProvider>
+					</Form.IsolationField>
 				</div>
 			</header>
 
 			<main ref={el => (mainRef = el)}>
-				{props.spaces.find(p => p.id === space())?.panel({ s: field, parent: mainRef })}
+				{props.spaces.find(p => p.id === space())?.panel({ s: field.api, parent: mainRef })}
 			</main>
 		</div>
 	);

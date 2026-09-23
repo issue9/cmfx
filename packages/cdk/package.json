@@ -52,6 +52,7 @@
 	},
 	"dependencies": {
 		"bowser": "catalog:",
+		"fast-deep-equal": "catalog:",
 		"intl-messageformat": "catalog:"
 	},
 	"devDependencies": {

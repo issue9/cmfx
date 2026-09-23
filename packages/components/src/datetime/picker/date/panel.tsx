@@ -12,7 +12,7 @@ import { Form } from '@components/form';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Base extends ThemeProps, ValueProps<Date>, Omit<Form.DataProps, 'rounded'> {
+export interface Base extends ThemeProps, ValueProps<Date>, Omit<Form.InputProps, 'rounded'> {
 	/**
 	 * 是否符带时间选择器
 	 */
@@ -71,9 +71,9 @@ export function Panel(props: PanelProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps(presetProps as PanelProps, { tabindex: 0 }, form, props);
 
-	const field = Form.useField(props, true);
+	const field = Form.useField<Date>(true);
 	const [_, panelProps] = splitProps(props, ['ref', 'onChange', 'value', 'class', 'style']);
-	let time: Date | undefined = field.getValue();
+	let time: Date | undefined = field.api.getValue();
 
 	return (
 		<CommonPanel
@@ -82,7 +82,7 @@ export function Panel(props: PanelProps): JSX.Element {
 			style={style2String(field.style, props.style)}
 			initTime={time}
 			onTimeChange={e => {
-				const old = field.getValue();
+				const old = field.api.getValue();
 				const v = old ? new Date(old.getDate()) : undefined; // 需要解构 old
 				time = e;
 
@@ -90,7 +90,7 @@ export function Panel(props: PanelProps): JSX.Element {
 					v.setHours(e.getHours());
 					v.setMinutes(e.getMinutes());
 					v.setSeconds(e.getSeconds());
-					field.setValue(v);
+					field.api.setValue(v);
 				}
 			}}
 			onClick={d => {
@@ -100,7 +100,7 @@ export function Panel(props: PanelProps): JSX.Element {
 					d.setSeconds(time.getSeconds());
 				}
 
-				field.setValue(d);
+				field.api.setValue(d);
 			}}
 			ref={el => props.ref?.({ root: el.root })}
 		/>

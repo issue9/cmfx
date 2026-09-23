@@ -2,23 +2,44 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, ContextNotFoundError, joinClass, type RefProps, type ThemeProps, useLocale } from '@cmfx/cdk';
-import type { Flattenable } from '@cmfx/core';
+import type { BaseRef, FormContext as FC, FormProviderProps, RefProps, ThemeProps } from '@cmfx/cdk';
+import { ContextNotFoundError, FormProvider, joinClass, useForm as useXForm } from '@cmfx/cdk';
+import { type Flattenable, LogicError } from '@cmfx/core';
 import type { JSX, ParentProps } from 'solid-js';
-import { createEffect, createSignal, createUniqueId, mergeProps, onMount, Show } from 'solid-js';
+import {
+	createContext,
+	createEffect,
+	createSignal,
+	createUniqueId,
+	mergeProps,
+	Show,
+	splitProps,
+	useContext,
+} from 'solid-js';
 
 import { Button as Btn } from '@components/button/button';
 import { Alert } from '@components/notify';
-import { Spin } from '@components/spin';
-import { type FormContext, FormProvider, useForm } from './context';
+import type { CommonProps } from './types';
 
-export type FormRef = BaseRef<HTMLFormElement>;
+export interface FormRef<T extends Flattenable = Flattenable, R = unknown, P = never> extends BaseRef<HTMLFormElement> {
+	/**
+	 * 提供操作表单的接口
+	 */
+	api(): FC<T, R, P>;
+}
 
-export interface FormProps<T extends Flattenable, R = unknown, P = never>
+interface FormAttrs extends CommonProps {
+	/**
+	 * 表单的 id 属性
+	 */
+	id?: string;
+}
+
+interface FormPropsBase<T extends Flattenable = Flattenable, R = unknown, P = never>
 	extends ThemeProps,
-		FormContext<T, R, P>,
+		FormAttrs,
 		ParentProps,
-		RefProps<FormRef> {
+		RefProps<FormRef<T, R, P>> {
 	/**
 	 * 表单位于对话框中
 	 *
@@ -30,30 +51,34 @@ export interface FormProps<T extends Flattenable, R = unknown, P = never>
 	inDialog?: boolean;
 }
 
-export function Form<T extends Flattenable, R = unknown, P = never>(props: FormProps<T, R, P>): JSX.Element {
-	const l = useLocale();
+type FormPropsWithAPI<T extends Flattenable = Flattenable, R = unknown, P = never> = FormPropsBase<T, R, P> &
+	Extract<FormProviderProps<T, R, P>, { api: unknown }>;
 
-	props = mergeProps(
-		{
-			layout: 'horizontal',
-		} as FormProps<T, R, P>,
-		props,
-	);
+type FormPropsWithOptions<T extends Flattenable = Flattenable, R = unknown, P = never> = FormPropsBase<T, R, P> &
+	Exclude<FormProviderProps<T, R, P>, { api: unknown }>;
 
-	const api = props.api;
+export type FormProps<T extends Flattenable = Flattenable, R = unknown, P = never> =
+	| FormPropsWithAPI<T, R, P>
+	| FormPropsWithOptions<T, R, P>;
 
-	// 保证验证器的语言正确
-	createEffect(() => {
-		const loc = l;
-		const v = api.validator();
-		if (v) {
-			v.changeLocale(loc.locale.toString());
-		}
-	});
+export type FormContext<T extends Flattenable = Flattenable, R = unknown, P = never> = FormAttrs & {
+	/**
+	 * 提供操作表单的接口
+	 */
+	api: FC<T, R, P>;
+};
 
-	onMount(async () => {
-		await api.load();
-	});
+const formContext = createContext<FormContext | undefined>(undefined);
+
+function InternalForm<T extends Flattenable = Flattenable, R = unknown, P = never>(
+	props: FormProps<T, R, P>,
+): JSX.Element {
+	props = mergeProps({ id: createUniqueId() }, props);
+
+	const api = useXForm<T, R, P>();
+	if (!api) {
+		throw new ContextNotFoundError('@cmfx/cdk.formContext');
+	}
 
 	// 用以将 onsubmit 的异步异常转换为可以由 ErrorBoundary 捕获的同步异常。
 	const [error, setError] = createSignal<Error>();
@@ -61,51 +86,88 @@ export function Form<T extends Flattenable, R = unknown, P = never>(props: FormP
 		if (error()) throw error();
 	});
 
-	const id = createUniqueId();
-
 	return (
-		<Spin
-			tag="form"
-			spinning={api.spinning()}
-			palette={props.palette}
-			class={joinClass(undefined, props.class)}
+		<form
+			class={joinClass(props.palette, props.class)}
 			style={props.style}
+			id={props.id}
 			ref={el => {
-				el.root().addEventListener('submit', e => {
+				el.addEventListener('submit', e => {
 					api.submit().catch(setError);
 					e.preventDefault();
 				});
 
-				el.root().addEventListener('reset', e => {
+				el.addEventListener('reset', e => {
 					api.reset();
 					e.preventDefault();
 				});
 
-				el.root().id = id;
 				if (props.inDialog) {
-					el.root().method = 'dialog';
+					el.method = 'dialog';
 				}
 
-				props.ref?.({
-					root: el.root,
-				});
+				props.ref?.({ root: () => el, api: () => api });
 			}}
 		>
-			<FormProvider<T, R, P>
-				layout={props.layout}
-				rounded={props.rounded}
-				disabled={props.disabled}
-				readonly={props.readonly}
-				labelAlign={props.labelAlign}
-				labelWidth={props.labelWidth}
-				feedback={props.feedback}
-				api={props.api}
-				id={id}
+			<formContext.Provider
+				value={{
+					id: props.id,
+					layout: props.layout,
+					labelAlign: props.labelAlign,
+					labelWidth: props.labelWidth,
+					rounded: props.rounded,
+					feedback: props.feedback,
+					api: api as FC,
+				}}
 			>
 				{props.children}
-			</FormProvider>
-		</Spin>
+			</formContext.Provider>
+		</form>
 	);
+}
+
+/**
+ * 表单组件
+ */
+export function Form<T extends Flattenable, R = unknown, P = never>(props: FormProps<T, R, P>): JSX.Element {
+	props = mergeProps(
+		{
+			layout: 'horizontal',
+		} as FormProps<T, R, P>,
+		props,
+	);
+
+	const [, formProps] = splitProps(props, [
+		'ref',
+		'children',
+		'inDialog',
+		'class',
+		'palette',
+		'style',
+		'layout',
+		'rounded',
+		'labelAlign',
+		'labelWidth',
+		'feedback',
+		'id',
+	]);
+
+	return (
+		<FormProvider<T, R, P> {...formProps}>
+			<InternalForm {...props}>{props.children}</InternalForm>
+		</FormProvider>
+	);
+}
+
+/**
+ * 获取上下文中的表单对象
+ *
+ * @returns 若是在 {@link Form} 之外调用将返回 undefined
+ */
+export function useForm<T extends Flattenable = Flattenable, R = unknown, P = never>():
+	| FormContext<T, R, P>
+	| undefined {
+	return useContext(formContext) as FormContext<T, R, P> | undefined;
 }
 
 export interface FormMessageProps extends ThemeProps {
@@ -128,13 +190,13 @@ export interface FormMessageProps extends ThemeProps {
  * 显示整个表单的错误信息
  */
 export function Message(props: FormMessageProps): JSX.Element {
-	const f = useForm();
+	const f = useXForm();
 	if (!f) {
-		throw new ContextNotFoundError('@cmfx/components.formContext');
+		throw new LogicError('只能在 @cmfx/components 的 Form 组件之内使用');
 	}
 
 	return (
-		<Show when={f.api.getError()}>
+		<Show when={f.getError()}>
 			{err => (
 				<Alert
 					duration={props.duration}
@@ -143,7 +205,7 @@ export function Message(props: FormMessageProps): JSX.Element {
 					class={props.class}
 					style={props.style}
 					onClose={async () => {
-						f.api.setError();
+						f.setError();
 						return false;
 					}}
 				/>
@@ -157,7 +219,9 @@ export function Message(props: FormMessageProps): JSX.Element {
  */
 export function Button(props: Btn.NormalProps): JSX.Element {
 	const f = useForm();
-	return <Btn {...mergeProps({ disabled: f?.disabled, rounded: f?.rounded, form: f?.id }, props)} />;
+	return (
+		<Btn {...mergeProps({ disabled: f?.api.getState() === 'disabled', rounded: f?.rounded, form: f?.id }, props)} />
+	);
 }
 
 /**

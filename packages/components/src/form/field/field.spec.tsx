@@ -2,15 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { FormContext } from '@cmfx/cdk';
 import { renderHook } from '@solidjs/testing-library';
 import { afterAll, describe, expect, test } from 'vitest';
 
 import { createTester, initTestEnv, Provider } from '@components/context/options/context.spec';
-import { API } from '@components/form/api';
-import { Form } from '@components/form/form';
-import { type FormFieldRef, useField } from './context';
+import { Form, type FormRef } from '@components/form/form';
 import { String2DateConverter } from './convert';
-import { Field } from './field';
+import { Field, type FormFieldRef, useField } from './field';
 
 describe('Field', async () => {
 	let ref: FormFieldRef;
@@ -24,14 +23,17 @@ describe('Field', async () => {
 	});
 
 	test('notInForm', () => {
-		const { result, cleanup } = renderHook(() => useField({ value: 5 }), {
+		const { result, cleanup } = renderHook(() => useField(), {
 			wrapper: props => <Field label="label">{props.children}</Field>,
 		});
 
 		expect(result).toBeDefined();
-		expect(result?.inForm).toBeFalsy();
-		expect(result?.getValue()).toEqual(5);
+		expect(result?.api.inForm).toBeFalsy();
 		expect(result?.fieldRef).toBeDefined();
+
+		expect(result?.api.getValue()).toBeUndefined();
+		result?.api.setValue(5);
+		expect(result?.api.getValue()).toEqual(5);
 
 		afterAll(cleanup);
 	});
@@ -39,12 +41,12 @@ describe('Field', async () => {
 	test('inForm', async () => {
 		const o = await initTestEnv();
 		const obj = { age: 5, name: 'name' };
-		const api = new API({ initValue: obj });
+		let formRef!: FormRef<typeof obj>;
 
 		const { result, cleanup } = renderHook(() => useField(), {
 			wrapper: props => (
 				<Provider {...o}>
-					<Form api={api}>
+					<Form initValue={obj} ref={el => (formRef = el)}>
 						<Field<typeof obj> label="label" name="age">
 							{props.children}
 						</Field>
@@ -54,12 +56,12 @@ describe('Field', async () => {
 		});
 
 		expect(result).toBeDefined();
-		expect(result?.inForm).toBe(true);
-		expect(result?.getValue()).toEqual(5);
+		expect(result?.api.inForm).toBe(true);
+		expect(result?.api.getValue()).toEqual(5);
 		expect(result?.fieldRef).toBeDefined();
 
-		api.setValue({ age: 6, name: '6' });
-		expect(result?.getValue()).toEqual(6);
+		formRef.api().setValue({ age: 6, name: '6' });
+		expect(result?.api.getValue()).toEqual(6);
 
 		afterAll(cleanup);
 	});
@@ -67,7 +69,7 @@ describe('Field', async () => {
 	test('inForm-conv', async () => {
 		const o = await initTestEnv();
 		const obj = { biritday: '1970-01-02', name: 'name' };
-		const api = new API({ initValue: obj });
+		const api = new FormContext({ initValue: obj });
 
 		const { result, cleanup } = renderHook(() => useField<Date>(), {
 			wrapper: props => (
@@ -82,12 +84,12 @@ describe('Field', async () => {
 		});
 
 		expect(result).toBeDefined();
-		expect(result?.inForm).toBe(true);
-		expect(result?.getValue()).toEqual(new Date('1970-01-02'));
+		expect(result?.api.inForm).toBe(true);
+		expect(result?.api.getValue()).toEqual(new Date('1970-01-02'));
 		expect(result?.fieldRef).toBeDefined();
 
 		api.setValue({ biritday: '1980-01-02', name: '6' });
-		expect(result?.getValue()).toEqual(new Date('1980-01-02'));
+		expect(result?.api.getValue()).toEqual(new Date('1980-01-02'));
 
 		afterAll(cleanup);
 	});

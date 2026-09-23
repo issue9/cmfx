@@ -8,7 +8,7 @@ import type { JSX, ParentComponent, ParentProps } from 'solid-js';
 import { afterAll, expect } from 'vitest';
 
 import { HotkeyProvider } from '@cdk/hotkey';
-import { LocaleProvider } from '@cdk/locale';
+import { I18n, LocaleProvider } from '@cdk/locale';
 import { schemes, type ThemeProps, ThemeProvider } from '@cdk/theme';
 
 type Result = ReturnType<typeof render>;
@@ -17,6 +17,8 @@ type Result = ReturnType<typeof render>;
  * 提供了一个用于测试的环境，包含了基础的环境配置。
  */
 export function Provider(props: ParentProps): JSX.Element {
+	I18n.init('en');
+
 	return (
 		<HotkeyProvider>
 			<ThemeProvider mode="system" styleElement={document.documentElement} scheme={schemes.green}>

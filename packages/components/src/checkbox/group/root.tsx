@@ -15,7 +15,7 @@ export type CheckboxGroupRef = BaseRef<HTMLDivElement>;
 
 export interface CheckboxGroupProps<T extends AvailableEnumType = string>
 	extends ThemeProps,
-		Form.DataProps,
+		Form.InputProps,
 		ValueProps<Array<T>>,
 		RefProps<CheckboxGroupRef> {
 	/**
@@ -42,14 +42,14 @@ export interface CheckboxGroupProps<T extends AvailableEnumType = string>
 }
 
 export function CheckboxGroup<T extends string | number>(props: CheckboxGroupProps<T>): JSX.Element {
-	const field = Form.useField<Array<T>>(props, true);
+	const field = Form.useField<Array<T>>(true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0 }, form, props);
-	const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block', 'rounded']);
+	const [chkProps, _] = splitProps(props, ['state', 'tabindex', 'block', 'rounded']);
 
 	createEffect(() => {
 		if (props.value !== undefined) {
-			field.setValue(props.value);
+			field.api.setValue(props.value);
 		}
 	});
 
@@ -62,7 +62,7 @@ export function CheckboxGroup<T extends string | number>(props: CheckboxGroupPro
 		);
 	});
 
-	const vals = createMemo(() => field.getValue() ?? []);
+	const vals = createMemo(() => field.api.getValue() ?? []);
 
 	return (
 		<div class={cls()} style={props.style} ref={el => props.ref?.({ root: () => el })}>
@@ -75,7 +75,7 @@ export function CheckboxGroup<T extends string | number>(props: CheckboxGroupPro
 						onChange={v => {
 							const old = vals();
 							const values = v ? [...old, item.value] : old.filter(v => v !== item.value);
-							field.setValue(values);
+							field.api.setValue(values);
 						}}
 					/>
 				)}

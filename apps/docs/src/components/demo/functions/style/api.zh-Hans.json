@@ -69,10 +69,10 @@
 	},
 	{
 		"name": "Palette",
-		"summary": "组件可用的几种色盘\n\n",
-		"remarks": "当为组件指定一个色盘时，并不是直接改变相应在的颜色，而是在该组件上指定相应在的颜色变量，\n具体可参考 /tailwind.css 中的\n`palette--primary`\n等相关的定义。\n\n",
 		"kind": "literal",
 		"type": "\"primary\" | \"secondary\" | \"tertiary\" | \"error\" | \"surface\"",
+		"remarks": "当为组件指定一个色盘时，并不是直接改变相应在的颜色，而是在该组件上指定相应在的颜色变量，\n具体可参考 /tailwind.css 中的\n`palette--primary`\n等相关的定义。\n\n",
+		"summary": "组件可用的几种色盘\n\n",
 		"pkg": "@cmfx/cdk"
 	}
 ]

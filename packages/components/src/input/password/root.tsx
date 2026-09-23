@@ -49,7 +49,7 @@ export function InputPassword(props: InputPasswordProps): JSX.Element {
 			suffix={
 				<ToggleButton
 					kind="flat"
-					disabled={props.disabled || props.readonly}
+					disabled={props.state !== 'enabled'}
 					value={props.visible}
 					off={<IconVisibility />}
 					on={<IconVisibilityOff />}

@@ -6,7 +6,7 @@ import { sleep, type Validator, type ValidResult } from '@cmfx/core';
 import { createStore } from 'solid-js/store';
 import { describe, expect, test } from 'vitest';
 
-import { API, getFieldValue, setFieldValue } from './api';
+import { FormContext, getFieldValue, setFieldValue } from './context';
 
 type Object = {
 	age: number;
@@ -31,71 +31,80 @@ class ObjectValidator implements Validator<Object> {
 	}
 }
 
-describe('API', () => {
-	const api = new API({ initValue: { age: 20, name: 'f2' }, validator: new ObjectValidator(), validOnChange: true });
+describe('FormContext', () => {
+	const ctx = new FormContext<Object>({
+		initValue: { age: 20, name: 'f2' },
+		validator: new ObjectValidator(),
+		validOnChange: true,
+	});
 
 	test('基本属性', async () => {
-		expect(api.isPreset()).toEqual<boolean>(true);
-		expect(await api.validValue()).toEqual({ age: 20, name: 'f2' });
-		expect(api.getValue()).toEqual({ age: 20, name: 'f2' });
-		expect(api.validator()).toBeDefined();
+		expect(ctx.isPreset()).toEqual<boolean>(true);
+		expect(await ctx.validValue()).toEqual({ age: 20, name: 'f2' });
+		expect(ctx.getValue()).toEqual({ age: 20, name: 'f2' });
+		expect(ctx.validator()).toBeDefined();
 	});
 
 	test('setPreset', () => {
-		api.setPreset({ age: 20, name: '2' });
-		expect(api.isPreset()).toBeFalsy();
-		api.reset();
-		expect(api.isPreset()).toBeTruthy();
-		expect(api.createFieldAccessor('age').getValue()).toEqual(20);
+		ctx.setPreset({ age: 20, name: '2' });
+		expect(ctx.isPreset()).toBeFalsy();
+		ctx.reset();
+		expect(ctx.isPreset()).toBeTruthy();
+		expect(ctx.createField('age', 'ageid').getValue()).toEqual(20);
 
-		api.createFieldAccessor('age').setValue(22);
-		expect(api.isPreset()).toBeFalsy();
+		ctx.createField('age', 'ageid-2').setValue(22);
+		expect(ctx.isPreset()).toBeFalsy();
 	});
 
 	test('setValue', () => {
-		api.setValue({ age: 21, name: '22' });
-		expect(api.createFieldAccessor('age').getValue()).toEqual(21);
-		expect(api.createFieldAccessor('name').getValue()).toEqual('22');
+		ctx.setValue({ age: 21, name: '22' });
+		expect(ctx.createField('age', 'ageid').getValue()).toEqual(21);
+		expect(ctx.createField('name', 'nameid').getValue()).toEqual('22');
 	});
 
 	test('setError', () => {
-		api.setError('error');
-		expect(api.getError()).toEqual<string>('error');
+		ctx.setError('error');
+		expect(ctx.getError()).toEqual<string>('error');
 
-		api.setError([{ name: 'age', reason: 'age error' }]);
-		expect(api.getError()).toEqual<string>('error');
-		expect(api.getError('age')).toEqual<string>('age error');
+		ctx.setError([{ name: 'age', reason: 'age error' }]);
+		expect(ctx.getError()).toEqual<string>('error');
+		expect(ctx.getError('age')).toEqual<string>('age error');
 
-		api.setError([{ name: 'obj1.name', reason: 'name error' }]);
-		expect(api.getError()).toEqual<string>('error');
-		expect(api.getError('age')).toEqual<string>('age error');
-		expect(api.getError('obj1.name')).toEqual<string>('name error');
+		ctx.setError([{ name: 'obj1.name', reason: 'name error' }]);
+		expect(ctx.getError()).toEqual<string>('error');
+		expect(ctx.getError('age')).toEqual<string>('age error');
+		expect(ctx.getError('obj1.name')).toEqual<string>('name error');
 	});
 
 	test('reset', () => {
-		api.reset();
-		expect(api.getError()).toBeUndefined();
-		expect(api.getError('age')).toBeUndefined();
-		expect(api.getError('obj1.name')).toBeUndefined();
-		expect(api.getValue()).toEqual({ age: 20, name: '2' }); // 在 setPreset 将 name 改为了 2
+		ctx.reset();
+		expect(ctx.getError()).toBeUndefined();
+		expect(ctx.getError('age')).toBeUndefined();
+		expect(ctx.getError('obj1.name')).toBeUndefined();
+		expect(ctx.getValue()).toEqual({ age: 20, name: '2' }); // 在 setPreset 将 name 改为了 2
 	});
 });
 
-describe('API.createFieldAccessor', async () => {
-	const api = new API({ initValue: { age: 20, name: 'f2' }, validator: new ObjectValidator(), validOnChange: true });
-	const age = api.createFieldAccessor('age');
+describe('FormContext.createField', async () => {
+	const ctx = new FormContext({
+		initValue: { age: 20, name: 'f2' },
+		validator: new ObjectValidator(),
+		validOnChange: true,
+	});
+	const age = ctx.createField('age', 'ageid');
 
 	test('id/name/inForm', () => {
 		expect(age.id).toBeDefined();
 		expect(age.name).toEqual('age');
-		expect(age.inForm).toBe(true);
-		expect(api.createFieldAccessor('obj1.obj-2.age').name).toEqual('obj1.obj-2.age');
-	});
 
-	test('extra', () => {
-		expect(age.getExtra()).toBeUndefined();
-		age.setExtra('abc');
-		expect(age.getExtra()).toEqual('abc');
+		const age2 = ctx.createField('obj1.obj-2.age', 'obj1.obj-2.ageid');
+		expect(age2.name).toEqual('obj1.obj-2.age');
+		expect(age2.id).toEqual('obj1.obj-2.ageid');
+
+		// 多次调用 createField，id 不会变化。
+		const age3 = ctx.createField('obj1.obj-2.age', 'obj1.obj-2.ageid-2');
+		expect(age3.name).toEqual('obj1.obj-2.age');
+		expect(age3.id).toEqual('obj1.obj-2.ageid');
 	});
 
 	test('error', () => {
@@ -120,7 +129,7 @@ describe('API.createFieldAccessor', async () => {
 
 	test('not-exists', () => {
 		// biome-ignore lint/suspicious/noExplicitAny: 不符合参数要求
-		const notExists = api.createFieldAccessor<number>('not.exists' as any);
+		const notExists = ctx.createField<number>('not.exists' as any, 'id');
 		expect(notExists.getValue()).toBeUndefined();
 
 		notExists.setValue(25);
@@ -128,9 +137,13 @@ describe('API.createFieldAccessor', async () => {
 	});
 });
 
-describe('API.onchange', () => {
-	const api = new API({ initValue: { age: 20, name: 'f2' }, validator: new ObjectValidator(), validOnChange: true });
-	const age = api.createFieldAccessor<number>('age');
+describe('FormContext.onchange', () => {
+	const ctx = new FormContext({
+		initValue: { age: 20, name: 'f2' },
+		validator: new ObjectValidator(),
+		validOnChange: true,
+	});
+	const age = ctx.createField<number>('age', 'ageid');
 
 	let fieldChangeValue: number | undefined = 0;
 	let fieldChangeCount = 0;
@@ -141,7 +154,7 @@ describe('API.onchange', () => {
 
 	let changeValue: Object = { age: 0, name: '' };
 	let changeCount = 0;
-	api.onChange(v => {
+	ctx.onChange(v => {
 		changeValue = { ...v };
 		changeCount++;
 	});
@@ -189,20 +202,20 @@ describe('API.onchange', () => {
 
 	test('setValue', () => {
 		// silent
-		api.setValue({ age: 40, name: 'f2' }, true);
+		ctx.setValue({ age: 40, name: 'f2' }, true);
 		expect(fieldChangeValue).toEqual(20);
 		expect(fieldChangeCount).toEqual(2);
 		expect(changeValue).toEqual({ age: 20, name: 'f2' });
 		expect(changeCount).toEqual(2);
 
-		api.setValue({ age: 35, name: 'f2' });
+		ctx.setValue({ age: 35, name: 'f2' });
 		expect(fieldChangeValue).toEqual(35);
 		expect(fieldChangeCount).toEqual(3);
 		expect(changeValue).toEqual({ age: 35, name: 'f2' });
 		expect(changeCount).toEqual(3);
 
 		// silent
-		api.setValue({ age: 40, name: 'f2' }, true);
+		ctx.setValue({ age: 40, name: 'f2' }, true);
 		expect(fieldChangeValue).toEqual(35);
 		expect(fieldChangeCount).toEqual(3);
 		expect(changeValue).toEqual({ age: 35, name: 'f2' });
@@ -211,24 +224,24 @@ describe('API.onchange', () => {
 
 	test('reset', () => {
 		// silent
-		api.reset(true);
+		ctx.reset(true);
 		expect(fieldChangeValue).toEqual(35);
 		expect(fieldChangeCount).toEqual(3);
 		expect(changeValue).toEqual({ age: 35, name: 'f2' });
 		expect(changeCount).toEqual(3);
 
-		api.setValue({ age: 35, name: 'f2' }, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
+		ctx.setValue({ age: 35, name: 'f2' }, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
 
-		api.reset();
+		ctx.reset();
 		expect(fieldChangeValue).toEqual(20);
 		expect(fieldChangeCount).toEqual(4);
 		expect(changeValue).toEqual({ age: 20, name: 'f2' });
 		expect(changeCount).toEqual(4);
 
-		api.setValue({ age: 35, name: 'f2' }, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
+		ctx.setValue({ age: 35, name: 'f2' }, true); // 上面已经 reset，需要重新调整值才能触发 onChange 事件
 
 		// silent
-		api.reset(true);
+		ctx.reset(true);
 		expect(fieldChangeValue).toEqual(20);
 		expect(fieldChangeCount).toEqual(4);
 		expect(changeValue).toEqual({ age: 20, name: 'f2' });

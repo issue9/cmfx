@@ -11,7 +11,7 @@ import styles from './style.module.css';
 
 export type PanelRef = BaseRef<HTMLFieldSetElement>;
 
-export interface Base extends Omit<Form.DataProps, 'rounded'>, ValueProps<Date>, ThemeProps {}
+export interface Base extends Omit<Form.InputProps, 'rounded'>, ValueProps<Date>, ThemeProps {}
 
 export interface PanelProps extends Base, RefProps<PanelRef> {
 	readonly popover?: false;
@@ -25,7 +25,7 @@ export function Panel(props: PanelProps): JSX.Element {
 	const zero = new Date(0);
 	zero.setHours(0, 0, 0, 0);
 
-	const field = Form.useField(props, true);
+	const field = Form.useField<Date>(true);
 
 	const scrollTimer = () => {
 		const items = ref.querySelectorAll(`ul>li.${styles.selected}`);
@@ -39,10 +39,10 @@ export function Panel(props: PanelProps): JSX.Element {
 	};
 
 	const val = createMemo(() => {
-		return field.getValue() ?? zero;
+		return field.api.getValue() ?? zero;
 	});
 
-	field.onChange(() => {
+	field.api.onChange(() => {
 		requestIdleCallback(() => {
 			scrollTimer();
 		}); // 保证在页面设置完之后，再进行滚动。
@@ -54,7 +54,7 @@ export function Panel(props: PanelProps): JSX.Element {
 
 	return (
 		<fieldset
-			disabled={props.disabled}
+			disabled={props.state === 'disabled'}
 			popover={props.popover}
 			class={joinClass(props.palette, styles.time, props.class)}
 			style={props.style}
@@ -71,12 +71,12 @@ export function Panel(props: PanelProps): JSX.Element {
 						<li
 							classList={{ [styles.selected]: val().getHours() === item[0] }}
 							onclick={() => {
-								if (props.disabled || props.readonly) {
+								if (props.state !== 'enabled') {
 									return;
 								}
 								const dt = new Date(val());
 								dt.setHours(item[0]);
-								field.setValue(dt);
+								field.api.setValue(dt);
 							}}
 						>
 							{item[1]}
@@ -91,12 +91,12 @@ export function Panel(props: PanelProps): JSX.Element {
 						<li
 							classList={{ [styles.selected]: val().getMinutes() === item[0] }}
 							onclick={() => {
-								if (props.disabled || props.readonly) {
+								if (props.state !== 'enabled') {
 									return;
 								}
 								const dt = new Date(val());
 								dt.setMinutes(item[0]);
-								field.setValue(dt);
+								field.api.setValue(dt);
 							}}
 						>
 							{item[1]}
@@ -111,12 +111,12 @@ export function Panel(props: PanelProps): JSX.Element {
 						<li
 							classList={{ [styles.selected]: val().getSeconds() === item[0] }}
 							onclick={() => {
-								if (props.disabled || props.readonly) {
+								if (props.state !== 'enabled') {
 									return;
 								}
 								const dt = new Date(val());
 								dt.setSeconds(item[0]);
-								field.setValue(dt);
+								field.api.setValue(dt);
 							}}
 						>
 							{item[1]}

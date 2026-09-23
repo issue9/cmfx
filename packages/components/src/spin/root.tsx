@@ -2,11 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { type BaseRef, joinClass, type RefProps, type ThemeProps } from '@cmfx/cdk';
+import type { BaseRef, RefProps, ThemeProps } from '@cmfx/cdk';
+import { joinClass, StateProvider } from '@cmfx/cdk';
 import { type JSX, type ParentProps, Show, splitProps, type ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import styles from './style.module.css';
+
+export type SpinState = 'enabled' | 'spinning';
 
 export type SpinRef<T extends keyof HTMLElementTagNameMap = 'div'> = BaseRef<
 	T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T] : HTMLElement
@@ -75,22 +78,17 @@ export function Spin<T extends keyof HTMLElementTagNameMap = 'div'>(props: SpinP
 			class={joinClass(props.palette, styles.spin, props.class)}
 			style={props.style}
 			ref={(el: ReturnType<SpinRef<T>['root']>) => {
-				if (!props.ref) {
-					return;
-				}
-				props.ref({
-					root() {
-						return el;
-					},
-				});
+				props.ref?.({ root: () => el });
 			}}
 		>
-			{props.children}
-			<Show when={props.spinning}>
-				<div class={joinClass(undefined, styles.overlay, props.overlayClass)} role="status" aria-live="polite">
-					{props.indicator}
-				</div>
-			</Show>
+			<StateProvider state={props.spinning ? 'loading' : 'enabled'}>
+				{props.children}
+				<Show when={props.spinning}>
+					<div class={joinClass(undefined, styles.overlay, props.overlayClass)} role="status" aria-live="polite">
+						{props.indicator}
+					</div>
+				</Show>
+			</StateProvider>
 		</Dynamic>
 	);
 }

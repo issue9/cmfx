@@ -218,6 +218,14 @@ describe('Extractor', { timeout: 20000 }, () => {
 		}
 	});
 
+	test('Form.Props', () => {
+		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Form.Props');
+		expect(items).length(1);
+
+		const props = items![0];
+		expect(props.kind).toEqual('union');
+	})
+
 	test('intersection', () => {
 		const items = extractor.extract('@cmfx/components', 'index.d.ts', 'Divider.Props');
 		expect(items).length(1);

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { BaseRef, RefProps, ThemeProps } from '@cmfx/cdk';
+import type { BaseRef, RefProps, State, ThemeProps } from '@cmfx/cdk';
 import type { getISOWeek } from '@cmfx/core';
 
 import type { Week } from '@components/datetime/utils';
@@ -70,18 +70,12 @@ export type MonthViewRef = API & BaseRef<HTMLFieldSetElement>;
 
 export interface MonthViewProps extends ThemeProps, RefProps<MonthViewRef> {
 	/**
-	 * 禁用
+	 * 状态
 	 *
 	 * @reactive
+	 * @defaultValue 'enabled'
 	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
+	state?: State;
 
 	/**
 	 * 允许的最小日期

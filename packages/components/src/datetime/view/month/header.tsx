@@ -32,7 +32,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: M
 					// biome-ignore lint/a11y/noNoninteractiveTabindex: tabindex
 					tabIndex={0}
 					onclick={e => {
-						if (props.readonly || props.disabled) {
+						if (props.state !== 'enabled') {
 							return;
 						}
 
@@ -62,13 +62,13 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: M
 				}}
 			/>
 
-			<ButtonGroup kind="flat" disabled={props.disabled} class={styles.actions}>
+			<ButtonGroup kind="flat" disabled={props.state === 'disabled'} class={styles.actions}>
 				<Button
 					title={l.t('_c.date.prevYear')}
 					square
 					disabled={!api.canOffset(-1, 0)}
 					onclick={() => {
-						if (!props.readonly && !props.disabled) {
+						if (props.state === 'enabled') {
 							api.offset(-1, 0);
 						}
 					}}
@@ -80,7 +80,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: M
 					square
 					disabled={!api.canOffset(0, -1)}
 					onclick={() => {
-						if (!props.readonly && !props.disabled) {
+						if (props.state === 'enabled') {
 							api.offset(0, -1);
 						}
 					}}
@@ -93,7 +93,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: M
 					square
 					disabled={!api.canJump(new Date())}
 					onclick={() => {
-						if (!props.readonly && !props.disabled) {
+						if (props.state === 'enabled') {
 							api.jump(new Date());
 						}
 					}}
@@ -106,7 +106,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: M
 					square
 					disabled={!api.canOffset(0, 1)}
 					onclick={() => {
-						if (!props.readonly && !props.disabled) {
+						if (props.state === 'enabled') {
 							api.offset(0, 1);
 						}
 					}}
@@ -118,7 +118,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, api: API, props: M
 					square
 					disabled={!api.canOffset(1, 0)}
 					onclick={() => {
-						if (!props.readonly && !props.disabled) {
+						if (props.state === 'enabled') {
 							api.offset(1, 0);
 						}
 					}}

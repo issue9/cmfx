@@ -187,8 +187,12 @@ export class Extractor {
 			return this.fromTypeAliasDeclaration(decl, chk);
 		} else if (Node.isMappedTypeNode(decl)) {
 			return this.fromMappedTypeNode(decl, chk);
+		} else if (Node.isUnionTypeNode(decl)) {
+			return this.fromUnionNode(decl.getType(), chk);
+		} else if (Node.isIntersectionTypeNode(decl)) {
+			return this.fromIntersectionNode(decl.getType());
 		} else {
-			throw new Error(`无效的节点类型: ${decl.getKindName()}, ${decl.getFullText()}`);
+			return this.fromSymbols([decl.getSymbol()], 'interface')
 		}
 	}
 
@@ -196,6 +200,144 @@ export class Extractor {
 		const typ = chk.getTypeAtLocation(decl);
 		const intf = this.fromSymbols(typ.getProperties(), 'interface');
 		return intf;
+	}
+
+	private fromUnionNode(typ: XType, chk: TypeChecker): Type {
+		const unionTypes = typ.getUnionTypes();
+
+		const intersectionIsLiteral = (t: XType): boolean => {
+			return (
+				t.isLiteral() ||
+				t.isUndefined() ||
+				(t.isIntersection() && t.getIntersectionTypes().every(i => i.isLiteral() || i.isUndefined()))
+			);
+		};
+
+		const unionIsLiteral = (t: XType): boolean => {
+			return (
+				t.isLiteral() ||
+				t.isUndefined() ||
+				(t.isUnion() && t.getUnionTypes().every(i => i.isLiteral() || i.isUndefined()))
+			);
+		};
+
+		if (unionTypes.every(intersectionIsLiteral)) {
+			// 字符串类型的联合类型
+			const t = typ.getText();
+			return {
+				name: '',
+				kind: 'literal',
+				type: t.startsWith('import(') ? getThirdTypeName(t) : t,
+			} satisfies Literal;
+		}
+
+		const unions: Union = {
+			name: '',
+			kind: 'union',
+			types: [],
+		};
+		for (const ut of unionTypes) {
+			if (ut.isLiteral()) {
+				break;
+			} // 如果联合类型有一个是字面量，类型肯定没有区分联合类型的字段
+
+			// 依次查询每个属性是否为区分联合类型
+			for (const prop of ut.getProperties()) {
+				const propName = prop.getName();
+
+				// 检测 unionTypes 中每个类型中字段名为 name 的属性值，
+				// 不存在或是不符合要求，则返回 undefined。
+				// 之后通过检测 values 是否包含 undefined 来判断该字段是否为区分联合类型。
+				const values: Array<string | undefined> = [];
+				for (const t of unionTypes) {
+					if (t.isLiteral() || t.isBoolean() || t.isNumber() || t.isString()) {
+						values.push(undefined);
+						break;
+					}
+
+					const p = t.getProperty(propName);
+					if (!p) {
+						values.push(undefined);
+						break;
+					}
+
+					if (t.isIntersection()) {
+						// 处理嵌套的 intersection 类型
+						for (const it of t.getIntersectionTypes()) {
+							const ip = it.getProperty(propName);
+							if (!ip) {
+								values.push(undefined);
+								break;
+							}
+
+							const ret = ip.getTypeAtLocation(ip.getDeclarations()[0]);
+							if (!ret) {
+								values.push(undefined);
+								break;
+							}
+
+							if (!unionIsLiteral(ret)) {
+								values.push(undefined);
+								break;
+							}
+							values.push(ret.getText());
+						}
+					} else {
+						const ret = p.getTypeAtLocation(p.getDeclarations()[0]);
+						if (!ret || !unionIsLiteral(ret)) {
+							values.push(undefined);
+							break;
+						}
+						values.push(ret.getText());
+					}
+				}
+
+				// 有值，不能包含 undefined，且值不能相同。
+				if (values.length > 0 && values.every(v => v !== undefined) && new Set(values).size === values.length) {
+					unions.discriminant = propName;
+					break;
+				}
+			}
+		}
+
+		for (const t of unionTypes) {
+			if (t.isIntersection()) {
+				const inter: Intersection = {
+					name: '',
+					kind: 'intersection',
+					types: t.getIntersectionTypes().map(t => {
+						return this.conv(t.getSymbol()!.getDeclarations()[0], chk);
+					}),
+				};
+				unions.types.push(inter);
+			} else {
+				unions.types.push(this.conv(t.getSymbol()!.getDeclarations()[0], chk));
+			}
+		}
+
+		return unions;
+	}
+
+	private fromIntersectionNode(typ: XType): Type {
+		if (typ.getIntersectionTypes().every(t => t.isLiteral())) {
+			// 字符串类型的交集
+			return {
+				name: '',
+				kind: 'literal',
+				type: typ
+					.getIntersectionTypes()
+					.map(t => t.getText())
+					.join(' & '),
+			} satisfies Literal;
+		}
+
+		return {
+			name: '',
+			kind: 'intersection',
+			types: typ.getIntersectionTypes().map(t => {
+				return this.fromSymbols(t.getProperties(), 'interface');
+			}),
+		} satisfies Intersection;
 	}
 
 	private fromTypeAliasDeclaration(decl: TypeAliasDeclaration, chk: TypeChecker): Type {
@@ -207,148 +349,18 @@ export class Extractor {
 
 		if (typ.isUnion()) {
 			// type x = 'a' | 'b' | 'c'
-			const unionTypes = typ.getUnionTypes();
-
-			const intersectionIsLiteral = (t: XType): boolean => {
-				return (
-					t.isLiteral() ||
-					t.isUndefined() ||
-					(t.isIntersection() && t.getIntersectionTypes().every(i => i.isLiteral() || i.isUndefined()))
-				);
-			};
-
-			const unionIsLiteral = (t: XType): boolean => {
-				return (
-					t.isLiteral() ||
-					t.isUndefined() ||
-					(t.isUnion() && t.getUnionTypes().every(i => i.isLiteral() || i.isUndefined()))
-				);
-			};
-
-			if (unionTypes.every(intersectionIsLiteral)) {
-				// 字符串类型的联合类型
-				const t = typ.getText();
-				return {
-					name,
-					summary,
-					remarks,
-					kind: 'literal',
-					type: t.startsWith('import(') ? getThirdTypeName(t) : t,
-				} satisfies Literal;
-			}
-
-			const unions: Union = {
-				name,
-				summary,
-				remarks,
-				kind: 'union',
-				types: [],
-			};
-			for (const ut of unionTypes) {
-				if (ut.isLiteral()) {
-					break;
-				} // 如果联合类型有一个是字面量，类型肯定没有区分联合类型的字段
-
-				// 依次查询每个属性是否为区分联合类型
-				for (const prop of ut.getProperties()) {
-					const propName = prop.getName();
-
-					// 检测 unionTypes 中每个类型中字段名为 name 的属性值，
-					// 不存在或是不符合要求，则返回 undefined。
-					// 之后通过检测 values 是否包含 undefined 来判断该字段是否为区分联合类型。
-					const values: Array<string | undefined> = [];
-					for (const t of unionTypes) {
-						if (t.isLiteral() || t.isBoolean() || t.isNumber() || t.isString()) {
-							values.push(undefined);
-							break;
-						}
-
-						const p = t.getProperty(propName);
-						if (!p) {
-							values.push(undefined);
-							break;
-						}
-
-						if (t.isIntersection()) {
-							// 处理嵌套的 intersection 类型
-							for (const it of t.getIntersectionTypes()) {
-								const ip = it.getProperty(propName);
-								if (!ip) {
-									values.push(undefined);
-									break;
-								}
-
-								const ret = ip.getTypeAtLocation(ip.getDeclarations()[0]);
-								if (!ret) {
-									values.push(undefined);
-									break;
-								}
-
-								if (!unionIsLiteral(ret)) {
-									values.push(undefined);
-									break;
-								}
-								values.push(ret.getText());
-							}
-						} else {
-							const ret = p.getTypeAtLocation(p.getDeclarations()[0]);
-							if (!ret || !unionIsLiteral(ret)) {
-								values.push(undefined);
-								break;
-							}
-							values.push(ret.getText());
-						}
-					}
-
-					// 有值，不能包含 undefined，且值不能相同。
-					if (values.length > 0 && values.every(v => v !== undefined) && new Set(values).size === values.length) {
-						unions.discriminant = propName;
-						break;
-					}
-				}
-			}
-
-			for (const t of unionTypes) {
-				if (t.isIntersection()) {
-					const inter: Intersection = {
-						name: '',
-						kind: 'intersection',
-						types: t.getIntersectionTypes().map(t => {
-							return this.conv(t.getSymbol()!.getDeclarations()[0], chk);
-						}),
-					};
-					unions.types.push(inter);
-				} else {
-					unions.types.push(this.conv(t.getSymbol()!.getDeclarations()[0], chk));
-				}
-			}
-
+			const unions = this.fromUnionNode(typ, chk);
+			unions.name = name;
+			unions.remarks = remarks;
+			unions.summary = summary;
 			return unions;
 		} else if (typ.isIntersection()) {
 			// type x = a & b
-			if (typ.getIntersectionTypes().every(t => t.isLiteral())) {
-				// 字符串类型的交集
-				return {
-					name,
-					summary,
-					remarks,
-					kind: 'literal',
-					type: typ
-						.getIntersectionTypes()
-						.map(t => t.getText())
-						.join(' & '),
-				} satisfies Literal;
-			}
-
-			return {
-				name,
-				summary,
-				remarks,
-				kind: 'intersection',
-				types: typ.getIntersectionTypes().map(t => {
-					return this.fromSymbols(t.getProperties(), 'interface');
-				}),
-			} satisfies Intersection;
+			const intersections = this.fromIntersectionNode(typ);
+			intersections.name = name;
+			intersections.summary = summary;
+			intersections.remarks = remarks;
+			return intersections;
 		} else {
 			// type x = Omit<x, 'a' | 'b'>
 			// type x = [a,b]

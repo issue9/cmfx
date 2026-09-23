@@ -114,7 +114,7 @@ export class OKLCHSpace implements ColorSpace {
 					<Slider
 						fitHeight
 						ref={el => (rl = el)}
-						disabled={!!this.#l}
+						state={this.#l !== undefined ? 'disabled' : 'enabled'}
 						format={v => `${v ? (100 * v).toFixed(2) : 0}%`}
 						min={0}
 						max={1}
@@ -126,7 +126,7 @@ export class OKLCHSpace implements ColorSpace {
 					<Slider
 						fitHeight
 						ref={el => (rc = el)}
-						disabled={!!this.#c}
+						state={this.#c !== undefined ? 'disabled' : 'enabled'}
 						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={0.4}
@@ -138,7 +138,7 @@ export class OKLCHSpace implements ColorSpace {
 					<Slider
 						fitHeight
 						ref={el => (rh = el)}
-						disabled={!!this.#h}
+						state={this.#h !== undefined ? 'disabled' : 'enabled'}
 						format={v => `${v ? v.toFixed(2) : 0}`}
 						min={0}
 						max={360}
@@ -150,7 +150,7 @@ export class OKLCHSpace implements ColorSpace {
 					<Slider
 						fitHeight
 						ref={el => (ra = el)}
-						disabled={!!this.#a}
+						state={this.#a !== undefined ? 'disabled' : 'enabled'}
 						format={v => `${v === undefined ? 1 : v.toFixed(2)}`}
 						min={0}
 						max={1}

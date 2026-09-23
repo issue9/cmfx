@@ -7,7 +7,7 @@ import type { JSX } from 'solid-js';
 
 import type { Form } from '@components/form';
 
-export type Accessor = Form.FieldAccessor<string | undefined>;
+export type Accessor = Form.FieldAPI<string | undefined>;
 
 /**
  * 定义了颜色空间需要实现的接口
@@ -40,11 +40,11 @@ export interface ColorSpace {
 	panel(props: { s: Accessor; parent: HTMLElement }): JSX.Element;
 }
 
-class AlphaConverter implements Converter<number | undefined, number> {
-	from(n: number | undefined): number {
-		return n === undefined ? 1 : n;
+class AlphaConverter implements Converter<number | null, number> {
+	from(n: number | null): number {
+		return n === null ? 1 : n;
 	}
-	to(n: number): number | undefined {
+	to(n: number): number | null {
 		return n;
 	}
 }

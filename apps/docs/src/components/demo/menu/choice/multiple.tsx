@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, Form, type MountProps } from '@cmfx/components';
+import type { MountProps } from '@cmfx/cdk';
+import { Choice, Form } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, paletteSelector } from '@docs/components/base';
+import { boolSelector, layoutSelector, paletteSelector, stateSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const [val, setVal] = createSignal([1]);
+	const [val, setVal] = createSignal<Array<number> | undefined>([1]);
 	const [F, Field] = Form.create({ initValue: { a: [1, 2] } });
 
 	const multipleOptions: Choice.Options<number> = [
@@ -36,8 +37,7 @@ export default function (props: MountProps): JSX.Element {
 				{ type: 'item', value: 6, label: <div style="color:red">red2</div> },
 				{ type: 'item', value: 7, label: <div style="color:red">red3</div> },
 				{
-					type: 'item',
-					value: 8,
+					type: 'items',
 					label: <div style="color:red">red4</div>,
 					items: [
 						{ type: 'item', value: 81, label: <div style="color:red">red41</div> },
@@ -53,16 +53,14 @@ export default function (props: MountProps): JSX.Element {
 	const [Palette, palette] = paletteSelector();
 	const [Closable, closable] = boolSelector('closable');
 	const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
 	const [Rounded, rounded] = boolSelector('_d.demo.rounded');
+	const [State, state] = stateSelector();
 
 	return (
 		<div>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Disabled />
-				<Readonly />
+				<State />
 				<Closable />
 				<Rounded />
 				<Layout />
@@ -73,9 +71,8 @@ export default function (props: MountProps): JSX.Element {
 					<Field label="label" name="a" layout={layout()}>
 						<Choice
 							placeholder="placeholder"
-							disabled={disabled()}
 							rounded={rounded()}
-							readonly={readonly()}
+							state={state()}
 							palette={palette()}
 							value={val()}
 							multiple
@@ -85,7 +82,7 @@ export default function (props: MountProps): JSX.Element {
 						/>
 					</Field>
 
-					<p>{val().join(',')}</p>
+					<p>{val()?.join(',')}</p>
 				</div>
 			</F>
 		</div>

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { Layout } from '@cmfx/cdk';
+import type { Layout, State } from '@cmfx/cdk';
 
 export const labelAlignments = ['start', 'center', 'end'] as const;
 
@@ -15,25 +15,12 @@ export interface CommonProps {
 	/**
 	 * 表单组件的 layout 属性的默认值
 	 *
-	 * @remarks 同时也影响整个 Form 组件的布局。
 	 * @reactive
 	 * @defaultValue 'horizontal'
+	 * @remarks
+	 * 同时也影响整个 Form 组件的布局。
 	 */
 	layout?: Layout;
-
-	/**
-	 * 禁用组件
-	 *
-	 * @reactive
-	 */
-	disabled?: boolean;
-
-	/**
-	 * 只读属性
-	 *
-	 * @reactive
-	 */
-	readonly?: boolean;
 
 	/**
 	 * 表单组件的 rounded 属性的默认值
@@ -66,4 +53,32 @@ export interface CommonProps {
 	 * @reactive
 	 */
 	feedback?: boolean;
+}
+
+/**
+ * 表单中输入框的基本属性
+ */
+export interface FormInputProps {
+	/**
+	 * 表单组件的状态
+	 *
+	 * @reactive
+	 * @defaultValue 'enabled'
+	 */
+	state?: State;
+
+	/**
+	 * 表单组件的 rounded 属性的默认值
+	 *
+	 * @reactive
+	 */
+	rounded?: boolean;
+
+	/**
+	 * tabindex 属性
+	 *
+	 * @reactive
+	 * @defaultValue 0
+	 */
+	tabindex?: number;
 }

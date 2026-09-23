@@ -30,18 +30,9 @@ export interface PopoverProps extends Base, RefProps<PopoverRef> {
 export function Popover(props: PopoverProps): JSX.Element {
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week }, form, props);
-	const field = Form.useField<MonthView.WeekValueType>(props, true);
+	const field = Form.useField<MonthView.WeekValueType>(true);
 
-	const [panelProps, _] = splitProps(props, [
-		'weekBase',
-		'value',
-		'onChange',
-		'weekend',
-		'disabled',
-		'readonly',
-		'min',
-		'max',
-	]);
+	const [panelProps, _] = splitProps(props, ['weekBase', 'value', 'onChange', 'weekend', 'state', 'min', 'max']);
 
 	let panelRef: HTMLElement;
 	let rootRef!: PopoverRef;
@@ -58,7 +49,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 		rootRef.activator().removeEventListener('mouseleave', setHoverFalse);
 	});
 
-	field.onChange(() => {
+	field.api.onChange(() => {
 		panelRef.hidePopover();
 	});
 
@@ -74,8 +65,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 			activatorClass={joinClass(undefined, styles.activator, props.activatorClass)}
 			type={props.popover}
 			rounded={props.rounded}
-			readonly={props.readonly}
-			disabled={props.disabled}
+			state={props.state}
 			palette={props.palette}
 			class={joinClass(undefined, styles.popover, props.class)}
 			style={props.style}
@@ -87,20 +77,20 @@ export function Popover(props: PopoverProps): JSX.Element {
 				return (
 					<>
 						<input
-							id={f.id}
+							id={f.api.id}
 							readOnly
-							disabled={props.disabled}
+							disabled={props.state === 'disabled'}
 							placeholder={props.placeholder}
 							class={joinClass(undefined, styles.input, styles.range)}
-							value={format(f.getValue()!)}
+							value={format(f.api.getValue()!)}
 						/>
 
-						<Show when={hover() && f.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
+						<Show when={hover() && f.api.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
 							<IconClose
 								class="shrink-0"
 								onClick={(e: MouseEvent) => {
 									e.stopPropagation();
-									f.setValue(undefined);
+									f.api.setValue(undefined);
 								}}
 							/>
 						</Show>
@@ -114,8 +104,8 @@ export function Popover(props: PopoverProps): JSX.Element {
 					panelRef = el.root();
 					el.root().popover = 'auto';
 				}}
-				disabled={props.disabled}
-				value={untrack(field.getValue)}
+				state={props.state}
+				value={untrack(field.api.getValue)}
 			/>
 		</Form.Popover>
 	);

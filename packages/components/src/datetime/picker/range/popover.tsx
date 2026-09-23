@@ -50,7 +50,7 @@ export interface PopoverProps extends Base, RefProps<PopoverRef> {
 }
 
 export function Popover(props: PopoverProps): JSX.Element {
-	const field = Form.useField<DateRangeValueType>(props, true);
+	const field = Form.useField<DateRangeValueType>(true);
 	const form = Form.useForm();
 	props = mergeProps({ tabindex: 0, weekBase: 0 as Week, arrowIcon: <IconArrowRight /> }, form, props);
 
@@ -60,8 +60,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 		'time',
 		'weekBase',
 		'weekend',
-		'disabled',
-		'readonly',
+		'state',
 		'palette',
 		'min',
 		'max',
@@ -85,7 +84,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 		rootRef.activator().removeEventListener('mouseleave', setHoverFalse);
 	});
 
-	const formater = createMemo(() => {
+	const formatter = createMemo(() => {
 		return props.time ? l.datetimeFormat().format : l.dateFormat().format;
 	});
 
@@ -97,8 +96,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 			activatorClass={joinClass(undefined, styles.activator, props.activatorClass)}
 			type={props.popover}
 			rounded={props.rounded}
-			readonly={props.readonly}
-			disabled={props.disabled}
+			state={props.state}
 			palette={props.palette}
 			class={joinClass(undefined, styles.popover, props.class)}
 			style={props.style}
@@ -110,28 +108,28 @@ export function Popover(props: PopoverProps): JSX.Element {
 				return (
 					<>
 						<input
-							id={f.id}
+							id={f.api.id}
 							readOnly
-							disabled={props.disabled}
+							disabled={props.state === 'disabled'}
 							placeholder={props.placeholder}
 							class={styles.input}
-							value={formater()(f.getValue()?.[0])}
+							value={formatter()(f.api.getValue()?.[0])}
 						/>
 						<div class="shrink-0 px-1">{props.arrowIcon}</div>
 						<input
 							readOnly
-							disabled={props.disabled}
+							disabled={props.state === 'disabled'}
 							placeholder={props.placeholder}
 							class={styles.input}
-							value={formater()(f.getValue()?.[1])}
+							value={formatter()(f.api.getValue()?.[1])}
 						/>
 
-						<Show when={hover() && f.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
+						<Show when={hover() && f.api.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
 							<IconClose
 								class="shrink-0"
 								onClick={(e: MouseEvent) => {
 									e.stopPropagation();
-									f.setValue(undefined);
+									f.api.setValue(undefined);
 								}}
 							/>
 						</Show>
@@ -141,19 +139,24 @@ export function Popover(props: PopoverProps): JSX.Element {
 		>
 			<fieldset
 				popover="auto"
-				disabled={props.disabled}
+				disabled={props.state === 'disabled'}
 				ref={el => (panelRef = el)}
 				class={styles['pop-panel']}
 				aria-haspopup
 			>
-				<Panel class={styles['dt-panel']} {...panelProps} value={field.getValue()} onChange={v => field.setValue(v)} />
+				<Panel
+					class={styles['dt-panel']}
+					{...panelProps}
+					value={field.api.getValue()}
+					onChange={v => field.api.setValue(v)}
+				/>
 
 				<div class={joinClass(undefined, styles.actions, 'justify-end!')}>
 					<Button
 						kind="flat"
 						class="px-1 py-0"
 						onclick={() => {
-							field.setValue([undefined, undefined]);
+							field.api.setValue([undefined, undefined]);
 							panelRef.hidePopover();
 						}}
 					>
@@ -164,7 +167,7 @@ export function Popover(props: PopoverProps): JSX.Element {
 						kind="flat"
 						class="px-1 py-0"
 						onclick={() => {
-							field.reset();
+							field.api.reset();
 							panelRef.hidePopover();
 						}}
 					>

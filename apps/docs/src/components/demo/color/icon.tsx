@@ -19,7 +19,6 @@ export default function (props: MountProps): JSX.Element {
 	const [Coloring, coloring] = boolSelector('coloring');
 
 	type Type = { a: string };
-	const api = new Form.API<Type>({ initValue: { a: 'oklch(1% 0.3 100)' } });
 
 	return (
 		<>
@@ -32,7 +31,7 @@ export default function (props: MountProps): JSX.Element {
 				<Coloring />
 			</Portal>
 
-			<Form api={api}>
+			<Form<Type> initValue={{ a: 'oklch(1% 0.3 100)' }}>
 				<Form.Field<Type> name="a" label="picker label" layout={layout()}>
 					<Color
 						popover="hover"

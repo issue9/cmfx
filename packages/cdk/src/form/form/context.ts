@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { ChangeFunc } from '@cmfx/cdk';
 import type { Flatten, Flattenable, FlattenKeys, Params, Problem, Validator } from '@cmfx/core';
 import { flatten, LogicError } from '@cmfx/core';
 import equal from 'fast-deep-equal';
-import { createSignal, createUniqueId, type JSX, untrack } from 'solid-js';
+import { createSignal, type JSX, untrack } from 'solid-js';
 import { createStore, produce, reconcile, type SetStoreFunction, type Store, unwrap } from 'solid-js/store';
 
-import type { FormFieldAccessor } from './accessor';
-import type { Options } from './options';
+import type { ChangeFunc } from '@cdk/base';
+import type { FormContextOptions, FormField } from '@cdk/form/types';
+import type { State } from '@cdk/state';
 
-// 用于在 API 中保存错误数据的类型
+// 用于在 FormContext 中保存错误数据的类型
 type Err<T extends Flattenable> = Record<FlattenKeys<T>, string | undefined>;
 
 type StoreX<T extends Flattenable> = [get: Store<T>, set: SetStoreFunction<T>];
@@ -24,12 +24,12 @@ type StoreX<T extends Flattenable> = [get: Store<T>, set: SetStoreFunction<T>];
  * @typeParam R - 表示服务端返回的类型；
  * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export class API<T extends Flattenable, R = unknown, P = never> {
-	readonly #onProblem?: Options<T, R, P>['onProblem'];
-	readonly #load?: Options<T, R, P>['load'];
-	readonly #submit?: Options<T, R, P>['submit'];
-	readonly #onSuccess?: Options<T, R, P>['onSuccess'];
-	readonly #spinning = createSignal<boolean>(false);
+export class FormContext<T extends Flattenable = Flattenable, R = unknown, P = never> {
+	readonly #onProblem?: FormContextOptions<T, R, P>['onProblem'];
+	readonly #load?: FormContextOptions<T, R, P>['load'];
+	readonly #submit?: FormContextOptions<T, R, P>['submit'];
+	readonly #onSuccess?: FormContextOptions<T, R, P>['onSuccess'];
+	readonly #state = createSignal<State>('enabled');
 
 	#preset: T; // 保存当前数据的默认值，用于在表单重置时恢复默认值
 	#flattenedPreset: Flatten<T>;
@@ -37,6 +37,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 	readonly #value: StoreX<T>;
 	readonly #filedChanges: Map<FlattenKeys<T>, Array<ChangeFunc<unknown>>> = new Map();
 	readonly #changes: Array<ChangeFunc<T>> = [];
+	readonly #fields: Map<FlattenKeys<T>, FormField<Flatten<T>[FlattenKeys<T>]>> = new Map();
 
 	readonly #errs = createStore<Err<T>>({} as Err<T>); // 各个字段的错误信息存取
 	readonly #globalErr = createSignal<string>(); // 全局错误信息
@@ -47,7 +48,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 	/**
 	 * 构造函数
 	 */
-	constructor(options: Options<T, R, P>) {
+	constructor(options: FormContextOptions<T, R, P>) {
 		this.#load = options.load;
 		this.#onProblem = options.onProblem;
 		this.#submit = options.submit;
@@ -81,7 +82,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 	}
 
 	/**
-	 * 检测 #signal 中的值是否与默认值一致
+	 * 检测 #value 中的值是否与默认值一致
 	 */
 	#checkPreset() {
 		const vals = unwrap(this.#value[0]);
@@ -135,6 +136,10 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 	 * 修改之后会调用 {@link #validator} 进行验证。
 	 */
 	setValue(obj: T, silent?: boolean) {
+		if (this.getState() === 'readonly') {
+			return;
+		}
+
 		const old = unwrap(this.#value[0]);
 		const copy = structuredClone(obj);
 		this.#value[1](reconcile(copy));
@@ -217,22 +222,33 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 	/**
 	 * 创建对当前对象中某个字段的存取接口
 	 *
-	 * @param name - 字段名；
+	 * @param name - 字段名，同名调用将会保存实例；
+	 * @param id - 表单元素的 id，在参数 name 相同的情况下，使用不同的 id，仅在第一次调用时起作用；
 	 */
-	createFieldAccessor<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>): FormFieldAccessor<FT> {
+	createField<FT = Flatten<T>[FlattenKeys<T>]>(name: FlattenKeys<T>, id: string): FormField<FT> {
 		const parent = this;
-		const path = name.split('.');
 
-		const getValue = (): FT | undefined => getFieldValue(this.#value[0], path);
+		if (parent.#fields.has(name)) {
+			return parent.#fields.get(name) as FormField<FT>;
+		}
+
+		const path = name.split('.');
 
 		const setError = (err?: string): void => {
 			parent.setError(err ? [{ name, reason: err }] : undefined);
 		};
 
 		const [extra, setExtra] = createSignal<JSX.Element | undefined>(undefined);
-		const id = createUniqueId();
+
+		const state = createSignal<State>(parent.getState());
+
+		const getValue = (): FT | undefined => getFieldValue(parent.#value[0], path);
 
 		const setValue = (val: FT, silent?: boolean): void => {
+			if (state[0]() === 'readonly' || parent.getState() !== 'enabled') {
+				return;
+			}
+
 			const old = untrack(getValue);
 			if (!equal(old, val)) {
 				const oldObj = unwrap(parent.#value[0]);
@@ -266,10 +282,18 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 			parent.#checkPreset();
 		};
 
-		return {
+		const field = {
 			id: id,
-			name: name as string,
+			name: name,
 			inForm: true,
+
+			getState(): State {
+				return state[0]();
+			},
+
+			setState(s: State): void {
+				state[1](s);
+			},
 
 			getError(): string | undefined {
 				return parent.getError(name);
@@ -301,25 +325,34 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 				setValue(parent.#flattenedPreset[name] as FT, silent);
 			},
 
-			getExtra: () => extra(),
-			setExtra: (e: JSX.Element | undefined) => setExtra(e),
-		} satisfies FormFieldAccessor<FT>;
+			getExtra: extra,
+			setExtra: setExtra,
+		} satisfies FormField<FT>;
+
+		// 需要緩存，否则多次调用会导致 id 值不同。
+		parent.#fields.set(name, field as FormField<Flatten<T>[FlattenKeys<T>]>);
+
+		return field;
 	}
 
 	/**
-	 * 指示是否处于交互状态
-	 *
-	 * @remarks
-	 * 在 {@link load} 和 {@link submit} 的调用过程中，会返回 true。
+	 * 指示当前的状态
 	 */
-	spinning() {
-		return this.#spinning[0]();
+	getState() {
+		return this.#state[0]();
+	}
+
+	/**
+	 * 设置表单状态
+	 */
+	setState(v: State): void {
+		this.#state[1](v);
 	}
 
 	/**
 	 * 加载数据
 	 *
-	 * @returns 是否正确加载了数据，如果未指定 {@link Options#load}，则始终返回 false。
+	 * @returns 是否正确加载了数据，如果未指定 {@link FormContextOptions#load}，则始终返回 false。
 	 * @remarks
 	 * 只有在正确加载数据的情况下，才会更换当前表单中的数据。否则保持原有数据不变。
 	 * 加载的数据不会调用验证器对数据进行验证。
@@ -329,7 +362,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 			return false;
 		}
 
-		this.#spinning[1](true);
+		this.setState('loading');
 
 		try {
 			const ret = await this.#load();
@@ -349,14 +382,14 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 
 			return !!ret.ok;
 		} finally {
-			this.#spinning[1](false);
+			this.setState('enabled');
 		}
 	}
 
 	/**
 	 * 提交数据
 	 *
-	 * @returns 表示接口是否成功调用，如果当前表单未在构造函数中指定 {@link Options#submit} 参数，则始终返回 false。
+	 * @returns 表示接口是否成功调用，如果当前表单未在构造函数中指定 {@link FormContextOptions#submit} 参数，则始终返回 false。
 	 */
 	async submit(): Promise<boolean> {
 		if (!this.#submit) {
@@ -365,7 +398,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 
 		this.setError(); // 取消上次的错误提示
 
-		this.#spinning[1](true);
+		this.setState('submitting');
 		try {
 			const obj = await this.validValue();
 			if (!obj) {
@@ -400,7 +433,7 @@ export class API<T extends Flattenable, R = unknown, P = never> {
 
 			return false;
 		} finally {
-			this.#spinning[1](false);
+			this.setState('enabled');
 		}
 	}
 }

@@ -7,27 +7,24 @@ import { Editor } from '@cmfx/components';
 import { createSignal, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, paletteSelector } from '@docs/components/base';
+import { paletteSelector, stateSelector } from '@docs/components/base';
 
 export default function (props: MountProps): JSX.Element {
-	const [txt, setTxt] = createSignal('');
-	const [Disabled, disabled] = boolSelector('_d.demo.disabled');
-	const [Readonly, readonly] = boolSelector('_d.demo.readonly');
+	const [txt, setTxt] = createSignal<string>();
 	const [Palette, palette] = paletteSelector();
+	const [State, state] = stateSelector();
 
 	return (
 		<>
 			<Portal mount={props.mount}>
 				<Palette />
-				<Disabled />
-				<Readonly />
+				<State />
 			</Portal>
 
 			<Editor
 				class="h-125 w-full"
 				palette={palette()}
-				readonly={readonly()}
-				disabled={disabled()}
+				state={state()}
 				value={txt()}
 				onChange={v => setTxt(v)}
 				placeholder="placeholder text"

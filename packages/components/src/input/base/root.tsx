@@ -20,7 +20,7 @@ export interface InputBaseRef extends BaseRef<HTMLDivElement> {
 	input(): HTMLInputElement;
 }
 
-interface Base extends ThemeProps, Form.DataProps, RefProps<InputBaseRef> {
+interface Base extends ThemeProps, Form.InputProps, RefProps<InputBaseRef> {
 	/**
 	 * 文本框内顶部的内容
 	 *
@@ -133,8 +133,8 @@ export function InputBase(props: InputBaseProps): JSX.Element {
 				inputMode={props.inputMode}
 				autocomplete={props.autocomplete}
 				tabIndex={props.tabindex}
-				disabled={props.disabled}
-				readOnly={props.readonly}
+				disabled={props.state === 'disabled'}
+				readOnly={props.state === 'readonly'}
 				placeholder={props.placeholder}
 				ref={el => {
 					props.ref?.({
