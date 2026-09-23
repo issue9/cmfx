@@ -4,8 +4,6 @@
 		"vite.config.ts",
 		"vitest.config.ts",
 		"../../vitest.config.ts",
-		"./src/vitest_setup.ts",
-		"./src/polyfill.ts",
 		"../../build/unplugin-icons.ts",
 		"../../build/vite.config.common.ts"
 	]
